@@ -1,0 +1,18 @@
+include "BasicTypes.fbs";
+
+namespace CubbyFlow.fbs;
+
+struct PointKdTreeSearcherNode2
+{
+    flags:ulong;
+    child:ulong;
+    item:ulong;
+}
+
+table PointKdTreeSearcher2
+{
+    points:[Vector2D];
+    nodes:[PointKdTreeSearcherNode2];
+}
+
+root_type PointKdTreeSearcher2;

@@ -1,0 +1,18 @@
+include "BasicTypes.fbs";
+
+namespace CubbyFlow.fbs;
+
+table PointHashGridSearcherBucket3
+{
+    data:[ulong];
+}
+
+table PointHashGridSearcher3
+{
+    gridSpacing:double;
+    resolution:Size3;
+    points:[Vector3D];
+    buckets:[PointHashGridSearcherBucket3];
+}
+
+root_type PointHashGridSearcher3;

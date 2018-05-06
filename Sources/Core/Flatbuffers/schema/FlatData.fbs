@@ -1,0 +1,8 @@
+namespace CubbyFlow.fbs;
+
+table FlatData
+{
+    data:[ubyte];
+}
+
+root_type FlatData;

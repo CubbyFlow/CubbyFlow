@@ -1,0 +1,10 @@
+include "BasicTypes.fbs";
+
+namespace CubbyFlow.fbs;
+
+table PointSimpleListSearcher3
+{
+    points:[Vector3D];
+}
+
+root_type PointSimpleListSearcher3;

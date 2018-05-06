@@ -1,0 +1,16 @@
+include "ParticleSystemData3.fbs";
+
+namespace CubbyFlow.fbs;
+
+table SPHSystemData3
+{
+    base:ParticleSystemData3;
+    targetDensity:double;
+    targetSpacing:double;
+    kernelRadiusOverTargetSpacing:double;
+    kernelRadius:double;
+    pressureIdx:ulong;
+    densityIdx:ulong;
+}
+
+root_type SPHSystemData3;
