@@ -1,0 +1,583 @@
+#include "pch.h"
+
+#include <Core/Collider/RigidBodyCollider2.h>
+#include <Core/Emitter/VolumeGridEmitter2.h>
+#include <Core/Geometry/Box2.h>
+#include <Core/Geometry/Plane2.h>
+#include <Core/Geometry/Sphere2.h>
+#include <Core/LevelSet/LevelSetUtils.h>
+#include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver2.h>
+#include <Core/Solver/LevelSet/LevelSetLiquidSolver2.h>
+#include <Core/Surface/ImplicitSurfaceSet2.h>
+#include <Core/Surface/SurfaceToImplicit2.h>
+
+#include <ManualTests.h>
+
+using namespace CubbyFlow;
+
+CUBBYFLOW_TESTS(LevelSetLiquidSolver2);
+
+CUBBYFLOW_BEGIN_TEST_F(LevelSetLiquidSolver2, Drop)
+{
+	LevelSetLiquidSolver2 solver;
+
+	auto data = solver.GetGridSystemData();
+	double dx = 1.0 / 32.0;
+	data->Resize(Size2(32, 64), Vector2D(dx, dx), Vector2D());
+
+	// Source Setting
+	BoundingBox2D domain = data->GetBoundingBox();
+	ImplicitSurfaceSet2 surfaceSet;
+	surfaceSet.AddExplicitSurface(std::make_shared<Plane2>(Vector2D(0, 1), Vector2D(0, 0.5)));
+	surfaceSet.AddExplicitSurface(std::make_shared<Sphere2>(domain.MidPoint(), 0.15));
+
+	auto sdf = solver.GetSignedDistanceField();
+	sdf->Fill([&](const Vector2D& x)
+	{
+		return surfaceSet.SignedDistance(x);
+	});
+
+	Array2<double> output(32, 64);
+	output.ForEachIndex([&](size_t i, size_t j)
+	{
+		output(i, j) = 1.0 - SmearedHeavisideSDF((*sdf)(i, j) / dx);
+	});
+
+	char fileName[256];
+	snprintf(fileName, sizeof(fileName), "data.#grid2,0000.npy");
+	SaveData(output.ConstAccessor(), fileName);
+
+	for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.Advance())
+	{
+		solver.Update(frame);
+
+		output.ForEachIndex([&](size_t i, size_t j)
+		{
+			output(i, j) = 1.0 - SmearedHeavisideSDF((*sdf)(i, j) / dx);
+		});
+		snprintf(
+			fileName,
+			sizeof(fileName),
+			"data.#grid2,%04d.npy",
+			frame.index);
+		SaveData(output.ConstAccessor(), fileName);
+	}
+}
+CUBBYFLOW_END_TEST_F
+
+CUBBYFLOW_BEGIN_TEST_F(LevelSetLiquidSolver2, DropStopAndGo)
+{
+	Frame frame(0, 1.0 / 60.0);
+	Array2<double> output(32, 64);
+	std::vector<uint8_t> dump;
+	char fileName[256];
+
+	{
+		// Build solver
+		auto solver = LevelSetLiquidSolver2::Builder()
+			.WithResolution({ 32, 64 })
+			.WithDomainSizeX(1.0)
+			.MakeShared();
+
+		auto grids = solver->GetGridSystemData();
+		auto domain = grids->GetBoundingBox();
+		auto sdf = solver->GetSignedDistanceField();
+		double dx = grids->GetGridSpacing().x;
+
+		// Build emitter
+		auto plane = Plane2::Builder()
+			.WithNormal({ 0, 1 })
+			.WithPoint({ 0, 0.5 })
+			.MakeShared();
+
+		auto sphere = Sphere2::Builder()
+			.WithCenter(domain.MidPoint())
+			.WithRadius(0.15)
+			.MakeShared();
+
+		auto surfaceSet = ImplicitSurfaceSet2::Builder()
+			.WithExplicitSurfaces({ plane, sphere })
+			.MakeShared();
+
+		auto emitter = VolumeGridEmitter2::Builder()
+			.WithSourceRegion(surfaceSet)
+			.MakeShared();
+
+		solver->SetEmitter(emitter);
+		emitter->AddSignedDistanceTarget(solver->GetSignedDistanceField());
+
+		for (; frame.index < 60; ++frame)
+		{
+			solver->Update(frame);
+
+			output.ForEachIndex([&](size_t i, size_t j)
+			{
+				output(i, j) = 1.0 - SmearedHeavisideSDF((*sdf)(i, j) / dx);
+			});
+
+			snprintf(
+				fileName,
+				sizeof(fileName),
+				"data.#grid2,%04d.npy",
+				frame.index);
+			SaveData(output.ConstAccessor(), fileName);
+		}
+
+		grids->Serialize(&dump);
+	}
+
+	{
+		// Build solver
+		auto solver = LevelSetLiquidSolver2::Builder()
+			.MakeShared();
+		solver->SetCurrentFrame(frame);
+
+		auto grids = solver->GetGridSystemData();
+		grids->Deserialize(dump);
+
+		double dx = grids->GetGridSpacing().x;
+		auto sdf = solver->GetSignedDistanceField();
+
+		for (; frame.index < 120; ++frame)
+		{
+			solver->Update(frame);
+
+			output.ForEachIndex([&](size_t i, size_t j)
+			{
+				output(i, j) = 1.0 - SmearedHeavisideSDF((*sdf)(i, j) / dx);
+			});
+
+			snprintf(
+				fileName,
+				sizeof(fileName),
+				"data.#grid2,%04d.npy",
+				frame.index);
+			SaveData(output.ConstAccessor(), fileName);
+		}
+	}
+}
+CUBBYFLOW_END_TEST_F
+
+CUBBYFLOW_BEGIN_TEST_F(LevelSetLiquidSolver2, DropHighRes)
+{
+	LevelSetLiquidSolver2 solver;
+
+	auto data = solver.GetGridSystemData();
+	double dx = 1.0 / 128.0;
+	data->Resize(Size2(128, 256), Vector2D(dx, dx), Vector2D());
+
+	// Source Setting
+	BoundingBox2D domain = data->GetBoundingBox();
+	ImplicitSurfaceSet2 surfaceSet;
+	surfaceSet.AddExplicitSurface(std::make_shared<Plane2>(Vector2D(0, 1), Vector2D(0, 0.5)));
+	surfaceSet.AddExplicitSurface(std::make_shared<Sphere2>(domain.MidPoint(), 0.15));
+
+	auto sdf = solver.GetSignedDistanceField();
+	sdf->Fill([&](const Vector2D& x)
+	{
+		return surfaceSet.SignedDistance(x);
+	});
+
+	Array2<double> output(128, 256);
+	output.ForEachIndex([&](size_t i, size_t j)
+	{
+		output(i, j) = 1.0 - SmearedHeavisideSDF((*sdf)(i, j) / dx);
+	});
+
+	char fileName[256];
+	snprintf(fileName, sizeof(fileName), "data.#grid2,0000.npy");
+	SaveData(output.ConstAccessor(), fileName);
+
+	for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.Advance())
+	{
+		solver.Update(frame);
+
+		output.ForEachIndex([&](size_t i, size_t j)
+		{
+			output(i, j) = 1.0 - SmearedHeavisideSDF((*sdf)(i, j) / dx);
+		});
+		snprintf(
+			fileName,
+			sizeof(fileName),
+			"data.#grid2,%04d.npy",
+			frame.index);
+		SaveData(output.ConstAccessor(), fileName);
+	}
+}
+CUBBYFLOW_END_TEST_F
+
+CUBBYFLOW_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithCollider)
+{
+	LevelSetLiquidSolver2 solver;
+
+	auto data = solver.GetGridSystemData();
+	double dx = 1.0 / 32.0;
+	data->Resize(Size2(32, 150), Vector2D(dx, dx), Vector2D());
+
+	// Source Setting
+	BoundingBox2D domain = data->GetBoundingBox();
+	ImplicitSurfaceSet2 surfaceSet;
+	surfaceSet.AddExplicitSurface(std::make_shared<Plane2>(Vector2D(0, 1), Vector2D(0, 0.5)));
+
+	auto sdf = solver.GetSignedDistanceField();
+	sdf->Fill([&](const Vector2D& x)
+	{
+		return surfaceSet.SignedDistance(x);
+	});
+
+	Array2<double> output(32, 150);
+	output.ForEachIndex([&](size_t i, size_t j)
+	{
+		output(i, j) = SmearedHeavisideSDF((*sdf)(i, j) / dx);
+	});
+
+	// Collider Setting
+	auto sphere = std::make_shared<Sphere2>(Vector2D(domain.MidPoint().x, 0.75 - std::cos(0.0)), 0.2);
+	auto surface = std::make_shared<SurfaceToImplicit2>(sphere);
+	auto collider = std::make_shared<RigidBodyCollider2>(surface);
+	solver.SetCollider(collider);
+
+	char fileName[256];
+	snprintf(fileName, sizeof(fileName), "data.#grid2,0000.npy");
+	SaveData(output.ConstAccessor(), fileName);
+
+	for (Frame frame(0, 1.0 / 60.0); frame.index < 240; frame.Advance())
+	{
+		double t = frame.TimeInSeconds();
+		sphere->center = Vector2D(domain.MidPoint().x, 0.75 - std::cos(t));
+		collider->linearVelocity = Vector2D(0, std::sin(t));
+
+		solver.Update(frame);
+
+		output.ForEachIndex([&](size_t i, size_t j)
+		{
+			output(i, j) = SmearedHeavisideSDF((*sdf)(i, j) / dx);
+		});
+		snprintf(
+			fileName,
+			sizeof(fileName),
+			"data.#grid2,%04d.npy",
+			frame.index);
+		SaveData(output.ConstAccessor(), fileName);
+	}
+}
+CUBBYFLOW_END_TEST_F
+
+CUBBYFLOW_BEGIN_TEST_F(LevelSetLiquidSolver2, DropVariational)
+ {
+	LevelSetLiquidSolver2 solver;
+	solver.SetPressureSolver(std::make_shared<GridFractionalSinglePhasePressureSolver2>());
+
+	auto data = solver.GetGridSystemData();
+	double dx = 1.0 / 32.0;
+	data->Resize(Size2(32, 150), Vector2D(dx, dx), Vector2D());
+
+	// Source Setting
+	BoundingBox2D domain = data->GetBoundingBox();
+	ImplicitSurfaceSet2 surfaceSet;
+	surfaceSet.AddExplicitSurface(std::make_shared<Plane2>(Vector2D(0, 1), Vector2D(0, 0.5)));
+	surfaceSet.AddExplicitSurface(std::make_shared<Sphere2>(domain.MidPoint(), 0.15));
+
+	auto sdf = solver.GetSignedDistanceField();
+	sdf->Fill([&](const Vector2D& x)
+	{
+		return surfaceSet.SignedDistance(x);
+	});
+
+	Array2<double> output(32, 150);
+	output.ForEachIndex([&](size_t i, size_t j)
+	{
+		output(i, j) = SmearedHeavisideSDF((*sdf)(i, j) / dx);
+	});
+
+	char fileName[256];
+	snprintf(fileName, sizeof(fileName), "data.#grid2,0000.npy");
+	SaveData(output.ConstAccessor(), fileName);
+
+	for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.Advance())
+	{
+		solver.Update(frame);
+
+		output.ForEachIndex([&](size_t i, size_t j)
+		{
+			output(i, j) = SmearedHeavisideSDF((*sdf)(i, j) / dx);
+		});
+		snprintf(
+			fileName,
+			sizeof(fileName),
+			"data.#grid2,%04d.npy",
+			frame.index);
+		SaveData(output.ConstAccessor(), fileName);
+	}
+}
+CUBBYFLOW_END_TEST_F
+
+CUBBYFLOW_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithColliderVariational)
+{
+	LevelSetLiquidSolver2 solver;
+	solver.SetPressureSolver(std::make_shared<GridFractionalSinglePhasePressureSolver2>());
+
+	auto data = solver.GetGridSystemData();
+	double dx = 1.0 / 32.0;
+	data->Resize(Size2(32, 150), Vector2D(dx, dx), Vector2D());
+
+	// Source Setting
+	BoundingBox2D domain = data->GetBoundingBox();
+	ImplicitSurfaceSet2 surfaceSet;
+	surfaceSet.AddExplicitSurface(std::make_shared<Plane2>(Vector2D(0, 1), Vector2D(0, 0.5)));
+
+	auto sdf = solver.GetSignedDistanceField();
+	sdf->Fill([&](const Vector2D& x)
+	{
+		return surfaceSet.SignedDistance(x);
+	});
+
+	Array2<double> output(32, 150);
+	output.ForEachIndex([&](size_t i, size_t j)
+	{
+		output(i, j) = SmearedHeavisideSDF((*sdf)(i, j) / dx);
+	});
+
+	// Collider Setting
+	auto sphere = std::make_shared<Sphere2>(Vector2D(domain.MidPoint().x, 0.75 - std::cos(0.0)), 0.2);
+	auto surface = std::make_shared<SurfaceToImplicit2>(sphere);
+	auto collider = std::make_shared<RigidBodyCollider2>(surface);
+	solver.SetCollider(collider);
+
+	char fileName[256];
+	snprintf(fileName, sizeof(fileName), "data.#grid2,0000.npy");
+	SaveData(output.ConstAccessor(), fileName);
+
+	for (Frame frame(0, 1.0 / 60.0); frame.index < 240; frame.Advance())
+	{
+		double t = frame.TimeInSeconds();
+		sphere->center = Vector2D(domain.MidPoint().x, 0.75 - std::cos(t));
+		collider->linearVelocity = Vector2D(0, std::sin(t));
+
+		solver.Update(frame);
+
+		output.ForEachIndex([&](size_t i, size_t j)
+		{
+			output(i, j) = SmearedHeavisideSDF((*sdf)(i, j) / dx);
+		});
+		snprintf(
+			fileName,
+			sizeof(fileName),
+			"data.#grid2,%04d.npy",
+			frame.index);
+		SaveData(output.ConstAccessor(), fileName);
+	}
+}
+CUBBYFLOW_END_TEST_F
+
+CUBBYFLOW_BEGIN_TEST_F(LevelSetLiquidSolver2, ViscousDropVariational)
+{
+	LevelSetLiquidSolver2 solver;
+	solver.SetViscosityCoefficient(1.0);
+	solver.SetPressureSolver(std::make_shared<GridFractionalSinglePhasePressureSolver2>());
+
+	auto data = solver.GetGridSystemData();
+	double dx = 1.0 / 50.0;
+	data->Resize(Size2(50, 100), Vector2D(dx, dx), Vector2D());
+
+	// Source Setting
+	BoundingBox2D domain = data->GetBoundingBox();
+	ImplicitSurfaceSet2 surfaceSet;
+	surfaceSet.AddExplicitSurface(std::make_shared<Plane2>(Vector2D(0, 1), Vector2D(0, 0.5)));
+	surfaceSet.AddExplicitSurface(std::make_shared<Sphere2>(domain.MidPoint(), 0.15));
+
+	auto sdf = solver.GetSignedDistanceField();
+	sdf->Fill([&](const Vector2D& x)
+	{
+		return surfaceSet.SignedDistance(x);
+	});
+
+	Array2<double> output(50, 100);
+	output.ForEachIndex([&](size_t i, size_t j)
+	{
+		output(i, j) = SmearedHeavisideSDF((*sdf)(i, j) / dx);
+	});
+
+	char fileName[256];
+	snprintf(fileName, sizeof(fileName), "data.#grid2,0000.npy");
+	SaveData(output.ConstAccessor(), fileName);
+
+	for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.Advance())
+	{
+		solver.Update(frame);
+
+		output.ForEachIndex([&](size_t i, size_t j)
+		{
+			output(i, j) = SmearedHeavisideSDF((*sdf)(i, j) / dx);
+		});
+		snprintf(
+			fileName,
+			sizeof(fileName),
+			"data.#grid2,%04d.npy",
+			frame.index);
+		SaveData(output.ConstAccessor(), fileName);
+	}
+}
+CUBBYFLOW_END_TEST_F
+
+CUBBYFLOW_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithoutGlobalComp)
+{
+	LevelSetLiquidSolver2 solver;
+	solver.SetIsGlobalCompensationEnabled(false);
+
+	auto data = solver.GetGridSystemData();
+	double dx = 1.0 / 32.0;
+	data->Resize(Size2(32, 64), Vector2D(dx, dx), Vector2D());
+
+	// Source Setting
+	BoundingBox2D domain = data->GetBoundingBox();
+	ImplicitSurfaceSet2 surfaceSet;
+	surfaceSet.AddExplicitSurface(std::make_shared<Sphere2>(domain.MidPoint(), 0.15));
+
+	auto sdf = solver.GetSignedDistanceField();
+	sdf->Fill([&](const Vector2D& x)
+	{
+		return surfaceSet.SignedDistance(x);
+	});
+
+	Array2<double> output(32, 64);
+	output.ForEachIndex([&](size_t i, size_t j)
+	{
+		output(i, j) = 1.0 - SmearedHeavisideSDF((*sdf)(i, j) / dx);
+	});
+
+	char fileName[256];
+	snprintf(fileName, sizeof(fileName), "data.#grid2,0000.npy");
+	SaveData(output.ConstAccessor(), fileName);
+
+	for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.Advance())
+	{
+		solver.Update(frame);
+
+		output.ForEachIndex([&](size_t i, size_t j)
+		{
+			output(i, j) = 1.0 - SmearedHeavisideSDF((*sdf)(i, j) / dx);
+		});
+		snprintf(
+			fileName,
+			sizeof(fileName),
+			"data.#grid2,%04d.npy",
+			frame.index);
+		SaveData(output.ConstAccessor(), fileName);
+	}
+}
+CUBBYFLOW_END_TEST_F
+
+CUBBYFLOW_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithGlobalComp)
+{
+	LevelSetLiquidSolver2 solver;
+	solver.SetIsGlobalCompensationEnabled(true);
+
+	auto data = solver.GetGridSystemData();
+	double dx = 1.0 / 32.0;
+	data->Resize(Size2(32, 64), Vector2D(dx, dx), Vector2D());
+
+	// Source Setting
+	BoundingBox2D domain = data->GetBoundingBox();
+	ImplicitSurfaceSet2 surfaceSet;
+	surfaceSet.AddExplicitSurface(std::make_shared<Sphere2>(domain.MidPoint(), 0.15));
+
+	auto sdf = solver.GetSignedDistanceField();
+	sdf->Fill([&](const Vector2D& x)
+	{
+		return surfaceSet.SignedDistance(x);
+	});
+
+	Array2<double> output(32, 64);
+	output.ForEachIndex([&](size_t i, size_t j)
+	{
+		output(i, j) = 1.0 - SmearedHeavisideSDF((*sdf)(i, j) / dx);
+	});
+
+	char fileName[256];
+	snprintf(fileName, sizeof(fileName), "data.#grid2,0000.npy");
+	SaveData(output.ConstAccessor(), fileName);
+
+	for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.Advance())
+	{
+		solver.Update(frame);
+
+		output.ForEachIndex([&](size_t i, size_t j)
+		{
+			output(i, j) = 1.0 - SmearedHeavisideSDF((*sdf)(i, j) / dx);
+		});
+		snprintf(
+			fileName,
+			sizeof(fileName),
+			"data.#grid2,%04d.npy",
+			frame.index);
+		SaveData(output.ConstAccessor(), fileName);
+	}
+}
+CUBBYFLOW_END_TEST_F
+
+CUBBYFLOW_BEGIN_TEST_F(LevelSetLiquidSolver2, RisingFloor)
+{
+	// Build solver
+	auto solver = LevelSetLiquidSolver2::Builder()
+		.WithResolution({ 5, 10 })
+		.WithDomainSizeX(1.0)
+		.MakeShared();
+	solver->SetGravity({ 0, 0, 0 });
+
+	// Build emitter
+	auto box = Box2::Builder()
+		.WithLowerCorner({ 0.0, 0.0 })
+		.WithUpperCorner({ 1.0, 0.8 })
+		.MakeShared();
+
+	auto emitter = VolumeGridEmitter2::Builder()
+		.WithSourceRegion(box)
+		.MakeShared();
+
+	solver->SetEmitter(emitter);
+	emitter->AddSignedDistanceTarget(solver->GetSignedDistanceField());
+
+	// Build collider
+	auto tank = Box2::Builder()
+		.WithLowerCorner({ -1, 0 })
+		.WithUpperCorner({ 2, 2 })
+		.WithIsNormalFlipped(true)
+		.MakeShared();
+
+	auto collider = RigidBodyCollider2::Builder()
+		.WithSurface(tank)
+		.MakeShared();
+
+	collider->SetOnBeginUpdateCallback([](Collider2* col, double t, double)
+	{
+		col->GetSurface()->transform.SetTranslation({ 0, t });
+		static_cast<RigidBodyCollider2*>(col)->linearVelocity.x = 0.0;
+		static_cast<RigidBodyCollider2*>(col)->linearVelocity.y = 1.0;
+	});
+
+	solver->SetCollider(collider);
+
+	char fileName[256];
+	Array2<double> output(5, 10);
+	Array2<double> div(5, 10);
+	auto data = solver->GetGridSystemData();
+	auto sdf = solver->GetSignedDistanceField();
+
+	for (Frame frame(0, 1 / 100.0); frame.index < 120; ++frame)
+	{
+		solver->Update(frame);
+
+		output.ForEachIndex([&](size_t i, size_t j)
+		{
+			output(i, j) = 1.0 - SmearedHeavisideSDF((*sdf)(i, j) * 5.0);
+		});
+		snprintf(
+			fileName,
+			sizeof(fileName),
+			"output.#grid2,%04d.npy",
+			frame.index);
+		SaveData(output.ConstAccessor(), fileName);
+	}
+}
+CUBBYFLOW_END_TEST_F

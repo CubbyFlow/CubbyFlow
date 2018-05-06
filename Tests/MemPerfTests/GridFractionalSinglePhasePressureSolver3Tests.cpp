@@ -1,0 +1,101 @@
+#include "MemPerfTestsUtils.h"
+
+#include "gtest/gtest.h"
+
+#include <Core/Grid/FaceCenteredGrid3.h>
+#include <Core/Grid/CellCenteredScalarGrid3.h>
+#include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.h>
+
+using namespace CubbyFlow;
+
+namespace
+{
+    void RunExperiment(size_t n, double height, bool compressed)
+    {
+        FaceCenteredGrid3 vel(n, n, n);
+        CellCenteredScalarGrid3 fluidSDF(n, n, n);
+
+        vel.Fill(Vector3D());
+
+        for (size_t k = 0; k < n; ++k)
+        {
+            for (size_t j = 0; j < n + 1; ++j)
+            {
+                for (size_t i = 0; i < n; ++i)
+                {
+                    if (j == 0 || j == n)
+                    {
+                        vel.GetV(i, j, k) = 0.0;
+                    }
+                    else
+                    {
+                        vel.GetV(i, j, k) = 1.0;
+                    }
+                }
+            }
+        }
+
+        fluidSDF.Fill([&](const Vector3D& x)
+        {
+            return x.y - height * n;
+        });
+
+        GridFractionalSinglePhasePressureSolver3 solver;
+        solver.Solve(vel, 1.0, &vel,
+            ConstantScalarField3(std::numeric_limits<double>::max()),
+            ConstantVectorField3({ 0, 0, 0 }),
+            fluidSDF, compressed);
+    }
+}
+
+TEST(GridFractionalSinglePhasePressureSolver3, FullUncompressed)
+{
+    const size_t mem0 = GetCurrentRSS();
+
+    RunExperiment(128, 1.0, false);
+
+    const size_t mem1 = GetCurrentRSS();
+
+    const auto msg = MakeReadableByteSize(mem1 - mem0);
+
+    CUBBYFLOW_PRINT_INFO("Single solve mem. usage: %f %s.\n", msg.first, msg.second.c_str());
+}
+
+TEST(GridFractionalSinglePhasePressureSolver3, FullCompressed)
+{
+    const size_t mem0 = GetCurrentRSS();
+
+    RunExperiment(128, 1.0, true);
+
+    const size_t mem1 = GetCurrentRSS();
+
+    const auto msg = MakeReadableByteSize(mem1 - mem0);
+
+    CUBBYFLOW_PRINT_INFO("Single solve mem. usage: %f %s.\n", msg.first, msg.second.c_str());
+}
+
+TEST(GridFractionalSinglePhasePressureSolver3, FreeSurfaceUncompressed)
+{
+    const size_t mem0 = GetCurrentRSS();
+
+    RunExperiment(128, 0.25, false);
+
+    const size_t mem1 = GetCurrentRSS();
+
+    const auto msg = MakeReadableByteSize(mem1 - mem0);
+
+    CUBBYFLOW_PRINT_INFO("Single solve mem. usage: %f %s.\n", msg.first, msg.second.c_str());
+}
+
+TEST(GridFractionalSinglePhasePressureSolver3, FreeSurfaceCompressed)
+{
+    const size_t mem0 = GetCurrentRSS();
+
+    RunExperiment(128, 0.25, true);
+
+    const size_t mem1 = GetCurrentRSS();
+
+    const auto msg = MakeReadableByteSize(mem1 - mem0);
+
+    CUBBYFLOW_PRINT_INFO("Single solve mem. usage: %f %s.\n", msg.first, msg.second.c_str());
+}
