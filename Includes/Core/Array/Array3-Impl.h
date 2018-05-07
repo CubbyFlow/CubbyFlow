@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: Array3-Impl.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk, Dongmin Kim
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev, Dongmin Kim
 > Purpose: 3-D array class.
 > Created Time: 2017/01/25
 > Copyright (c) 2018, Chan-Ho Chris Ohk

@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: VectorN.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: General purpose dynamically-sized N-D vector class.
 > Created Time: 2017/09/28
 > Copyright (c) 2018, Chan-Ho Chris Ohk

@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: PointHashGridSearcher3.cpp
 > Project Name: CubbyFlow
-> Author: Dongmin Kim
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Hash grid-based 3-D point searcher.
 > Created Time: 2017/05/24
 > Copyright (c) 2018, Dongmin Kim

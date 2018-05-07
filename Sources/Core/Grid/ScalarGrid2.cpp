@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: ScalarGrid2.cpp
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Abstract base class for 2-D scalar grid structure.
 > Created Time: 2017/07/06
 > Copyright (c) 2018, Chan-Ho Chris Ohk

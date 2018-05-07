@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: Surface3.cpp
 > Project Name: CubbyFlow
-> Author: Dongmin Kim
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Abstract base class for 3-D surface.
 > Created Time: 2017/04/09
 > Copyright (c) 2018, Dongmin Kim

@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: BoundingBox2-Impl.h
 > Project Name: CubbyFlow
-> Author: Dongmin Kim
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: 2-D axis-aligned bounding box class.
 > Created Time: 2017/03/31
 > Copyright (c) 2018, Dongmin Kim

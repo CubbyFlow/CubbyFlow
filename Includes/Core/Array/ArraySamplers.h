@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: ArraySamplers.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Generic N-D nearest array sampler class.
 > Created Time: 2017/04/29
 > Copyright (c) 2018, Chan-Ho Chris Ohk

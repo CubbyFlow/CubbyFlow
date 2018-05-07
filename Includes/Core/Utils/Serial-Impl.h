@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: Serial-Impl.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Serial functions for CubbyFlow.
 > Created Time: 2017/07/05
 > Copyright (c) 2018, Chan-Ho Chris Ohk

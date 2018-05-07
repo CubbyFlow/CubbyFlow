@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: Timer.cpp
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Simple timer class.
 > Created Time: 2017/04/22
 > Copyright (c) 2018, Chan-Ho Chris Ohk

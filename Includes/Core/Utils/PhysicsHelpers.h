@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: PhysicsHelpers.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Physics helpers for CubbyFlow.
 > Created Time: 2017/06/03
 > Copyright (c) 2018, Chan-Ho Chris Ohk

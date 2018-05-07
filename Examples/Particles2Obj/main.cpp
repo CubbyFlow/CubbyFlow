@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: main.cpp
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Convert particles to object file.
 > Created Time: 2017/07/03
 > Copyright (c) 2018, Chan-Ho Chris Ohk

@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: GridEmitterSet3.cpp
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: 3-D grid-based emitter set.
 > Created Time: 2017/08/06
 > Copyright (c) 2018, Chan-Ho Chris Ohk

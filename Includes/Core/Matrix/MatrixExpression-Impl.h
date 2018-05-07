@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: MatrixExpression-Impl.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Base class for matrix expression.
 > Created Time: 2017/09/27
 > Copyright (c) 2018, Chan-Ho Chris Ohk

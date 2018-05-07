@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: ClaraUtils.h
 > Project Name: CubbyFlow
-> Author: Dongmin Kim
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Util functions for Clara library.
 > Created Time: 2018/05/03
 > Copyright (c) 2018, Chan-Ho Chris Ohk

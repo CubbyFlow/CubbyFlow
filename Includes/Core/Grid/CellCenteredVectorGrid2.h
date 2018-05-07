@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: CellCenteredVectorGrid2.h
 > Project Name: CubbyFlow
-> Author: Dongmin Kim
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: 2-D Cell-centered vector grid structure.
 > Created Time: 2017/08/02
 > Copyright (c) 2018, Dongmin Kim

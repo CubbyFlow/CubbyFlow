@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: ArrayAccessor1-Impl.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: 1-D array accessor class.
 > Created Time: 2017/01/28
 > Copyright (c) 2018, Chan-Ho Chris Ohk

@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: ImplicitTriangleMesh3.cpp
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: TriangleMesh3 to ImplicitSurface3 converter.
 > Created Time: 2017/09/23
 > Copyright (c) 2018, Chan-Ho Chris Ohk

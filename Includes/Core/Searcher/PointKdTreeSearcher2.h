@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: PointKdTreeSearcher2.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: KdTree-based 2-D point searcher.
 > Created Time: 2017/12/05
 > Copyright (c) 2018, Chan-Ho Chris Ohk

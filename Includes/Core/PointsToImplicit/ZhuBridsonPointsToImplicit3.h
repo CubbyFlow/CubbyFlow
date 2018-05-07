@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: ZhuBridsonPointsToImplicit3.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: 3-D points-to-implicit converter based on Zhu and Bridson's method.
 > Created Time: 2017/11/18
 > Copyright (c) 2018, Chan-Ho Chris Ohk

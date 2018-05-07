@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: ParticleSystemSolver2.cpp
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Basic 2-D particle system solver.
 > Created Time: 2017/05/21
 > Copyright (c) 2018, Chan-Ho Chris Ohk

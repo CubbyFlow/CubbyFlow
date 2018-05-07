@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: Animation.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Abstract base class for animation-related class.
 > Created Time: 2017/04/19
 > Copyright (c) 2018, Chan-Ho Chris Ohk

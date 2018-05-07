@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: LevelSetLiquidSolver2.cpp
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Level set based 2-D liquid solver.
 > Created Time: 2017/08/30
 > Copyright (c) 2018, Chan-Ho Chris Ohk

@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: Transform3.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Represents 3-D rigid body transform.
 > Created Time: 2017/03/29
 > Copyright (c) 2018, Chan-Ho Chris Ohk

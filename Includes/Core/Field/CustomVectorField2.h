@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: CustomVectorField2.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: 2-D vector field with custom field function.
 > Created Time: 2017/03/15
 > Copyright (c) 2018, Chan-Ho Chris Ohk

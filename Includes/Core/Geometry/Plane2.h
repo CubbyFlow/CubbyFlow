@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: Plane2.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: 2-D plane geometry.
 > Created Time: 2017/06/18
 > Copyright (c) 2018, Chan-Ho Chris Ohk

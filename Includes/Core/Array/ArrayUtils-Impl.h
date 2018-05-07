@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: ArrayUtils-Impl.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: N-D array util functions.
 > Created Time: 2017/04/30
 > Copyright (c) 2018, Chan-Ho Chris Ohk

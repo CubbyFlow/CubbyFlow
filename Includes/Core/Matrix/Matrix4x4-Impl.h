@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: Matrix4x4-Impl.h
 > Project Name: CubbyFlow
-> Author: Dongmin Kim
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: 4-D matrix class.
 > Created Time: 2017/03/08
 > Copyright (c) 2018, Dongmin Kim

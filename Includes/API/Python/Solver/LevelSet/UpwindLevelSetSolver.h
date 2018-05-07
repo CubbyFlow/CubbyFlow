@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: UpwindLevelSetSolver.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: UpwindLevelSetSolver functions for CubbyFlow Python API.
 > Created Time: 2018/02/16
 > Copyright (c) 2018, Chan-Ho Chris Ohk

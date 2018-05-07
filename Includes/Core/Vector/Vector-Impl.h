@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: Vector-Impl.h
 > Project Name: CubbyFlow
-> Author: Dongmin Kim
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Generic N-D vector class.
 > Created Time: 2017/02/19
 > Copyright (c) 2018, Dongmin Kim

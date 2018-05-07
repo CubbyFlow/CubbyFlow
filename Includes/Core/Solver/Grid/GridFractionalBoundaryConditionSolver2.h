@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: GridFractionalBoundaryConditionSolver2.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Fractional 2-D boundary condition solver for grids.
 > Created Time: 2017/08/09
 > Copyright (c) 2018, Chan-Ho Chris Ohk

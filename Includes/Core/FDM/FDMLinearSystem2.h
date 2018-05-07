@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: FDMLinearSystem2.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Linear system (Ax=b) for 2-D finite differencing.
 > Created Time: 2017/08/12
 > Copyright (c) 2018, Chan-Ho Chris Ohk

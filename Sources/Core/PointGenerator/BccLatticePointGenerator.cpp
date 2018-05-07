@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: BccLatticPointGenerator.cpp
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Body-centered lattice points generator.
 > Created Time: 2017/06/05
 > Copyright (c) 2018, Chan-Ho Chris Ohk

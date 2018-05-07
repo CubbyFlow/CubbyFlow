@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: FDMMGLinearSystem3.cpp
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Multigrid-syle 3-D linear system.
 > Created Time: 2017/11/03
 > Copyright (c) 2018, Chan-Ho Chris Ohk

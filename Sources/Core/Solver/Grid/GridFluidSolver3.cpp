@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: GridFluidSolver3.cpp
 > Project Name: CubbyFlow
-> Author: Dongmin Kim
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Abstract base class for grid-based 3-D fluid solver.
 > Created Time: 2017/08/16
 > Copyright (c) 2018, Dongmin Kim

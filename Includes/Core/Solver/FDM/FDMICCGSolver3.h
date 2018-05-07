@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: FDMICCGSolver3.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: 3-D finite difference-type linear system solver using incomplete
 >          Cholesky conjugate gradient (ICCG).
 > Created Time: 2017/08/12

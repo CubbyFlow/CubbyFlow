@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: Collider2.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Abstract base class for generic collider object.
 > Created Time: 2017/05/09
 > Copyright (c) 2018, Chan-Ho Chris Ohk

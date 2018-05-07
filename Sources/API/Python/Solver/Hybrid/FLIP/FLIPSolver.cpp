@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: FLIPSolver.cpp
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: FLIPSolver functions for CubbyFlow Python API.
 > Created Time: 2018/02/17
 > Copyright (c) 2018, Chan-Ho Chris Ohk

@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: KdTree-Impl.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Generic k-d tree structure.
 > Created Time: 2017/12/05
 > Copyright (c) 2018, Chan-Ho Chris Ohk

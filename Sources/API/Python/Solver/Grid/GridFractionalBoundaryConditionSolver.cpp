@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: GridFractionalBoundaryConditionSolver.cpp
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: GridFractionalBoundaryConditionSolver functions for CubbyFlow Python API.
 > Created Time: 2018/02/15
 > Copyright (c) 2018, Chan-Ho Chris Ohk

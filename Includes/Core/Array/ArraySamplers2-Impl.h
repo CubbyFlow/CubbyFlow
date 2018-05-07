@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: ArraySamplers2-Impl.h
 > Project Name: CubbyFlow
-> Author: Dongmin Kim
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: 2-D nearest array sampler class.
 > Created Time: 2017/05/10
 > Copyright (c) 2018, Dongmin Kim

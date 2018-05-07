@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: ImplicitSurfaceSet3.cpp
 > Project Name: CubbyFlow
-> Author: Dongmin Kim
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: 3-D implicit surface set.
 > Created Time: 2017/04/18
 > Copyright (c) 2018, Dongmin Kim

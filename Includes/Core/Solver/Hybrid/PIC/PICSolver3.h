@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: PICSolver3.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: 3-D Particle-in-Cell (PIC) implementation.
 > Created Time: 2017/09/12
 > Copyright (c) 2018, Chan-Ho Chris Ohk

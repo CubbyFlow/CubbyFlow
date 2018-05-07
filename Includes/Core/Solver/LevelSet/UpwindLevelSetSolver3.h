@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: UpwindLevelSetSolver3.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Three-dimensional first-order upwind-based iterative level set solver.
 > Created Time: 2017/09/03
 > Copyright (c) 2018, Chan-Ho Chris Ohk

@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: FDMCGSolver2.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: 2-D finite difference-type linear system solver using conjugate gradient.
 > Created Time: 2017/08/16
 > Copyright (c) 2018, Chan-Ho Chris Ohk

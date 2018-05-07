@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: MarchingSquaresTable.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: A simple, portable and complete implementation of the Marching Cubes
 >          and Marching Tetrahedrons algorithms.
 > Created Time: 2017/07/09

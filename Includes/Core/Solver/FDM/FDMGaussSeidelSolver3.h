@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: FDMGaussSeidelSolver3.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: 3-D finite difference-type linear system solver using Gauss-Seidel method.
 > Created Time: 2017/08/17
 > Copyright (c) 2018, Chan-Ho Chris Ohk

@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: Transform2.cpp
 > Project Name: CubbyFlow
-> Author: Dongmin Kim
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Represents 2-D rigid body transform.
 > Created Time: 2017/03/30
 > Copyright (c) 2018, Dongmin Kim

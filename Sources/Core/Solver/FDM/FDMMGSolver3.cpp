@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: FDMMGSolver3.cpp
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: 3-D finite difference-type linear system solver using Multigrid.
 > Created Time: 2017/11/03
 > Copyright (c) 2018, Chan-Ho Chris Ohk

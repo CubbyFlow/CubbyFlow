@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: SPHSystemData3.cpp
 > Project Name: CubbyFlow
-> Author: Dongmin Kim
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: 3-D SPH particle system data.
 > Created Time: 2017/06/03
 > Copyright (c) 2018, Dongmin Kim

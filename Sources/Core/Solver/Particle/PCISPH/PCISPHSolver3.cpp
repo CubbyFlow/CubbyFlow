@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: PCISPHSolver3.cpp
 > Project Name: CubbyFlow
-> Author: Dongmin Kim
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: 3-D PCISPH solver.
 > Created Time: 2017/06/10
 > Copyright (c) 2018, Dongmin Kim

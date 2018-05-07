@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: Factory.cpp
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Factory methods for CubbyFlow.
 > Created Time: 2017/05/01
 > Copyright (c) 2018, Chan-Ho Chris Ohk

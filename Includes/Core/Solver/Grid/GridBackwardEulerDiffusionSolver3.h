@@ -1,7 +1,8 @@
 /*************************************************************************
 > File Name: GridBackwardEulerDiffusionSolver3.h
 > Project Name: CubbyFlow
-> Author: Chan-Ho Chris Ohk
+> This code is based on Jet Framework that was created by Doyub Kim.
+> References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: 3-D grid-based backward Euler diffusion solver.
 > Created Time: 2017/08/11
 > Copyright (c) 2018, Chan-Ho Chris Ohk
