@@ -24,3 +24,6 @@ pyCubbyFlow.egg-info/
 ## CppDepend files
 CppDependOut/
 *.cdproj
+
+# Visual Studio 2017 cache/options directory
+.vs/
