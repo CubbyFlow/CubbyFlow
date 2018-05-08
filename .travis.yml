@@ -2,23 +2,19 @@ language: cpp
 
 matrix:
   include:
-    # Test Ubuntu 14.04 + gcc
+    # Test Ubuntu 14.04 + gcc 7
     - os: linux
       dist: trusty
       sudo: required
       compiler: gcc
-      script:
-        - sh Scripts/travis_build.sh
-    # Test OS X 10.11 + Xcode 7.3 + clang
-    - os: osx
-      osx_image: xcode7.3
-      compiler: clang
-      script:
-        - sh Scripts/travis_build.sh
-    # Test OS X 10.12 + Xcode 8.3 + clang
-    - os: osx
-      osx_image: xcode8.3
-      compiler: clang
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
       script:
         - sh Scripts/travis_build.sh
     # Test OS X 10.12 + Xcode 9 + clang
@@ -27,3 +23,5 @@ matrix:
       compiler: clang
       script:
         - sh Scripts/travis_build.sh
+before_install:
+  - eval "${MATRIX_EVAL}"
