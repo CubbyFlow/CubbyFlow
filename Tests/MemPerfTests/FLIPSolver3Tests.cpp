@@ -5,6 +5,8 @@
 #include <Core/Animation/Frame.h>
 #include <Core/Solver/Hybrid/FLIP/FLIPSolver3.h>
 
+#include <iostream>
+
 using namespace CubbyFlow;
 
 TEST(FLIPSolver3, Memory)
@@ -21,9 +23,7 @@ TEST(FLIPSolver3, Memory)
 
     const auto msg1 = MakeReadableByteSize(mem1 - mem0);
 
-    CUBBYFLOW_PRINT_INFO("Start mem. usage: %f %s.\n",
-        msg1.first,
-        msg1.second.c_str());
+    std::cout << "Start mem. usage: " << msg1.first << ' ' << msg1.second.c_str() << ".\n";
 
     solver->Update(Frame(1, 0.01));
 
@@ -31,5 +31,5 @@ TEST(FLIPSolver3, Memory)
 
     const auto msg2 = MakeReadableByteSize(mem2 - mem0);
 
-    CUBBYFLOW_PRINT_INFO("Single update mem. usage: %f %s.\n", msg2.first, msg2.second.c_str());
+    std::cout << "Single update mem. usage: " << msg2.first << ' ' << msg2.second.c_str() << ".\n";
 }
