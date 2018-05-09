@@ -5,6 +5,8 @@
 #include <Core/FDM/FDMLinearSystem3.h>
 #include <Core/Solver/FDM/FDMICCGSolver3.h>
 
+#include <iostream>
+
 using namespace CubbyFlow;
 
 TEST(FDMICCGSolver3, Memory)
@@ -25,5 +27,5 @@ TEST(FDMICCGSolver3, Memory)
 
     const auto msg = MakeReadableByteSize(mem1 - mem0);
 
-    CUBBYFLOW_PRINT_INFO("Mem usage: %f %s.\n", msg.first, msg.second.c_str());
+    std::cout << "Mem usage: " << msg.first << ' ' << msg.second.c_str() << ".\n";
 }
