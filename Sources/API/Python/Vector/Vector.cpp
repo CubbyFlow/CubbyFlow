@@ -257,6 +257,28 @@ void AddVector2D(pybind11::module& m)
 			return instance.Mul(ObjectToVector2D(object));
 		}
 	})
+	.def("__div__", [](const Vector2D& instance, pybind11::object object)
+	{
+		if (pybind11::isinstance<double>(static_cast<pybind11::handle>(object)))
+		{
+			return instance.Div(object.cast<double>());
+		}
+		else
+		{
+			return instance.Div(ObjectToVector2D(object));
+		}
+	})
+	.def("__rdiv__", [](const Vector2D& instance, pybind11::object object)
+	{
+		if (pybind11::isinstance<double>(static_cast<pybind11::handle>(object)))
+		{
+			return instance.RDiv(object.cast<double>());
+		}
+		else
+		{
+			return instance.RDiv(ObjectToVector2D(object));
+		}
+	})
 	.def("__truediv__", [](const Vector2D& instance, pybind11::object object)
 	{
 		if (pybind11::isinstance<double>(static_cast<pybind11::handle>(object)))
@@ -529,6 +551,28 @@ void AddVector3D(pybind11::module& m)
 		else
 		{
 			return instance.Mul(ObjectToVector3D(object));
+		}
+	})
+	.def("__div__", [](const Vector3D& instance, pybind11::object object)
+	{
+		if (pybind11::isinstance<double>(static_cast<pybind11::handle>(object)))
+		{
+			return instance.Div(object.cast<double>());
+		}
+		else
+		{
+			return instance.Div(ObjectToVector3D(object));
+		}
+	})
+	.def("__rdiv__", [](const Vector3D& instance, pybind11::object object)
+	{
+		if (pybind11::isinstance<double>(static_cast<pybind11::handle>(object)))
+		{
+			return instance.RDiv(object.cast<double>());
+		}
+		else
+		{
+			return instance.RDiv(ObjectToVector3D(object));
 		}
 	})
 	.def("__truediv__", [](const Vector3D& instance, pybind11::object object)
