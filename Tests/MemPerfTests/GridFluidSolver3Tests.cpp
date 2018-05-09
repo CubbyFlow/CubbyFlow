@@ -5,8 +5,6 @@
 #include <Core/Animation/Frame.h>
 #include <Core/Solver/Grid/GridFluidSolver3.h>
 
-#include <iostream>
-
 using namespace CubbyFlow;
 
 TEST(GridFluidSolver3, Memory)
@@ -23,7 +21,7 @@ TEST(GridFluidSolver3, Memory)
 
     const auto msg1 = MakeReadableByteSize(mem1 - mem0);
 
-    std::cout << "Start mem. usage: " << msg1.first << ' ' << msg1.second.c_str() << ".\n";
+    PrintMemReport(msg1.first, msg1.second);
 
     solver->Update(Frame(1, 0.01));
 
@@ -31,5 +29,5 @@ TEST(GridFluidSolver3, Memory)
 
     const auto msg2 = MakeReadableByteSize(mem2 - mem0);
 
-    std::cout << "Single update mem. usage: " << msg2.first << ' ' << msg2.second.c_str() << ".\n";
+    PrintMemReport(msg2.first, msg2.second);
 }

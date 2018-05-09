@@ -1,7 +1,13 @@
 #include "MemPerfTestsUtils.h"
 
+#include <iostream>
 #include <string>
 #include <utility>
+
+void PrintMemReport(size_t memUsage, const std::string& memMessage)
+{
+    std::cout << "Mem usage: " << memUsage << ' ' << memMessage << '\n';
+}
 
 std::pair<double, std::string> MakeReadableByteSize(size_t bytes)
 {

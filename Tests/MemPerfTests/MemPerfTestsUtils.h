@@ -5,6 +5,8 @@
 #include <utility>
 #include <vector>
 
+void PrintMemReport(size_t memUsage, const std::string& memMessage);
+
 size_t GetCurrentRSS();
 
 std::pair<double, std::string> MakeReadableByteSize(size_t bytes);
