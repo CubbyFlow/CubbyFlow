@@ -87,11 +87,12 @@ namespace CubbyFlow
             });
 
             tbb::task::enqueue(*tbbNode);
+            return task.get_future();
 
 #elif defined(CUBBYFLOW_TASKING_CPP11THREAD)
             return std::async(std::launch::async, fn);
 #else
-            fn();
+            return std::async(std::launch::deferred, fn);
 #endif
         }
 
