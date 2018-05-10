@@ -25,5 +25,5 @@ TEST(FDMICCGSolver3, Memory)
 
     const auto msg = MakeReadableByteSize(mem1 - mem0);
 
-    CUBBYFLOW_PRINT_INFO("Mem usage: %f %s.\n", msg.first, msg.second.c_str());
+    PrintMemReport(msg.first, msg.second);
 }

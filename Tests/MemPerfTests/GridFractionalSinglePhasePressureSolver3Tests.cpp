@@ -58,7 +58,7 @@ TEST(GridFractionalSinglePhasePressureSolver3, FullUncompressed)
 
     const auto msg = MakeReadableByteSize(mem1 - mem0);
 
-    CUBBYFLOW_PRINT_INFO("Single solve mem. usage: %f %s.\n", msg.first, msg.second.c_str());
+    PrintMemReport(msg.first, msg.second);
 }
 
 TEST(GridFractionalSinglePhasePressureSolver3, FullCompressed)
@@ -71,7 +71,7 @@ TEST(GridFractionalSinglePhasePressureSolver3, FullCompressed)
 
     const auto msg = MakeReadableByteSize(mem1 - mem0);
 
-    CUBBYFLOW_PRINT_INFO("Single solve mem. usage: %f %s.\n", msg.first, msg.second.c_str());
+    PrintMemReport(msg.first, msg.second);
 }
 
 TEST(GridFractionalSinglePhasePressureSolver3, FreeSurfaceUncompressed)
@@ -84,7 +84,7 @@ TEST(GridFractionalSinglePhasePressureSolver3, FreeSurfaceUncompressed)
 
     const auto msg = MakeReadableByteSize(mem1 - mem0);
 
-    CUBBYFLOW_PRINT_INFO("Single solve mem. usage: %f %s.\n", msg.first, msg.second.c_str());
+    PrintMemReport(msg.first, msg.second);
 }
 
 TEST(GridFractionalSinglePhasePressureSolver3, FreeSurfaceCompressed)
@@ -97,5 +97,5 @@ TEST(GridFractionalSinglePhasePressureSolver3, FreeSurfaceCompressed)
 
     const auto msg = MakeReadableByteSize(mem1 - mem0);
 
-    CUBBYFLOW_PRINT_INFO("Single solve mem. usage: %f %s.\n", msg.first, msg.second.c_str());
+    PrintMemReport(msg.first, msg.second);
 }

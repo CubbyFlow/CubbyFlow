@@ -21,9 +21,7 @@ TEST(FLIPSolver3, Memory)
 
     const auto msg1 = MakeReadableByteSize(mem1 - mem0);
 
-    CUBBYFLOW_PRINT_INFO("Start mem. usage: %f %s.\n",
-        msg1.first,
-        msg1.second.c_str());
+    PrintMemReport(msg1.first, msg1.second);
 
     solver->Update(Frame(1, 0.01));
 
@@ -31,5 +29,5 @@ TEST(FLIPSolver3, Memory)
 
     const auto msg2 = MakeReadableByteSize(mem2 - mem0);
 
-    CUBBYFLOW_PRINT_INFO("Single update mem. usage: %f %s.\n", msg2.first, msg2.second.c_str());
+    PrintMemReport(msg2.first, msg2.second);
 }
