@@ -2,5 +2,5 @@
 
 set -e
 
-docker build -f $1 -t utilforever/cubbyflow-v0:$2 .
+docker build -t utilforever/cubbyflow-v0 .
 docker run utilforever/cubbyflow-v0
