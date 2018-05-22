@@ -18,10 +18,10 @@ protected:
 
     void SetUp(const ::benchmark::State& state)
     {
-        int N = state.range(0);
+        int64_t N = state.range(0);
 
         points.Clear();
-        for (int i = 0; i < N; ++i)
+        for (int64_t i = 0; i < N; ++i)
         {
             points.Append(MakeVec());
         }

@@ -4,7 +4,7 @@
 #include <string>
 #include <utility>
 
-void PrintMemReport(size_t memUsage, const std::string& memMessage)
+void PrintMemReport(double memUsage, const std::string& memMessage)
 {
     std::cout << "Mem usage: " << memUsage << ' ' << memMessage << '\n';
 }
