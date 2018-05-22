@@ -71,7 +71,7 @@ namespace CubbyFlow
 						jIndices[3] = (j + 1 < n.y) ? 2 * j + 2 : 2 * j + 1;
 					}
 
-					std::array<size_t, 4> iIndices;
+					std::array<size_t, 4> iIndices{};
 					for (size_t i = iBegin; i < iEnd; ++i)
 					{
 						if (kernelSize[0] == 3)

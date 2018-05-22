@@ -5,7 +5,7 @@
 #include <utility>
 #include <vector>
 
-void PrintMemReport(size_t memUsage, const std::string& memMessage);
+void PrintMemReport(double memUsage, const std::string& memMessage);
 
 size_t GetCurrentRSS();
 
