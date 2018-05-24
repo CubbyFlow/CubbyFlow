@@ -32,3 +32,6 @@ matrix:
         - sh Scripts/travis_build.sh
 before_install:
   - eval "${MATRIX_EVAL}"
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
