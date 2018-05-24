@@ -79,3 +79,8 @@ if(BUILD_FROM_PIP)
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${DEFAULT_CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 endif()
 add_subdirectory(Sources/API/Python)
+
+if(NOT CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+    include(CodeCoverage)
+    setup_target_for_coverage(${PROJECT_NAME}_coverage UnitTests coverage)
+endif()
