@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 MAINTAINER Chris Ohk <utilForever@gmail.com>
 
 RUN apt-get update -yq && \
-    apt-get install -yq build-essential python3-dev python3-pip python3-venv cmake
+    apt-get install -yq build-essential python3-dev python3-pip python3-venv cmake lcov;
 
 ADD . /app
 
