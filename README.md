@@ -2,7 +2,7 @@
 
 <img src="https://github.com/utilForever/CubbyFlow-v0/blob/master/Logo.png" align="center" />
 
-[![License](https://img.shields.io/badge/Licence-MIT-blue.svg)](https://github.com/utilForever/CubbyFlow-v0/blob/master/LICENSE) [![Build Status](https://travis-ci.org/utilForever/CubbyFlow-v0.svg?branch=master)](https://travis-ci.org/utilForever/CubbyFlow-v0/branches) [![Build status](https://ci.appveyor.com/api/projects/status/github/utilForever/CubbyFlow-v0?branch=master&svg=true)](https://ci.appveyor.com/project/utilForever/CubbyFlow-v0/branch/master)
+[![License](https://img.shields.io/badge/Licence-MIT-blue.svg)](https://github.com/utilForever/CubbyFlow-v0/blob/master/LICENSE) [![Build Status](https://travis-ci.org/utilForever/CubbyFlow-v0.svg?branch=master)](https://travis-ci.org/utilForever/CubbyFlow-v0/branches) [![Build status](https://ci.appveyor.com/api/projects/status/github/utilForever/CubbyFlow-v0?branch=master&svg=true)](https://ci.appveyor.com/project/utilForever/CubbyFlow-v0/branch/master) [![codecov](https://codecov.io/gh/utilForever/CubbyFlow-v0/branch/master/graph/badge.svg)](https://codecov.io/gh/utilForever/CubbyFlow-v0)
 
 <b>IMPORTANT: Most of the code in this repository is copied from [Jet Framework](https://github.com/doyubkim/fluid-engine-dev) and ["Fluid Engine Development" book](http://fluidenginedevelopment.org/) that was created by [Doyub Kim](https://twitter.com/doyub).</b>
 
