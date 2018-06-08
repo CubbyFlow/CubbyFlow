@@ -11,6 +11,9 @@
 #include <Core/Math/MathUtils.h>
 #include <Core/Utils/Parallel.h>
 
+#define TINYOBJLOADER_IMPLEMENTATION
+#include <tiny_obj_loader.h>
+
 #include <cassert>
 #include <iostream>
 
