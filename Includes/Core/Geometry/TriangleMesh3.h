@@ -178,14 +178,8 @@ namespace CubbyFlow
 		//! Rotates the mesh.
 		void Rotate(const QuaternionD& q);
 
-		//! Writes the mesh in obj format to the output stream.
-		void WriteObj(std::ostream* stream) const;
-
 		//! Writes the mesh in obj format to the file.
 		bool WriteObj(const std::string& fileName) const;
-
-		//! Reads the mesh in obj format from the input stream.
-		bool ReadObj(std::istream* stream);
 
 		//! Reads the mesh in obj format from the file.
 		bool ReadObj(const std::string& fileName);
