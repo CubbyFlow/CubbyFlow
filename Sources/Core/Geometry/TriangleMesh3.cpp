@@ -355,43 +355,24 @@ void TriangleMesh3::AddPointTriangle(const Point3UI& newPointIndices)
     InvalidateBVH();
 }
 
-void TriangleMesh3::AddPointNormalTriangle(const Point3UI& newPointIndices,
-                                           const Point3UI& newNormalIndices)
+void TriangleMesh3::AddNormalTriangle(const Point3UI& newNormalIndices)
 {
     // Number of normal indices must match with number of point indices once
     // you decided to add normal indices. Same for the uvs as well.
     assert(m_pointIndices.size() == m_normalIndices.size());
 
-    m_pointIndices.Append(newPointIndices);
     m_normalIndices.Append(newNormalIndices);
-
     InvalidateBVH();
 }
 
-void TriangleMesh3::AddPointUVNormalTriangle(const Point3UI& newPointIndices,
-                                             const Point3UI& newUVIndices,
-                                             const Point3UI& newNormalIndices)
+void TriangleMesh3::AddUVTriangle(const Point3UI& newUVIndices)
 {
     // Number of normal indices must match with number of point indices once
     // you decided to add normal indices. Same for the uvs as well.
     assert(m_pointIndices.size() == m_normalIndices.size());
     assert(m_pointIndices.size() == m_uvIndices.size());
-    m_pointIndices.Append(newPointIndices);
-    m_normalIndices.Append(newNormalIndices);
+
     m_uvIndices.Append(newUVIndices);
-
-    InvalidateBVH();
-}
-
-void TriangleMesh3::AddPointUVTriangle(const Point3UI& newPointIndices,
-                                       const Point3UI& newUVIndices)
-{
-    // Number of normal indices must match with number of point indices once
-    // you decided to add normal indices. Same for the uvs as well.
-    assert(m_pointIndices.size() == m_uvs.size());
-    m_pointIndices.Append(newPointIndices);
-    m_uvIndices.Append(newUVIndices);
-
     InvalidateBVH();
 }
 
@@ -654,6 +635,16 @@ bool TriangleMesh3::ReadObj(std::istream* stream)
         AddNormal({vx, vy, vz});
     }
 
+    // Read UVs
+    for (size_t idx = 0; idx < attrib.texcoords.size() / 2; ++idx)
+    {
+        // Access to UV
+        tinyobj::real_t tu = attrib.texcoords[2 * idx + 0];
+        tinyobj::real_t tv = attrib.texcoords[2 * idx + 1];
+
+        AddUV({tu, tv});
+    }
+
     // Read faces
     for (auto& shape : shapes)
     {
@@ -665,13 +656,28 @@ bool TriangleMesh3::ReadObj(std::istream* stream)
 
             if (fv == 3)
             {
-                AddPointNormalTriangle(
-                    {shape.mesh.indices[idx].vertex_index,
-                     shape.mesh.indices[idx + 1].vertex_index,
-                     shape.mesh.indices[idx + 2].vertex_index},
-                    {shape.mesh.indices[idx].normal_index,
-                     shape.mesh.indices[idx + 1].normal_index,
-                     shape.mesh.indices[idx + 2].normal_index});
+                if (!attrib.vertices.empty())
+                {
+                    AddPointTriangle(
+                        {shape.mesh.indices[idx].vertex_index,
+                         shape.mesh.indices[idx + 1].vertex_index,
+                         shape.mesh.indices[idx + 2].vertex_index});
+                }
+
+                if (!attrib.normals.empty())
+                {
+                    AddNormalTriangle(
+                        {shape.mesh.indices[idx].normal_index,
+                         shape.mesh.indices[idx + 1].normal_index,
+                         shape.mesh.indices[idx + 2].normal_index});
+                }
+
+                if (!attrib.texcoords.empty())
+                {
+                    AddUVTriangle({shape.mesh.indices[idx].texcoord_index,
+                                   shape.mesh.indices[idx + 1].texcoord_index,
+                                   shape.mesh.indices[idx + 2].texcoord_index});
+                }
             }
 
             idx += fv;
