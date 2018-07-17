@@ -9,9 +9,9 @@
 *************************************************************************/
 #include <../ClaraUtils.h>
 
-#include <Core/Array/Array1.h>
-#include <Core/Vector/Vector3.h>
-#include <Core/Utils/Serialization.h>
+#include <Array/Array1.h>
+#include <Vector/Vector3.h>
+#include <Utils/Serialization.h>
 
 #include <Clara/include/clara.hpp>
 
