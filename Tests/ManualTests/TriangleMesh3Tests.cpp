@@ -2,7 +2,7 @@
 
 #include <ManualTests.h>
 
-#include <Core/Geometry/TriangleMesh3.h>
+#include <Geometry/TriangleMesh3.h>
 
 using namespace CubbyFlow;
 

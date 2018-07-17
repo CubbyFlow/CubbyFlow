@@ -2,11 +2,11 @@
 
 #include <ManualTests.h>
 
-#include <Core/Collider/RigidBodyCollider2.h>
-#include <Core/Emitter/VolumeParticleEmitter2.h>
-#include <Core/Geometry/Box2.h>
-#include <Core/Geometry/Sphere2.h>
-#include <Core/Solver/Hybrid/PIC/PICSolver2.h>
+#include <Collider/RigidBodyCollider2.h>
+#include <Emitter/VolumeParticleEmitter2.h>
+#include <Geometry/Box2.h>
+#include <Geometry/Sphere2.h>
+#include <Solver/Hybrid/PIC/PICSolver2.h>
 
 using namespace CubbyFlow;
 

@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Searcher/PointSimpleListSearcher3.h>
+#include <Searcher/PointSimpleListSearcher3.h>
 
 using namespace CubbyFlow;
 

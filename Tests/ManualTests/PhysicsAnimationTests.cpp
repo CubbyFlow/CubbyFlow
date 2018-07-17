@@ -2,10 +2,10 @@
 
 #include <ManualTests.h>
 
-#include <Core/Animation/PhysicsAnimation.h>
-#include <Core/Array/Array1.h>
-#include <Core/Field/ConstantVectorField3.h>
-#include <Core/Vector/Vector3.h>
+#include <Animation/PhysicsAnimation.h>
+#include <Array/Array1.h>
+#include <Field/ConstantVectorField3.h>
+#include <Vector/Vector3.h>
 
 using namespace CubbyFlow;
 

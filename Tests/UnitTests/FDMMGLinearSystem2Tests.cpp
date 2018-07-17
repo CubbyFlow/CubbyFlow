@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/FDM/FDMMGLinearSystem2.h>
+#include <FDM/FDMMGLinearSystem2.h>
 
 using namespace CubbyFlow;
 

@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "UnitTestsUtils.h"
 
-#include <Core/Vector/Vector2.h>
-#include <Core/Vector/Vector3.h>
+#include <Vector/Vector2.h>
+#include <Vector/Vector3.h>
 
 #define STR(s) #s
 

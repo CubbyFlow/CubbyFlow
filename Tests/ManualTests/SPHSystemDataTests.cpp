@@ -2,13 +2,13 @@
 
 #include <ManualTests.h>
 
-#include <Core/BoundingBox/BoundingBox3.h>
-#include <Core/Grid/CellCenteredScalarGrid2.h>
-#include <Core/PointGenerator/BccLatticePointGenerator.h>
-#include <Core/PointGenerator/TrianglePointGenerator.h>
-#include <Core/SPH/SPHSystemData2.h>
-#include <Core/SPH/SPHSystemData3.h>
-#include <Core/Utils/Parallel.h>
+#include <BoundingBox/BoundingBox3.h>
+#include <Grid/CellCenteredScalarGrid2.h>
+#include <PointGenerator/BccLatticePointGenerator.h>
+#include <PointGenerator/TrianglePointGenerator.h>
+#include <SPH/SPHSystemData2.h>
+#include <SPH/SPHSystemData3.h>
+#include <Utils/Parallel.h>
 
 #include <random>
 

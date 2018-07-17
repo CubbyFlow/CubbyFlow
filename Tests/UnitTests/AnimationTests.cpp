@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Animation/Animation.h>
+#include <Animation/Animation.h>
 
 using namespace CubbyFlow;
 

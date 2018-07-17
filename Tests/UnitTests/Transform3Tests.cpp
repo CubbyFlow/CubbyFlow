@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "UnitTestsUtils.h"
 
-#include <Core/Transform/Transform3.h>
-#include <Core/Utils/Constants.h>
+#include <Transform/Transform3.h>
+#include <Utils/Constants.h>
 
 using namespace CubbyFlow;
 

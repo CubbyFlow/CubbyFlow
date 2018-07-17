@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Math/Quaternion.h>
+#include <Math/Quaternion.h>
 
 using namespace CubbyFlow;
 

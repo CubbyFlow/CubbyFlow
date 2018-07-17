@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "UnitTestsUtils.h"
 
-#include <Core/Geometry/Box3.h>
-#include <Core/Geometry/ImplicitTriangleMesh3.h>
-#include <Core/Surface/SurfaceToImplicit3.h>
+#include <Geometry/Box3.h>
+#include <Geometry/ImplicitTriangleMesh3.h>
+#include <Surface/SurfaceToImplicit3.h>
 
 #include <fstream>
 

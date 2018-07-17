@@ -1,10 +1,10 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/BoundingBox/BoundingBox3.h>
-#include <Core/Emitter/VolumeParticleEmitter3.h>
-#include <Core/Geometry/Box3.h>
-#include <Core/Particle/ParticleSystemData3.h>
-#include <Core/Surface/ImplicitSurfaceSet3.h>
+#include <BoundingBox/BoundingBox3.h>
+#include <Emitter/VolumeParticleEmitter3.h>
+#include <Geometry/Box3.h>
+#include <Particle/ParticleSystemData3.h>
+#include <Surface/ImplicitSurfaceSet3.h>
 
 #include <memory>
 

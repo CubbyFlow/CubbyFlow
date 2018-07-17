@@ -1,13 +1,13 @@
 #include "pch.h"
 
-#include <Core/Field/CustomVectorField2.h>
-#include <Core/Grid/CellCenteredScalarGrid2.h>
-#include <Core/Grid/CellCenteredScalarGrid3.h>
-#include <Core/SemiLagrangian/CubicSemiLagrangian2.h>
-#include <Core/Solver/LevelSet/ENOLevelSetSolver2.h>
-#include <Core/Solver/LevelSet/ENOLevelSetSolver3.h>
-#include <Core/Solver/LevelSet/UpwindLevelSetSolver2.h>
-#include <Core/Solver/LevelSet/UpwindLevelSetSolver3.h>
+#include <Field/CustomVectorField2.h>
+#include <Grid/CellCenteredScalarGrid2.h>
+#include <Grid/CellCenteredScalarGrid3.h>
+#include <SemiLagrangian/CubicSemiLagrangian2.h>
+#include <Solver/LevelSet/ENOLevelSetSolver2.h>
+#include <Solver/LevelSet/ENOLevelSetSolver3.h>
+#include <Solver/LevelSet/UpwindLevelSetSolver2.h>
+#include <Solver/LevelSet/UpwindLevelSetSolver3.h>
 
 #include <ManualTests.h>
 

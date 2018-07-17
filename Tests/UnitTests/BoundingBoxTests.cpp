@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/BoundingBox/BoundingBox.h>
+#include <BoundingBox/BoundingBox.h>
 
 using namespace CubbyFlow;
 

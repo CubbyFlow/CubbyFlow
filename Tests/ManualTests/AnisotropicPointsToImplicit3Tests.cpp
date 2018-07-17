@@ -2,9 +2,9 @@
 
 #include <ManualTests.h>
 
-#include <Core/Grid/VertexCenteredScalarGrid3.h>
-#include <Core/MarchingCubes/MarchingCubes.h>
-#include <Core/PointsToImplicit/AnisotropicPointsToImplicit3.h>
+#include <Grid/VertexCenteredScalarGrid3.h>
+#include <MarchingCubes/MarchingCubes.h>
+#include <PointsToImplicit/AnisotropicPointsToImplicit3.h>
 
 #include <random>
 

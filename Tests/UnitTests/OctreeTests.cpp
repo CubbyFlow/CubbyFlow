@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "UnitTestsUtils.h"
 
-#include <Core/Geometry/Octree.h>
+#include <Geometry/Octree.h>
 
 using namespace CubbyFlow;
 

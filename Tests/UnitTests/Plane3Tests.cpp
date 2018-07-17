@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Geometry/Plane3.h>
+#include <Geometry/Plane3.h>
 
 using namespace CubbyFlow;
 

@@ -1,11 +1,11 @@
 #ifndef CUBBYFLOW_MANUAL_TEST_H
 #define CUBBYFLOW_MANUAL_TEST_H
 
-#include <Core/Array/ArrayAccessor1.h>
-#include <Core/Array/ArrayAccessor2.h>
-#include <Core/Array/ArrayAccessor3.h>
-#include <Core/Geometry/TriangleMesh3.h>
-#include <Core/Utils/Macros.h>
+#include <Array/ArrayAccessor1.h>
+#include <Array/ArrayAccessor2.h>
+#include <Array/ArrayAccessor3.h>
+#include <Geometry/TriangleMesh3.h>
+#include <Utils/Macros.h>
 
 #include <cnpy/cnpy.h>
 #include <pystring/pystring.h>

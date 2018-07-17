@@ -1,9 +1,9 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/Array/Array3.h>
-#include <Core/FDM/FDMLinearSystem2.h>
-#include <Core/FDM/FDMLinearSystem3.h>
-#include <Core/Size/Size3.h>
+#include <Array/Array3.h>
+#include <FDM/FDMLinearSystem2.h>
+#include <FDM/FDMLinearSystem3.h>
+#include <Size/Size3.h>
 
 #include <random>
 
