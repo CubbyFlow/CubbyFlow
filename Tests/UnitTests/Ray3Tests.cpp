@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Ray/Ray3.h>
+#include <Ray/Ray3.h>
 
 using namespace CubbyFlow;
 

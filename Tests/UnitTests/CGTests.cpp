@@ -1,8 +1,8 @@
 #include "pch.h"
 
-#include <Core/Math/CG.h>
-#include <Core/Matrix/Matrix2x2.h>
-#include <Core/Vector/Vector2.h>
+#include <Math/CG.h>
+#include <Matrix/Matrix2x2.h>
+#include <Vector/Vector2.h>
 
 using namespace CubbyFlow;
 

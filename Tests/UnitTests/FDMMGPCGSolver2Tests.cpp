@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Solver/FDM/FDMMGPCGSolver2.h>
+#include <Solver/FDM/FDMMGPCGSolver2.h>
 
 using namespace CubbyFlow;
 

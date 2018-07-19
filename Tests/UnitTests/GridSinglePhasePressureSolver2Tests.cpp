@@ -1,7 +1,7 @@
 #include "pch.h"
 
-#include <Core/Grid/CellCenteredScalarGrid2.h>
-#include <Core/Solver/Grid/GridSinglePhasePressureSolver2.h>
+#include <Grid/CellCenteredScalarGrid2.h>
+#include <Solver/Grid/GridSinglePhasePressureSolver2.h>
 
 using namespace CubbyFlow;
 

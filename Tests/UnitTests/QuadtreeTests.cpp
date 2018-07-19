@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "UnitTestsUtils.h"
 
-#include <Core/Geometry/Quadtree.h>
+#include <Geometry/Quadtree.h>
 
 using namespace CubbyFlow;
 

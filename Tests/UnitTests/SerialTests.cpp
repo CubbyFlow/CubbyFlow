@@ -1,9 +1,9 @@
 #include "pch.h"
 
-#include <Core/Array/Array2.h>
-#include <Core/Array/Array3.h>
-#include <Core/Utils/Constants.h>
-#include <Core/Utils/Serial.h>
+#include <Array/Array2.h>
+#include <Array/Array3.h>
+#include <Utils/Constants.h>
+#include <Utils/Serial.h>
 
 #include <random>
 

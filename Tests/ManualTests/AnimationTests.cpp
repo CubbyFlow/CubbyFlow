@@ -2,8 +2,8 @@
 
 #include <ManualTests.h>
 
-#include <Core/Animation/Animation.h>
-#include <Core/Array/Array1.h>
+#include <Animation/Animation.h>
+#include <Array/Array1.h>
 
 using namespace CubbyFlow;
 

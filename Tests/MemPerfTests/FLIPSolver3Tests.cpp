@@ -2,8 +2,8 @@
 
 #include "gtest/gtest.h"
 
-#include <Core/Animation/Frame.h>
-#include <Core/Solver/Hybrid/FLIP/FLIPSolver3.h>
+#include <Animation/Frame.h>
+#include <Solver/Hybrid/FLIP/FLIPSolver3.h>
 
 using namespace CubbyFlow;
 

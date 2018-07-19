@@ -2,9 +2,9 @@
 
 #include <ManualTests.h>
 
-#include <Core/Array/Array3.h>
-#include <Core/Grid/VertexCenteredScalarGrid3.h>
-#include <Core/MarchingCubes/MarchingCubes.h>
+#include <Array/Array3.h>
+#include <Grid/VertexCenteredScalarGrid3.h>
+#include <MarchingCubes/MarchingCubes.h>
 
 using namespace CubbyFlow;
 

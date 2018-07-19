@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Grid/FaceCenteredGrid2.h>
+#include <Grid/FaceCenteredGrid2.h>
 
 using namespace CubbyFlow;
 

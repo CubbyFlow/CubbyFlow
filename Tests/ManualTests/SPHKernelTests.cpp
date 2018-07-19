@@ -2,8 +2,8 @@
 
 #include <ManualTests.h>
 
-#include <Core/Array/Array1.h>
-#include <Core/SPH/SPHStdKernel3.h>
+#include <Array/Array1.h>
+#include <SPH/SPHStdKernel3.h>
 
 using namespace CubbyFlow;
 

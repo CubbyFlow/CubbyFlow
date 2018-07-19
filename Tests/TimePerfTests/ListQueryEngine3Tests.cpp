@@ -1,11 +1,11 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/BoundingBox/BoundingBox3.h>
-#include <Core/Geometry/Triangle3.h>
-#include <Core/Geometry/TriangleMesh3.h>
-#include <Core/QueryEngine/ListQueryEngine3.h>
-#include <Core/Ray/Ray3.h>
-#include <Core/Vector/Vector3.h>
+#include <BoundingBox/BoundingBox3.h>
+#include <Geometry/Triangle3.h>
+#include <Geometry/TriangleMesh3.h>
+#include <QueryEngine/ListQueryEngine3.h>
+#include <Ray/Ray3.h>
+#include <Vector/Vector3.h>
 
 #include <fstream>
 #include <random>

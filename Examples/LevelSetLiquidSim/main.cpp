@@ -9,21 +9,21 @@
 *************************************************************************/
 #include <../ClaraUtils.h>
 
-#include <Core/Array/Array2.h>
-#include <Core/Collider/RigidBodyCollider3.h>
-#include <Core/Emitter/VolumeGridEmitter3.h>
-#include <Core/Geometry/Box3.h>
-#include <Core/Geometry/Cylinder3.h>
-#include <Core/Geometry/ImplicitTriangleMesh3.h>
-#include <Core/Geometry/Plane3.h>
-#include <Core/Geometry/Sphere3.h>
-#include <Core/Geometry/TriangleMesh3.h>
-#include <Core/Grid/ScalarGrid3.h>
-#include <Core/Math/MathUtils.h>
-#include <Core/MarchingCubes/MarchingCubes.h>
-#include <Core/Solver/LevelSet/LevelSetLiquidSolver3.h>
-#include <Core/Surface/ImplicitSurfaceSet3.h>
-#include <Core/Utils/Logging.h>
+#include <Array/Array2.h>
+#include <Collider/RigidBodyCollider3.h>
+#include <Emitter/VolumeGridEmitter3.h>
+#include <Geometry/Box3.h>
+#include <Geometry/Cylinder3.h>
+#include <Geometry/ImplicitTriangleMesh3.h>
+#include <Geometry/Plane3.h>
+#include <Geometry/Sphere3.h>
+#include <Geometry/TriangleMesh3.h>
+#include <Grid/ScalarGrid3.h>
+#include <Math/MathUtils.h>
+#include <MarchingCubes/MarchingCubes.h>
+#include <Solver/LevelSet/LevelSetLiquidSolver3.h>
+#include <Surface/ImplicitSurfaceSet3.h>
+#include <Utils/Logging.h>
 
 #include <Clara/include/clara.hpp>
 #include <pystring/pystring.h>

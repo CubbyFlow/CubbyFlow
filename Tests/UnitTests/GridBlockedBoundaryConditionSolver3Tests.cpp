@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Solver/Grid/GridBlockedBoundaryConditionSolver3.h>
+#include <Solver/Grid/GridBlockedBoundaryConditionSolver3.h>
 
 using namespace CubbyFlow;
 

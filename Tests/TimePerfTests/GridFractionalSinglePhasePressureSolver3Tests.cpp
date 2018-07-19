@@ -1,11 +1,11 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/Field/ConstantScalarField3.h>
-#include <Core/Field/ConstantVectorField3.h>
-#include <Core/Grid/CellCenteredScalarGrid3.h>
-#include <Core/Grid/FaceCenteredGrid3.h>
-#include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.h>
-#include <Core/Vector/Vector3.h>
+#include <Field/ConstantScalarField3.h>
+#include <Field/ConstantVectorField3.h>
+#include <Grid/CellCenteredScalarGrid3.h>
+#include <Grid/FaceCenteredGrid3.h>
+#include <Solver/Grid/GridFractionalSinglePhasePressureSolver3.h>
+#include <Vector/Vector3.h>
 
 using CubbyFlow::Vector3D;
 using CubbyFlow::FaceCenteredGrid3;

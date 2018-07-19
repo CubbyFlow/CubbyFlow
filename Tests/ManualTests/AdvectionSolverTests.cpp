@@ -2,16 +2,16 @@
 
 #include <ManualTests.h>
 
-#include <Core/Array/Array3.h>
-#include <Core/Field/ConstantVectorField2.h>
-#include <Core/Field/CustomScalarField2.h>
-#include <Core/Field/CustomVectorField2.h>
-#include <Core/Geometry/Box2.h>
-#include <Core/Grid/CellCenteredScalarGrid2.h>
-#include <Core/Grid/CellCenteredVectorGrid2.h>
-#include <Core/SemiLagrangian/CubicSemiLagrangian2.h>
-#include <Core/SemiLagrangian/SemiLagrangian2.h>
-#include <Core/Utils/Constants.h>
+#include <Array/Array3.h>
+#include <Field/ConstantVectorField2.h>
+#include <Field/CustomScalarField2.h>
+#include <Field/CustomVectorField2.h>
+#include <Geometry/Box2.h>
+#include <Grid/CellCenteredScalarGrid2.h>
+#include <Grid/CellCenteredVectorGrid2.h>
+#include <SemiLagrangian/CubicSemiLagrangian2.h>
+#include <SemiLagrangian/SemiLagrangian2.h>
+#include <Utils/Constants.h>
 
 #include <algorithm>
 

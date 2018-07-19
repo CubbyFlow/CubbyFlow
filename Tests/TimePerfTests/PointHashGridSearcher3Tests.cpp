@@ -1,8 +1,8 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/Array/Array1.h>
-#include <Core/Searcher/PointHashGridSearcher3.h>
-#include <Core/Vector/Vector3.h>
+#include <Array/Array1.h>
+#include <Searcher/PointHashGridSearcher3.h>
+#include <Vector/Vector3.h>
 
 #include <random>
 

@@ -1,8 +1,8 @@
 #ifndef UNIT_TESTS_UTILS_H
 #define UNIT_TESTS_UTILS_H
 
-#include <Core/Vector/Vector2.h>
-#include <Core/Vector/Vector3.h>
+#include <Vector/Vector2.h>
+#include <Vector/Vector3.h>
 
 #define EXPECT_VECTOR2_EQ(expected, actual) \
 	EXPECT_DOUBLE_EQ(expected.x, actual.x); \

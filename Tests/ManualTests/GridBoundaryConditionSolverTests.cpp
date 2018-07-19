@@ -2,13 +2,13 @@
 
 #include <ManualTests.h>
 
-#include <Core/Collider/RigidBodyCollider2.h>
-#include <Core/Geometry/Plane2.h>
-#include <Core/Geometry/Sphere2.h>
-#include <Core/Solver/Grid/GridBlockedBoundaryConditionSolver2.h>
-#include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver2.h>
-#include <Core/Surface/ImplicitSurfaceSet2.h>
-#include <Core/Surface/SurfaceToImplicit2.h>
+#include <Collider/RigidBodyCollider2.h>
+#include <Geometry/Plane2.h>
+#include <Geometry/Sphere2.h>
+#include <Solver/Grid/GridBlockedBoundaryConditionSolver2.h>
+#include <Solver/Grid/GridFractionalBoundaryConditionSolver2.h>
+#include <Surface/ImplicitSurfaceSet2.h>
+#include <Surface/SurfaceToImplicit2.h>
 
 #include <algorithm>
 

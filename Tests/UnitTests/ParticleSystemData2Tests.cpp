@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Particle/ParticleSystemData2.h>
+#include <Particle/ParticleSystemData2.h>
 
 using namespace CubbyFlow;
 

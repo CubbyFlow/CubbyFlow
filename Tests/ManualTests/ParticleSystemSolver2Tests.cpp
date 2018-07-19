@@ -2,11 +2,11 @@
 
 #include <ManualTests.h>
 
-#include <Core/Collider/RigidBodyCollider2.h>
-#include <Core/Emitter/PointParticleEmitter2.h>
-#include <Core/Field/ConstantVectorField2.h>
-#include <Core/Geometry/Plane2.h>
-#include <Core/Solver/Particle/ParticleSystemSolver2.h>
+#include <Collider/RigidBodyCollider2.h>
+#include <Emitter/PointParticleEmitter2.h>
+#include <Field/ConstantVectorField2.h>
+#include <Geometry/Plane2.h>
+#include <Solver/Particle/ParticleSystemSolver2.h>
 
 using namespace CubbyFlow;
 

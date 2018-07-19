@@ -2,15 +2,15 @@
 
 #include <ManualTests.h>
 
-#include <Core/Array/Array2.h>
-#include <Core/BoundingBox/BoundingBox2.h>
-#include <Core/BoundingBox/BoundingBox3.h>
-#include <Core/PointGenerator/BccLatticePointGenerator.h>
-#include <Core/PointGenerator/TrianglePointGenerator.h>
-#include <Core/Searcher/PointHashGridSearcher2.h>
-#include <Core/Searcher/PointHashGridSearcher3.h>
-#include <Core/Searcher/PointParallelHashGridSearcher2.h>
-#include <Core/Searcher/PointParallelHashGridSearcher3.h>
+#include <Array/Array2.h>
+#include <BoundingBox/BoundingBox2.h>
+#include <BoundingBox/BoundingBox3.h>
+#include <PointGenerator/BccLatticePointGenerator.h>
+#include <PointGenerator/TrianglePointGenerator.h>
+#include <Searcher/PointHashGridSearcher2.h>
+#include <Searcher/PointHashGridSearcher3.h>
+#include <Searcher/PointParallelHashGridSearcher2.h>
+#include <Searcher/PointParallelHashGridSearcher3.h>
 
 using namespace CubbyFlow;
 

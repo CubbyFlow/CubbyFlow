@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Matrix/Matrix3x3.h>
+#include <Matrix/Matrix3x3.h>
 
 using namespace CubbyFlow;
 

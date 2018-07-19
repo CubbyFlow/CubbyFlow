@@ -2,15 +2,15 @@
 
 #include <ManualTests.h>
 
-#include <Core/Array/Array2.h>
-#include <Core/Field/CustomScalarField2.h>
-#include <Core/Field/CustomScalarField3.h>
-#include <Core/Grid/CellCenteredScalarGrid2.h>
-#include <Core/Grid/CellCenteredScalarGrid3.h>
-#include <Core/Solver/Grid/GridBackwardEulerDiffusionSolver2.h>
-#include <Core/Solver/Grid/GridBackwardEulerDiffusionSolver3.h>
-#include <Core/Solver/Grid/GridForwardEulerDiffusionSolver2.h>
-#include <Core/Solver/Grid/GridForwardEulerDiffusionSolver3.h>
+#include <Array/Array2.h>
+#include <Field/CustomScalarField2.h>
+#include <Field/CustomScalarField3.h>
+#include <Grid/CellCenteredScalarGrid2.h>
+#include <Grid/CellCenteredScalarGrid3.h>
+#include <Solver/Grid/GridBackwardEulerDiffusionSolver2.h>
+#include <Solver/Grid/GridBackwardEulerDiffusionSolver3.h>
+#include <Solver/Grid/GridForwardEulerDiffusionSolver2.h>
+#include <Solver/Grid/GridForwardEulerDiffusionSolver3.h>
 
 using namespace CubbyFlow;
 
