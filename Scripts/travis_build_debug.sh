@@ -6,7 +6,7 @@ export NUM_JOBS=1
 
 mkdir build
 cd build
-cmake .. -DCMAKE_BUILD_TYPE
+cmake .. -DCMAKE_BUILD_TYPE=Debug
 make
 bin/UnitTests
 
