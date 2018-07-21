@@ -2,8 +2,25 @@ language: cpp
 
 matrix:
   include:
-    # Test Ubuntu 14.04 + gcc 7
+    # Test Ubuntu 14.04 + gcc 7 (Debug)
     - os: linux
+      env: CONFIG=Debug
+      dist: trusty
+      sudo: required
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+      script:
+        - sh Scripts/travis_build_debug.sh
+    # Test Ubuntu 14.04 + gcc 7 (Release)
+    - os: linux
+      env: CONFIG=Release
       dist: trusty
       sudo: required
       compiler: gcc
@@ -19,13 +36,22 @@ matrix:
         - sh Scripts/travis_build.sh
     # Test Docker based on Ubuntu 18.04 LTS + gcc
     - os: linux
+      env: CONFIG=Release
       dist: trusty
       sudo: required
       services: docker
       script:
         - sh Scripts/travis_build_docker.sh
-    # Test OS X 10.12 + Xcode 9 + clang
+    # Test OS X 10.12 + Xcode 9 + clang (Debug)
     - os: osx
+      env: CONFIG=Debug
+      osx_image: xcode9
+      compiler: clang
+      script:
+        - sh Scripts/travis_build.sh
+    # Test OS X 10.12 + Xcode 9 + clang (Release)
+    - os: osx
+      env: CONFIG=Release
       osx_image: xcode9
       compiler: clang
       script:
@@ -43,10 +69,23 @@ before_install:
   - if [ $TRAVIS_OS_NAME == osx ]; then
        brew update;
        brew install glfw3;
-       brew install lcov;
     fi
 
 after_success:
-  - if [ $TRAVIS_OS_NAME == linux ]; then
-       bash <(curl -s https://codecov.io/bash);
+  # Creating report - Linux and debug build only
+  - if [ $TRAVIS_OS_NAME == linux ] && [ $CONFIG == Debug ]; then
+       cd ${TRAVIS_BUILD_DIR}
+       # Generate coverage info - base and test
+       lcov -c -i -d Tests/UnitTests -o base.info
+       lcov -c -d Tests/UnitTests -o test.info
+       # Integrate base info with test info
+       lcov -a base.info -a test.info -o coverage.info
+       # Filter out system, 3rd-party libraries, tests
+       lcov -r coverage.info '/usr/*' -o coverage.info
+       lcov -r coverage.info '*/Libraries/*' -o coverage.info
+       lcov -r coverage.info '*/Tests/*' -o coverage.info
+       # Debug info
+       lcov -l coverage.info
+       # Uploading report to CodeCov
+       bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports";
     fi
