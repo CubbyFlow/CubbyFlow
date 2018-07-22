@@ -4,7 +4,6 @@ matrix:
   include:
     # Test Ubuntu 14.04 + gcc 7 (Debug)
     - os: linux
-      env: CONFIG=Debug
       dist: trusty
       sudo: required
       compiler: gcc
@@ -15,12 +14,12 @@ matrix:
           packages:
             - g++-7
       env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - BUILD_TYPE="Debug"
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 && GCOV=gcov-7"
       script:
         - sh Scripts/travis_build_debug.sh
     # Test Ubuntu 14.04 + gcc 7 (Release)
     - os: linux
-      env: CONFIG=Release
       dist: trusty
       sudo: required
       compiler: gcc
@@ -31,36 +30,41 @@ matrix:
           packages:
             - g++-7
       env:
+        - BUILD_TYPE="Release"
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
       script:
         - sh Scripts/travis_build.sh
     # Test Docker based on Ubuntu 18.04 LTS + gcc
     - os: linux
-      env: CONFIG=Release
       dist: trusty
       sudo: required
       services: docker
+      env:
+        - BUILD_TYPE="Release"
       script:
         - sh Scripts/travis_build_docker.sh
     # Test OS X 10.12 + Xcode 9 + clang (Debug)
     - os: osx
-      env: CONFIG=Debug
       osx_image: xcode9
       compiler: clang
+      env:
+        - BUILD_TYPE="Debug"
       script:
-        - sh Scripts/travis_build.sh
+        - sh Scripts/travis_build_debug.sh
     # Test OS X 10.12 + Xcode 9 + clang (Release)
     - os: osx
-      env: CONFIG=Release
       osx_image: xcode9
       compiler: clang
+      env:
+        - BUILD_TYPE="Release"
       script:
         - sh Scripts/travis_build.sh
 before_install:
   - eval "${MATRIX_EVAL}"
   - if [ $TRAVIS_OS_NAME == linux ]; then 
        sudo apt-get update -qq;
-       sudo apt-get install -y --no-install-recommends libxrandr-dev libxi-dev libxxf86vm-dev libxinerama-dev libxcursor-dev lcov;
+       sudo apt-get install -y --no-install-recommends libxrandr-dev libxi-dev libxxf86vm-dev libxinerama-dev libxcursor-dev;
+       sudo apt-get install -y --no-install-recommends xorg-dev libglu1-mesa-dev lcov;
        wget https://github.com/glfw/glfw/releases/download/3.2.1/glfw-3.2.1.zip;
        unzip glfw-3.2.1.zip && cd glfw-3.2.1; 
        cmake -DBUILD_SHARED_LIBS=true -DGLFW_BUILD_EXAMPLES=false -DGLFW_BUILD_TESTS=false -DGLFW_BUILD_DOCS=false .;
@@ -73,19 +77,18 @@ before_install:
 
 after_success:
   # Creating report - Linux and debug build only
-  - if [ $TRAVIS_OS_NAME == linux ] && [ $CONFIG == Debug ]; then
-       cd ${TRAVIS_BUILD_DIR}
-       # Generate coverage info - base and test
-       lcov -c -i -d Tests/UnitTests -o base.info
-       lcov -c -d Tests/UnitTests -o test.info
-       # Integrate base info with test info
-       lcov -a base.info -a test.info -o coverage.info
-       # Filter out system, 3rd-party libraries, tests
-       lcov -r coverage.info '/usr/*' -o coverage.info
-       lcov -r coverage.info '*/Libraries/*' -o coverage.info
-       lcov -r coverage.info '*/Tests/*' -o coverage.info
-       # Debug info
-       lcov -l coverage.info
-       # Uploading report to CodeCov
-       bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports";
+  # Generate coverage info - base and test
+  # Integrate base info with test info
+  # Filter out system, 3rd-party libraries, tests
+  # Debug info
+  # Uploading report to CodeCov
+  - if [ $TRAVIS_OS_NAME == linux ] && [ ${BUILD_TYPE} == Debug ]; then 
+       cd ${TRAVIS_BUILD_DIR};
+       sudo ln -sf /usr/bin/gcov-7 /usr/bin/gcov;
+       lcov --directory . --capture --output-file coverage.info;
+       lcov --remove coverage.info '/usr/*' --output-file coverage.info;
+       lcov --remove coverage.info '*/Libraries/*' --output-file coverage.info;
+       lcov --remove coverage.info '*/Tests/*' --output-file coverage.info;
+       lcov --list coverage.info;
+       bash <(curl -s https://codecov.io/bash) -X gcov || echo "Codecov did not collect coverage reports";
     fi

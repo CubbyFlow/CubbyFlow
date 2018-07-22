@@ -6,8 +6,8 @@ export NUM_JOBS=1
 
 mkdir build
 cd build
-cmake .. -DCMAKE_BUILD_TYPE
-make
+cmake ..
+make -j 8
 bin/UnitTests
 
 unamestr=`uname`
