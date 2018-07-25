@@ -7,7 +7,7 @@ export NUM_JOBS=1
 mkdir build
 cd build
 cmake ..
-make -j 8
+make
 bin/UnitTests
 
 unamestr=`uname`
