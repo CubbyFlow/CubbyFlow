@@ -16,10 +16,14 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 # Set enable output of compile commands during generation
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Build type - Release by default
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
-endif()
+# Includes
+include_directories(APIs)
+include_directories(Cores)
+include_directories(Libraries)
+include_directories(Libraries/pybind11/include)
+include_directories(Libraries/googletest/googletest/include)
+include_directories(Libraries/Clara/include)
+include_directories(Libraries/tinyobj)
 
 # Find TBB
 include(Builds/CMake/FindTBB.cmake)
@@ -30,11 +34,9 @@ include(Builds/CMake/TaskingSystemOptions.cmake)
 # Compile options
 include(Builds/CMake/CompileOptions.cmake)
 
-# Code coverage - Debug only
-# NOTE: Code coverage results with an optimized (non-Debug) build may be misleading
-if(CMAKE_BUILD_TYPE MATCHES Debug AND CMAKE_COMPILER_IS_GNUCXX)
-    include(CodeCoverage)
-    setup_target_for_coverage(${PROJECT_NAME}_coverage UnitTests coverage)
+# Build type - Release by default
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
 endif()
 
 # Overrides
@@ -46,15 +48,6 @@ set(RESOURCES_OBJS
         ${RESOURCES_DIR}/bunny.obj
         ${RESOURCES_DIR}/cube.obj
         ${RESOURCES_DIR}/dragon.obj)
-
-# Includes
-include_directories(APIs)
-include_directories(Cores)
-include_directories(Libraries)
-include_directories(Libraries/pybind11/include)
-include_directories(Libraries/googletest/googletest/include)
-include_directories(Libraries/Clara/include)
-include_directories(Libraries/tinyobj)
 
 # Project modules
 set(BUILD_GTEST ON CACHE BOOL "" FORCE)
@@ -89,3 +82,8 @@ if(BUILD_FROM_PIP)
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${DEFAULT_CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 endif()
 add_subdirectory(APIs/Python)
+
+if(NOT CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+    include(CodeCoverage)
+    setup_target_for_coverage(${PROJECT_NAME}_coverage UnitTests coverage)
+endif()
