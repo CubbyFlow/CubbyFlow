@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "UnitTestsUtils.h"
 
-#include <QueryEngine/ListQueryEngine3.h>
+#include <Core/QueryEngine/ListQueryEngine3.h>
 
 using namespace CubbyFlow;
 

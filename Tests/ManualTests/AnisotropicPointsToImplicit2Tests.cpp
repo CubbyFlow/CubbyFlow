@@ -2,8 +2,8 @@
 
 #include <ManualTests.h>
 
-#include <Grid/CellCenteredScalarGrid2.h>
-#include <PointsToImplicit/AnisotropicPointsToImplicit2.h>
+#include <Core/Grid/CellCenteredScalarGrid2.h>
+#include <Core/PointsToImplicit/AnisotropicPointsToImplicit2.h>
 
 #include <random>
 

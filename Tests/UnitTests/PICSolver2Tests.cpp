@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Solver/Hybrid/PIC/PICSolver2.h>
+#include <Core/Solver/Hybrid/PIC/PICSolver2.h>
 
 using namespace CubbyFlow;
 

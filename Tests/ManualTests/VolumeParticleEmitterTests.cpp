@@ -2,14 +2,14 @@
 
 #include <ManualTests.h>
 
-#include <Emitter/VolumeParticleEmitter2.h>
-#include <Emitter/VolumeParticleEmitter3.h>
-#include <Geometry/Sphere2.h>
-#include <Geometry/Sphere3.h>
-#include <Solver/Particle/ParticleSystemSolver2.h>
-#include <Solver/Particle/ParticleSystemSolver3.h>
-#include <Surface/SurfaceToImplicit2.h>
-#include <Surface/SurfaceToImplicit3.h>
+#include <Core/Emitter/VolumeParticleEmitter2.h>
+#include <Core/Emitter/VolumeParticleEmitter3.h>
+#include <Core/Geometry/Sphere2.h>
+#include <Core/Geometry/Sphere3.h>
+#include <Core/Solver/Particle/ParticleSystemSolver2.h>
+#include <Core/Solver/Particle/ParticleSystemSolver3.h>
+#include <Core/Surface/SurfaceToImplicit2.h>
+#include <Core/Surface/SurfaceToImplicit3.h>
 
 using namespace CubbyFlow;
 

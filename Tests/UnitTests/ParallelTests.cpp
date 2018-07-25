@@ -1,8 +1,8 @@
 #include "pch.h"
 
-#include <Array/Array2.h>
-#include <Array/Array3.h>
-#include <Utils/Parallel.h>
+#include <Core/Array/Array2.h>
+#include <Core/Array/Array3.h>
+#include <Core/Utils/Parallel.h>
 
 #include <numeric>
 #include <random>

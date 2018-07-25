@@ -1,17 +1,17 @@
 #include "pch.h"
 
-#include <Collider/RigidBodyCollider2.h>
-#include <Collider/RigidBodyCollider3.h>
-#include <Emitter/VolumeGridEmitter2.h>
-#include <Emitter/VolumeGridEmitter3.h>
-#include <Geometry/Box2.h>
-#include <Geometry/Box3.h>
-#include <Geometry/Sphere2.h>
-#include <Geometry/Sphere3.h>
-#include <SemiLagrangian/CubicSemiLagrangian3.h>
-#include <Solver/Grid/GridSinglePhasePressureSolver2.h>
-#include <Solver/Grid/GridSmokeSolver2.h>
-#include <Solver/Grid/GridSmokeSolver3.h>
+#include <Core/Collider/RigidBodyCollider2.h>
+#include <Core/Collider/RigidBodyCollider3.h>
+#include <Core/Emitter/VolumeGridEmitter2.h>
+#include <Core/Emitter/VolumeGridEmitter3.h>
+#include <Core/Geometry/Box2.h>
+#include <Core/Geometry/Box3.h>
+#include <Core/Geometry/Sphere2.h>
+#include <Core/Geometry/Sphere3.h>
+#include <Core/SemiLagrangian/CubicSemiLagrangian3.h>
+#include <Core/Solver/Grid/GridSinglePhasePressureSolver2.h>
+#include <Core/Solver/Grid/GridSmokeSolver2.h>
+#include <Core/Solver/Grid/GridSmokeSolver3.h>
 
 #include <ManualTests.h>
 

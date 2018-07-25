@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Math/PDE.h>
+#include <Core/Math/PDE.h>
 
 using namespace CubbyFlow;
 

@@ -1,7 +1,7 @@
 #include "pch.h"
 
-#include <Array/Array3.h>
-#include <Utils/Serialization.h>
+#include <Core/Array/Array3.h>
+#include <Core/Utils/Serialization.h>
 
 using namespace CubbyFlow;
 

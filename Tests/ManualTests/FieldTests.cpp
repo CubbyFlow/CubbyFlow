@@ -2,11 +2,11 @@
 
 #include <ManualTests.h>
 
-#include <Array/Array2.h>
-#include <Array/ArrayUtils.h>
-#include <Field/ScalarField2.h>
-#include <Field/ScalarField3.h>
-#include <Field/VectorField3.h>
+#include <Core/Array/Array2.h>
+#include <Core/Array/ArrayUtils.h>
+#include <Core/Field/ScalarField2.h>
+#include <Core/Field/ScalarField3.h>
+#include <Core/Field/VectorField3.h>
 
 using namespace CubbyFlow;
 

@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Utils/Logging.h>
+#include <Core/Utils/Logging.h>
 
 #include <fstream>
 

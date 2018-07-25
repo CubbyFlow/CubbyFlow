@@ -1,7 +1,7 @@
 #include "benchmark/benchmark.h"
 
-#include <Geometry/TriangleMesh3.h>
-#include <Vector/Vector3.h>
+#include <Core/Geometry/TriangleMesh3.h>
+#include <Core/Vector/Vector3.h>
 
 #include <fstream>
 #include <random>

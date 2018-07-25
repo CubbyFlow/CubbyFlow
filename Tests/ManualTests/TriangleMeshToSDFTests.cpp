@@ -2,10 +2,10 @@
 
 #include <ManualTests.h>
 
-#include <Array/Array2.h>
-#include <Geometry/TriangleMeshToSDF.h>
-#include <Grid/VertexCenteredScalarGrid3.h>
-#include <MarchingCubes/MarchingCubes.h>
+#include <Core/Array/Array2.h>
+#include <Core/Geometry/TriangleMeshToSDF.h>
+#include <Core/Grid/VertexCenteredScalarGrid3.h>
+#include <Core/MarchingCubes/MarchingCubes.h>
 
 using namespace CubbyFlow;
 

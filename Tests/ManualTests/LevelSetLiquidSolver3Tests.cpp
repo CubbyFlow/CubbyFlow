@@ -1,11 +1,11 @@
 #include "pch.h"
 
-#include <Array/Array2.h>
-#include <Geometry/Plane3.h>
-#include <LevelSet/LevelSetUtils.h>
-#include <MarchingCubes/MarchingCubes.h>
-#include <Solver/LevelSet/LevelSetLiquidSolver3.h>
-#include <Surface/ImplicitSurfaceSet3.h>
+#include <Core/Array/Array2.h>
+#include <Core/Geometry/Plane3.h>
+#include <Core/LevelSet/LevelSetUtils.h>
+#include <Core/MarchingCubes/MarchingCubes.h>
+#include <Core/Solver/LevelSet/LevelSetLiquidSolver3.h>
+#include <Core/Surface/ImplicitSurfaceSet3.h>
 
 #include <ManualTests.h>
 

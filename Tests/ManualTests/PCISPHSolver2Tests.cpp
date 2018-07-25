@@ -2,14 +2,14 @@
 
 #include <ManualTests.h>
 
-#include <Collider/RigidBodyCollider2.h>
-#include <Emitter/VolumeParticleEmitter2.h>
-#include <Geometry/Box2.h>
-#include <Geometry/Plane2.h>
-#include <Geometry/Sphere2.h>
-#include <Solver/Particle/PCISPH/PCISPHSolver2.h>
-#include <Surface/ImplicitSurfaceSet2.h>
-#include <Surface/SurfaceToImplicit2.h>
+#include <Core/Collider/RigidBodyCollider2.h>
+#include <Core/Emitter/VolumeParticleEmitter2.h>
+#include <Core/Geometry/Box2.h>
+#include <Core/Geometry/Plane2.h>
+#include <Core/Geometry/Sphere2.h>
+#include <Core/Solver/Particle/PCISPH/PCISPHSolver2.h>
+#include <Core/Surface/ImplicitSurfaceSet2.h>
+#include <Core/Surface/SurfaceToImplicit2.h>
 
 using namespace CubbyFlow;
 
