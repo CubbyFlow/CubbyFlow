@@ -16,13 +16,10 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 # Set enable output of compile commands during generation
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Includes
-include_directories(Includes)
-include_directories(Libraries)
-include_directories(Libraries/pybind11/include)
-include_directories(Libraries/googletest/googletest/include)
-include_directories(Libraries/Clara/include)
-include_directories(Libraries/tinyobj)
+# Build type - Release by default
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
 
 # Find TBB
 include(Builds/CMake/FindTBB.cmake)
@@ -33,9 +30,11 @@ include(Builds/CMake/TaskingSystemOptions.cmake)
 # Compile options
 include(Builds/CMake/CompileOptions.cmake)
 
-# Build type - Release by default
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
+# Code coverage - Debug only
+# NOTE: Code coverage results with an optimized (non-Debug) build may be misleading
+if(CMAKE_BUILD_TYPE MATCHES Debug AND CMAKE_COMPILER_IS_GNUCXX)
+    include(CodeCoverage)
+    setup_target_for_coverage(${PROJECT_NAME}_coverage UnitTests coverage)
 endif()
 
 # Overrides
@@ -47,6 +46,15 @@ set(RESOURCES_OBJS
         ${RESOURCES_DIR}/bunny.obj
         ${RESOURCES_DIR}/cube.obj
         ${RESOURCES_DIR}/dragon.obj)
+
+# Includes
+include_directories(APIs)
+include_directories(Cores)
+include_directories(Libraries)
+include_directories(Libraries/pybind11/include)
+include_directories(Libraries/googletest/googletest/include)
+include_directories(Libraries/Clara/include)
+include_directories(Libraries/tinyobj)
 
 # Project modules
 set(BUILD_GTEST ON CACHE BOOL "" FORCE)
@@ -61,7 +69,7 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 add_subdirectory(Libraries/cnpy)
 add_subdirectory(Libraries/pystring)
 add_subdirectory(Libraries/imgui)
-add_subdirectory(Sources/Core)
+add_subdirectory(Cores)
 add_subdirectory(Tests/ManualTests)
 add_subdirectory(Tests/UnitTests)
 add_subdirectory(Tests/MemPerfTests)
@@ -80,9 +88,4 @@ add_subdirectory(Libraries/pybind11)
 if(BUILD_FROM_PIP)
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${DEFAULT_CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 endif()
-add_subdirectory(Sources/API/Python)
-
-if(NOT CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    include(CodeCoverage)
-    setup_target_for_coverage(${PROJECT_NAME}_coverage UnitTests coverage)
-endif()
+add_subdirectory(APIs/Python)
