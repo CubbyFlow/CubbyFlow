@@ -2,7 +2,7 @@
 
 #include <FDMLinearSystemSolverTestHelper2.h>
 
-#include <Solver/FDM/FDMGaussSeidelSolver2.h>
+#include <Core/Solver/FDM/FDMGaussSeidelSolver2.h>
 
 using namespace CubbyFlow;
 

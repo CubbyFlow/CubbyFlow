@@ -1,7 +1,7 @@
 #ifndef CUBBYFLOW_FDM_LINEAR_SYSTEM_SOLVER_TEST_HELPER2_H
 #define CUBBYFLOW_FDM_LINEAR_SYSTEM_SOLVER_TEST_HELPER2_H
 
-#include <Solver/FDM/FDMLinearSystemSolver2.h>
+#include <Core/Solver/FDM/FDMLinearSystemSolver2.h>
 
 namespace CubbyFlow
 {

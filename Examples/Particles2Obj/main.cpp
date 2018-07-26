@@ -9,18 +9,18 @@
 *************************************************************************/
 #include <../ClaraUtils.h>
 
-#include <Array/Array1.h>
-#include <BoundingBox/BoundingBox3.h>
-#include <Geometry/TriangleMesh3.h>
-#include <Grid/ScalarGrid3.h>
-#include <Grid/VertexCenteredScalarGrid3.h>
-#include <PointsToImplicit/AnisotropicPointsToImplicit3.h>
-#include <PointsToImplicit/SphericalPointsToImplicit3.h>
-#include <PointsToImplicit/SPHPointsToImplicit3.h>
-#include <PointsToImplicit/ZhuBridsonPointsToImplicit3.h>
-#include <MarchingCubes/MarchingCubes.h>
-#include <Size/Size3.h>
-#include <Utils/Serialization.h>
+#include <Core/Array/Array1.h>
+#include <Core/BoundingBox/BoundingBox3.h>
+#include <Core/Geometry/TriangleMesh3.h>
+#include <Core/Grid/ScalarGrid3.h>
+#include <Core/Grid/VertexCenteredScalarGrid3.h>
+#include <Core/PointsToImplicit/AnisotropicPointsToImplicit3.h>
+#include <Core/PointsToImplicit/SphericalPointsToImplicit3.h>
+#include <Core/PointsToImplicit/SPHPointsToImplicit3.h>
+#include <Core/PointsToImplicit/ZhuBridsonPointsToImplicit3.h>
+#include <Core/MarchingCubes/MarchingCubes.h>
+#include <Core/Size/Size3.h>
+#include <Core/Utils/Serialization.h>
 
 #include <Clara/include/clara.hpp>
 #include <pystring/pystring.h>

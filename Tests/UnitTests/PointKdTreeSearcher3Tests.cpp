@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Searcher/PointKdTreeSearcher3.h>
+#include <Core/Searcher/PointKdTreeSearcher3.h>
 
 using namespace CubbyFlow;
 

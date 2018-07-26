@@ -1,10 +1,10 @@
 #include "pch.h"
 
-#include <Emitter/VolumeGridEmitter3.h>
-#include <Geometry/Sphere3.h>
-#include <Grid/CellCenteredScalarGrid3.h>
-#include <Grid/CellCenteredVectorGrid3.h>
-#include <LevelSet/LevelSetUtils.h>
+#include <Core/Emitter/VolumeGridEmitter3.h>
+#include <Core/Geometry/Sphere3.h>
+#include <Core/Grid/CellCenteredScalarGrid3.h>
+#include <Core/Grid/CellCenteredVectorGrid3.h>
+#include <Core/LevelSet/LevelSetUtils.h>
 
 using namespace CubbyFlow;
 

@@ -1,7 +1,7 @@
 #include "benchmark/benchmark.h"
 
-#include <Utils/Constants.h>
-#include <Utils/Parallel.h>
+#include <Core/Utils/Constants.h>
+#include <Core/Utils/Parallel.h>
 
 #include <random>
 

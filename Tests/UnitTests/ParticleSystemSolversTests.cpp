@@ -1,7 +1,7 @@
 #include "pch.h"
 
-#include <Solver/Particle/ParticleSystemSolver2.h>
-#include <Solver/Particle/ParticleSystemSolver3.h>
+#include <Core/Solver/Particle/ParticleSystemSolver2.h>
+#include <Core/Solver/Particle/ParticleSystemSolver3.h>
 
 using namespace CubbyFlow;
 

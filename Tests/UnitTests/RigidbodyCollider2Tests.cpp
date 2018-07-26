@@ -1,7 +1,7 @@
 #include "pch.h"
 
-#include <Collider/RigidBodyCollider2.h>
-#include <Geometry/Plane2.h>
+#include <Core/Collider/RigidBodyCollider2.h>
+#include <Core/Geometry/Plane2.h>
 
 using namespace CubbyFlow;
 

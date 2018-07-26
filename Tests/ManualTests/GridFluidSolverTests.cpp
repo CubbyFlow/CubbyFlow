@@ -2,13 +2,13 @@
 
 #include <ManualTests.h>
 
-#include <Collider/RigidBodyCollider2.h>
-#include <Geometry/Sphere2.h>
-#include <Solver/Grid/GridFluidSolver2.h>
-#include <Solver/Grid/GridFractionalBoundaryConditionSolver2.h>
-#include <Solver/Grid/GridFractionalSinglePhasePressureSolver2.h>
-#include <Solver/Grid/GridSinglePhasePressureSolver2.h>
-#include <Surface/SurfaceToImplicit2.h>
+#include <Core/Collider/RigidBodyCollider2.h>
+#include <Core/Geometry/Sphere2.h>
+#include <Core/Solver/Grid/GridFluidSolver2.h>
+#include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver2.h>
+#include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver2.h>
+#include <Core/Solver/Grid/GridSinglePhasePressureSolver2.h>
+#include <Core/Surface/SurfaceToImplicit2.h>
 
 using namespace CubbyFlow;
 

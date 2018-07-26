@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "UnitTestsUtils.h"
 
-#include <Geometry/TriangleMesh3.h>
+#include <Core/Geometry/TriangleMesh3.h>
 
 using namespace CubbyFlow;
 

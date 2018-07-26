@@ -1,8 +1,8 @@
 #include "pch.h"
 
-#include <Geometry/Box2.h>
-#include <Collider/ColliderSet2.h>
-#include <Collider/RigidBodyCollider2.h>
+#include <Core/Geometry/Box2.h>
+#include <Core/Collider/ColliderSet2.h>
+#include <Core/Collider/RigidBodyCollider2.h>
 
 using namespace CubbyFlow;
 

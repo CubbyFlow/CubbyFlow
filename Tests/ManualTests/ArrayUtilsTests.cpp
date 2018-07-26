@@ -2,9 +2,9 @@
 
 #include <ManualTests.h>
 
-#include <Array/Array1.h>
-#include <Array/ArrayUtils.h>
-#include <Vector/Vector2.h>
+#include <Core/Array/Array1.h>
+#include <Core/Array/ArrayUtils.h>
+#include <Core/Vector/Vector2.h>
 
 using namespace CubbyFlow;
 

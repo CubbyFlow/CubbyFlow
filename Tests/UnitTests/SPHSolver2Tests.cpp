@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Solver/Particle/SPH/SPHSolver2.h>
+#include <Core/Solver/Particle/SPH/SPHSolver2.h>
 
 using namespace CubbyFlow;
 

@@ -1,7 +1,7 @@
 #include "benchmark/benchmark.h"
 
-#include <Matrix/MatrixMxN.h>
-#include <Vector/VectorN.h>
+#include <Core/Matrix/MatrixMxN.h>
+#include <Core/Vector/VectorN.h>
 
 #include <random>
 

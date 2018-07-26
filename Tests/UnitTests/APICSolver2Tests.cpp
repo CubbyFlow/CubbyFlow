@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Solver/Hybrid/APIC/APICSolver2.h>
+#include <Core/Solver/Hybrid/APIC/APICSolver2.h>
 
 using namespace CubbyFlow;
 

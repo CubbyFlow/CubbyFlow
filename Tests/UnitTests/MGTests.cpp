@@ -1,9 +1,9 @@
 #include "pch.h"
 
-#include <Math/BLAS.h>
-#include <Matrix/MatrixMxN.h>
-#include <Utils/MG.h>
-#include <Vector/VectorN.h>
+#include <Core/Math/BLAS.h>
+#include <Core/Matrix/MatrixMxN.h>
+#include <Core/Utils/MG.h>
+#include <Core/Vector/VectorN.h>
 
 using namespace CubbyFlow;
 
