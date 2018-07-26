@@ -357,23 +357,23 @@ void TriangleMesh3::AddPointTriangle(const Point3UI& newPointIndices)
 
 void TriangleMesh3::AddNormalTriangle(const Point3UI& newNormalIndices)
 {
+    m_normalIndices.Append(newNormalIndices);
+    InvalidateBVH();
+
     // Number of normal indices must match with number of point indices once
     // you decided to add normal indices. Same for the uvs as well.
     assert(m_pointIndices.size() == m_normalIndices.size());
-
-    m_normalIndices.Append(newNormalIndices);
-    InvalidateBVH();
 }
 
 void TriangleMesh3::AddUVTriangle(const Point3UI& newUVIndices)
 {
+    m_uvIndices.Append(newUVIndices);
+    InvalidateBVH();
+
     // Number of normal indices must match with number of point indices once
     // you decided to add normal indices. Same for the uvs as well.
     assert(m_pointIndices.size() == m_normalIndices.size());
     assert(m_pointIndices.size() == m_uvIndices.size());
-
-    m_uvIndices.Append(newUVIndices);
-    InvalidateBVH();
 }
 
 void TriangleMesh3::AddTriangle(const Triangle3& tri)
@@ -596,7 +596,8 @@ bool TriangleMesh3::ReadObj(std::istream* stream)
     std::vector<tinyobj::material_t> materials;
     std::string err;
 
-    const bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, stream);
+    const bool ret =
+        tinyobj::LoadObj(&attrib, &shapes, &materials, &err, stream);
 
     // `err` may contain warning message.
     if (!err.empty())
