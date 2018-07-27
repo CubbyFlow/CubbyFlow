@@ -13,6 +13,14 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
+# Includes
+include_directories(Includes)
+include_directories(Libraries)
+include_directories(Libraries/pybind11/include)
+include_directories(Libraries/googletest/googletest/include)
+include_directories(Libraries/Clara/include)
+include_directories(Libraries/tinyobj)
+
 # Set enable output of compile commands during generation
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -46,14 +54,6 @@ set(RESOURCES_OBJS
         ${RESOURCES_DIR}/bunny.obj
         ${RESOURCES_DIR}/cube.obj
         ${RESOURCES_DIR}/dragon.obj)
-
-# Includes
-include_directories(Includes)
-include_directories(Libraries)
-include_directories(Libraries/pybind11/include)
-include_directories(Libraries/googletest/googletest/include)
-include_directories(Libraries/Clara/include)
-include_directories(Libraries/tinyobj)
 
 # Project modules
 set(BUILD_GTEST ON CACHE BOOL "" FORCE)
