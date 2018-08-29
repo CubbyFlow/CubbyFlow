@@ -4,6 +4,8 @@
 
 [![License](https://img.shields.io/badge/Licence-MIT-blue.svg)](https://github.com/utilForever/CubbyFlow-v0/blob/master/LICENSE) [![Build Status](https://travis-ci.org/utilForever/CubbyFlow-v0.svg?branch=master)](https://travis-ci.org/utilForever/CubbyFlow-v0/branches) [![Build status](https://ci.appveyor.com/api/projects/status/github/utilForever/CubbyFlow-v0?branch=master&svg=true)](https://ci.appveyor.com/project/utilForever/CubbyFlow-v0/branch/master) [![codecov](https://codecov.io/gh/utilForever/CubbyFlow-v0/branch/master/graph/badge.svg)](https://codecov.io/gh/utilForever/CubbyFlow-v0)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/742a769951a040788c89dc0af40d4405)](https://www.codacy.com/app/utilForever/CubbyFlow-v0?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=utilForever/CubbyFlow-v0&amp;utm_campaign=Badge_Grade)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/utilForever/CubbyFlow-v0.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/utilForever/CubbyFlow-v0/alerts/)
+[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/utilForever/CubbyFlow-v0.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/utilForever/CubbyFlow-v0/alerts/)
 
 <b>IMPORTANT: Most of the code in this repository is copied from [Jet Framework](https://github.com/doyubkim/fluid-engine-dev) and ["Fluid Engine Development" book](http://fluidenginedevelopment.org/) that was created by [Doyub Kim](https://twitter.com/doyub).</b>
 
