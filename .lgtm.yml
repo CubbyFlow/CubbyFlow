@@ -1,0 +1,7 @@
+path_classifiers:
+  library:
+    - Libraries
+  test:
+    - Tests
+  documentation:
+    - Documents
