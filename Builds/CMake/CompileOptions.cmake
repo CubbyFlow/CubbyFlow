@@ -105,6 +105,12 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     )
 endif()
 
+# MacOS deprecates OpenGL API
+# NOTE: https://developer.apple.com/macos/whats-new/#deprecationofopenglandopencl
+if(APPLE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGL_SILENCE_DEPRECATION")
+endif()
+
 # GCC and Clang compiler options
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     set(DEFAULT_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}

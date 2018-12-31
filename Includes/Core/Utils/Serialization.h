@@ -21,6 +21,9 @@ namespace CubbyFlow
 	class Serializable
 	{
 	public:
+		//! Default virtual destructor.
+		virtual ~Serializable() = default;
+
 		//! Serializes this instance into the flat buffer.
 		virtual void Serialize(std::vector<uint8_t>* buffer) const = 0;
 
