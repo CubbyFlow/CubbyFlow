@@ -10,3 +10,6 @@
 [submodule "Libraries/tinyobj"]
 	path = Libraries/tinyobj
 	url = https://github.com/syoyo/tinyobjloader
+[submodule "Libraries/googletest"]
+	path = Libraries/googletest
+	url = https://github.com/google/googletest
