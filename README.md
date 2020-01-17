@@ -2,7 +2,7 @@
 
 <img src="./Medias/Logos/Logo.png" width=256 height=256 />
 
-[![License](https://img.shields.io/badge/Licence-MIT-blue.svg)](https://github.com/utilForever/CubbyFlow/blob/master/LICENSE) [![Build Status](https://travis-ci.org/utilForever/CubbyFlow.svg?branch=master)](https://travis-ci.org/utilForever/CubbyFlow/branches) [![Build status](https://ci.appveyor.com/api/projects/status/github/utilForever/CubbyFlow?branch=master&svg=true)](https://ci.appveyor.com/project/utilForever/CubbyFlow/branch/master)
+[![License](https://img.shields.io/badge/Licence-MIT-blue.svg)](./LICENSE) [![Build Status](https://travis-ci.org/utilForever/CubbyFlow.svg?branch=master)](https://travis-ci.org/utilForever/CubbyFlow/branches) [![Build status](https://ci.appveyor.com/api/projects/status/github/utilForever/CubbyFlow?branch=master&svg=true)](https://ci.appveyor.com/project/utilForever/CubbyFlow/branch/master)
 
 [![codecov](https://codecov.io/gh/utilForever/CubbyFlow/branch/master/graph/badge.svg)](https://codecov.io/gh/utilForever/CubbyFlow)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/742a769951a040788c89dc0af40d4405)](https://www.codacy.com/manual/utilForever/CubbyFlow?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=utilForever/CubbyFlow&amp;utm_campaign=Badge_Grade)
@@ -10,7 +10,7 @@
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/utilForever/CubbyFlow.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/utilForever/CubbyFlow/alerts/)
 [![CodeFactor](https://www.codefactor.io/repository/github/utilforever/CubbyFlow/badge)](https://www.codefactor.io/repository/github/utilforever/CubbyFlow)
 
-CubbyFlow is full source codes of voxel-based fluid simulation engine for computer games called [CubbyFlow](http://github.com/utilForever/CubbyFlow). It is based on [Jet framework](https://github.com/doyubkim/fluid-engine-dev) that was created by [Doyub Kim](https://twitter.com/doyub).
+CubbyFlow is voxel-based fluid simulation engine for computer games based on [Jet framework](https://github.com/doyubkim/fluid-engine-dev) that was created by [Doyub Kim](https://twitter.com/doyub).
 The code is built on C++17 and can be compiled with commonly available compilers such as g++, clang++, or Microsoft Visual Studio. CubbyFlow currently supports macOS (10.12.6 or later), Ubuntu (17.04 or later), Windows (Visual Studio 2017 or later), and Windows Subsystem for Linux (WSL). Other untested platforms that support C++17 also should be able to build CubbyFlow.
 
 ## Key Features
@@ -77,7 +77,7 @@ pip install -U .
 
 ### More Instructions of Building the Code
 
-To learn how to build, test, and install the SDK, please check out [INSTALL.md](https://github.com/utilForever/CubbyFlow/blob/master/INSTALL.md).
+To learn how to build, test, and install the SDK, please check out [INSTALL.md](./Documents/Install.md).
 
 ## Documentation
 
@@ -85,37 +85,37 @@ All the documentations for the framework can be found from [the project website]
 
 ## Examples
 
-Here are some of the example simulations generated using CubbyFlow framework. Corresponding example codes can be found under [Examples](https://github.com/utilForever/CubbyFlow/tree/master/Examples). All images are rendered using [Mitsuba renderer](https://www.mitsuba-renderer.org/) and the Mitsuba scene files can be found from [the demo directory](https://github.com/utilForever/CubbyFlow/tree/master/Demos). Find out more demos from [the project website](https://utilforever.github.io/CubbyFlow/Examples).
+Here are some of the example simulations generated using CubbyFlow framework. Corresponding example codes can be found under [Examples](./Examples). All images are rendered using [Mitsuba renderer](https://www.mitsuba-renderer.org/) and the Mitsuba scene files can be found from [the demo directory](./Demos). Find out more demos from [the project website](https://utilforever.github.io/CubbyFlow/Examples).
 
 #### PCISPH Simulation Example
 
-![PCISPH_dam_breaking](https://github.com/utilForever/CubbyFlow/blob/master/Medias/Screenshots/PCISPH_dam_breaking.png "PCISPH Example")
+![PCISPH_dam_breaking](./Medias/Screenshots/PCISPH_dam_breaking.png "PCISPH Example")
 
 #### Level Set Simulation Example
 
-![Level-set_dam_breaking](https://github.com/utilForever/CubbyFlow/blob/master/Medias/Screenshots/LevelSet_dam_breaking.png "Level Set Example")
+![Level-set_dam_breaking](./Medias/Screenshots/LevelSet_dam_breaking.png "Level Set Example")
 
 #### FLIP Simulation Example
 
-![FLIP_dam_breaking](https://github.com/utilForever/CubbyFlow/blob/master/Medias/Screenshots/FLIP_dam_breaking.png "FLIP Example")
+![FLIP_dam_breaking](./Medias/Screenshots/FLIP_dam_breaking.png "FLIP Example")
 
 #### PIC Simulation Example
 
-![PIC_dam_breaking](https://github.com/utilForever/CubbyFlow/blob/master/Medias/Screenshots/PIC_dam_breaking.png "PIC Example")
+![PIC_dam_breaking](./Medias/Screenshots/PIC_dam_breaking.png "PIC Example")
 
 #### APIC Simulation Example
 
-![APIC_dam_breaking](https://github.com/utilForever/CubbyFlow/blob/master/Medias/Screenshots/APIC_dam_breaking.png "APIC Example")
+![APIC_dam_breaking](./Medias/Screenshots/APIC_dam_breaking.png "APIC Example")
 
 #### Level Set Example with Different Viscosity (high / low)
 
-![level_set_bunny_drop_high_viscosity](https://github.com/utilForever/CubbyFlow/blob/master/Medias/Screenshots/level_set_bunny_drop_high_viscosity.png "Level Set Bunny Drop - High Viscosity")
-![level_set_bunny_drop_low_viscosity](https://github.com/utilForever/CubbyFlow/blob/master/Medias/Screenshots/level_set_bunny_drop_low_viscosity.png "Level Set Bunny Drop - Low Viscosity")
+![level_set_bunny_drop_high_viscosity](./Medias/Screenshots/level_set_bunny_drop_high_viscosity.png "Level Set Bunny Drop - High Viscosity")
+![level_set_bunny_drop_low_viscosity](./Medias/Screenshots/level_set_bunny_drop_low_viscosity.png "Level Set Bunny Drop - Low Viscosity")
 
 #### Smoke Simulation with Different Advection Methods (Linear / Cubic-Spline)
 
-![rising_smoke_linear](https://github.com/utilForever/CubbyFlow/blob/master/Medias/Screenshots/rising_smoke_linear.png "Rising Smoke - Linear")
-![rising_smoke_cubic](https://github.com/utilForever/CubbyFlow/blob/master/Medias/Screenshots/rising_smoke_cubic.png "Rising Smoke - Cubic")
+![rising_smoke_linear](./Medias/Screenshots/rising_smoke_linear.png "Rising Smoke - Linear")
+![rising_smoke_cubic](./Medias/Screenshots/rising_smoke_cubic.png "Rising Smoke - Cubic")
 
 ## Presentations
 
