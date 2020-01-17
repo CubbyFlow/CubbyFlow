@@ -1,6 +1,6 @@
 # CubbyFlow
 
-<img src="https://github.com/utilForever/CubbyFlow/blob/master/Logo.png" align="center" />
+<img src="./Medias/Logos/Logo.png" width=256 height=256 />
 
 [![License](https://img.shields.io/badge/Licence-MIT-blue.svg)](https://github.com/utilForever/CubbyFlow/blob/master/LICENSE) [![Build Status](https://travis-ci.org/utilForever/CubbyFlow.svg?branch=master)](https://travis-ci.org/utilForever/CubbyFlow/branches) [![Build status](https://ci.appveyor.com/api/projects/status/github/utilForever/CubbyFlow?branch=master&svg=true)](https://ci.appveyor.com/project/utilForever/CubbyFlow/branch/master)
 
