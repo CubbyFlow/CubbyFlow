@@ -89,7 +89,6 @@ docker run -it utilforever/cubbyflow
 /app/build/bin/HybridLiquidSim
 ```
 
-
 ### More Instructions of Building the Code
 
 To learn how to build, test, and install the SDK, please check out [INSTALL.md](./Documents/Install.md).
@@ -156,7 +155,14 @@ You can contact me via e-mail (utilForever at gmail.com). I am always happy to a
 
 The class is licensed under the [MIT License](http://opensource.org/licenses/MIT):
 
-Copyright &copy; 2020 [Chris Ohk](http://www.github.com/utilForever).
+Copyright (c) 2018-2020 CubbyFlow Team
+
+  * [Chris Ohk](http://www.github.com/utilForever)
+  * [Junwoo Hwang](https://github.com/junwoo091400)
+  * [Jihong Sin](https://github.com/Snowapril)
+  * [Seungwoo Yoo](https://github.com/DveloperY0115)
+  * [Dongheon Cho](https://github.com/davinnovation)
+  * [Minseo Kim](https://github.com/sanggubot)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
