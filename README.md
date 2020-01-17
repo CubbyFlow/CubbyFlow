@@ -10,8 +10,6 @@
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/utilForever/CubbyFlow.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/utilForever/CubbyFlow/alerts/)
 [![CodeFactor](https://www.codefactor.io/repository/github/utilforever/CubbyFlow/badge)](https://www.codefactor.io/repository/github/utilforever/CubbyFlow)
 
-<b>IMPORTANT: Most of the code in this repository is copied from [Jet Framework](https://github.com/doyubkim/fluid-engine-dev) and ["Fluid Engine Development" book](http://fluidenginedevelopment.org/) that was created by [Doyub Kim](https://twitter.com/doyub).</b>
-
 CubbyFlow is full source codes of voxel-based fluid simulation engine for computer games called [CubbyFlow](http://github.com/utilForever/CubbyFlow). It is based on [Jet framework](https://github.com/doyubkim/fluid-engine-dev) that was created by [Doyub Kim](https://twitter.com/doyub).
 The code is built on C++17 and can be compiled with commonly available compilers such as g++, clang++, or Microsoft Visual Studio. CubbyFlow currently supports macOS (10.12.6 or later), Ubuntu (17.04 or later), Windows (Visual Studio 2017 or later), and Windows Subsystem for Linux (WSL). Other untested platforms that support C++17 also should be able to build CubbyFlow.
 
@@ -28,20 +26,7 @@ The code is built on C++17 and can be compiled with commonly available compilers
 - Spherical, SPH, Zhu & Bridson, and Anisotropic kernel for points-to-surface converter
 - Converters between signed distance function and triangular mesh
 - C++ and Python API
-- Intel TBB, OpenMP, and C++11 multi-threading backends
-
-## To-do Features
-
-- MPS and MPM fluid simulators
-- IVOCK fluid simulators
-- Multiphase fluid simulators
-    - Particle-based multiphase flow
-    - Grid-based two-phase flow
-    - Grid-based multiphase flow
-    - Grid-based bubbly flow
-- Voxel surface reconstruction
-- Compatible for DirectX, OpenGL, Metal, and Vulkan
-- C#, Go, and Rust API
+- Intel TBB, OpenMP, HPX and C++11 multi-threading backends
 
 Every simulator has both 2-D and 3-D implementations.
 
@@ -162,7 +147,7 @@ You can contact me via e-mail (utilForever at gmail.com). I am always happy to a
 
 The class is licensed under the [MIT License](http://opensource.org/licenses/MIT):
 
-Copyright &copy; 2018 [Chris Ohk](http://www.github.com/utilForever), [Dongmin Kim](https://github.com/dmk98), and [YoungJoong Kim](https://github.com/revsic).
+Copyright &copy; 2020 [Chris Ohk](http://www.github.com/utilForever).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
