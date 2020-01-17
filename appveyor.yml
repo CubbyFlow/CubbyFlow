@@ -14,7 +14,7 @@ matrix:
 configuration:
   - Release
 
-clone_folder: C:\CubbyFlow-v0
+clone_folder: C:\CubbyFlow
 
 install:
   - git submodule update --init
@@ -25,14 +25,14 @@ install:
       $env:CUBBYFLOW_TASKING_SYSTEM = "CPP11Thread"
 
 before_build:
-  - md C:\CubbyFlow-v0\build
-  - cd C:\CubbyFlow-v0\build
+  - md C:\CubbyFlow\build
+  - cd C:\CubbyFlow\build
   - cmake .. -G "%CMAKE_GENERATOR%" -DCUBBYFLOW_TASKING_SYSTEM=CPP11Thread
 
 build:
-  project: C:\CubbyFlow-v0\build\CubbyFlow.sln
+  project: C:\CubbyFlow\build\CubbyFlow.sln
   parallel: true
   verbosity: normal
 
 after_build:
-  - C:\CubbyFlow-v0\build\bin\Release\UnitTests.exe
+  - C:\CubbyFlow\build\bin\Release\UnitTests.exe

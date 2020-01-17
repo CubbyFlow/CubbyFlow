@@ -1,4 +1,4 @@
-CubbyFlow-v0 uses Google Test for testing.
+CubbyFlow uses Google Test for testing.
 
 Copyright 2008, Google Inc.
 All rights reserved.
@@ -31,7 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ---
 
-CubbyFlow-v0 uses portion of pbrt-v2
+CubbyFlow uses portion of pbrt-v2
 
 Copyright (c) 1998-2014, Matt Pharr and Greg Humphreys.
 All rights reserved.
@@ -54,7 +54,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ---
 
-CubbyFlow-v0 uses cnpy for testing
+CubbyFlow uses cnpy for testing
 
 The MIT License
 
@@ -80,17 +80,17 @@ THE SOFTWARE.
 
 ---
 
-CubbyFlow-v0 uses portion of SPH demo code from
+CubbyFlow uses portion of SPH demo code from
 Bart Adams and Martin Wicke, "Meshless Approximation Methods and Applications in Physics Based Modeling and Animation", Eurographics 2009 Tutorial
 
 ---
 
-CubbyFlow-v0 uses libobj for Wavefront OBJ file handling
+CubbyFlow uses libobj for Wavefront OBJ file handling
 The original source code from http://people.cs.kuleuven.be/~ares.lagae/libobj/
 
 ---
 
-CubbyFlow-v0 uses portion of Marching Cubes Example Program by Cory Bloyd
+CubbyFlow uses portion of Marching Cubes Example Program by Cory Bloyd
 
 Marching Cubes Example Program
 by Cory Bloyd (corysama@yahoo.com)
@@ -107,7 +107,7 @@ This code is public domain.
 
 ---
 
-CubbyFlow-v0 uses pystring for string manipulation
+CubbyFlow uses pystring for string manipulation
 
 Copyright (c) 2008-2010, Sony Pictures Imageworks Inc
 All rights reserved.
@@ -142,7 +142,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ---
 
-CubbyFlow-v0 uses portion of SDFGen
+CubbyFlow uses portion of SDFGen
 
 The MIT License (MIT)
 
@@ -156,11 +156,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ---
 
-CubbyFlow-v0 uses portion of Christopher Batty's example code from http://www.cs.ubc.ca/labs/imager/tr/2007/Batty_VariationalFluids/ and https://github.com/christopherbatty/FluidRigidCoupling2D
+CubbyFlow uses portion of Christopher Batty's example code from http://www.cs.ubc.ca/labs/imager/tr/2007/Batty_VariationalFluids/ and https://github.com/christopherbatty/FluidRigidCoupling2D
 
 ---
 
-CubbyFlow-v0 uses FlatBuffers for serialization
+CubbyFlow uses FlatBuffers for serialization
 
 
 Copyright 2014 Google Inc. All rights reserved.
@@ -179,7 +179,7 @@ limitations under the License.
 
 ---
 
-CubbyFlow-v0 uses doxygen-bootstrapped for custom Doxygen styling.
+CubbyFlow uses doxygen-bootstrapped for custom Doxygen styling.
 
 Apache License
                            Version 2.0, January 2004
@@ -385,7 +385,7 @@ Apache License
 
 ---
 
-CubbyFlow-v0 uses portion of cmake-init with modification.
+CubbyFlow uses portion of cmake-init with modification.
 Original code from: https://github.com/cginternals/cmake-init
 
 Copyright (c) 2012-2015 Computer Graphics Systems Group at the Hasso-Plattner-Institute, Germany.
@@ -398,12 +398,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ---
 
-CubbyFlow-v0 uses portion of Fluid3D by Christopher Batty.
+CubbyFlow uses portion of Fluid3D by Christopher Batty.
 Original code from: https://github.com/christopherbatty/Fluid3D
 
 ---
 
-CubbyFlow-v0 uses pybind11 for Python binding.
+CubbyFlow uses pybind11 for Python binding.
 
 Copyright (c) 2016 Wenzel Jakob <wenzel.jakob@epfl.ch>, All rights reserved.
 
@@ -444,7 +444,7 @@ derivative works thereof, in binary and source code form.
 
 ---
 
-CubbyFlow-v0 uses portion of pybind/cmake_example for Python binding.
+CubbyFlow uses portion of pybind/cmake_example for Python binding.
 
 Copyright (c) 2016 The Pybind Development Team, All rights reserved.
 
@@ -485,7 +485,7 @@ derivative works thereof, in binary and source code form.
 
 ---
 
-CubbyFlow-v0 uses Clara for command line parser
+CubbyFlow uses Clara for command line parser
 
 Boost Software License - Version 1.0 - August 17th, 2003
 
@@ -513,7 +513,7 @@ DEALINGS IN THE SOFTWARE.
 
 ---
 
-CubbyFlow-v0 uses CodeCoverage.cmake for code coverage.
+CubbyFlow uses CodeCoverage.cmake for code coverage.
 
 MIT License
 

@@ -8,7 +8,7 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 
-## For CubbyFlow-v0
+## For CubbyFlow
 *.npy
 *.bat
 
