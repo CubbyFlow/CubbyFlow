@@ -2,7 +2,7 @@
 
 <img src="./Medias/Logos/Logo.png" width=256 height=256 />
 
-[![License](https://img.shields.io/badge/Licence-MIT-blue.svg)](./LICENSE) [![Build Status](https://travis-ci.org/utilForever/CubbyFlow.svg?branch=master)](https://travis-ci.org/utilForever/CubbyFlow/branches) [![Build status](https://ci.appveyor.com/api/projects/status/github/utilForever/CubbyFlow?branch=master&svg=true)](https://ci.appveyor.com/project/utilForever/CubbyFlow/branch/master)
+[![License](https://img.shields.io/badge/Licence-MIT-blue.svg)](./LICENSE) [![Build Status](https://travis-ci.org/utilForever/CubbyFlow.svg?branch=master)](https://travis-ci.org/utilForever/CubbyFlow/branches) [![Build status](https://ci.appveyor.com/api/projects/status/github/utilForever/CubbyFlow?branch=master&svg=true)](https://ci.appveyor.com/project/utilForever/CubbyFlow/branch/master) [![Discord](https://img.shields.io/discord/667686826093445129.svg)](https://discord.gg/3gsWZM8)
 
 [![codecov](https://codecov.io/gh/utilForever/CubbyFlow/branch/master/graph/badge.svg)](https://codecov.io/gh/utilForever/CubbyFlow)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/742a769951a040788c89dc0af40d4405)](https://www.codacy.com/manual/utilForever/CubbyFlow?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=utilForever/CubbyFlow&amp;utm_campaign=Badge_Grade)
@@ -75,6 +75,21 @@ Build and install the package by running
 pip install -U .
 ```
 
+### Docker
+
+```
+docker pull utilforever/cubbyflow:latest
+```
+
+Now run hybrid simulation example:
+
+```
+docker run -it utilforever/cubbyflow
+[inside docker container]
+/app/build/bin/HybridLiquidSim
+```
+
+
 ### More Instructions of Building the Code
 
 To learn how to build, test, and install the SDK, please check out [INSTALL.md](./Documents/Install.md).
@@ -119,19 +134,13 @@ Here are some of the example simulations generated using CubbyFlow framework. Co
 
 ## Presentations
 
-### Korean
+  * [NDC 2018](https://www.slideshare.net/utilforever/ndc-2018-95260566)
 
-[[NDC 2018] 유체역학 엔진 개발기 - 게임에서 물리 기반의 유체를 구현하기 위한 고군분투](https://www.slideshare.net/utilforever/ndc-2018-95260566)
+## Articles
 
-#### Related articles
-
-- http://www.gamevu.co.kr/news/articleView.html?idxno=8464
-
-- http://www.inven.co.kr/webzine/news/?news=198413&iskin=l2mobile
-
-### English
-
-Coming soon...
+  * NDC 2018
+    * [[NDC2018] 유체역학 엔진이 직면한 문제와 미래](http://www.inven.co.kr/webzine/news/?news=198413)
+    * [[NDC18] 게임에 쓸 수 있는 유체역학 엔진, 어렵지만 꿈은 아니다](http://www.gamevu.co.kr/news/articleView.html?idxno=8464)
 
 ## How To Contribute
 
