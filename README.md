@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/Licence-MIT-blue.svg)](https://github.com/utilForever/CubbyFlow/blob/master/LICENSE) [![Build Status](https://travis-ci.org/utilForever/CubbyFlow.svg?branch=master)](https://travis-ci.org/utilForever/CubbyFlow/branches) [![Build status](https://ci.appveyor.com/api/projects/status/github/utilForever/CubbyFlow?branch=master&svg=true)](https://ci.appveyor.com/project/utilForever/CubbyFlow/branch/master)
 
 [![codecov](https://codecov.io/gh/utilForever/CubbyFlow/branch/master/graph/badge.svg)](https://codecov.io/gh/utilForever/CubbyFlow)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/742a769951a040788c89dc0af40d4405)](https://www.codacy.com/app/utilForever/CubbyFlow?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=utilForever/CubbyFlow&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/742a769951a040788c89dc0af40d4405)](https://www.codacy.com/manual/utilForever/CubbyFlow?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=utilForever/CubbyFlow&amp;utm_campaign=Badge_Grade)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/utilForever/CubbyFlow.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/utilForever/CubbyFlow/alerts/)
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/utilForever/CubbyFlow.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/utilForever/CubbyFlow/alerts/)
 [![CodeFactor](https://www.codefactor.io/repository/github/utilforever/CubbyFlow/badge)](https://www.codefactor.io/repository/github/utilforever/CubbyFlow)
