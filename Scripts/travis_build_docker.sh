@@ -2,5 +2,10 @@
 
 set -e
 
-docker build -t utilforever/cubbyflow .
+if [ $# -eq 0 ]
+  then
+    docker build -t utilforever/cubbyflow .
+else
+    docker build -f $1 -t utilforever/cubbyflow:$2 .
+fi
 docker run utilforever/cubbyflow
