@@ -15,7 +15,8 @@ RUN apt-get update && apt-get install -y \
     --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get install -yq xorg-dev libglu1-mesa-dev && \
+RUN apt-get update && \
+    apt-get install -yq xorg-dev libglu1-mesa-dev && \
     apt-get install -yq libxrandr-dev libxi-dev libxxf86vm-dev libxinerama-dev libxcursor-dev lcov && \
     apt-get install -yq libopenal-dev libvorbis-dev libflac-dev
     
