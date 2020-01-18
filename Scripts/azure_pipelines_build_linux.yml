@@ -1,0 +1,6 @@
+steps:
+- checkout: self
+  fetchDepth: 2
+  submodules: true
+- script: |
+    docker build -t utilforever/cubbyflow .
