@@ -7,15 +7,15 @@ export NUM_JOBS=1
 mkdir build
 cd build
 cmake ..
-make -j 8
+make
 bin/UnitTests
 
-unamestr=`uname`
+unamestr=$(uname)
 if [[ "$unamestr" == 'Darwin' ]]; then
     echo "Disabling pip test for macOS"
 else
     cd ..
-    pip install --user -r requirements.txt
-    pip install --user .
-    python Tests/PythonTests/main.py
+    pip3 install --user -r requirements.txt
+    pip3 install --user .
+    python3 Tests/PythonTests/main.py
 fi

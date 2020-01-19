@@ -122,6 +122,20 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     )
 endif()
 
+if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+	set(DEFAULT_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}
+		-Wno-class-memaccess	# -> disable warning: error: 'void* memcpy(void*, const void*, size_t)' ... [-Werror=class-memaccess] (caused by imgui)
+	)
+endif ()
+
+# Prevent "no matching function for call to 'operator delete'" error
+# https://github.com/pybind/pybind11/issues/1604
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+	set(DEFAULT_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}
+		-fsized-deallocation
+	)
+endif ()
+
 #
 # Linker options
 #
