@@ -133,7 +133,7 @@ TEST(ParticleSystemData2, AddParticlesException)
 
 		EXPECT_FALSE(true) << "Invalid argument should throw exception.";
 	}
-	catch (std::invalid_argument)
+	catch (...)
 	{
 		// Do nothing -- expected exception
 	}
@@ -149,7 +149,7 @@ TEST(ParticleSystemData2, AddParticlesException)
 
 		EXPECT_FALSE(true) << "Invalid argument should throw exception.";
 	}
-	catch (std::invalid_argument)
+	catch (...)
 	{
 		// Do nothing -- expected exception
 	}
