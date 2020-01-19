@@ -28,13 +28,15 @@ RUN wget https://github.com/glfw/glfw/releases/download/3.2.1/glfw-3.2.1.zip && 
     make install && \
     cd ..    
 
-COPY . /app
+ADD . /app
 
 WORKDIR /app/build
 RUN cmake .. -DCMAKE_C_COMPILER=clang-8 -DCMAKE_CXX_COMPILER=clang++-8 && \
     make -j "$(nproc)" && \
     make install && \
     bin/UnitTests
+
+RUN apt-get install -yq pkg-config libfreetype6-dev libpng-dev
 
 WORKDIR /app/ENV3
 RUN pip3 install -r ../requirements.txt && \
