@@ -11,5 +11,6 @@ steps:
       solution: 'D:\a\1\s\build\CubbyFlow.sln'
       configuration: Release
       platform: x64
+      msbuildArchitecture: x64
   - script: |
       D:\a\1\s\build\bin\Release\UnitTests.exe
