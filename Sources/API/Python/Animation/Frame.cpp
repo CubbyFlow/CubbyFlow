@@ -8,7 +8,7 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Animation/Frame.h>
-#include <Core/Animation/Frame.h>
+#include <Core/Animation/Frame.hpp>
 
 #include <pybind11/pybind11.h>
 

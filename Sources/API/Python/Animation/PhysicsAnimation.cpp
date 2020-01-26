@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Animation/PhysicsAnimation.h>
-#include <Core/Animation/Animation.h>
-#include <Core/Animation/PhysicsAnimation.h>
+#include <Core/Animation/Animation.hpp>
+#include <Core/Animation/PhysicsAnimation.hpp>
 
 #include <pybind11/pybind11.h>
 

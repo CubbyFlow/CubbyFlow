@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_PARTICLE_SYSTEM_SOLVER3_H
 #define CUBBYFLOW_PARTICLE_SYSTEM_SOLVER3_H
 
-#include <Core/Animation/PhysicsAnimation.h>
+#include <Core/Animation/PhysicsAnimation.hpp>
 #include <Core/Collider/Collider3.h>
 #include <Core/Emitter/ParticleEmitter3.h>
 #include <Core/Field/VectorField3.h>

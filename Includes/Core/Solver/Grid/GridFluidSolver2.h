@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_GRID_FLUID_SOLVER2_H
 #define CUBBYFLOW_GRID_FLUID_SOLVER2_H
 
-#include <Core/Animation/PhysicsAnimation.h>
+#include <Core/Animation/PhysicsAnimation.hpp>
 #include <Core/Collider/Collider2.h>
 #include <Core/Emitter/GridEmitter2.h>
 #include <Core/Grid/GridSystemData2.h>

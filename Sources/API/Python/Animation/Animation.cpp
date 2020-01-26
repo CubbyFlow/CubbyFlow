@@ -8,7 +8,7 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Animation/Animation.h>
-#include <Core/Animation/Animation.h>
+#include <Core/Animation/Animation.hpp>
 
 #include <pybind11/pybind11.h>
 
