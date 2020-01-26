@@ -1,16 +1,14 @@
-/*************************************************************************
-> File Name: ArrayAccessor2.h
-> Project Name: CubbyFlow
-> This code is based on Jet Framework that was created by Doyub Kim.
-> References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: 2-D array accessor class.
-> Created Time: 2017/01/28
-> Copyright (c) 2018, Chan-Ho Chris Ohk
-*************************************************************************/
-#ifndef CUBBYFLOW_ARRAY_ACCESSOR2_H
-#define CUBBYFLOW_ARRAY_ACCESSOR2_H
+// Copyright (c) 2020 CubbyFlow Team
+// Core Part: Chris Ohk, Junwoo Hwang, Jihong Sin, Seungwoo Yoo
+// AI Part: Dongheon Cho, Minseo Kim
+// We are making my contributions/submissions to this project solely in our
+// personal capacity and are not conveying any rights to any intellectual
+// property of any third parties.
 
-#include <Core/Array/ArrayAccessor.h>
+#ifndef CUBBYFLOW_ARRAY_ACCESSOR2_HPP
+#define CUBBYFLOW_ARRAY_ACCESSOR2_HPP
+
+#include <Core/Array/ArrayAccessor.hpp>
 #include <Core/Size/Size2.h>
 
 namespace CubbyFlow
@@ -416,6 +414,6 @@ namespace CubbyFlow
 	template <typename T> using ConstArrayAccessor2 = ConstArrayAccessor<T, 2>;
 }
 
-#include <Core/Array/ArrayAccessor2-Impl.h>
+#include <Core/Array/ArrayAccessor2-Impl.hpp>
 
 #endif
