@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_VECTORN_H
 #define CUBBYFLOW_VECTORN_H
 
-#include <Core/Array/ArrayAccessor1.h>
+#include <Core/Array/ArrayAccessor1.hpp>
 #include <Core/Vector/VectorExpression.h>
 
 namespace CubbyFlow

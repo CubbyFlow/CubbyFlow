@@ -7,7 +7,7 @@
 > Created Time: 2017/08/09
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <Core/Array/ArrayUtils.h>
+#include <Core/Array/ArrayUtils.hpp>
 #include <Core/LevelSet/LevelSetUtils.h>
 #include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver2.h>
 #include <Core/Surface/ImplicitSurface2.h>

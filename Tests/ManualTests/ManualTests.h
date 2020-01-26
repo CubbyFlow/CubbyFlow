@@ -1,9 +1,9 @@
 #ifndef CUBBYFLOW_MANUAL_TEST_H
 #define CUBBYFLOW_MANUAL_TEST_H
 
-#include <Core/Array/ArrayAccessor1.h>
-#include <Core/Array/ArrayAccessor2.h>
-#include <Core/Array/ArrayAccessor3.h>
+#include <Core/Array/ArrayAccessor1.hpp>
+#include <Core/Array/ArrayAccessor2.hpp>
+#include <Core/Array/ArrayAccessor3.hpp>
 #include <Core/Geometry/TriangleMesh3.h>
 #include <Core/Utils/Macros.h>
 

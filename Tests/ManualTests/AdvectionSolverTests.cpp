@@ -2,7 +2,7 @@
 
 #include <ManualTests.h>
 
-#include <Core/Array/Array3.h>
+#include <Core/Array/Array3.hpp>
 #include <Core/Field/ConstantVectorField2.h>
 #include <Core/Field/CustomScalarField2.h>
 #include <Core/Field/CustomVectorField2.h>

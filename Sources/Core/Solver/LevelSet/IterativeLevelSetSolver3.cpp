@@ -7,7 +7,7 @@
 > Created Time: 2017/08/31
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <Core/Array/ArrayUtils.h>
+#include <Core/Array/ArrayUtils.hpp>
 #include <Core/FDM/FDMUtils.h>
 #include <Core/Solver/LevelSet/IterativeLevelSetSolver3.h>
 #include <Core/Utils/Logging.h>

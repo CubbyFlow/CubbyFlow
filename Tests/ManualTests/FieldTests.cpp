@@ -2,8 +2,8 @@
 
 #include <ManualTests.h>
 
-#include <Core/Array/Array2.h>
-#include <Core/Array/ArrayUtils.h>
+#include <Core/Array/Array2.hpp>
+#include <Core/Array/ArrayUtils.hpp>
 #include <Core/Field/ScalarField2.h>
 #include <Core/Field/ScalarField3.h>
 #include <Core/Field/VectorField3.h>

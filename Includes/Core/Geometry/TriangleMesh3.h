@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_TRIANGLE_MESH3_H
 #define CUBBYFLOW_TRIANGLE_MESH3_H
 
-#include <Core/Array/Array1.h>
+#include <Core/Array/Array1.hpp>
 #include <Core/Geometry/BVH3.h>
 #include <Core/Geometry/Triangle3.h>
 #include <Core/Point/Point3.h>

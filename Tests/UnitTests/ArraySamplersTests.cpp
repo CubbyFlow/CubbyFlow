@@ -1,11 +1,11 @@
 #include "pch.h"
 
-#include <Core/Array/Array1.h>
-#include <Core/Array/Array2.h>
-#include <Core/Array/Array3.h>
-#include <Core/Array/ArraySamplers1.h>
-#include <Core/Array/ArraySamplers2.h>
-#include <Core/Array/ArraySamplers3.h>
+#include <Core/Array/Array1.hpp>
+#include <Core/Array/Array2.hpp>
+#include <Core/Array/Array3.hpp>
+#include <Core/Array/ArraySamplers1.hpp>
+#include <Core/Array/ArraySamplers2.hpp>
+#include <Core/Array/ArraySamplers3.hpp>
 
 using namespace CubbyFlow;
 

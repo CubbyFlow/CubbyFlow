@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Array/Array2.h>
+#include <Core/Array/Array2.hpp>
 #include <Core/Geometry/Plane3.h>
 #include <Core/LevelSet/LevelSetUtils.h>
 #include <Core/MarchingCubes/MarchingCubes.h>

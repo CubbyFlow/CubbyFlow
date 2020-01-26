@@ -7,7 +7,7 @@
 > Created Time: 2017/08/16
 > Copyright (c) 2018, Dongmin Kim
 *************************************************************************/
-#include <Core/Array/ArrayUtils.h>
+#include <Core/Array/ArrayUtils.hpp>
 #include <Core/LevelSet/LevelSetUtils.h>
 #include <Core/SemiLagrangian/CubicSemiLagrangian3.h>
 #include <Core/Solver/Grid/GridBackwardEulerDiffusionSolver3.h>

@@ -2,7 +2,7 @@
 
 #include <ManualTests.h>
 
-#include <Core/Array/Array2.h>
+#include <Core/Array/Array2.hpp>
 #include <Core/BoundingBox/BoundingBox2.h>
 #include <Core/BoundingBox/BoundingBox3.h>
 #include <Core/PointGenerator/BccLatticePointGenerator.h>

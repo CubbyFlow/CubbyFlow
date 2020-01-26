@@ -7,7 +7,7 @@
 > Created Time: 2017/05/21
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <Core/Array/ArrayUtils.h>
+#include <Core/Array/ArrayUtils.hpp>
 #include <Core/Field/ConstantVectorField2.h>
 #include <Core/Solver/Particle/ParticleSystemSolver2.h>
 #include <Core/Utils/Logging.h>

@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_POINT_GENERATOR3_H
 #define CUBBYFLOW_POINT_GENERATOR3_H
 
-#include <Core/Array/Array1.h>
+#include <Core/Array/Array1.hpp>
 #include <Core/BoundingBox/BoundingBox3.h>
 
 #include <functional>

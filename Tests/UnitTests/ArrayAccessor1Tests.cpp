@@ -1,7 +1,7 @@
 #include "pch.h"
 
-#include <Core/Array/Array1.h>
-#include <Core/Array/ArrayAccessor1.h>
+#include <Core/Array/Array1.hpp>
+#include <Core/Array/ArrayAccessor1.hpp>
 
 using namespace CubbyFlow;
 

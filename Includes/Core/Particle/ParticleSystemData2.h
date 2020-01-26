@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_PARTICLE_SYSTEM_DATA2_H
 #define CUBBYFLOW_PARTICLE_SYSTEM_DATA2_H
 
-#include <Core/Array/Array1.h>
+#include <Core/Array/Array1.hpp>
 #include <Core/Searcher/PointNeighborSearcher2.h>
 #include <Core/Utils/Serialization.h>
 #include <Core/Vector/Vector2.h>

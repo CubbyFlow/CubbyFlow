@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_FDM_LINEAR_SYSTEM3_H
 #define CUBBYFLOW_FDM_LINEAR_SYSTEM3_H
 
-#include <Core/Array/Array3.h>
+#include <Core/Array/Array3.hpp>
 #include <Core/Matrix/MatrixCSR.h>
 #include <Core/Size/Size3.h>
 #include <Core/Vector/VectorN.h>

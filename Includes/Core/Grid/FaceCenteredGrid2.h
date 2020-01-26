@@ -10,8 +10,8 @@
 #ifndef CUBBYFLOW_FACE_CENTERED_GRID2_H
 #define CUBBYFLOW_FACE_CENTERED_GRID2_H
 
-#include <Core/Array/Array2.h>
-#include <Core/Array/ArraySamplers2.h>
+#include <Core/Array/Array2.hpp>
+#include <Core/Array/ArraySamplers2.hpp>
 #include <Core/Grid/VectorGrid2.h>
 
 namespace CubbyFlow

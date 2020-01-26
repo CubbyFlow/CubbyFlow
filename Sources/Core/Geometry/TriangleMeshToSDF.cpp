@@ -30,7 +30,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <Core/Array/Array3.h>
+#include <Core/Array/Array3.hpp>
 #include <Core/Geometry/Triangle3.h>
 #include <Core/Geometry/TriangleMesh3.h>
 #include <Core/Geometry/TriangleMeshToSDF.h>

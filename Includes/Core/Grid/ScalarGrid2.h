@@ -10,9 +10,9 @@
 #ifndef CUBBYFLOW_SCALAR_GRID2_H
 #define CUBBYFLOW_SCALAR_GRID2_H
 
-#include <Core/Array/Array2.h>
-#include <Core/Array/ArrayAccessor2.h>
-#include <Core/Array/ArraySamplers2.h>
+#include <Core/Array/Array2.hpp>
+#include <Core/Array/ArrayAccessor2.hpp>
+#include <Core/Array/ArraySamplers2.hpp>
 #include <Core/Field/ScalarField2.h>
 #include <Core/Grid/Grid2.h>
 

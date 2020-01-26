@@ -7,7 +7,7 @@
 > Created Time: 2017/09/12
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <Core/Array/ArrayUtils.h>
+#include <Core/Array/ArrayUtils.hpp>
 #include <Core/Grid/CellCenteredScalarGrid2.h>
 #include <Core/Solver/Hybrid/PIC/PICSolver2.h>
 #include <Core/Utils/Logging.h>

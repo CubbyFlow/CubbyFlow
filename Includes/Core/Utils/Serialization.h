@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_SERIALIZATION_H
 #define CUBBYFLOW_SERIALIZATION_H
 
-#include <Core/Array/Array1.h>
+#include <Core/Array/Array1.hpp>
 
 #include <vector>
 #include <cstring>

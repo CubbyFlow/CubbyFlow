@@ -9,7 +9,7 @@
 *************************************************************************/
 #include <../ClaraUtils.h>
 
-#include <Core/Array/ArrayUtils.h>
+#include <Core/Array/ArrayUtils.hpp>
 #include <Core/BoundingBox/BoundingBox3.h>
 #include <Core/Collider/RigidBodyCollider3.h>
 #include <Core/Emitter/ParticleEmitterSet3.h>

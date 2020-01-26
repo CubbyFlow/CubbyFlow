@@ -10,8 +10,8 @@
 #ifndef CUBBYFLOW_FDM_UTILS_H
 #define CUBBYFLOW_FDM_UTILS_H
 
-#include <Core/Array/ArrayAccessor2.h>
-#include <Core/Array/ArrayAccessor3.h>
+#include <Core/Array/ArrayAccessor2.hpp>
+#include <Core/Array/ArrayAccessor3.hpp>
 #include <Core/Vector/Vector2.h>
 #include <Core/Vector/Vector3.h>
 

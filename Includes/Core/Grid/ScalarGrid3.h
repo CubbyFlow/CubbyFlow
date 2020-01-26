@@ -10,9 +10,9 @@
 #ifndef CUBBYFLOW_SCALAR_GRID3_H
 #define CUBBYFLOW_SCALAR_GRID3_H
 
-#include <Core/Array/Array3.h>
-#include <Core/Array/ArrayAccessor3.h>
-#include <Core/Array/ArraySamplers3.h>
+#include <Core/Array/Array3.hpp>
+#include <Core/Array/ArrayAccessor3.hpp>
+#include <Core/Array/ArraySamplers3.hpp>
 #include <Core/Field/ScalarField3.h>
 #include <Core/Grid/Grid3.h>
 

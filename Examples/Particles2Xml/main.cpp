@@ -9,7 +9,7 @@
 *************************************************************************/
 #include <../ClaraUtils.h>
 
-#include <Core/Array/Array1.h>
+#include <Core/Array/Array1.hpp>
 #include <Core/Vector/Vector3.h>
 #include <Core/Utils/Serialization.h>
 

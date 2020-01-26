@@ -2,8 +2,8 @@
 
 #include <ManualTests.h>
 
-#include <Core/Array/Array1.h>
-#include <Core/Array/ArrayUtils.h>
+#include <Core/Array/Array1.hpp>
+#include <Core/Array/ArrayUtils.hpp>
 #include <Core/Vector/Vector2.h>
 
 using namespace CubbyFlow;

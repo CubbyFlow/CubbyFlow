@@ -2,7 +2,7 @@
 
 #include <ManualTests.h>
 
-#include <Core/Array/Array1.h>
+#include <Core/Array/Array1.hpp>
 #include <Core/SPH/SPHStdKernel3.h>
 
 using namespace CubbyFlow;

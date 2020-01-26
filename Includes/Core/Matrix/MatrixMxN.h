@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_MATRIXMXN_H
 #define CUBBYFLOW_MATRIXMXN_H
 
-#include <Core/Array/Array2.h>
+#include <Core/Array/Array2.hpp>
 #include <Core/Matrix/MatrixExpression.h>
 
 namespace CubbyFlow

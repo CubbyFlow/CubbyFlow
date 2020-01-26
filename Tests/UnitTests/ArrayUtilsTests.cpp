@@ -1,9 +1,9 @@
 #include "pch.h"
 
-#include <Core/Array/Array1.h>
-#include <Core/Array/Array2.h>
-#include <Core/Array/Array3.h>
-#include <Core/Array/ArrayUtils.h>
+#include <Core/Array/Array1.hpp>
+#include <Core/Array/Array2.hpp>
+#include <Core/Array/Array3.hpp>
+#include <Core/Array/ArrayUtils.hpp>
 
 using namespace CubbyFlow;
 

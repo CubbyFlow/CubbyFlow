@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_POINTS_TO_IMPLICIT3_H
 #define CUBBYFLOW_POINTS_TO_IMPLICIT3_H
 
-#include <Core/Array/ArrayAccessor1.h>
+#include <Core/Array/ArrayAccessor1.hpp>
 #include <Core/Grid/ScalarGrid3.h>
 #include <Core/Vector/Vector3.h>
 

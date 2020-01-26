@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_VECTOR_H
 #define CUBBYFLOW_VECTOR_H
 
-#include <Core/Array/ArrayAccessor1.h>
+#include <Core/Array/ArrayAccessor1.hpp>
 #include <Core/Utils/TypeHelpers.h>
 #include <Core/Vector/VectorExpression.h>
 

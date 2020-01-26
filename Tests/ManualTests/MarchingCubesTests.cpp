@@ -2,7 +2,7 @@
 
 #include <ManualTests.h>
 
-#include <Core/Array/Array3.h>
+#include <Core/Array/Array3.hpp>
 #include <Core/Grid/VertexCenteredScalarGrid3.h>
 #include <Core/MarchingCubes/MarchingCubes.h>
 

@@ -7,7 +7,7 @@
 > Created Time: 2017/05/22
 > Copyright (c) 2018, Dongmin Kim
 *************************************************************************/
-#include <Core/Array/ArrayUtils.h>
+#include <Core/Array/ArrayUtils.hpp>
 #include <Core/Field/ConstantVectorField3.h>
 #include <Core/Solver/Particle/ParticleSystemSolver3.h>
 #include <Core/Utils/Logging.h>

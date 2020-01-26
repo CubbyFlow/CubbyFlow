@@ -2,7 +2,7 @@
 
 #include <ManualTests.h>
 
-#include <Core/Array/Array1.h>
+#include <Core/Array/Array1.hpp>
 #include <Core/Field/ConstantVectorField3.h>
 #include <Core/Vector/Vector3.h>
 #include <Core/Animation/PhysicsAnimation.hpp>

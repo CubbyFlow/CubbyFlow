@@ -1,6 +1,6 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/Array/Array1.h>
+#include <Core/Array/Array1.hpp>
 #include <Core/Searcher/PointKdTreeSearcher3.h>
 #include <Core/Vector/Vector3.h>
 

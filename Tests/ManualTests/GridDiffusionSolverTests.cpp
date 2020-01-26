@@ -2,7 +2,7 @@
 
 #include <ManualTests.h>
 
-#include <Core/Array/Array2.h>
+#include <Core/Array/Array2.hpp>
 #include <Core/Field/CustomScalarField2.h>
 #include <Core/Field/CustomScalarField3.h>
 #include <Core/Grid/CellCenteredScalarGrid2.h>
