@@ -7,13 +7,13 @@
 > Created Time: 2017/09/09
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <../ClaraUtils.h>
+#include <../LyraUtils.h>
 
 #include <Core/Array/Array1.h>
 #include <Core/Vector/Vector3.h>
 #include <Core/Utils/Serialization.h>
 
-#include <Clara/include/clara.hpp>
+#include <lyra/lyra.hpp>
 
 #include <fstream>
 #include <iostream>
@@ -80,15 +80,15 @@ int main(int argc, char* argv[])
 
     // Parsing
     auto parser =
-        clara::Help(showHelp) |
-        clara::Opt(inputFileName, "inputFileName")
+        lyra::help(showHelp) |
+        lyra::opt(inputFileName, "inputFileName")
         ["-i"]["--input"]
         ("input particle position file name") |
-        clara::Opt(outputFileName, "outputFileName")
+        lyra::opt(outputFileName, "outputFileName")
         ["-o"]["--output"]
         ("output xml file name");
 
-    auto result = parser.parse(clara::Args(argc, argv));
+    auto result = parser.parse(lyra::args(argc, argv));
     if (!result)
     {
         std::cerr << "Error in command line: " << result.errorMessage() << '\n';

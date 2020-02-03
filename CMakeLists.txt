@@ -18,7 +18,7 @@ include_directories(Includes)
 include_directories(Libraries)
 include_directories(Libraries/pybind11/include)
 include_directories(Libraries/googletest/googletest/include)
-include_directories(Libraries/Clara/include)
+include_directories(Libraries/Lyra/include)
 include_directories(Libraries/tinyobj)
 
 # Set enable output of compile commands during generation

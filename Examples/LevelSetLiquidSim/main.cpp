@@ -7,7 +7,7 @@
 > Created Time: 2017/09/09
 > Copyright (c) 2018, Dongmin Kim
 *************************************************************************/
-#include <../ClaraUtils.h>
+#include <../LyraUtils.h>
 
 #include <Core/Array/Array2.h>
 #include <Core/Collider/RigidBodyCollider3.h>
@@ -25,7 +25,8 @@
 #include <Core/Surface/ImplicitSurfaceSet3.h>
 #include <Core/Utils/Logging.h>
 
-#include <Clara/include/clara.hpp>
+#include <lyra/lyra.hpp>
+
 #include <pystring/pystring.h>
 
 #ifdef CUBBYFLOW_WINDOWS
@@ -326,27 +327,27 @@ int main(int argc, char* argv[])
 
     // Parsing
     auto parser =
-        clara::Help(showHelp) |
-        clara::Opt(resX, "resX")
+        lyra::help(showHelp) |
+        lyra::opt(resX, "resX")
         ["-r"]["--resx"]
         ("grid resolution in x-axis (default is 50)") |
-        clara::Opt(numberOfFrames, "numberOfFrames")
+        lyra::opt(numberOfFrames, "numberOfFrames")
         ["-f"]["--frames"]
         ("total number of frames (default is 100)") |
-        clara::Opt(fps, "fps")
+        lyra::opt(fps, "fps")
         ["-p"]["--fps"]
         ("frames per second (default is 60.0)") |
-        clara::Opt(exampleNum, "exampleNum")
+        lyra::opt(exampleNum, "exampleNum")
         ["-e"]["--example"]
         ("example number (between 1 and 4, default is 1)") |
-        clara::Opt(logFileName, "logFileName")
+        lyra::opt(logFileName, "logFileName")
         ["-l"]["--log"]
         ("log file name (default is " APP_NAME ".log)") |
-        clara::Opt(outputDir, "outputDir")
+        lyra::opt(outputDir, "outputDir")
         ["-o"]["--output"]
         ("output directory name (default is " APP_NAME "_output)");
 
-    auto result = parser.parse(clara::Args(argc, argv));
+    auto result = parser.parse(lyra::args(argc, argv));
     if (!result)
     {
         std::cerr << "Error in command line: " << result.errorMessage() << '\n';

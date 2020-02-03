@@ -7,7 +7,7 @@
 > Created Time: 2017/06/18
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <../ClaraUtils.h>
+#include <../LyraUtils.h>
 
 #include <Core/Array/ArrayUtils.h>
 #include <Core/Collider/RigidBodyCollider3.h>
@@ -22,7 +22,8 @@
 #include <Core/Surface/ImplicitSurfaceSet3.h>
 #include <Core/Utils/Logging.h>
 
-#include <Clara/include/clara.hpp>
+#include <lyra/lyra.hpp>
+
 #include <pystring/pystring.h>
 
 #ifdef CUBBYFLOW_WINDOWS
@@ -317,30 +318,30 @@ int main(int argc, char* argv[])
 
 	// Parsing
 	auto parser =
-		clara::Help(showHelp) |
-		clara::Opt(targetSpacing, "targetSpacing")
+		lyra::help(showHelp) |
+		lyra::opt(targetSpacing, "targetSpacing")
 		["-s"]["--spacing"]
 		("target particle spacing (default is 0.02)") |
-		clara::Opt(numberOfFrames, "numberOfFrames")
+		lyra::opt(numberOfFrames, "numberOfFrames")
 		["-f"]["--frames"]
 		("total number of frames (default is 100)") |
-		clara::Opt(fps, "fps")
+		lyra::opt(fps, "fps")
 		["-p"]["--fps"]
 		("frames per second (default is 60.0)") |
-		clara::Opt(exampleNum, "exampleNum")
+		lyra::opt(exampleNum, "exampleNum")
 		["-e"]["--example"]
 		("example number (between 1 and 3, default is 1)") |
-		clara::Opt(logFileName, "logFileName")
+		lyra::opt(logFileName, "logFileName")
 		["-l"]["--log"]
 		("log file name (default is " APP_NAME ".log)") |
-		clara::Opt(outputDir, "outputDir")
+		lyra::opt(outputDir, "outputDir")
 		["-o"]["--output"]
 		("output directory name (default is " APP_NAME "_output)") |
-		clara::Opt(format, "format")
+		lyra::opt(format, "format")
 		["-m"]["--format"]
 		("particle output format (xyz or pos. default is xyz)");
 
-	auto result = parser.parse(clara::Args(argc, argv));
+	auto result = parser.parse(lyra::args(argc, argv));
 	if (!result)
 	{
 		std::cerr << "Error in command line: " << result.errorMessage() << '\n';

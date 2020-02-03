@@ -7,7 +7,7 @@
 > Created Time: 2017/07/03
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <../ClaraUtils.h>
+#include <../LyraUtils.h>
 
 #include <Core/Array/Array1.h>
 #include <Core/BoundingBox/BoundingBox3.h>
@@ -22,7 +22,8 @@
 #include <Core/Size/Size3.h>
 #include <Core/Utils/Serialization.h>
 
-#include <Clara/include/clara.hpp>
+#include <lyra/lyra.hpp>
+
 #include <pystring/pystring.h>
 
 #include <fstream>
@@ -151,31 +152,31 @@ int main(int argc, char* argv[])
 
     // Parsing
     auto parser =
-        clara::Help(showHelp) |
-        clara::Opt(inputFileName, "inputFileName")
+        lyra::help(showHelp) |
+        lyra::opt(inputFileName, "inputFileName")
         ["-i"]["--input"]
         ("input obj file name") |
-        clara::Opt(outputFileName, "outputFileName")
+        lyra::opt(outputFileName, "outputFileName")
         ["-o"]["--output"]
         ("output obj file name") |
-        clara::Opt(strResolution, "resolution")
+        lyra::opt(strResolution, "resolution")
         ["-r"]["--resolution"]
         ("grid resolution in CSV format (default is 100,100,100)") |
-        clara::Opt(strGridSpacing, "gridSpacing")
+        lyra::opt(strGridSpacing, "gridSpacing")
         ["-g"]["--grid_spacing"]
         ("grid spacing in CSV format (default is 0.01,0.01,0.01)") |
-        clara::Opt(strOrigin, "origin")
+        lyra::opt(strOrigin, "origin")
         ["-n"]["--origin"]
         ("domain origin in CSV format (default is 0,0,0)") |
-        clara::Opt(method, "method")
+        lyra::opt(method, "method")
         ["-m"]["--method"]
         ("spherical, sph, zhu_bridson, and anisotropic " \
             "followed by optional method-dependent parameters (default is anisotropic)") |
-        clara::Opt(kernelRadius, "kernelRadius")
+        lyra::opt(kernelRadius, "kernelRadius")
         ["-k"]["--kernel"]
         ("interpolation kernel radius (default is 0.2)");
 
-    auto result = parser.parse(clara::Args(argc, argv));
+    auto result = parser.parse(lyra::args(argc, argv));
     if (!result)
     {
         std::cerr << "Error in command line: " << result.errorMessage() << '\n';

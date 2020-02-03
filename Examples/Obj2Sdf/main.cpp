@@ -7,14 +7,14 @@
 > Created Time: 2017/09/08
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <../ClaraUtils.h>
+#include <../LyraUtils.h>
 
 #include <Core/Geometry/TriangleMesh3.h>
 #include <Core/Geometry/TriangleMeshToSDF.h>
 #include <Core/Grid/VertexCenteredScalarGrid3.h>
 #include <Core/MarchingCubes/MarchingCubes.h>
 
-#include <Clara/include/clara.hpp>
+#include <lyra/lyra.hpp>
 
 #include <algorithm>
 #include <fstream>
@@ -45,21 +45,21 @@ int main(int argc, char* argv[])
 
     // Parsing
     auto parser =
-        clara::Help(showHelp) |
-        clara::Opt(inputFileName, "inputFileName")
+        lyra::help(showHelp) |
+        lyra::opt(inputFileName, "inputFileName")
         ["-i"]["--input"]
         ("input obj file name") |
-        clara::Opt(outputFileName, "outputFileName")
+        lyra::opt(outputFileName, "outputFileName")
         ["-o"]["--output"]
         ("output sdf file name") |
-        clara::Opt(resX, "resX")
+        lyra::opt(resX, "resX")
         ["-r"]["--resx"]
         ("grid resolution in x-axis (default is 100)") |
-        clara::Opt(marginScale, "marginScale")
+        lyra::opt(marginScale, "marginScale")
         ["-m"]["--margin"]
         ("margin scale around the sdf (default is 0.2)");
 
-    auto result = parser.parse(clara::Args(argc, argv));
+    auto result = parser.parse(lyra::args(argc, argv));
     if (!result)
     {
         std::cerr << "Error in command line: " << result.errorMessage() << '\n';
