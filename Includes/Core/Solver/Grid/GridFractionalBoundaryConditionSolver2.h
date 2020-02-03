@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_GRID_FRACTIONAL_BOUNDARY_CONDITION_SOLVER2_H
 #define CUBBYFLOW_GRID_FRACTIONAL_BOUNDARY_CONDITION_SOLVER2_H
 
-#include <Core/Field/CustomVectorField2.h>
+#include <Core/Field/CustomVectorField2.hpp>
 #include <Core/Grid/CellCenteredScalarGrid2.h>
 #include <Core/Solver/Grid/GridBoundaryConditionSolver2.h>
 

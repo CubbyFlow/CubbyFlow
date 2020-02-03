@@ -3,8 +3,8 @@
 #include <ManualTests.h>
 
 #include <Core/Array/Array2.hpp>
-#include <Core/Field/CustomScalarField2.h>
-#include <Core/Field/CustomScalarField3.h>
+#include <Core/Field/CustomScalarField2.hpp>
+#include <Core/Field/CustomScalarField3.hpp>
 #include <Core/Grid/CellCenteredScalarGrid2.h>
 #include <Core/Grid/CellCenteredScalarGrid3.h>
 #include <Core/Solver/Grid/GridBackwardEulerDiffusionSolver2.h>

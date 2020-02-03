@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Field/Field.h>
-#include <Core/Field/Field2.h>
-#include <Core/Field/Field3.h>
+#include <Core/Field/Field2.hpp>
+#include <Core/Field/Field3.hpp>
 
 #include <pybind11/pybind11.h>
 

@@ -8,7 +8,7 @@
 > Copyright (c) 2018, Dongmin Kim
 *************************************************************************/
 #include <Core/Array/ArrayUtils.hpp>
-#include <Core/Field/ConstantVectorField3.h>
+#include <Core/Field/ConstantVectorField3.hpp>
 #include <Core/Solver/Particle/ParticleSystemSolver3.h>
 #include <Core/Utils/Logging.h>
 #include <Core/Utils/Parallel.h>

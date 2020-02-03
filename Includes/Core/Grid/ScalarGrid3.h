@@ -13,7 +13,7 @@
 #include <Core/Array/Array3.hpp>
 #include <Core/Array/ArrayAccessor3.hpp>
 #include <Core/Array/ArraySamplers3.hpp>
-#include <Core/Field/ScalarField3.h>
+#include <Core/Field/ScalarField3.hpp>
 #include <Core/Grid/Grid3.h>
 
 namespace CubbyFlow

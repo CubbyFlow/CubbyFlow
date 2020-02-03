@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Field/ScalarField.h>
-#include <Core/Field/ScalarField2.h>
-#include <Core/Field/ScalarField3.h>
+#include <Core/Field/ScalarField2.hpp>
+#include <Core/Field/ScalarField3.hpp>
 
 #include <pybind11/pybind11.h>
 

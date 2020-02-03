@@ -9,8 +9,8 @@
 *************************************************************************/
 #include <API/Python/Field/CustomVectorField.h>
 #include <API/Python/Utils/pybind11Utils.h>
-#include <Core/Field/CustomVectorField2.h>
-#include <Core/Field/CustomVectorField3.h>
+#include <Core/Field/CustomVectorField2.hpp>
+#include <Core/Field/CustomVectorField3.hpp>
 
 #include <pybind11/pybind11.h>
 

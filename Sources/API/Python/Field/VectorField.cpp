@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Field/VectorField.h>
-#include <Core/Field/VectorField2.h>
-#include <Core/Field/VectorField3.h>
+#include <Core/Field/VectorField2.hpp>
+#include <Core/Field/VectorField3.hpp>
 
 #include <pybind11/pybind11.h>
 

@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_GRID_DIFFUSION_SOLVER2_H
 #define CUBBYFLOW_GRID_DIFFUSION_SOLVER2_H
 
-#include <Core/Field/ConstantScalarField2.h>
+#include <Core/Field/ConstantScalarField2.hpp>
 #include <Core/Grid/CollocatedVectorGrid2.h>
 #include <Core/Grid/FaceCenteredGrid2.h>
 #include <Core/Grid/ScalarGrid2.h>

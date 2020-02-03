@@ -10,8 +10,8 @@
 #ifndef CUBBYFLOW_ADVECTION_SOLVER3_H
 #define CUBBYFLOW_ADVECTION_SOLVER3_H
 
-#include <Core/Field/ConstantScalarField3.h>
-#include <Core/Field/VectorField3.h>
+#include <Core/Field/ConstantScalarField3.hpp>
+#include <Core/Field/VectorField3.hpp>
 #include <Core/Grid/CollocatedVectorGrid3.h>
 #include <Core/Grid/FaceCenteredGrid3.h>
 #include <Core/Grid/ScalarGrid3.h>

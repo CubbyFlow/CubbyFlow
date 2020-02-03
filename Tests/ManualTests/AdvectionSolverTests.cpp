@@ -3,9 +3,9 @@
 #include <ManualTests.h>
 
 #include <Core/Array/Array3.hpp>
-#include <Core/Field/ConstantVectorField2.h>
-#include <Core/Field/CustomScalarField2.h>
-#include <Core/Field/CustomVectorField2.h>
+#include <Core/Field/ConstantVectorField2.hpp>
+#include <Core/Field/CustomScalarField2.hpp>
+#include <Core/Field/CustomVectorField2.hpp>
 #include <Core/Geometry/Box2.h>
 #include <Core/Grid/CellCenteredScalarGrid2.h>
 #include <Core/Grid/CellCenteredVectorGrid2.h>

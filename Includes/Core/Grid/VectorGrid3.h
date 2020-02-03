@@ -11,7 +11,7 @@
 #define CUBBYFLOW_VECTOR_GRID3_H
 
 #include <Core/Array/ArrayAccessor3.hpp>
-#include <Core/Field/VectorField3.h>
+#include <Core/Field/VectorField3.hpp>
 #include <Core/Grid/Grid3.h>
 
 namespace CubbyFlow

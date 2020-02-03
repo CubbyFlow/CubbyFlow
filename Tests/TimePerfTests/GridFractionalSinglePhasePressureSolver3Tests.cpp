@@ -1,7 +1,7 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/Field/ConstantScalarField3.h>
-#include <Core/Field/ConstantVectorField3.h>
+#include <Core/Field/ConstantScalarField3.hpp>
+#include <Core/Field/ConstantVectorField3.hpp>
 #include <Core/Grid/CellCenteredScalarGrid3.h>
 #include <Core/Grid/FaceCenteredGrid3.h>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.h>

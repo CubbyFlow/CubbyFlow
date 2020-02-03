@@ -4,7 +4,7 @@
 
 #include <Core/Collider/RigidBodyCollider2.hpp>
 #include <Core/Emitter/PointParticleEmitter2.hpp>
-#include <Core/Field/ConstantVectorField2.h>
+#include <Core/Field/ConstantVectorField2.hpp>
 #include <Core/Geometry/Plane2.h>
 #include <Core/Solver/Particle/ParticleSystemSolver2.h>
 

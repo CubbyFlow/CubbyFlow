@@ -9,8 +9,8 @@
 *************************************************************************/
 #include <API/Python/Field/ConstantScalarField.h>
 #include <API/Python/Utils/pybind11Utils.h>
-#include <Core/Field/ConstantScalarField2.h>
-#include <Core/Field/ConstantScalarField3.h>
+#include <Core/Field/ConstantScalarField2.hpp>
+#include <Core/Field/ConstantScalarField3.hpp>
 
 #include <pybind11/pybind11.h>
 

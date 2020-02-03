@@ -11,7 +11,7 @@
 #define CUBBYFLOW_VECTOR_GRID2_H
 
 #include <Core/Array/ArrayAccessor2.hpp>
-#include <Core/Field/VectorField2.h>
+#include <Core/Field/VectorField2.hpp>
 #include <Core/Grid/Grid2.h>
 
 namespace CubbyFlow

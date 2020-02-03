@@ -10,8 +10,8 @@
 #ifndef CUBBYFLOW_GRID_PRESSURE_SOLVER2_H
 #define CUBBYFLOW_GRID_PRESSURE_SOLVER2_H
 
-#include <Core/Field/ConstantScalarField2.h>
-#include <Core/Field/ConstantVectorField2.h>
+#include <Core/Field/ConstantScalarField2.hpp>
+#include <Core/Field/ConstantVectorField2.hpp>
 #include <Core/Grid/FaceCenteredGrid2.h>
 #include <Core/Solver/Grid/GridBoundaryConditionSolver2.h>
 
