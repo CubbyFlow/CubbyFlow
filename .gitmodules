@@ -13,3 +13,6 @@
 [submodule "Libraries/tinyobj"]
 	path = Libraries/tinyobj
 	url = https://github.com/syoyo/tinyobjloader
+[submodule "Libraries/Lyra"]
+	path = Libraries/Lyra
+	url = https://github.com/bfgroup/Lyra
