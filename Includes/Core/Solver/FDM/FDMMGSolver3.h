@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_FDM_MG_SOLVER3_H
 #define CUBBYFLOW_FDM_MG_SOLVER3_H
 
-#include <Core/FDM/FDMMGLinearSystem3.h>
+#include <Core/FDM/FDMMGLinearSystem3.hpp>
 #include <Core/Solver/FDM/FDMLinearSystemSolver3.h>
 #include <Core/Utils/MG.h>
 

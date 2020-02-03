@@ -8,7 +8,7 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <Core/Grid/ScalarGrid2.h>
-#include <Core/FDM/FDMUtils.h>
+#include <Core/FDM/FDMUtils.hpp>
 #include <Core/Utils/FlatbuffersHelper.h>
 
 #include <Flatbuffers/generated/ScalarGrid2_generated.h>

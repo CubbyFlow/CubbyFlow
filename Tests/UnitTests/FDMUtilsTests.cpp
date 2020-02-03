@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/FDM/FDMUtils.h>
+#include <Core/FDM/FDMUtils.hpp>
 #include <Core/Grid/CellCenteredScalarGrid2.h>
 #include <Core/Grid/CellCenteredScalarGrid3.h>
 #include <Core/Grid/CellCenteredVectorGrid2.h>

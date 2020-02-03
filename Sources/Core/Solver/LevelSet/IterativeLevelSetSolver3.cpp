@@ -8,7 +8,7 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <Core/Array/ArrayUtils.hpp>
-#include <Core/FDM/FDMUtils.h>
+#include <Core/FDM/FDMUtils.hpp>
 #include <Core/Solver/LevelSet/IterativeLevelSetSolver3.h>
 #include <Core/Utils/Logging.h>
 

@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_FRACTIONAL_SINGLE_PHASE_PRESSURE_SOLVER2_H
 #define CUBBYFLOW_FRACTIONAL_SINGLE_PHASE_PRESSURE_SOLVER2_H
 
-#include <Core/FDM/FDMMGLinearSystem2.h>
+#include <Core/FDM/FDMMGLinearSystem2.hpp>
 #include <Core/Solver/FDM/FDMLinearSystemSolver2.h>
 #include <Core/Solver/FDM/FDMMGSolver2.h>
 #include <Core/Solver/Grid/GridPressureSolver2.h>

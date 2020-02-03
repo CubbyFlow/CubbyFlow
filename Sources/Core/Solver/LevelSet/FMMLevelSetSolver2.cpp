@@ -7,7 +7,7 @@
 > Created Time: 2017/09/01
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <Core/FDM/FDMUtils.h>
+#include <Core/FDM/FDMUtils.hpp>
 #include <Core/LevelSet/LevelSetUtils.h>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver2.h>
 
