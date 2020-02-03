@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "UnitTestsUtils.h"
 
-#include <Core/Geometry/BVH3.h>
+#include <Core/Geometry/BVH3.hpp>
 
 using namespace CubbyFlow;
 

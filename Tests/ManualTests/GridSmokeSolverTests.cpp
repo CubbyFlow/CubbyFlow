@@ -4,10 +4,10 @@
 #include <Core/Collider/RigidBodyCollider3.hpp>
 #include <Core/Emitter/VolumeGridEmitter2.hpp>
 #include <Core/Emitter/VolumeGridEmitter3.hpp>
-#include <Core/Geometry/Box2.h>
-#include <Core/Geometry/Box3.h>
-#include <Core/Geometry/Sphere2.h>
-#include <Core/Geometry/Sphere3.h>
+#include <Core/Geometry/Box2.hpp>
+#include <Core/Geometry/Box3.hpp>
+#include <Core/Geometry/Sphere2.hpp>
+#include <Core/Geometry/Sphere3.hpp>
 #include <Core/SemiLagrangian/CubicSemiLagrangian3.h>
 #include <Core/Solver/Grid/GridSinglePhasePressureSolver2.h>
 #include <Core/Solver/Grid/GridSmokeSolver2.h>

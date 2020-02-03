@@ -9,8 +9,8 @@
 *************************************************************************/
 #include <../ClaraUtils.h>
 
-#include <Core/Geometry/TriangleMesh3.h>
-#include <Core/Geometry/TriangleMeshToSDF.h>
+#include <Core/Geometry/TriangleMesh3.hpp>
+#include <Core/Geometry/TriangleMeshToSDF.hpp>
 #include <Core/Grid/VertexCenteredScalarGrid3.h>
 #include <Core/MarchingCubes/MarchingCubes.h>
 

@@ -1,7 +1,7 @@
 #include "pch.h"
 
 #include <Core/Array/Array2.hpp>
-#include <Core/Geometry/Plane3.h>
+#include <Core/Geometry/Plane3.hpp>
 #include <Core/LevelSet/LevelSetUtils.h>
 #include <Core/MarchingCubes/MarchingCubes.h>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver3.h>

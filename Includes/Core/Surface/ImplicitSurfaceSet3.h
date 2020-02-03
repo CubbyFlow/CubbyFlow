@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_IMPLICIT_SURFACE_SET3_H
 #define CUBBYFLOW_IMPLICIT_SURFACE_SET3_H
 
-#include <Core/Geometry/BVH3.h>
+#include <Core/Geometry/BVH3.hpp>
 #include <Core/Surface/ImplicitSurface3.h>
 
 #include <vector>

@@ -1,9 +1,9 @@
 #include "benchmark/benchmark.h"
 
 #include <Core/BoundingBox/BoundingBox3.hpp>
-#include <Core/Geometry/Octree.h>
-#include <Core/Geometry/Triangle3.h>
-#include <Core/Geometry/TriangleMesh3.h>
+#include <Core/Geometry/Octree.hpp>
+#include <Core/Geometry/Triangle3.hpp>
+#include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Ray/Ray3.h>
 #include <Core/Vector/Vector3.h>
 

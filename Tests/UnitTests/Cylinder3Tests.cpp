@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Geometry/Cylinder3.h>
+#include <Core/Geometry/Cylinder3.hpp>
 
 using namespace CubbyFlow;
 

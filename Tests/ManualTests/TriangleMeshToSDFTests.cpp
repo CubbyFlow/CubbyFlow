@@ -3,7 +3,7 @@
 #include <ManualTests.h>
 
 #include <Core/Array/Array2.hpp>
-#include <Core/Geometry/TriangleMeshToSDF.h>
+#include <Core/Geometry/TriangleMeshToSDF.hpp>
 #include <Core/Grid/VertexCenteredScalarGrid3.h>
 #include <Core/MarchingCubes/MarchingCubes.h>
 

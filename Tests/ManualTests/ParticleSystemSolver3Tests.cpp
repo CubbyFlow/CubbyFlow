@@ -5,7 +5,7 @@
 #include <Core/Collider/RigidBodyCollider3.hpp>
 #include <Core/Emitter/PointParticleEmitter3.hpp>
 #include <Core/Field/ConstantVectorField3.hpp>
-#include <Core/Geometry/Plane3.h>
+#include <Core/Geometry/Plane3.hpp>
 #include <Core/Solver/Particle/ParticleSystemSolver3.h>
 
 using namespace CubbyFlow;

@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Geometry/Box3.h>
+#include <Core/Geometry/Box3.hpp>
 #include <Core/Collider/ColliderSet3.hpp>
 #include <Core/Collider/RigidBodyCollider3.hpp>
 

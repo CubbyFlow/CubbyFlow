@@ -4,8 +4,8 @@
 
 #include <Core/Collider/RigidBodyCollider2.hpp>
 #include <Core/Emitter/VolumeParticleEmitter2.hpp>
-#include <Core/Geometry/Box2.h>
-#include <Core/Geometry/Sphere2.h>
+#include <Core/Geometry/Box2.hpp>
+#include <Core/Geometry/Sphere2.hpp>
 #include <Core/Solver/Hybrid/FLIP/FLIPSolver2.h>
 
 using namespace CubbyFlow;

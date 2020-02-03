@@ -9,8 +9,8 @@
 *************************************************************************/
 #include <API/Python/Geometry/Plane.h>
 #include <API/Python/Utils/pybind11Utils.h>
-#include <Core/Geometry/Plane2.h>
-#include <Core/Geometry/Plane3.h>
+#include <Core/Geometry/Plane2.hpp>
+#include <Core/Geometry/Plane3.hpp>
 
 #include <pybind11/pybind11.h>
 

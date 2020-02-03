@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "UnitTestsUtils.h"
 
-#include <Core/Geometry/Sphere2.h>
+#include <Core/Geometry/Sphere2.hpp>
 #include <Core/Surface/SurfaceSet2.h>
 
 using namespace CubbyFlow;

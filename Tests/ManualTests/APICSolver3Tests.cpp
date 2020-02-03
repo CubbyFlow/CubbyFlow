@@ -5,10 +5,10 @@
 #include <Core/Collider/RigidBodyCollider3.hpp>
 #include <Core/Emitter/ParticleEmitterSet3.hpp>
 #include <Core/Emitter/VolumeParticleEmitter3.hpp>
-#include <Core/Geometry/Box3.h>
-#include <Core/Geometry/Cylinder3.h>
-#include <Core/Geometry/Plane3.h>
-#include <Core/Geometry/Sphere3.h>
+#include <Core/Geometry/Box3.hpp>
+#include <Core/Geometry/Cylinder3.hpp>
+#include <Core/Geometry/Plane3.hpp>
+#include <Core/Geometry/Sphere3.hpp>
 #include <Core/PointGenerator/GridPointGenerator3.h>
 #include <Core/Solver/Hybrid/APIC/APICSolver3.h>
 #include <Core/Solver/Grid/GridSinglePhasePressureSolver3.h>

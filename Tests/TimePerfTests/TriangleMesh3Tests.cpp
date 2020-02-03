@@ -1,6 +1,6 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/Geometry/TriangleMesh3.h>
+#include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Vector/Vector3.h>
 
 #include <fstream>

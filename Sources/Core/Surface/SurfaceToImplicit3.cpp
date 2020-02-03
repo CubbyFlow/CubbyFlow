@@ -7,7 +7,7 @@
 > Created Time: 2017/04/18
 > Copyright (c) 2018, Dongmin Kim
 *************************************************************************/
-#include <Core/Geometry/TriangleMesh3.h>
+#include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Surface/SurfaceToImplicit3.h>
 #include <Core/Utils/Logging.h>
 

@@ -12,10 +12,10 @@
 #include <Core/Array/Array2.hpp>
 #include <Core/Collider/RigidBodyCollider3.hpp>
 #include <Core/Emitter/VolumeGridEmitter3.hpp>
-#include <Core/Geometry/Box3.h>
-#include <Core/Geometry/ImplicitTriangleMesh3.h>
-#include <Core/Geometry/Sphere3.h>
-#include <Core/Geometry/TriangleMesh3.h>
+#include <Core/Geometry/Box3.hpp>
+#include <Core/Geometry/ImplicitTriangleMesh3.hpp>
+#include <Core/Geometry/Sphere3.hpp>
+#include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Grid/ScalarGrid3.h>
 #include <Core/Math/MathUtils.h>
 #include <Core/SemiLagrangian/CubicSemiLagrangian3.h>

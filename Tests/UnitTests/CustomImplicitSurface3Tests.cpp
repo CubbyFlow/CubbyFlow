@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "UnitTestsUtils.h"
 
-#include <Core/Geometry/Sphere3.h>
+#include <Core/Geometry/Sphere3.hpp>
 #include <Core/Surface/CustomImplicitSurface3.h>
 #include <Core/Surface/SurfaceToImplicit3.h>
 

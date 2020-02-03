@@ -4,9 +4,9 @@
 
 #include <Core/Collider/RigidBodyCollider2.hpp>
 #include <Core/Emitter/VolumeParticleEmitter2.hpp>
-#include <Core/Geometry/Box2.h>
-#include <Core/Geometry/Plane2.h>
-#include <Core/Geometry/Sphere2.h>
+#include <Core/Geometry/Box2.hpp>
+#include <Core/Geometry/Plane2.hpp>
+#include <Core/Geometry/Sphere2.hpp>
 #include <Core/Solver/Particle/PCISPH/PCISPHSolver2.h>
 #include <Core/Surface/ImplicitSurfaceSet2.h>
 #include <Core/Surface/SurfaceToImplicit2.h>

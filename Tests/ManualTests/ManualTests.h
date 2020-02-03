@@ -4,7 +4,7 @@
 #include <Core/Array/ArrayAccessor1.hpp>
 #include <Core/Array/ArrayAccessor2.hpp>
 #include <Core/Array/ArrayAccessor3.hpp>
-#include <Core/Geometry/TriangleMesh3.h>
+#include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Utils/Macros.h>
 
 #include <cnpy/cnpy.h>

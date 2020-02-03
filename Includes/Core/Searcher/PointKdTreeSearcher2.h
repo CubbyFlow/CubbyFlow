@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_POINT_KDTREE_SEARCHER2_H
 #define CUBBYFLOW_POINT_KDTREE_SEARCHER2_H
 
-#include <Core/Geometry/KdTree.h>
+#include <Core/Geometry/KdTree.hpp>
 #include <Core/Searcher/PointNeighborSearcher2.h>
 
 namespace CubbyFlow

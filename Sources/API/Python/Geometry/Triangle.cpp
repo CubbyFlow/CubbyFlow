@@ -9,7 +9,7 @@
 *************************************************************************/
 #include <API/Python/Geometry/Triangle.h>
 #include <API/Python/Utils/pybind11Utils.h>
-#include <Core/Geometry/Triangle3.h>
+#include <Core/Geometry/Triangle3.hpp>
 
 #include <pybind11/pybind11.h>
 

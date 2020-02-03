@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Geometry/Box2.h>
+#include <Core/Geometry/Box2.hpp>
 #include <Core/Surface/ImplicitSurfaceSet2.h>
 #include <Core/Surface/SurfaceToImplicit2.h>
 

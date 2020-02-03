@@ -1,7 +1,7 @@
 #include "pch.h"
 
-#include <Core/Geometry/Sphere2.h>
-#include <Core/Geometry/Sphere3.h>
+#include <Core/Geometry/Sphere2.hpp>
+#include <Core/Geometry/Sphere3.hpp>
 #include <Core/Size/Size2.h>
 #include <Core/Size/Size3.h>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver2.h>
