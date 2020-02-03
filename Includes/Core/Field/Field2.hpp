@@ -8,17 +8,22 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Field/Field3.hpp>
+#ifndef CUBBYFLOW_FIELD2_HPP
+#define CUBBYFLOW_FIELD2_HPP
+
+#include <memory>
 
 namespace CubbyFlow
 {
-Field3::Field3()
+//! Abstract base class for 2-D fields.
+class Field2
 {
-    // Do nothing
-}
+ public:
+    Field2();
+    virtual ~Field2();
+};
 
-Field3::~Field3()
-{
-    // Do nothing
-}
+using Field2Ptr = std::shared_ptr<Field2>;
 }  // namespace CubbyFlow
+
+#endif
