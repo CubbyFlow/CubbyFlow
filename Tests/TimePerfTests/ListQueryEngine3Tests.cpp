@@ -1,6 +1,6 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/BoundingBox/BoundingBox3.h>
+#include <Core/BoundingBox/BoundingBox3.hpp>
 #include <Core/Geometry/Triangle3.h>
 #include <Core/Geometry/TriangleMesh3.h>
 #include <Core/QueryEngine/ListQueryEngine3.h>

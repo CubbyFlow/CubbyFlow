@@ -7,7 +7,7 @@
 > Created Time: 2017/05/31
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <Core/BoundingBox/BoundingBox2.h>
+#include <Core/BoundingBox/BoundingBox2.hpp>
 #include <Core/PointGenerator/TrianglePointGenerator.h>
 #include <Core/SPH/SPHStdKernel2.h>
 #include <Core/SPH/SPHSystemData2.h>

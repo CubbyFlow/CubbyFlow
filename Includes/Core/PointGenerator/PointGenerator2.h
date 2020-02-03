@@ -11,7 +11,7 @@
 #define CUBBYFLOW_POINT_GENERATOR2_H
 
 #include <Core/Array/Array1.hpp>
-#include <Core/BoundingBox/BoundingBox2.h>
+#include <Core/BoundingBox/BoundingBox2.hpp>
 
 #include <functional>
 

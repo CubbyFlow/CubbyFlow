@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_SURFACE3_H
 #define CUBBYFLOW_SURFACE3_H
 
-#include <Core/BoundingBox/BoundingBox3.h>
+#include <Core/BoundingBox/BoundingBox3.hpp>
 #include <Core/Ray/Ray3.h>
 #include <Core/Transform/Transform3.h>
 #include <Core/Vector/Vector3.h>

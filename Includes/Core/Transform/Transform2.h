@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_TRANSFORM2_H
 #define CUBBYFLOW_TRANSFORM2_H
 
-#include <Core/BoundingBox/BoundingBox2.h>
+#include <Core/BoundingBox/BoundingBox2.hpp>
 #include <Core/Ray/Ray2.h>
 #include <Core/Vector/Vector2.h>
 

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "UnitTestsUtils.h"
 
-#include <Core/BoundingBox/BoundingBox3.h>
+#include <Core/BoundingBox/BoundingBox3.hpp>
 
 using namespace CubbyFlow;
 

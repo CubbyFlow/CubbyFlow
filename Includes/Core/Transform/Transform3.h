@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_TRANSFORM3_H
 #define CUBBYFLOW_TRANSFORM3_H
 
-#include <Core/BoundingBox/BoundingBox3.h>
+#include <Core/BoundingBox/BoundingBox3.hpp>
 #include <Core/Math/Quaternion.h>
 #include <Core/Ray/Ray3.h>
 #include <Core/Vector/Vector3.h>

@@ -1,6 +1,6 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/BoundingBox/BoundingBox3.h>
+#include <Core/BoundingBox/BoundingBox3.hpp>
 #include <Core/Emitter/VolumeParticleEmitter3.h>
 #include <Core/Geometry/Box3.h>
 #include <Core/Particle/ParticleSystemData3.h>

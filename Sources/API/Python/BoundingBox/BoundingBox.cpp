@@ -9,8 +9,8 @@
 *************************************************************************/
 #include <API/Python/BoundingBox/BoundingBox.h>
 #include <API/Python/Utils/pybind11Utils.h>
-#include <Core/BoundingBox/BoundingBox2.h>
-#include <Core/BoundingBox/BoundingBox3.h>
+#include <Core/BoundingBox/BoundingBox2.hpp>
+#include <Core/BoundingBox/BoundingBox3.hpp>
 
 #include <pybind11/pybind11.h>
 

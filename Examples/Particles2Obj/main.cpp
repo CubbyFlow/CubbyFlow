@@ -10,7 +10,7 @@
 #include <../ClaraUtils.h>
 
 #include <Core/Array/Array1.hpp>
-#include <Core/BoundingBox/BoundingBox3.h>
+#include <Core/BoundingBox/BoundingBox3.hpp>
 #include <Core/Geometry/TriangleMesh3.h>
 #include <Core/Grid/ScalarGrid3.h>
 #include <Core/Grid/VertexCenteredScalarGrid3.h>

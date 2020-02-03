@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_GRID2_H
 #define CUBBYFLOW_GRID2_H
 
-#include <Core/BoundingBox/BoundingBox2.h>
+#include <Core/BoundingBox/BoundingBox2.hpp>
 #include <Core/Size/Size2.h>
 #include <Core/Utils/Serialization.h>
 #include <Core/Vector/Vector2.h>

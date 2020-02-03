@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_KDTREE_H
 #define CUBBYFLOW_KDTREE_H
 
-#include <Core/BoundingBox/BoundingBox.h>
+#include <Core/BoundingBox/BoundingBox.hpp>
 #include <Core/Vector/Vector.h>
 
 namespace CubbyFlow

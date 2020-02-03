@@ -2,7 +2,7 @@
 
 #include <ManualTests.h>
 
-#include <Core/BoundingBox/BoundingBox3.h>
+#include <Core/BoundingBox/BoundingBox3.hpp>
 #include <Core/Grid/CellCenteredScalarGrid2.h>
 #include <Core/PointGenerator/BccLatticePointGenerator.h>
 #include <Core/PointGenerator/TrianglePointGenerator.h>

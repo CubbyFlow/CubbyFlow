@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_GRID3_H
 #define CUBBYFLOW_GRID3_H
 
-#include <Core/BoundingBox/BoundingBox3.h>
+#include <Core/BoundingBox/BoundingBox3.hpp>
 #include <Core/Size/Size3.h>
 #include <Core/Utils/Serialization.h>
 #include <Core/Vector/Vector3.h>

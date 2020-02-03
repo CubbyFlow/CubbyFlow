@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_SURFACE2_H
 #define CUBBYFLOW_SURFACE2_H
 
-#include <Core/BoundingBox/BoundingBox2.h>
+#include <Core/BoundingBox/BoundingBox2.hpp>
 #include <Core/Ray/Ray2.h>
 #include <Core/Transform/Transform2.h>
 #include <Core/Vector/Vector2.h>
