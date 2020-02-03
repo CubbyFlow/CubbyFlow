@@ -1,20 +1,21 @@
-/*************************************************************************
-> File Name: TriangleMesh3.h
-> Project Name: CubbyFlow
-> This code is based on Jet Framework that was created by Doyub Kim.
-> References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: 3-D triangle mesh geometry.
-> Created Time: 2017/04/04
-> Copyright (c) 2018, Chan-Ho Chris Ohk
-*************************************************************************/
-#ifndef CUBBYFLOW_TRIANGLE_MESH3_H
-#define CUBBYFLOW_TRIANGLE_MESH3_H
+// This code is based on Jet framework.
+// Copyright (c) 2018 Doyub Kim
+// CubbyFlow is voxel-based fluid simulation engine for computer games.
+// Copyright (c) 2020 CubbyFlow Team
+// Core Part: Chris Ohk, Junwoo Hwang, Jihong Sin, Seungwoo Yoo
+// AI Part: Dongheon Cho, Minseo Kim
+// We are making my contributions/submissions to this project solely in our
+// personal capacity and are not conveying any rights to any intellectual
+// property of any third parties.
 
-#include <Core/Array/Array1.hpp>
-#include <Core/Geometry/BVH3.h>
-#include <Core/Geometry/Triangle3.h>
+#ifndef CUBBYFLOW_TRIANGLE_MESH3_HPP
+#define CUBBYFLOW_TRIANGLE_MESH3_HPP
+
 #include <Core/Point/Point3.h>
 #include <Core/Surface/Surface3.h>
+#include <Core/Array/Array1.hpp>
+#include <Core/Geometry/BVH3.hpp>
+#include <Core/Geometry/Triangle3.hpp>
 
 namespace CubbyFlow
 {
@@ -253,6 +254,6 @@ class TriangleMesh3::Builder final
     IndexArray m_normalIndices;
     IndexArray m_uvIndices;
 };
-}
+}  // namespace CubbyFlow
 
 #endif
