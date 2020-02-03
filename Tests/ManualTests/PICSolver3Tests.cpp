@@ -3,8 +3,8 @@
 #include <ManualTests.h>
 
 #include <Core/Collider/RigidBodyCollider3.hpp>
-#include <Core/Emitter/ParticleEmitterSet3.h>
-#include <Core/Emitter/VolumeParticleEmitter3.h>
+#include <Core/Emitter/ParticleEmitterSet3.hpp>
+#include <Core/Emitter/VolumeParticleEmitter3.hpp>
 #include <Core/Geometry/Box3.h>
 #include <Core/Geometry/Cylinder3.h>
 #include <Core/Geometry/Plane3.h>

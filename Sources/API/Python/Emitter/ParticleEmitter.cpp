@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Emitter/ParticleEmitter.h>
-#include <Core/Emitter/ParticleEmitter2.h>
-#include <Core/Emitter/ParticleEmitter3.h>
+#include <Core/Emitter/ParticleEmitter2.hpp>
+#include <Core/Emitter/ParticleEmitter3.hpp>
 
 #include <pybind11/pybind11.h>
 

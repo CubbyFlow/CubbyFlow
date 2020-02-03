@@ -3,7 +3,7 @@
 #include <ManualTests.h>
 
 #include <Core/Collider/RigidBodyCollider2.hpp>
-#include <Core/Emitter/VolumeParticleEmitter2.h>
+#include <Core/Emitter/VolumeParticleEmitter2.hpp>
 #include <Core/Geometry/Box2.h>
 #include <Core/Geometry/Plane2.h>
 #include <Core/Geometry/Sphere2.h>

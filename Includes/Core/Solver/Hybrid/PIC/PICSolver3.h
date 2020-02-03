@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_PIC_SOLVER3_H
 #define CUBBYFLOW_PIC_SOLVER3_H
 
-#include <Core/Emitter/ParticleEmitter3.h>
+#include <Core/Emitter/ParticleEmitter3.hpp>
 #include <Core/Particle/ParticleSystemData3.h>
 #include <Core/Solver/Grid/GridFluidSolver3.h>
 

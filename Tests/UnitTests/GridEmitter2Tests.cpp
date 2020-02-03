@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Emitter/VolumeGridEmitter2.h>
+#include <Core/Emitter/VolumeGridEmitter2.hpp>
 #include <Core/Geometry/Sphere2.h>
 #include <Core/Grid/CellCenteredScalarGrid2.h>
 #include <Core/Grid/CellCenteredVectorGrid2.h>

@@ -12,7 +12,7 @@
 
 #include <Core/Animation/PhysicsAnimation.hpp>
 #include <Core/Collider/Collider2.hpp>
-#include <Core/Emitter/ParticleEmitter2.h>
+#include <Core/Emitter/ParticleEmitter2.hpp>
 #include <Core/Field/VectorField2.h>
 #include <Core/Particle/ParticleSystemData2.h>
 #include <Core/Utils/Constants.h>

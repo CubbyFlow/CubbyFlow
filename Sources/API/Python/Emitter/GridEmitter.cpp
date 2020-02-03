@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Emitter/GridEmitter.h>
-#include <Core/Emitter/GridEmitter2.h>
-#include <Core/Emitter/GridEmitter3.h>
+#include <Core/Emitter/GridEmitter2.hpp>
+#include <Core/Emitter/GridEmitter3.hpp>
 
 #include <pybind11/pybind11.h>
 

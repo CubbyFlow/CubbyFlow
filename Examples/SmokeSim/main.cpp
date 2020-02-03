@@ -11,7 +11,7 @@
 
 #include <Core/Array/Array2.hpp>
 #include <Core/Collider/RigidBodyCollider3.hpp>
-#include <Core/Emitter/VolumeGridEmitter3.h>
+#include <Core/Emitter/VolumeGridEmitter3.hpp>
 #include <Core/Geometry/Box3.h>
 #include <Core/Geometry/ImplicitTriangleMesh3.h>
 #include <Core/Geometry/Sphere3.h>

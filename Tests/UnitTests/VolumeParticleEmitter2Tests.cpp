@@ -1,7 +1,7 @@
 #include "pch.h"
 
 #include <Core/Animation/Frame.hpp>
-#include <Core/Emitter/VolumeParticleEmitter2.h>
+#include <Core/Emitter/VolumeParticleEmitter2.hpp>
 #include <Core/Geometry/Sphere2.h>
 #include <Core/Surface/SurfaceToImplicit2.h>
 

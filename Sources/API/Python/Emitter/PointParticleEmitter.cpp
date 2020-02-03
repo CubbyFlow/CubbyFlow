@@ -9,8 +9,8 @@
 *************************************************************************/
 #include <API/Python/Emitter/PointParticleEmitter.h>
 #include <API/Python/Utils/pybind11Utils.h>
-#include <Core/Emitter/PointParticleEmitter2.h>
-#include <Core/Emitter/PointParticleEmitter3.h>
+#include <Core/Emitter/PointParticleEmitter2.hpp>
+#include <Core/Emitter/PointParticleEmitter3.hpp>
 
 #include <pybind11/pybind11.h>
 

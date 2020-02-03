@@ -2,8 +2,8 @@
 
 #include <ManualTests.h>
 
-#include <Core/Emitter/VolumeParticleEmitter2.h>
-#include <Core/Emitter/VolumeParticleEmitter3.h>
+#include <Core/Emitter/VolumeParticleEmitter2.hpp>
+#include <Core/Emitter/VolumeParticleEmitter3.hpp>
 #include <Core/Geometry/Sphere2.h>
 #include <Core/Geometry/Sphere3.h>
 #include <Core/Solver/Particle/ParticleSystemSolver2.h>
