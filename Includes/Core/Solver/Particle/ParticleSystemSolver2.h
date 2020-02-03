@@ -11,7 +11,7 @@
 #define CUBBYFLOW_PARTICLE_SYSTEM_SOLVER2_H
 
 #include <Core/Animation/PhysicsAnimation.hpp>
-#include <Core/Collider/Collider2.h>
+#include <Core/Collider/Collider2.hpp>
 #include <Core/Emitter/ParticleEmitter2.h>
 #include <Core/Field/VectorField2.h>
 #include <Core/Particle/ParticleSystemData2.h>

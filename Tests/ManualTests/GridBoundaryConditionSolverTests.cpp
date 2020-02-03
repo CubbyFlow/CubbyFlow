@@ -2,7 +2,7 @@
 
 #include <ManualTests.h>
 
-#include <Core/Collider/RigidBodyCollider2.h>
+#include <Core/Collider/RigidBodyCollider2.hpp>
 #include <Core/Geometry/Plane2.h>
 #include <Core/Geometry/Sphere2.h>
 #include <Core/Solver/Grid/GridBlockedBoundaryConditionSolver2.h>

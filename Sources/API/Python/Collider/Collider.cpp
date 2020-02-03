@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Collider/Collider.h>
-#include <Core/Collider/Collider2.h>
-#include <Core/Collider/Collider3.h>
+#include <Core/Collider/Collider2.hpp>
+#include <Core/Collider/Collider3.hpp>
 
 #include <pybind11/pybind11.h>
 

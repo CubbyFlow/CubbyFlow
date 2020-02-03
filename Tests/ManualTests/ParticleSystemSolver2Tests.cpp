@@ -2,7 +2,7 @@
 
 #include <ManualTests.h>
 
-#include <Core/Collider/RigidBodyCollider2.h>
+#include <Core/Collider/RigidBodyCollider2.hpp>
 #include <Core/Emitter/PointParticleEmitter2.h>
 #include <Core/Field/ConstantVectorField2.h>
 #include <Core/Geometry/Plane2.h>
