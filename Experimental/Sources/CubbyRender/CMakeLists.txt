@@ -36,7 +36,7 @@ file(GLOB_RECURSE sources
 if (USE_GL)
     file(GLOB sources
         ${sources}
-        ${root_dir}/../Libraries/gl3w/GL/gl3w.c)
+        ${root_dir}/../Libraries/gl3w/GL/gl3w.cpp)
 endif()
 if (USE_CUDA)
     file(GLOB sources
