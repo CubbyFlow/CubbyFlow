@@ -13,15 +13,13 @@
 #include <memory>
 #include <string>
 
+#include <Core/Size/Size3.h>
+
 namespace CubbyFlow {
 namespace CubbyRender {
     
     //!
-    //! \brief Abstract base class for Application.
-    //!
-    //! This class contains basic interface for application. 
-    //! GLFW wrapper class or EGL wrapper class must override
-    //! this class and implement pure methods.
+    //! \brief Recorder class for storing rendering result as image or video.
     //!
     class ScreenRecorder final
     {
@@ -30,20 +28,28 @@ namespace CubbyRender {
         ScreenRecorder();
 
         //! Default Destructor.
-        ~ScreenRecorder();
+        virtual ~ScreenRecorder();
 
-        //!
-        //! 
+        //! Store given frame to _buffers
+        //! void storeFrame(Buffer buffer);
+
+        //! Save the frame with given frameIndex as tga format.
         int saveScreenShot(const std::string& path, int frameIndex);
 
-        //!
+        //! Save the stored frames as video.
         int saveVideo(const std::string& path);
 
+        //! Set dimension of the screen(frame)
+        void setFrameDiemsnion(Size3 dim);
+
     protected:
+        // std::vector<Buffer> _buffers;
+        Size3 _frameDimension;
+        int _frameCnt = 0;
     private:
     };
 
-    using ScreenRecorderPtr = std::shared_ptr<ScreenRecorder>;
+    using ScreenRecorderPtr = ScreenRecorder*;
 } 
 }
 

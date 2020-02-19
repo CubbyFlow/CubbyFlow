@@ -3,7 +3,7 @@
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: Abstract base class for WIndow instance.
+> Purpose: Abstract base class for Window.
 > Created Time: 2020/02/18
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
@@ -18,11 +18,7 @@ namespace CubbyFlow {
 namespace CubbyRender {
     
     //!
-    //! \brief Abstract base class for Application.
-    //!
-    //! This class contains basic interface for application. 
-    //! GLFW wrapper class or EGL wrapper class must override
-    //! this class and implement pure methods.
+    //! \brief Abstract base class for Window.
     //!
     class Window
     {

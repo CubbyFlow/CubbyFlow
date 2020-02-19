@@ -65,8 +65,7 @@ namespace CubbyRender {
         _window = std::make_shared<EGLWindow>(_display, title, width, height);
 
         RendererPtr renderer = std::make_shared<GL3Renderer>();
-        int initResult = renderer->initializeGL();
-        assert(initResult == 0);
+        assert( renderer->initializeGL() == 0 );
 
         _window->setRenderer(renderer);
         
@@ -93,15 +92,18 @@ namespace CubbyRender {
         }
 
         terminate();
+
+        return 0;
     }
 
-    int EGLApp::runWithLimitedTime(double time, double fps, ScreenRecorderPtr recorder)
+    int EGLApp::runWithLimitedFrames(int numberOfFrames, double fps, ScreenRecorderPtr recorder)
     {
         if(recorder)
         {
             //! Do nothing
         }
 
+        return 0;
     }
 
     void EGLApp::terminate()

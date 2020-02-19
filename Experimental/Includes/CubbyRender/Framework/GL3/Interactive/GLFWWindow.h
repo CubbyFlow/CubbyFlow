@@ -17,11 +17,7 @@ namespace CubbyFlow {
 namespace CubbyRender {
     
     //!
-    //! \brief Abstract base class for Application.
-    //!
-    //! This class contains basic interface for application. 
-    //! GLFW wrapper class or EGL wrapper class must override
-    //! this class and implement pure methods.
+    //! \brief Implementation of the abstract window class with GLFW.
     //!
     class GLFWWindow final : public Window
     {

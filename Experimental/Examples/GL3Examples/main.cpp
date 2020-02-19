@@ -20,10 +20,13 @@
 #include <sys/stat.h>
 #endif
 
+#include <Framework/Application.h>
 #include <Framework/GL3/Headless/EGLApp.h>
+#include <Framework/Window.h>
 #include <Framework/GL3/Headless/EGLWindow.h>
 #include <Framework/Media/ScreenRecorder.h>
 
+#include <memory>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -31,6 +34,7 @@
 #define APP_NAME "GL3Examples"
 
 using namespace CubbyFlow;
+using namespace CubbyRender;
 
 int main(int argc, char* argv[])
 {
@@ -47,7 +51,7 @@ int main(int argc, char* argv[])
         clara::Help(showHelp) |
         clara::Opt(headless, "headless mode")
         ["-h"]["--head-less"]
-        ("simulation rendering mode (default is not headless mode, that is, create screen and show)")
+        ("simulation rendering mode (default is not headless mode, that is, create screen and show)") |
         clara::Opt(numberOfFrames, "numberOfFrames")
         ["-f"]["--frames"]
         ("total number of frames (default is 100)") |
@@ -93,18 +97,19 @@ int main(int argc, char* argv[])
     ApplicationPtr application;
     if (headless == true) //! Headless rendering mode with EGL library.
     {
-        application = std::make_unique<EGLApp>();
-        if (application.initialize())
+        application = std::make_shared<EGLApp>();
+        if (application->initialize())
         {
             CUBBYFLOW_ERROR << "Initialize EGLApplication failed.";
             return -1;
         }
 
-        auto window = application.createWindow("Test Rendering", 256, 256);
-        application.run(&recorder);
+        auto window = application->createWindow("Test Rendering", 256, 256);
+        application->runWithLimitedFrames(numberOfFrames, fps, &recorder);
     }
     else //! with display, rendering with glfw library
     {
+        UNUSED_VARIABLE(application);
         //! Do nothing.
     }
 
@@ -116,6 +121,8 @@ int main(int argc, char* argv[])
     {
         // recorder.saveScreenShot();
     }
+
+    UNUSED_VARIABLE(recorder);
 
     return EXIT_SUCCESS;
 }

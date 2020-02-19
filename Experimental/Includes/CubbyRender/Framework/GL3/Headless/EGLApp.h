@@ -21,11 +21,7 @@ namespace CubbyRender {
     using EGLWindowPtr = std::shared_ptr<EGLWindow>;
 
     //!
-    //! \brief Abstract base class for Application.
-    //!
-    //! This class contains basic interface for application. 
-    //! GLFW wrapper class or EGL wrapper class must override
-    //! this class and implement pure methods.
+    //! \brief implementation of the abstract application with EGL Library (headless opengl library)
     //!
     class EGLApp final : public Application
     {
@@ -42,8 +38,8 @@ namespace CubbyRender {
         //! Run the application.
         int run(ScreenRecorderPtr recorder = nullptr) override;
 
-        //! Run the application with limited time and fps.
-        int runWithLimitedTime(double time, double fps, ScreenRecorderPtr recorder = nullptr) override;
+        //! Run the application with limited frames and fps.
+        int runWithLimitedFrames(int numberOfFrames, double fps, ScreenRecorderPtr recorder = nullptr) override;
         
         //! Create window and return it.
         WindowPtr& createWindow(const std::string& title, int width, int height) override;

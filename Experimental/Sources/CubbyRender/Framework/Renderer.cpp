@@ -8,10 +8,20 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 
-#include <GL/gl3w.h>
+#include <Framework/Renderer.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
-    
+        
+    Renderer::Renderer()
+    {
+        //! Do nothing
+    }
+
+    Renderer::~Renderer()
+    {
+        //! Do nothing.
+    }
+
 } 
 }

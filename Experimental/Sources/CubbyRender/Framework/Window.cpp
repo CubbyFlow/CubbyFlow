@@ -43,7 +43,6 @@ namespace CubbyRender {
 
     void Window::setSwapInterval(int interval)
     {
-        //! Do nothing.
         UNUSED_VARIABLE(interval);
     }
 
