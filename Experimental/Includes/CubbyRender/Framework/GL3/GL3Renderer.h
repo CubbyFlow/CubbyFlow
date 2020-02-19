@@ -30,6 +30,8 @@ namespace CubbyRender {
 
         //! Initialize and fetch gl commands.
         int initializeGL() override;
+
+        
     protected:
     private:
     };
