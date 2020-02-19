@@ -7,6 +7,8 @@
 > Created Time: 2020/02/15
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
+#ifndef CUBBYFLOW_COMMON_H
+#define CUBBYFLOW_COMMON_H
 
 //! Jet public headers
 #include <Core/Utils/Constants.h>
@@ -14,6 +16,8 @@
 #include <Core/Utils/Logging.h>
 
 //! OpenGL Stuffs
-#ifdef CUBBYRENDER_USE_GL
+#ifdef CUBBYFLOW_USE_GL
 #include <GL/gl3w.h>
+#endif
+
 #endif

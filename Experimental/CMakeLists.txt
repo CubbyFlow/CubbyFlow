@@ -24,7 +24,7 @@ if (USE_GL)
         endif()
 
         # Define macro CUBBYRENDER_USE_GL. 
-        add_definitions(-DCUBBYRENDER_USE_GL)
+        add_definitions(-DCUBBYFLOW_USE_GL)
 
         # Add GLFW3
         if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
@@ -73,7 +73,7 @@ if (USE_CUDA)
     if (CUDA_FOUND)
         set(CUDA_LINK_LIBRARIES_KEYWORD PUBLIC)
         list(APPEND CUDA_NVCC_FLAGS -Wno-deprecated-gpu-targets)
-        add_definitions(-DCUBBYRENDER_USE_CUDA)
+        add_definitions(-DCUBBYFLOW_USE_CUDA)
         include_directories(${CUDA_INCLUDE_DIRS})
 
         if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
@@ -95,7 +95,8 @@ endif()
 
 # Include directories
 include_directories(${CMAKE_CURRENT_LIST_DIR}/../Libraries/gl3w)
-include_directories(${CMAKE_CURRENT_LIST_DIR}/../Libraries/EGL-Registry/api/EGL)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/../Libraries/glfw/include)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/../Libraries/EGL-Registry/api)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/Includes/CubbyRender)
 if (WIN32)
     set(USR_LOCAL_INCLUDE_DIR "")

@@ -1,16 +1,17 @@
 /*************************************************************************
-> File Name: Renderer.h
+> File Name: GLRenderer.h
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: Abstract base class for Renderer object.
-> Created Time: 2020/02/15
+> Purpose: abstract Renderer class implemented with Modern OpenGL
+> Created Time: 2020/02/18
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
-#ifndef CUBBYFLOW_RENDERER_H
-#define CUBBYFLOW_RENDERER_H
+#ifndef CUBBYFLOW_GLRENDERER_H
+#define CUBBYFLOW_GLRENDERER_H
 
 #include <memory>
+#include <Framework/Renderer.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -22,22 +23,22 @@ namespace CubbyRender {
     //! The wrapper class of each Graphics API must overrides 
     //! this renderer class.
     //!
-    class Renderer
+    class GL3Renderer final : public Renderer
     {
     public:
         //! Default constructor.
-        Renderer();
+        GL3Renderer();
 
         //! Default destructor.
-        virtual ~Renderer();
+        ~GL3Renderer();
 
         //! Initialize and fetch gl commands.
-        virtual int initializeGL() = 0;
+        int initializeGL() override;
     protected:
     private:
     };
 
-    using RendererPtr = std::shared_ptr<Renderer>;
+    using GL3RendererPtr = std::shared_ptr<GL3Renderer>;
 } 
 }
 

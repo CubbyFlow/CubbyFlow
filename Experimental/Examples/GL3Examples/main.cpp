@@ -20,6 +20,10 @@
 #include <sys/stat.h>
 #endif
 
+#include <Framework/GL3/Headless/EGLApp.h>
+#include <Framework/GL3/Headless/EGLWindow.h>
+#include <Framework/Media/ScreenRecorder.h>
+
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -31,7 +35,7 @@ using namespace CubbyFlow;
 int main(int argc, char* argv[])
 {
     bool showHelp = false;
-
+    bool headless = true;
     int numberOfFrames = 100;
     double fps = 60.0;
     std::string logFileName = APP_NAME ".log";
@@ -41,6 +45,9 @@ int main(int argc, char* argv[])
     // Parsing
     auto parser =
         clara::Help(showHelp) |
+        clara::Opt(headless, "headless mode")
+        ["-h"]["--head-less"]
+        ("simulation rendering mode (default is not headless mode, that is, create screen and show)")
         clara::Opt(numberOfFrames, "numberOfFrames")
         ["-f"]["--frames"]
         ("total number of frames (default is 100)") |
@@ -80,6 +87,34 @@ int main(int argc, char* argv[])
     if (logFile)
     {
         Logging::SetAllStream(&logFile);
+    }
+
+    ScreenRecorder recorder;
+    ApplicationPtr application;
+    if (headless == true) //! Headless rendering mode with EGL library.
+    {
+        application = std::make_unique<EGLApp>();
+        if (application.initialize())
+        {
+            CUBBYFLOW_ERROR << "Initialize EGLApplication failed.";
+            return -1;
+        }
+
+        auto window = application.createWindow("Test Rendering", 256, 256);
+        application.run(&recorder);
+    }
+    else //! with display, rendering with glfw library
+    {
+        //! Do nothing.
+    }
+
+    if (format == "mp4")
+    {
+        // recorder.saveVideo(outputDir + APP_NAME);
+    }
+    else if (format == "tga")
+    {
+        // recorder.saveScreenShot();
     }
 
     return EXIT_SUCCESS;
