@@ -10,6 +10,7 @@
 #include <Framework/Shader.h>
 #include <Framework/Renderer.h>
 #include <Framework/ShaderPreset.h>
+#include <Framework/Common.h>
 #include <cassert>
 
 #include <fstream>
@@ -25,11 +26,13 @@ namespace CubbyRender {
 
     Shader::Shader(const std::string& shaderName)
     {
+        UNUSED_VARIABLE(shaderName); //! I dont know why,, unreferenced variable error occurred here.
         assert( load(shaderName) == 0 );
     }
 
     Shader::Shader(const ShaderMap& fileMap)
     {
+        UNUSED_VARIABLE(fileMap); //! I dont know why,, unreferenced variable error occurred here.
         assert( load(fileMap) == 0 );
     }
 
