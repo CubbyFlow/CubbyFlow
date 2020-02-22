@@ -8,6 +8,8 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 
+#ifdef CUBBYFLOW_USE_GL
+
 #include <Framework/GL3/Headless/EGLApp.h>
 
 //! For using EGL extension, define extra macro.
@@ -100,6 +102,7 @@ namespace CubbyRender {
     {
         if(recorder)
         {
+            
             //! Do nothing
         }
 
@@ -120,3 +123,5 @@ namespace CubbyRender {
 
 } 
 }
+
+#endif 

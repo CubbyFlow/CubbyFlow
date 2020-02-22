@@ -10,6 +10,8 @@
 #ifndef CUBBYFLOW_EGLWWINDOW_H
 #define CUBBYFLOW_EGLWWINDOW_H
 
+#ifdef CUBBYFLOW_USE_GL
+
 #include <Framework/Window.h>
 #include <EGL/egl.h>
 #include <memory>
@@ -53,3 +55,5 @@ namespace CubbyRender {
 }
 
 #endif
+
+#endif 

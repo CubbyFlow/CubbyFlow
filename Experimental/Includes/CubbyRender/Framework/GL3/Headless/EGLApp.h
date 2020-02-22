@@ -10,6 +10,8 @@
 #ifndef CUBBYFLOW_EGLAPP_H
 #define CUBBYFLOW_EGLAPP_H
 
+#ifdef CUBBYFLOW_USE_GL
+
 #include <Framework/Application.h>
 #include <EGL/egl.h>
 #include <memory>
@@ -60,3 +62,5 @@ namespace CubbyRender {
 }
 
 #endif
+
+#endif 

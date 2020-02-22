@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_RENDERER_H
 #define CUBBYFLOW_RENDERER_H
 
-#include <memory>
+#include <Framework/Prerequisites.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -33,6 +33,20 @@ namespace CubbyRender {
 
         //! Initialize and fetch gl commands.
         virtual int initializeGL() = 0;
+
+        //! Create VertexBuffer pointer with given parameters.
+        //!
+        //! \param vertices vertex data
+        //! \param numberOfVertices number of point.
+        //! \return new vertex buffer instance
+        virtual VertexBufferPtr createVertexBuffer(const float* vertices, size_t numberOfVertices) = 0;
+
+        //! Create Shader Program from presets.
+        //! \param shader preset name
+        //! \return new shader pointer
+        virtual ShaderPtr createShaderPreset(const std::string& shaderName) = 0;
+
+        //! CreateShader
     protected:
     private:
     };

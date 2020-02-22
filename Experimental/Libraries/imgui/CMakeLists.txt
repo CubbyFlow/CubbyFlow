@@ -2,7 +2,7 @@
 set(target imgui)
 
 # Sources
-file(GLOB headers
+file(GLOB_RECURSE headers
     ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 
 file(GLOB sources

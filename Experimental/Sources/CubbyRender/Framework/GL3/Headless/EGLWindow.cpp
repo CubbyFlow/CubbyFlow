@@ -7,6 +7,9 @@
 > Created Time: 2020/02/18
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
+
+#ifdef CUBBYFLOW_USE_GL
+
 #include <Framework/GL3/Headless/EGLWindow.h>
 #include <Framework/GL3/GL3Renderer.h>
 
@@ -59,3 +62,6 @@ namespace CubbyRender {
     }
 }
 }
+
+
+#endif 

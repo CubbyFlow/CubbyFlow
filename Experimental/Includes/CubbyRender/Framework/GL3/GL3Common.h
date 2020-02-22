@@ -13,6 +13,7 @@
 
 #ifdef CUBBYFLOW_USE_GL
 
+using GLchar = char;
 using GLenum = unsigned int;
 using GLboolean = unsigned char;
 using GLbitfield = unsigned int;

@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
     auto parser =
         clara::Help(showHelp) |
         clara::Opt(headless, "headless mode")
-        ["-h"]["--head-less"]
+        ["-h"]["--headless"]
         ("simulation rendering mode (default is not headless mode, that is, create screen and show)") |
         clara::Opt(numberOfFrames, "numberOfFrames")
         ["-f"]["--frames"]

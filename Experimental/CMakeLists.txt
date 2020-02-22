@@ -16,6 +16,9 @@ if (USE_GL)
     find_package(OpenGL REQUIRED)
     
     if (OPENGL_FOUND)
+        # Define macro CUBBYRENDER_USE_GL. 
+        add_definitions(-DCUBBYFLOW_USE_GL)
+
         # Ignore warning 4152 ( nonstandard extension, function/data pointer conversion in expression ) for building gl3w library.
         if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
             set(DEFAULT_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}
@@ -23,28 +26,12 @@ if (USE_GL)
             )
         endif()
 
-        # Define macro CUBBYRENDER_USE_GL. 
-        add_definitions(-DCUBBYFLOW_USE_GL)
-
-        # Add GLFW3
+        # Add GLFW
+        add_subdirectory(Libraries/glfw)
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/glfw/include)
         if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-            find_program(NUGET nuget)
-            if (NOT NUGET)
-                message(FATAL "Cannot find nuget command line tool.")
-            else()
-                if ("${CMAKE_GENERATOR}" MATCHES "Win64" OR "${CMAKE_GENERATOR_PLATFORM}" MATCHES "x64")
-                    set(MSVC_ARCH "x64")
-                else()
-                    set(MSVC_ARCH "Win32")
-                endif()
-                execute_process(COMMAND ${NUGET} install glfw -Version 3.2.1-v141)
-                set(MSVC_GLFW_DIR ${PROJECT_BINARY_DIR}/glfw.3.2.1-v141/build/native)
-                include_directories(${MSVC_GLFW_DIR}/include)
-                link_directories(${MSVC_GLFW_DIR}/lib/${CMAKE_VS_PLATFORM_TOOLSET}/${MSVC_ARCH}/static)
-            endif()
-            set(GLFW_LIBRARY glfw3)
+            set(GLFW_LIBRARY glfw)
         else()
-            find_package(glfw3 REQUIRED)
             if (APPLE)
                 set(GLFW_LIBRARY glfw)
             else()
@@ -56,10 +43,27 @@ if (USE_GL)
             endif()
         endif()
 
+        # Add EGL
+        SET(EGL_NO_GLEW ON CACHE BOOL "Do not use glew in EGL implementation.")
+        add_subdirectory(Libraries/EGL/EGL)
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/EGL/EGL/include)
+        set(EGL_LIBRARY egl)
+
+        # Add Imgui
+        add_subdirectory(Libraries/imgui)
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/imgui)
+        set(IMGUI_LIBRARY imgui)
+
         set(OPENGL_LIBRARIES 
             ${OPENGL_LIBRARIES}
             ${GLFW_LIBRARY}
+            ${EGL_LIBRARY}
+            ${IMGUI_LIBRARY}
             ${COREFOUNDATION_LIB})
+
+        # Include other directories
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/gl3w)
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/Includes/CubbyRender)
     else()
         set(USE_GL OFF)
     endif()
@@ -93,11 +97,6 @@ if (USE_CUDA)
     endif()
 endif()
 
-# Include directories
-include_directories(${CMAKE_CURRENT_LIST_DIR}/../Libraries/gl3w)
-include_directories(${CMAKE_CURRENT_LIST_DIR}/../Libraries/glfw/include)
-include_directories(${CMAKE_CURRENT_LIST_DIR}/../Libraries/EGL-Registry/api)
-include_directories(${CMAKE_CURRENT_LIST_DIR}/Includes/CubbyRender)
 if (WIN32)
     set(USR_LOCAL_INCLUDE_DIR "")
 else()

@@ -1,5 +1,5 @@
 /*************************************************************************
-> File Name: GLRenderer.h
+> File Name: GL3Renderer.h
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
@@ -9,6 +9,8 @@
 *************************************************************************/
 #ifndef CUBBYFLOW_GLRENDERER_H
 #define CUBBYFLOW_GLRENDERER_H
+
+#ifdef CUBBYFLOW_USE_GL
 
 #include <memory>
 #include <Framework/Renderer.h>
@@ -31,7 +33,17 @@ namespace CubbyRender {
         //! Initialize and fetch gl commands.
         int initializeGL() override;
 
-        
+        //! Create VertexBuffer pointer with given parameters.
+        //!
+        //! \param vertices vertex data
+        //! \param numberOfVertices number of point.
+        //! \return new vertex buffer instance
+        VertexBufferPtr createVertexBuffer(const float* vertices, size_t numberOfVertices) override;
+
+        //! Create Shader Program from presets.
+        //! \param shader preset name
+        //! \return new shader pointer
+        ShaderPtr createShaderPreset(const std::string& shaderName) override;
     protected:
     private:
     };
@@ -41,3 +53,5 @@ namespace CubbyRender {
 }
 
 #endif
+
+#endif 

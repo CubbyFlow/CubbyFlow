@@ -79,11 +79,18 @@ namespace CubbyRender {
 
                 file.close();
             }
+            else
+            {
+                return 1;
+            }
+
+            return 0;
         }
 
         int ScreenRecorder::saveVideo(const std::string& path)
         {
             UNUSED_VARIABLE(path);
+            return 0;
         }
 
         void ScreenRecorder::setFrameDiemsnion(Size3 dim)

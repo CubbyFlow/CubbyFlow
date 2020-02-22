@@ -10,14 +10,14 @@
 #ifndef CUBBYFLOW_SHADER_H
 #define CUBBYFLOW_SHADER_H
 
-#include <memory>
+#include <Framework/Prerequisites.h>
 #include <Framework/Object.h>
+#include <unordered_map>
 
 namespace CubbyFlow {
 namespace CubbyRender {
-    
-    class Renderer;
-    using RendererPtr = std::shared_ptr<Renderer>;
+
+    using ShaderMap = std::unordered_map<std::string, std::string>;
 
     //!
     //! \brief Abstract base class for Shader object.
@@ -28,18 +28,25 @@ namespace CubbyRender {
         //! Default constructor.
         Shader();
 
-        //! Construct with shader name (for example, shadow_shader, etc..)
+        //! Construct with shader preset name (for example, shadow_shader, etc..)
         Shader(const std::string& shaderName);
+
+        //! Construct with shader shader map ( for example, fileMap["VertexShader"] = "shader/vs.glsl")
+        Shader(const ShaderMap& fileMap);
 
         //! Default destructor.
         virtual ~Shader();
 
-        //! Set shader name
-        void setShaderName(const std::string& shaderName);
+        //! load shader with shader preset name.
+        int load(const std::string& shaderName);
 
-        //! Get shader name
-        std::string getShaderName();
+        //! load shader with shader map.
+        int load(const ShaderMap& fileMap);
+
     protected:
+        //! implementation of shader load
+        virtual int onLoad(const ShaderMap& shaderMap) = 0;
+
         //! implementation of bind method
         virtual void onBind(RendererPtr renderer) = 0;
         
@@ -48,8 +55,6 @@ namespace CubbyRender {
 
         //! implementation of destry method
         virtual void onDestroy() = 0;
-
-        std::string _shaderName;
     private:
     };
 

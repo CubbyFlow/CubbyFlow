@@ -7,7 +7,14 @@
 > Created Time: 2020/02/18
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
+
+#ifdef CUBBYFLOW_USE_GL
+
 #include <Framework/GL3/GL3Renderer.h>
+#include <Framework/GL3/GL3VertexBuffer.h>
+#include <Framework/GL3/GL3Shader.h>
+#include <Framework/GL3/GL3Renderer.h>
+#include <Framework/Common.h>
 #include <Core/Utils/Logging.h>
 #include <GL/gl3w.h>
 
@@ -40,5 +47,21 @@ namespace CubbyRender {
 
             return 0;
         }
+
+        VertexBufferPtr GL3Renderer::createVertexBuffer(const float* vertices, size_t numberOfVertices) 
+        {
+            UNUSED_VARIABLE(vertices);
+            UNUSED_VARIABLE(numberOfVertices);
+            return nullptr;
+        }
+
+        ShaderPtr GL3Renderer::createShaderPreset(const std::string& shaderName) 
+        {
+            UNUSED_VARIABLE(shaderName);
+            return nullptr;
+        }
+
 } 
 }
+
+#endif 
