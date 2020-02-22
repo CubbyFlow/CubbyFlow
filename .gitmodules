@@ -13,9 +13,3 @@
 [submodule "Libraries/tinyobj"]
 	path = Libraries/tinyobj
 	url = https://github.com/syoyo/tinyobjloader
-[submodule "Libraries/EGL-Registry"]
-	path = Libraries/EGL-Registry
-	url = https://github.com/KhronosGroup/EGL-Registry
-[submodule "Libraries/glfw"]
-	path = Libraries/glfw
-	url = http://github.com/glfw/glfw
