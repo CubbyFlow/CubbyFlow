@@ -97,6 +97,7 @@ int main(int argc, char* argv[])
     ApplicationPtr application;
     if (headless == true) //! Headless rendering mode with EGL library.
     {
+        std::cout << "Starting with headless mode..." << '\n';
         application = std::make_shared<EGLApp>();
         if (application->initialize())
         {
@@ -109,17 +110,22 @@ int main(int argc, char* argv[])
     }
     else //! with display, rendering with glfw library
     {
+        std::cout << "Starting with GUI mode..." << '\n';
         UNUSED_VARIABLE(application);
         //! Do nothing.
     }
-
+    
     if (format == "mp4")
     {
+        std::cout << "Save recording result as mp4...";
         // recorder.saveVideo(outputDir + APP_NAME);
+        std::cout << "complete" << '\n';
     }
     else if (format == "tga")
     {
+        std::cout << "Save recording result as tga...";
         // recorder.saveScreenShot();
+        std::cout << "complete" << '\n';
     }
 
     UNUSED_VARIABLE(recorder);

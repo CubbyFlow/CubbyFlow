@@ -44,10 +44,8 @@ if (USE_GL)
         endif()
 
         # Add EGL
-        SET(EGL_NO_GLEW ON CACHE BOOL "Do not use glew in EGL implementation.")
-        add_subdirectory(Libraries/EGL/EGL)
-        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/EGL/EGL/include)
-        set(EGL_LIBRARY egl)
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/EGL-Registry/api)
+        set(EGL_LIBRARY EGL)
 
         # Add Imgui
         add_subdirectory(Libraries/imgui)

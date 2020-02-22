@@ -11,7 +11,7 @@ set(CUBBYRENDER_INCLUDE_DIRS
 
 if (USE_GL)
     list(APPEND CUBBYRENDER_INCLUDE_DIRS
-    ${root_dir}/../Libraries/gl3w)
+    ${root_dir}/Libraries/gl3w)
 endif()
 if (USE_CUDA)
 list(APPEND CUBBYRENDER_INCLUDE_DIRS
@@ -31,12 +31,12 @@ file(GLOB_RECURSE headers
 
 file(GLOB_RECURSE sources
     ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
-    ${root_dir}/../Libraries/obj/*.cpp)
+    ${root_dir}/Libraries/obj/*.cpp)
 
 if (USE_GL)
     file(GLOB sources
         ${sources}
-        ${root_dir}/../Libraries/gl3w/GL/gl3w.cpp)
+        ${root_dir}/Libraries/gl3w/GL/gl3w.cpp)
 endif()
 if (USE_CUDA)
     file(GLOB sources
@@ -72,7 +72,6 @@ target_link_libraries(${target}
 	${DEFAULT_LIBRARIES}
     ${CMAKE_DL_LIBS}
     ${OPENGL_LIBRARIES}
-    EGL
 
     INTERFACE
 )
