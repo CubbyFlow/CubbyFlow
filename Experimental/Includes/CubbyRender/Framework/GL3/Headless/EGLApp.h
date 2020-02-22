@@ -15,6 +15,7 @@
 #include <Framework/Application.h>
 #include <EGL/egl.h>
 #include <memory>
+#include <string>
 
 namespace CubbyFlow {
 namespace CubbyRender {

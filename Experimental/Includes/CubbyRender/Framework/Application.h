@@ -13,6 +13,7 @@
 #include <memory>
 #include <Framework/Window.h>
 #include <Framework/Media/ScreenRecorder.h>
+#include <string>
 
 namespace CubbyFlow {
 namespace CubbyRender {

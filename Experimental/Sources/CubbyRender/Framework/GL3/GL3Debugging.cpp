@@ -12,6 +12,7 @@
 
 #include <Core/Utils/Logging.h>
 #include <GL/gl3w.h>
+#include <string>
 
 namespace CubbyFlow {
 namespace CubbyRender {

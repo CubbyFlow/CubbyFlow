@@ -18,6 +18,7 @@
 #include <Framework/Window.h>
 #include <Framework/GL3/Headless/EGLWindow.h>
 #include <Framework/GL3/GL3Renderer.h>
+#include <Framework/Common.h>
 #include <cassert>
 
 namespace CubbyFlow {
@@ -105,7 +106,9 @@ namespace CubbyRender {
             
             //! Do nothing
         }
-
+        UNUSED_VARIABLE(numberOfFrames);
+        UNUSED_VARIABLE(fps);
+        UNUSED_VARIABLE(recorder);
         return 0;
     }
 

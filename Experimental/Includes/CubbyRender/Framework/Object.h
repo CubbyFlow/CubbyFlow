@@ -11,6 +11,7 @@
 #define CUBBYFLOW_OBJECT_H
 
 #include <memory>
+#include <string>
 
 namespace CubbyFlow {
 namespace CubbyRender {

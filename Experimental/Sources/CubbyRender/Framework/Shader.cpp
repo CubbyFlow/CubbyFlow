@@ -64,7 +64,6 @@ namespace CubbyRender {
         {
             const std::string& shaderType = shaderPair.first;
             std::string shaderFilePath = shaderPair.second;
-            std::string shaderSource;
             
             std::ifstream file(shaderFilePath.c_str());
             if (file)

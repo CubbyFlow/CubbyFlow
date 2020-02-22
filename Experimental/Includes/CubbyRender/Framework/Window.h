@@ -13,6 +13,7 @@
 #include <memory>
 #include <Core/Size/Size2.h>
 #include <Framework/Renderer.h>
+#include <string>
 
 namespace CubbyFlow {
 namespace CubbyRender {

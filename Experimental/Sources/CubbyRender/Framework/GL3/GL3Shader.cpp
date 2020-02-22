@@ -43,7 +43,7 @@ namespace CubbyRender {
             {
 				glGetShaderiv(target, GL_INFO_LOG_LENGTH, &infoLogLength);
 				infoLog.resize(infoLogLength);
-				glGetShaderInfoLog(target, infoLog.size(), nullptr, &infoLog[0]);
+				glGetShaderInfoLog(target, static_cast<GLsizei>(infoLog.size()), nullptr, &infoLog[0]);
                 CUBBYFLOW_ERROR << infoLog.data();
             }
         }
@@ -54,7 +54,7 @@ namespace CubbyRender {
             {
 				glGetProgramiv(target, GL_INFO_LOG_LENGTH, &infoLogLength);
 				infoLog.resize(infoLogLength);
-				glGetProgramInfoLog(target, infoLog.size(), nullptr, &infoLog[0]);
+				glGetProgramInfoLog(target, static_cast<GLsizei>(infoLog.size()), nullptr, &infoLog[0]);
                 CUBBYFLOW_ERROR << infoLog.data();
             }
         }

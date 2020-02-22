@@ -13,6 +13,7 @@
 #include <Framework/Prerequisites.h>
 #include <Framework/Object.h>
 #include <unordered_map>
+#include <string>
 
 namespace CubbyFlow {
 namespace CubbyRender {

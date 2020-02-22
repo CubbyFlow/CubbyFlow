@@ -15,6 +15,7 @@
 #include <Framework/Prerequisites.h>
 #include <Framework/Shader.h>
 #include <Framework/GL3/GL3Common.h>
+#include <string>
 
 namespace CubbyFlow {
 namespace CubbyRender {

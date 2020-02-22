@@ -11,6 +11,7 @@
 #define CUBBYFLOW_RENDERER_H
 
 #include <Framework/Prerequisites.h>
+#include <string>
 
 namespace CubbyFlow {
 namespace CubbyRender {

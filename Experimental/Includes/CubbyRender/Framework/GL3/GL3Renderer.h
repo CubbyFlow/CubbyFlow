@@ -14,6 +14,7 @@
 
 #include <memory>
 #include <Framework/Renderer.h>
+#include <string>
 
 namespace CubbyFlow {
 namespace CubbyRender {
