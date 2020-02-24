@@ -1,15 +1,15 @@
 /*************************************************************************
-> File Name: GLCommon.h
+> File Name: EGLCommon.h
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: include frequently used GL types
-> Created Time: 2020/02/18
+> Purpose: include frequently used EGL types and declare macro
+> Created Time: 2020/02/24
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 
-#ifndef CUBBYFLOW_GL3COMMON_H
-#define CUBBYFLOW_GL3COMMON_H
+#ifndef CUBBYFLOW_EGLCOMMON_H
+#define CUBBYFLOW_EGLCOMMON_H
 
 #ifdef CUBBYFLOW_USE_GL
 
@@ -18,15 +18,15 @@
 #include <GL/gl3w.h>
 #include <EGL/egl.h>
 
-#define EGL_ASSERT(result, success_msg, failed_msg) \
+#define EGL_ASSERT(result, common_msg) \
 {\
-    if (result == EGL_TRUE)\
+    if ((result) == EGL_TRUE)\
     {\
-        CUBBYFLOW_INFO << success_msg;\
+        CUBBYFLOW_INFO << (common_msg) << " Success";\
     }\
     else\
     {\
-        CUBBYFLOW_ERROR << failed_msg;\
+        CUBBYFLOW_ERROR << (common_msg) << " Failed";\
         assert(false);\
     }\
 }

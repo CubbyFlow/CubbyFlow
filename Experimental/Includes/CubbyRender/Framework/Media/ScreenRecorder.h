@@ -14,6 +14,7 @@
 #include <string>
 
 #include <Core/Size/Size3.h>
+#include <vector>
 
 namespace CubbyFlow {
 namespace CubbyRender {

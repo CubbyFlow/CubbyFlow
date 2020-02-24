@@ -13,6 +13,7 @@
 #include <Framework/GL3/Headless/EGLWindow.h>
 #include <Framework/GL3/GL3Renderer.h>
 #include <Framework/Common.h>
+#include <Framework/GL3/Headless/EGLCommon.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -39,8 +40,12 @@ namespace CubbyRender {
         eglChooseConfig(_display, configAttributes, &config, 1, &numConfigs);
 
         _surface = eglCreatePbufferSurface(_display, config, pbufferAttribs);
+        EGL_ASSERT(_surface != EGL_NO_SURFACE, "Create Pbuffer surface");
+
         EGLContext context = eglCreateContext(_display, config, EGL_NO_CONTEXT, NULL);
-        eglMakeCurrent(_display, _surface, _surface, context);
+        EGL_ASSERT(context != EGL_NO_CONTEXT, "Create Context with current Pbuffer surface");
+
+        EGL_ASSERT(eglMakeCurrent(_display, _surface, _surface, context), "Binding current Context to render thread");
         CUBBYFLOW_INFO << "Create EGL Surface with " << width << "x" << height << " complete.";
     }
 
