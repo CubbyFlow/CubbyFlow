@@ -17,7 +17,7 @@ namespace CubbyFlow {
 namespace CubbyRender {
     
     EGLWindow::EGLWindow(EGLDisplay display, const std::string& title, int width, int height)
-        : _display(display), Window(title, width, height)
+        : Window(title, width, height), _display(display)
     {
         constexpr EGLint configAttributes[] = {
             EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,

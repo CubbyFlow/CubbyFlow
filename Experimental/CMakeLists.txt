@@ -43,8 +43,18 @@ if (USE_GL)
             endif()
         endif()
 
+        # Add glew
+        add_subdirectory(Libraries/glew-cmake)
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/glew-cmake/include)
+        set(GLEW_LIBRARY GLEW)
+
         # Add EGL
-        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/EGL-Registry/api)
+        #include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/EGL-Registry/api)
+        #set(EGL_LIBRARY EGL)
+
+        # Add EGL
+        add_subdirectory(Libraries/EGL/EGL)
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/EGL/EGL/include)
         set(EGL_LIBRARY EGL)
 
         # Add Imgui
@@ -55,6 +65,7 @@ if (USE_GL)
         set(OPENGL_LIBRARIES 
             ${OPENGL_LIBRARIES}
             ${GLFW_LIBRARY}
+            ${GLEW_LIBRARY}
             ${EGL_LIBRARY}
             ${IMGUI_LIBRARY}
             ${COREFOUNDATION_LIB})
