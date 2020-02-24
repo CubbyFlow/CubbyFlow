@@ -55,9 +55,19 @@ if (USE_GL)
         #set(EGL_LIBRARY EGL)
 
         # Add EGL
-        add_subdirectory(Libraries/EGL/EGL)
-        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/EGL/EGL/include)
-        set(EGL_LIBRARY EGL)
+        find_library(
+            EGL_FOUND
+            NAMES EGL.so
+            HINTS /usr/lib /usr/lib64)
+        if(EGL_FOUND)
+            set(EGL_LIBRARY EGL)
+        else()
+            message("-- Could not find EGL")
+            include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/EGL/EGL/include/EGL)
+            add_subdirectory(Libraries/EGL/EGL)
+            set(EGL_LIBRARY egl)
+        endif()
+        # 
 
         # Add Imgui
         add_subdirectory(Libraries/imgui)
