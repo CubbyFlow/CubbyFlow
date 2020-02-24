@@ -44,9 +44,11 @@ if (USE_GL)
         endif()
 
         # Add glew
+        SET(glew-cmake_BUILD_SHARED OFF CACHE BOOL "turn off generating shared library")
+        SET(glew-cmake_BUILD_MULTI_CONTEXT OFF CACHE BOOL "turn off multi context")
         add_subdirectory(Libraries/glew-cmake)
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/glew-cmake/include)
-        set(GLEW_LIBRARY GLEW)
+        set(GLEW_LIBRARY libglew_static)
 
         # Add EGL
         #include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/EGL-Registry/api)
@@ -73,6 +75,7 @@ if (USE_GL)
         # Include other directories
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/gl3w)
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Includes/CubbyRender)
+
     else()
         set(USE_GL OFF)
     endif()
@@ -120,3 +123,5 @@ endif()
 if (APPLE)
     # add_subdirectory(src/examples/metal_examples)
 endif()
+
+# Project dependencies

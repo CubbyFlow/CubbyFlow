@@ -13,8 +13,23 @@
 
 #ifdef CUBBYFLOW_USE_GL
 
-//! OpenGL Stuffs
+#include <Core/Utils/Logging.h>
+#include <cassert>
 #include <GL/gl3w.h>
+#include <EGL/egl.h>
+
+#define EGL_ASSERT(result, success_msg, failed_msg) \
+{\
+    if (result == EGL_TRUE)\
+    {\
+        CUBBYFLOW_INFO << success_msg;\
+    }\
+    else\
+    {\
+        CUBBYFLOW_ERROR << failed_msg;\
+        assert(false);\
+    }\
+}
 
 #define CUBBYFLOW_GL_MAJOR_VERSION 4
 #define CUBBYFLOW_GL_MINOR_VERSION 3

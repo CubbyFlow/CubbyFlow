@@ -15,9 +15,4 @@
 #include <Core/Utils/Macros.h>
 #include <Core/Utils/Logging.h>
 
-//! OpenGL Stuffs
-#ifdef CUBBYFLOW_USE_GL
-#include <GL/gl3w.h>
-#endif
-
 #endif

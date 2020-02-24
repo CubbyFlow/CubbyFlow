@@ -19,6 +19,7 @@
 #include <Framework/GL3/Headless/EGLWindow.h>
 #include <Framework/GL3/GL3Renderer.h>
 #include <Framework/Common.h>
+#include <Framework/GL3/Headless/EGLCommon.h>
 #include <cassert>
 
 namespace CubbyFlow {
@@ -57,9 +58,14 @@ namespace CubbyRender {
         _display = eglGetPlatformDisplayEXT(EGL_PLATFORM_DEVICE_EXT, devices[0], 0);
         
         EGLint major, minor;
-        eglInitialize(_display, &major, &minor);
-        eglBindAPI(EGL_OPENGL_API);
+        EGL_ASSERT(eglInitialize(_display, &major, &minor), 
+                    "EGL Initialization success", "EGL Initialization failed");
 
+        CUBBYFLOW_INFO << "EGL Version " << major << "." << minor;
+
+        EGL_ASSERT(eglBindAPI(EGL_OPENGL_API), 
+                    "EGL OpenGL Binding success", "EGL OpenGL Binding failed");
+        
         return 0;
     }
 

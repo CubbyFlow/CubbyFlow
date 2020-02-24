@@ -15,6 +15,7 @@
 #include <Framework/GL3/GL3Shader.h>
 #include <Framework/GL3/GL3Renderer.h>
 #include <Framework/Common.h>
+#include <Framework/GL3/GL3Common.h>
 #include <Core/Utils/Logging.h>
 #include <GL/gl3w.h>
 
@@ -39,9 +40,10 @@ namespace CubbyRender {
                 return -1;
             }
 
-            if (!gl3wIsSupported(3, 3))
+            if (!gl3wIsSupported(CUBBYFLOW_GL_MAJOR_VERSION, CUBBYFLOW_GL_MINOR_VERSION))
             {
-                CUBBYFLOW_ERROR << "Your hardware does not support OpenGL 3.3";
+                CUBBYFLOW_ERROR << "Your hardware does not support OpenGL " << CUBBYFLOW_GL_MAJOR_VERSION << "."
+                                << CUBBYFLOW_GL_MINOR_VERSION;
                 return -1;
             }
 

@@ -12,6 +12,7 @@
 
 #include <Framework/GL3/Headless/EGLWindow.h>
 #include <Framework/GL3/GL3Renderer.h>
+#include <Framework/Common.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -40,6 +41,7 @@ namespace CubbyRender {
         _surface = eglCreatePbufferSurface(_display, config, pbufferAttribs);
         EGLContext context = eglCreateContext(_display, config, EGL_NO_CONTEXT, NULL);
         eglMakeCurrent(_display, _surface, _surface, context);
+        CUBBYFLOW_INFO << "Create EGL Surface with " << width << "x" << height << " complete.";
     }
 
     EGLWindow::~EGLWindow()
