@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_ARRAY_SAMPLERS2_IMPL_HPP
 #define CUBBYFLOW_ARRAY_SAMPLERS2_IMPL_HPP
 
-#include <Core/Math/MathUtils.h>
+#include <Core/Math/MathUtils.hpp>
 
 namespace CubbyFlow
 {

@@ -8,9 +8,9 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Math/MathUtils.h>
 #include <Core/Utils/Parallel.h>
 #include <Core/Geometry/TriangleMesh3.hpp>
+#include <Core/Math/MathUtils.hpp>
 
 #define TINYOBJLOADER_IMPLEMENTATION
 #define TINYOBJLOADER_USE_DOUBLE

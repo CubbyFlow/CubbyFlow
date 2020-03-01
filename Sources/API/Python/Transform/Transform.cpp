@@ -11,7 +11,7 @@
 #include <API/Python/Utils/pybind11Utils.h>
 #include <Core/Transform/Transform2.h>
 #include <Core/Transform/Transform3.h>
-#include <Core/Math/Quaternion.h>
+#include <Core/Math/Quaternion.hpp>
 #include <Core/Vector/Vector2.h>
 #include <Core/Vector/Vector3.h>
 

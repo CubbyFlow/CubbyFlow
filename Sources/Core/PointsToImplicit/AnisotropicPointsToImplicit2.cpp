@@ -7,7 +7,7 @@
 > Created Time: 2017/11/19
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <Core/Math/SVD.h>
+#include <Core/Math/SVD.hpp>
 #include <Core/Matrix/Matrix2x2.h>
 #include <Core/PointsToImplicit/AnisotropicPointsToImplicit2.h>
 #include <Core/Searcher/PointKdTreeSearcher2.h>

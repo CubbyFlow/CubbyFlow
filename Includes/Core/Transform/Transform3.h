@@ -11,7 +11,7 @@
 #define CUBBYFLOW_TRANSFORM3_H
 
 #include <Core/BoundingBox/BoundingBox3.hpp>
-#include <Core/Math/Quaternion.h>
+#include <Core/Math/Quaternion.hpp>
 #include <Core/Ray/Ray3.h>
 #include <Core/Vector/Vector3.h>
 

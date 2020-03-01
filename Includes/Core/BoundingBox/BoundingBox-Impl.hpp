@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_BOUNDING_BOX_IMPL_HPP
 #define CUBBYFLOW_BOUNDING_BOX_IMPL_HPP
 
-#include <Core/Math/MathUtils.h>
+#include <Core/Math/MathUtils.hpp>
 
 namespace CubbyFlow
 {

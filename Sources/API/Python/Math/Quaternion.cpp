@@ -9,7 +9,7 @@
 *************************************************************************/
 #include <API/Python/Math/Quaternion.h>
 #include <API/Python/Utils/pybind11Utils.h>
-#include <Core/Math/Quaternion.h>
+#include <Core/Math/Quaternion.hpp>
 
 #include <pybind11/pybind11.h>
 

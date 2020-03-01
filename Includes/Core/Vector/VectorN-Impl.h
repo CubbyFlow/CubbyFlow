@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_VECTORN_IMPL_H
 #define CUBBYFLOW_VECTORN_IMPL_H
 
-#include <Core/Math/MathUtils.h>
+#include <Core/Math/MathUtils.hpp>
 #include <Core/Utils/Parallel.h>
 
 namespace CubbyFlow

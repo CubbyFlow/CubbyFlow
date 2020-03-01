@@ -7,7 +7,7 @@
 > Created Time: 2017/08/16
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <Core/Math/CG.h>
+#include <Core/Math/CG.hpp>
 #include <Core/Solver/FDM/FDMCGSolver3.h>
 
 namespace CubbyFlow

@@ -8,7 +8,7 @@
 > Created Time: 2017/11/05
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <Core/Math/CG.h>
+#include <Core/Math/CG.hpp>
 #include <Core/Solver/FDM/FDMMGPCGSolver2.h>
 #include <Core/Utils/Logging.h>
 

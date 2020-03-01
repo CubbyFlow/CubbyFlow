@@ -7,7 +7,7 @@
 > Created Time: 2017/09/03
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <Core/Math/PDE.h>
+#include <Core/Math/PDE.hpp>
 #include <Core/Solver/LevelSet/UpwindLevelSetSolver2.h>
 
 namespace CubbyFlow

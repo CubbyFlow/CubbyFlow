@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_VECTOR2_IMPL_H
 #define CUBBYFLOW_VECTOR2_IMPL_H
 
-#include <Core/Math/MathUtils.h>
+#include <Core/Math/MathUtils.hpp>
 
 #include <cassert>
 #include <limits>

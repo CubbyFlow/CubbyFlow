@@ -8,8 +8,8 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Math/MathUtils.h>
 #include <Core/Geometry/Sphere2.hpp>
+#include <Core/Math/MathUtils.hpp>
 
 namespace CubbyFlow
 {

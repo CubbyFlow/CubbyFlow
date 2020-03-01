@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Math/BLAS.h>
+#include <Core/Math/BLAS.hpp>
 #include <Core/Matrix/MatrixMxN.h>
 #include <Core/Utils/MG.h>
 #include <Core/Vector/VectorN.h>
