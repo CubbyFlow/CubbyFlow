@@ -4,7 +4,7 @@
 
 #include <Core/Array/Array3.hpp>
 #include <Core/Grid/VertexCenteredScalarGrid3.hpp>
-#include <Core/MarchingCubes/MarchingCubes.h>
+#include <Core/MarchingCubes/MarchingCubes.hpp>
 
 using namespace CubbyFlow;
 

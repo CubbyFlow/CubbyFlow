@@ -20,7 +20,7 @@
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>
 #include <Core/Math/MathUtils.h>
-#include <Core/MarchingCubes/MarchingCubes.h>
+#include <Core/MarchingCubes/MarchingCubes.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver3.h>
 #include <Core/Surface/ImplicitSurfaceSet3.h>
 #include <Core/Utils/Logging.h>

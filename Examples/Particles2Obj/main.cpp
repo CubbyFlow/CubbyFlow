@@ -18,7 +18,7 @@
 #include <Core/PointsToImplicit/SphericalPointsToImplicit3.h>
 #include <Core/PointsToImplicit/SPHPointsToImplicit3.h>
 #include <Core/PointsToImplicit/ZhuBridsonPointsToImplicit3.h>
-#include <Core/MarchingCubes/MarchingCubes.h>
+#include <Core/MarchingCubes/MarchingCubes.hpp>
 #include <Core/Size/Size3.h>
 #include <Core/Utils/Serialization.h>
 

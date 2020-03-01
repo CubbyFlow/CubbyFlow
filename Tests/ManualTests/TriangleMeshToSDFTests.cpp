@@ -5,7 +5,7 @@
 #include <Core/Array/Array2.hpp>
 #include <Core/Geometry/TriangleMeshToSDF.hpp>
 #include <Core/Grid/VertexCenteredScalarGrid3.hpp>
-#include <Core/MarchingCubes/MarchingCubes.h>
+#include <Core/MarchingCubes/MarchingCubes.hpp>
 
 using namespace CubbyFlow;
 

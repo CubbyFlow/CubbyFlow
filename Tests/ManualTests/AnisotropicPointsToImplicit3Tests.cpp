@@ -3,7 +3,7 @@
 #include <ManualTests.h>
 
 #include <Core/Grid/VertexCenteredScalarGrid3.hpp>
-#include <Core/MarchingCubes/MarchingCubes.h>
+#include <Core/MarchingCubes/MarchingCubes.hpp>
 #include <Core/PointsToImplicit/AnisotropicPointsToImplicit3.h>
 
 #include <random>
