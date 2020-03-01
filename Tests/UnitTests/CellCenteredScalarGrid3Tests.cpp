@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Grid/CellCenteredScalarGrid3.h>
+#include <Core/Grid/CellCenteredScalarGrid3.hpp>
 
 using namespace CubbyFlow;
 

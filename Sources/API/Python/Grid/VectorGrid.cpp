@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Grid/VectorGrid.h>
-#include <Core/Grid/VectorGrid2.h>
-#include <Core/Grid/VectorGrid3.h>
+#include <Core/Grid/VectorGrid2.hpp>
+#include <Core/Grid/VectorGrid3.hpp>
 
 #include <pybind11/pybind11.h>
 

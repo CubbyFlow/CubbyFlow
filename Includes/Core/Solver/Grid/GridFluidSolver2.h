@@ -13,7 +13,7 @@
 #include <Core/Animation/PhysicsAnimation.hpp>
 #include <Core/Collider/Collider2.hpp>
 #include <Core/Emitter/GridEmitter2.hpp>
-#include <Core/Grid/GridSystemData2.h>
+#include <Core/Grid/GridSystemData2.hpp>
 #include <Core/Solver/Advection/AdvectionSolver2.h>
 #include <Core/Solver/Grid/GridDiffusionSolver2.h>
 #include <Core/Solver/Grid/GridPressureSolver2.h>

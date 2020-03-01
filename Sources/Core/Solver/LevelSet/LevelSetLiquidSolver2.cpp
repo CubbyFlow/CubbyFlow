@@ -7,7 +7,7 @@
 > Created Time: 2017/08/30
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <Core/Grid/CellCenteredScalarGrid2.h>
+#include <Core/Grid/CellCenteredScalarGrid2.hpp>
 #include <Core/LevelSet/LevelSetUtils.h>
 #include <Core/Solver/LevelSet/ENOLevelSetSolver2.h>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver2.h>

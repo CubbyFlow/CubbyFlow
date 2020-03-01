@@ -7,7 +7,7 @@
 > Created Time: 2017/09/06
 > Copyright (c) 2018, Dongmin Kim
 *************************************************************************/
-#include <Core/Grid/CellCenteredScalarGrid3.h>
+#include <Core/Grid/CellCenteredScalarGrid3.hpp>
 #include <Core/LevelSet/LevelSetUtils.h>
 #include <Core/Solver/LevelSet/ENOLevelSetSolver3.h>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver3.h>

@@ -2,8 +2,8 @@
 
 #include <Core/Emitter/VolumeGridEmitter2.hpp>
 #include <Core/Geometry/Sphere2.hpp>
-#include <Core/Grid/CellCenteredScalarGrid2.h>
-#include <Core/Grid/CellCenteredVectorGrid2.h>
+#include <Core/Grid/CellCenteredScalarGrid2.hpp>
+#include <Core/Grid/CellCenteredVectorGrid2.hpp>
 #include <Core/LevelSet/LevelSetUtils.h>
 
 using namespace CubbyFlow;

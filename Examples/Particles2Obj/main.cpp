@@ -12,8 +12,8 @@
 #include <Core/Array/Array1.hpp>
 #include <Core/BoundingBox/BoundingBox3.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
-#include <Core/Grid/ScalarGrid3.h>
-#include <Core/Grid/VertexCenteredScalarGrid3.h>
+#include <Core/Grid/ScalarGrid3.hpp>
+#include <Core/Grid/VertexCenteredScalarGrid3.hpp>
 #include <Core/PointsToImplicit/AnisotropicPointsToImplicit3.h>
 #include <Core/PointsToImplicit/SphericalPointsToImplicit3.h>
 #include <Core/PointsToImplicit/SPHPointsToImplicit3.h>

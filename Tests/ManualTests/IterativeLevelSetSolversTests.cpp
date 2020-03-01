@@ -1,8 +1,8 @@
 #include "pch.h"
 
 #include <Core/Field/CustomVectorField2.hpp>
-#include <Core/Grid/CellCenteredScalarGrid2.h>
-#include <Core/Grid/CellCenteredScalarGrid3.h>
+#include <Core/Grid/CellCenteredScalarGrid2.hpp>
+#include <Core/Grid/CellCenteredScalarGrid3.hpp>
 #include <Core/SemiLagrangian/CubicSemiLagrangian2.h>
 #include <Core/Solver/LevelSet/ENOLevelSetSolver2.h>
 #include <Core/Solver/LevelSet/ENOLevelSetSolver3.h>

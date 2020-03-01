@@ -16,7 +16,7 @@
 #include <Core/Geometry/ImplicitTriangleMesh3.hpp>
 #include <Core/Geometry/Sphere3.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
-#include <Core/Grid/ScalarGrid3.h>
+#include <Core/Grid/ScalarGrid3.hpp>
 #include <Core/Math/MathUtils.h>
 #include <Core/SemiLagrangian/CubicSemiLagrangian3.h>
 #include <Core/SemiLagrangian/SemiLagrangian3.h>

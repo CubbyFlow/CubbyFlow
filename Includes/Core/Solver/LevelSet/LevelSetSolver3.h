@@ -10,9 +10,9 @@
 #ifndef CUBBYFLOW_LEVEL_SET_SOLVER3_H
 #define CUBBYFLOW_LEVEL_SET_SOLVER3_H
 
-#include <Core/Grid/CollocatedVectorGrid3.h>
-#include <Core/Grid/FaceCenteredGrid3.h>
-#include <Core/Grid/ScalarGrid3.h>
+#include <Core/Grid/CollocatedVectorGrid3.hpp>
+#include <Core/Grid/FaceCenteredGrid3.hpp>
+#include <Core/Grid/ScalarGrid3.hpp>
 
 #include <memory>
 

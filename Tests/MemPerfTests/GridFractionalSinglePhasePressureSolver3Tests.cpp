@@ -2,9 +2,9 @@
 
 #include "gtest/gtest.h"
 
-#include <Core/Grid/FaceCenteredGrid3.h>
-#include <Core/Grid/CellCenteredScalarGrid3.h>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.h>
+#include <Core/Grid/CellCenteredScalarGrid3.hpp>
+#include <Core/Grid/FaceCenteredGrid3.hpp>
 
 using namespace CubbyFlow;
 

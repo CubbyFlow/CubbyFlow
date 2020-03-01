@@ -9,8 +9,8 @@
 *************************************************************************/
 #include <API/Python/Grid/VertexCenteredVectorGrid.h>
 #include <API/Python/Utils/pybind11Utils.h>
-#include <Core/Grid/VertexCenteredVectorGrid2.h>
-#include <Core/Grid/VertexCenteredVectorGrid3.h>
+#include <Core/Grid/VertexCenteredVectorGrid2.hpp>
+#include <Core/Grid/VertexCenteredVectorGrid3.hpp>
 
 #include <pybind11/pybind11.h>
 

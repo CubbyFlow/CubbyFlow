@@ -8,12 +8,12 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Grid/CollocatedVectorGrid2.h>
-#include <Core/Grid/FaceCenteredGrid2.h>
 #include <Core/LevelSet/LevelSetUtils.h>
 #include <Core/Surface/SurfaceToImplicit2.h>
 #include <Core/Utils/Macros.h>
 #include <Core/Emitter/VolumeGridEmitter2.hpp>
+#include <Core/Grid/CollocatedVectorGrid2.hpp>
+#include <Core/Grid/FaceCenteredGrid2.hpp>
 
 namespace CubbyFlow
 {

@@ -8,7 +8,7 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <Core/Array/ArrayUtils.hpp>
-#include <Core/Grid/CellCenteredScalarGrid3.h>
+#include <Core/Grid/CellCenteredScalarGrid3.hpp>
 #include <Core/Solver/Hybrid/PIC/PICSolver3.h>
 #include <Core/Utils/Logging.h>
 #include <Core/Utils/Timer.h>

@@ -9,8 +9,8 @@
 *************************************************************************/
 #include <API/Python/Grid/VertexCenteredScalarGrid.h>
 #include <API/Python/Utils/pybind11Utils.h>
-#include <Core/Grid/VertexCenteredScalarGrid2.h>
-#include <Core/Grid/VertexCenteredScalarGrid3.h>
+#include <Core/Grid/VertexCenteredScalarGrid2.hpp>
+#include <Core/Grid/VertexCenteredScalarGrid3.hpp>
 
 #include <pybind11/pybind11.h>
 

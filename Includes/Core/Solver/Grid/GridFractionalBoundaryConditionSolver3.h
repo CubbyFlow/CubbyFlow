@@ -11,7 +11,7 @@
 #define CUBBYFLOW_GRID_FRACTIONAL_BOUNDARY_CONDITION_SOLVER3_H
 
 #include <Core/Field/CustomVectorField3.hpp>
-#include <Core/Grid/CellCenteredScalarGrid3.h>
+#include <Core/Grid/CellCenteredScalarGrid3.hpp>
 #include <Core/Solver/Grid/GridBoundaryConditionSolver3.h>
 
 namespace CubbyFlow

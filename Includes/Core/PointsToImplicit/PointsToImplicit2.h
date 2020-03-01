@@ -11,7 +11,7 @@
 #define CUBBYFLOW_POINTS_TO_IMPLICIT2_H
 
 #include <Core/Array/ArrayAccessor1.hpp>
-#include <Core/Grid/ScalarGrid2.h>
+#include <Core/Grid/ScalarGrid2.hpp>
 #include <Core/Vector/Vector2.h>
 
 namespace CubbyFlow

@@ -9,8 +9,8 @@
 *************************************************************************/
 #include <API/Python/Grid/ScalarGrid.h>
 #include <API/Python/Utils/pybind11Utils.h>
-#include <Core/Grid/ScalarGrid2.h>
-#include <Core/Grid/ScalarGrid3.h>
+#include <Core/Grid/ScalarGrid2.hpp>
+#include <Core/Grid/ScalarGrid3.hpp>
 
 #include <pybind11/pybind11.h>
 

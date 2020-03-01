@@ -3,8 +3,8 @@
 #include <ManualTests.h>
 
 #include <Core/Array/ArrayUtils.hpp>
-#include <Core/Grid/CellCenteredScalarGrid2.h>
-#include <Core/Grid/CellCenteredScalarGrid3.h>
+#include <Core/Grid/CellCenteredScalarGrid2.hpp>
+#include <Core/Grid/CellCenteredScalarGrid3.hpp>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver2.h>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver3.h>
 

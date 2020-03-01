@@ -7,8 +7,8 @@
 #include <Core/Field/CustomScalarField2.hpp>
 #include <Core/Field/CustomVectorField2.hpp>
 #include <Core/Geometry/Box2.hpp>
-#include <Core/Grid/CellCenteredScalarGrid2.h>
-#include <Core/Grid/CellCenteredVectorGrid2.h>
+#include <Core/Grid/CellCenteredScalarGrid2.hpp>
+#include <Core/Grid/CellCenteredVectorGrid2.hpp>
 #include <Core/SemiLagrangian/CubicSemiLagrangian2.h>
 #include <Core/SemiLagrangian/SemiLagrangian2.h>
 #include <Core/Utils/Constants.h>

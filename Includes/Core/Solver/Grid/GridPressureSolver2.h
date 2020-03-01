@@ -12,7 +12,7 @@
 
 #include <Core/Field/ConstantScalarField2.hpp>
 #include <Core/Field/ConstantVectorField2.hpp>
-#include <Core/Grid/FaceCenteredGrid2.h>
+#include <Core/Grid/FaceCenteredGrid2.hpp>
 #include <Core/Solver/Grid/GridBoundaryConditionSolver2.h>
 
 namespace CubbyFlow

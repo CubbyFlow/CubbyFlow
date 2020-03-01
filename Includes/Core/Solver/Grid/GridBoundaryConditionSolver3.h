@@ -12,7 +12,7 @@
 
 #include <Core/Collider/Collider3.hpp>
 #include <Core/Field/ScalarField3.hpp>
-#include <Core/Grid/FaceCenteredGrid3.h>
+#include <Core/Grid/FaceCenteredGrid3.hpp>
 #include <Core/Size/Size3.h>
 
 namespace CubbyFlow

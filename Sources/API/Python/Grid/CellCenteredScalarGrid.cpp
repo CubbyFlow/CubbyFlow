@@ -9,8 +9,8 @@
 *************************************************************************/
 #include <API/Python/Grid/CellCenteredScalarGrid.h>
 #include <API/Python/Utils/pybind11Utils.h>
-#include <Core/Grid/CellCenteredScalarGrid2.h>
-#include <Core/Grid/CellCenteredScalarGrid3.h>
+#include <Core/Grid/CellCenteredScalarGrid2.hpp>
+#include <Core/Grid/CellCenteredScalarGrid3.hpp>
 
 #include <pybind11/pybind11.h>
 

@@ -2,8 +2,8 @@
 
 #include <Core/Field/ConstantScalarField3.hpp>
 #include <Core/Field/ConstantVectorField3.hpp>
-#include <Core/Grid/CellCenteredScalarGrid3.h>
-#include <Core/Grid/FaceCenteredGrid3.h>
+#include <Core/Grid/CellCenteredScalarGrid3.hpp>
+#include <Core/Grid/FaceCenteredGrid3.hpp>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.h>
 #include <Core/Vector/Vector3.h>
 

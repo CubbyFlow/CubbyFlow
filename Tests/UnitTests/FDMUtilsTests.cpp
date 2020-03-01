@@ -1,10 +1,10 @@
 #include "pch.h"
 
 #include <Core/FDM/FDMUtils.hpp>
-#include <Core/Grid/CellCenteredScalarGrid2.h>
-#include <Core/Grid/CellCenteredScalarGrid3.h>
-#include <Core/Grid/CellCenteredVectorGrid2.h>
-#include <Core/Grid/CellCenteredVectorGrid3.h>
+#include <Core/Grid/CellCenteredScalarGrid2.hpp>
+#include <Core/Grid/CellCenteredScalarGrid3.hpp>
+#include <Core/Grid/CellCenteredVectorGrid2.hpp>
+#include <Core/Grid/CellCenteredVectorGrid3.hpp>
 
 using namespace CubbyFlow;
 

@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Grid/GridSystemData.h>
-#include <Core/Grid/GridSystemData2.h>
-#include <Core/Grid/GridSystemData3.h>
+#include <Core/Grid/GridSystemData2.hpp>
+#include <Core/Grid/GridSystemData3.hpp>
 
 #include <pybind11/pybind11.h>
 

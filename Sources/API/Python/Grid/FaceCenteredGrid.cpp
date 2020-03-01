@@ -9,8 +9,8 @@
 *************************************************************************/
 #include <API/Python/Grid/FaceCenteredGrid.h>
 #include <API/Python/Utils/pybind11Utils.h>
-#include <Core/Grid/FaceCenteredGrid2.h>
-#include <Core/Grid/FaceCenteredGrid3.h>
+#include <Core/Grid/FaceCenteredGrid2.hpp>
+#include <Core/Grid/FaceCenteredGrid3.hpp>
 
 #include <pybind11/pybind11.h>
 

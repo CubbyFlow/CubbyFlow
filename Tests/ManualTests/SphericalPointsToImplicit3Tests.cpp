@@ -2,7 +2,7 @@
 
 #include <ManualTests.h>
 
-#include <Core/Grid/VertexCenteredScalarGrid3.h>
+#include <Core/Grid/VertexCenteredScalarGrid3.hpp>
 #include <Core/MarchingCubes/MarchingCubes.h>
 #include <Core/PointsToImplicit/SphericalPointsToImplicit3.h>
 

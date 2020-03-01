@@ -7,7 +7,7 @@
 > Created Time: 2017/08/17
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <Core/Grid/CellCenteredScalarGrid2.h>
+#include <Core/Grid/CellCenteredScalarGrid2.hpp>
 #include <Core/Solver/Grid/GridSmokeSolver2.h>
 
 namespace CubbyFlow

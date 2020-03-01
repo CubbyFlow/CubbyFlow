@@ -11,9 +11,9 @@
 #define CUBBYFLOW_GRID_DIFFUSION_SOLVER3_H
 
 #include <Core/Field/ConstantScalarField3.hpp>
-#include <Core/Grid/CollocatedVectorGrid3.h>
-#include <Core/Grid/FaceCenteredGrid3.h>
-#include <Core/Grid/ScalarGrid3.h>
+#include <Core/Grid/CollocatedVectorGrid3.hpp>
+#include <Core/Grid/FaceCenteredGrid3.hpp>
+#include <Core/Grid/ScalarGrid3.hpp>
 
 namespace CubbyFlow
 {
