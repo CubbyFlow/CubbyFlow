@@ -7,7 +7,7 @@
 > Created Time: 2017/08/13
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <Core/LevelSet/LevelSetUtils.h>
+#include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Solver/FDM/FDMICCGSolver2.h>
 #include <Core/Solver/Grid/GridBackwardEulerDiffusionSolver2.h>
 

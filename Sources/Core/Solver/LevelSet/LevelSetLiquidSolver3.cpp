@@ -8,7 +8,7 @@
 > Copyright (c) 2018, Dongmin Kim
 *************************************************************************/
 #include <Core/Grid/CellCenteredScalarGrid3.hpp>
-#include <Core/LevelSet/LevelSetUtils.h>
+#include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Solver/LevelSet/ENOLevelSetSolver3.h>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver3.h>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver3.h>

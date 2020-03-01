@@ -8,7 +8,7 @@
 > Copyright (c) 2018, Dongmin Kim
 *************************************************************************/
 #include <Core/Array/ArrayUtils.hpp>
-#include <Core/LevelSet/LevelSetUtils.h>
+#include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/SemiLagrangian/CubicSemiLagrangian2.h>
 #include <Core/Solver/Grid/GridBackwardEulerDiffusionSolver2.h>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver2.h>

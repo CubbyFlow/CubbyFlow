@@ -15,7 +15,7 @@
 // https://github.com/christopherbatty/FluidRigidCoupling2D
 //
 
-#include <Core/LevelSet/LevelSetUtils.h>
+#include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Solver/FDM/FDMICCGSolver3.h>
 #include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver3.h>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.h>

@@ -21,7 +21,7 @@
 //
 // This code is public domain.
 
-#include <Core/LevelSet/LevelSetUtils.h>
+#include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/MarchingCubes/MarchingCubes.h>
 #include <Core/MarchingCubes/MarchingCubesTable.h>
 #include <Core/MarchingCubes/MarchingSquaresTable.h>

@@ -4,7 +4,7 @@
 #include <Core/Geometry/Sphere2.hpp>
 #include <Core/Grid/CellCenteredScalarGrid2.hpp>
 #include <Core/Grid/CellCenteredVectorGrid2.hpp>
-#include <Core/LevelSet/LevelSetUtils.h>
+#include <Core/LevelSet/LevelSetUtils.hpp>
 
 using namespace CubbyFlow;
 

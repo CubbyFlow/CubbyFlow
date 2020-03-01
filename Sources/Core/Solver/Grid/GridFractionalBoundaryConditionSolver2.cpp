@@ -8,7 +8,7 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <Core/Array/ArrayUtils.hpp>
-#include <Core/LevelSet/LevelSetUtils.h>
+#include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver2.h>
 #include <Core/Surface/ImplicitSurface2.h>
 #include <Core/Surface/SurfaceToImplicit2.h>

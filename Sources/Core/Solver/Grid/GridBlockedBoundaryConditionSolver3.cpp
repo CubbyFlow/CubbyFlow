@@ -7,7 +7,7 @@
 > Created Time: 2017/08/10
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <Core/LevelSet/LevelSetUtils.h>
+#include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Solver/Grid/GridBlockedBoundaryConditionSolver3.h>
 
 namespace CubbyFlow

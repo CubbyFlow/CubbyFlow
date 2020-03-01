@@ -5,7 +5,7 @@
 #include <Core/Geometry/Box2.hpp>
 #include <Core/Geometry/Plane2.hpp>
 #include <Core/Geometry/Sphere2.hpp>
-#include <Core/LevelSet/LevelSetUtils.h>
+#include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver2.h>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver2.h>
 #include <Core/Surface/ImplicitSurfaceSet2.h>
