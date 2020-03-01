@@ -11,6 +11,7 @@
 #define CUBBYFLOW_SERIAL_IMPL_H
 
 #include <algorithm>
+#include <functional>
 
 namespace CubbyFlow
 {

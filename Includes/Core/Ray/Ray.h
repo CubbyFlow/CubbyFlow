@@ -10,7 +10,8 @@
 #ifndef CUBBYFLOW_RAY_H
 #define CUBBYFLOW_RAY_H
 
-#include <limits>
+#include <cstdlib>
+#include <type_traits>
 
 namespace CubbyFlow
 {
