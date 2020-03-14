@@ -20,10 +20,10 @@
 #include <sys/stat.h>
 #endif
 
+#include <Framework/GL3/GL3Application.h>
+#include <Framework/GL3/GL3Window.h>
 #include <Framework/Application.h>
-#include <Framework/GL3/Headless/EGLApp.h>
 #include <Framework/Window.h>
-#include <Framework/GL3/Headless/EGLWindow.h>
 #include <Framework/Media/ScreenRecorder.h>
 
 #include <memory>
@@ -39,19 +39,15 @@ using namespace CubbyRender;
 int main(int argc, char* argv[])
 {
     bool showHelp = false;
-    bool headless = true;
     int numberOfFrames = 100;
     double fps = 60.0;
     std::string logFileName = APP_NAME ".log";
     std::string outputDir = APP_NAME "_output";
-    std::string format = "tga";
+    std::string format = "null";
 
     // Parsing
     auto parser =
         clara::Help(showHelp) |
-        clara::Opt(headless, "headless mode")
-        ["-h"]["--headless"]
-        ("simulation rendering mode (default is not headless mode, that is, create screen and show)") |
         clara::Opt(numberOfFrames, "numberOfFrames")
         ["-f"]["--frames"]
         ("total number of frames (default is 100)") |
@@ -66,7 +62,7 @@ int main(int argc, char* argv[])
         ("output directory name (default is " APP_NAME "_output)") |
         clara::Opt(format, "format")
         ["-m"]["--format"]
-        ("simulation output format (mp4 or tga. default is mp4)");
+        ("simulation output format (mp4 or tga or null. default is null)");
 
     auto result = parser.parse(clara::Args(argc, argv));
     if (!result)
@@ -93,42 +89,38 @@ int main(int argc, char* argv[])
         Logging::SetAllStream(&logFile);
     }
 
-    ScreenRecorder recorder;
     ApplicationPtr application;
-    if (headless == true) //! Headless rendering mode with EGL library.
-    {
-        std::cout << "Starting with headless mode..." << '\n';
-        application = std::make_shared<EGLApp>();
-        if (application->initialize())
-        {
-            CUBBYFLOW_ERROR << "Initialize EGLApplication failed.";
-            return -1;
-        }
 
-        auto window = application->createWindow("Test Rendering", 256, 256);
+    application = std::make_shared<GL3Application>();
+    if (application->initialize())
+    {
+        CUBBYFLOW_ERROR << "Initialize EGLApplication failed.";
+        return -1;
+    }
+
+    auto window = application->createWindow("Test Rendering", 256, 256);
+    if (format == "null") //! Turn off recording.
+    {
+        application->runWithLimitedFrames(numberOfFrames, fps, nullptr);
+    }
+    else //! Turn on recording
+    {
+        ScreenRecorder recorder;
         application->runWithLimitedFrames(numberOfFrames, fps, &recorder);
-    }
-    else //! with display, rendering with glfw library
-    {
-        std::cout << "Starting with GUI mode..." << '\n';
-        UNUSED_VARIABLE(application);
-        //! Do nothing.
-    }
-    
-    if (format == "mp4")
-    {
-        std::cout << "Save recording result as mp4...";
-        // recorder.saveVideo(outputDir + APP_NAME);
-        std::cout << "complete" << '\n';
-    }
-    else if (format == "tga")
-    {
-        std::cout << "Save recording result as tga...";
-        // recorder.saveScreenShot();
-        std::cout << "complete" << '\n';
-    }
 
-    UNUSED_VARIABLE(recorder);
+        if (format == "mp4")
+        {
+            std::cout << "Save recording result as mp4...";
+            // recorder.saveVideo(outputDir + APP_NAME);
+            std::cout << "complete" << '\n';
+        }
+        else if (format == "tga")
+        {
+            std::cout << "Save recording result as tga...";
+            // recorder.saveScreenShot();
+            std::cout << "complete" << '\n';
+        }
+    }    
 
     return EXIT_SUCCESS;
 }

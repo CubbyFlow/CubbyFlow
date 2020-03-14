@@ -44,7 +44,7 @@ namespace CubbyRender {
         virtual int runWithLimitedFrames(int numberOfFrames, double fps, ScreenRecorderPtr recorder = nullptr) = 0;
 
         //! Create window and return it.
-        virtual WindowPtr& createWindow(const std::string& title, int width, int height) = 0;
+        virtual WindowPtr createWindow(const std::string& title, int width, int height) = 0;
 
         //! Destroy the application.
         virtual void terminate() = 0;
@@ -52,8 +52,6 @@ namespace CubbyRender {
         //! Validate the application whether the app can run simulation or not.
         //! If this method return true, the application can run any simulation.
         virtual bool validateApplication() = 0;
-
-        WindowPtr _window = nullptr;
     private:
 
     };

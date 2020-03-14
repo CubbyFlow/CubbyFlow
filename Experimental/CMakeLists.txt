@@ -5,6 +5,8 @@ set(target Experimental)
 if (APPLE)
     find_library(COCOA_LIB Cocoa)
     find_library(COREFOUNDATION_LIB CoreFoundation)
+    # Define macro CUBBYRENDER_MACOSX. 
+    add_definitions(-DCUBBYFLOW_MACOSX)
 else()
     set(COCOA_LIB "")
     set(COREFOUNDATION_LIB "")
@@ -26,6 +28,14 @@ if (USE_GL)
             )
         endif()
 
+        include(GNUInstallDirs)
+        include(CMakeDependentOption)
+        
+        if (GLFW_USE_OSMESA)
+            find_package(OSMesa REQUIRED)
+            add_definitions(-DCUBBYFLOW_HEADLESS)
+        endif()
+        
         # Add GLFW
         add_subdirectory(Libraries/glfw)
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/glfw/include)
@@ -42,32 +52,6 @@ if (USE_GL)
                     xcb Xau Xdmcp)
             endif()
         endif()
-
-        # Add glew
-        SET(glew-cmake_BUILD_SHARED OFF CACHE BOOL "turn off generating shared library")
-        SET(glew-cmake_BUILD_MULTI_CONTEXT OFF CACHE BOOL "turn off multi context")
-        add_subdirectory(Libraries/glew-cmake)
-        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/glew-cmake/include)
-        set(GLEW_LIBRARY libglew_static)
-
-        # Add EGL
-        #include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/EGL-Registry/api)
-        #set(EGL_LIBRARY EGL)
-
-        # Add EGL
-        find_library(
-            EGL_FOUND
-            NAMES EGL.so
-            HINTS /usr/lib /usr/lib64)
-        if(EGL_FOUND)
-            set(EGL_LIBRARY EGL)
-        else()
-            message("-- Could not find EGL")
-            include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/EGL/EGL/include)
-            add_subdirectory(Libraries/EGL/EGL)
-            set(EGL_LIBRARY egl)
-        endif()
-        # 
 
         # Add Imgui
         add_subdirectory(Libraries/imgui)

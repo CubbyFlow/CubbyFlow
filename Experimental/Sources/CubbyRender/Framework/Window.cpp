@@ -10,6 +10,7 @@
 
 #include <Framework/Window.h>
 #include <Framework/Common.h>
+#include <Core/Point/Point2.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -20,7 +21,7 @@ namespace CubbyRender {
     }
 
     Window::Window(const std::string& title, int width, int height)
-        : _title(title), _size(width, height)
+        : _title(title)
     {
         //! Do nothing.
     }
@@ -30,9 +31,10 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
-    Size2 Window::displayScalingFactor() const
+    Vector2F Window::displayScalingFactor() const
     {
-        return framebufferSize() / windowSize();
+        Point2F factor = (getFramebufferSize().CastTo<float>() / getWindowSize().CastTo<float>());
+        return Vector2F { factor.x, factor.y };
     }
 
     void Window::requestRender(unsigned int numFrames)
@@ -43,7 +45,7 @@ namespace CubbyRender {
 
     void Window::setSwapInterval(int interval)
     {
-        UNUSED_VARIABLE(interval);
+        _swapInterval = interval;
     }
 
     const RendererPtr& Window::renderer() const

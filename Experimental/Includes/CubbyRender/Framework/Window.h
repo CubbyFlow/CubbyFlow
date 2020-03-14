@@ -11,7 +11,8 @@
 #define CUBBYFLOW_WINDOW_H
 
 #include <memory>
-#include <Core/Size/Size2.h>
+#include <Core/Point/Point2.h>
+#include <Core/Vector/Vector2.h>
 #include <Framework/Renderer.h>
 #include <string>
 
@@ -36,13 +37,13 @@ namespace CubbyRender {
         //! Returns the framebuffer size.
         //! Note that the framebuffer size can be different from the window size,
         //! especially on a Retina display (2x the window size).
-        virtual Size2 framebufferSize() const = 0;
+        virtual Point2I getFramebufferSize() const = 0;
 
         //! Returns the window size.
-        virtual Size2 windowSize() const = 0;
+        virtual Point2I getWindowSize() const = 0;
 
         //! Returns framebuffer / window size ratio.
-        virtual Size2 displayScalingFactor() const;
+        virtual Vector2F displayScalingFactor() const;
 
         //! Request to render given number of frames to the renderer.
         virtual void requestRender(unsigned int numFrames);
@@ -68,7 +69,7 @@ namespace CubbyRender {
     protected:
         RendererPtr _renderer;
         std::string _title;
-        Size2 _size;
+        int _swapInterval = 0;
         bool _isUpdateEnabled = false;
     private:
 
