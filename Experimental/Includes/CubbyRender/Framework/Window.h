@@ -51,6 +51,15 @@ namespace CubbyRender {
         //! Sets swap interval.
         virtual void setSwapInterval(int interval);
 
+        //! Action implementation when window is resized.
+        virtual void onWindowResized(int width, int height) = 0;
+
+        //! Action implementation when window is moved.
+        virtual void onWindowMoved(int width, int height) = 0;
+
+        //! Action implementation when any event is happend on "KEY"
+        virtual void onKey(int key, int scancode, int action, int mods) = 0;
+
         //! Returns renderer.
         const RendererPtr& renderer() const;
 
@@ -66,11 +75,21 @@ namespace CubbyRender {
         //! Set renderer pointer
         void setRenderer(RendererPtr renderer);
         
+        //! Get Renderer pointer
+        RendererPtr getRenderer();
+
+        //! Update window (this routine include scene update, view update, etc..)
+        void update();
     protected:
+        //! Implementation of the update routine.
+        virtual void onUpdate() = 0;
+
         RendererPtr _renderer;
         std::string _title;
+        Point2I _windowSize;
         int _swapInterval = 0;
         bool _isUpdateEnabled = false;
+
     private:
 
     };

@@ -21,7 +21,7 @@ namespace CubbyRender {
     }
 
     Window::Window(const std::string& title, int width, int height)
-        : _title(title)
+        : _title(title), _windowSize(width, height)
     {
         //! Do nothing.
     }
@@ -73,5 +73,14 @@ namespace CubbyRender {
         _renderer = renderer;
     }
 
+    RendererPtr Window::getRenderer()
+    {
+        return _renderer;
+    }
+
+    void Window::update()
+    {
+        onUpdate();
+    }
 } 
 }

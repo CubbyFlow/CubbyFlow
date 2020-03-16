@@ -64,6 +64,30 @@ namespace CubbyRender {
         glfwGetWindowSize(_window, &width, &height);
         return Point2I {width, height};
     }
+
+    void GL3Window::onUpdate() 
+    {
+        //! Do nothing.
+    }
+
+    void GL3Window::onWindowResized(int width, int height)
+    {
+        _windowSize = Point2I { width, height };
+    }
+
+    void GL3Window::onWindowMoved(int width, int height)
+    {
+        UNUSED_VARIABLE(width);
+        UNUSED_VARIABLE(height);
+    }
+
+    void GL3Window::onKey(int key, int scancode, int action, int mods)
+    {
+        UNUSED_VARIABLE(scancode);
+        UNUSED_VARIABLE(mods);
+        if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		    glfwSetWindowShouldClose(_window, GLFW_TRUE);
+    }
 }
 }
 

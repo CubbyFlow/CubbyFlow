@@ -69,7 +69,18 @@ namespace CubbyRender {
 
         //! Sets view controller to the window.
         //void setViewController(const ViewControllerPtr& viewController);
+
+        //! Action implementation when window is resized.
+        void onWindowResized(int width, int height) override;
+
+        //! Action implementation when window is moved.
+        void onWindowMoved(int width, int height) override;
+
+        //! Action implementation when any event is happend on "KEY"
+        void onKey(int key, int scancode, int action, int mods) override;
     protected:
+        void onUpdate() override;
+
     private:
         GLFWWindowPtr _window;
         unsigned int _numRequestedRenderFrames = 0;

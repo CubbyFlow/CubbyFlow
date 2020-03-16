@@ -48,8 +48,8 @@ namespace CubbyRender {
 
     protected:
         // std::vector<Buffer> _buffers;
-        Size3 _frameDimension { 0 };
-        int _frameCnt = 0;
+        Size3 _frameDimension;
+        int _frameCount = 0;
     private:
     };
 

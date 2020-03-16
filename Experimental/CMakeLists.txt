@@ -25,6 +25,7 @@ if (USE_GL)
         if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
             set(DEFAULT_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}
                 /wd4152
+                /wd4244 # While building googlebenchmark, Warning C4244: '=': conversion from 'int' to 'char', possible loss of data occurred
             )
         endif()
 

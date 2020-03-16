@@ -46,6 +46,10 @@ namespace CubbyRender {
         //! Create window and return it.
         WindowPtr createWindow(const std::string& title, int width, int height) override;
 
+        //! Get application window.
+        GL3WindowPtr& getApplicationWindow();
+        const GL3WindowPtr& getApplicationWindow() const;
+
         //! Destroy the application.
         void terminate() override;
         
