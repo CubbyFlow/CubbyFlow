@@ -28,8 +28,6 @@ namespace CubbyFlow
 	class VectorN final : public VectorExpression<T, VectorN<T>>
 	{
 	public:
-		static_assert(std::is_floating_point<T>::value, "VectorN only can be instantiated with floating point types");
-
 		using ContainerType = std::vector<T>;
 
 		// MARK: Constructors
@@ -391,11 +389,19 @@ namespace CubbyFlow
 		ContainerType m_elements;
 	};
 
-	//! Float-type N-D vector.
+	//! Vector type aliasing.
+	using VectorNB = VectorN<int8_t>;
+	using VectorNUB = VectorN<uint8_t>;
+	using VectorNS = VectorN<int16_t>;
+	using VectorNUS = VectorN<uint16_t>;
+	using VectorNI = VectorN<int32_t>;
+	using VectorNUI = VectorN<uint32_t>;
+	using VectorNL = VectorN<int64_t>;
+	using VectorNUL = VectorN<uint64_t>;
 	using VectorNF = VectorN<float>;
-
-	//! Double-type N-D vector.
 	using VectorND = VectorN<double>;
+	using VectorNZ = VectorN<ssize_t>;
+	using VectorNUZ = VectorN<size_t>;
 }
 
 #include <Core/Vector/VectorN-Impl.h>

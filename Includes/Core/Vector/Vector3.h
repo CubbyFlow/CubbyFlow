@@ -27,8 +27,6 @@ namespace CubbyFlow
 	class Vector<T, 3> final
 	{
 	public:
-		static_assert(std::is_floating_point<T>::value, "Vector only can be instantiated with floating point types");
-
 		//! X (or the first) component of the vector.
 		T x;
 
@@ -347,11 +345,19 @@ namespace CubbyFlow
 	template <typename T>
 	Vector<T, 3> Floor(const Vector<T, 3>& a);
 
-	//! Float-type 3D vector.
+	//! Vector type aliasing.
+	using Vector3B = Vector3<int8_t>;
+	using Vector3UB = Vector3<uint8_t>;
+	using Vector3S = Vector3<int16_t>;
+	using Vector3US = Vector3<uint16_t>;
+	using Vector3I = Vector3<int32_t>;
+	using Vector3UI = Vector3<uint32_t>;
+	using Vector3L = Vector3<int64_t>;
+	using Vector3UL = Vector3<uint64_t>;
 	using Vector3F = Vector3<float>;
-
-	//! Double-type 3D vector.
 	using Vector3D = Vector3<double>;
+	using Vector3Z = Vector3<ssize_t>;
+	using Vector3UZ = Vector3<size_t>;
 
 	// MARK: Extensions
 	//! Returns float-type zero vector.

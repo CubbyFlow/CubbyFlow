@@ -35,7 +35,6 @@ namespace CubbyFlow
 	{
 	public:
 		static_assert(N > 0, "Size of static-sized vector should be greater than zero.");
-		static_assert(std::is_floating_point<T>::value, "Vector only can be instantiated with floating point types");
 
 		using ContainerType = std::array<T, N>;
 
