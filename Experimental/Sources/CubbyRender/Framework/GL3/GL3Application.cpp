@@ -65,7 +65,7 @@ namespace CubbyRender {
 
 //! In headless server, register window callback function cause segmentation fault.
 #if !defined(CUBBYFLOW_HEADLESS)
-        GLFWwindow* glfwWindow = window->getGLFWWindow();
+        GLFWwindow* glfwWindow = _window->getGLFWWindow();
         glfwSetWindowSizeCallback(glfwWindow, onWindowResized);
         glfwSetWindowPosCallback(glfwWindow, onWindowMoved);
         glfwSetKeyCallback(glfwWindow, onKey);
