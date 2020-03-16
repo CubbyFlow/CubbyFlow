@@ -156,6 +156,7 @@ namespace CubbyRender {
 
     void GL3Application::onWindowResized(GLFWwindow* glfwWindow, int width, int height)
     {
+        UNUSED_VARIABLE(glfwWindow);
         assert(gApplicationInstance);
         auto window = gApplicationInstance->getApplicationWindow();
         assert(gApplicationInstance->validateApplication());
@@ -165,6 +166,7 @@ namespace CubbyRender {
 
     void GL3Application::onWindowMoved(GLFWwindow* glfwWindow, int width, int height)
     {
+        UNUSED_VARIABLE(glfwWindow);
         assert(gApplicationInstance);
         auto window = gApplicationInstance->getApplicationWindow();
         assert(gApplicationInstance->validateApplication());
@@ -174,6 +176,7 @@ namespace CubbyRender {
 
     void GL3Application::onKey(GLFWwindow* glfwWindow, int key, int scancode, int action, int mods)
     {
+        UNUSED_VARIABLE(glfwWindow);
         assert(gApplicationInstance);
         auto window = gApplicationInstance->getApplicationWindow();
         assert(gApplicationInstance->validateApplication());
