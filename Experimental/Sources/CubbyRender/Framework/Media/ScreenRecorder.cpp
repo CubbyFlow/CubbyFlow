@@ -19,7 +19,12 @@ namespace CubbyFlow {
 namespace CubbyRender {
     
         ScreenRecorder::ScreenRecorder()
-            : _frameDimension(0, 0, 0), _frameCnt(0)
+        {
+            //! Do nothing
+        }
+
+        ScreenRecorder::ScreenRecorder(Size3 frameDimension)
+            : _frameDimension(frameDimension)
         {
             //! Do nothing
         }

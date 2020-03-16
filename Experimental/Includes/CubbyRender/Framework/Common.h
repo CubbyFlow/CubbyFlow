@@ -10,9 +10,10 @@
 #ifndef CUBBYFLOW_COMMON_H
 #define CUBBYFLOW_COMMON_H
 
-//! Jet public headers
+//! Cubbyflow public headers
 #include <Core/Utils/Constants.h>
 #include <Core/Utils/Macros.h>
 #include <Core/Utils/Logging.h>
+#include <Core/Utils/Macros.h>
 
 #endif

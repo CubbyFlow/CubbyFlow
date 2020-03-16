@@ -16,27 +16,33 @@
 //! OpenGL Stuffs
 #include <GL/gl3w.h>
 
-#define CUBBYFLOW_GL_MAJOR_VERSION 4
-#define CUBBYFLOW_GL_MINOR_VERSION 3
 
 
-using GLchar = char;
-using GLenum = unsigned int;
-using GLboolean = unsigned char;
-using GLbitfield = unsigned int;
-using GLbyte = signed char;
-using GLshort = short;
-using GLint = int;
-using GLsizei = int;
-using GLubyte = unsigned char;
-using GLushort = unsigned short;
-using GLuint = unsigned int;
-using GLhalf = unsigned short;
-using GLfloat = float;
-using GLclampf = float;
-using GLdouble = double;
-using GLclampd = double;
-using GLvoid = void;
+namespace CubbyFlow {
+namespace CubbyRender {
+
+    constexpr int CUBBYFLOW_GL_MAJOR_VERSION { 3 };
+    constexpr int CUBBYFLOW_GL_MINOR_VERSION { 3 };
+
+    using GLchar = char;
+    using GLenum = unsigned int;
+    using GLboolean = unsigned char;
+    using GLbitfield = unsigned int;
+    using GLbyte = signed char;
+    using GLshort = short;
+    using GLint = int;
+    using GLsizei = int;
+    using GLubyte = unsigned char;
+    using GLushort = unsigned short;
+    using GLuint = unsigned int;
+    using GLhalf = unsigned short;
+    using GLfloat = float;
+    using GLclampf = float;
+    using GLdouble = double;
+    using GLclampd = double;
+    using GLvoid = void;
+}
+}
 
 #endif 
 

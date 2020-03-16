@@ -26,6 +26,8 @@
 #include <Framework/Window.h>
 #include <Framework/Media/ScreenRecorder.h>
 
+#include <Core/Size/Size3.h>
+
 #include <memory>
 #include <fstream>
 #include <iostream>
@@ -36,10 +38,27 @@
 using namespace CubbyFlow;
 using namespace CubbyRender;
 
+void RunExample1(ApplicationPtr application, size_t resX, size_t resY, int numberOfFrames, double fps, ScreenRecorderPtr recorder)
+{
+    auto window = application->createWindow("SPH Simulation", resX, resY);
+    UNUSED_VARIABLE(window);
+    application->run(numberOfFrames, fps, recorder);
+}
+
+void RunExample2(ApplicationPtr application, size_t resX, size_t resY, int numberOfFrames, double fps, ScreenRecorderPtr recorder)
+{
+    auto window = application->createWindow("PCISPH Simulation", resX, resY);
+    UNUSED_VARIABLE(window);
+    application->run(numberOfFrames, fps, recorder);
+}
+
 int main(int argc, char* argv[])
 {
     bool showHelp = false;
     int numberOfFrames = 100;
+    int exampleNum = 1;
+    size_t resX = 800;
+    size_t resY = 600;
     double fps = 60.0;
     std::string logFileName = APP_NAME ".log";
     std::string outputDir = APP_NAME "_output";
@@ -48,6 +67,12 @@ int main(int argc, char* argv[])
     // Parsing
     auto parser =
         clara::Help(showHelp) |
+        clara::Opt(resX, "resX")
+        ["-x"]["--resx"]
+        ("grid resolution in x-axis (default is 800)") |
+        clara::Opt(resY, "resY")
+        ["-y"]["--resy"]
+        ("grid resolution in y-axis (default is 600)") |
         clara::Opt(numberOfFrames, "numberOfFrames")
         ["-f"]["--frames"]
         ("total number of frames (default is 100)") |
@@ -57,6 +82,9 @@ int main(int argc, char* argv[])
         clara::Opt(logFileName, "logFileName")
         ["-l"]["--log"]
         ("log file name (default is " APP_NAME ".log)") |
+        clara::Opt(exampleNum, "exampleNum")
+        ["-e"]["--example"]
+        ("example number (between 1 and 5, default is 1)") |
         clara::Opt(outputDir, "outputDir")
         ["-o"]["--output"]
         ("output directory name (default is " APP_NAME "_output)") |
@@ -89,7 +117,8 @@ int main(int argc, char* argv[])
         Logging::SetAllStream(&logFile);
     }
 
-    ApplicationPtr application;
+    ApplicationPtr      application { nullptr };
+    ScreenRecorderPtr   recorder    { nullptr };
 
     application = std::make_shared<GL3Application>();
     if (application->initialize())
@@ -98,29 +127,34 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    auto window = application->createWindow("Test Rendering", 256, 256);
-    if (format == "null") //! Turn off recording.
+    if (format != "null") 
+        recorder = std::make_shared<ScreenRecorder>(Size3( resX, resY, 3 ));
+    
+    switch (exampleNum)
     {
-        application->runWithLimitedFrames(numberOfFrames, fps, nullptr);
+    case 1:
+        RunExample1(application, resX, resY, numberOfFrames, fps, recorder);
+        break;
+    case 2:
+        RunExample2(application, resX, resY, numberOfFrames, fps, recorder);
+        break;
+    default:
+        std::cout << ToString(parser) << '\n';
+        exit(EXIT_FAILURE);
     }
-    else //! Turn on recording
-    {
-        ScreenRecorder recorder;
-        application->runWithLimitedFrames(numberOfFrames, fps, &recorder);
 
-        if (format == "mp4")
-        {
-            std::cout << "Save recording result as mp4...";
-            // recorder.saveVideo(outputDir + APP_NAME);
-            std::cout << "complete" << '\n';
-        }
-        else if (format == "tga")
-        {
-            std::cout << "Save recording result as tga...";
-            // recorder.saveScreenShot();
-            std::cout << "complete" << '\n';
-        }
-    }    
+    if (format == "mp4")
+    {
+        std::cout << "Save recording result as mp4...";
+        // recorder.saveVideo(outputDir + APP_NAME);
+        std::cout << "complete" << '\n';
+    }
+    else if (format == "tga")
+    {
+        std::cout << "Save recording result as tga...";
+        // recorder.saveScreenShot();
+        std::cout << "complete" << '\n';
+    }
 
     return EXIT_SUCCESS;
 }

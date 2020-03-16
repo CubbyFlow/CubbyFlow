@@ -28,6 +28,9 @@ namespace CubbyRender {
         //! Default Constructor.
         ScreenRecorder();
 
+        //! Default Constructor.
+        ScreenRecorder(Size3 frameDimension);
+
         //! Default Destructor.
         virtual ~ScreenRecorder();
 
@@ -45,12 +48,12 @@ namespace CubbyRender {
 
     protected:
         // std::vector<Buffer> _buffers;
-        Size3 _frameDimension;
+        Size3 _frameDimension { 0 };
         int _frameCnt = 0;
     private:
     };
 
-    using ScreenRecorderPtr = ScreenRecorder*;
+    using ScreenRecorderPtr = std::shared_ptr<ScreenRecorder>;
 } 
 }
 
