@@ -13,6 +13,7 @@
 #include <Framework/GL3/GL3Application.h>
 #include <Framework/GL3/GL3Window.h>
 #include <Framework/GL3/GL3Renderer.h>
+#include <Framework/GL3/GL3Common.h>
 #include <Framework/Common.h>
 #include <GLFW/glfw3.h>
 #include <cassert>
@@ -20,7 +21,6 @@
 
 namespace CubbyFlow {
 namespace CubbyRender {
-
 
     GL3Application::GL3Application()
     {
@@ -43,8 +43,8 @@ namespace CubbyRender {
         }
 
         // Use OpenGL 3.3
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, CUBBYFLOW_GL_MAJOR_VERSION);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, CUBBYFLOW_GL_MINOR_VERSION);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #if defined(CUBBYFLOW_MACOSX)
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -75,21 +75,22 @@ namespace CubbyRender {
         return _window;
     }
 
-    int GL3Application::run(ScreenRecorderPtr recorder)
+    int GL3Application::run(int numberOfFrames, double fps, ScreenRecorderPtr recorder)
     {
+        UNUSED_VARIABLE(numberOfFrames);
+        UNUSED_VARIABLE(fps);
         if (recorder)
         {
             //! Do nothing.
         }
 
         assert( validateApplication() );
-
+    
         //! Force render first frame
         if (_window != nullptr) 
         {
             // _window->requestRender(1);
         }
-
         while (validateApplication()) 
         {
             glfwWaitEvents();
@@ -126,18 +127,6 @@ namespace CubbyRender {
         return 0;
     }
 
-    int GL3Application::runWithLimitedFrames(int numberOfFrames, double fps, ScreenRecorderPtr recorder)
-    {
-        if(recorder)
-        {
-            //! Do nothing
-        }
-        UNUSED_VARIABLE(numberOfFrames);
-        UNUSED_VARIABLE(fps);
-        UNUSED_VARIABLE(recorder);
-        return 0;
-    }
-
     void GL3Application::terminate()
     {   
         _window.reset();
@@ -151,52 +140,72 @@ namespace CubbyRender {
 
     void GL3Application::onWindowResized(GLFWwindow* glfwWindow, int width, int height)
     {
-
+        UNUSED_VARIABLE(glfwWindow);
+        UNUSED_VARIABLE(width);
+        UNUSED_VARIABLE(height);
     }
 
     void GL3Application::onWindowMoved(GLFWwindow* glfwWindow, int width, int height)
     {
-
+        UNUSED_VARIABLE(glfwWindow);
+        UNUSED_VARIABLE(width);
+        UNUSED_VARIABLE(height);
     }
 
     void GL3Application::onKey(GLFWwindow* glfwWindow, int key, int scancode, int action, int mods)
     {
-
+        UNUSED_VARIABLE(glfwWindow);
+        UNUSED_VARIABLE(key);
+        UNUSED_VARIABLE(scancode);
+        UNUSED_VARIABLE(action);
+        UNUSED_VARIABLE(mods);
     }
 
     void GL3Application::onMouseButton(GLFWwindow* glfwWindow, int button, int action, int mods)
-    {
-
+    {   
+        UNUSED_VARIABLE(glfwWindow);
+        UNUSED_VARIABLE(button);
+        UNUSED_VARIABLE(action);
+        UNUSED_VARIABLE(mods);
     }
 
     void GL3Application::onMouseCursorEnter(GLFWwindow* glfwWindow, int entered)
     {
-
+        UNUSED_VARIABLE(glfwWindow);
+        UNUSED_VARIABLE(entered);
     }
 
     void GL3Application::onMouseCursorPos(GLFWwindow* glfwWindow, double x, double y)
     {
-
+        UNUSED_VARIABLE(glfwWindow);
+        UNUSED_VARIABLE(x);
+        UNUSED_VARIABLE(y);
     }
 
     void GL3Application::onMouseScroll(GLFWwindow* glfwWindow, double deltaX, double deltaY)
     {
-
+        UNUSED_VARIABLE(glfwWindow);
+        UNUSED_VARIABLE(deltaX);
+        UNUSED_VARIABLE(deltaY);
     }
 
     void GL3Application::onChar(GLFWwindow* glfwWindow, unsigned int code)
     {
-
+        UNUSED_VARIABLE(glfwWindow);
+        UNUSED_VARIABLE(code);
     }
 
     void GL3Application::onCharMods(GLFWwindow* glfwWindow, unsigned int code, int mods)
     {
-
+        if (code == GLFW_KEY_ESCAPE && mods == GLFW_PRESS)
+		    glfwSetWindowShouldClose(glfwWindow, GLFW_TRUE);
     }
 
     void GL3Application::onDrop(GLFWwindow* glfwWindow, int numDroppedFiles, const char** pathNames)
     {
-
+        UNUSED_VARIABLE(glfwWindow);
+        UNUSED_VARIABLE(numDroppedFiles);
+        UNUSED_VARIABLE(pathNames);
     }
 
     void GL3Application::onErrorEvent(int error, const char* description)
