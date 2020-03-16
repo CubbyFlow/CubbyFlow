@@ -38,14 +38,14 @@
 using namespace CubbyFlow;
 using namespace CubbyRender;
 
-void RunExample1(ApplicationPtr application, size_t resX, size_t resY, int numberOfFrames, double fps, ScreenRecorderPtr recorder)
+void RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFrames, double fps, ScreenRecorderPtr recorder)
 {
     auto window = application->createWindow("SPH Simulation", resX, resY);
     UNUSED_VARIABLE(window);
     application->run(numberOfFrames, fps, recorder);
 }
 
-void RunExample2(ApplicationPtr application, size_t resX, size_t resY, int numberOfFrames, double fps, ScreenRecorderPtr recorder)
+void RunExample2(ApplicationPtr application, int resX, int resY, int numberOfFrames, double fps, ScreenRecorderPtr recorder)
 {
     auto window = application->createWindow("PCISPH Simulation", resX, resY);
     UNUSED_VARIABLE(window);
@@ -57,8 +57,8 @@ int main(int argc, char* argv[])
     bool showHelp = false;
     int numberOfFrames = 100;
     int exampleNum = 1;
-    size_t resX = 800;
-    size_t resY = 600;
+    int resX = 800;
+    int resY = 600;
     double fps = 60.0;
     std::string logFileName = APP_NAME ".log";
     std::string outputDir = APP_NAME "_output";
@@ -126,7 +126,7 @@ int main(int argc, char* argv[])
         CUBBYFLOW_ERROR << "Initialize EGLApplication failed.";
         return -1;
     }
-
+    
     if (format != "null") 
         recorder = std::make_shared<ScreenRecorder>(Size3( resX, resY, 3 ));
     
