@@ -10,6 +10,8 @@
 #ifndef CUBBYFLOW_SHADERPARAMETER_H
 #define CUBBYFLOW_SHADERPARAMETER_H
 
+#include <memory>
+
 namespace CubbyFlow {
 namespace CubbyRender {
 
@@ -22,6 +24,7 @@ namespace CubbyRender {
     private:
     };
 
+    using ShaderParameterPtr = std::shared_ptr<ShaderParameter>;
 }
 }
 

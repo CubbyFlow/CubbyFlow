@@ -88,6 +88,41 @@ namespace CubbyRender {
         if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		    glfwSetWindowShouldClose(_window, GLFW_TRUE);
     }
+
+    void GL3Window::onMouseButton(int button, int action, int mods)
+    {
+        UNUSED_VARIABLE(button);
+        UNUSED_VARIABLE(action);
+        UNUSED_VARIABLE(mods);
+    }
+
+    void GL3Window::onMouseCursorEnter(int entered)
+    {
+        UNUSED_VARIABLE(entered);
+    }
+
+    void GL3Window::onMouseCursorPos(double x, double y)
+    {
+        UNUSED_VARIABLE(x);
+        UNUSED_VARIABLE(y);
+    }
+
+    void GL3Window::onMouseScroll(double deltaX, double deltaY)
+    {
+        UNUSED_VARIABLE(deltaX);
+        UNUSED_VARIABLE(deltaY);
+    }
+
+    void GL3Window::onChar(unsigned int code)
+    {
+        UNUSED_VARIABLE(code);
+    }
+
+    void GL3Window::onDrop(int numDroppedFiles, const char** pathNames)
+    {
+        UNUSED_VARIABLE(numDroppedFiles);
+        UNUSED_VARIABLE(pathNames);
+    }
 }
 }
 

@@ -11,15 +11,13 @@
 #ifndef CUBBYFLOW_TEXTURE_H
 #define CUBBYFLOW_TEXTURE_H
 
-/*
-
 #include <cstdint>
 #include <memory>
 #include <Core/Array/ArrayAccessor2.h>
-#include <Core/Vector/Vector2.h>
+#include <Core/Size/Size2.h>
 #include <Core/Vector/Vector4.h>
-#include <Core/Matrix/Matrix.h>
 
+#include <Framework/Object.h>
 #include <Framework/Prerequisites.h>
 #include <Framework/Common.h>
 
@@ -36,7 +34,7 @@ namespace CubbyRender {
     };
 
     //! Abstract base class for 2-D textures.
-    class Texture 
+    class Texture : public Object
     {
     public:
         //! Default constructor.
@@ -51,20 +49,14 @@ namespace CubbyRender {
         //! Updates current texture with given 8-bit color data.
         virtual void update(const ConstArrayAccessor2<Vector4B>& data) = 0;
 
-        //! Clears the contents.
-        void clear();
-
         //! Sets the texture with given 32-bit color data and size.
         void setTexture(const ConstArrayAccessor2<Vector4F>& data);
 
         //! Sets the texture with given 8-bit color data and size.
         void setTexture(const ConstArrayAccessor2<Vector4B>& data);
 
-        //! Binds the texture to given renderer with slot ID.
-        void bind(Renderer* renderer, unsigned int slotId);
-
         //! Returns the size of the texture.
-        const Vector2UZ& size() const;
+        const Size2& size() const;
 
         //! Returns the sampling mode of the texture.
         const TextureSamplingMode& samplingMode() const;
@@ -72,9 +64,10 @@ namespace CubbyRender {
         //! Sets the sampling mode of the texture.
         void setSamplingMode(const TextureSamplingMode& mode);
 
+        //! Set texture slot id.
+        void setSlotID(unsigned int slotID);
+
      protected:
-        //! Called when clear() is invoked.
-        virtual void onClear() = 0;
 
         //! Called when setTexture(...) is invoked.
         virtual void onSetTexture(const ConstArrayAccessor2<Vector4F>& data) = 0;
@@ -82,21 +75,27 @@ namespace CubbyRender {
         //! Called when setTexture(...) is invoked.
         virtual void onSetTexture(const ConstArrayAccessor2<Vector4B>& data) = 0;
 
-        //! Called when bind(...) is invoked.
-        virtual void onBind(Renderer* renderer, unsigned int slotId) = 0;
-
         //! Called when sampling mode has changed.
         virtual void onSamplingModeChanged(const TextureSamplingMode& mode) = 0;
 
+        //! Called when bind(...) is invoked
+        virtual void onBind(RendererPtr renderer) = 0;
+        
+        //! Called when unbind(...) is  is invoked
+        virtual void onUnbind(RendererPtr renderer) = 0;
+
+        //! Called when destroy(...) is  is invoked
+        virtual void onDestroy(RendererPtr renderer) = 0;
+
      private:
-        Vector2UZ _size;
+        Size2 _size;
         TextureSamplingMode _samplingMode = TextureSamplingMode::kNearest;
+        unsigned int _slotID;
     };
 
     using TexturePtr = std::shared_ptr<Texture>;
 
 } 
 } 
-*/
 
 #endif 

@@ -10,12 +10,14 @@
 
 #ifdef CUBBYFLOW_USE_GL
 
+#include <Framework/GL3/GL3Debugging.h>
 #include <Framework/GL3/GL3Application.h>
 #include <Framework/GL3/GL3Window.h>
 #include <Framework/GL3/GL3Renderer.h>
 #include <Framework/GL3/GL3Common.h>
 #include <Framework/Common.h>
 #include <GLFW/glfw3.h>
+#include <glad/glad.h>
 #include <cassert>
 #include <vector>
 
@@ -41,14 +43,17 @@ namespace CubbyRender {
 
     int GL3Application::initialize()
     {
-        glfwSetErrorCallback(onErrorEvent);
-
         if (!glfwInit()) 
         {
             CUBBYFLOW_ERROR << "GLFW initialization failed";
             return -1;
         }
         
+        int major, minor, revision;
+        glfwGetVersion(&major, &minor, &revision);
+        CUBBYFLOW_INFO << "GLFW version : " << major << "." << minor << "." << revision;
+        
+        glfwSetErrorCallback(onErrorEvent);
         return 0;
     }
 
@@ -61,6 +66,7 @@ namespace CubbyRender {
 #if defined(CUBBYFLOW_MACOSX)
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
+
         _window = std::make_shared<GL3Window>(title, width, height);
 
 //! In headless server, register window callback function cause segmentation fault.
@@ -74,10 +80,9 @@ namespace CubbyRender {
         glfwSetCursorEnterCallback(glfwWindow, onMouseCursorEnter);
         glfwSetScrollCallback(glfwWindow, onMouseScroll);
         glfwSetCharCallback(glfwWindow, onChar);
-        glfwSetCharModsCallback(glfwWindow, onCharMods);
         glfwSetDropCallback(glfwWindow, onDrop);
 #endif
-
+        CUBBYFLOW_INFO << "Create GLFWwindow with value (" << title << ", " << width << ", " << height << ")";
         return _window;
     }
 
@@ -101,13 +106,14 @@ namespace CubbyRender {
         }
 
         assert( validateApplication() );
-    
+        CUBBYFLOW_INFO << "Application validation before running simulation success";
+
         //! Force render first frame
         if (_window != nullptr) 
         {
             // _window->requestRender(1);
         }
-        while (validateApplication()) 
+        while (!validateApplication()) 
         {
             glfwWaitEvents();
 
@@ -137,7 +143,8 @@ namespace CubbyRender {
                 break;
             }
         }
-
+        
+        CUBBYFLOW_CHECK_GLERROR();
         terminate();
 
         return 0;
@@ -145,6 +152,7 @@ namespace CubbyRender {
 
     void GL3Application::terminate()
     {   
+        CUBBYFLOW_INFO << "Application terminated";
         _window.reset();
         glfwTerminate();
     }
@@ -187,49 +195,61 @@ namespace CubbyRender {
     void GL3Application::onMouseButton(GLFWwindow* glfwWindow, int button, int action, int mods)
     {   
         UNUSED_VARIABLE(glfwWindow);
-        UNUSED_VARIABLE(button);
-        UNUSED_VARIABLE(action);
-        UNUSED_VARIABLE(mods);
+        assert(gApplicationInstance);
+        auto window = gApplicationInstance->getApplicationWindow();
+        assert(gApplicationInstance->validateApplication());
+
+        window->onMouseButton(button, action, mods);
     }
 
     void GL3Application::onMouseCursorEnter(GLFWwindow* glfwWindow, int entered)
     {
         UNUSED_VARIABLE(glfwWindow);
-        UNUSED_VARIABLE(entered);
+        assert(gApplicationInstance);
+        auto window = gApplicationInstance->getApplicationWindow();
+        assert(gApplicationInstance->validateApplication());
+
+        window->onMouseCursorEnter(entered);
     }
 
     void GL3Application::onMouseCursorPos(GLFWwindow* glfwWindow, double x, double y)
     {
         UNUSED_VARIABLE(glfwWindow);
-        UNUSED_VARIABLE(x);
-        UNUSED_VARIABLE(y);
+        assert(gApplicationInstance);
+        auto window = gApplicationInstance->getApplicationWindow();
+        assert(gApplicationInstance->validateApplication());
+
+        window->onMouseCursorPos(x, y);
     }
 
     void GL3Application::onMouseScroll(GLFWwindow* glfwWindow, double deltaX, double deltaY)
     {
         UNUSED_VARIABLE(glfwWindow);
-        UNUSED_VARIABLE(deltaX);
-        UNUSED_VARIABLE(deltaY);
+        assert(gApplicationInstance);
+        auto window = gApplicationInstance->getApplicationWindow();
+        assert(gApplicationInstance->validateApplication());
+
+        window->onMouseScroll(deltaX, deltaY);
     }
 
     void GL3Application::onChar(GLFWwindow* glfwWindow, unsigned int code)
     {
         UNUSED_VARIABLE(glfwWindow);
-        UNUSED_VARIABLE(code);
-    }
+        assert(gApplicationInstance);
+        auto window = gApplicationInstance->getApplicationWindow();
+        assert(gApplicationInstance->validateApplication());
 
-    void GL3Application::onCharMods(GLFWwindow* glfwWindow, unsigned int code, int mods)
-    {
-        UNUSED_VARIABLE(glfwWindow);
-        UNUSED_VARIABLE(code);
-        UNUSED_VARIABLE(mods);
+        window->onChar(code);
     }
 
     void GL3Application::onDrop(GLFWwindow* glfwWindow, int numDroppedFiles, const char** pathNames)
     {
         UNUSED_VARIABLE(glfwWindow);
-        UNUSED_VARIABLE(numDroppedFiles);
-        UNUSED_VARIABLE(pathNames);
+        assert(gApplicationInstance);
+        auto window = gApplicationInstance->getApplicationWindow();
+        assert(gApplicationInstance->validateApplication());
+
+        window->onDrop(numDroppedFiles, pathNames);
     }
 
     void GL3Application::onErrorEvent(int error, const char* description)

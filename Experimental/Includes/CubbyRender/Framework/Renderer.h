@@ -11,6 +11,7 @@
 #define CUBBYFLOW_RENDERER_H
 
 #include <Framework/Prerequisites.h>
+#include <Framework/Vertex.h>
 #include <string>
 
 namespace CubbyFlow {
@@ -23,7 +24,7 @@ namespace CubbyRender {
     //! The wrapper class of each Graphics API must overrides 
     //! this renderer class.
     //!
-    class Renderer
+    class Renderer : public std::enable_shared_from_this<Renderer>
     {
     public:
         //! Default constructor.
@@ -40,7 +41,7 @@ namespace CubbyRender {
         //! \param vertices vertex data
         //! \param numberOfVertices number of point.
         //! \return new vertex buffer instance
-        virtual VertexBufferPtr createVertexBuffer(const float* vertices, size_t numberOfVertices) = 0;
+        virtual VertexBufferPtr createVertexBuffer(MaterialPtr material, const float* vertices, size_t numberOfVertices, VertexFormat format, bool storeData) = 0;
 
         //! Create Shader Program from presets.
         //! \param shader preset name

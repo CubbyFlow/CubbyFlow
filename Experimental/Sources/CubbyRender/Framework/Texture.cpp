@@ -9,7 +9,6 @@
 *************************************************************************/
 #include <Framework/Texture.h>
 
-/*
 namespace CubbyFlow {
 namespace CubbyRender {
 
@@ -23,11 +22,6 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
-    void Texture::clear()
-    {
-        onClear();
-    }
-
     void Texture::setTexture(const ConstArrayAccessor2<Vector4F>& data)
     {
         onSetTexture(data);
@@ -38,12 +32,7 @@ namespace CubbyRender {
         onSetTexture(data);
     }
 
-    void Texture::bind(Renderer* renderer, unsigned int slotId)
-    {
-        onBind(renderer, slotId);
-    }
-
-    const Vector2UZ& Texture::size() const
+    const Size2& Texture::size() const
     {
         return _size;
     }
@@ -58,6 +47,9 @@ namespace CubbyRender {
         _samplingMode = mode;
     }
 
+    void Texture::setSlotID(unsigned int slotID)
+    {
+        _slotID = slotID;
+    }
 } 
-} 
-*/
+}

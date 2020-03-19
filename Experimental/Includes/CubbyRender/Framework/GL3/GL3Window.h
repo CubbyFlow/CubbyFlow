@@ -76,8 +76,28 @@ namespace CubbyRender {
         //! Action implementation when window is moved.
         void onWindowMoved(int width, int height) override;
 
-        //! Action implementation when any event is happend on "KEY"
+        //! Action implementation when any key is pressed or released
         void onKey(int key, int scancode, int action, int mods) override;
+
+        //! Action implementation when any mouse button is pressed or released.
+        void onMouseButton(int button, int action, int mods);
+
+        //! Action implementation when the cursor entered or left the content area of the window
+        void onMouseCursorEnter(int entered);
+
+        //! Action implementation when cursor is moved
+        void onMouseCursorPos(double x, double y);
+
+        //! Action implementation when mouse scroll is moved
+        void onMouseScroll(double deltaX, double deltaY);
+
+        //! Action implementation when text input in the form of a stream of Unicode code points,
+        //! as produced by the operating system text input system
+        void onChar(unsigned int code);
+
+        //! Action implementation when any file in the filesystem is
+        //! dragged and dropped on this application.
+        void onDrop(int numDroppedFiles, const char** pathNames);
     protected:
         void onUpdate() override;
 

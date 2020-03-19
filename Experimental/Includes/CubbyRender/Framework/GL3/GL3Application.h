@@ -70,7 +70,7 @@ namespace CubbyRender {
         static void onDrop(GLFWwindow* glfwWindow, int numDroppedFiles, const char** pathNames);
         static void onErrorEvent(int error, const char* description);
 
-        GL3WindowPtr _window;
+        GL3WindowPtr _window = nullptr;
     };
 
     using GL3ApplicationPtr = std::shared_ptr<GL3Application>;

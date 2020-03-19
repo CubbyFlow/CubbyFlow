@@ -39,7 +39,7 @@ namespace CubbyRender {
         //! \param vertices vertex data
         //! \param numberOfVertices number of point.
         //! \return new vertex buffer instance
-        VertexBufferPtr createVertexBuffer(const float* vertices, size_t numberOfVertices) override;
+        VertexBufferPtr createVertexBuffer(MaterialPtr material, const float* vertices, size_t numberOfVertices, VertexFormat format, bool storeData) override;
 
         //! Create Shader Program from presets.
         //! \param shader preset name
