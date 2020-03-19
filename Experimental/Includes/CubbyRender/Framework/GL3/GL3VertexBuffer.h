@@ -12,8 +12,9 @@
 
 #ifdef CUBBYFLOW_USE_GL
 
-#include <memory>
 #include <Framework/VertexBuffer.h>
+#include <Framework/GL3/GL3Common.h>
+#include <memory>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -27,6 +28,8 @@ namespace CubbyRender {
         //! Default constructor.
         GL3VertexBuffer();
 
+        GL3VertexBuffer(size_t numberOfElements, VertexFormat format = VertexFormat::Position3);
+
         //! Default destructor.
         ~GL3VertexBuffer();
     protected:
@@ -37,8 +40,16 @@ namespace CubbyRender {
         void onUnbind(RendererPtr renderer) override;
 
         //! implementation of destry method
-        void onDestroy() override;
+        void onDestroy(RendererPtr renderer) override;
+
+        //! Allocate gpu 
+        void onAllocateResource(RendererPtr renderer, MaterialPtr material, const float* data, bool storeData) override;
+
+        //! Update 
+        void onUpdateResource(RendererPtr renderer, MaterialPtr material, const float* data, bool storeData) override;
     private:
+        GLuint _vertexArrayID;
+        GLuint _vertexBufferID;
     };
 
     using GL3VertexBufferPtr = std::shared_ptr<GL3VertexBuffer>;
