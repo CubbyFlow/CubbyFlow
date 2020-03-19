@@ -5,8 +5,6 @@ set(target Experimental)
 if (APPLE)
     find_library(COCOA_LIB Cocoa)
     find_library(COREFOUNDATION_LIB CoreFoundation)
-    # Define macro CUBBYRENDER_MACOSX. 
-    add_definitions(-DCUBBYFLOW_MACOSX)
 else()
     set(COCOA_LIB "")
     set(COREFOUNDATION_LIB "")
@@ -68,7 +66,7 @@ if (USE_GL)
             ${COREFOUNDATION_LIB})
 
         # Include other directories
-        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/gl3w)
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/glad)
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Includes/CubbyRender)
 
     else()
