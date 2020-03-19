@@ -12,6 +12,7 @@
 
 #include <Framework/Prerequisites.h>
 #include <Framework/Object.h>
+#include <Framework/Vertex.h>
 #include <unordered_map>
 #include <string>
 
@@ -29,12 +30,6 @@ namespace CubbyRender {
         //! Default constructor.
         Shader();
 
-        //! Construct with shader preset name (for example, shadow_shader, etc..)
-        Shader(const std::string& shaderName);
-
-        //! Construct with shader shader map ( for example, fileMap["VertexShader"] = "shader/vs.glsl")
-        Shader(const ShaderMap& fileMap);
-
         //! Default destructor.
         virtual ~Shader();
 
@@ -43,6 +38,8 @@ namespace CubbyRender {
 
         //! load shader with shader map.
         int load(const ShaderMap& fileMap);
+
+        VertexFormat getInputVertexFormat() const;
 
     protected:
         //! implementation of shader load
@@ -55,7 +52,10 @@ namespace CubbyRender {
         virtual void onUnbind(RendererPtr renderer) = 0;
 
         //! implementation of destry method
-        virtual void onDestroy() = 0;
+        virtual void onDestroy(RendererPtr renderer) = 0;
+
+        //! Input format of the vertex shader.
+        VertexFormat _format = VertexFormat::Position3Normal3;
     private:
     };
 

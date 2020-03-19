@@ -13,7 +13,7 @@
 #include <Framework/GL3/GL3Shader.h>
 #include <Framework/Common.h>
 #include <Core/Utils/Logging.h>
-#include <GL/gl3w.h>
+#include <glad/glad.h>
 #include <cassert>
 #include <vector>
 
@@ -68,22 +68,63 @@ namespace CubbyRender {
     }
 
     GL3Shader::GL3Shader(const std::string& shaderName)
-        : Shader(shaderName)
     {
-        
+        UNUSED_VARIABLE(shaderName);
+        assert(load(shaderName) == 0);
     }
 
     GL3Shader::GL3Shader(const ShaderMap& fileMap)
-        : Shader(fileMap)
     {
-        
+        UNUSED_VARIABLE(fileMap);
+        assert(load(fileMap) == 0);
     }
 
     GL3Shader::~GL3Shader()
     {
-        onDestroy();
+        //! Do nothing.
     }
     
+    GLuint GL3Shader::getProgramID() const
+    {
+        return _programID;
+    }
+
+    GLuint GL3Shader::getAttribLocation(const std::string& name)
+    {
+        auto iter = _locationCache.find(name);
+        if (iter == _locationCache.end())
+        {
+            //! When Cache miss.
+            GLuint location = glGetAttribLocation(_programID, name.c_str());
+            _locationCache[name] = location;
+
+           return location; 
+        }
+        else
+        {
+            //! When Cache hit.
+            return iter->second;
+        }
+    }
+
+    GLuint GL3Shader::getUniformLocation(const std::string& name)
+    {
+        auto iter = _locationCache.find(name);
+        if (iter == _locationCache.end())
+        {
+            //! When Cache miss.
+            GLuint location = glGetAttribLocation(_programID, name.c_str());
+            _locationCache[name] = location;
+
+           return location; 
+        }
+        else
+        {
+            //! When Cache hit.
+            return iter->second;
+        }
+    }
+
     int GL3Shader::onLoad(const ShaderMap& shaderMap)
     {
         //! If shader sources dont exist return 1.
@@ -99,9 +140,9 @@ namespace CubbyRender {
             {"VertexShader", GL_VERTEX_SHADER},
             {"GeometryShader", GL_GEOMETRY_SHADER},
             {"FragmentShader", GL_FRAGMENT_SHADER},
-            {"TessControlShader", GL_TESS_CONTROL_SHADER},
-            {"TessEvaluationShader", GL_TESS_EVALUATION_SHADER},
-            {"ComputeShader", GL_COMPUTE_SHADER},
+            //{"TessControlShader", GL_TESS_CONTROL_SHADER},
+            //{"TessEvaluationShader", GL_TESS_EVALUATION_SHADER},
+            //{"ComputeShader", GL_COMPUTE_SHADER},
         };
 
         std::vector<GLuint> compiledShaders;
@@ -145,8 +186,9 @@ namespace CubbyRender {
         glUseProgram(0U);
     }
 
-    void GL3Shader::onDestroy()
+    void GL3Shader::onDestroy(RendererPtr renderer)
     {
+        UNUSED_VARIABLE(renderer);
         glDeleteProgram(_programID);
     }
 

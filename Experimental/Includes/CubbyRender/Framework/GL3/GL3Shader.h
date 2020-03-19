@@ -16,6 +16,7 @@
 #include <Framework/Shader.h>
 #include <Framework/GL3/GL3Common.h>
 #include <string>
+#include <unordered_map>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -25,6 +26,7 @@ namespace CubbyRender {
     //!
     class GL3Shader final : public Shader
     {
+    public:
         //! Default constructor.
         GL3Shader();
 
@@ -37,6 +39,11 @@ namespace CubbyRender {
         //! Default destructor.
         virtual ~GL3Shader();
 
+        GLuint getProgramID() const;
+
+        GLuint getAttribLocation(const std::string& name);
+
+        GLuint getUniformLocation(const std::string& name);
     protected:
         //! implementation of shader load
         int onLoad(const ShaderMap& shaderMap) override;
@@ -48,10 +55,11 @@ namespace CubbyRender {
         void onUnbind(RendererPtr renderer) override;
 
         //! implementation of destry method
-        void onDestroy() override;
+        void onDestroy(RendererPtr renderer) override;
     private:
         void printShaderLog();
 
+        std::unordered_map<std::string, GLuint> _locationCache;
         GLuint _programID;
     };
 
