@@ -20,11 +20,15 @@
 #include <sys/stat.h>
 #endif
 
+#include <Framework/Media/ScreenRecorder.h>
+
 #include <Framework/GL3/GL3Application.h>
-#include <Framework/GL3/GL3Window.h>
+#include <Framework/GL3/GL3Shader.h>
+#include <Framework/GL3/GL3Renderer.h>
 #include <Framework/Application.h>
 #include <Framework/Window.h>
-#include <Framework/Media/ScreenRecorder.h>
+#include <Framework/Shader.h>
+#include <Framework/Material.h>
 
 #include <Core/Size/Size3.h>
 
@@ -41,7 +45,61 @@ using namespace CubbyRender;
 void RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFrames, double fps, ScreenRecorderPtr recorder)
 {
     auto window = application->createWindow("SPH Simulation", resX, resY);
-    UNUSED_VARIABLE(window);
+    ShaderPtr simpleShader = std::make_shared<GL3Shader>("simple_shader");
+    MaterialPtr simpleMaterial = std::make_shared<Material>(simpleShader);
+
+    float vertices[] = {
+        -1.0f, +1.0f, +1.0f, // 0
+        +1.0f, +0.0f, +0.0f,
+        +1.0f, +1.0f, +1.0f, // 1
+        +0.0f, +1.0f, +0.0f,
+        +1.0f, +1.0f, -1.0f, // 2
+        +0.0f, +0.0f, +1.0f,
+        -1.0f, +1.0f, -1.0f, // 3
+        +1.0f, +1.0f, +1.0f,
+        -1.0f, +1.0f, -1.0f, // 4
+        +1.0f, +0.0f, +1.0f,
+        +1.0f, +1.0f, -1.0f, // 5
+        +0.0f, +0.5f, +0.2f,
+        +1.0f, -1.0f, -1.0f, // 6
+        +0.8f, +0.6f, +0.4f,
+        -1.0f, -1.0f, -1.0f, // 7
+        +0.3f, +1.0f, +0.5f,
+        +1.0f, +1.0f, -1.0f, // 8
+        +0.2f, +0.5f, +0.2f,
+        +1.0f, +1.0f, +1.0f, // 9
+        +0.9f, +0.3f, +0.7f,
+        +1.0f, -1.0f, +1.0f, // 10
+        +0.3f, +0.7f, +1.0f,
+        +1.0f, -1.0f, -1.0f, // 11
+        +0.5f, +0.7f, +0.5f,
+        -1.0f, +1.0f, +1.0f, // 12
+        +0.7f, +0.8f, +0.2f,
+        -1.0f, +1.0f, -1.0f, // 13
+        +0.5f, +0.7f, +0.3f,
+        -1.0f, -1.0f, -1.0f, // 14
+        +0.4f, +0.7f, +0.7f,
+        -1.0f, -1.0f, +1.0f, // 15
+        +0.2f, +0.5f, +1.0f,
+        +1.0f, +1.0f, +1.0f, // 16
+        +0.6f, +1.0f, +0.7f,
+        -1.0f, +1.0f, +1.0f, // 17
+        +0.6f, +0.4f, +0.8f,
+        -1.0f, -1.0f, +1.0f, // 18
+        +0.2f, +0.8f, +0.7f,
+        +1.0f, -1.0f, +1.0f, // 19
+        +0.2f, +0.7f, +1.0f,
+        +1.0f, -1.0f, -1.0f, // 20
+        +0.8f, +0.3f, +0.7f,
+        -1.0f, -1.0f, -1.0f, // 21
+        +0.8f, +0.9f, +0.5f,
+        -1.0f, -1.0f, +1.0f, // 22
+        +0.5f, +0.8f, +0.5f,
+        +1.0f, -1.0f, +1.0f, // 23
+        +0.9f, +1.0f, +0.2f
+    };
+
+    window->getRenderer()->createVertexBuffer(simpleMaterial, vertices, 48, VertexFormat::Position3, false);
     application->run(numberOfFrames, fps, recorder);
 }
 
@@ -123,7 +181,7 @@ int main(int argc, char* argv[])
     application = std::make_shared<GL3Application>();
     if (application->initialize())
     {
-        CUBBYFLOW_ERROR << "Initialize EGLApplication failed.";
+        std::cerr << "Initialize application failed.";
         return -1;
     }
     
@@ -155,6 +213,6 @@ int main(int argc, char* argv[])
         // recorder.saveScreenShot();
         std::cout << "complete" << '\n';
     }
-
+    
     return EXIT_SUCCESS;
 }
