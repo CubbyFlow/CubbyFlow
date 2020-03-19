@@ -18,9 +18,19 @@ namespace CubbyFlow {
 namespace CubbyRender {
     class GL3Renderer;
     class GL3Shader;
-    cla
+    class GL3Application;
+    class GL3Texture;
+    class GL3VertexBuffer;
+    class GL3IndexBuffer;
+    class GL3Window;
 
-    using GL3RendererPtr = std::shared_ptr<GL3Renderer>;
+    using GL3Renderer = std::shared_ptr<GL3Renderer>;
+    using GL3Shader = std::shared_ptr<GL3Shader>;
+    using GL3Application = std::shared_ptr<GL3Application>;
+    using GL3Texture = std::shared_ptr<GL3Texture>;
+    using GL3VertexBuffer = std::shared_ptr<GL3VertexBuffer>;
+    using GL3IndexBuffer = std::shared_ptr<GL3IndexBuffer>;
+    using GL3Window = std::shared_ptr<GL3Window>;
 }
 }
 
