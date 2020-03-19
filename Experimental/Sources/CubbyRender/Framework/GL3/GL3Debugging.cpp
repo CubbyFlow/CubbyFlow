@@ -10,15 +10,16 @@
 
 #ifdef CUBBYFLOW_USE_GL
 
+#include <Framework/GL3/GL3Debugging.h>
+
 #include <Core/Utils/Logging.h>
-#include <GL/gl3w.h>
+#include <glad/glad.h>
 #include <string>
 
 namespace CubbyFlow {
 namespace CubbyRender {
 
-    #ifdef _DEBUG
-	int CheckError(const char* filename, int line);
+	int GLDebugger::CheckError(const char* filename, int line)
 	{
 		GLenum errorCode;
 		std::string error;
@@ -41,7 +42,6 @@ namespace CubbyRender {
 
 		return errorCode == GL_NO_ERROR ? 0 : 1;
 	}
-    #endif
 }
 }
 

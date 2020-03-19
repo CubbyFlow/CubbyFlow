@@ -15,13 +15,14 @@
 namespace CubbyFlow {
 namespace CubbyRender {
 
-    #ifdef _DEBUG
-	int CheckError(const char* filename, int line);
+	class GLDebugger
+	{
+	public:
+		static int CheckError(const char* filename, int line);
+	};
+
 	//! locate this macro where you want to check whether if error exists or not.
-	#define CHECKERROR() GLDebugger::CheckError(__FILE__, __LINE__)
-	#else
-	#define CHECKERROR()
-	#endif
+	#define CUBBYFLOW_CHECK_GLERROR() GLDebugger::CheckError(__FILE__, __LINE__)
 }
 }
 
