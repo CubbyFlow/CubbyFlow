@@ -28,9 +28,6 @@ namespace CubbyRender {
         //! Default constructor.
         Object();
 
-        //! Construct with shader name (for example, shadow_shader, etc..)
-        Object(const std::string& shaderName);
-
         //! Default destructor.
         virtual ~Object();
 
@@ -41,7 +38,7 @@ namespace CubbyRender {
         void unbind(RendererPtr renderer);    
 
         //! Destroy this shader instance
-        void destroy();
+        virtual void destroy(RendererPtr renderer);
     protected:
         //! implementation of bind method
         virtual void onBind(RendererPtr renderer) = 0;
@@ -50,7 +47,7 @@ namespace CubbyRender {
         virtual void onUnbind(RendererPtr renderer) = 0;
 
         //! implementation of destry method
-        virtual void onDestroy() = 0;
+        virtual void onDestroy(RendererPtr renderer) = 0;
     private:
     };
 
