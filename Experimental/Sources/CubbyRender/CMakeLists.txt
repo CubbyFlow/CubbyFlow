@@ -72,7 +72,8 @@ target_link_libraries(${target}
 	${DEFAULT_LIBRARIES}
     ${CMAKE_DL_LIBS}
     ${OPENGL_LIBRARIES}
-
+    ${IMAGEMAGICK_LIBRARIES}
+    
     INTERFACE
 )
 

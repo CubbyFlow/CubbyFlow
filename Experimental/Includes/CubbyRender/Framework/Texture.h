@@ -14,10 +14,10 @@
 #include <cstdint>
 #include <memory>
 #include <Core/Array/ArrayAccessor2.h>
-#include <Core/Size/Size2.h>
+#include <Core/Size/Size3.h>
 #include <Core/Vector/Vector4.h>
 
-#include <Framework/Object.h>
+#include <Framework/Buffer.h>
 #include <Framework/Prerequisites.h>
 #include <Framework/Common.h>
 
@@ -34,7 +34,7 @@ namespace CubbyRender {
     };
 
     //! Abstract base class for 2-D textures.
-    class Texture : public Object
+    class Texture : public Buffer
     {
     public:
         //! Default constructor.
@@ -56,7 +56,7 @@ namespace CubbyRender {
         void setTexture(const ConstArrayAccessor2<Vector4B>& data);
 
         //! Returns the size of the texture.
-        const Size2& size() const;
+        const Size3& size() const;
 
         //! Returns the sampling mode of the texture.
         const TextureSamplingMode& samplingMode() const;
@@ -66,6 +66,9 @@ namespace CubbyRender {
 
         //! Set texture slot id.
         void setSlotID(unsigned int slotID);
+
+        //! Get texture slot id.
+        unsigned int getSlotID() const;
 
      protected:
 
@@ -78,17 +81,23 @@ namespace CubbyRender {
         //! Called when sampling mode has changed.
         virtual void onSamplingModeChanged(const TextureSamplingMode& mode) = 0;
 
-        //! Called when bind(...) is invoked
-        virtual void onBind(RendererPtr renderer) = 0;
+        //! implementation of bind method
+        virtual void onBind(RendererPtr renderer) override = 0;
         
-        //! Called when unbind(...) is  is invoked
-        virtual void onUnbind(RendererPtr renderer) = 0;
+        //! implementation of unbind method
+        virtual void onUnbind(RendererPtr renderer) override = 0;
 
-        //! Called when destroy(...) is  is invoked
-        virtual void onDestroy(RendererPtr renderer) = 0;
+        //! implementation of destry method
+        virtual void onDestroy(RendererPtr renderer) override = 0;
+
+        //! Allocate gpu 
+        virtual void onAllocateResource(RendererPtr renderer, MaterialPtr material, const float* data, bool storeData) override = 0;
+
+        //! Update 
+        virtual void onUpdateResource(RendererPtr renderer, MaterialPtr material, const float* data, bool storeData) override = 0;
 
      private:
-        Size2 _size;
+        Size3 _size;
         TextureSamplingMode _samplingMode = TextureSamplingMode::kNearest;
         unsigned int _slotID;
     };

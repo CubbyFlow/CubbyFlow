@@ -10,6 +10,13 @@ else()
     set(COREFOUNDATION_LIB "")
 endif()
 
+find_package(ImageMagick COMPONENTS Magick++ REQUIRED)
+if (ImageMagick_FOUND)
+    include_directories(${ImageMagick_INCLUDE_DIRS})
+    set(IMAGEMAGICK_LIBRARIES ${ImageMagick_LIBRARIES})
+endif()
+
+
 # OpenGL
 option(USE_GL "Use OpenGL features" ON)
 if (USE_GL)

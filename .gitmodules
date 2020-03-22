@@ -25,3 +25,6 @@
 [submodule "Experimental/Libraries/glew-cmake"]
 	path = Experimental/Libraries/glew-cmake
 	url = https://github.com/Perlmint/glew-cmake
+[submodule "Experimental/Libraries/ImageMagick"]
+	path = Experimental/Libraries/ImageMagick
+	url = https://github.com/ImageMagick/ImageMagick

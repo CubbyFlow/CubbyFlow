@@ -32,7 +32,7 @@ namespace CubbyRender {
         onSetTexture(data);
     }
 
-    const Size2& Texture::size() const
+    const Size3& Texture::size() const
     {
         return _size;
     }
@@ -50,6 +50,11 @@ namespace CubbyRender {
     void Texture::setSlotID(unsigned int slotID)
     {
         _slotID = slotID;
+    }
+
+    unsigned int Texture::getSlotID() const
+    {
+        return _slotID;
     }
 } 
 }
