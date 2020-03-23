@@ -16,15 +16,6 @@
 [submodule "Experimental/Libraries/glfw"]
 	path = Experimental/Libraries/glfw
 	url = https://github.com/glfw/glfw
-[submodule "Experimental/Libraries/EGL-Registry"]
-	path = Experimental/Libraries/EGL-Registry
-	url = https://github.com/KhronosGroup/EGL-Registry
-[submodule "Experimental/Libraries/EGL"]
-	path = Experimental/Libraries/EGL
-	url = https://github.com/McNopper/EGL
 [submodule "Experimental/Libraries/glew-cmake"]
 	path = Experimental/Libraries/glew-cmake
 	url = https://github.com/Perlmint/glew-cmake
-[submodule "Experimental/Libraries/ImageMagick"]
-	path = Experimental/Libraries/ImageMagick
-	url = https://github.com/ImageMagick/ImageMagick

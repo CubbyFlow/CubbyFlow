@@ -10,12 +10,11 @@ else()
     set(COREFOUNDATION_LIB "")
 endif()
 
-find_package(ImageMagick COMPONENTS Magick++ REQUIRED)
-if (ImageMagick_FOUND)
-    include_directories(${ImageMagick_INCLUDE_DIRS})
-    set(IMAGEMAGICK_LIBRARIES ${ImageMagick_LIBRARIES})
+# Recording On
+option(RECORDING "Use ffmpeg for recording simulation result" ON)
+if (RECORDING)
+    add_definitions(-DCUBBYFLOW_RECORDING)
 endif()
-
 
 # OpenGL
 option(USE_GL "Use OpenGL features" ON)
