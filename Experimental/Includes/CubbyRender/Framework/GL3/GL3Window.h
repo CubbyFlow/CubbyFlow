@@ -44,10 +44,10 @@ namespace CubbyRender {
         //! Returns the framebuffer size.
         //! Note that the framebuffer size can be different from the window size,
         //! especially on a Retina display (2x the window size).
-        Point2I getFramebufferSize() const override;
+        Size2 getFramebufferSize() const override;
 
         //! Returns the window size.
-        Point2I getWindowSize() const override;
+        Size2 getWindowSize() const override;
 
         inline GLFWWindowPtr getGLFWWindow() const
         {

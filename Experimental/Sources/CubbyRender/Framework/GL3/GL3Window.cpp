@@ -14,6 +14,7 @@
 #include <Framework/GL3/GL3Renderer.h>
 #include <Framework/Common.h>
 #include <GLFW/glfw3.h>
+#include <algorithm>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -40,7 +41,7 @@ namespace CubbyRender {
     void GL3Window::requestRender(unsigned int numFrames)
     {
         super_t::requestRender(numFrames);
-        _numRequestedRenderFrames = numFrames;
+        _numRequestedRenderFrames = std::max(_numRequestedRenderFrames, numFrames);
         glfwPostEmptyEvent();
     }
 
@@ -51,28 +52,29 @@ namespace CubbyRender {
     }
 
 
-    Point2I GL3Window::getFramebufferSize() const
+    Size2 GL3Window::getFramebufferSize() const
     {
         int width, height;
         glfwGetFramebufferSize(_window, &width, &height);
-        return Point2I {width, height};
+        return Size2 {width, height};
     }
 
-    Point2I GL3Window::getWindowSize() const
+    Size2 GL3Window::getWindowSize() const
     {
         int width, height;
         glfwGetWindowSize(_window, &width, &height);
-        return Point2I {width, height};
+        return Size2 {width, height};
     }
 
     void GL3Window::onUpdate() 
     {
-        //! Do nothing.
+        for (auto& closure : _updateClosures)
+            closure(shared_from_this());
     }
 
     void GL3Window::onWindowResized(int width, int height)
     {
-        _windowSize = Point2I { width, height };
+        _windowSize = Size2 { static_cast<size_t>(width), static_cast<size_t>(height) };
     }
 
     void GL3Window::onWindowMoved(int width, int height)
@@ -124,7 +126,7 @@ namespace CubbyRender {
         UNUSED_VARIABLE(pathNames);
     }
 }
-}
+}   
 
 
 #endif 

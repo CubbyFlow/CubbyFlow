@@ -22,21 +22,6 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
-    void Texture::setTexture(const ConstArrayAccessor2<Vector4F>& data)
-    {
-        onSetTexture(data);
-    }
-
-    void Texture::setTexture(const ConstArrayAccessor2<Vector4B>& data)
-    {
-        onSetTexture(data);
-    }
-
-    const Size3& Texture::size() const
-    {
-        return _size;
-    }
-
     const TextureSamplingMode& Texture::samplingMode() const
     {
         return _samplingMode;

@@ -12,11 +12,17 @@
 
 #include <Framework/Prerequisites.h>
 #include <Framework/Vertex.h>
+#include <Framework/RenderOptions.h>
+#include <Core/Array/ArrayAccessor1.h>
+#include <Core/Array/ArrayAccessor2.h>
+#include <Core/Vector/Vector3.h>
+#include <Core/Vector/Vector4.h>
+#include <vector>
 #include <string>
 
 namespace CubbyFlow {
 namespace CubbyRender {
-    
+
     //!
     //! \brief Abstract base class for Renderer object.
     //!
@@ -36,12 +42,30 @@ namespace CubbyRender {
         //! Initialize and fetch gl commands.
         virtual int initializeGL() = 0;
 
+        void render();
+
+        virtual void draw(size_t numberOfVertices) = 0;
+
+        virtual void drawIndices(size_t numberOfElements) = 0;
+
+        void setRenderState(const RenderState& renderState);
+
+        void setPrimitiveType(PrimitiveType type);
+
+        void addRenderable(RenderablePtr renderable);
+
+        void clearRenderables();
+
+        void setBackgroundColor(Vector4F color);
+
+        virtual void getCurrentFrame(ArrayAccessor2<Vector3B> pixels) = 0;
+
         //! Create VertexBuffer pointer with given parameters.
         //!
         //! \param vertices vertex data
         //! \param numberOfVertices number of point.
         //! \return new vertex buffer instance
-        virtual VertexBufferPtr createVertexBuffer(MaterialPtr material, const float* vertices, size_t numberOfVertices, VertexFormat format, bool storeData) = 0;
+        virtual VertexBufferPtr createVertexBuffer(MaterialPtr material, const ConstArrayAccessor1<float>& data, size_t numberOfVertices, VertexFormat format, bool storeData) = 0;
 
         //! Create Shader Program from presets.
         //! \param shader preset name
@@ -50,6 +74,14 @@ namespace CubbyRender {
 
         //! CreateShader
     protected:
+        virtual void onRenderBegin() = 0;
+        virtual void onRenderEnd() = 0;
+        virtual void onSetRenderState() = 0;
+
+        std::vector<RenderablePtr> _renderables;
+        RenderState _renderState;
+        PrimitiveType _primitiveType;
+        Vector4F _backgroundColor = Vector4F(0.0f, 0.0f, 0.0f, 1.0f);
     private:
     };
 

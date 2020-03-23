@@ -10,10 +10,12 @@
 #ifndef CUBBYFLOW_SCREEN_RECORDER_H
 #define CUBBYFLOW_SCREEN_RECORDER_H
 
+#include <Core/Size/Size3.h>
+#include <Core/Array/Array2.h>
+#include <Core/Array/ArrayAccessor2.h>
+#include <Core/Vector/Vector3.h>
 #include <memory>
 #include <string>
-
-#include <Core/Size/Size3.h>
 #include <vector>
 
 namespace CubbyFlow {
@@ -29,27 +31,32 @@ namespace CubbyRender {
         ScreenRecorder();
 
         //! Default Constructor.
-        ScreenRecorder(Size3 frameDimension);
+        ScreenRecorder(Size2 frameDimension);
 
-        //! Default Destructor.
+        //! Default Destructor. 
         virtual ~ScreenRecorder();
 
         //! Store given frame to _buffers
-        //! void storeFrame(Buffer buffer);
+        void storeFrame(Array2<Vector3B>&& frame);
 
         //! Save the frame with given frameIndex as tga format.
-        int saveScreenShot(const std::string& path, int frameIndex);
+        int saveFrame(const std::string& path, int frameIndex) const;
 
-        //! Save the stored frames as video.
-        int saveVideo(const std::string& path);
+        //! Save the all stored frames in given directory.
+        int saveAllFrames(const std::string& directory) const;
+
+        //! Get frame dimension
+        Size2 getFrameDimension() const;
 
         //! Set dimension of the screen(frame)
-        void setFrameDiemsnion(Size3 dim);
+        void setFrameDimension(Size2 dim);
+
+        //! Get the count of the frames.
+        size_t getFrameCount() const;
 
     protected:
-        // std::vector<Buffer> _buffers;
-        Size3 _frameDimension;
-        int _frameCount = 0;
+        std::vector<Array2<Vector3B>> _frames;
+        Size2 _frameDimension;
     private:
     };
 

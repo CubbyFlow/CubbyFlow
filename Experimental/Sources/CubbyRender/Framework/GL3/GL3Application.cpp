@@ -15,7 +15,10 @@
 #include <Framework/GL3/GL3Window.h>
 #include <Framework/GL3/GL3Renderer.h>
 #include <Framework/GL3/GL3Common.h>
+#include <Framework/Media/ScreenRecorder.h>
 #include <Framework/Common.h>
+#include <Core/Vector/Vector3.h>
+#include <Core/Array/Array2.h>
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 #include <cassert>
@@ -96,37 +99,35 @@ namespace CubbyRender {
         return _window;
     }
 
-    int GL3Application::run(int numberOfFrames, double fps, ScreenRecorderPtr recorder)
+    int GL3Application::run(int numberOfFrames, ScreenRecorderPtr recorder)
     {
-        UNUSED_VARIABLE(numberOfFrames);
-        UNUSED_VARIABLE(fps);
-        if (recorder)
-        {
-            //! Do nothing.
-        }
-
         assert( validateApplication() );
         CUBBYFLOW_INFO << "Application validation before running simulation success";
 
-        //! Force render first frame
-        if (_window != nullptr) 
+        _window->requestRender(1);
+        Size2 framebufferSize = _window->getFramebufferSize();
+        RendererPtr renderer = _window->getRenderer();
+
+        if (recorder)
         {
-            // _window->requestRender(1);
+            recorder->setFrameDimension(framebufferSize);
         }
+
+        _window->setIsUpdateEnabled(true);
+        _window->requestRender(numberOfFrames);
         while (!validateApplication()) 
         {
             glfwWaitEvents();
-
             GLFWWindowPtr glfwWindow = _window->getGLFWWindow();
-
             auto& numRequestedRenderFramesRef = _window->getNumRequestedRenderFrames();
-            if (_window->isUpdateEnabled() || numRequestedRenderFramesRef > 0) 
+            if (numRequestedRenderFramesRef > 0) 
             {
                 if (_window->isUpdateEnabled()) 
                 {
-                    //! update 
+                    _window->update();
                 }
 
+                _window->render();
                 //! Decrease render request count
                 numRequestedRenderFramesRef -= 1;
 
@@ -136,6 +137,13 @@ namespace CubbyRender {
                 }
 
                 glfwSwapBuffers(glfwWindow);
+
+                if (recorder)
+                {
+                    Array2<Vector3B> pixels(framebufferSize);
+                    renderer->getCurrentFrame(pixels.Accessor());
+                    recorder->storeFrame(std::move(pixels));
+                }
             }
 
             if (glfwWindowShouldClose(glfwWindow)) 

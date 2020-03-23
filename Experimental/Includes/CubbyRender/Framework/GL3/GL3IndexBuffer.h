@@ -1,5 +1,5 @@
 /*************************************************************************
-> File Name: GL3VertexBuffer.h
+> File Name: GL3IndexBuffer.h
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
@@ -7,12 +7,12 @@
 > Created Time: 2020/02/22
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
-#ifndef CUBBYFLOW_GL3VERTEXBUFFER_H
-#define CUBBYFLOW_GL3VERTEXBUFFER_H
+#ifndef CUBBYFLOW_GL3INDEXBUFFER_H
+#define CUBBYFLOW_GL3INDEXBUFFER_H
 
 #ifdef CUBBYFLOW_USE_GL
 
-#include <Framework/VertexBuffer.h>
+#include <Framework/IndexBuffer.h>
 #include <Framework/GL3/GL3Common.h>
 #include <memory>
 
@@ -22,19 +22,17 @@ namespace CubbyRender {
     //!
     //! \brief VertexBuffer implemeneted by Modern opengl(exactly above opengl3.3)
     //!
-    class GL3VertexBuffer final : public VertexBuffer
+    class GL3IndexBuffer final : public IndexBuffer
     {
     public:
         //! Default constructor.
-        GL3VertexBuffer();
-
-        GL3VertexBuffer(VertexFormat format);
+        GL3IndexBuffer();
 
         //! Default destructor.
-        ~GL3VertexBuffer();
+        ~GL3IndexBuffer();
 
         //! Update 
-        void updateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<float>& data, bool storeData) override;
+        void updateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<unsigned int>& data, bool storeData) override;
 
     protected:
         //! implementation of bind method
@@ -47,14 +45,13 @@ namespace CubbyRender {
         void onDestroy(RendererPtr renderer) override;
 
         //! Allocate gpu 
-        void onAllocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<float>& data) override;
+        void onAllocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<unsigned int>& data) override;
 
     private:
-        GLuint _vertexArrayID;
-        GLuint _vertexBufferID;
+        GLuint _indexBufferID;
     };
 
-    using GL3VertexBufferPtr = std::shared_ptr<GL3VertexBuffer>;
+    using GL3IndexBufferPtr = std::shared_ptr<GL3IndexBuffer>;
 } 
 }
 

@@ -29,7 +29,7 @@
 #include <Framework/Window.h>
 #include <Framework/Shader.h>
 #include <Framework/Material.h>
-
+#include <Core/Array/Array1.h>
 #include <Core/Size/Size3.h>
 
 #include <memory>
@@ -42,13 +42,13 @@
 using namespace CubbyFlow;
 using namespace CubbyRender;
 
-void RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFrames, double fps, ScreenRecorderPtr recorder)
+void RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFrames, ScreenRecorderPtr recorder)
 {
     auto window = application->createWindow("SPH Simulation", resX, resY);
     ShaderPtr simpleShader = std::make_shared<GL3Shader>("simple_shader");
     MaterialPtr simpleMaterial = std::make_shared<Material>(simpleShader);
 
-    float vertices[] = {
+    Array1<float> vertices = {
         -1.0f, +1.0f, +1.0f, // 0
         +1.0f, +0.0f, +0.0f,
         +1.0f, +1.0f, +1.0f, // 1
@@ -99,15 +99,15 @@ void RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFra
         +0.9f, +1.0f, +0.2f
     };
 
-    window->getRenderer()->createVertexBuffer(simpleMaterial, vertices, 48, VertexFormat::Position3, false);
-    application->run(numberOfFrames, fps, recorder);
+    window->getRenderer()->createVertexBuffer(simpleMaterial, vertices.ConstAccessor(), 48, VertexFormat::Position3, false);
+    application->run(numberOfFrames, recorder);
 }
 
-void RunExample2(ApplicationPtr application, int resX, int resY, int numberOfFrames, double fps, ScreenRecorderPtr recorder)
+void RunExample2(ApplicationPtr application, int resX, int resY, int numberOfFrames, ScreenRecorderPtr recorder)
 {
     auto window = application->createWindow("PCISPH Simulation", resX, resY);
     UNUSED_VARIABLE(window);
-    application->run(numberOfFrames, fps, recorder);
+    application->run(numberOfFrames, recorder);
 }
 
 int main(int argc, char* argv[])
@@ -117,7 +117,6 @@ int main(int argc, char* argv[])
     int exampleNum = 1;
     int resX = 800;
     int resY = 600;
-    double fps = 60.0;
     std::string logFileName = APP_NAME ".log";
     std::string outputDir = APP_NAME "_output";
     std::string format = "null";
@@ -134,9 +133,6 @@ int main(int argc, char* argv[])
         clara::Opt(numberOfFrames, "numberOfFrames")
         ["-f"]["--frames"]
         ("total number of frames (default is 100)") |
-        clara::Opt(fps, "fps")
-        ["-p"]["--fps"]
-        ("frames per second (default is 60.0)") |
         clara::Opt(logFileName, "logFileName")
         ["-l"]["--log"]
         ("log file name (default is " APP_NAME ".log)") |
@@ -186,15 +182,15 @@ int main(int argc, char* argv[])
     }
     
     if (format != "null") 
-        recorder = std::make_shared<ScreenRecorder>(Size3( resX, resY, 3 ));
+        recorder = std::make_shared<ScreenRecorder>();
     
     switch (exampleNum)
     {
     case 1:
-        RunExample1(application, resX, resY, numberOfFrames, fps, recorder);
+        RunExample1(application, resX, resY, numberOfFrames, recorder);
         break;
     case 2:
-        RunExample2(application, resX, resY, numberOfFrames, fps, recorder);
+        RunExample2(application, resX, resY, numberOfFrames, recorder);
         break;
     default:
         std::cout << ToString(parser) << '\n';

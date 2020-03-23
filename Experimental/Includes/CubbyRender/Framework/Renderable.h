@@ -1,5 +1,5 @@
 /*************************************************************************
-> File Name: Rendererable.h
+> File Name: Renderable.h
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
@@ -11,6 +11,7 @@
 #define CUBBYFLOW_RENDERERABLE_H
 
 #include <Framework/Prerequisites.h>
+#include <Framework/Object.h>
 #include <string>
 
 namespace CubbyFlow {
@@ -23,24 +24,33 @@ namespace CubbyRender {
     //! The wrapper class of each Graphics API must overrides 
     //! this renderer class.
     //!
-    class Rendererable
+    class Renderable : public Object
     {
     public:
         //! Default constructor.
-        Rendererable();
+        Renderable();
 
         //! Default destructor.
-        virtual ~Rendererable();
+        virtual ~Renderable();
 
         void render(RendererPtr renderer);
 
     protected:
+        //! implementation of bind method
+        virtual void onBind(RendererPtr renderer) override = 0;
+        
+        //! implementation of unbind method
+        virtual void onUnbind(RendererPtr renderer) override = 0;
+
+        //! implementation of destry method
+        virtual void onDestroy(RendererPtr renderer) override = 0;
+
         virtual void onRender(RendererPtr renderer) = 0;
     private:
 
     };
 
-    using RendererablePtr = std::shared_ptr<Rendererable>;
+    using RenderablePtr = std::shared_ptr<Renderable>;
 } 
 }
 

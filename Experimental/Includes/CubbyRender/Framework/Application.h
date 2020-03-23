@@ -38,7 +38,7 @@ namespace CubbyRender {
         virtual int initialize() = 0;
 
         //! Run the application with limited frames and fps.
-        virtual int run(int numberOfFrames, double fps, ScreenRecorderPtr recorder = nullptr) = 0;
+        virtual int run(int numberOfFrames, ScreenRecorderPtr recorder = nullptr) = 0;
 
         //! Create window and return it.
         virtual WindowPtr createWindow(const std::string& title, int width, int height) = 0;

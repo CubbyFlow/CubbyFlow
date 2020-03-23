@@ -27,8 +27,8 @@ namespace CubbyRender {
         //! Do nothing
     }
 
-    GL3VertexBuffer::GL3VertexBuffer(size_t numberOfElements, VertexFormat format)
-        : VertexBuffer(numberOfElements, format)
+    GL3VertexBuffer::GL3VertexBuffer(VertexFormat format)
+        : VertexBuffer(format)
     {
         //! Do nothing
     }
@@ -56,32 +56,47 @@ namespace CubbyRender {
         UNUSED_VARIABLE(renderer);
         if (static_cast<int>(_vertexArrayID))
             glDeleteVertexArrays(1, &_vertexArrayID);
-        if (_data) 
-            delete[] _data;
+        if (static_cast<int>(_vertexBufferID))
+            glDeleteBuffers(1, &_vertexBufferID);
     }
 
-    void GL3VertexBuffer::onAllocateResource(RendererPtr renderer, MaterialPtr material, const float* data, bool storeData) 
-    {   
-        if (storeData) 
-            _data = data;
+    void GL3VertexBuffer::updateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<float>& data, bool storeData)
+    {
+        UNUSED_VARIABLE(material);
+        if (storeData)
+        {
+            data.ParallelForEachIndex([&](size_t i){
+                _data[i] = data[i];
+            });
+        }
 
+        assert(_format == material->getShader()->getInputVertexFormat());
+
+        GLsizei stride = static_cast<GLsizei>(VertexHelper::getSizeInBytes(_format));   
+        bind(renderer);
+        glBufferSubData(GL_ARRAY_BUFFER, static_cast<GLintptr>(0), _numberOfVertices * stride, data.data());
+        unbind(renderer);
+    }
+
+    void GL3VertexBuffer::onAllocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<float>& data) 
+    {   
         GL3Shader* shader = dynamic_cast<GL3Shader*>(material->getShader().get());
         assert(shader != nullptr);
-
-        VertexFormat vertexFormat = shader->getInputVertexFormat();
+        _format = shader->getInputVertexFormat();
 
         shader->bind(renderer);
         glGenVertexArrays(1, &_vertexArrayID);
-        
+        glBindVertexArray(_vertexArrayID);
+
         if (_vertexArrayID)
         {
             bind(renderer);
 
-            GLsizei stride = static_cast<GLsizei>(VertexHelper::getSizeInBytes(vertexFormat));   
+            GLsizei stride = static_cast<GLsizei>(VertexHelper::getSizeInBytes(_format));   
 
             glGenBuffers(1, &_vertexBufferID);
             glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferID);
-            glBufferData(GL_ARRAY_BUFFER, _numberOfElements * stride, data, GL_DYNAMIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, _numberOfVertices * stride, data.data(), GL_DYNAMIC_DRAW);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
             GLsizeiptr offset = 0;
@@ -133,16 +148,8 @@ namespace CubbyRender {
 
         this->unbind(renderer);
         shader->unbind(renderer);
+        glBindVertexArray(0U);
     }
-    void GL3VertexBuffer::onUpdateResource(RendererPtr renderer, MaterialPtr material, const float* data, bool storeData)
-    {
-        //! Do nothing
-        UNUSED_VARIABLE(renderer);
-        UNUSED_VARIABLE(material);
-        UNUSED_VARIABLE(data);
-        UNUSED_VARIABLE(storeData);
-    }
-
 } 
 }
 

@@ -10,21 +10,27 @@
 #ifndef CUBBYFLOW_WINDOW_H
 #define CUBBYFLOW_WINDOW_H
 
-#include <memory>
-#include <Core/Point/Point2.h>
+#include <Framework/Prerequisites.h>
+#include <Core/Size/Size2.h>
 #include <Core/Vector/Vector2.h>
-#include <Framework/Renderer.h>
 #include <string>
+#include <vector>
+#include <functional>
+#include <memory>
 
 namespace CubbyFlow {
 namespace CubbyRender {
     
+    class Window;
+    using WindowPtr = std::shared_ptr<Window>;
+
     //!
     //! \brief Abstract base class for Window.
     //!
-    class Window
+    class Window : public std::enable_shared_from_this<Window>
     {
     public: 
+        using UpdateClosure = std::function<void(WindowPtr)>;
         //! Default Constructor.
         Window();
 
@@ -37,10 +43,10 @@ namespace CubbyRender {
         //! Returns the framebuffer size.
         //! Note that the framebuffer size can be different from the window size,
         //! especially on a Retina display (2x the window size).
-        virtual Point2I getFramebufferSize() const = 0;
+        virtual Size2 getFramebufferSize() const = 0;
 
         //! Returns the window size.
-        virtual Point2I getWindowSize() const = 0;
+        virtual Size2 getWindowSize() const = 0;
 
         //! Returns framebuffer / window size ratio.
         virtual Vector2F displayScalingFactor() const;
@@ -78,15 +84,22 @@ namespace CubbyRender {
         //! Get Renderer pointer
         RendererPtr getRenderer();
 
+        //! Add update closure
+        void addUpdateClosure(const UpdateClosure& closure);
+
         //! Update window (this routine include scene update, view update, etc..)
         void update();
+
+        //! call render function through renderer.
+        void render();
     protected:
         //! Implementation of the update routine.
         virtual void onUpdate() = 0;
 
         RendererPtr _renderer;
+        std::vector<UpdateClosure> _updateClosures;
         std::string _title;
-        Point2I _windowSize;
+        Size2 _windowSize;
         int _swapInterval = 0;
         bool _isUpdateEnabled = false;
 
@@ -94,7 +107,6 @@ namespace CubbyRender {
 
     };
 
-    using WindowPtr = std::shared_ptr<Window>;
 } 
 }
 

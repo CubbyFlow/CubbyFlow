@@ -9,10 +9,10 @@
 *************************************************************************/
 
 #include <Framework/Media/ScreenRecorder.h>
+#include <Framework/Texture.h>
 #include <Core/Math/MathUtils.h>
 #include <Core/Utils/Logging.h>
 #include <pystring/pystring.h>
-
 #include <fstream>
 
 namespace CubbyFlow {
@@ -23,7 +23,7 @@ namespace CubbyRender {
             //! Do nothing
         }
 
-        ScreenRecorder::ScreenRecorder(Size3 frameDimension)
+        ScreenRecorder::ScreenRecorder(Size2 frameDimension)
             : _frameDimension(frameDimension)
         {
             //! Do nothing
@@ -31,10 +31,14 @@ namespace CubbyRender {
 
         ScreenRecorder::~ScreenRecorder()
         {
-            //! Do nothing
         }
 
-        int ScreenRecorder::saveScreenShot(const std::string& path, int frameIndex)
+        void ScreenRecorder::storeFrame(Array2<Vector3B>&& frame)
+        {
+            _frames.emplace_back(std::move(frame));
+        }
+
+        int ScreenRecorder::saveFrame(const std::string& path, int frameIndex) const
         {
             char baseName[256];
             snprintf(baseName, sizeof(baseName), "frame_%06d.tga", frameIndex);
@@ -58,18 +62,9 @@ namespace CubbyRender {
                 header[16] = 24;
 
                 file.write(header.data(), header.size());
-
-                /**
-                Array2<double> hdrImg(_frameDimension.x, _frameDimension.y);
-                hdrImg.ParallelForEachIndex([&](size_t i, size_t j)
-                {
-                    double sum = 0.0;
-                    for (size_t k = 0; k < dataSize.z; ++k)
-                    {
-                        sum += (*density)(i, j, k);
-                    }
-                    hdrImg(i, j) = TGA_SCALE * sum / static_cast<double>(_frameDimension.z);
-                });
+                
+                /*
+                const auto& frame = _frames[frameIndex];
 
                 std::vector<char> img(3 * _frameDimension.x * _frameDimension.y);
                 for (size_t i = 0; i < _frameDimension.x * _frameDimension.y; ++i)
@@ -80,8 +75,7 @@ namespace CubbyRender {
                     img[3 * i + 2] = val;
                 }
                 file.write(img.data(), img.size());
-                **/
-
+                */
                 file.close();
             }
             else
@@ -92,13 +86,23 @@ namespace CubbyRender {
             return 0;
         }
 
-        int ScreenRecorder::saveVideo(const std::string& path)
+        int ScreenRecorder::saveAllFrames(const std::string& directory) const
         {
-            UNUSED_VARIABLE(path);
+            UNUSED_VARIABLE(directory);
             return 0;
         }
 
-        void ScreenRecorder::setFrameDiemsnion(Size3 dim)
+        size_t ScreenRecorder::getFrameCount() const
+        {
+            return _frames.size();
+        }
+
+        Size2 ScreenRecorder::getFrameDimension() const
+        {
+            return _frameDimension;
+        }
+
+        void ScreenRecorder::setFrameDimension(Size2 dim)
         {
             _frameDimension = dim;
         }

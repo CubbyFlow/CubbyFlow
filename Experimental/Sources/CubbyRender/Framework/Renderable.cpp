@@ -8,25 +8,24 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 
-#include <Framework/Rendererable.h>
+#include <Framework/Renderable.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
     
-    Rendererable::Rendererable()
+    Renderable::Renderable()
     {
         //! Do nothing
     }
 
-    Rendererable::~Rendererable()
+    Renderable::~Renderable()
     {
         //! Do nothing
     }
 
-    void Rendererable::render(RendererPtr renderer)
+    void Renderable::render(RendererPtr renderer)
     {
         onRender(renderer);
     }
-
 } 
 }

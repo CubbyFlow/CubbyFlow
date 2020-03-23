@@ -9,6 +9,7 @@
 *************************************************************************/
 
 #include <Framework/Renderer.h>
+#include <Framework/Renderable.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -23,5 +24,41 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
+    void Renderer::render()
+    {
+        onRenderBegin();
+        for (auto renderable : _renderables)
+            renderable->render(shared_from_this());
+        onRenderEnd();
+    }
+    
+    void Renderer::setRenderState(const RenderState& renderState)
+    {
+        _renderState = renderState;
+        onSetRenderState();
+    }
+
+    void Renderer::setPrimitiveType(PrimitiveType type)
+    {
+        _primitiveType = type;
+    }
+    
+    void Renderer::addRenderable(RenderablePtr renderable)
+    {
+        _renderables.push_back(renderable);
+    }
+    
+    void Renderer::clearRenderables()
+    {
+        for (auto renderable : _renderables)
+            renderable->destroy(shared_from_this());
+        _renderables.clear();
+    }
+    
+    void Renderer::setBackgroundColor(Vector4F color)
+    {
+        _backgroundColor = color;
+    }
+    
 } 
 }

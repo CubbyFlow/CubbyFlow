@@ -9,6 +9,7 @@
 *************************************************************************/
 
 #include <Framework/Window.h>
+#include <Framework/Renderer.h>
 #include <Framework/Common.h>
 #include <Core/Point/Point2.h>
 
@@ -81,6 +82,16 @@ namespace CubbyRender {
     void Window::update()
     {
         onUpdate();
+    }
+
+    void Window::render()
+    {
+        _renderer->render();
+    }
+
+    void Window::addUpdateClosure(const UpdateClosure& closure)
+    {
+        _updateClosures.push_back(closure);
     }
 } 
 }

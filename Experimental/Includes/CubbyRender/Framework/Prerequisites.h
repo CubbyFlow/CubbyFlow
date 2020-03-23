@@ -20,7 +20,7 @@ namespace CubbyRender {
     class IndexBuffer;
     class Material;
     class Renderer;
-    class Rendererable;
+    class Renderable;
     class Shader;
     class ShaderParameter;
     class Texture;
@@ -33,7 +33,8 @@ namespace CubbyRender {
     using IndexBufferPtr     = std::shared_ptr<IndexBuffer>;
     using MaterialPtr        = std::shared_ptr<Material>;
     using RendererPtr        = std::shared_ptr<Renderer>;
-    using RendererablePtr    = std::shared_ptr<Rendererable>;
+    using ConstRendererPtr   = std::shared_ptr<const Renderer>;
+    using RenderablePtr      = std::shared_ptr<Renderable>;
     using ShaderPtr          = std::shared_ptr<Shader>;
     using ShaderParameterPtr = std::shared_ptr<ShaderParameter>;
     using TexturePtr         = std::shared_ptr<Texture>;

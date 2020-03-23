@@ -41,7 +41,7 @@ namespace CubbyRender {
         int initialize() override;
 
         //! Run the application with limited frames and fps.
-        int run(int numberOfFrames, double fps, ScreenRecorderPtr recorder = nullptr) override;
+        int run(int numberOfFrames, ScreenRecorderPtr recorder = nullptr) override;
         
         //! Create window and return it.
         WindowPtr createWindow(const std::string& title, int width, int height) override;

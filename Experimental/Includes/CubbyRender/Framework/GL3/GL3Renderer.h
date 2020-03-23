@@ -31,21 +31,30 @@ namespace CubbyRender {
         //! Default destructor.
         ~GL3Renderer();
 
+        void draw(size_t numberOfVertices) override;
+
+        void drawIndices(size_t numberOfElements) override;
+
         //! Initialize and fetch gl commands.
         int initializeGL() override;
+
+        void getCurrentFrame(ArrayAccessor2<Vector3B> pixels) override;
 
         //! Create VertexBuffer pointer with given parameters.
         //!
         //! \param vertices vertex data
         //! \param numberOfVertices number of point.
         //! \return new vertex buffer instance
-        VertexBufferPtr createVertexBuffer(MaterialPtr material, const float* vertices, size_t numberOfVertices, VertexFormat format, bool storeData) override;
+        VertexBufferPtr createVertexBuffer(MaterialPtr material, const ConstArrayAccessor1<float>& data, size_t numberOfVertices, VertexFormat format, bool storeData) override;
 
         //! Create Shader Program from presets.
         //! \param shader preset name
         //! \return new shader pointer
         ShaderPtr createShaderPreset(const std::string& shaderName) override;
     protected:
+        void onRenderBegin() override;
+        void onRenderEnd() override;
+        void onSetRenderState() override;
     private:
     };
 

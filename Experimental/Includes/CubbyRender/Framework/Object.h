@@ -31,14 +31,14 @@ namespace CubbyRender {
         //! Default destructor.
         virtual ~Object();
 
-        //! Bind this shader to renderer
+        //! Bind this object to renderer
         void bind(RendererPtr renderer);
 
-        //! Unbind this shader from renderer
+        //! Unbind this object from renderer
         void unbind(RendererPtr renderer);    
 
-        //! Destroy this shader instance
-        virtual void destroy(RendererPtr renderer);
+        //! Destroy this object instance
+        void destroy(RendererPtr renderer);
     protected:
         //! implementation of bind method
         virtual void onBind(RendererPtr renderer) = 0;

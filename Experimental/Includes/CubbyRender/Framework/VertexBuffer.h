@@ -10,9 +10,11 @@
 #ifndef CUBBYFLOW_VERTEXBUFFER_H
 #define CUBBYFLOW_VERTEXBUFFER_H
 
-#include <Framework/Vertex.h>
-#include <Framework/Buffer.h>
 #include <Framework/Prerequisites.h>
+#include <Framework/Vertex.h>
+#include <Framework/Object.h>
+#include <Core/Array/Array1.h>
+#include <Core/Array/ArrayAccessor1.h>
 #include <memory>
 
 namespace CubbyFlow {
@@ -21,18 +23,27 @@ namespace CubbyRender {
     //!
     //! \brief Abstract base class for Shader object.
     //!
-    class VertexBuffer : public Buffer
+    class VertexBuffer : public Object
     {
     public:
         //! Default constructor.
         VertexBuffer();
 
         //! Constructor with parameters
-        VertexBuffer(size_t numberOfElements, VertexFormat format = VertexFormat::Position3);
+        VertexBuffer(VertexFormat format);
         
         //! Default destructor.
         virtual ~VertexBuffer();
+        
+        //! Allocate gpu 
+        void allocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<float>& data, size_t numberOfVertices, bool storeData);
 
+        //! Update 
+        virtual void updateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<float>& data, bool storeData) = 0;
+
+        size_t getNumberOfVertices() const;
+
+        VertexFormat getFormat() const;
     protected:
         //! implementation of bind method
         virtual void onBind(RendererPtr renderer) = 0;
@@ -44,10 +55,11 @@ namespace CubbyRender {
         virtual void onDestroy(RendererPtr renderer) = 0;
 
         //! Allocate gpu 
-        virtual void onAllocateResource(RendererPtr renderer, MaterialPtr material, const float* data, bool storeData) = 0;
+        virtual void onAllocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<float>& data) = 0;
 
-        //! Update 
-        virtual void onUpdateResource(RendererPtr renderer, MaterialPtr material, const float* data, bool storeData) = 0;
+        Array1<float> _data;
+        size_t _numberOfVertices;
+        VertexFormat _format;
     private:
     };
 

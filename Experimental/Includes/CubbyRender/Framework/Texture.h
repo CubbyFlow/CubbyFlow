@@ -11,21 +11,18 @@
 #ifndef CUBBYFLOW_TEXTURE_H
 #define CUBBYFLOW_TEXTURE_H
 
+#include <Framework/Prerequisites.h>
+#include <Framework/Object.h>
+#include <Framework/Common.h>
 #include <cstdint>
 #include <memory>
-#include <Core/Array/ArrayAccessor2.h>
-#include <Core/Size/Size3.h>
-#include <Core/Vector/Vector4.h>
-
-#include <Framework/Buffer.h>
-#include <Framework/Prerequisites.h>
-#include <Framework/Common.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
 
     //! Texture sampling modes.
-    enum class TextureSamplingMode : uint8_t {
+    enum class TextureSamplingMode : uint8_t 
+    {
         //! Sample nearest pixel.
         kNearest = 0,
 
@@ -33,8 +30,8 @@ namespace CubbyRender {
         kLinear = 1
     };
 
-    //! Abstract base class for 2-D textures.
-    class Texture : public Buffer
+    //! Abstract base class for textures.
+    class Texture : public Object
     {
     public:
         //! Default constructor.
@@ -43,41 +40,19 @@ namespace CubbyRender {
         //! Destructor.
         virtual ~Texture();
 
-        //! Updates current texture with given 32-bit color data.
-        virtual void update(const ConstArrayAccessor2<Vector4F>& data) = 0;
-
-        //! Updates current texture with given 8-bit color data.
-        virtual void update(const ConstArrayAccessor2<Vector4B>& data) = 0;
-
-        //! Sets the texture with given 32-bit color data and size.
-        void setTexture(const ConstArrayAccessor2<Vector4F>& data);
-
-        //! Sets the texture with given 8-bit color data and size.
-        void setTexture(const ConstArrayAccessor2<Vector4B>& data);
-
-        //! Returns the size of the texture.
-        const Size3& size() const;
-
         //! Returns the sampling mode of the texture.
         const TextureSamplingMode& samplingMode() const;
 
         //! Sets the sampling mode of the texture.
         void setSamplingMode(const TextureSamplingMode& mode);
 
-        //! Set texture slot id.
+        //! Sets the texture slot id.
         void setSlotID(unsigned int slotID);
 
-        //! Get texture slot id.
+        //! Get the texture slot id.
         unsigned int getSlotID() const;
 
      protected:
-
-        //! Called when setTexture(...) is invoked.
-        virtual void onSetTexture(const ConstArrayAccessor2<Vector4F>& data) = 0;
-
-        //! Called when setTexture(...) is invoked.
-        virtual void onSetTexture(const ConstArrayAccessor2<Vector4B>& data) = 0;
-
         //! Called when sampling mode has changed.
         virtual void onSamplingModeChanged(const TextureSamplingMode& mode) = 0;
 
@@ -90,14 +65,7 @@ namespace CubbyRender {
         //! implementation of destry method
         virtual void onDestroy(RendererPtr renderer) override = 0;
 
-        //! Allocate gpu 
-        virtual void onAllocateResource(RendererPtr renderer, MaterialPtr material, const float* data, bool storeData) override = 0;
-
-        //! Update 
-        virtual void onUpdateResource(RendererPtr renderer, MaterialPtr material, const float* data, bool storeData) override = 0;
-
      private:
-        Size3 _size;
         TextureSamplingMode _samplingMode = TextureSamplingMode::kNearest;
         unsigned int _slotID;
     };

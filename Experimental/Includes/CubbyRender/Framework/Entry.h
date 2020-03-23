@@ -11,17 +11,11 @@
 #define CUBBYFLOW_ENTRY_H
 
 #include <Framework/Prerequisites.h>
+#include <Framework/RenderOptions.h>
 #include <memory>
 
 namespace CubbyFlow {
 namespace CubbyRender {
-    
-    enum class PrimitiveType
-    {
-        TRIANGLES = 0,
-        LINES = 1,
-        POINTS = 2,
-    };
     
     //!
     //! \brief Abstract base class for Renderer object.
@@ -58,7 +52,7 @@ namespace CubbyRender {
         size_t _maxIndex = 0;
         size_t _count = 0;
         MaterialPtr _material = nullptr;
-        PrimitiveType _type = PrimitiveType::TRIANGLES;
+        PrimitiveType _type = PrimitiveType::TriangleStrip;
         unsigned short _blendOrder = 0;
     };
 
@@ -97,7 +91,7 @@ namespace CubbyRender {
         size_t _maxIndex = 0;
         size_t _count = 0;
         MaterialPtr _material = nullptr;
-        PrimitiveType _type = PrimitiveType::TRIANGLES;
+        PrimitiveType _type = PrimitiveType::TriangleStrip;
         unsigned short _blendOrder = 0;
 	};
 } 

@@ -10,19 +10,19 @@
 #ifndef CUBBYFLOW_INDEXBUFFER_H
 #define CUBBYFLOW_INDEXBUFFER_H
 
+#include <Framework/Prerequisites.h>
+#include <Framework/Object.h>
+#include <Core/Array/Array1.h>
+#include <Core/Array/ArrayAccessor1.h>
 #include <memory>
-#include <Framework/Buffer.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
     
-    class Renderer;
-    using RendererPtr = std::shared_ptr<Renderer>;
-
     //!
     //! \brief Abstract base class for Shader object.
     //!
-    class IndexBuffer : public Buffer
+    class IndexBuffer : public Object
     {
     public:
         //! Default constructor.
@@ -30,6 +30,15 @@ namespace CubbyRender {
 
         //! Default destructor.
         virtual ~IndexBuffer();
+
+        //! Allocate gpu 
+        void allocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<unsigned int>& data, size_t numberOfIndices, bool storeData);
+
+        //! Update 
+        virtual void updateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<unsigned int>& data, bool storeData) = 0;
+
+        size_t getNumberOfIndices() const;
+
     protected:
         //! implementation of bind method
         virtual void onBind(RendererPtr renderer) = 0;
@@ -41,11 +50,10 @@ namespace CubbyRender {
         virtual void onDestroy(RendererPtr renderer) = 0;
 
         //! Allocate gpu 
-        virtual void onAllocateResource(RendererPtr renderer, MaterialPtr material, float* data, bool storeData) = 0;
+        virtual void onAllocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<unsigned int>& data) = 0;
 
-        //! Update 
-        virtual void onUpdateResource(RendererPtr renderer, MaterialPtr material, float* data, 
-                              size_t numberOfVertices, VertexFormat format, bool storeData) = 0;
+        Array1<unsigned int> _data;
+        size_t _numberOfIndices;
     private:
     };
 

@@ -23,5 +23,40 @@ namespace CubbyRender {
         //! Do nothing
     }
 
+    void IndexBuffer::allocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<unsigned int>& data, size_t numberOfIndices, bool storeData)
+    {
+        if (storeData)
+        {
+            if (numberOfIndices != _numberOfIndices)
+            {
+                _data.Resize(numberOfIndices);
+            }
+
+            data.ParallelForEachIndex([&](size_t i){
+                _data[i] = data[i];
+            });
+        }
+
+        if (numberOfIndices == size_t(0))
+        {
+            destroy(renderer);
+        }
+        else if (numberOfIndices == _numberOfIndices)
+        {
+            updateBuffer(renderer, material, data, false);
+        }
+        else
+        {
+            destroy(renderer);
+            _numberOfIndices = numberOfIndices;
+            onAllocateBuffer(renderer, material, data);
+        }
+    }
+
+    size_t IndexBuffer::getNumberOfIndices() const
+    {
+        return _numberOfIndices;
+    }
+
 } 
 }
