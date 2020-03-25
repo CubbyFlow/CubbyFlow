@@ -75,6 +75,7 @@ namespace CubbyRender {
 
     GL3Shader::GL3Shader(VertexFormat format, const ShaderMap& fileMap)
     {
+        UNUSED_VARIABLE(format);
         UNUSED_VARIABLE(fileMap);
         assert(load(format, fileMap) == 0);
     }

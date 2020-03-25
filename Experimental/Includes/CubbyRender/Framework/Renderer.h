@@ -81,7 +81,7 @@ namespace CubbyRender {
         std::vector<RenderablePtr> _renderables;
         RenderState _renderState;
         PrimitiveType _primitiveType;
-        Vector4F _backgroundColor = Vector4F(0.0f, 0.0f, 0.0f, 1.0f);
+        Vector4F _backgroundColor = Vector4F(1.0f, 0.0f, 0.0f, 1.0f);
     private:
     };
 
