@@ -16,6 +16,3 @@
 [submodule "Experimental/Libraries/glfw"]
 	path = Experimental/Libraries/glfw
 	url = https://github.com/glfw/glfw
-[submodule "Experimental/Libraries/glew-cmake"]
-	path = Experimental/Libraries/glew-cmake
-	url = https://github.com/Perlmint/glew-cmake
