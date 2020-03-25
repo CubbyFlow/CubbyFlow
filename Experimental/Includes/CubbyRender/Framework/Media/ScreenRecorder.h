@@ -42,6 +42,9 @@ namespace CubbyRender {
         //! Save the frame with given frameIndex as tga format.
         int saveFrame(const std::string& path, size_t frameIndex) const;
 
+        //! Save the frames with given period
+        int saveMultiFrames(const std::string& path, size_t period) const;
+
         //! Save the all stored frames in given path.
         int saveAllFrames(const std::string& path) const;
 

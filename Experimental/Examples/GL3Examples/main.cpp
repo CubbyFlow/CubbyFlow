@@ -202,7 +202,7 @@ int main(int argc, char* argv[])
     if (format == "tga")
     {
         std::cout << "Save recording result as tga...";
-        recorder->saveAllFrames(outputDir);
+        recorder->saveMultiFrames(outputDir, 30);
         std::cout << "complete" << '\n';
     }
     

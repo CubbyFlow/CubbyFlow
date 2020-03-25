@@ -16,6 +16,9 @@ if (RECORDING)
     add_definitions(-DCUBBYFLOW_RECORDING)
 endif()
 
+# include header-only stb library for image read & write
+include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/stb)
+
 # OpenGL
 option(USE_GL "Use OpenGL features" ON)
 if (USE_GL)
@@ -62,6 +65,17 @@ if (USE_GL)
         add_subdirectory(Libraries/imgui)
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/imgui)
         set(IMGUI_LIBRARY imgui)
+
+        set(OPENGL_LIBRARIES 
+            ${OPENGL_LIBRARIES}
+            ${GLFW_LIBRARY}
+            ${GLEW_LIBRARY}
+            ${EGL_LIBRARY}
+            ${IMGUI_LIBRARY}
+            ${COREFOUNDATION_LIB})
+
+        # Add GLI which is header only opengl image loader library
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/gli)
 
         set(OPENGL_LIBRARIES 
             ${OPENGL_LIBRARIES}

@@ -16,3 +16,9 @@
 [submodule "Experimental/Libraries/glfw"]
 	path = Experimental/Libraries/glfw
 	url = https://github.com/glfw/glfw
+[submodule "Experimental/Libraries/gli"]
+	path = Experimental/Libraries/gli
+	url = https://github.com/g-truc/gli
+[submodule "Experimental/Libraries/stb"]
+	path = Experimental/Libraries/stb
+	url = https://github.com/nothings/stb

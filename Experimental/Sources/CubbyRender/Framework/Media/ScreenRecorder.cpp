@@ -15,6 +15,13 @@
 #include <pystring/pystring.h>
 #include <fstream>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+
+#define STBI_MSC_SECURE_CRT
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include <stb_image_write.h>
+
 namespace CubbyFlow {
 namespace CubbyRender {
     
@@ -42,40 +49,25 @@ namespace CubbyRender {
         {
             assert((0UL <= frameIndex) && (frameIndex < _frames.size()));
             char baseName[256];
-            snprintf(baseName, sizeof(baseName), "frame_%06d.tga", static_cast<int>(frameIndex));
+            snprintf(baseName, sizeof(baseName), "frame_%06d.png", static_cast<int>(frameIndex));
             std::string filename = pystring::os::path::join(path, baseName);
-            std::ofstream file(filename.c_str(), std::ofstream::binary);
-            if (file)
-            {
-                CUBBYFLOW_INFO << "Writing " << filename.c_str() << "...";
+            
+            const auto& frame = _frames[frameIndex];
+            Size2 size = frame.size();
+            const Vector3B* data = frame.data();
 
-                std::array<char, 18> header;
-                header.fill(0);
+            stbi_write_png(filename.c_str(), static_cast<int>(size[0]), static_cast<int>(size[1]), 3,
+                            reinterpret_cast<const void*>(data), 0);
 
-                const int imgWidth = static_cast<int>(_frameDimension.x);
-                const int imgHeight = static_cast<int>(_frameDimension.y);
+            return 0;
+        }
 
-                header[2] = 2;
-                header[12] = static_cast<char>(imgWidth & 0xff);
-                header[13] = static_cast<char>((imgWidth & 0xff00) >> 8);
-                header[14] = static_cast<char>(imgHeight & 0xff);
-                header[15] = static_cast<char>((imgHeight & 0xff00) >> 8);
-                header[16] = 24;
-
-                file.write(header.data(), header.size());
-
-                const auto& frame = _frames[frameIndex];
-                const Vector3B* data = frame.data();
-                auto totalSize = static_cast<std::streamsize>(frame.size()[0] * frame.size()[1] * 3);
-
-                file.write(reinterpret_cast<const char*>(data), totalSize);
-                file.close();
-            }
-            else
-            {
-                return 1;
-            }
-
+        int ScreenRecorder::saveMultiFrames(const std::string& path, size_t period) const
+        {
+            ParallelFor(ZERO_SIZE, static_cast<size_t>(_frames.size() / period), [&](size_t i)
+		    {
+		    	saveFrame(path, i * period);
+		    });
             return 0;
         }
 
