@@ -83,11 +83,10 @@ namespace CubbyRender {
         GL3Shader* shader = dynamic_cast<GL3Shader*>(material->getShader().get());
         assert(shader != nullptr);
         _format = shader->getInputVertexFormat();
-
+        
         shader->bind(renderer);
         glGenVertexArrays(1, &_vertexArrayID);
         glBindVertexArray(_vertexArrayID);
-
         if (_vertexArrayID)
         {
             bind(renderer);

@@ -101,6 +101,7 @@ void RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFra
 
     window->getRenderer()->createVertexBuffer(simpleMaterial, vertices.ConstAccessor(), 48, VertexFormat::Position3, false);
     application->run(numberOfFrames, recorder);
+    application->terminate();
 }
 
 void RunExample2(ApplicationPtr application, int resX, int resY, int numberOfFrames, ScreenRecorderPtr recorder)
@@ -108,12 +109,13 @@ void RunExample2(ApplicationPtr application, int resX, int resY, int numberOfFra
     auto window = application->createWindow("PCISPH Simulation", resX, resY);
     UNUSED_VARIABLE(window);
     application->run(numberOfFrames, recorder);
+    application->terminate();
 }
 
 int main(int argc, char* argv[])
 {
     bool showHelp = false;
-    int numberOfFrames = 100;
+    int numberOfFrames = 120;
     int exampleNum = 1;
     int resX = 800;
     int resY = 600;
@@ -144,7 +146,7 @@ int main(int argc, char* argv[])
         ("output directory name (default is " APP_NAME "_output)") |
         clara::Opt(format, "format")
         ["-m"]["--format"]
-        ("simulation output format (mp4 or tga or null. default is null)");
+        ("simulation output format (tga or null. default is null)");
 
     auto result = parser.parse(clara::Args(argc, argv));
     if (!result)
@@ -197,16 +199,10 @@ int main(int argc, char* argv[])
         exit(EXIT_FAILURE);
     }
 
-    if (format == "mp4")
-    {
-        std::cout << "Save recording result as mp4...";
-        // recorder.saveVideo(outputDir + APP_NAME);
-        std::cout << "complete" << '\n';
-    }
-    else if (format == "tga")
+    if (format == "tga")
     {
         std::cout << "Save recording result as tga...";
-        // recorder.saveScreenShot();
+        recorder->saveAllFrames(outputDir);
         std::cout << "complete" << '\n';
     }
     

@@ -32,7 +32,7 @@ namespace CubbyRender {
     int Shader::load(const std::string& shaderName)
     {
         ShaderMap shaderMap;
-        
+
         if (shaderName == "simple_shader")
         {
             std::string vertexShader = kSimpleColorShaders[0];
@@ -42,12 +42,14 @@ namespace CubbyRender {
                 {"VertexShader", vertexShader},
                 {"FragmentShader", fragmentShader}
             };
+
+            _format = VertexFormat::Position3;
         }
 
         return onLoad(shaderMap);
     }
 
-    int Shader::load(const ShaderMap& fileMap)
+    int Shader::load(VertexFormat format, const ShaderMap& fileMap)
     {
         ShaderMap shaderMap;
 
@@ -71,6 +73,7 @@ namespace CubbyRender {
             }
         }
         
+        _format = format;
         return onLoad(shaderMap);
     }
 

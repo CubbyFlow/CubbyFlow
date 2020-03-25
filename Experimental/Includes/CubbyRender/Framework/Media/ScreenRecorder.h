@@ -40,10 +40,10 @@ namespace CubbyRender {
         void storeFrame(Array2<Vector3B>&& frame);
 
         //! Save the frame with given frameIndex as tga format.
-        int saveFrame(const std::string& path, int frameIndex) const;
+        int saveFrame(const std::string& path, size_t frameIndex) const;
 
-        //! Save the all stored frames in given directory.
-        int saveAllFrames(const std::string& directory) const;
+        //! Save the all stored frames in given path.
+        int saveAllFrames(const std::string& path) const;
 
         //! Get frame dimension
         Size2 getFrameDimension() const;

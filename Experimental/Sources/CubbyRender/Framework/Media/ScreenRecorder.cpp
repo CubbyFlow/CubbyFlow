@@ -38,10 +38,11 @@ namespace CubbyRender {
             _frames.emplace_back(std::move(frame));
         }
 
-        int ScreenRecorder::saveFrame(const std::string& path, int frameIndex) const
+        int ScreenRecorder::saveFrame(const std::string& path, size_t frameIndex) const
         {
+            assert((0UL <= frameIndex) && (frameIndex < _frames.size()));
             char baseName[256];
-            snprintf(baseName, sizeof(baseName), "frame_%06d.tga", frameIndex);
+            snprintf(baseName, sizeof(baseName), "frame_%06d.tga", static_cast<int>(frameIndex));
             std::string filename = pystring::os::path::join(path, baseName);
             std::ofstream file(filename.c_str(), std::ofstream::binary);
             if (file)
@@ -62,20 +63,12 @@ namespace CubbyRender {
                 header[16] = 24;
 
                 file.write(header.data(), header.size());
-                
-                /*
-                const auto& frame = _frames[frameIndex];
 
-                std::vector<char> img(3 * _frameDimension.x * _frameDimension.y);
-                for (size_t i = 0; i < _frameDimension.x * _frameDimension.y; ++i)
-                {
-                    const char val = static_cast<char>(Clamp(hdrImg[i], 0.0, 1.0) * 255.0);
-                    img[3 * i + 0] = val;
-                    img[3 * i + 1] = val;
-                    img[3 * i + 2] = val;
-                }
-                file.write(img.data(), img.size());
-                */
+                const auto& frame = _frames[frameIndex];
+                const Vector3B* data = frame.data();
+                auto totalSize = static_cast<std::streamsize>(frame.size()[0] * frame.size()[1] * 3);
+
+                file.write(reinterpret_cast<const char*>(data), totalSize);
                 file.close();
             }
             else
@@ -86,9 +79,12 @@ namespace CubbyRender {
             return 0;
         }
 
-        int ScreenRecorder::saveAllFrames(const std::string& directory) const
+        int ScreenRecorder::saveAllFrames(const std::string& path) const
         {
-            UNUSED_VARIABLE(directory);
+            ParallelFor(ZERO_SIZE, _frames.size(), [&](size_t i)
+		    {
+		    	saveFrame(path, i);
+		    });
             return 0;
         }
 

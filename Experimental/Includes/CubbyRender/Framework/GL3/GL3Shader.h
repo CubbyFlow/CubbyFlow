@@ -34,7 +34,7 @@ namespace CubbyRender {
         GL3Shader(const std::string& shaderName);
 
         //! Construct with shader shader map ( for example, fileMap["VertexShader"] = "shader/vs.glsl")
-        GL3Shader(const ShaderMap& fileMap);
+        GL3Shader(VertexFormat format, const ShaderMap& fileMap);
 
         //! Default destructor.
         virtual ~GL3Shader();

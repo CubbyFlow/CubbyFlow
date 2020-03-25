@@ -50,8 +50,8 @@ namespace CubbyRender {
         void onAllocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<float>& data) override;
 
     private:
-        GLuint _vertexArrayID;
-        GLuint _vertexBufferID;
+        GLuint _vertexArrayID  = 0U;
+        GLuint _vertexBufferID = 0U;
     };
 
     using GL3VertexBufferPtr = std::shared_ptr<GL3VertexBuffer>;

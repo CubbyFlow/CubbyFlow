@@ -73,10 +73,10 @@ namespace CubbyRender {
         assert(load(shaderName) == 0);
     }
 
-    GL3Shader::GL3Shader(const ShaderMap& fileMap)
+    GL3Shader::GL3Shader(VertexFormat format, const ShaderMap& fileMap)
     {
         UNUSED_VARIABLE(fileMap);
-        assert(load(fileMap) == 0);
+        assert(load(format, fileMap) == 0);
     }
 
     GL3Shader::~GL3Shader()

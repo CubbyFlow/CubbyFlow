@@ -39,6 +39,10 @@ namespace CubbyRender {
         {
             CUBBYFLOW_ERROR << filename << ":" << line << ": error: " << error;
         }
+		else
+		{
+			CUBBYFLOW_ERROR << filename << ":" << line << " No error occurred here.";
+		}
 
 		return errorCode == GL_NO_ERROR ? 0 : 1;
 	}

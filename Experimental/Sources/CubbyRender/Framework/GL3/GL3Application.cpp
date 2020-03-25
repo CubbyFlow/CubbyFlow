@@ -115,7 +115,7 @@ namespace CubbyRender {
 
         _window->setIsUpdateEnabled(true);
         _window->requestRender(numberOfFrames);
-        while (!validateApplication()) 
+        while (validateApplication()) 
         {
             glfwWaitEvents();
             GLFWWindowPtr glfwWindow = _window->getGLFWWindow();
@@ -145,15 +145,13 @@ namespace CubbyRender {
                     recorder->storeFrame(std::move(pixels));
                 }
             }
-
-            if (glfwWindowShouldClose(glfwWindow)) 
+            else
             {
-                break;
+                glfwSetWindowShouldClose(glfwWindow, GL_TRUE);
             }
         }
         
         CUBBYFLOW_CHECK_GLERROR();
-        terminate();
 
         return 0;
     }
@@ -167,7 +165,7 @@ namespace CubbyRender {
 
     bool GL3Application::validateApplication() 
     {
-        return  _window != nullptr;
+        return  (_window != nullptr) && (glfwWindowShouldClose(_window->getGLFWWindow()) == GLFW_FALSE);
     }
 
     void GL3Application::onWindowResized(GLFWwindow* glfwWindow, int width, int height)

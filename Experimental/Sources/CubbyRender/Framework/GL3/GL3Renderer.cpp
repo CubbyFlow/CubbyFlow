@@ -130,7 +130,7 @@ namespace CubbyRender {
     void GL3Renderer::getCurrentFrame(ArrayAccessor2<Vector3B> pixels)
     {
         Size2 size = pixels.size();
-        glReadPixels( 0, 0, static_cast<GLint>(size.x), static_cast<GLint>(size.y), GL_RGB, GL_UNSIGNED_BYTE, &(pixels(0, 0).x));
+        glReadPixels( 0, 0, static_cast<GLint>(size.x), static_cast<GLint>(size.y), GL_RGB, GL_BYTE, &(pixels(0, 0).x));
     }
 
     void GL3Renderer::draw(size_t numberOfVertices) 

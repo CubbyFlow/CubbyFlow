@@ -37,7 +37,7 @@ namespace CubbyRender {
         int load(const std::string& shaderName);
 
         //! load shader with shader map.
-        int load(const ShaderMap& fileMap);
+        int load(VertexFormat format, const ShaderMap& fileMap);
 
         VertexFormat getInputVertexFormat() const;
 
