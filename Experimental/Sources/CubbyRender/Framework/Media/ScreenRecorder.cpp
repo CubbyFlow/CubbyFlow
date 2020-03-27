@@ -18,6 +18,8 @@
 #include <pystring/pystring.h>
 #include <fstream>
 
+#include <png.h>
+
 namespace CubbyFlow {
 namespace CubbyRender {
     

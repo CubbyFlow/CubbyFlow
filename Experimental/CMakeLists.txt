@@ -11,27 +11,17 @@ else()
 endif()
 
 # Recording On
-option(RECORDING "Use ffmpeg for recording simulation result" OFF)
+option(RECORDING "Use libpng for recording simulation result" OFF)
 if (RECORDING)
-    message("-- Using ffmpeg for recording simulation result")
+    message("-- Using libpng for recording simulation result")
     add_definitions(-DCUBBYFLOW_RECORDING)
-    add_custom_target(ffmpeg_configure COMMAND ./configure --disable-avdevice --disable-avfilter --disable-avformat --disable-avresample --disable-postproc --disable-swresample
-                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Libraries/ffmpeg
+    add_custom_target(pnglibconfig_copy COMMAND cp scripts/pnglibconf.h.prebuilt ./pnglibconf.h
+                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Libraries/libpng
     )
-    add_custom_target(ffmpeg_make COMMAND make
-                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Libraries/ffmpeg
-    )
-    add_custom_target(ffmpeg_make_install COMMAND make install
-                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Libraries/ffmpeg
-    )
-    include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/ffmpeg)
-    link_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/ffmpeg)
+    add_subdirectory(Libraries/libpng)
+    include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/libpng)
     set(FFMPEG_LIBRARIES 
-        avcodec
-        avutil
-        swscale
-        z
-        lzma)
+        png)
 else()
     set(FFMPEG_LIBRARIES )
 endif()
