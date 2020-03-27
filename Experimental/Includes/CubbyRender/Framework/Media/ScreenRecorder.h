@@ -17,12 +17,6 @@
 #include <Core/Vector/Vector4.h>
 #include <memory>
 #include <string>
-#include <cstdio>
-
-class AVCodecContext;
-class AVFrame;
-class AVPacket;
-class SwsContext;
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -72,12 +66,6 @@ namespace CubbyRender {
     protected:
     private:
         Size2 _size;
-
-        AVCodecContext *_codecContext = nullptr;
-        AVFrame *_avFrame = nullptr;
-        AVPacket *_pkt = nullptr;
-        SwsContext *_swsContext = nullptr;
-        FILE* _file = nullptr;
     };
 
     using ScreenRecorderPtr = std::shared_ptr<ScreenRecorder>;
