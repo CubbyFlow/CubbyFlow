@@ -22,3 +22,6 @@
 [submodule "Experimental/Libraries/stb"]
 	path = Experimental/Libraries/stb
 	url = https://github.com/nothings/stb
+[submodule "Experimental/Libraries/ffmpeg"]
+	path = Experimental/Libraries/ffmpeg
+	url = https://github.com/FFmpeg/FFmpeg

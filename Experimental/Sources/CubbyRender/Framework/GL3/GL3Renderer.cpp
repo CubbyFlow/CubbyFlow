@@ -142,10 +142,10 @@ namespace CubbyRender {
         size_t width = size[0], height = size[1];
         glReadPixels( 0, 0, static_cast<GLint>(width), static_cast<GLint>(height), GL_RGBA, GL_UNSIGNED_BYTE, &(pixelArray(0, 0).x));
         pixelArray.ParallelForEachIndex([&](size_t i, size_t j) {
-            size_t pixelIndex = (width * (height - i - 1) + j);
-            size_t rgbIndex = (width * i + j);
+            size_t pixelIndex = (width * (height - j - 1) + i);
+            size_t rgbIndex = (width * j + i);
             
-            rgbArray[rgbIndex] = pixelArray[pixelIndex];
+            rgbArray.At(rgbIndex) = pixelArray.At(pixelIndex);
         });
         return rgbArray.ConstAccessor();
     }

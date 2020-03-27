@@ -44,6 +44,7 @@ namespace CubbyRender {
 
         ScreenRecorder::~ScreenRecorder()
         {
+            std::cout << "Destruncted screenrecorder" << std::endl;
         }
 
         bool ScreenRecorder::StartEncode(const std::string& filename, int fps)
