@@ -10,9 +10,11 @@
 #ifndef CUBBYFLOW_APPLICATION_H
 #define CUBBYFLOW_APPLICATION_H
 
-#include <memory>
 #include <Framework/Window.h>
 #include <Framework/Media/ScreenRecorder.h>
+#include <Core/Array/ArrayAccessor2.h>
+#include <Core/Vector/Vector4.h>
+#include <memory>
 #include <string>
 
 namespace CubbyFlow {
@@ -28,6 +30,7 @@ namespace CubbyRender {
     class Application
     {
     public: 
+        using EncodingCallback = std::function<bool(const ConstArrayAccessor2<Vector4UB>&)>;
         //! Default Constructor.
         Application();
 
@@ -38,7 +41,7 @@ namespace CubbyRender {
         virtual int initialize() = 0;
 
         //! Run the application with limited frames and fps.
-        virtual int run(int numberOfFrames, ScreenRecorderPtr recorder = nullptr) = 0;
+        virtual int run(int numberOfFrames, EncodingCallback callback = nullptr) = 0;
 
         //! Create window and return it.
         virtual WindowPtr createWindow(const std::string& title, int width, int height) = 0;

@@ -10,6 +10,7 @@
 
 #include <Framework/Material.h>
 #include <Framework/Renderer.h>
+#include <Framework/Shader.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -33,6 +34,11 @@ namespace CubbyRender {
     ShaderPtr Material::getShader()
     {
         return _shader;
+    }
+
+    void Material::destroy(RendererPtr renderer)
+    {
+        _shader->destroy(renderer);
     }
 
 } 

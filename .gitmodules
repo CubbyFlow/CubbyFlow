@@ -22,6 +22,3 @@
 [submodule "Experimental/Libraries/stb"]
 	path = Experimental/Libraries/stb
 	url = https://github.com/nothings/stb
-[submodule "Experimental/Libraries/libpng"]
-	path = Experimental/Libraries/libpng
-	url = https://github.com/glennrp/libpng

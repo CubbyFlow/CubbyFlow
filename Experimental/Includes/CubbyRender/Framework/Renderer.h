@@ -15,8 +15,8 @@
 #include <Framework/RenderOptions.h>
 #include <Core/Array/ArrayAccessor1.h>
 #include <Core/Array/ArrayAccessor2.h>
-#include <Core/Vector/Vector3.h>
 #include <Core/Vector/Vector4.h>
+#include <Core/Size/Size2.h>
 #include <vector>
 #include <string>
 
@@ -58,7 +58,7 @@ namespace CubbyRender {
 
         void setBackgroundColor(Vector4F color);
 
-        virtual void getCurrentFrame(ArrayAccessor2<Vector3B> pixels) = 0;
+        virtual ConstArrayAccessor2<Vector4UB> getCurrentFrame(Size2 size) = 0;
 
         //! Create VertexBuffer pointer with given parameters.
         //!

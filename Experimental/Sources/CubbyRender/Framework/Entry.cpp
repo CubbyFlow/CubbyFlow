@@ -9,6 +9,9 @@
 *************************************************************************/
 
 #include <Framework/Entry.h>
+#include <Framework/VertexBuffer.h>
+#include <Framework/IndexBuffer.h>
+#include <Framework/Material.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -18,10 +21,8 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
-    Entry::Entry(VertexBufferPtr vertices, IndexBufferPtr indices, size_t offset, size_t minIndex, size_t maxIndex, size_t count,
-                 MaterialPtr material, PrimitiveType type, unsigned short blendOrder)
-          : _vertices(vertices), _indices(indices), _offset(offset), _minIndex(minIndex),
-            _maxIndex(maxIndex), _count(count), _material(material), _type(type), _blendOrder(blendOrder)
+    Entry::Entry(VertexBufferPtr vertices, IndexBufferPtr indices, MaterialPtr material, PrimitiveType type, unsigned short blendOrder)
+          : _vertices(vertices), _indices(indices), _material(material), _type(type), _blendOrder(blendOrder)
     {
         //! Do nothing
     }
@@ -36,6 +37,13 @@ namespace CubbyRender {
         return Builder();
     }
 
+    void Entry::destroy(RendererPtr renderer)
+    {
+        _vertices->destroy(renderer);
+        _indices->destroy(renderer);
+        _material->destroy(renderer);
+    }
+
 	Entry::Builder& Entry::Builder::WithVertexBuffer(VertexBufferPtr vertices)
     {
         _vertices = vertices;
@@ -45,30 +53,6 @@ namespace CubbyRender {
 	Entry::Builder& Entry::Builder::WithIndexBuffer(IndexBufferPtr indices)
     {
         _indices = indices;
-        return static_cast<Entry::Builder&>(*this);
-    }
-
-	Entry::Builder& Entry::Builder::WithOffset(size_t offset)
-    {
-        _offset = offset;
-        return static_cast<Entry::Builder&>(*this);
-    }
-
-	Entry::Builder& Entry::Builder::WithMinIndex(size_t minIndex)
-    {
-        _minIndex = minIndex;
-        return static_cast<Entry::Builder&>(*this);
-    }
-
-	Entry::Builder& Entry::Builder::WithMaxIndex(size_t maxIndex)
-    {
-        _maxIndex = maxIndex;
-        return static_cast<Entry::Builder&>(*this);
-    }
-
-	Entry::Builder& Entry::Builder::WithCount(size_t count)
-    {
-        _count = count;
         return static_cast<Entry::Builder&>(*this);
     }
 
@@ -93,14 +77,12 @@ namespace CubbyRender {
 
 	Entry Entry::Builder::Build() const
     {
-        return Entry(_vertices, _indices, _offset, _minIndex, _maxIndex, 
-                     _count, _material, _type, _blendOrder);
+        return Entry(_vertices, _indices, _material, _type, _blendOrder);
     }
 
 	EntryPtr Entry::Builder::MakeShared() const
     {
-        return std::shared_ptr<Entry>(new Entry(_vertices, _indices, _offset, _minIndex, _maxIndex, 
-                                                _count, _material, _type, _blendOrder),
+        return std::shared_ptr<Entry>(new Entry(_vertices, _indices, _material, _type, _blendOrder),
 			[](Entry* obj)
 		{
 			delete obj;

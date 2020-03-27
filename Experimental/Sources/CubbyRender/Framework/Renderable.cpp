@@ -9,6 +9,7 @@
 *************************************************************************/
 
 #include <Framework/Renderable.h>
+#include <Framework/Entry.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -27,5 +28,20 @@ namespace CubbyRender {
     {
         onRender(renderer);
     }
+
+    void Renderable::setEntry(EntryPtr entry)
+    {
+
+    }
+
+    void Renderable::destroy(RendererPtr renderer)
+    {
+        if (_entry)
+        {
+            _entry->destroy(renderer);
+            _entry.reset();
+        }
+    }
+
 } 
 }

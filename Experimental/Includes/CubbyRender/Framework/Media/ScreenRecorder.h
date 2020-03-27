@@ -10,17 +10,23 @@
 #ifndef CUBBYFLOW_SCREEN_RECORDER_H
 #define CUBBYFLOW_SCREEN_RECORDER_H
 
-#include <Core/Size/Size3.h>
-#include <Core/Array/Array2.h>
+#ifdef CUBBYFLOW_RECORDING
+
+#include <Core/Size/Size2.h>
 #include <Core/Array/ArrayAccessor2.h>
-#include <Core/Vector/Vector3.h>
+#include <Core/Vector/Vector4.h>
 #include <memory>
 #include <string>
-#include <vector>
+#include <cstdio>
+
+class AVCodecContext;
+class AVFrame;
+class AVPacket;
+class SwsContext;
 
 namespace CubbyFlow {
 namespace CubbyRender {
-    
+
     //!
     //! \brief Recorder class for storing rendering result as image or video.
     //!
@@ -31,40 +37,52 @@ namespace CubbyRender {
         ScreenRecorder();
 
         //! Default Constructor.
+        ScreenRecorder(size_t width, size_t height);
+
+        //! Default Constructor.
         ScreenRecorder(Size2 frameDimension);
 
         //! Default Destructor. 
         virtual ~ScreenRecorder();
 
-        //! Store given frame to _buffers
-        void storeFrame(Array2<Vector3B>&& frame);
+        //! Start encoding
+        bool StartEncode(const std::string& filename, int fps);
 
-        //! Save the frame with given frameIndex as tga format.
-        int saveFrame(const std::string& path, size_t frameIndex) const;
+        //! Finish encoding
+        bool FinishEncode();
 
-        //! Save the frames with given period
-        int saveMultiFrames(const std::string& path, size_t period) const;
-
-        //! Save the all stored frames in given path.
-        int saveAllFrames(const std::string& path) const;
+        //! Encode frame into context.
+        bool EncodeFrame(const ConstArrayAccessor2<Vector4UB>& frame);
 
         //! Get frame dimension
-        Size2 getFrameDimension() const;
+        Size2 size() const;
+
+        //! Get width of the frame
+        size_t Width() const;
+
+        //! Get height of the frame
+        size_t Height() const;
 
         //! Set dimension of the screen(frame)
-        void setFrameDimension(Size2 dim);
+        void SetSize(Size2 dim);
 
-        //! Get the count of the frames.
-        size_t getFrameCount() const;
+        //! Set dimension of the screen(frame)
+        void SetSize(size_t width, size_t height);
 
     protected:
-        std::vector<Array2<Vector3B>> _frames;
-        Size2 _frameDimension;
     private:
+        Size2 _size;
+
+        AVCodecContext *_codecContext = nullptr;
+        AVFrame *_avFrame = nullptr;
+        AVPacket *_pkt = nullptr;
+        SwsContext *_swsContext = nullptr;
+        FILE* _file = nullptr;
     };
 
     using ScreenRecorderPtr = std::shared_ptr<ScreenRecorder>;
 } 
 }
 
+#endif
 #endif

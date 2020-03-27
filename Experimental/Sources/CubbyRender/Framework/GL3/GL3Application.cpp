@@ -17,7 +17,7 @@
 #include <Framework/GL3/GL3Common.h>
 #include <Framework/Media/ScreenRecorder.h>
 #include <Framework/Common.h>
-#include <Core/Vector/Vector3.h>
+#include <Core/Vector/Vector4.h>
 #include <Core/Array/Array2.h>
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
@@ -57,6 +57,7 @@ namespace CubbyRender {
         CUBBYFLOW_INFO << "GLFW version : " << major << "." << minor << "." << revision;
         
         glfwSetErrorCallback(onErrorEvent);
+
         return 0;
     }
 
@@ -99,22 +100,15 @@ namespace CubbyRender {
         return _window;
     }
 
-    int GL3Application::run(int numberOfFrames, ScreenRecorderPtr recorder)
+    int GL3Application::run(int numberOfFrames, EncodingCallback callback)
     {
         assert( validateApplication() );
         CUBBYFLOW_INFO << "Application validation before running simulation success";
-
         _window->requestRender(1);
-        Size2 framebufferSize = _window->getFramebufferSize();
-        RendererPtr renderer = _window->getRenderer();
-
-        if (recorder)
-        {
-            recorder->setFrameDimension(framebufferSize);
-        }
 
         _window->setIsUpdateEnabled(true);
         _window->requestRender(numberOfFrames);
+
         while (validateApplication()) 
         {
             glfwWaitEvents();
@@ -138,11 +132,12 @@ namespace CubbyRender {
 
                 glfwSwapBuffers(glfwWindow);
 
-                if (recorder)
+                if (callback)
                 {
-                    Array2<Vector3B> pixels(framebufferSize);
-                    renderer->getCurrentFrame(pixels.Accessor());
-                    recorder->storeFrame(std::move(pixels));
+                    Size2 framebufferSize = _window->getFramebufferSize();
+                    const auto& frame = _window->getRenderer()->getCurrentFrame(framebufferSize);
+                    
+                    callback(frame);
                 }
             }
             else

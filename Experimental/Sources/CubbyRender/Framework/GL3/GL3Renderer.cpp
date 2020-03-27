@@ -17,6 +17,8 @@
 #include <Framework/GL3/GL3Common.h>
 #include <Framework/Common.h>
 #include <Framework/RenderOptions.h>
+#include <Core/Array/Array2.h>
+#include <Core/Vector/Vector4.h>
 #include <Core/Utils/Logging.h>
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
@@ -127,10 +129,25 @@ namespace CubbyRender {
         //! Do nothing
     }
 
-    void GL3Renderer::getCurrentFrame(ArrayAccessor2<Vector3B> pixels)
+    ConstArrayAccessor2<Vector4UB> GL3Renderer::getCurrentFrame(Size2 size)
     {
-        Size2 size = pixels.size();
-        glReadPixels( 0, 0, static_cast<GLint>(size.x), static_cast<GLint>(size.y), GL_RGB, GL_BYTE, &(pixels(0, 0).x));
+        static Array2<Vector4UB> pixelArray { size };
+        static Array2<Vector4UB> rgbArray { size };
+
+        if (pixelArray.size() != size)
+            pixelArray.Resize(size);
+        if (rgbArray.size() != size)
+            rgbArray.Resize(size);
+
+        size_t width = size[0], height = size[1];
+        glReadPixels( 0, 0, static_cast<GLint>(width), static_cast<GLint>(height), GL_RGBA, GL_UNSIGNED_BYTE, &(pixelArray(0, 0).x));
+        pixelArray.ParallelForEachIndex([&](size_t i, size_t j) {
+            size_t pixelIndex = (width * (height - i - 1) + j);
+            size_t rgbIndex = (width * i + j);
+            
+            rgbArray[rgbIndex] = pixelArray[pixelIndex];
+        });
+        return rgbArray.ConstAccessor();
     }
 
     void GL3Renderer::draw(size_t numberOfVertices) 

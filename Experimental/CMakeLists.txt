@@ -11,9 +11,29 @@ else()
 endif()
 
 # Recording On
-option(RECORDING "Use ffmpeg for recording simulation result" ON)
+option(RECORDING "Use ffmpeg for recording simulation result" OFF)
 if (RECORDING)
+    message("-- Using ffmpeg for recording simulation result")
     add_definitions(-DCUBBYFLOW_RECORDING)
+    add_custom_target(ffmpeg_configure COMMAND ./configure --disable-avdevice --disable-avfilter --disable-avformat --disable-avresample --disable-postproc --disable-swresample
+                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Libraries/ffmpeg
+    )
+    add_custom_target(ffmpeg_make COMMAND make
+                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Libraries/ffmpeg
+    )
+    add_custom_target(ffmpeg_make_install COMMAND make install
+                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Libraries/ffmpeg
+    )
+    include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/ffmpeg)
+    link_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/ffmpeg)
+    set(FFMPEG_LIBRARIES 
+        avcodec
+        avutil
+        swscale
+        z
+        lzma)
+else()
+    set(FFMPEG_LIBRARIES )
 endif()
 
 # include header-only stb library for image read & write

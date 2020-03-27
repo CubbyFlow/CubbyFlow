@@ -42,7 +42,7 @@
 using namespace CubbyFlow;
 using namespace CubbyRender;
 
-void RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFrames, ScreenRecorderPtr recorder)
+int RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFrames, int fps)
 {
     auto window = application->createWindow("SPH Simulation", resX, resY);
     ShaderPtr simpleShader = std::make_shared<GL3Shader>("simple_shader");
@@ -98,24 +98,40 @@ void RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFra
         +1.0f, -1.0f, +1.0f, // 23
         +0.9f, +1.0f, +0.2f
     };
-
     window->getRenderer()->createVertexBuffer(simpleMaterial, vertices.ConstAccessor(), 48, VertexFormat::Position3, false);
-    application->run(numberOfFrames, recorder);
-    application->terminate();
+
+#ifdef CUBBYFLOW_RECORDING
+    auto recorder = std::make_shared<ScreenRecorder>(window->getFramebufferSize());
+    if (recorder->StartEncode(APP_NAME ".mp4", fps) == false)
+        return 1;
+
+    application->run(numberOfFrames, [&](const ConstArrayAccessor2<Vector4UB>& frame){
+        return recorder->EncodeFrame(frame);
+    });
+
+    if (recorder->FinishEncode() == false)
+        return 1;
+#else
+    application->run(numberOfFrames, nullptr);
+#endif
+
+    return 0;
 }
 
-void RunExample2(ApplicationPtr application, int resX, int resY, int numberOfFrames, ScreenRecorderPtr recorder)
+int RunExample2(ApplicationPtr application, int resX, int resY, int numberOfFrames, int fps)
 {
     auto window = application->createWindow("PCISPH Simulation", resX, resY);
     UNUSED_VARIABLE(window);
-    application->run(numberOfFrames, recorder);
+    application->run(numberOfFrames, nullptr);
     application->terminate();
+    return 0;
 }
 
 int main(int argc, char* argv[])
 {
     bool showHelp = false;
-    int numberOfFrames = 120;
+    int fps = 60;
+    int numberOfFrames = 60;
     int exampleNum = 1;
     int resX = 800;
     int resY = 600;
@@ -133,8 +149,11 @@ int main(int argc, char* argv[])
         ["-y"]["--resy"]
         ("grid resolution in y-axis (default is 600)") |
         clara::Opt(numberOfFrames, "numberOfFrames")
-        ["-f"]["--frames"]
+        ["-n"]["--numberOfFrames"]
         ("total number of frames (default is 100)") |
+        clara::Opt(fps, "fps")
+        ["-f"]["--fps"]
+        ("encoding frame per seconds (default is 60)") |
         clara::Opt(logFileName, "logFileName")
         ["-l"]["--log"]
         ("log file name (default is " APP_NAME ".log)") |
@@ -143,10 +162,7 @@ int main(int argc, char* argv[])
         ("example number (between 1 and 5, default is 1)") |
         clara::Opt(outputDir, "outputDir")
         ["-o"]["--output"]
-        ("output directory name (default is " APP_NAME "_output)") |
-        clara::Opt(format, "format")
-        ["-m"]["--format"]
-        ("simulation output format (tga or null. default is null)");
+        ("output directory name (default is " APP_NAME "_output)");
 
     auto result = parser.parse(clara::Args(argc, argv));
     if (!result)
@@ -173,38 +189,25 @@ int main(int argc, char* argv[])
         Logging::SetAllStream(&logFile);
     }
 
-    ApplicationPtr      application { nullptr };
-    ScreenRecorderPtr   recorder    { nullptr };
-
-    application = std::make_shared<GL3Application>();
+    ApplicationPtr application = std::make_shared<GL3Application>();
     if (application->initialize())
     {
         std::cerr << "Initialize application failed.";
         return -1;
     }
     
-    if (format != "null") 
-        recorder = std::make_shared<ScreenRecorder>();
-    
+    int retCode = EXIT_FAILURE;
     switch (exampleNum)
     {
     case 1:
-        RunExample1(application, resX, resY, numberOfFrames, recorder);
+        retCode = RunExample1(application, resX, resY, numberOfFrames, fps);
         break;
     case 2:
-        RunExample2(application, resX, resY, numberOfFrames, recorder);
+        retCode = RunExample2(application, resX, resY, numberOfFrames, fps);
         break;
     default:
         std::cout << ToString(parser) << '\n';
-        exit(EXIT_FAILURE);
+        retCode = EXIT_FAILURE;
     }
-
-    if (format == "tga")
-    {
-        std::cout << "Save recording result as tga...";
-        recorder->saveMultiFrames(outputDir, 30);
-        std::cout << "complete" << '\n';
-    }
-    
-    return EXIT_SUCCESS;
+    return retCode;
 }

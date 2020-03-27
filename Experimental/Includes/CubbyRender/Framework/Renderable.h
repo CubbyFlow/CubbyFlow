@@ -24,7 +24,7 @@ namespace CubbyRender {
     //! The wrapper class of each Graphics API must overrides 
     //! this renderer class.
     //!
-    class Renderable : public Object
+    class Renderable 
     {
     public:
         //! Default constructor.
@@ -35,17 +35,16 @@ namespace CubbyRender {
 
         void render(RendererPtr renderer);
 
+        void setEntry(EntryPtr entry);
+
+        void destroy(RendererPtr renderer);
+
     protected:
-        //! implementation of bind method
-        virtual void onBind(RendererPtr renderer) override = 0;
-        
-        //! implementation of unbind method
-        virtual void onUnbind(RendererPtr renderer) override = 0;
-
-        //! implementation of destry method
-        virtual void onDestroy(RendererPtr renderer) override = 0;
-
         virtual void onRender(RendererPtr renderer) = 0;
+
+        virtual void onSetEntry() = 0;
+
+        EntryPtr _entry;
     private:
 
     };
