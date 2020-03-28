@@ -1,23 +1,24 @@
-/*************************************************************************
-> File Name: PointsToImplicit2.cpp
-> Project Name: CubbyFlow
-> This code is based on Jet Framework that was created by Doyub Kim.
-> References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: Abstract base class for 2-D points-to-implicit converters.
-> Created Time: 2017/11/16
-> Copyright (c) 2018, Chan-Ho Chris Ohk
-*************************************************************************/
-#include <Core/PointsToImplicit/PointsToImplicit2.h>
+// This code is based on Jet framework.
+// Copyright (c) 2018 Doyub Kim
+// CubbyFlow is voxel-based fluid simulation engine for computer games.
+// Copyright (c) 2020 CubbyFlow Team
+// Core Part: Chris Ohk, Junwoo Hwang, Jihong Sin, Seungwoo Yoo
+// AI Part: Dongheon Cho, Minseo Kim
+// We are making my contributions/submissions to this project solely in our
+// personal capacity and are not conveying any rights to any intellectual
+// property of any third parties.
+
+#include <Core/PointsToImplicit/PointsToImplicit2.hpp>
 
 namespace CubbyFlow
 {
-	PointsToImplicit2::PointsToImplicit2()
-	{
-		// Do nothing
-	}
-
-	PointsToImplicit2::~PointsToImplicit2()
-	{
-		// Do nothing
-	}
+PointsToImplicit2::PointsToImplicit2()
+{
+    // Do nothing
 }
+
+PointsToImplicit2::~PointsToImplicit2()
+{
+    // Do nothing
+}
+}  // namespace CubbyFlow
