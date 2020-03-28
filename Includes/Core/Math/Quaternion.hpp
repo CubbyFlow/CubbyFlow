@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_QUATERNION_HPP
 #define CUBBYFLOW_QUATERNION_HPP
 
-#include <Core/Matrix/Matrix4x4.h>
+#include <Core/Matrix/Matrix4x4.hpp>
 
 namespace CubbyFlow
 {

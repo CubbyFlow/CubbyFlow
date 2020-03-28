@@ -8,11 +8,11 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Matrix/Matrix2x2.h>
 #include <Core/PointGenerator/TrianglePointGenerator.h>
 #include <Core/Searcher/PointHashGridSearcher2.h>
 #include <Core/Surface/SurfaceToImplicit2.h>
 #include <Core/Emitter/VolumeParticleEmitter2.hpp>
+#include <Core/Matrix/Matrix2x2.hpp>
 
 namespace CubbyFlow
 {

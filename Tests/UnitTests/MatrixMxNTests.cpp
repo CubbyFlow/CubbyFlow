@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Matrix/MatrixMxN.h>
+#include <Core/Matrix/MatrixMxN.hpp>
 #include <Core/Vector/VectorN.h>
 
 using namespace CubbyFlow;

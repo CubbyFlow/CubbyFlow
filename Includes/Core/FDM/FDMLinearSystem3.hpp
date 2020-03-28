@@ -11,10 +11,10 @@
 #ifndef CUBBYFLOW_FDM_LINEAR_SYSTEM3_HPP
 #define CUBBYFLOW_FDM_LINEAR_SYSTEM3_HPP
 
-#include <Core/Matrix/MatrixCSR.h>
 #include <Core/Size/Size3.h>
 #include <Core/Vector/VectorN.h>
 #include <Core/Array/Array3.hpp>
+#include <Core/Matrix/MatrixCSR.hpp>
 
 namespace CubbyFlow
 {

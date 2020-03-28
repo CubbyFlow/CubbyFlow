@@ -8,9 +8,9 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Matrix/Matrix3x3.h>
 #include <Core/Utils/Samplers.h>
 #include <Core/Emitter/PointParticleEmitter3.hpp>
+#include <Core/Matrix/Matrix3x3.hpp>
 
 namespace CubbyFlow
 {

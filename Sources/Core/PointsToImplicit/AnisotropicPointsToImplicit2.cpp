@@ -8,7 +8,7 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <Core/Math/SVD.hpp>
-#include <Core/Matrix/Matrix2x2.h>
+#include <Core/Matrix/Matrix2x2.hpp>
 #include <Core/PointsToImplicit/AnisotropicPointsToImplicit2.h>
 #include <Core/Searcher/PointKdTreeSearcher2.h>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver2.h>
