@@ -25,6 +25,3 @@
 [submodule "Experimental/Libraries/libpng"]
 	path = Experimental/Libraries/libpng
 	url = https://github.com/glennrp/libpng
-[submodule "Experimental/Libraries/glew-cmake"]
-	path = Experimental/Libraries/glew-cmake
-	url = https://github.com/Perlmint/glew-cmake
