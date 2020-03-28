@@ -4,8 +4,8 @@
 
 #include <Core/BoundingBox/BoundingBox3.hpp>
 #include <Core/Grid/CellCenteredScalarGrid2.hpp>
-#include <Core/PointGenerator/BccLatticePointGenerator.h>
-#include <Core/PointGenerator/TrianglePointGenerator.h>
+#include <Core/PointGenerator/BccLatticePointGenerator.hpp>
+#include <Core/PointGenerator/TrianglePointGenerator.hpp>
 #include <Core/SPH/SPHSystemData2.h>
 #include <Core/SPH/SPHSystemData3.h>
 #include <Core/Utils/Parallel.h>

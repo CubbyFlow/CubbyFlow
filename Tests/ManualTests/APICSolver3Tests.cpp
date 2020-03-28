@@ -9,7 +9,7 @@
 #include <Core/Geometry/Cylinder3.hpp>
 #include <Core/Geometry/Plane3.hpp>
 #include <Core/Geometry/Sphere3.hpp>
-#include <Core/PointGenerator/GridPointGenerator3.h>
+#include <Core/PointGenerator/GridPointGenerator3.hpp>
 #include <Core/Solver/Hybrid/APIC/APICSolver3.h>
 #include <Core/Solver/Grid/GridSinglePhasePressureSolver3.h>
 #include <Core/Solver/Hybrid/PIC/PICSolver3.h>

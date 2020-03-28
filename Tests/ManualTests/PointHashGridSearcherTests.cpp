@@ -5,8 +5,8 @@
 #include <Core/Array/Array2.hpp>
 #include <Core/BoundingBox/BoundingBox2.hpp>
 #include <Core/BoundingBox/BoundingBox3.hpp>
-#include <Core/PointGenerator/BccLatticePointGenerator.h>
-#include <Core/PointGenerator/TrianglePointGenerator.h>
+#include <Core/PointGenerator/BccLatticePointGenerator.hpp>
+#include <Core/PointGenerator/TrianglePointGenerator.hpp>
 #include <Core/Searcher/PointHashGridSearcher2.h>
 #include <Core/Searcher/PointHashGridSearcher3.h>
 #include <Core/Searcher/PointParallelHashGridSearcher2.h>

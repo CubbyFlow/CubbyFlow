@@ -8,7 +8,7 @@
 > Copyright (c) 2018, Dongmin Kim
 *************************************************************************/
 #include <Core/BoundingBox/BoundingBox3.hpp>
-#include <Core/PointGenerator/BccLatticePointGenerator.h>
+#include <Core/PointGenerator/BccLatticePointGenerator.hpp>
 #include <Core/SPH/SPHStdKernel3.h>
 #include <Core/SPH/SPHSystemData3.h>
 

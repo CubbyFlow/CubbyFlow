@@ -9,7 +9,7 @@
 #include <Core/Geometry/Cylinder3.hpp>
 #include <Core/Geometry/Plane3.hpp>
 #include <Core/Geometry/Sphere3.hpp>
-#include <Core/PointGenerator/GridPointGenerator3.h>
+#include <Core/PointGenerator/GridPointGenerator3.hpp>
 #include <Core/Solver/Hybrid/FLIP/FLIPSolver3.h>
 #include <Core/Surface/ImplicitSurfaceSet3.h>
 

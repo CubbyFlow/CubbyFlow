@@ -8,7 +8,7 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <Core/BoundingBox/BoundingBox2.hpp>
-#include <Core/PointGenerator/TrianglePointGenerator.h>
+#include <Core/PointGenerator/TrianglePointGenerator.hpp>
 #include <Core/SPH/SPHStdKernel2.h>
 #include <Core/SPH/SPHSystemData2.h>
 
