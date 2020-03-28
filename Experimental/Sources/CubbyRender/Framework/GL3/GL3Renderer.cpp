@@ -21,7 +21,7 @@
 #include <Core/Vector/Vector4.h>
 #include <Core/Utils/Logging.h>
 #include <GLFW/glfw3.h>
-#include <glad/glad.h>
+#include <GL/glew.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -129,25 +129,19 @@ namespace CubbyRender {
         //! Do nothing
     }
 
-    ConstArrayAccessor2<Vector4UB> GL3Renderer::getCurrentFrame(Size2 size)
+    ArrayAccessor1<unsigned char> GL3Renderer::getCurrentFrame(Size2 size)
     {
-        static Array2<Vector4UB> pixelArray { size };
-        static Array2<Vector4UB> rgbArray { size };
-
-        if (pixelArray.size() != size)
-            pixelArray.Resize(size);
-        if (rgbArray.size() != size)
-            rgbArray.Resize(size);
-
+        constexpr size_t kNumChannels = 4;
         size_t width = size[0], height = size[1];
-        glReadPixels( 0, 0, static_cast<GLint>(width), static_cast<GLint>(height), GL_RGBA, GL_UNSIGNED_BYTE, &(pixelArray(0, 0).x));
-        pixelArray.ParallelForEachIndex([&](size_t i, size_t j) {
-            size_t pixelIndex = (width * (height - j - 1) + i);
-            size_t rgbIndex = (width * j + i);
-            
-            rgbArray.At(rgbIndex) = pixelArray.At(pixelIndex);
-        });
-        return rgbArray.ConstAccessor();
+        size_t numElements = width * height * kNumChannels;
+        static Array1<unsigned char> pixels ( numElements );
+
+        if (pixels.size() != numElements)
+            pixels.Resize(numElements);
+
+        glReadPixels( 0, 0, static_cast<GLint>(width), static_cast<GLint>(height), GL_RGBA, GL_UNSIGNED_BYTE, &(pixels[0]));
+        
+        return pixels.Accessor();
     }
 
     void GL3Renderer::draw(size_t numberOfVertices) 
@@ -170,10 +164,13 @@ namespace CubbyRender {
 
     int GL3Renderer::initializeGL()
     {
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) 
+        glewExperimental = GL_TRUE;
+
+        GLenum errorCode = glewInit(); 
+        if (GLEW_OK != errorCode) 
         {
-            CUBBYFLOW_ERROR << "Failed to initialize OpenGL";
-            return -1;                
+        	CUBBYFLOW_ERROR << "Failed to initialize OpenGL";
+            return -1; 
         }
 
         return 0;

@@ -31,7 +31,7 @@ namespace CubbyRender {
         GL3VertexBuffer(VertexFormat format);
 
         //! Default destructor.
-        ~GL3VertexBuffer();
+        virtual ~GL3VertexBuffer();
 
         //! Update 
         void updateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<float>& data, bool storeData) override;
@@ -43,8 +43,8 @@ namespace CubbyRender {
         //! implementation of unbind method
         void onUnbind(RendererPtr renderer) override;
 
-        //! implementation of destry method
-        void onDestroy(RendererPtr renderer) override;
+        //! implementation of destroy method
+        void onDestroy() override;
 
         //! Allocate gpu 
         void onAllocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<float>& data) override;

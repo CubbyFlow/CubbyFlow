@@ -42,12 +42,12 @@
 using namespace CubbyFlow;
 using namespace CubbyRender;
 
-int RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFrames, int fps)
+int RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFrames)
 {
     auto window = application->createWindow("SPH Simulation", resX, resY);
     ShaderPtr simpleShader = std::make_shared<GL3Shader>("simple_shader");
+    
     MaterialPtr simpleMaterial = std::make_shared<Material>(simpleShader);
-
     Array1<float> vertices = {
         -1.0f, +1.0f, +1.0f, // 0
         +1.0f, +0.0f, +0.0f,
@@ -98,39 +98,36 @@ int RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFram
         +1.0f, -1.0f, +1.0f, // 23
         +0.9f, +1.0f, +0.2f
     };
-    window->getRenderer()->createVertexBuffer(simpleMaterial, vertices.ConstAccessor(), 48, VertexFormat::Position3, false);
-
+    window->getRenderer()->createVertexBuffer(simpleMaterial, vertices.ConstAccessor(), vertices.size(), VertexFormat::Position3, false);
 #ifdef CUBBYFLOW_RECORDING
-    auto recorder = std::make_shared<ScreenRecorder>(window->getFramebufferSize());
-    if (recorder->StartEncode(APP_NAME ".mp4", fps) == false)
-        return 1;
+    auto recorder = std::make_shared<ScreenRecorder>();
+    recorder->setWorkingDirectory(APP_NAME "_output");
 
-    application->run(numberOfFrames, [&](const ConstArrayAccessor2<Vector4UB>& frame){
-        return recorder->EncodeFrame(frame);
+    application->run(numberOfFrames, [&](Size2 dim, const ArrayAccessor1<unsigned char>& frame){
+        return recorder->EncodeFrame(dim, frame);
     });
 
-    if (recorder->FinishEncode() == false)
-        return 1;
+    recorder.reset();
 #else
     application->run(numberOfFrames, nullptr);
 #endif
 
-    return 0;
+    application->terminate();
+    return EXIT_SUCCESS;
 }
 
-int RunExample2(ApplicationPtr application, int resX, int resY, int numberOfFrames, int fps)
+int RunExample2(ApplicationPtr application, int resX, int resY, int numberOfFrames)
 {
     auto window = application->createWindow("PCISPH Simulation", resX, resY);
     UNUSED_VARIABLE(window);
     application->run(numberOfFrames, nullptr);
     application->terminate();
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 int main(int argc, char* argv[])
 {
     bool showHelp = false;
-    int fps = 60;
     int numberOfFrames = 60;
     int exampleNum = 1;
     int resX = 800;
@@ -151,9 +148,6 @@ int main(int argc, char* argv[])
         clara::Opt(numberOfFrames, "numberOfFrames")
         ["-n"]["--numberOfFrames"]
         ("total number of frames (default is 100)") |
-        clara::Opt(fps, "fps")
-        ["-f"]["--fps"]
-        ("encoding frame per seconds (default is 60)") |
         clara::Opt(logFileName, "logFileName")
         ["-l"]["--log"]
         ("log file name (default is " APP_NAME ".log)") |
@@ -200,14 +194,15 @@ int main(int argc, char* argv[])
     switch (exampleNum)
     {
     case 1:
-        retCode = RunExample1(application, resX, resY, numberOfFrames, fps);
+        retCode = RunExample1(application, resX, resY, numberOfFrames);
         break;
     case 2:
-        retCode = RunExample2(application, resX, resY, numberOfFrames, fps);
+        retCode = RunExample2(application, resX, resY, numberOfFrames);
         break;
     default:
         std::cout << ToString(parser) << '\n';
         retCode = EXIT_FAILURE;
     }
+    
     return retCode;
 }

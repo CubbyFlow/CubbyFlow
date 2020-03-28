@@ -38,7 +38,7 @@ namespace CubbyRender {
         //! Initialize and fetch gl commands.
         int initializeGL() override;
 
-        ConstArrayAccessor2<Vector4UB> getCurrentFrame(Size2 size) override;
+        ArrayAccessor1<unsigned char> getCurrentFrame(Size2 size) override;
 
         //! Create VertexBuffer pointer with given parameters.
         //!

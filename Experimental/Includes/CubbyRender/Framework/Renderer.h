@@ -58,7 +58,7 @@ namespace CubbyRender {
 
         void setBackgroundColor(Vector4F color);
 
-        virtual ConstArrayAccessor2<Vector4UB> getCurrentFrame(Size2 size) = 0;
+        virtual ArrayAccessor1<unsigned char> getCurrentFrame(Size2 size) = 0;
 
         //! Create VertexBuffer pointer with given parameters.
         //!

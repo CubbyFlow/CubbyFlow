@@ -32,7 +32,7 @@ namespace CubbyRender {
 
         ShaderPtr getShader();
 
-        void destroy(RendererPtr renderer);
+        void destroy();
 
      protected:
 

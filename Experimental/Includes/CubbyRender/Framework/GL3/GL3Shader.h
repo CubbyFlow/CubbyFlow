@@ -54,13 +54,14 @@ namespace CubbyRender {
         //! implementation of unbind method
         void onUnbind(RendererPtr renderer) override;
 
-        //! implementation of destry method
-        void onDestroy(RendererPtr renderer) override;
+        //! implementation of destroy method
+        void onDestroy() override;
+
     private:
         void printShaderLog();
 
         std::unordered_map<std::string, GLuint> _locationCache;
-        GLuint _programID;
+        GLuint _programID = 0U;
     };
 
     using GL3ShaderPtr = std::shared_ptr<GL3Shader>;

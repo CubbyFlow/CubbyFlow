@@ -46,13 +46,13 @@ namespace CubbyRender {
         VertexFormat getFormat() const;
     protected:
         //! implementation of bind method
-        virtual void onBind(RendererPtr renderer) = 0;
+        virtual void onBind(RendererPtr renderer) override = 0;
         
         //! implementation of unbind method
-        virtual void onUnbind(RendererPtr renderer) = 0;
+        virtual void onUnbind(RendererPtr renderer) override = 0;
 
         //! implementation of destry method
-        virtual void onDestroy(RendererPtr renderer) = 0;
+        virtual void onDestroy() override = 0;
 
         //! Allocate gpu 
         virtual void onAllocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<float>& data) = 0;

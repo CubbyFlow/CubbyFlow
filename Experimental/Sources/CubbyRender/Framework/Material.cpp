@@ -23,12 +23,12 @@ namespace CubbyRender {
     Material::Material(ShaderPtr shader)
         : _shader(shader)
     {
-
+        //! Do nothing
     }
 
     Material::~Material()
     {
-        //! Do nothing
+        destroy();
     }
 
     ShaderPtr Material::getShader()
@@ -36,9 +36,9 @@ namespace CubbyRender {
         return _shader;
     }
 
-    void Material::destroy(RendererPtr renderer)
+    void Material::destroy()
     {
-        _shader->destroy(renderer);
+        _shader.reset();
     }
 
 } 

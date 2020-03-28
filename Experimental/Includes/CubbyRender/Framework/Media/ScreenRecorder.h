@@ -12,11 +12,12 @@
 
 #ifdef CUBBYFLOW_RECORDING
 
+#include <Core/Array/ArrayAccessor1.h>
 #include <Core/Size/Size2.h>
-#include <Core/Array/ArrayAccessor2.h>
-#include <Core/Vector/Vector4.h>
 #include <memory>
 #include <string>
+
+using png_byte = unsigned char;
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -30,42 +31,20 @@ namespace CubbyRender {
         //! Default Constructor.
         ScreenRecorder();
 
-        //! Default Constructor.
-        ScreenRecorder(size_t width, size_t height);
-
-        //! Default Constructor.
-        ScreenRecorder(Size2 frameDimension);
-
         //! Default Destructor. 
         virtual ~ScreenRecorder();
 
         //! Start encoding
-        bool StartEncode(const std::string& filename, int fps);
-
-        //! Finish encoding
-        bool FinishEncode();
+        void setWorkingDirectory(const std::string& directory);
 
         //! Encode frame into context.
-        bool EncodeFrame(const ConstArrayAccessor2<Vector4UB>& frame);
-
-        //! Get frame dimension
-        Size2 size() const;
-
-        //! Get width of the frame
-        size_t Width() const;
-
-        //! Get height of the frame
-        size_t Height() const;
-
-        //! Set dimension of the screen(frame)
-        void SetSize(Size2 dim);
-
-        //! Set dimension of the screen(frame)
-        void SetSize(size_t width, size_t height);
+        bool EncodeFrame(Size2 dim, const ArrayAccessor1<unsigned char>& pixels);
 
     protected:
     private:
-        Size2 _size;
+        std::string _rootDir;
+        png_byte **_pngRows = nullptr;
+        int _frameCount = 0;
     };
 
     using ScreenRecorderPtr = std::shared_ptr<ScreenRecorder>;

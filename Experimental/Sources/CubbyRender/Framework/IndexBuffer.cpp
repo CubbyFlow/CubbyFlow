@@ -39,7 +39,7 @@ namespace CubbyRender {
 
         if (numberOfIndices == size_t(0))
         {
-            destroy(renderer);
+            destroy();
         }
         else if (numberOfIndices == _numberOfIndices)
         {
@@ -47,7 +47,7 @@ namespace CubbyRender {
         }
         else
         {
-            destroy(renderer);
+            destroy();
             _numberOfIndices = numberOfIndices;
             onAllocateBuffer(renderer, material, data);
         }

@@ -10,8 +10,7 @@ set(CUBBYRENDER_INCLUDE_DIRS
     ${root_dir}/../Libraries)
 
 if (USE_GL)
-    list(APPEND CUBBYRENDER_INCLUDE_DIRS
-    ${root_dir}/Libraries/glad)
+    list(APPEND CUBBYRENDER_INCLUDE_DIRS)
 endif()
 if (USE_CUDA)
 list(APPEND CUBBYRENDER_INCLUDE_DIRS
@@ -35,8 +34,7 @@ file(GLOB_RECURSE sources
 
 if (USE_GL)
     file(GLOB sources
-        ${sources}
-        ${root_dir}/Libraries/glad/glad/glad.cpp)
+        ${sources})
 endif()
 if (USE_CUDA)
     file(GLOB sources
@@ -45,8 +43,7 @@ if (USE_CUDA)
 endif()
 
 # Build library
-add_library(${target}
-    ${sources})
+add_library(${target} ${sources})
 
 # Project options
 set_target_properties(${target}
@@ -72,7 +69,7 @@ target_link_libraries(${target}
 	${DEFAULT_LIBRARIES}
     ${CMAKE_DL_LIBS}
     ${OPENGL_LIBRARIES}
-    ${FFMPEG_LIBRARIES}
+    ${PNG_LIBRARIES}
     
     INTERFACE
 )

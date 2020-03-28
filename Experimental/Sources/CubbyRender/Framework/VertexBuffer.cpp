@@ -45,7 +45,7 @@ namespace CubbyRender {
 
         if (numberOfVertices == size_t(0))
         {
-            destroy(renderer);
+            destroy();
         }
         else if (numberOfVertices == _numberOfVertices)
         {
@@ -53,7 +53,7 @@ namespace CubbyRender {
         }
         else
         {
-            destroy(renderer);
+            destroy();
             _numberOfVertices = numberOfVertices;
             onAllocateBuffer(renderer, material, data);
         }

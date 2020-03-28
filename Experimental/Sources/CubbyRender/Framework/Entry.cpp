@@ -29,7 +29,7 @@ namespace CubbyRender {
 
     Entry::~Entry()
     {
-        //! Do nothing.
+        destroy();
     }
 
     Entry::Builder Entry::GetBuilder()
@@ -37,11 +37,11 @@ namespace CubbyRender {
         return Builder();
     }
 
-    void Entry::destroy(RendererPtr renderer)
+    void Entry::destroy()
     {
-        _vertices->destroy(renderer);
-        _indices->destroy(renderer);
-        _material->destroy(renderer);
+        _vertices.reset();
+        _indices.reset();
+        _material.reset();
     }
 
 	Entry::Builder& Entry::Builder::WithVertexBuffer(VertexBufferPtr vertices)

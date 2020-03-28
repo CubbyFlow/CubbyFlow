@@ -37,12 +37,14 @@ namespace CubbyRender {
 
         void setEntry(EntryPtr entry);
 
-        void destroy(RendererPtr renderer);
+        void destroy();
 
     protected:
         virtual void onRender(RendererPtr renderer) = 0;
 
         virtual void onSetEntry() = 0;
+
+        virtual void onDestroy() = 0;
 
         EntryPtr _entry;
     private:

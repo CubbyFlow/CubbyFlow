@@ -11,13 +11,14 @@
 #ifdef CUBBYFLOW_USE_GL
 
 #include <Framework/GL3/GL3VertexBuffer.h>
+#include <Framework/GL3/GL3Debugging.h>
 #include <Framework/GL3/GL3Renderer.h>
 #include <Framework/GL3/GL3Common.h>
 #include <Framework/GL3/GL3Shader.h>
 #include <Framework/Material.h>
 #include <Framework/Renderer.h>
 #include <Framework/Common.h>
-#include <glad/glad.h>
+#include <GL/glew.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -35,8 +36,7 @@ namespace CubbyRender {
 
     GL3VertexBuffer::~GL3VertexBuffer()
     {
-        if (static_cast<int>(_vertexArrayID))
-            glDeleteVertexArrays(1, &_vertexArrayID);
+        destroy();
     }
 
     void GL3VertexBuffer::onBind(RendererPtr renderer)
@@ -51,9 +51,8 @@ namespace CubbyRender {
         glBindVertexArray(static_cast<GLuint>(0));
     }
 
-    void GL3VertexBuffer::onDestroy(RendererPtr renderer) 
+    void GL3VertexBuffer::onDestroy() 
     {
-        UNUSED_VARIABLE(renderer);
         if (static_cast<int>(_vertexArrayID))
             glDeleteVertexArrays(1, &_vertexArrayID);
         if (static_cast<int>(_vertexBufferID))
@@ -70,7 +69,8 @@ namespace CubbyRender {
             });
         }
 
-        assert(_format == material->getShader()->getInputVertexFormat());
+        if (_format != material->getShader()->getInputVertexFormat())
+            abort();
 
         GLsizei stride = static_cast<GLsizei>(VertexHelper::getSizeInBytes(_format));   
         bind(renderer);
@@ -81,12 +81,14 @@ namespace CubbyRender {
     void GL3VertexBuffer::onAllocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<float>& data) 
     {   
         GL3Shader* shader = dynamic_cast<GL3Shader*>(material->getShader().get());
-        assert(shader != nullptr);
+        if (!shader)
+            abort();
         _format = shader->getInputVertexFormat();
         
         shader->bind(renderer);
         glGenVertexArrays(1, &_vertexArrayID);
         glBindVertexArray(_vertexArrayID);
+        
         if (_vertexArrayID)
         {
             bind(renderer);
@@ -99,7 +101,7 @@ namespace CubbyRender {
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
             GLsizeiptr offset = 0;
-
+            
             if (static_cast<int>(_format & VertexFormat::Position3))
             {
                 GLuint attribLoc = shader->getAttribLocation("position");
@@ -108,7 +110,7 @@ namespace CubbyRender {
                 glEnableVertexAttribArray(attribLoc);
                 offset += sizeof(float) * numberOfFloats;
             }
-
+            
             if (static_cast<int>(_format & VertexFormat::Normal3))
             {
                 GLuint attribLoc = shader->getAttribLocation("normal");
@@ -116,8 +118,8 @@ namespace CubbyRender {
                 glVertexAttribPointer(attribLoc, static_cast<GLint>(numberOfFloats), GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void*>(offset));
                 glEnableVertexAttribArray(attribLoc);
                 offset += sizeof(float) * numberOfFloats;
-            }
-
+            }       
+            
             if (static_cast<int>(_format & VertexFormat::TexCoord2))
             {
                 GLuint attribLoc = shader->getAttribLocation("texCoord");
@@ -126,7 +128,7 @@ namespace CubbyRender {
                 glEnableVertexAttribArray(attribLoc);
                 offset += sizeof(float) * numberOfFloats;
             }
-
+            
             if (static_cast<int>(_format & VertexFormat::TexCoord3))
             {
                 GLuint attribLoc = shader->getAttribLocation("texCoord");
@@ -135,7 +137,7 @@ namespace CubbyRender {
                 glEnableVertexAttribArray(attribLoc);
                 offset += sizeof(float) * numberOfFloats;
             }
-
+            
             if (static_cast<int>(_format & VertexFormat::Color4))
             {
                 GLuint attribLoc = shader->getAttribLocation("color");

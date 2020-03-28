@@ -42,7 +42,7 @@ namespace CubbyRender {
         void onUnbind(RendererPtr renderer) override;
 
         //! implementation of destry method
-        void onDestroy(RendererPtr renderer) override;
+        void onDestroy() override;
 
         //! Allocate gpu 
         void onAllocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<unsigned int>& data) override;

@@ -31,14 +31,13 @@ namespace CubbyRender {
 
     void Renderable::setEntry(EntryPtr entry)
     {
-
+        _entry = entry;
     }
 
-    void Renderable::destroy(RendererPtr renderer)
+    void Renderable::destroy()
     {
         if (_entry)
         {
-            _entry->destroy(renderer);
             _entry.reset();
         }
     }

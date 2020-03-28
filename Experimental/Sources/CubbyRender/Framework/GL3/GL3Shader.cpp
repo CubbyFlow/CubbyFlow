@@ -11,9 +11,10 @@
 #ifdef CUBBYFLOW_USE_GL
 
 #include <Framework/GL3/GL3Shader.h>
+#include <Framework/GL3/GL3Debugging.h>
 #include <Framework/Common.h>
 #include <Core/Utils/Logging.h>
-#include <glad/glad.h>
+#include <GL/glew.h>
 #include <cassert>
 #include <vector>
 
@@ -39,24 +40,16 @@ namespace CubbyRender {
         if (type == TargetType::SHADER)
         {
 			glGetShaderiv(target, GL_COMPILE_STATUS, &success);
-            if (!success) 
-            {
-				glGetShaderiv(target, GL_INFO_LOG_LENGTH, &infoLogLength);
-				infoLog.resize(infoLogLength);
-				glGetShaderInfoLog(target, static_cast<GLsizei>(infoLog.size()), nullptr, &infoLog[0]);
-                CUBBYFLOW_ERROR << infoLog.data();
-            }
+			glGetShaderiv(target, GL_INFO_LOG_LENGTH, &infoLogLength);
+			infoLog.resize(infoLogLength);
+			glGetShaderInfoLog(target, static_cast<GLsizei>(infoLog.size()), nullptr, &infoLog[0]);
         }
         else if (type == TargetType::PROGRAM)
         {
             glGetProgramiv(target, GL_LINK_STATUS, &success);
-			if (!success) 
-            {
-				glGetProgramiv(target, GL_INFO_LOG_LENGTH, &infoLogLength);
-				infoLog.resize(infoLogLength);
-				glGetProgramInfoLog(target, static_cast<GLsizei>(infoLog.size()), nullptr, &infoLog[0]);
-                CUBBYFLOW_ERROR << infoLog.data();
-            }
+		    glGetProgramiv(target, GL_INFO_LOG_LENGTH, &infoLogLength);
+		    infoLog.resize(infoLogLength);
+		    glGetProgramInfoLog(target, static_cast<GLsizei>(infoLog.size()), nullptr, &infoLog[0]);
         }
 
         return !success;
@@ -69,20 +62,21 @@ namespace CubbyRender {
 
     GL3Shader::GL3Shader(const std::string& shaderName)
     {
-        UNUSED_VARIABLE(shaderName);
-        assert(load(shaderName) == 0);
+        int result = load(shaderName);
+        if (result) 
+            abort();
     }
 
     GL3Shader::GL3Shader(VertexFormat format, const ShaderMap& fileMap)
     {
-        UNUSED_VARIABLE(format);
-        UNUSED_VARIABLE(fileMap);
-        assert(load(format, fileMap) == 0);
+        int result = load(format, fileMap);
+        if (result)
+            abort();
     }
 
     GL3Shader::~GL3Shader()
     {
-        //! Do nothing.
+        //! destroy(); --> this call cause segmentatiln fault. why???..
     }
     
     GLuint GL3Shader::getProgramID() const
@@ -149,14 +143,16 @@ namespace CubbyRender {
         std::vector<GLuint> compiledShaders;
         for (const auto& shaderPair : shaderMap)
         {
-            assert( shaderTypeMap.count(shaderPair.first) != 0 );
+            if (shaderTypeMap.count(shaderPair.first) == 0)
+                abort();
 
             const char* source = shaderPair.second.c_str();
             GLuint shaderType = shaderTypeMap[shaderPair.first];
             GLuint shader = glCreateShader(shaderType);
             glShaderSource(shader, 1, &source, nullptr);
             glCompileShader(shader);
-            assert( checkStatus(shader, TargetType::SHADER) == 0 );
+            if (checkStatus(shader, TargetType::SHADER))
+                abort();
             compiledShaders.push_back(shader);
         }
 
@@ -164,14 +160,14 @@ namespace CubbyRender {
         for (GLuint shader : compiledShaders)
             glAttachShader(_programID, shader);
     	glLinkProgram(_programID);
-        assert( checkStatus(_programID, TargetType::PROGRAM) == 0 );
-
+        if (checkStatus(_programID, TargetType::PROGRAM))
+                abort();
+                
         for (GLuint shader : compiledShaders)
         {
             glDetachShader(_programID, shader);
             glDeleteShader(shader);
         }
-        
         return 0;
     }
 
@@ -187,10 +183,13 @@ namespace CubbyRender {
         glUseProgram(0U);
     }
 
-    void GL3Shader::onDestroy(RendererPtr renderer)
+    void GL3Shader::onDestroy()
     {
-        UNUSED_VARIABLE(renderer);
-        glDeleteProgram(_programID);
+        if (static_cast<int>(_programID))
+        {
+            glDeleteProgram(_programID);
+            _programID = 0U;
+        }
     }
 
 } 

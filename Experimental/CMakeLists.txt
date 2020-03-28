@@ -20,10 +20,10 @@ if (RECORDING)
     )
     add_subdirectory(Libraries/libpng)
     include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/libpng)
-    set(FFMPEG_LIBRARIES 
+    set(PNG_LIBRARIES 
         png)
 else()
-    set(FFMPEG_LIBRARIES )
+    set(PNG_LIBRARIES )
 endif()
 
 # include header-only stb library for image read & write
@@ -71,6 +71,10 @@ if (USE_GL)
             endif()
         endif()
 
+        add_subdirectory(Libraries/glew-cmake)
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/glew-cmake/include)
+        set(GLEW_LIBRARY libglew_shared)
+
         # Add Imgui
         add_subdirectory(Libraries/imgui)
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/imgui)
@@ -84,20 +88,9 @@ if (USE_GL)
             ${IMGUI_LIBRARY}
             ${COREFOUNDATION_LIB})
 
-        # Add GLI which is header only opengl image loader library
-        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/gli)
-
-        set(OPENGL_LIBRARIES 
-            ${OPENGL_LIBRARIES}
-            ${GLFW_LIBRARY}
-            ${GLEW_LIBRARY}
-            ${EGL_LIBRARY}
-            ${IMGUI_LIBRARY}
-            ${COREFOUNDATION_LIB})
-
         # Include other directories
-        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/glad)
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Includes/CubbyRender)
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/gli)
 
     else()
         set(USE_GL OFF)

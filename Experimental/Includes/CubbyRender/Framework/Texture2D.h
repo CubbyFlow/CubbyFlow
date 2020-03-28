@@ -57,7 +57,7 @@ namespace CubbyRender {
         virtual void onUnbind(RendererPtr renderer) override = 0;
 
         //! implementation of destry method
-        virtual void onDestroy(RendererPtr renderer) override = 0;
+        virtual void onDestroy() override = 0;
 
         //! Allocate gpu 
         virtual void onAllocateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor2<Vector4F>& data) = 0;

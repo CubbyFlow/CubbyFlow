@@ -42,7 +42,7 @@ namespace CubbyRender {
         //! Returns builder fox Entry.
 		static Builder GetBuilder();
 
-        void destroy(RendererPtr renderer);
+        void destroy();
     protected:
 
     private:

@@ -17,7 +17,7 @@
 #include <Framework/Material.h>
 #include <Framework/Renderer.h>
 #include <Framework/Common.h>
-#include <glad/glad.h>
+#include <GL/glew.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -29,8 +29,7 @@ namespace CubbyRender {
 
     GL3IndexBuffer::~GL3IndexBuffer()
     {
-        if (static_cast<int>(_indexBufferID))
-            glDeleteBuffers(1, &_indexBufferID);
+        destroy();
     }
 
     void GL3IndexBuffer::onBind(RendererPtr renderer)
@@ -45,9 +44,8 @@ namespace CubbyRender {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLuint>(0));
     }
 
-    void GL3IndexBuffer::onDestroy(RendererPtr renderer) 
+    void GL3IndexBuffer::onDestroy() 
     {
-        UNUSED_VARIABLE(renderer);
         if (static_cast<int>(_indexBufferID))
             glDeleteBuffers(1, &_indexBufferID);
     }

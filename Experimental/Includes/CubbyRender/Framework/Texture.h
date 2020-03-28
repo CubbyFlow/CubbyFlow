@@ -63,7 +63,7 @@ namespace CubbyRender {
         virtual void onUnbind(RendererPtr renderer) override = 0;
 
         //! implementation of destry method
-        virtual void onDestroy(RendererPtr renderer) override = 0;
+        virtual void onDestroy() override = 0;
 
      private:
         TextureSamplingMode _samplingMode = TextureSamplingMode::kNearest;

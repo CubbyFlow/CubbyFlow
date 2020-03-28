@@ -20,9 +20,10 @@
 #include <Core/Vector/Vector4.h>
 #include <Core/Array/Array2.h>
 #include <GLFW/glfw3.h>
-#include <glad/glad.h>
+#include <GL/glew.h>
 #include <cassert>
 #include <vector>
+#include <iostream>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -67,6 +68,8 @@ namespace CubbyRender {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, CUBBYFLOW_GL_MAJOR_VERSION);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, CUBBYFLOW_GL_MINOR_VERSION);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	    glfwWindowHint(GLFW_SAMPLES, 4);
+	    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 #if defined(CUBBYFLOW_MACOSX)
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
@@ -102,7 +105,10 @@ namespace CubbyRender {
 
     int GL3Application::run(int numberOfFrames, EncodingCallback callback)
     {
-        assert( validateApplication() );
+        bool bValidation = validateApplication();
+        if (!bValidation)
+            abort();
+
         CUBBYFLOW_INFO << "Application validation before running simulation success";
         _window->requestRender(1);
 
@@ -137,7 +143,7 @@ namespace CubbyRender {
                     Size2 framebufferSize = _window->getFramebufferSize();
                     const auto& frame = _window->getRenderer()->getCurrentFrame(framebufferSize);
                     
-                    callback(frame);
+                    callback(framebufferSize, frame);
                 }
             }
             else
@@ -166,9 +172,12 @@ namespace CubbyRender {
     void GL3Application::onWindowResized(GLFWwindow* glfwWindow, int width, int height)
     {
         UNUSED_VARIABLE(glfwWindow);
-        assert(gApplicationInstance);
+        if(!gApplicationInstance)
+            abort();
         auto window = gApplicationInstance->getApplicationWindow();
-        assert(gApplicationInstance->validateApplication());
+        bool result = gApplicationInstance->validateApplication();
+        if (!result)
+            abort();
 
         window->onWindowResized(width, height);
     }
@@ -176,9 +185,12 @@ namespace CubbyRender {
     void GL3Application::onWindowMoved(GLFWwindow* glfwWindow, int width, int height)
     {
         UNUSED_VARIABLE(glfwWindow);
-        assert(gApplicationInstance);
+        if(!gApplicationInstance)
+            abort();
         auto window = gApplicationInstance->getApplicationWindow();
-        assert(gApplicationInstance->validateApplication());
+        bool result = gApplicationInstance->validateApplication();
+        if (!result)
+            abort();
 
         window->onWindowMoved(width, height);
     }
@@ -186,9 +198,12 @@ namespace CubbyRender {
     void GL3Application::onKey(GLFWwindow* glfwWindow, int key, int scancode, int action, int mods)
     {
         UNUSED_VARIABLE(glfwWindow);
-        assert(gApplicationInstance);
+        if(!gApplicationInstance)
+            abort();
         auto window = gApplicationInstance->getApplicationWindow();
-        assert(gApplicationInstance->validateApplication());
+        bool result = gApplicationInstance->validateApplication();
+        if (!result)
+            abort();
 
         window->onKey(key, scancode, action, mods);
     }
@@ -196,9 +211,12 @@ namespace CubbyRender {
     void GL3Application::onMouseButton(GLFWwindow* glfwWindow, int button, int action, int mods)
     {   
         UNUSED_VARIABLE(glfwWindow);
-        assert(gApplicationInstance);
+        if(!gApplicationInstance)
+            abort();
         auto window = gApplicationInstance->getApplicationWindow();
-        assert(gApplicationInstance->validateApplication());
+        bool result = gApplicationInstance->validateApplication();
+        if (!result)
+            abort();
 
         window->onMouseButton(button, action, mods);
     }
@@ -206,9 +224,12 @@ namespace CubbyRender {
     void GL3Application::onMouseCursorEnter(GLFWwindow* glfwWindow, int entered)
     {
         UNUSED_VARIABLE(glfwWindow);
-        assert(gApplicationInstance);
+        if(!gApplicationInstance)
+            abort();
         auto window = gApplicationInstance->getApplicationWindow();
-        assert(gApplicationInstance->validateApplication());
+        bool result = gApplicationInstance->validateApplication();
+        if (!result)
+            abort();
 
         window->onMouseCursorEnter(entered);
     }
@@ -216,9 +237,12 @@ namespace CubbyRender {
     void GL3Application::onMouseCursorPos(GLFWwindow* glfwWindow, double x, double y)
     {
         UNUSED_VARIABLE(glfwWindow);
-        assert(gApplicationInstance);
+        if(!gApplicationInstance)
+            abort();
         auto window = gApplicationInstance->getApplicationWindow();
-        assert(gApplicationInstance->validateApplication());
+        bool result = gApplicationInstance->validateApplication();
+        if (!result)
+            abort();
 
         window->onMouseCursorPos(x, y);
     }
@@ -226,9 +250,12 @@ namespace CubbyRender {
     void GL3Application::onMouseScroll(GLFWwindow* glfwWindow, double deltaX, double deltaY)
     {
         UNUSED_VARIABLE(glfwWindow);
-        assert(gApplicationInstance);
+        if(!gApplicationInstance)
+            abort();
         auto window = gApplicationInstance->getApplicationWindow();
-        assert(gApplicationInstance->validateApplication());
+        bool result = gApplicationInstance->validateApplication();
+        if (!result)
+            abort();
 
         window->onMouseScroll(deltaX, deltaY);
     }
@@ -236,9 +263,12 @@ namespace CubbyRender {
     void GL3Application::onChar(GLFWwindow* glfwWindow, unsigned int code)
     {
         UNUSED_VARIABLE(glfwWindow);
-        assert(gApplicationInstance);
+        if(!gApplicationInstance)
+            abort();
         auto window = gApplicationInstance->getApplicationWindow();
-        assert(gApplicationInstance->validateApplication());
+        bool result = gApplicationInstance->validateApplication();
+        if (!result)
+            abort();
 
         window->onChar(code);
     }
@@ -246,15 +276,19 @@ namespace CubbyRender {
     void GL3Application::onDrop(GLFWwindow* glfwWindow, int numDroppedFiles, const char** pathNames)
     {
         UNUSED_VARIABLE(glfwWindow);
-        assert(gApplicationInstance);
+        if(!gApplicationInstance)
+            abort();
         auto window = gApplicationInstance->getApplicationWindow();
-        assert(gApplicationInstance->validateApplication());
+        bool result = gApplicationInstance->validateApplication();
+        if (!result)
+            abort();
 
         window->onDrop(numDroppedFiles, pathNames);
     }
 
     void GL3Application::onErrorEvent(int error, const char* description)
     {
+        std::cout << "Error code(" <<  error << ")  " << description << std::endl;
         CUBBYFLOW_ERROR << "Error code(" <<  error << ")  " << description;
     }
 

@@ -17,8 +17,12 @@
 #include <Core/Utils/Logging.h>
 #include <pystring/pystring.h>
 #include <fstream>
+#include <cstdio>
 
-#include <png.h>
+extern "C" 
+{
+    #include <png.h>
+}
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -28,61 +32,83 @@ namespace CubbyRender {
             //! Do nothing
         }
 
-        ScreenRecorder::ScreenRecorder(size_t width, size_t height)
-        {
-            SetSize(width, height);
-        }
-
-        ScreenRecorder::ScreenRecorder(Size2 frameDimension)
-        {
-            SetSize(frameDimension);
-        }
-
         ScreenRecorder::~ScreenRecorder()
         {
+            if (_pngRows)
+            {
+                free(_pngRows);
+            }
         }
 
-        bool ScreenRecorder::StartEncode(const std::string& filename, int fps)
+        void ScreenRecorder::setWorkingDirectory(const std::string& directory)
         {
-            UNUSED_VARIABLE(filename);
-            UNUSED_VARIABLE(fps);
-            return true;
+            _rootDir = directory;
         }
 
-        bool ScreenRecorder::FinishEncode()
+        bool ScreenRecorder::EncodeFrame(Size2 dim, const ArrayAccessor1<unsigned char>& pixels)
         {
-            return true;
-        }
+            constexpr size_t kNumChannels = 4;
+            size_t width = dim[0], height = dim[1];
 
-        bool ScreenRecorder::EncodeFrame(const ConstArrayAccessor2<Vector4UB>& frame)
-        {
-            UNUSED_VARIABLE(frame);
-            return true;
-        }
+            char baseName[256];
+            snprintf(baseName, sizeof(baseName), "frame_%04d.png", _frameCount);
+            std::string filename = pystring::os::path::join(_rootDir, baseName);
+            FILE *file = fopen(filename.c_str(), "wb");
 
-        Size2 ScreenRecorder::size() const
-        {
-            return _size;
-        }
+            if (file)
+            {
+                _pngRows = static_cast<png_byte**>(realloc(_pngRows, height * sizeof(png_byte*)));
+                png_byte* const pixelBytes = pixels.data();
+                
+                ParallelFor(ZERO_SIZE, height, [&](size_t i){
+                    _pngRows[height - i - 1] = &(pixelBytes[i * width * kNumChannels]);
+                });
 
-        size_t ScreenRecorder::Width() const
-        {
-            return _size[0];
-        }
+                png_structp png = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+                if (!png) 
+                {
+                    CUBBYFLOW_ERROR << "png_create_write_struct error";
+                    return false;
+                }
 
-        size_t ScreenRecorder::Height() const
-        {
-            return _size[1];
-        }
-        
-        void ScreenRecorder::SetSize(Size2 dim)
-        {
-            _size = dim;
-        }
+                png_infop info = png_create_info_struct(png);
+                if (!info)
+                {
+                    CUBBYFLOW_ERROR << "png_create_info_struct error";
+                    return false;
+                }
 
-        void ScreenRecorder::SetSize(size_t width, size_t height)
-        {
-            SetSize(Size2(width, height));
+                if (setjmp(png_jmpbuf(png)))
+                {
+                    CUBBYFLOW_ERROR << "setjmp(png_jmpbuf(png)) error";
+                    return false;
+                }
+
+                png_init_io(png, file);
+                png_set_IHDR(
+                    png,
+                    info,
+                    width,
+                    height,
+                    8,
+                    PNG_COLOR_TYPE_RGBA,
+                    PNG_INTERLACE_NONE,
+                    PNG_COMPRESSION_TYPE_DEFAULT,
+                    PNG_FILTER_TYPE_DEFAULT
+                );
+                png_write_info(png, info);
+                png_write_image(png, _pngRows);
+                png_write_end(png, NULL);
+                png_destroy_write_struct(&png, &info); 
+
+                fclose(file);
+                ++_frameCount;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 } 
 }

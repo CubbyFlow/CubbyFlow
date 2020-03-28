@@ -13,8 +13,9 @@
 #include <Framework/GL3/GL3Debugging.h>
 
 #include <Core/Utils/Logging.h>
-#include <glad/glad.h>
+#include <GL/glew.h>
 #include <string>
+#include <iostream>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -38,6 +39,7 @@ namespace CubbyRender {
         if (error.empty() == false)
         {
             CUBBYFLOW_ERROR << filename << ":" << line << ": error: " << error;
+			std::cerr << filename << ":" << line << ": error: " << error << std::endl;;
         }
 		else
 		{

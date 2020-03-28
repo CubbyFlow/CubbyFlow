@@ -12,7 +12,7 @@
 
 #include <Framework/Window.h>
 #include <Framework/Media/ScreenRecorder.h>
-#include <Core/Array/ArrayAccessor2.h>
+#include <Core/Array/ArrayAccessor1.h>
 #include <Core/Vector/Vector4.h>
 #include <memory>
 #include <string>
@@ -30,7 +30,7 @@ namespace CubbyRender {
     class Application
     {
     public: 
-        using EncodingCallback = std::function<bool(const ConstArrayAccessor2<Vector4UB>&)>;
+        using EncodingCallback = std::function<bool(Size2, const ArrayAccessor1<unsigned char>&)>;
         //! Default Constructor.
         Application();
 

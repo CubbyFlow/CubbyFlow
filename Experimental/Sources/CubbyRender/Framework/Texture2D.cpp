@@ -33,7 +33,7 @@ namespace CubbyRender {
 
         if (data.size() == Size2())
         {
-            destroy(renderer);
+            destroy();
         }
         else if (data.size() == _size)
         {
@@ -41,7 +41,7 @@ namespace CubbyRender {
         }
         else
         {
-            destroy(renderer);
+            destroy();
             _size = data.size();
             onAllocateTexture(renderer, material, data);
         }

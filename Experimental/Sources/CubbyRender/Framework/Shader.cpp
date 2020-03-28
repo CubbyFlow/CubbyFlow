@@ -45,7 +45,6 @@ namespace CubbyRender {
 
             _format = VertexFormat::Position3;
         }
-
         return onLoad(shaderMap);
     }
 

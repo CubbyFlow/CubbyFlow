@@ -32,9 +32,9 @@ namespace CubbyRender {
         onUnbind(renderer);
     }
 
-    void Object::destroy(RendererPtr renderer)
+    void Object::destroy()
     {
-        onDestroy(renderer);
+        onDestroy();
     }
 
 } 
