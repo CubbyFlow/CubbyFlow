@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_SIZE3_H
 #define CUBBYFLOW_SIZE3_H
 
-#include <Core/Point/Point3.h>
+#include <Core/Point/Point3.hpp>
 
 namespace CubbyFlow
 {

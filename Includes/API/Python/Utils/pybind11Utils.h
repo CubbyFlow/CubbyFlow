@@ -11,8 +11,8 @@
 #define CUBBYFLOW_PYTHON_PYBIND11_UTILS_H
 
 #include <Core/Math/Quaternion.hpp>
-#include <Core/Point/Point2.h>
-#include <Core/Point/Point3.h>
+#include <Core/Point/Point2.hpp>
+#include <Core/Point/Point3.hpp>
 #include <Core/Size/Size2.h>
 #include <Core/Size/Size3.h>
 #include <Core/Vector/Vector2.h>
