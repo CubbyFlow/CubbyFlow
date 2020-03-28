@@ -9,8 +9,8 @@
 *************************************************************************/
 #include <API/Python/Particle/ParticleSystemData.h>
 #include <API/Python/Utils/pybind11Utils.h>
-#include <Core/Particle/ParticleSystemData2.h>
-#include <Core/Particle/ParticleSystemData3.h>
+#include <Core/Particle/ParticleSystemData2.hpp>
+#include <Core/Particle/ParticleSystemData3.hpp>
 
 #include <pybind11/pybind11.h>
 

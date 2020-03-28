@@ -14,7 +14,7 @@
 #include <Core/Collider/Collider2.hpp>
 #include <Core/Emitter/ParticleEmitter2.hpp>
 #include <Core/Field/VectorField2.hpp>
-#include <Core/Particle/ParticleSystemData2.h>
+#include <Core/Particle/ParticleSystemData2.hpp>
 #include <Core/Utils/Constants.h>
 #include <Core/Vector/Vector2.h>
 

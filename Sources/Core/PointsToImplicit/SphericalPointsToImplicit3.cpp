@@ -7,7 +7,7 @@
 > Created Time: 2017/11/17
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <Core/Particle/ParticleSystemData3.h>
+#include <Core/Particle/ParticleSystemData3.hpp>
 #include <Core/PointsToImplicit/SphericalPointsToImplicit3.h>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver3.h>
 #include <Core/Utils/Logging.h>

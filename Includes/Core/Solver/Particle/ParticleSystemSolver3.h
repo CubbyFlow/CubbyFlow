@@ -14,7 +14,7 @@
 #include <Core/Collider/Collider3.hpp>
 #include <Core/Emitter/ParticleEmitter3.hpp>
 #include <Core/Field/VectorField3.hpp>
-#include <Core/Particle/ParticleSystemData3.h>
+#include <Core/Particle/ParticleSystemData3.hpp>
 #include <Core/Utils/Constants.h>
 #include <Core/Vector/Vector3.h>
 

@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_PARTICLE_EMITTER2_HPP
 #define CUBBYFLOW_PARTICLE_EMITTER2_HPP
 
-#include <Core/Particle/ParticleSystemData2.h>
+#include <Core/Particle/ParticleSystemData2.hpp>
 
 namespace CubbyFlow
 {
