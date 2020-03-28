@@ -3,7 +3,7 @@
 #include <ManualTests.h>
 
 #include <Core/Grid/CellCenteredScalarGrid2.hpp>
-#include <Core/PointsToImplicit/ZhuBridsonPointsToImplicit2.h>
+#include <Core/PointsToImplicit/ZhuBridsonPointsToImplicit2.hpp>
 
 #include <random>
 

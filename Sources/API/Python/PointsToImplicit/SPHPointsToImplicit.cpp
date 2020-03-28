@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/PointsToImplicit/SPHPointsToImplicit.h>
-#include <Core/PointsToImplicit/SPHPointsToImplicit2.h>
-#include <Core/PointsToImplicit/SPHPointsToImplicit3.h>
+#include <Core/PointsToImplicit/SPHPointsToImplicit2.hpp>
+#include <Core/PointsToImplicit/SPHPointsToImplicit3.hpp>
 
 #include <pybind11/pybind11.h>
 

@@ -3,7 +3,7 @@
 #include <ManualTests.h>
 
 #include <Core/Grid/CellCenteredScalarGrid2.hpp>
-#include <Core/PointsToImplicit/AnisotropicPointsToImplicit2.h>
+#include <Core/PointsToImplicit/AnisotropicPointsToImplicit2.hpp>
 
 #include <random>
 

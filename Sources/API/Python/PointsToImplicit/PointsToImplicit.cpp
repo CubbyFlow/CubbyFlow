@@ -9,8 +9,8 @@
 *************************************************************************/
 #include <API/Python/PointsToImplicit/PointsToImplicit.h>
 #include <API/Python/Utils/pybind11Utils.h>
-#include <Core/PointsToImplicit/PointsToImplicit2.h>
-#include <Core/PointsToImplicit/PointsToImplicit3.h>
+#include <Core/PointsToImplicit/PointsToImplicit2.hpp>
+#include <Core/PointsToImplicit/PointsToImplicit3.hpp>
 
 #include <pybind11/pybind11.h>
 

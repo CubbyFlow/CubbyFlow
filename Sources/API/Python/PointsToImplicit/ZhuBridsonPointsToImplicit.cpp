@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/PointsToImplicit/ZhuBridsonPointsToImplicit.h>
-#include <Core/PointsToImplicit/ZhuBridsonPointsToImplicit2.h>
-#include <Core/PointsToImplicit/ZhuBridsonPointsToImplicit3.h>
+#include <Core/PointsToImplicit/ZhuBridsonPointsToImplicit2.hpp>
+#include <Core/PointsToImplicit/ZhuBridsonPointsToImplicit3.hpp>
 
 #include <pybind11/pybind11.h>
 

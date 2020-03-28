@@ -4,7 +4,7 @@
 
 #include <Core/Grid/VertexCenteredScalarGrid3.hpp>
 #include <Core/MarchingCubes/MarchingCubes.hpp>
-#include <Core/PointsToImplicit/AnisotropicPointsToImplicit3.h>
+#include <Core/PointsToImplicit/AnisotropicPointsToImplicit3.hpp>
 
 #include <random>
 
