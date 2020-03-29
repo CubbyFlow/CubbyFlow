@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Searcher/PointHashGridSearcher3.h>
+#include <Core/Searcher/PointHashGridSearcher3.hpp>
 
 using namespace CubbyFlow;
 

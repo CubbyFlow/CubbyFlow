@@ -11,10 +11,10 @@
 #ifndef CUBBYFLOW_PARTICLE_SYSTEM_DATA3_HPP
 #define CUBBYFLOW_PARTICLE_SYSTEM_DATA3_HPP
 
-#include <Core/Searcher/PointNeighborSearcher3.h>
 #include <Core/Utils/Serialization.h>
 #include <Core/Vector/Vector3.h>
 #include <Core/Array/Array1.hpp>
+#include <Core/Searcher/PointNeighborSearcher3.hpp>
 
 #include <memory>
 #include <vector>

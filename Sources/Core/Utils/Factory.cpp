@@ -17,14 +17,14 @@
 #include <Core/Grid/VertexCenteredScalarGrid3.hpp>
 #include <Core/Grid/VertexCenteredVectorGrid2.hpp>
 #include <Core/Grid/VertexCenteredVectorGrid3.hpp>
-#include <Core/Searcher/PointHashGridSearcher2.h>
-#include <Core/Searcher/PointHashGridSearcher3.h>
-#include <Core/Searcher/PointKdTreeSearcher2.h>
-#include <Core/Searcher/PointKdTreeSearcher3.h>
-#include <Core/Searcher/PointParallelHashGridSearcher2.h>
-#include <Core/Searcher/PointParallelHashGridSearcher3.h>
-#include <Core/Searcher/PointSimpleListSearcher2.h>
-#include <Core/Searcher/PointSimpleListSearcher3.h>
+#include <Core/Searcher/PointHashGridSearcher2.hpp>
+#include <Core/Searcher/PointHashGridSearcher3.hpp>
+#include <Core/Searcher/PointKdTreeSearcher2.hpp>
+#include <Core/Searcher/PointKdTreeSearcher3.hpp>
+#include <Core/Searcher/PointParallelHashGridSearcher2.hpp>
+#include <Core/Searcher/PointParallelHashGridSearcher3.hpp>
+#include <Core/Searcher/PointSimpleListSearcher2.hpp>
+#include <Core/Searcher/PointSimpleListSearcher3.hpp>
 #include <Core/Utils/Factory.h>
 
 #include <memory>

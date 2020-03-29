@@ -8,8 +8,6 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Searcher/PointNeighborSearcher2.h>
-#include <Core/Searcher/PointParallelHashGridSearcher2.h>
 #include <Core/Utils/Factory.h>
 #include <Core/Utils/FlatbuffersHelper.h>
 #include <Core/Utils/Logging.h>
@@ -17,6 +15,8 @@
 #include <Core/Utils/Timer.h>
 #include <Core/Vector/Vector2.h>
 #include <Core/Particle/ParticleSystemData2.hpp>
+#include <Core/Searcher/PointNeighborSearcher2.hpp>
+#include <Core/Searcher/PointParallelHashGridSearcher2.hpp>
 
 #include <Flatbuffers/generated/ParticleSystemData2_generated.h>
 

@@ -7,10 +7,10 @@
 #include <Core/BoundingBox/BoundingBox3.hpp>
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>
 #include <Core/PointGenerator/TrianglePointGenerator.hpp>
-#include <Core/Searcher/PointHashGridSearcher2.h>
-#include <Core/Searcher/PointHashGridSearcher3.h>
-#include <Core/Searcher/PointParallelHashGridSearcher2.h>
-#include <Core/Searcher/PointParallelHashGridSearcher3.h>
+#include <Core/Searcher/PointHashGridSearcher2.hpp>
+#include <Core/Searcher/PointHashGridSearcher3.hpp>
+#include <Core/Searcher/PointParallelHashGridSearcher2.hpp>
+#include <Core/Searcher/PointParallelHashGridSearcher3.hpp>
 
 using namespace CubbyFlow;
 

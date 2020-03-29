@@ -1,7 +1,7 @@
 #include "benchmark/benchmark.h"
 
 #include <Core/Array/Array1.hpp>
-#include <Core/Searcher/PointParallelHashGridSearcher3.h>
+#include <Core/Searcher/PointParallelHashGridSearcher3.hpp>
 #include <Core/Vector/Vector3.h>
 
 #include <random>

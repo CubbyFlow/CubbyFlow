@@ -14,8 +14,8 @@
 #include <Core/Grid/ScalarGrid3.hpp>
 #include <Core/Grid/VectorGrid2.hpp>
 #include <Core/Grid/VectorGrid3.hpp>
-#include <Core/Searcher/PointNeighborSearcher2.h>
-#include <Core/Searcher/PointNeighborSearcher3.h>
+#include <Core/Searcher/PointNeighborSearcher2.hpp>
+#include <Core/Searcher/PointNeighborSearcher3.hpp>
 
 namespace CubbyFlow
 {

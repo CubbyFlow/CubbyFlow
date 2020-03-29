@@ -9,12 +9,12 @@
 // property of any third parties.
 
 #include <Core/SPH/SPHSystemData2.h>
-#include <Core/Searcher/PointKdTreeSearcher2.h>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver2.h>
 #include <Core/Utils/Logging.h>
 #include <Core/Math/SVD.hpp>
 #include <Core/Matrix/Matrix2x2.hpp>
 #include <Core/PointsToImplicit/AnisotropicPointsToImplicit2.hpp>
+#include <Core/Searcher/PointKdTreeSearcher2.hpp>
 
 namespace CubbyFlow
 {
