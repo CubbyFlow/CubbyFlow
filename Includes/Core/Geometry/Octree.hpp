@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_OCTREE_HPP
 #define CUBBYFLOW_OCTREE_HPP
 
-#include <Core/QueryEngine/IntersectionQueryEngine3.h>
-#include <Core/QueryEngine/NearestNeighborQueryEngine3.h>
+#include <Core/QueryEngine/IntersectionQueryEngine3.hpp>
+#include <Core/QueryEngine/NearestNeighborQueryEngine3.hpp>
 
 namespace CubbyFlow
 {

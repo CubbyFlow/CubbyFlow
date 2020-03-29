@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_BVH2_HPP
 #define CUBBYFLOW_BVH2_HPP
 
-#include <Core/QueryEngine/IntersectionQueryEngine2.h>
-#include <Core/QueryEngine/NearestNeighborQueryEngine2.h>
+#include <Core/QueryEngine/IntersectionQueryEngine2.hpp>
+#include <Core/QueryEngine/NearestNeighborQueryEngine2.hpp>
 
 namespace CubbyFlow
 {
