@@ -10,7 +10,6 @@
 #include <../ClaraUtils.h>
 
 #include <Core/Utils/Logging.h>
-#include <Framework/Common.h>
 #include <Clara/include/clara.hpp>
 #include <pystring/pystring.h>
 
@@ -20,15 +19,13 @@
 #include <sys/stat.h>
 #endif
 
-#include <Framework/Media/ScreenRecorder.h>
-
-#include <Framework/GL3/GL3Application.h>
-#include <Framework/GL3/GL3Shader.h>
-#include <Framework/GL3/GL3Renderer.h>
-#include <Framework/Application.h>
-#include <Framework/Window.h>
-#include <Framework/Shader.h>
-#include <Framework/Material.h>
+#include <Framework/Window/Window.h>
+#include <Framework/Utils/Common.h>
+#include <Framework/Renderable/Material.h>
+#include <GL3/Application/GL3Application.h>
+#include <GL3/Shader/GL3Shader.h>
+#include <GL3/Renderer/GL3Renderer.h>
+#include <Media/ScreenRecorder.h>
 #include <Core/Array/Array1.h>
 #include <Core/Size/Size3.h>
 
