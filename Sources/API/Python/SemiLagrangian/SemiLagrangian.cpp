@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/SemiLagrangian/SemiLagrangian.h>
-#include <Core/SemiLagrangian/SemiLagrangian2.h>
-#include <Core/SemiLagrangian/SemiLagrangian3.h>
+#include <Core/SemiLagrangian/SemiLagrangian2.hpp>
+#include <Core/SemiLagrangian/SemiLagrangian3.hpp>
 
 #include <pybind11/pybind11.h>
 

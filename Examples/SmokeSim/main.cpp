@@ -18,8 +18,8 @@
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>
 #include <Core/Math/MathUtils.hpp>
-#include <Core/SemiLagrangian/CubicSemiLagrangian3.h>
-#include <Core/SemiLagrangian/SemiLagrangian3.h>
+#include <Core/SemiLagrangian/CubicSemiLagrangian3.hpp>
+#include <Core/SemiLagrangian/SemiLagrangian3.hpp>
 #include <Core/Solver/Grid/GridSmokeSolver3.h>
 #include <Core/Utils/Logging.h>
 

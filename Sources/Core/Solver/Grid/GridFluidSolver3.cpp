@@ -9,7 +9,7 @@
 *************************************************************************/
 #include <Core/Array/ArrayUtils.hpp>
 #include <Core/LevelSet/LevelSetUtils.hpp>
-#include <Core/SemiLagrangian/CubicSemiLagrangian3.h>
+#include <Core/SemiLagrangian/CubicSemiLagrangian3.hpp>
 #include <Core/Solver/Grid/GridBackwardEulerDiffusionSolver3.h>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.h>
 #include <Core/Solver/Grid/GridFluidSolver3.h>

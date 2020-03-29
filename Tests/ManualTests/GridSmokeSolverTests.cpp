@@ -8,7 +8,7 @@
 #include <Core/Geometry/Box3.hpp>
 #include <Core/Geometry/Sphere2.hpp>
 #include <Core/Geometry/Sphere3.hpp>
-#include <Core/SemiLagrangian/CubicSemiLagrangian3.h>
+#include <Core/SemiLagrangian/CubicSemiLagrangian3.hpp>
 #include <Core/Solver/Grid/GridSinglePhasePressureSolver2.h>
 #include <Core/Solver/Grid/GridSmokeSolver2.h>
 #include <Core/Solver/Grid/GridSmokeSolver3.h>
