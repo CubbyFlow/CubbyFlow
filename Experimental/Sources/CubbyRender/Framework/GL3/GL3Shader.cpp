@@ -14,7 +14,7 @@
 #include <Framework/GL3/GL3Debugging.h>
 #include <Framework/Common.h>
 #include <Core/Utils/Logging.h>
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <cassert>
 #include <vector>
 
@@ -76,7 +76,7 @@ namespace CubbyRender {
 
     GL3Shader::~GL3Shader()
     {
-        //! destroy(); --> this call cause segmentatiln fault. why???..
+        destroy();
     }
     
     GLuint GL3Shader::getProgramID() const
@@ -187,7 +187,7 @@ namespace CubbyRender {
     {
         if (static_cast<int>(_programID))
         {
-            glDeleteProgram(_programID);
+            //!glDeleteProgram(_programID); --> this call cause segmentatiln fault. why???..
             _programID = 0U;
         }
     }

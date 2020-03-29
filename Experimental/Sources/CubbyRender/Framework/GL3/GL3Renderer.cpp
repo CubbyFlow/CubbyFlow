@@ -21,7 +21,7 @@
 #include <Core/Vector/Vector4.h>
 #include <Core/Utils/Logging.h>
 #include <GLFW/glfw3.h>
-#include <GL/glew.h>
+#include <glad/glad.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -164,13 +164,10 @@ namespace CubbyRender {
 
     int GL3Renderer::initializeGL()
     {
-        glewExperimental = GL_TRUE;
-
-        GLenum errorCode = glewInit(); 
-        if (GLEW_OK != errorCode) 
+        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) 
         {
-        	CUBBYFLOW_ERROR << "Failed to initialize OpenGL";
-            return -1; 
+            CUBBYFLOW_ERROR << "Failed to initialize OpenGL";
+            return -1;                
         }
 
         return 0;

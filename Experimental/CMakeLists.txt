@@ -71,10 +71,6 @@ if (USE_GL)
             endif()
         endif()
 
-        add_subdirectory(Libraries/glew-cmake)
-        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/glew-cmake/include)
-        set(GLEW_LIBRARY libglew_shared)
-
         # Add Imgui
         add_subdirectory(Libraries/imgui)
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/imgui)
@@ -83,14 +79,13 @@ if (USE_GL)
         set(OPENGL_LIBRARIES 
             ${OPENGL_LIBRARIES}
             ${GLFW_LIBRARY}
-            ${GLEW_LIBRARY}
-            ${EGL_LIBRARY}
             ${IMGUI_LIBRARY}
             ${COREFOUNDATION_LIB})
 
         # Include other directories
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Includes/CubbyRender)
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/gli)
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/glad)
 
     else()
         set(USE_GL OFF)

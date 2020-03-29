@@ -17,7 +17,7 @@
 #include <Framework/Material.h>
 #include <Framework/Renderer.h>
 #include <Framework/Common.h>
-#include <GL/glew.h>
+#include <glad/glad.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {

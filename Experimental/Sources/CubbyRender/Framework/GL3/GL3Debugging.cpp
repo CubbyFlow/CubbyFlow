@@ -13,7 +13,7 @@
 #include <Framework/GL3/GL3Debugging.h>
 
 #include <Core/Utils/Logging.h>
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <string>
 #include <iostream>
 

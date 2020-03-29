@@ -14,7 +14,7 @@
 #ifdef CUBBYFLOW_USE_GL
 
 //! OpenGL Stuffs
-#include <GL/glew.h>
+#include <glad/glad.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {

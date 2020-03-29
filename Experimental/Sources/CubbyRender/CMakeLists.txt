@@ -10,7 +10,8 @@ set(CUBBYRENDER_INCLUDE_DIRS
     ${root_dir}/../Libraries)
 
 if (USE_GL)
-    list(APPEND CUBBYRENDER_INCLUDE_DIRS)
+    list(APPEND CUBBYRENDER_INCLUDE_DIRS
+    ${root_dir}/Libraries/glad)
 endif()
 if (USE_CUDA)
 list(APPEND CUBBYRENDER_INCLUDE_DIRS
@@ -34,7 +35,8 @@ file(GLOB_RECURSE sources
 
 if (USE_GL)
     file(GLOB sources
-        ${sources})
+        ${sources}
+        ${root_dir}/Libraries/glad/glad/glad.cpp)
 endif()
 if (USE_CUDA)
     file(GLOB sources

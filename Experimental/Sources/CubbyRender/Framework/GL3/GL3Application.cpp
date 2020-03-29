@@ -20,7 +20,7 @@
 #include <Core/Vector/Vector4.h>
 #include <Core/Array/Array2.h>
 #include <GLFW/glfw3.h>
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <cassert>
 #include <vector>
 #include <iostream>
@@ -110,7 +110,8 @@ namespace CubbyRender {
             abort();
 
         CUBBYFLOW_INFO << "Application validation before running simulation success";
-        _window->requestRender(1);
+        //! Frequently used local variables.
+        RendererPtr rendererPtr = _window->getRenderer();
 
         _window->setIsUpdateEnabled(true);
         _window->requestRender(numberOfFrames);
@@ -136,15 +137,15 @@ namespace CubbyRender {
                     glfwPostEmptyEvent();
                 }
 
-                glfwSwapBuffers(glfwWindow);
-
                 if (callback)
                 {
                     Size2 framebufferSize = _window->getFramebufferSize();
-                    const auto& frame = _window->getRenderer()->getCurrentFrame(framebufferSize);
+                    const auto& frame = rendererPtr->getCurrentFrame(framebufferSize);
                     
                     callback(framebufferSize, frame);
                 }
+                
+                glfwSwapBuffers(glfwWindow);
             }
             else
             {
