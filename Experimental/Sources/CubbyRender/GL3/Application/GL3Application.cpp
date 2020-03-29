@@ -23,7 +23,6 @@
 #include <glad/glad.h>
 #include <cassert>
 #include <vector>
-#include <iostream>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -289,7 +288,6 @@ namespace CubbyRender {
 
     void GL3Application::onErrorEvent(int error, const char* description)
     {
-        std::cout << "Error code(" <<  error << ")  " << description << std::endl;
         CUBBYFLOW_ERROR << "Error code(" <<  error << ")  " << description;
     }
 

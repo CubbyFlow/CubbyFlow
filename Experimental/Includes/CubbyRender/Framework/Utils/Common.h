@@ -11,6 +11,7 @@
 #define CUBBYFLOW_COMMON_H
 
 //! Cubbyflow public headers
+#include <Core/Utils/Macros.h>
 #include <Core/Utils/Constants.h>
 #include <Core/Utils/Macros.h>
 #include <Core/Utils/Logging.h>
