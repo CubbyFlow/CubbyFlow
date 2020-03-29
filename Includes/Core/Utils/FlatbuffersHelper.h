@@ -10,8 +10,8 @@
 #ifndef CUBBYFLOW_FLATBUFFERS_HELPER_H
 #define CUBBYFLOW_FLATBUFFERS_HELPER_H
 
-#include <Core/Size/Size2.h>
-#include <Core/Size/Size3.h>
+#include <Core/Size/Size2.hpp>
+#include <Core/Size/Size3.hpp>
 #include <Core/Vector/Vector2.h>
 #include <Core/Vector/Vector3.h>
 

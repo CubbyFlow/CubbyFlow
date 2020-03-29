@@ -11,10 +11,10 @@
 #ifndef CUBBYFLOW_GRID3_HPP
 #define CUBBYFLOW_GRID3_HPP
 
-#include <Core/Size/Size3.h>
 #include <Core/Utils/Serialization.h>
 #include <Core/Vector/Vector3.h>
 #include <Core/BoundingBox/BoundingBox3.hpp>
+#include <Core/Size/Size3.hpp>
 
 #include <memory>
 #include <string>

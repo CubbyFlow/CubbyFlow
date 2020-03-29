@@ -11,9 +11,9 @@
 #ifndef CUBBYFLOW_ARRAY3_HPP
 #define CUBBYFLOW_ARRAY3_HPP
 
-#include <Core/Size/Size3.h>
 #include <Core/Array/Array.hpp>
 #include <Core/Array/ArrayAccessor3.hpp>
+#include <Core/Size/Size3.hpp>
 
 #include <vector>
 

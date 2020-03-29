@@ -11,9 +11,9 @@
 #ifndef CUBBYFLOW_ARRAY2_HPP
 #define CUBBYFLOW_ARRAY2_HPP
 
-#include <Core/Size/Size2.h>
 #include <Core/Array/Array.hpp>
 #include <Core/Array/ArrayAccessor2.hpp>
+#include <Core/Size/Size2.hpp>
 
 #include <vector>
 

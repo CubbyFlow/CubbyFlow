@@ -31,7 +31,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <Core/Size/Size3.h>
 #include <Core/Utils/Constants.h>
 #include <Core/Utils/Macros.h>
 #include <Core/Vector/Vector3.h>
@@ -41,6 +40,7 @@
 #include <Core/Geometry/TriangleMeshToSDF.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>
 #include <Core/Point/Point3.hpp>
+#include <Core/Size/Size3.hpp>
 
 #include <algorithm>
 #include <cassert>

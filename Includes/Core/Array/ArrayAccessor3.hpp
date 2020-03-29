@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_ARRAY_ACCESSOR3_HPP
 #define CUBBYFLOW_ARRAY_ACCESSOR3_HPP
 
-#include <Core/Size/Size3.h>
 #include <Core/Array/ArrayAccessor.hpp>
+#include <Core/Size/Size3.hpp>
 
 namespace CubbyFlow
 {

@@ -19,7 +19,7 @@
 #include <Core/PointsToImplicit/SPHPointsToImplicit3.hpp>
 #include <Core/PointsToImplicit/ZhuBridsonPointsToImplicit3.hpp>
 #include <Core/MarchingCubes/MarchingCubes.hpp>
-#include <Core/Size/Size3.h>
+#include <Core/Size/Size3.hpp>
 #include <Core/Utils/Serialization.h>
 
 #include <Clara/include/clara.hpp>

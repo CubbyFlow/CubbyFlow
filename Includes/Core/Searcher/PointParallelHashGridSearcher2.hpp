@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_POINT_PARALLEL_HASH_GRID_SEARCHER2_HPP
 #define CUBBYFLOW_POINT_PARALLEL_HASH_GRID_SEARCHER2_HPP
 
-#include <Core/Size/Size2.h>
 #include <Core/Searcher/PointNeighborSearcher2.hpp>
+#include <Core/Size/Size2.hpp>
 
 namespace CubbyFlow
 {

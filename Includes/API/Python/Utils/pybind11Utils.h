@@ -13,8 +13,8 @@
 #include <Core/Math/Quaternion.hpp>
 #include <Core/Point/Point2.hpp>
 #include <Core/Point/Point3.hpp>
-#include <Core/Size/Size2.h>
-#include <Core/Size/Size3.h>
+#include <Core/Size/Size2.hpp>
+#include <Core/Size/Size3.hpp>
 #include <Core/Vector/Vector2.h>
 #include <Core/Vector/Vector3.h>
 #include <Core/Vector/Vector4.h>
