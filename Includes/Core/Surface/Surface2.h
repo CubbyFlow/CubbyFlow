@@ -11,7 +11,7 @@
 #define CUBBYFLOW_SURFACE2_H
 
 #include <Core/BoundingBox/BoundingBox2.hpp>
-#include <Core/Ray/Ray2.h>
+#include <Core/Ray/Ray2.hpp>
 #include <Core/Transform/Transform2.h>
 #include <Core/Vector/Vector2.h>
 

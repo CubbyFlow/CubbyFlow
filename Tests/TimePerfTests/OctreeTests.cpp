@@ -4,7 +4,7 @@
 #include <Core/Geometry/Octree.hpp>
 #include <Core/Geometry/Triangle3.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
-#include <Core/Ray/Ray3.h>
+#include <Core/Ray/Ray3.hpp>
 #include <Core/Vector/Vector3.h>
 
 #include <fstream>

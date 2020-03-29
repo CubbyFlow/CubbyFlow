@@ -12,7 +12,7 @@
 
 #include <Core/BoundingBox/BoundingBox3.hpp>
 #include <Core/Math/Quaternion.hpp>
-#include <Core/Ray/Ray3.h>
+#include <Core/Ray/Ray3.hpp>
 #include <Core/Vector/Vector3.h>
 
 namespace CubbyFlow

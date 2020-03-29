@@ -11,9 +11,9 @@
 #ifndef CUBBYFLOW_BOUNDING_BOX3_HPP
 #define CUBBYFLOW_BOUNDING_BOX3_HPP
 
-#include <Core/Ray/Ray3.h>
 #include <Core/Vector/Vector3.h>
 #include <Core/BoundingBox/BoundingBox.hpp>
+#include <Core/Ray/Ray3.hpp>
 
 #include <limits>
 
