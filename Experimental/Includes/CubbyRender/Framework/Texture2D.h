@@ -51,10 +51,10 @@ namespace CubbyRender {
         virtual void onSamplingModeChanged(const TextureSamplingMode& mode) override = 0;
 
         //! implementation of bind method
-        virtual void onBind(RendererPtr renderer) override = 0;
+        virtual void onBind(RendererPtr renderer, unsigned int slotID) override = 0;
         
         //! implementation of unbind method
-        virtual void onUnbind(RendererPtr renderer) override = 0;
+        virtual void onUnbind(RendererPtr renderer, unsigned int slotID) override = 0;
 
         //! implementation of destry method
         virtual void onDestroy() override = 0;
@@ -62,9 +62,9 @@ namespace CubbyRender {
         //! Allocate gpu 
         virtual void onAllocateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor2<Vector4F>& data) = 0;
 
-     private:
         Array2<Vector4F> _data;
         Size2 _size;
+    private:
     };
 
     using Texture2DPtr = std::shared_ptr<Texture2D>;

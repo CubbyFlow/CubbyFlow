@@ -32,14 +32,20 @@ namespace CubbyRender {
         _samplingMode = mode;
     }
 
-    void Texture::setSlotID(unsigned int slotID)
+    void Texture::bind(RendererPtr renderer, unsigned int slotID)
     {
-        _slotID = slotID;
+        onBind(renderer, slotID);
     }
 
-    unsigned int Texture::getSlotID() const
+    void Texture::unbind(RendererPtr renderer, unsigned int slotID)
     {
-        return _slotID;
+        onUnbind(renderer, slotID);
     }
+
+    void Texture::destroy()
+    {
+        onDestroy();    
+    }
+    
 } 
 }

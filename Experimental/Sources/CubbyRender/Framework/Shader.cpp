@@ -81,5 +81,16 @@ namespace CubbyRender {
         return _format;
     }
 
+    const ShaderParameters& Shader::getParameters() const
+    {
+        return _parameters;
+    }
+
+    void Shader::setParameters(const ShaderParameters& parameters)
+    {
+        _parameters = parameters;
+    }
+
+
 } 
 }

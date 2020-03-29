@@ -22,7 +22,6 @@ namespace CubbyRender {
     class Renderer;
     class Renderable;
     class Shader;
-    class ShaderParameter;
     class Texture;
     class VertexBuffer;
     class Window;
@@ -36,7 +35,6 @@ namespace CubbyRender {
     using ConstRendererPtr   = std::shared_ptr<const Renderer>;
     using RenderablePtr      = std::shared_ptr<Renderable>;
     using ShaderPtr          = std::shared_ptr<Shader>;
-    using ShaderParameterPtr = std::shared_ptr<ShaderParameter>;
     using TexturePtr         = std::shared_ptr<Texture>;
     using VertexBufferPtr    = std::shared_ptr<VertexBuffer>;
     using WindowPtr          = std::shared_ptr<Window>;

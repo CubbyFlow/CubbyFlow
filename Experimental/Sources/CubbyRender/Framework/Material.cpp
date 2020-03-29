@@ -31,6 +31,16 @@ namespace CubbyRender {
         destroy();
     }
 
+    void Material::addTexture(unsigned int slotID, TexturePtr texture)
+    {
+        _textures.emplace_back(slotID, texture);
+    }
+
+    void Material::setShader(ShaderPtr shader)
+    {
+        _shader = shader;
+    }
+
     ShaderPtr Material::getShader()
     {
         return _shader;
@@ -38,6 +48,9 @@ namespace CubbyRender {
 
     void Material::destroy()
     {
+        for (auto pair : _textures)
+            pair.second.reset();
+        _textures.clear();
         _shader.reset();
     }
 

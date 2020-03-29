@@ -64,10 +64,16 @@ if (USE_GL)
                 set(GLFW_LIBRARY glfw)
             else()
                 # From pkg-config glfw3 --static --libs
-                set(GLFW_LIBRARY
-                    glfw
-                    rt m dl Xrandr Xinerama Xcursor Xext Xrender Xfixes X11 pthread
-                    xcb Xau Xdmcp)
+                if (GLFW_USE_OSMESA)
+                    set(GLFW_LIBRARY
+                        glfw OSMesa)
+                else()
+                    set(GLFW_LIBRARY
+                        glfw
+                        rt m dl Xrandr Xinerama Xcursor Xext Xrender Xfixes X11 pthread
+                        xcb Xau Xdmcp)
+                endif()
+                
             endif()
         endif()
 

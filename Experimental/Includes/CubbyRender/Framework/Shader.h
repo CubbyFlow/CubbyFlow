@@ -13,6 +13,7 @@
 #include <Framework/Prerequisites.h>
 #include <Framework/Object.h>
 #include <Framework/Vertex.h>
+#include <Framework/ShaderParameters.h>
 #include <unordered_map>
 #include <string>
 
@@ -41,6 +42,10 @@ namespace CubbyRender {
 
         VertexFormat getInputVertexFormat() const;
 
+        const ShaderParameters& getParameters() const;
+
+        void setParameters(const ShaderParameters& parameters);
+
     protected:
         //! implementation of shader load
         virtual int onLoad(const ShaderMap& shaderMap) = 0;
@@ -56,6 +61,7 @@ namespace CubbyRender {
 
         //! Input format of the vertex shader.
         VertexFormat _format = VertexFormat::Position3Normal3;
+        ShaderParameters _parameters;
     private:
     };
 

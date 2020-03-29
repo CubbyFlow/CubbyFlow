@@ -30,14 +30,19 @@ namespace CubbyRender {
         //! Destructor.
         virtual ~Material();
 
+        void addTexture(unsigned int slotID, TexturePtr texture);
+
+        void setShader(ShaderPtr shader);
+
         ShaderPtr getShader();
 
         void destroy();
-
+        
      protected:
 
      private:
         ShaderPtr _shader;
+        std::vector<std::pair<unsigned int, TexturePtr>> _textures;
     };
 
     using MaterialPtr = std::shared_ptr<Material>;

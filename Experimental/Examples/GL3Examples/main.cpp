@@ -46,7 +46,12 @@ int RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFram
 {
     auto window = application->createWindow("SPH Simulation", resX, resY);
     ShaderPtr simpleShader = std::make_shared<GL3Shader>("simple_shader");
-    
+
+    ShaderParameters params;
+    params.setParameter("color", Vector4F(0.5f, 0.5f, 0.5f, 1.0f));
+
+    simpleShader->setParameters(params);
+
     MaterialPtr simpleMaterial = std::make_shared<Material>(simpleShader);
     Array1<float> vertices = {
         -1.0f, +1.0f, +1.0f, // 0

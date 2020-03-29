@@ -46,28 +46,27 @@ namespace CubbyRender {
         //! Sets the sampling mode of the texture.
         void setSamplingMode(const TextureSamplingMode& mode);
 
-        //! Sets the texture slot id.
-        void setSlotID(unsigned int slotID);
+        void bind(RendererPtr renderer, unsigned int slotID);
 
-        //! Get the texture slot id.
-        unsigned int getSlotID() const;
+        void unbind(RendererPtr renderer, unsigned int slotID);
+
+        void destroy();
 
      protected:
         //! Called when sampling mode has changed.
         virtual void onSamplingModeChanged(const TextureSamplingMode& mode) = 0;
 
         //! implementation of bind method
-        virtual void onBind(RendererPtr renderer) override = 0;
+        virtual void onBind(RendererPtr renderer, unsigned int slotID) = 0;
         
         //! implementation of unbind method
-        virtual void onUnbind(RendererPtr renderer) override = 0;
+        virtual void onUnbind(RendererPtr renderer, unsigned int slotID) = 0;
 
         //! implementation of destry method
-        virtual void onDestroy() override = 0;
+        virtual void onDestroy() = 0;        
 
      private:
         TextureSamplingMode _samplingMode = TextureSamplingMode::kNearest;
-        unsigned int _slotID;
     };
 
     using TexturePtr = std::shared_ptr<Texture>;
