@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Solver/Grid/GridBlockedBoundaryConditionSolver.h>
-#include <Core/Solver/Grid/GridBlockedBoundaryConditionSolver2.h>
-#include <Core/Solver/Grid/GridBlockedBoundaryConditionSolver3.h>
+#include <Core/Solver/Grid/GridBlockedBoundaryConditionSolver2.hpp>
+#include <Core/Solver/Grid/GridBlockedBoundaryConditionSolver3.hpp>
 
 #include <pybind11/pybind11.h>
 

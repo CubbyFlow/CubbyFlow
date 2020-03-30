@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Solver/LevelSet/IterativeLevelSetSolver.h>
-#include <Core/Solver/LevelSet/IterativeLevelSetSolver2.h>
-#include <Core/Solver/LevelSet/IterativeLevelSetSolver3.h>
+#include <Core/Solver/LevelSet/IterativeLevelSetSolver2.hpp>
+#include <Core/Solver/LevelSet/IterativeLevelSetSolver3.hpp>
 
 #include <pybind11/pybind11.h>
 

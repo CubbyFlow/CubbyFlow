@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver3.h>
+#include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver3.hpp>
 
 using namespace CubbyFlow;
 

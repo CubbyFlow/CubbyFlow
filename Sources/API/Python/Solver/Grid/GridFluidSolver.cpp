@@ -9,8 +9,8 @@
 *************************************************************************/
 #include <API/Python/Solver/Grid/GridFluidSolver.h>
 #include <API/Python/Utils/pybind11Utils.h>
-#include <Core/Solver/Grid/GridFluidSolver2.h>
-#include <Core/Solver/Grid/GridFluidSolver3.h>
+#include <Core/Solver/Grid/GridFluidSolver2.hpp>
+#include <Core/Solver/Grid/GridFluidSolver3.hpp>
 
 #include <pybind11/pybind11.h>
 

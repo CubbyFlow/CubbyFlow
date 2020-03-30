@@ -21,9 +21,9 @@
 #include <Core/Particle/ParticleSystemData3.hpp>
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>
 #include <Core/PointGenerator/GridPointGenerator3.hpp>
-#include <Core/Solver/Hybrid/APIC/APICSolver3.h>
-#include <Core/Solver/Hybrid/FLIP/FLIPSolver3.h>
-#include <Core/Solver/Hybrid/PIC/PICSolver3.h>
+#include <Core/Solver/Hybrid/APIC/APICSolver3.hpp>
+#include <Core/Solver/Hybrid/FLIP/FLIPSolver3.hpp>
+#include <Core/Solver/Hybrid/PIC/PICSolver3.hpp>
 #include <Core/Surface/ImplicitSurfaceSet3.h>
 #include <Core/Utils/Logging.h>
 

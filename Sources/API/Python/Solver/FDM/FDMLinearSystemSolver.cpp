@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Solver/FDM/FDMLinearSystemSolver.h>
-#include <Core/Solver/FDM/FDMLinearSystemSolver2.h>
-#include <Core/Solver/FDM/FDMLinearSystemSolver3.h>
+#include <Core/Solver/FDM/FDMLinearSystemSolver2.hpp>
+#include <Core/Solver/FDM/FDMLinearSystemSolver3.hpp>
 
 #include <pybind11/pybind11.h>
 

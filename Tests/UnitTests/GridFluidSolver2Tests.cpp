@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Solver/Grid/GridFluidSolver2.h>
+#include <Core/Solver/Grid/GridFluidSolver2.hpp>
 
 using namespace CubbyFlow;
 

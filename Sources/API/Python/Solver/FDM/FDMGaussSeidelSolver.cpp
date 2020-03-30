@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Solver/FDM/FDMGaussSeidelSolver.h>
-#include <Core/Solver/FDM/FDMGaussSeidelSolver2.h>
-#include <Core/Solver/FDM/FDMGaussSeidelSolver3.h>
+#include <Core/Solver/FDM/FDMGaussSeidelSolver2.hpp>
+#include <Core/Solver/FDM/FDMGaussSeidelSolver3.hpp>
 
 #include <pybind11/pybind11.h>
 

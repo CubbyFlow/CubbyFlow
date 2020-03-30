@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Solver/Hybrid/FLIP/FLIPSolver3.h>
+#include <Core/Solver/Hybrid/FLIP/FLIPSolver3.hpp>
 
 using namespace CubbyFlow;
 

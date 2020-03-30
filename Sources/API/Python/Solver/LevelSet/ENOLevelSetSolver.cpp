@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Solver/LevelSet/ENOLevelSetSolver.h>
-#include <Core/Solver/LevelSet/ENOLevelSetSolver2.h>
-#include <Core/Solver/LevelSet/ENOLevelSetSolver3.h>
+#include <Core/Solver/LevelSet/ENOLevelSetSolver2.hpp>
+#include <Core/Solver/LevelSet/ENOLevelSetSolver3.hpp>
 
 #include <pybind11/pybind11.h>
 

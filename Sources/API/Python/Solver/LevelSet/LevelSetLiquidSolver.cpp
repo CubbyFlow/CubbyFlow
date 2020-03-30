@@ -9,8 +9,8 @@
 *************************************************************************/
 #include <API/Python/Solver/LevelSet/LevelSetLiquidSolver.h>
 #include <API/Python/Utils/pybind11Utils.h>
-#include <Core/Solver/LevelSet/LevelSetLiquidSolver2.h>
-#include <Core/Solver/LevelSet/LevelSetLiquidSolver3.h>
+#include <Core/Solver/LevelSet/LevelSetLiquidSolver2.hpp>
+#include <Core/Solver/LevelSet/LevelSetLiquidSolver3.hpp>
 
 #include <pybind11/pybind11.h>
 

@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Solver/Grid/GridBackwardEulerDiffusionSolver.h>
-#include <Core/Solver/Grid/GridBackwardEulerDiffusionSolver2.h>
-#include <Core/Solver/Grid/GridBackwardEulerDiffusionSolver3.h>
+#include <Core/Solver/Grid/GridBackwardEulerDiffusionSolver2.hpp>
+#include <Core/Solver/Grid/GridBackwardEulerDiffusionSolver3.hpp>
 
 #include <pybind11/pybind11.h>
 

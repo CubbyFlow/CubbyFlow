@@ -21,7 +21,7 @@
 #include <Core/Grid/ScalarGrid3.hpp>
 #include <Core/Math/MathUtils.hpp>
 #include <Core/MarchingCubes/MarchingCubes.hpp>
-#include <Core/Solver/LevelSet/LevelSetLiquidSolver3.h>
+#include <Core/Solver/LevelSet/LevelSetLiquidSolver3.hpp>
 #include <Core/Surface/ImplicitSurfaceSet3.h>
 #include <Core/Utils/Logging.h>
 

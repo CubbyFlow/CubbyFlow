@@ -9,8 +9,8 @@
 *************************************************************************/
 #include <API/Python/Solver/Hybrid/FLIP/FLIPSolver.h>
 #include <API/Python/Utils/pybind11Utils.h>
-#include <Core/Solver/Hybrid/FLIP/FLIPSolver2.h>
-#include <Core/Solver/Hybrid/FLIP/FLIPSolver3.h>
+#include <Core/Solver/Hybrid/FLIP/FLIPSolver2.hpp>
+#include <Core/Solver/Hybrid/FLIP/FLIPSolver3.hpp>
 
 #include <pybind11/pybind11.h>
 

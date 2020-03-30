@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Solver/Grid/GridFractionalBoundaryConditionSolver.h>
-#include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver2.h>
-#include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver3.h>
+#include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver2.hpp>
+#include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver3.hpp>
 
 #include <pybind11/pybind11.h>
 

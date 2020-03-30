@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Solver/FDM/FDMJacobiSolver.h>
-#include <Core/Solver/FDM/FDMJacobiSolver2.h>
-#include <Core/Solver/FDM/FDMJacobiSolver3.h>
+#include <Core/Solver/FDM/FDMJacobiSolver2.hpp>
+#include <Core/Solver/FDM/FDMJacobiSolver3.hpp>
 
 #include <pybind11/pybind11.h>
 

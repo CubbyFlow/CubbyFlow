@@ -3,7 +3,7 @@
 #include "gtest/gtest.h"
 
 #include <Core/Animation/Frame.hpp>
-#include <Core/Solver/Grid/GridFluidSolver3.h>
+#include <Core/Solver/Grid/GridFluidSolver3.hpp>
 
 using namespace CubbyFlow;
 

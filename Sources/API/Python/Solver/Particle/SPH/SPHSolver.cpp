@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Solver/Particle/SPH/SPHSolver.h>
-#include <Core/Solver/Particle/SPH/SPHSolver2.h>
-#include <Core/Solver/Particle/SPH/SPHSolver3.h>
+#include <Core/Solver/Particle/SPH/SPHSolver2.hpp>
+#include <Core/Solver/Particle/SPH/SPHSolver3.hpp>
 #include <Core/Utils/Constants.h>
 
 #include <pybind11/pybind11.h>

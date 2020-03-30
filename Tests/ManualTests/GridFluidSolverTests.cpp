@@ -4,10 +4,10 @@
 
 #include <Core/Collider/RigidBodyCollider2.hpp>
 #include <Core/Geometry/Sphere2.hpp>
-#include <Core/Solver/Grid/GridFluidSolver2.h>
-#include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver2.h>
-#include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver2.h>
-#include <Core/Solver/Grid/GridSinglePhasePressureSolver2.h>
+#include <Core/Solver/Grid/GridFluidSolver2.hpp>
+#include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver2.hpp>
+#include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver2.hpp>
+#include <Core/Solver/Grid/GridSinglePhasePressureSolver2.hpp>
 #include <Core/Surface/SurfaceToImplicit2.h>
 
 using namespace CubbyFlow;

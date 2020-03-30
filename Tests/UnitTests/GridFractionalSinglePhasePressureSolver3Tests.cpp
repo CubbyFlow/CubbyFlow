@@ -1,7 +1,7 @@
 #include "pch.h"
 
 #include <Core/Grid/CellCenteredScalarGrid3.hpp>
-#include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.h>
+#include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.hpp>
 
 using namespace CubbyFlow;
 

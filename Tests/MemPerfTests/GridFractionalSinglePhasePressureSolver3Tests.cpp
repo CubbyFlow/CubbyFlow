@@ -2,7 +2,7 @@
 
 #include "gtest/gtest.h"
 
-#include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.h>
+#include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.hpp>
 #include <Core/Grid/CellCenteredScalarGrid3.hpp>
 #include <Core/Grid/FaceCenteredGrid3.hpp>
 

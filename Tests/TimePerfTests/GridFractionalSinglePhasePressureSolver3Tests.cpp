@@ -4,7 +4,7 @@
 #include <Core/Field/ConstantVectorField3.hpp>
 #include <Core/Grid/CellCenteredScalarGrid3.hpp>
 #include <Core/Grid/FaceCenteredGrid3.hpp>
-#include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.h>
+#include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.hpp>
 #include <Core/Vector/Vector3.h>
 
 using CubbyFlow::Vector3D;

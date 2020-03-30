@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Solver/Grid/GridSinglePhasePressureSolver.h>
-#include <Core/Solver/Grid/GridSinglePhasePressureSolver2.h>
-#include <Core/Solver/Grid/GridSinglePhasePressureSolver3.h>
+#include <Core/Solver/Grid/GridSinglePhasePressureSolver2.hpp>
+#include <Core/Solver/Grid/GridSinglePhasePressureSolver3.hpp>
 
 #include <pybind11/pybind11.h>
 

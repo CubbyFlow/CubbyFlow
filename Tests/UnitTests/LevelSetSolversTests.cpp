@@ -2,12 +2,12 @@
 
 #include <Core/Grid/CellCenteredScalarGrid2.hpp>
 #include <Core/Grid/CellCenteredScalarGrid3.hpp>
-#include <Core/Solver/LevelSet/ENOLevelSetSolver2.h>
-#include <Core/Solver/LevelSet/ENOLevelSetSolver3.h>
-#include <Core/Solver/LevelSet/FMMLevelSetSolver2.h>
-#include <Core/Solver/LevelSet/FMMLevelSetSolver3.h>
-#include <Core/Solver/LevelSet/UpwindLevelSetSolver2.h>
-#include <Core/Solver/LevelSet/UpwindLevelSetSolver3.h>
+#include <Core/Solver/LevelSet/ENOLevelSetSolver2.hpp>
+#include <Core/Solver/LevelSet/ENOLevelSetSolver3.hpp>
+#include <Core/Solver/LevelSet/FMMLevelSetSolver2.hpp>
+#include <Core/Solver/LevelSet/FMMLevelSetSolver3.hpp>
+#include <Core/Solver/LevelSet/UpwindLevelSetSolver2.hpp>
+#include <Core/Solver/LevelSet/UpwindLevelSetSolver3.hpp>
 
 using namespace CubbyFlow;
 

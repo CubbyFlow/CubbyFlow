@@ -5,8 +5,8 @@
 #include <Core/Collider/RigidBodyCollider2.hpp>
 #include <Core/Geometry/Plane2.hpp>
 #include <Core/Geometry/Sphere2.hpp>
-#include <Core/Solver/Grid/GridBlockedBoundaryConditionSolver2.h>
-#include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver2.h>
+#include <Core/Solver/Grid/GridBlockedBoundaryConditionSolver2.hpp>
+#include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver2.hpp>
 #include <Core/Surface/ImplicitSurfaceSet2.h>
 #include <Core/Surface/SurfaceToImplicit2.h>
 

@@ -4,8 +4,8 @@
 #include <Core/Geometry/Sphere3.hpp>
 #include <Core/Size/Size2.hpp>
 #include <Core/Size/Size3.hpp>
-#include <Core/Solver/LevelSet/LevelSetLiquidSolver2.h>
-#include <Core/Solver/LevelSet/LevelSetLiquidSolver3.h>
+#include <Core/Solver/LevelSet/LevelSetLiquidSolver2.hpp>
+#include <Core/Solver/LevelSet/LevelSetLiquidSolver3.hpp>
 #include <Core/Surface/ImplicitSurface2.h>
 #include <Core/Surface/ImplicitSurfaceSet2.h>
 #include <Core/Surface/ImplicitSurface3.h>

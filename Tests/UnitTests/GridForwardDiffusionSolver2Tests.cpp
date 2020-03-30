@@ -1,7 +1,7 @@
 #include "pch.h"
 
 #include <Core/Grid/CellCenteredScalarGrid2.hpp>
-#include <Core/Solver/Grid/GridForwardEulerDiffusionSolver2.h>
+#include <Core/Solver/Grid/GridForwardEulerDiffusionSolver2.hpp>
 
 using namespace CubbyFlow;
 

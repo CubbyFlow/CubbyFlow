@@ -8,10 +8,10 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Solver/LevelSet/FMMLevelSetSolver3.h>
 #include <Core/Utils/Logging.h>
 #include <Core/Particle/ParticleSystemData3.hpp>
 #include <Core/PointsToImplicit/ZhuBridsonPointsToImplicit3.hpp>
+#include <Core/Solver/LevelSet/FMMLevelSetSolver3.hpp>
 
 namespace CubbyFlow
 {

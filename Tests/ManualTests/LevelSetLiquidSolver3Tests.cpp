@@ -4,7 +4,7 @@
 #include <Core/Geometry/Plane3.hpp>
 #include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/MarchingCubes/MarchingCubes.hpp>
-#include <Core/Solver/LevelSet/LevelSetLiquidSolver3.h>
+#include <Core/Solver/LevelSet/LevelSetLiquidSolver3.hpp>
 #include <Core/Surface/ImplicitSurfaceSet3.h>
 
 #include <ManualTests.h>

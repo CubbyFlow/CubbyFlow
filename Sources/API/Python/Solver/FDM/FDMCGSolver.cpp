@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Solver/FDM/FDMCGSolver.h>
-#include <Core/Solver/FDM/FDMCGSolver2.h>
-#include <Core/Solver/FDM/FDMCGSolver3.h>
+#include <Core/Solver/FDM/FDMCGSolver2.hpp>
+#include <Core/Solver/FDM/FDMCGSolver3.hpp>
 
 #include <pybind11/pybind11.h>
 

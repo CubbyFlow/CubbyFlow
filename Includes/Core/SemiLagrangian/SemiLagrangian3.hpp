@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_SEMI_LAGRANGIAN3_HPP
 #define CUBBYFLOW_SEMI_LAGRANGIAN3_HPP
 
-#include <Core/Solver/Advection/AdvectionSolver3.h>
+#include <Core/Solver/Advection/AdvectionSolver3.hpp>
 
 namespace CubbyFlow
 {

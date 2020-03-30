@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Solver/Grid/GridDiffusionSolver.h>
-#include <Core/Solver/Grid/GridDiffusionSolver2.h>
-#include <Core/Solver/Grid/GridDiffusionSolver3.h>
+#include <Core/Solver/Grid/GridDiffusionSolver2.hpp>
+#include <Core/Solver/Grid/GridDiffusionSolver3.hpp>
 
 #include <pybind11/pybind11.h>
 

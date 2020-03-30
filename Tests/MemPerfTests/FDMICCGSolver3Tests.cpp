@@ -3,7 +3,7 @@
 #include "gtest/gtest.h"
 
 #include <Core/FDM/FDMLinearSystem3.hpp>
-#include <Core/Solver/FDM/FDMICCGSolver3.h>
+#include <Core/Solver/FDM/FDMICCGSolver3.hpp>
 
 using namespace CubbyFlow;
 

@@ -2,7 +2,7 @@
 
 #include <FDMLinearSystemSolverTestHelper2.h>
 
-#include <Core/Solver/FDM/FDMJacobiSolver2.h>
+#include <Core/Solver/FDM/FDMJacobiSolver2.hpp>
 
 using namespace CubbyFlow;
 

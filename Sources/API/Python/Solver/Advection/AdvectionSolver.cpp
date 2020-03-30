@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Solver/Advection/AdvectionSolver.h>
-#include <Core/Solver/Advection/AdvectionSolver2.h>
-#include <Core/Solver/Advection/AdvectionSolver3.h>
+#include <Core/Solver/Advection/AdvectionSolver2.hpp>
+#include <Core/Solver/Advection/AdvectionSolver3.hpp>
 
 #include <pybind11/pybind11.h>
 

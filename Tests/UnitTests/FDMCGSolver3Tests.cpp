@@ -2,7 +2,7 @@
 
 #include <FDMLinearSystemSolverTestHelper3.h>
 
-#include <Core/Solver/FDM/FDMCGSolver3.h>
+#include <Core/Solver/FDM/FDMCGSolver3.hpp>
 
 using namespace CubbyFlow;
 

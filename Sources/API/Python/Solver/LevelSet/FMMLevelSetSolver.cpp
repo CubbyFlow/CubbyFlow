@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Solver/LevelSet/FMMLevelSetSolver.h>
-#include <Core/Solver/LevelSet/FMMLevelSetSolver2.h>
-#include <Core/Solver/LevelSet/FMMLevelSetSolver3.h>
+#include <Core/Solver/LevelSet/FMMLevelSetSolver2.hpp>
+#include <Core/Solver/LevelSet/FMMLevelSetSolver3.hpp>
 
 #include <pybind11/pybind11.h>
 

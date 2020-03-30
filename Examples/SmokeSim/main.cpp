@@ -20,7 +20,7 @@
 #include <Core/Math/MathUtils.hpp>
 #include <Core/SemiLagrangian/CubicSemiLagrangian3.hpp>
 #include <Core/SemiLagrangian/SemiLagrangian3.hpp>
-#include <Core/Solver/Grid/GridSmokeSolver3.h>
+#include <Core/Solver/Grid/GridSmokeSolver3.hpp>
 #include <Core/Utils/Logging.h>
 
 #include <Clara/include/clara.hpp>
