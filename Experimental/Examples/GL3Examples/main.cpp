@@ -13,12 +13,6 @@
 #include <Clara/include/clara.hpp>
 #include <pystring/pystring.h>
 
-#ifdef CUBBYFLOW_WINDOWS
-#include <direct.h>
-#else
-#include <sys/stat.h>
-#endif
-
 #include <Framework/Window/Window.h>
 #include <Framework/Utils/Common.h>
 #include <Framework/Renderable/Material.h>
@@ -33,6 +27,12 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+
+#ifdef CUBBYFLOW_WINDOWS
+#include <direct.h>
+#else
+#include <sys/stat.h>
+#endif
 
 #define APP_NAME "GL3Examples"
 
