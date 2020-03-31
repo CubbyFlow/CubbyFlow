@@ -136,6 +136,7 @@ namespace CubbyRender {
                     glfwPostEmptyEvent();
                 }
 
+#ifdef CUBBYFLOW_RECORDING
                 if (callback)
                 {
                     Size2 framebufferSize = _window->getFramebufferSize();
@@ -143,6 +144,9 @@ namespace CubbyRender {
                     
                     callback(framebufferSize, frame);
                 }
+#else
+                UNUSED_VARIABLE(callback);
+#endif
                 
                 glfwSwapBuffers(glfwWindow);
             }

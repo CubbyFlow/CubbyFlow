@@ -12,6 +12,7 @@
 #define CUBBYFLOW_VERTEX_H
 
 #include <Core/Matrix/Matrix.h>
+#include <vector>
 #include <cstdint>
 
 namespace CubbyFlow {
@@ -160,6 +161,9 @@ namespace CubbyRender {
 
         //! Returns size of a single vertex with given format in bytes.
         static size_t getSizeInBytes(VertexFormat format);
+
+        //! 
+        static std::vector<float> ReconstructVertices(std::vector<float>&& vertices, std::vector<float>&& normals);
     };
 
 }  

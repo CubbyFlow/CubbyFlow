@@ -23,6 +23,9 @@
 #include <Core/Array/Array1.h>
 #include <Core/Size/Size3.h>
 
+#define TINYOBJLOADER_IMPLEMENTATION
+#include <tiny_obj_loader.h>
+
 #include <memory>
 #include <fstream>
 #include <iostream>
@@ -100,6 +103,34 @@ int RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFram
         +1.0f, -1.0f, +1.0f, // 23
         +0.9f, +1.0f, +0.2f
     };
+
+     /*
+    std::string inputfile = "Resources/bunny.obj";
+    tinyobj::attrib_t attrib;
+    std::vector<tinyobj::shape_t> shapes;
+    std::vector<tinyobj::material_t> materials;
+
+    std::string warn;
+    std::string err;
+
+    bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, inputfile.c_str());
+
+    if (!warn.empty()) 
+    {
+      std::cout << warn << std::endl;
+    }
+
+    if (!err.empty()) 
+    {
+      std::cerr << err << std::endl;
+    }
+
+    if (!ret) 
+    {
+      exit(1);
+    }
+    */
+   
     window->getRenderer()->createVertexBuffer(simpleMaterial, vertices.ConstAccessor(), vertices.size(), VertexFormat::Position3, false);
 #ifdef CUBBYFLOW_RECORDING
     auto recorder = std::make_shared<ScreenRecorder>();

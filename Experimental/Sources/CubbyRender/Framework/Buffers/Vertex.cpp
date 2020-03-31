@@ -10,6 +10,8 @@
 
 #include <Framework/Buffer/Vertex.h>
 #include <Framework/Utils/Common.h>
+#include <algorithm>
+#include <cassert>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -41,5 +43,25 @@ namespace CubbyRender {
         return sizeof(float) * getNumberOfFloats(format);
     }
 
+    std::vector<float> VertexHelper::ReconstructVertices(std::vector<float>&& vertices, std::vector<float>&& normals)
+    {
+        std::vector<float> vertexArray = std::move(vertices);
+        std::vector<float> normalArray = std::move(normals);
+
+        if (vertexArray.size() != normalArray.size())
+            abort();
+
+        const size_t numVertices = vertexArray.size() / 3U;
+
+        std::vector<float> result;
+
+        for (size_t i = 0; i < numVertices; ++i)
+        {
+            result.insert(result.end(), vertexArray.begin() + i * 3U, vertexArray.begin() + (i + 1) * 3U);
+            result.insert(result.end(), normalArray.begin() + i * 3U, normalArray.begin() + (i + 1) * 3U);
+        }
+
+        return result;
+    }
 }  
 }  
