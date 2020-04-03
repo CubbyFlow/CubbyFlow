@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/SPH/SPHSystemData2.h>
+#include <Core/SPH/SPHSystemData2.hpp>
 
 using namespace CubbyFlow;
 

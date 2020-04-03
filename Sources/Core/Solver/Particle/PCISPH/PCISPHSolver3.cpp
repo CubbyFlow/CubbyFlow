@@ -8,9 +8,9 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/SPH/SPHStdKernel3.h>
 #include <Core/Utils/Logging.h>
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>
+#include <Core/SPH/SPHStdKernel3.hpp>
 #include <Core/Solver/Particle/PCISPH/PCISPHSolver3.hpp>
 
 namespace CubbyFlow

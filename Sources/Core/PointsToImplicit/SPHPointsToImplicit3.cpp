@@ -8,9 +8,9 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/SPH/SPHSystemData3.h>
 #include <Core/Utils/Logging.h>
 #include <Core/PointsToImplicit/SPHPointsToImplicit3.hpp>
+#include <Core/SPH/SPHSystemData3.hpp>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver3.hpp>
 
 namespace CubbyFlow

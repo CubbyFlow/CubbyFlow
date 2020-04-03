@@ -6,8 +6,8 @@
 #include <Core/Grid/CellCenteredScalarGrid2.hpp>
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>
 #include <Core/PointGenerator/TrianglePointGenerator.hpp>
-#include <Core/SPH/SPHSystemData2.h>
-#include <Core/SPH/SPHSystemData3.h>
+#include <Core/SPH/SPHSystemData2.hpp>
+#include <Core/SPH/SPHSystemData3.hpp>
 #include <Core/Utils/Parallel.h>
 
 #include <random>

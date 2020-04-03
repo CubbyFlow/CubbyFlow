@@ -8,11 +8,11 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/SPH/SPHSystemData3.h>
 #include <Core/Utils/Logging.h>
 #include <Core/Math/SVD.hpp>
 #include <Core/Matrix/Matrix3x3.hpp>
 #include <Core/PointsToImplicit/AnisotropicPointsToImplicit3.hpp>
+#include <Core/SPH/SPHSystemData3.hpp>
 #include <Core/Searcher/PointKdTreeSearcher3.hpp>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver3.hpp>
 

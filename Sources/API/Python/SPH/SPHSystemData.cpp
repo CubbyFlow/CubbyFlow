@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/SPH/SPHSystemData.h>
-#include <Core/SPH/SPHSystemData2.h>
-#include <Core/SPH/SPHSystemData3.h>
+#include <Core/SPH/SPHSystemData2.hpp>
+#include <Core/SPH/SPHSystemData3.hpp>
 
 #include <pybind11/pybind11.h>
 

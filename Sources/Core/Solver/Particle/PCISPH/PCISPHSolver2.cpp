@@ -8,9 +8,9 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/SPH/SPHStdKernel2.h>
 #include <Core/Utils/Logging.h>
 #include <Core/PointGenerator/TrianglePointGenerator.hpp>
+#include <Core/SPH/SPHStdKernel2.hpp>
 #include <Core/Solver/Particle/PCISPH/PCISPHSolver2.hpp>
 
 namespace CubbyFlow
