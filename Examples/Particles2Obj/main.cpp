@@ -1,29 +1,30 @@
-/*************************************************************************
-> File Name: main.cpp
-> Project Name: CubbyFlow
-> This code is based on Jet Framework that was created by Doyub Kim.
-> References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: Convert particles to object file.
-> Created Time: 2017/07/03
-> Copyright (c) 2018, Chan-Ho Chris Ohk
-*************************************************************************/
-#include <../ClaraUtils.h>
+// This code is based on Jet framework.
+// Copyright (c) 2018 Doyub Kim
+// CubbyFlow is voxel-based fluid simulation engine for computer games.
+// Copyright (c) 2020 CubbyFlow Team
+// Core Part: Chris Ohk, Junwoo Hwang, Jihong Sin, Seungwoo Yoo
+// AI Part: Dongheon Cho, Minseo Kim
+// We are making my contributions/submissions to this project solely in our
+// personal capacity and are not conveying any rights to any intellectual
+// property of any third parties.
+
+#include <../ClaraUtils.hpp>
 
 #include <Core/Array/Array1.hpp>
 #include <Core/BoundingBox/BoundingBox3.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>
 #include <Core/Grid/VertexCenteredScalarGrid3.hpp>
-#include <Core/PointsToImplicit/AnisotropicPointsToImplicit3.hpp>
-#include <Core/PointsToImplicit/SphericalPointsToImplicit3.hpp>
-#include <Core/PointsToImplicit/SPHPointsToImplicit3.hpp>
-#include <Core/PointsToImplicit/ZhuBridsonPointsToImplicit3.hpp>
 #include <Core/MarchingCubes/MarchingCubes.hpp>
+#include <Core/PointsToImplicit/AnisotropicPointsToImplicit3.hpp>
+#include <Core/PointsToImplicit/SPHPointsToImplicit3.hpp>
+#include <Core/PointsToImplicit/SphericalPointsToImplicit3.hpp>
+#include <Core/PointsToImplicit/ZhuBridsonPointsToImplicit3.hpp>
 #include <Core/Size/Size3.hpp>
 #include <Core/Utils/Serialization.hpp>
 
-#include <Clara/include/clara.hpp>
 #include <pystring/pystring.h>
+#include <Clara/include/clara.hpp>
 
 #include <fstream>
 #include <iostream>
@@ -43,18 +44,17 @@ double valAnisoCutOffDensity = 0.5;
 double valAnisoPositionSmoothingFactor = 0.5;
 size_t valAnisoMinNumNeighbors = 25;
 
-void PrintInfo(const Size3& resolution, const BoundingBox3D& domain, const Vector3D& gridSpacing, size_t numberOfParticles, const std::string& method)
+void PrintInfo(const Size3& resolution, const BoundingBox3D& domain,
+               const Vector3D& gridSpacing, size_t numberOfParticles,
+               const std::string& method)
 {
-    printf(
-        "Resolution: %zu x %zu x %zu\n",
-        resolution.x, resolution.y, resolution.z);
-    printf(
-        "Domain: [%f, %f, %f] x [%f, %f, %f]\n",
-        domain.lowerCorner.x, domain.lowerCorner.y, domain.lowerCorner.z,
-        domain.upperCorner.x, domain.upperCorner.y, domain.upperCorner.z);
-    printf(
-        "Grid spacing: [%f, %f, %f]\n",
-        gridSpacing.x, gridSpacing.y, gridSpacing.z);
+    printf("Resolution: %zu x %zu x %zu\n", resolution.x, resolution.y,
+           resolution.z);
+    printf("Domain: [%f, %f, %f] x [%f, %f, %f]\n", domain.lowerCorner.x,
+           domain.lowerCorner.y, domain.lowerCorner.z, domain.upperCorner.x,
+           domain.upperCorner.y, domain.upperCorner.z);
+    printf("Grid spacing: [%f, %f, %f]\n", gridSpacing.x, gridSpacing.y,
+           gridSpacing.z);
     printf("Number of particles: %zu\n", numberOfParticles);
     printf("Reconstruction method: %s\n", method.c_str());
 }
@@ -62,13 +62,8 @@ void PrintInfo(const Size3& resolution, const BoundingBox3D& domain, const Vecto
 void TriangulateAndSave(const ScalarGrid3& sdf, const std::string& objFileName)
 {
     TriangleMesh3 mesh;
-    MarchingCubes(
-        sdf.GetConstDataAccessor(),
-        sdf.GridSpacing(),
-        sdf.GetDataOrigin(),
-        &mesh,
-        0.0,
-        DIRECTION_ALL);
+    MarchingCubes(sdf.GetConstDataAccessor(), sdf.GridSpacing(),
+                  sdf.GetDataOrigin(), &mesh, 0.0, DIRECTION_ALL);
 
     std::ofstream file(objFileName.c_str());
     if (file)
@@ -84,48 +79,37 @@ void TriangulateAndSave(const ScalarGrid3& sdf, const std::string& objFileName)
     }
 }
 
-void ParticlesToObj(
-    const Array1<Vector3D>& positions,
-    const Size3& resolution,
-    const Vector3D& gridSpacing,
-    const Vector3D& origin,
-    double kernelRadius,
-    const std::string& method,
-    const std::string& objFileName)
+void ParticlesToObj(const Array1<Vector3D>& positions, const Size3& resolution,
+                    const Vector3D& gridSpacing, const Vector3D& origin,
+                    double kernelRadius, const std::string& method,
+                    const std::string& objFileName)
 {
     PointsToImplicit3Ptr converter;
     if (method == strSpherical)
     {
-        converter = std::make_shared<SphericalPointsToImplicit3>(
-            kernelRadius,
-            false);
+        converter =
+            std::make_shared<SphericalPointsToImplicit3>(kernelRadius, false);
     }
     else if (method == strSPH)
     {
         converter = std::make_shared<SPHPointsToImplicit3>(
-            kernelRadius,
-            valSPHCutOffDensity,
-            false);
+            kernelRadius, valSPHCutOffDensity, false);
     }
     else if (method == strZhuBridson)
     {
         converter = std::make_shared<ZhuBridsonPointsToImplicit3>(
-            kernelRadius,
-            valZhuBridsonCutOffThreshold,
-            false);
+            kernelRadius, valZhuBridsonCutOffThreshold, false);
     }
     else
     {
         converter = std::make_shared<AnisotropicPointsToImplicit3>(
-            kernelRadius,
-            valAnisoCutOffDensity,
-            valAnisoPositionSmoothingFactor,
-            valAnisoMinNumNeighbors,
-            false);
+            kernelRadius, valAnisoCutOffDensity,
+            valAnisoPositionSmoothingFactor, valAnisoMinNumNeighbors, false);
     }
 
     VertexCenteredScalarGrid3 sdf(resolution, gridSpacing, origin);
-    PrintInfo(resolution, sdf.BoundingBox(), gridSpacing, positions.size(), method);
+    PrintInfo(resolution, sdf.BoundingBox(), gridSpacing, positions.size(),
+              method);
 
     converter->Convert(positions, &sdf);
 
@@ -152,28 +136,22 @@ int main(int argc, char* argv[])
     // Parsing
     auto parser =
         clara::Help(showHelp) |
-        clara::Opt(inputFileName, "inputFileName")
-        ["-i"]["--input"]
-        ("input obj file name") |
-        clara::Opt(outputFileName, "outputFileName")
-        ["-o"]["--output"]
-        ("output obj file name") |
-        clara::Opt(strResolution, "resolution")
-        ["-r"]["--resolution"]
-        ("grid resolution in CSV format (default is 100,100,100)") |
-        clara::Opt(strGridSpacing, "gridSpacing")
-        ["-g"]["--grid_spacing"]
-        ("grid spacing in CSV format (default is 0.01,0.01,0.01)") |
-        clara::Opt(strOrigin, "origin")
-        ["-n"]["--origin"]
-        ("domain origin in CSV format (default is 0,0,0)") |
-        clara::Opt(method, "method")
-        ["-m"]["--method"]
-        ("spherical, sph, zhu_bridson, and anisotropic " \
-            "followed by optional method-dependent parameters (default is anisotropic)") |
-        clara::Opt(kernelRadius, "kernelRadius")
-        ["-k"]["--kernel"]
-        ("interpolation kernel radius (default is 0.2)");
+        clara::Opt(inputFileName,
+                   "inputFileName")["-i"]["--input"]("input obj file name") |
+        clara::Opt(outputFileName,
+                   "outputFileName")["-o"]["--output"]("output obj file name") |
+        clara::Opt(strResolution, "resolution")["-r"]["--resolution"](
+            "grid resolution in CSV format (default is 100,100,100)") |
+        clara::Opt(strGridSpacing, "gridSpacing")["-g"]["--grid_spacing"](
+            "grid spacing in CSV format (default is 0.01,0.01,0.01)") |
+        clara::Opt(strOrigin, "origin")["-n"]["--origin"](
+            "domain origin in CSV format (default is 0,0,0)") |
+        clara::Opt(method, "method")["-m"]["--method"](
+            "spherical, sph, zhu_bridson, and anisotropic "
+            "followed by optional method-dependent parameters (default is "
+            "anisotropic)") |
+        clara::Opt(kernelRadius, "kernelRadius")["-k"]["--kernel"](
+            "interpolation kernel radius (default is 0.2)");
 
     auto result = parser.parse(clara::Args(argc, argv));
     if (!result)
@@ -196,7 +174,8 @@ int main(int argc, char* argv[])
 
         if (tokens.size() == 1)
         {
-            resolution.x = resolution.y = resolution.z = static_cast<size_t>(atoi(strResolution.c_str()));
+            resolution.x = resolution.y = resolution.z =
+                static_cast<size_t>(atoi(strResolution.c_str()));
         }
         else if (tokens.size() == 3)
         {
@@ -214,7 +193,8 @@ int main(int argc, char* argv[])
 
         if (tokens.size() == 1)
         {
-            gridSpacing.x = gridSpacing.y = gridSpacing.z = atof(strGridSpacing.c_str());
+            gridSpacing.x = gridSpacing.y = gridSpacing.z =
+                atof(strGridSpacing.c_str());
         }
         else if (tokens.size() == 3)
         {
@@ -280,7 +260,8 @@ int main(int argc, char* argv[])
             }
             if (tokens.size() > 3)
             {
-                valAnisoMinNumNeighbors = static_cast<size_t>(atoi(tokens[3].c_str()));
+                valAnisoMinNumNeighbors =
+                    static_cast<size_t>(atoi(tokens[3].c_str()));
             }
         }
         else
@@ -302,7 +283,9 @@ int main(int argc, char* argv[])
     std::ifstream positionFile(inputFileName.c_str(), std::ifstream::binary);
     if (positionFile)
     {
-        const std::vector<uint8_t> buffer((std::istreambuf_iterator<char>(positionFile)), (std::istreambuf_iterator<char>()));
+        const std::vector<uint8_t> buffer(
+            (std::istreambuf_iterator<char>(positionFile)),
+            (std::istreambuf_iterator<char>()));
         Deserialize(buffer, &positions);
         positionFile.close();
     }
@@ -313,7 +296,8 @@ int main(int argc, char* argv[])
     }
 
     // Run marching cube and save it to the disk
-    ParticlesToObj(positions, resolution, gridSpacing, origin, kernelRadius, method, outputFileName);
+    ParticlesToObj(positions, resolution, gridSpacing, origin, kernelRadius,
+                   method, outputFileName);
 
     return EXIT_SUCCESS;
 }
