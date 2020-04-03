@@ -9,8 +9,8 @@
 *************************************************************************/
 #include <API/Python/Transform/Transform.h>
 #include <API/Python/Utils/pybind11Utils.h>
-#include <Core/Transform/Transform2.h>
-#include <Core/Transform/Transform3.h>
+#include <Core/Transform/Transform2.hpp>
+#include <Core/Transform/Transform3.hpp>
 #include <Core/Math/Quaternion.hpp>
 #include <Core/Vector/Vector2.h>
 #include <Core/Vector/Vector3.h>
