@@ -50,10 +50,12 @@ set(CMAKE_MACOSX_RPATH ON)
 
 # Set resources
 set(RESOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Resources)
+
 set(RESOURCES_OBJS
         ${RESOURCES_DIR}/bunny.obj
         ${RESOURCES_DIR}/cube.obj
         ${RESOURCES_DIR}/dragon.obj)
+
 
 # Project modules
 set(BUILD_GTEST ON CACHE BOOL "" FORCE)

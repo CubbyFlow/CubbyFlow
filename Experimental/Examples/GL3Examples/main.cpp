@@ -34,11 +34,11 @@
 #include <string>
 
 #ifdef CUBBYFLOW_WINDOWS
-#include <windows.h>
 #include <direct.h>
 #else
 #include <sys/stat.h>
 #endif
+
 
 #define APP_NAME "GL3Examples"
 
@@ -176,7 +176,7 @@ int main(int argc, char* argv[])
     }
 
 #ifdef CUBBYFLOW_WINDOWS
-    CreateDirectory( outputDir.c_str(), NULL );
+    _mkdir(outputDir.c_str());
 #else
     mkdir(outputDir.c_str(), S_IRWXU | S_IRWXG | S_IRWXO);
 #endif
