@@ -42,6 +42,27 @@ namespace CubbyFlow
 		//! \param initVal Initial value of each array element.
 		explicit Array(size_t size, const T& initVal = T());
 
+		/*
+		//!
+		//! \brief Constructs 1-D array with given two iterators
+		//!
+		//! For the compatibility with other standard containers, 
+		//! need constructor with iterators.
+		//! This constructor will build 1-D array with given two iterators
+		//! such as
+		//!
+		//! \code{.cpp}
+		//! std::vector<int> vec = {1, 2, 3, 10 , 5};
+		//! Array<int, 1> arr(begin(vec), end(vec)));
+		//! \endcode
+		//!
+		//! \param first InputIterator that represents begin of the other container
+		//! \param last InputIterator that represents end of the other container
+		//!
+		template <typename InputIterator>
+		Array(InputIterator first, InputIterator last);
+		*/
+
 		//!
 		//! \brief Constructs 1-D array with given initializer list \p list.
 		//!
@@ -71,6 +92,10 @@ namespace CubbyFlow
 		//! Copies given initializer list \p list to this array.
 		void Set(const std::initializer_list<T>& list);
 
+		//! Copies given array which begin with \p first iterator and end with \p last iterator
+		template <typename InputIterator>
+		void Set(InputIterator first, InputIterator last);
+	
 		//! Clears the array and resizes to zero.
 		void Clear();
 

@@ -49,7 +49,7 @@ namespace CubbyRender {
         _swapInterval = interval;
     }
 
-    const RendererPtr& Window::renderer() const
+    const RendererPtr& Window::getRenderer() const
     {
         return _renderer;
     }

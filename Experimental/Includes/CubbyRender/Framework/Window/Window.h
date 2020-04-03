@@ -67,7 +67,7 @@ namespace CubbyRender {
         virtual void onKey(int key, int scancode, int action, int mods) = 0;
 
         //! Returns renderer.
-        const RendererPtr& renderer() const;
+        const RendererPtr& getRenderer() const;
 
         //! Returns true if update is enabled.
         bool isUpdateEnabled() const;

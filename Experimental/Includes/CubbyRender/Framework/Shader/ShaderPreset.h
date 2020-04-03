@@ -23,11 +23,12 @@ const GLchar* kSimpleColorShaders[2] = {
     R"glsl(
     #version 330 core
     in vec3 position;
+    in vec3 normal;
     out VSOUT {
         vec4 color;
     } vs_out;
     void main() {
-        vs_out.color = vec4(1.0, 0.0, 1.0, 1.0);
+        vs_out.color = vec4(normal, 1.0);
         gl_Position = vec4(position,1.0);
     }
     )glsl",

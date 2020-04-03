@@ -29,21 +29,28 @@ namespace CubbyRender {
         //! Default constructor.
         VertexBuffer();
 
-        //! Constructor with parameters
+        //! Default constructor.
         VertexBuffer(VertexFormat format);
         
         //! Default destructor.
         virtual ~VertexBuffer();
-        
+
+        //! Set input vertex format
+        void setInputVertexFormat(VertexFormat format);
+
+        //! Get input vertex format.
+        VertexFormat getInputVertexFormat() const;
+
         //! Allocate gpu 
-        void allocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<float>& data, size_t numberOfVertices, bool storeData);
+        void allocateBuffer(RendererPtr renderer, const ConstArrayAccessor1<float>& data, size_t numberOfVertices);
 
         //! Update 
-        virtual void updateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<float>& data, bool storeData) = 0;
+        virtual void updateBuffer(RendererPtr renderer, const ConstArrayAccessor1<float>& data) = 0;
 
         size_t getNumberOfVertices() const;
+        
+        void bindState(RendererPtr renderer, MaterialPtr material);
 
-        VertexFormat getFormat() const;
     protected:
         //! implementation of bind method
         virtual void onBind(RendererPtr renderer) override = 0;
@@ -55,11 +62,13 @@ namespace CubbyRender {
         virtual void onDestroy() override = 0;
 
         //! Allocate gpu 
-        virtual void onAllocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<float>& data) = 0;
+        virtual void onAllocateBuffer(RendererPtr renderer, const ConstArrayAccessor1<float>& data) = 0;
 
-        Array1<float> _data;
+        //! implementation of bind state method.
+        virtual void onBindState(RendererPtr renderer, MaterialPtr material) = 0;
+
+        VertexFormat _vertexFormat = VertexFormat::Position3Normal3;
         size_t _numberOfVertices;
-        VertexFormat _format;
     private:
     };
 

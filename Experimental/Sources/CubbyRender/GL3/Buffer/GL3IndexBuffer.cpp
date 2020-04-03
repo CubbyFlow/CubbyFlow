@@ -46,32 +46,28 @@ namespace CubbyRender {
 
     void GL3IndexBuffer::onDestroy() 
     {
-        if (static_cast<int>(_indexBufferID))
-            glDeleteBuffers(1, &_indexBufferID);
+        //!if (static_cast<int>(_indexBufferID))
+        //!    glDeleteBuffers(1, &_indexBufferID);
     }
 
-    void GL3IndexBuffer::updateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<unsigned int>& data, bool storeData)
+    void GL3IndexBuffer::updateBuffer(RendererPtr renderer, const ConstArrayAccessor1<unsigned int>& data)
     {
-        UNUSED_VARIABLE(material);
-        if (storeData)
-        {
-            data.ParallelForEachIndex([&](size_t i){
-                _data[i] = data[i];
-            });
-        }
-
         bind(renderer);
         glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLintptr>(0), _numberOfIndices, data.data());
         unbind(renderer);
     }
 
-    void GL3IndexBuffer::onAllocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<unsigned int>& data) 
+    void GL3IndexBuffer::onAllocateBuffer(RendererPtr renderer, const ConstArrayAccessor1<unsigned int>& data) 
     {   
-        UNUSED_VARIABLE(material),
         glGenBuffers(1, &_indexBufferID);
         bind(renderer);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(_numberOfIndices), data.data(), GL_DYNAMIC_DRAW);
         unbind(renderer);
+    }
+    
+    void GL3IndexBuffer::onBindState(RendererPtr renderer)
+    {
+        bind(renderer);
     }
 } 
 }

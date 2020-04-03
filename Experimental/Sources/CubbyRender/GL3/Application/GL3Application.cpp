@@ -24,6 +24,8 @@
 #include <cassert>
 #include <vector>
 
+#include <iostream>
+
 namespace CubbyFlow {
 namespace CubbyRender {
 

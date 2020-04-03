@@ -16,6 +16,8 @@
 #include <Framework/Window/Window.h>
 #include <Framework/Utils/Common.h>
 #include <Framework/Renderable/Material.h>
+#include <Framework/Buffer/InputLayout.h>
+#include <Framework/Buffer/Vertex.h>
 #include <GL3/Application/GL3Application.h>
 #include <GL3/Shader/GL3Shader.h>
 #include <GL3/Renderer/GL3Renderer.h>
@@ -32,6 +34,7 @@
 #include <string>
 
 #ifdef CUBBYFLOW_WINDOWS
+#include <windows.h>
 #include <direct.h>
 #else
 #include <sys/stat.h>
@@ -53,59 +56,8 @@ int RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFram
     simpleShader->setParameters(params);
 
     MaterialPtr simpleMaterial = std::make_shared<Material>(simpleShader);
-    Array1<float> vertices = {
-        -1.0f, +1.0f, +1.0f, // 0
-        +1.0f, +0.0f, +0.0f,
-        +1.0f, +1.0f, +1.0f, // 1
-        +0.0f, +1.0f, +0.0f,
-        +1.0f, +1.0f, -1.0f, // 2
-        +0.0f, +0.0f, +1.0f,
-        -1.0f, +1.0f, -1.0f, // 3
-        +1.0f, +1.0f, +1.0f,
-        -1.0f, +1.0f, -1.0f, // 4
-        +1.0f, +0.0f, +1.0f,
-        +1.0f, +1.0f, -1.0f, // 5
-        +0.0f, +0.5f, +0.2f,
-        +1.0f, -1.0f, -1.0f, // 6
-        +0.8f, +0.6f, +0.4f,
-        -1.0f, -1.0f, -1.0f, // 7
-        +0.3f, +1.0f, +0.5f,
-        +1.0f, +1.0f, -1.0f, // 8
-        +0.2f, +0.5f, +0.2f,
-        +1.0f, +1.0f, +1.0f, // 9
-        +0.9f, +0.3f, +0.7f,
-        +1.0f, -1.0f, +1.0f, // 10
-        +0.3f, +0.7f, +1.0f,
-        +1.0f, -1.0f, -1.0f, // 11
-        +0.5f, +0.7f, +0.5f,
-        -1.0f, +1.0f, +1.0f, // 12
-        +0.7f, +0.8f, +0.2f,
-        -1.0f, +1.0f, -1.0f, // 13
-        +0.5f, +0.7f, +0.3f,
-        -1.0f, -1.0f, -1.0f, // 14
-        +0.4f, +0.7f, +0.7f,
-        -1.0f, -1.0f, +1.0f, // 15
-        +0.2f, +0.5f, +1.0f,
-        +1.0f, +1.0f, +1.0f, // 16
-        +0.6f, +1.0f, +0.7f,
-        -1.0f, +1.0f, +1.0f, // 17
-        +0.6f, +0.4f, +0.8f,
-        -1.0f, -1.0f, +1.0f, // 18
-        +0.2f, +0.8f, +0.7f,
-        +1.0f, -1.0f, +1.0f, // 19
-        +0.2f, +0.7f, +1.0f,
-        +1.0f, -1.0f, -1.0f, // 20
-        +0.8f, +0.3f, +0.7f,
-        -1.0f, -1.0f, -1.0f, // 21
-        +0.8f, +0.9f, +0.5f,
-        -1.0f, -1.0f, +1.0f, // 22
-        +0.5f, +0.8f, +0.5f,
-        +1.0f, -1.0f, +1.0f, // 23
-        +0.9f, +1.0f, +0.2f
-    };
-
-     /*
-    std::string inputfile = "Resources/bunny.obj";
+    
+    std::string inputfile = "Resources/sphere.obj";
     tinyobj::attrib_t attrib;
     std::vector<tinyobj::shape_t> shapes;
     std::vector<tinyobj::material_t> materials;
@@ -129,9 +81,28 @@ int RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFram
     {
       exit(1);
     }
-    */
-   
-    window->getRenderer()->createVertexBuffer(simpleMaterial, vertices.ConstAccessor(), vertices.size(), VertexFormat::Position3, false);
+
+    std::cout << "#shape : " << shapes.size() << std::endl;
+    std::cout << "#materials : " << materials.size() << std::endl;
+    std::cout << "#vertices : " << attrib.vertices.size() << ", " << "#normals : " << attrib.normals.size() << std::endl;
+
+    Array1<float> vertices;
+    vertices.Set(begin(attrib.vertices), end(attrib.vertices));
+    Array1<float> normals;
+    normals.Set(begin(attrib.normals), end(attrib.normals));
+    //! OpenGL one glDrawElements, multi index buffer support or not?
+    //! If not need helper function.
+    //!Array1<unsigned int> indices;
+    //!normals.Set(begin(shapes[0].mesh.indices), end(shapes[0].mesh.indices));
+
+    auto gl = window->getRenderer();
+    InputLayoutPtr inputLayout = gl->createInputLayout();
+    VertexBufferPtr positionBuffer = gl->createVertexBuffer(vertices.ConstAccessor(), vertices.size(), VertexFormat::Position3);
+    VertexBufferPtr normalBuffer = gl->createVertexBuffer(normals.ConstAccessor(), normals.size(), VertexFormat::Normal3);
+
+    inputLayout->attachVertexBuffer(gl, simpleMaterial, positionBuffer);
+    inputLayout->attachVertexBuffer(gl, simpleMaterial, normalBuffer);
+
 #ifdef CUBBYFLOW_RECORDING
     auto recorder = std::make_shared<ScreenRecorder>();
     recorder->setWorkingDirectory(APP_NAME "_output");
@@ -205,7 +176,7 @@ int main(int argc, char* argv[])
     }
 
 #ifdef CUBBYFLOW_WINDOWS
-    _mkdir(outputDir.c_str());
+    CreateDirectory( outputDir.c_str(), NULL );
 #else
     mkdir(outputDir.c_str(), S_IRWXU | S_IRWXG | S_IRWXO);
 #endif

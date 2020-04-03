@@ -39,6 +39,7 @@ namespace CubbyRender {
 
         //! Destroy this Buffer instance
         void destroy();
+
     protected:
         //! implementation of bind method
         virtual void onBind(RendererPtr renderer) = 0;
@@ -46,7 +47,7 @@ namespace CubbyRender {
         //! implementation of unbind method
         virtual void onUnbind(RendererPtr renderer) = 0;
 
-        //! implementation of destry method
+        //! implementation of destroy method
         virtual void onDestroy() = 0;
     private:
     };

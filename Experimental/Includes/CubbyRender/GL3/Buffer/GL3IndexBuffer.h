@@ -32,7 +32,7 @@ namespace CubbyRender {
         ~GL3IndexBuffer();
 
         //! Update 
-        void updateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<unsigned int>& data, bool storeData) override;
+        void updateBuffer(RendererPtr renderer, const ConstArrayAccessor1<unsigned int>& data) override;
 
     protected:
         //! implementation of bind method
@@ -45,7 +45,9 @@ namespace CubbyRender {
         void onDestroy() override;
 
         //! Allocate gpu 
-        void onAllocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<unsigned int>& data) override;
+        void onAllocateBuffer(RendererPtr renderer, const ConstArrayAccessor1<unsigned int>& data) override;
+
+        void onBindState(RendererPtr renderer) override;
 
     private:
         GLuint _indexBufferID;

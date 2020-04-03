@@ -12,6 +12,8 @@
 
 #include <GL3/Renderer/GL3Renderer.h>
 #include <GL3/Buffer/GL3VertexBuffer.h>
+#include <GL3/Buffer/GL3IndexBuffer.h>
+#include <GL3/Buffer/GL3VertexArrayObject.h>
 #include <GL3/Shader/GL3Shader.h>
 #include <GL3/Renderer/GL3Renderer.h>
 #include <GL3/Utils/GL3Common.h>
@@ -144,6 +146,13 @@ namespace CubbyRender {
         return pixels.Accessor();
     }
 
+    InputLayoutPtr GL3Renderer::createInputLayout()
+    {
+        InputLayoutPtr inputLayout = std::make_shared<GL3VertexArrayObject>();
+        inputLayout->initialize(shared_from_this());
+        return inputLayout;
+    }
+
     void GL3Renderer::draw(size_t numberOfVertices) 
     {
         if (numberOfVertices)
@@ -173,13 +182,19 @@ namespace CubbyRender {
         return 0;
     }
 
-    VertexBufferPtr GL3Renderer::createVertexBuffer(MaterialPtr material, const ConstArrayAccessor1<float>& data, size_t numberOfVertices, VertexFormat format, bool storeData) 
+    VertexBufferPtr GL3Renderer::createVertexBuffer(const ConstArrayAccessor1<float>& data, size_t numberOfVertices, VertexFormat format) 
     {
-        VertexBufferPtr vertexBuffer = std::make_shared<GL3VertexBuffer>(format);
-        //! Use shared_from_this for wrap this pointer with shared_ptr 
-        //! Reference : http://embeddedartistry.com/blog/2017/01/11/stdshared_ptr-and-shared_from_this/
-        vertexBuffer->allocateBuffer(shared_from_this(), material, data, numberOfVertices, storeData);
+        VertexBufferPtr vertexBuffer = std::make_shared<GL3VertexBuffer>();
+        vertexBuffer->setInputVertexFormat(format);
+        vertexBuffer->allocateBuffer(shared_from_this(), data, numberOfVertices);
         return vertexBuffer;
+    }
+
+    IndexBufferPtr GL3Renderer::createIndexBuffer(const ConstArrayAccessor1<unsigned int>& data, size_t numberOfIndices)
+    {
+        IndexBufferPtr indexBuffer = std::make_shared<GL3IndexBuffer>();
+        indexBuffer->allocateBuffer(shared_from_this(), data, numberOfIndices);
+        return indexBuffer;
     }
 
     ShaderPtr GL3Renderer::createShaderPreset(const std::string& shaderName) 

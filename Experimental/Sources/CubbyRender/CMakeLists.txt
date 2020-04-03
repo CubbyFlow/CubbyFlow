@@ -72,6 +72,7 @@ target_link_libraries(${target}
     ${CMAKE_DL_LIBS}
     ${OPENGL_LIBRARIES}
     ${PNG_LIBRARIES}
+    CubbyFlow
     
     INTERFACE
 )

@@ -21,6 +21,9 @@ namespace CubbyRender {
     //! Vertex format enums.
     enum class VertexFormat 
     {
+        //! None
+        None = 0,
+        
         //! Position in 3D.
         Position3 = 1 << 0,
 
@@ -64,7 +67,20 @@ namespace CubbyRender {
         //! Position (3D), normal (3D), texture coordinates (3D), and color in RGBA
         //! (4D).
         Position3Normal3TexCoord3Color4 = Position3Normal3Color4 | TexCoord3,
+
     };
+
+    //! Bit-wise operator for two vertex formats
+    inline VertexFormat operator|(VertexFormat a, VertexFormat b)
+    {
+        return static_cast<VertexFormat>(static_cast<int>(a) | static_cast<int>(b));
+    }
+
+    //! Bit-wise operator for two vertex formats.
+    inline void operator|=(VertexFormat& a, const VertexFormat& b)
+    {
+        a = static_cast<VertexFormat>(static_cast<int>(a) | static_cast<int>(b));
+    }
 
     //! Bit-wise operator for two vertex formats.
     inline VertexFormat operator&(VertexFormat a, VertexFormat b) 

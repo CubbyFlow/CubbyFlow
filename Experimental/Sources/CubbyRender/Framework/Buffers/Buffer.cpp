@@ -8,6 +8,7 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 #include <Framework/Buffer/Buffer.h>
+#include <Framework/Buffer/InputLayout.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -36,6 +37,5 @@ namespace CubbyRender {
     {
         onDestroy();
     }
-
 } 
 }

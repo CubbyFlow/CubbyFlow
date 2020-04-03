@@ -8,6 +8,7 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 #include <Framework/Buffer/VertexBuffer.h>
+#include <Framework/Buffer/InputLayout.h>
 #include <Core/Size/Size.h>
 
 namespace CubbyFlow {
@@ -19,9 +20,8 @@ namespace CubbyRender {
     }
 
     VertexBuffer::VertexBuffer(VertexFormat format)
-        : _format(format)
+        : _vertexFormat(format)
     {
-        //! Do nothing
     }
 
     VertexBuffer::~VertexBuffer()
@@ -29,33 +29,21 @@ namespace CubbyRender {
         //! Do nothing
     }
 
-    void VertexBuffer::allocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<float>& data, size_t numberOfVertices, bool storeData)
+    void VertexBuffer::allocateBuffer(RendererPtr renderer, const ConstArrayAccessor1<float>& data, size_t numberOfVertices)
     {
-        if (storeData)
-        {
-            if (numberOfVertices != _numberOfVertices)
-            {
-                _data.Resize(numberOfVertices);
-            }
-            
-            data.ParallelForEachIndex([&](size_t i){
-                _data[i] = data[i];
-            });
-        }
-
         if (numberOfVertices == size_t(0))
         {
             destroy();
         }
         else if (numberOfVertices == _numberOfVertices)
         {
-            updateBuffer(renderer, material, data, false);
+            updateBuffer(renderer, data);
         }
         else
         {
             destroy();
             _numberOfVertices = numberOfVertices;
-            onAllocateBuffer(renderer, material, data);
+            onAllocateBuffer(renderer, data);
         }
     }
 
@@ -64,10 +52,19 @@ namespace CubbyRender {
         return _numberOfVertices;
     }
 
-    VertexFormat VertexBuffer::getFormat() const
+    void VertexBuffer::setInputVertexFormat(VertexFormat format)
     {
-        return _format;
+        _vertexFormat = format;
     }
 
+    VertexFormat VertexBuffer::getInputVertexFormat() const
+    {
+        return _vertexFormat;
+    }
+
+    void VertexBuffer::bindState(RendererPtr renderer, MaterialPtr material)
+    {
+        onBindState(renderer, material);
+    }
 } 
 }

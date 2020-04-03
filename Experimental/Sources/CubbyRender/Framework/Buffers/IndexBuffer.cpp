@@ -8,6 +8,7 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 #include <Framework/Buffer/IndexBuffer.h>
+#include <Framework/Buffer/InputLayout.h>
 #include <Framework/Renderer/Renderer.h>
 
 namespace CubbyFlow {
@@ -23,39 +24,32 @@ namespace CubbyRender {
         //! Do nothing
     }
 
-    void IndexBuffer::allocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<unsigned int>& data, size_t numberOfIndices, bool storeData)
+    void IndexBuffer::allocateBuffer(RendererPtr renderer, const ConstArrayAccessor1<unsigned int>& data, size_t numberOfIndices)
     {
-        if (storeData)
-        {
-            if (numberOfIndices != _numberOfIndices)
-            {
-                _data.Resize(numberOfIndices);
-            }
-
-            data.ParallelForEachIndex([&](size_t i){
-                _data[i] = data[i];
-            });
-        }
-
         if (numberOfIndices == size_t(0))
         {
             destroy();
         }
         else if (numberOfIndices == _numberOfIndices)
         {
-            updateBuffer(renderer, material, data, false);
+            updateBuffer(renderer, data);
         }
         else
         {
             destroy();
             _numberOfIndices = numberOfIndices;
-            onAllocateBuffer(renderer, material, data);
+            onAllocateBuffer(renderer, data);
         }
     }
 
     size_t IndexBuffer::getNumberOfIndices() const
     {
         return _numberOfIndices;
+    }
+
+    void IndexBuffer::bindState(RendererPtr renderer)
+    {
+        onBindState(renderer);
     }
 
 } 

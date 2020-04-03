@@ -28,13 +28,11 @@ namespace CubbyRender {
         //! Default constructor.
         GL3VertexBuffer();
 
-        GL3VertexBuffer(VertexFormat format);
-
         //! Default destructor.
         virtual ~GL3VertexBuffer();
 
         //! Update 
-        void updateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<float>& data, bool storeData) override;
+        void updateBuffer(RendererPtr renderer, const ConstArrayAccessor1<float>& data) override;
 
     protected:
         //! implementation of bind method
@@ -47,10 +45,11 @@ namespace CubbyRender {
         void onDestroy() override;
 
         //! Allocate gpu 
-        void onAllocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<float>& data) override;
+        void onAllocateBuffer(RendererPtr renderer, const ConstArrayAccessor1<float>& data) override;
+
+        void onBindState(RendererPtr renderer, MaterialPtr material) override;
 
     private:
-        GLuint _vertexArrayID  = 0U;
         GLuint _vertexBufferID = 0U;
     };
 

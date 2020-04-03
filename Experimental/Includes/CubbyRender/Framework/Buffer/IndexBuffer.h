@@ -32,12 +32,14 @@ namespace CubbyRender {
         virtual ~IndexBuffer();
 
         //! Allocate gpu 
-        void allocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<unsigned int>& data, size_t numberOfIndices, bool storeData);
+        void allocateBuffer(RendererPtr renderer, const ConstArrayAccessor1<unsigned int>& data, size_t numberOfIndices);
 
         //! Update 
-        virtual void updateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<unsigned int>& data, bool storeData) = 0;
+        virtual void updateBuffer(RendererPtr renderer, const ConstArrayAccessor1<unsigned int>& data) = 0;
 
         size_t getNumberOfIndices() const;
+
+        void bindState(RendererPtr renderer);
 
     protected:
         //! implementation of bind method
@@ -50,9 +52,11 @@ namespace CubbyRender {
         virtual void onDestroy() override = 0;
 
         //! Allocate gpu 
-        virtual void onAllocateBuffer(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor1<unsigned int>& data) = 0;
+        virtual void onAllocateBuffer(RendererPtr renderer, const ConstArrayAccessor1<unsigned int>& data) = 0;
 
-        Array1<unsigned int> _data;
+        //! implementation of bind state method.
+        virtual void onBindState(RendererPtr renderer) = 0;
+
         size_t _numberOfIndices;
     private:
     };

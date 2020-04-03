@@ -26,6 +26,15 @@ namespace CubbyFlow
 		Resize(size, initVal);
 	}
 
+	/*
+	template <typename T>
+	template <typename InputIterator>
+	Array<T, 1>::Array(InputIterator first, InputIterator last)
+	{
+		Set(first, last);
+	}
+	*/
+
 	template <typename T>
 	Array<T, 1>::Array(const std::initializer_list<T>& list)
 	{
@@ -72,6 +81,13 @@ namespace CubbyFlow
 			(*this)[i] = *colIter;
 			++colIter;
 		}
+	}
+
+	template <typename T>
+	template <typename InputIterator>
+	void Array<T, 1>::Set(InputIterator first, InputIterator last)
+	{
+		m_data = std::vector<T>(first, last);
 	}
 
 	template <typename T>

@@ -40,12 +40,26 @@ namespace CubbyRender {
 
         ArrayAccessor1<unsigned char> getCurrentFrame(Size2 size) override;
 
+        InputLayoutPtr createInputLayout() override;
+
         //! Create VertexBuffer pointer with given parameters.
         //!
-        //! \param vertices vertex data
-        //! \param numberOfVertices number of point.
+        //! \param inputLayout Input Layout instance which will contain generated vertex buffer.
+        //! \param material material which contains shader 
+        //! \param data vertices data.
+        //! \param numberOfVertices number of vertex in the data.
+        //! \param format format of the input vertex
         //! \return new vertex buffer instance
-        VertexBufferPtr createVertexBuffer(MaterialPtr material, const ConstArrayAccessor1<float>& data, size_t numberOfVertices, VertexFormat format, bool storeData) override;
+        VertexBufferPtr createVertexBuffer(const ConstArrayAccessor1<float>& data, size_t numberOfVertices, VertexFormat format) override;
+
+        //! Create VertexBuffer pointer with given parameters.
+        //!
+        //! \param inputLayout Input Layout instance which will contain generated index buffer.
+        //! \param material material which contains shader 
+        //! \param data indices data.
+        //! \param numberOfIndices number of vertex in the data.
+        //! \return new index buffer instance
+        IndexBufferPtr createIndexBuffer(const ConstArrayAccessor1<unsigned int>& data, size_t numberOfIndices) override;
 
         //! Create Shader Program from presets.
         //! \param shader preset name
