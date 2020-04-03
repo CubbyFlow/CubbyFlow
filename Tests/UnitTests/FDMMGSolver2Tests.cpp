@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "pch.hpp"
 
 #include <Core/Solver/FDM/FDMMGSolver2.hpp>
 
@@ -6,61 +6,60 @@ using namespace CubbyFlow;
 
 TEST(FDMMGSolver2, Solve)
 {
-	const size_t levels = 6;
-	FDMMGLinearSystem2 system;
-	system.ResizeWithCoarsest({ 4, 4 }, levels);
+    const size_t levels = 6;
+    FDMMGLinearSystem2 system;
+    system.ResizeWithCoarsest({ 4, 4 }, levels);
 
-	// Simple Poisson eq.
-	for (size_t l = 0; l < system.GetNumberOfLevels(); ++l)
-	{
-		double invdx = pow(0.5, l);
-		FDMMatrix2& A = system.A[l];
-		FDMVector2& b = system.b[l];
+    // Simple Poisson eq.
+    for (size_t l = 0; l < system.GetNumberOfLevels(); ++l)
+    {
+        double invdx = pow(0.5, l);
+        FDMMatrix2& A = system.A[l];
+        FDMVector2& b = system.b[l];
 
-		system.x[l].Set(0);
+        system.x[l].Set(0);
 
-		A.ForEachIndex([&](size_t i, size_t j)
-		{
-			if (i > 0)
-			{
-				A(i, j).center += invdx * invdx;
-			}
-			if (i < A.Width() - 1)
-			{
-				A(i, j).center += invdx * invdx;
-				A(i, j).right -= invdx * invdx;
-			}
+        A.ForEachIndex([&](size_t i, size_t j) {
+            if (i > 0)
+            {
+                A(i, j).center += invdx * invdx;
+            }
+            if (i < A.Width() - 1)
+            {
+                A(i, j).center += invdx * invdx;
+                A(i, j).right -= invdx * invdx;
+            }
 
-			if (j > 0)
-			{
-				A(i, j).center += invdx * invdx;
-			}
-			else
-			{
-				b(i, j) += invdx;
-			}
+            if (j > 0)
+            {
+                A(i, j).center += invdx * invdx;
+            }
+            else
+            {
+                b(i, j) += invdx;
+            }
 
-			if (j < A.Height() - 1)
-			{
-				A(i, j).center += invdx * invdx;
-				A(i, j).up -= invdx * invdx;
-			}
-			else
-			{
-				b(i, j) -= invdx;
-			}
-		});
-	}
+            if (j < A.Height() - 1)
+            {
+                A(i, j).center += invdx * invdx;
+                A(i, j).up -= invdx * invdx;
+            }
+            else
+            {
+                b(i, j) -= invdx;
+            }
+        });
+    }
 
-	auto buffer = system.x[0];
-	FDMBLAS2::Residual(system.A[0], system.x[0], system.b[0], &buffer);
-	double norm0 = FDMBLAS2::L2Norm(buffer);
+    auto buffer = system.x[0];
+    FDMBLAS2::Residual(system.A[0], system.x[0], system.b[0], &buffer);
+    double norm0 = FDMBLAS2::L2Norm(buffer);
 
-	FDMMGSolver2 solver(levels, 5, 5, 20, 20, 1e-9);
-	solver.Solve(&system);
+    FDMMGSolver2 solver(levels, 5, 5, 20, 20, 1e-9);
+    solver.Solve(&system);
 
-	FDMBLAS2::Residual(system.A[0], system.x[0], system.b[0], &buffer);
-	double norm1 = FDMBLAS2::L2Norm(buffer);
+    FDMBLAS2::Residual(system.A[0], system.x[0], system.b[0], &buffer);
+    double norm1 = FDMBLAS2::L2Norm(buffer);
 
-	EXPECT_LT(norm1, norm0);
+    EXPECT_LT(norm1, norm0);
 }

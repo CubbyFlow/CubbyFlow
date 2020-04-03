@@ -10,15 +10,15 @@
 #include <fstream>
 #include <random>
 
-using CubbyFlow::TriangleMesh3;
-using CubbyFlow::Triangle3;
 using CubbyFlow::BoundingBox3D;
-using CubbyFlow::Vector3D;
 using CubbyFlow::Ray3D;
+using CubbyFlow::Triangle3;
+using CubbyFlow::TriangleMesh3;
+using CubbyFlow::Vector3D;
 
 class BVH3 : public ::benchmark::Fixture
 {
-public:
+ public:
     std::mt19937 rng{ 0 };
     std::uniform_real_distribution<> dist{ 0.0, 1.0 };
     TriangleMesh3 triMesh;
@@ -66,7 +66,8 @@ BENCHMARK_DEFINE_F(BVH3, Nearest)(benchmark::State& state)
 {
     while (state.KeepRunning())
     {
-        benchmark::DoNotOptimize(queryEngine.GetNearestNeighbor(MakeVec(), DistanceFunc));
+        benchmark::DoNotOptimize(
+            queryEngine.GetNearestNeighbor(MakeVec(), DistanceFunc));
     }
 }
 
@@ -76,7 +77,8 @@ BENCHMARK_DEFINE_F(BVH3, RayIntersects)(benchmark::State& state)
 {
     while (state.KeepRunning())
     {
-        benchmark::DoNotOptimize(queryEngine.IsIntersects(Ray3D(MakeVec(), MakeVec().Normalized()), IntersectsFunc));
+        benchmark::DoNotOptimize(queryEngine.IsIntersects(
+            Ray3D(MakeVec(), MakeVec().Normalized()), IntersectsFunc));
     }
 }
 

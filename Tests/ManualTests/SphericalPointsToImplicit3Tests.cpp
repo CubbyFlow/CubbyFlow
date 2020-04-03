@@ -1,6 +1,6 @@
-#include "pch.h"
+#include "pch.hpp"
 
-#include <ManualTests.h>
+#include <ManualTests.hpp>
 
 #include <Core/Grid/VertexCenteredScalarGrid3.hpp>
 #include <Core/MarchingCubes/MarchingCubes.hpp>
@@ -14,46 +14,52 @@ CUBBYFLOW_TESTS(SphericalPointsToImplicit3);
 
 CUBBYFLOW_BEGIN_TEST_F(SphericalPointsToImplicit3, ConvertTwo)
 {
-	Array1<Vector3D> points;
+    Array1<Vector3D> points;
 
-	std::mt19937 rng{ 0 };
-	std::uniform_real_distribution<> dist(0.2, 0.8);
-	for (size_t i = 0; i < 2; ++i)
-	{
-		points.Append({ dist(rng), dist(rng), dist(rng) });
-	}
+    std::mt19937 rng{ 0 };
+    std::uniform_real_distribution<> dist(0.2, 0.8);
+    for (size_t i = 0; i < 2; ++i)
+    {
+        points.Append({ dist(rng), dist(rng), dist(rng) });
+    }
 
-	VertexCenteredScalarGrid3 grid(128, 128, 128, 1.0 / 128, 1.0 / 128, 1.0 / 128);
+    VertexCenteredScalarGrid3 grid(128, 128, 128, 1.0 / 128, 1.0 / 128,
+                                   1.0 / 128);
 
-	SphericalPointsToImplicit3 converter(0.15);
-	converter.Convert(points.ConstAccessor(), &grid);
+    SphericalPointsToImplicit3 converter(0.15);
+    converter.Convert(points.ConstAccessor(), &grid);
 
-	TriangleMesh3 triMesh;
-	MarchingCubes(grid.GetConstDataAccessor(), grid.GridSpacing(), grid.GetDataOrigin(), &triMesh, 0, DIRECTION_ALL);
+    TriangleMesh3 triMesh;
+    MarchingCubes(grid.GetConstDataAccessor(), grid.GridSpacing(),
+                  grid.GetDataOrigin(), &triMesh, 0, DIRECTION_ALL);
 
-	SaveTriangleMeshData(triMesh, "spherical_points_to_implicit3_convert_two.obj");
+    SaveTriangleMeshData(triMesh,
+                         "spherical_points_to_implicit3_convert_two.obj");
 }
 CUBBYFLOW_END_TEST_F
 
 CUBBYFLOW_BEGIN_TEST_F(SphericalPointsToImplicit3, ConvertMany)
 {
-	Array1<Vector3D> points;
+    Array1<Vector3D> points;
 
-	std::mt19937 rng{ 0 };
-	std::uniform_real_distribution<> dist(0.2, 0.8);
-	for (size_t i = 0; i < 500; ++i)
-	{
-		points.Append({ dist(rng), dist(rng), dist(rng) });
-	}
+    std::mt19937 rng{ 0 };
+    std::uniform_real_distribution<> dist(0.2, 0.8);
+    for (size_t i = 0; i < 500; ++i)
+    {
+        points.Append({ dist(rng), dist(rng), dist(rng) });
+    }
 
-	VertexCenteredScalarGrid3 grid(128, 128, 128, 1.0 / 128, 1.0 / 128, 1.0 / 128);
+    VertexCenteredScalarGrid3 grid(128, 128, 128, 1.0 / 128, 1.0 / 128,
+                                   1.0 / 128);
 
-	SphericalPointsToImplicit3 converter(0.1);
-	converter.Convert(points.ConstAccessor(), &grid);
+    SphericalPointsToImplicit3 converter(0.1);
+    converter.Convert(points.ConstAccessor(), &grid);
 
-	TriangleMesh3 triMesh;
-	MarchingCubes(grid.GetConstDataAccessor(), grid.GridSpacing(), grid.GetDataOrigin(), &triMesh, 0, DIRECTION_ALL);
+    TriangleMesh3 triMesh;
+    MarchingCubes(grid.GetConstDataAccessor(), grid.GridSpacing(),
+                  grid.GetDataOrigin(), &triMesh, 0, DIRECTION_ALL);
 
-	SaveTriangleMeshData(triMesh, "spherical_points_to_implicit3_convert_many.obj");
+    SaveTriangleMeshData(triMesh,
+                         "spherical_points_to_implicit3_convert_many.obj");
 }
 CUBBYFLOW_END_TEST_F

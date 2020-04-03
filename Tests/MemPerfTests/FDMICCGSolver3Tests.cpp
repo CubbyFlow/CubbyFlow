@@ -1,4 +1,4 @@
-#include "MemPerfTestsUtils.h"
+#include "MemPerfTestsUtils.hpp"
 
 #include "gtest/gtest.h"
 

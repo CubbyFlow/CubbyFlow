@@ -1,52 +1,48 @@
-#include "MemPerfTestsUtils.h"
+#include "MemPerfTestsUtils.hpp"
 
 #include "gtest/gtest.h"
 
-#include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.hpp>
 #include <Core/Grid/CellCenteredScalarGrid3.hpp>
 #include <Core/Grid/FaceCenteredGrid3.hpp>
+#include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.hpp>
 
 using namespace CubbyFlow;
 
 namespace
 {
-    void RunExperiment(size_t n, double height, bool compressed)
+void RunExperiment(size_t n, double height, bool compressed)
+{
+    FaceCenteredGrid3 vel(n, n, n);
+    CellCenteredScalarGrid3 fluidSDF(n, n, n);
+
+    vel.Fill(Vector3D());
+
+    for (size_t k = 0; k < n; ++k)
     {
-        FaceCenteredGrid3 vel(n, n, n);
-        CellCenteredScalarGrid3 fluidSDF(n, n, n);
-
-        vel.Fill(Vector3D());
-
-        for (size_t k = 0; k < n; ++k)
+        for (size_t j = 0; j < n + 1; ++j)
         {
-            for (size_t j = 0; j < n + 1; ++j)
+            for (size_t i = 0; i < n; ++i)
             {
-                for (size_t i = 0; i < n; ++i)
+                if (j == 0 || j == n)
                 {
-                    if (j == 0 || j == n)
-                    {
-                        vel.GetV(i, j, k) = 0.0;
-                    }
-                    else
-                    {
-                        vel.GetV(i, j, k) = 1.0;
-                    }
+                    vel.GetV(i, j, k) = 0.0;
+                }
+                else
+                {
+                    vel.GetV(i, j, k) = 1.0;
                 }
             }
         }
-
-        fluidSDF.Fill([&](const Vector3D& x)
-        {
-            return x.y - height * n;
-        });
-
-        GridFractionalSinglePhasePressureSolver3 solver;
-        solver.Solve(vel, 1.0, &vel,
-            ConstantScalarField3(std::numeric_limits<double>::max()),
-            ConstantVectorField3({ 0, 0, 0 }),
-            fluidSDF, compressed);
     }
+
+    fluidSDF.Fill([&](const Vector3D& x) { return x.y - height * n; });
+
+    GridFractionalSinglePhasePressureSolver3 solver;
+    solver.Solve(vel, 1.0, &vel,
+                 ConstantScalarField3(std::numeric_limits<double>::max()),
+                 ConstantVectorField3({ 0, 0, 0 }), fluidSDF, compressed);
 }
+}  // namespace
 
 TEST(GridFractionalSinglePhasePressureSolver3, FullUncompressed)
 {

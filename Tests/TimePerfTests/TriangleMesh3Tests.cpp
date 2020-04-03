@@ -10,7 +10,7 @@ using CubbyFlow::Vector3D;
 
 class TriangleMesh3 : public ::benchmark::Fixture
 {
-protected:
+ protected:
     std::mt19937 rng{ 0 };
     std::uniform_real_distribution<> dist{ 0.0, 1.0 };
     CubbyFlow::TriangleMesh3 triMesh;

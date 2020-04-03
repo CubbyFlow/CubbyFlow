@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "pch.hpp"
 
 #include <Core/Matrix/Matrix.hpp>
 #include <Core/Vector/Vector.hpp>
@@ -7,27 +7,27 @@ using namespace CubbyFlow;
 
 namespace CubbyFlow
 {
-    template <typename T, size_t M, size_t N>
-    std::ostream& operator<<(std::ostream& os, const Matrix<T, M, N>& mat)
+template <typename T, size_t M, size_t N>
+std::ostream& operator<<(std::ostream& os, const Matrix<T, M, N>& mat)
+{
+    for (size_t i = 0; i < mat.Rows(); ++i)
     {
-        for (size_t i = 0; i < mat.Rows(); ++i)
+        for (size_t j = 0; j < mat.Cols(); ++j)
         {
-            for (size_t j = 0; j < mat.Cols(); ++j)
+            os << mat(i, j);
+
+            if (j + 1 < mat.Cols())
             {
-                os << mat(i, j);
-
-                if (j + 1 < mat.Cols())
-                {
-                    os << std::string(", ");
-                }
+                os << std::string(", ");
             }
-
-            os << std::endl;
         }
 
-        return os;
+        os << std::endl;
     }
+
+    return os;
 }
+}  // namespace CubbyFlow
 
 TEST(Matrix, Constructors)
 {
@@ -48,7 +48,7 @@ TEST(Matrix, Constructors)
         EXPECT_DOUBLE_EQ(i + 1.0, mat2[i]);
     }
 
-    Matrix<double, 2, 3> mat3 = { { 1.0, 2.0, 3.0 },{ 4.0, 5.0, 6.0 } };
+    Matrix<double, 2, 3> mat3 = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } };
 
     for (int i = 0; i < 6; ++i)
     {
@@ -145,7 +145,8 @@ TEST(Matrix, BasicSetters)
     mat2.Set({ { 1.0, 2.0 }, { 3.0, 4.0 }, { 5.0, 6.0 }, { 7.0, 8.0 } });
     EXPECT_TRUE(mat.IsEqual(mat2));
 
-    mat2.Set({ { 1.01, 2.01 }, { 3.01, 4.01 }, { 4.99, 5.99 }, { 6.99, 7.99 } });
+    mat2.Set(
+        { { 1.01, 2.01 }, { 3.01, 4.01 }, { 4.99, 5.99 }, { 6.99, 7.99 } });
     EXPECT_TRUE(mat.IsSimilar(mat2, 0.02));
     EXPECT_FALSE(mat.IsSimilar(mat2, 0.005));
 
@@ -278,8 +279,7 @@ TEST(Matrix, AugmentedOperatorMethod)
     }
     matA2.IMul(matC2);
 
-    const Matrix<double, 5, 5> ans2 =
-    {
+    const Matrix<double, 5, 5> ans2 = {
         { 175.0, 160.0, 145.0, 130.0, 115.0 },
         { 550.0, 510.0, 470.0, 430.0, 390.0 },
         { 925.0, 860.0, 795.0, 730.0, 665.0 },
@@ -303,20 +303,18 @@ TEST(Matrix, ComplexGetters)
     EXPECT_EQ(21.0, matA.Sum());
     EXPECT_DOUBLE_EQ(21.0 / 6.0, matA.Avg());
 
-    const Matrix<double, 2, 3> matB = { { 3.0, -1.0, 2.0 }, { -9.0, 2.0, 8.0 } };
+    const Matrix<double, 2, 3> matB = { { 3.0, -1.0, 2.0 },
+                                        { -9.0, 2.0, 8.0 } };
     EXPECT_EQ(-9.0, matB.Min());
     EXPECT_EQ(8.0, matB.Max());
     EXPECT_EQ(-1.0, matB.AbsMin());
     EXPECT_EQ(-9.0, matB.AbsMax());
 
-    const Matrix<double, 5, 5> matC =
-    {
-        { 3.0, -1.0, 2.0, 4.0, 5.0 },
-        { -9.0, 2.0, 8.0, -1.0, 2.0 },
-        { 4.0, 3.0, 6.0, 7.0, -5.0 },
-        { -2.0, 6.0, 7.0, 1.0, 0.0 },
-        { 4.0, 2.0, 3.0, 3.0, -9.0 }
-    };
+    const Matrix<double, 5, 5> matC = { { 3.0, -1.0, 2.0, 4.0, 5.0 },
+                                        { -9.0, 2.0, 8.0, -1.0, 2.0 },
+                                        { 4.0, 3.0, 6.0, 7.0, -5.0 },
+                                        { -2.0, 6.0, 7.0, 1.0, 0.0 },
+                                        { 4.0, 2.0, 3.0, 3.0, -9.0 } };
     EXPECT_EQ(3.0, matC.Trace());
 
     EXPECT_DOUBLE_EQ(-6380.0, matC.Determinant());
@@ -330,68 +328,54 @@ TEST(Matrix, ComplexGetters)
     EXPECT_EQ(ans, mat);
 
     const auto matCStrictLowerTri = matC.StrictLowerTri();
-    Matrix<double, 5, 5> ansStrictLowerTri =
-    {
-        { 0.0, 0.0, 0.0, 0.0, 0.0 },
-        { -9.0, 0.0, 0.0, 0.0, 0.0 },
-        { 4.0, 3.0, 0.0, 0.0, 0.0 },
-        { -2.0, 6.0, 7.0, 0.0, 0.0 },
-        { 4.0, 2.0, 3.0, 3.0, 0.0 }
-    };
+    Matrix<double, 5, 5> ansStrictLowerTri = { { 0.0, 0.0, 0.0, 0.0, 0.0 },
+                                               { -9.0, 0.0, 0.0, 0.0, 0.0 },
+                                               { 4.0, 3.0, 0.0, 0.0, 0.0 },
+                                               { -2.0, 6.0, 7.0, 0.0, 0.0 },
+                                               { 4.0, 2.0, 3.0, 3.0, 0.0 } };
     EXPECT_EQ(ansStrictLowerTri, matCStrictLowerTri);
 
     const auto matCStrictUpperTri = matC.StrictUpperTri();
-    Matrix<double, 5, 5> ansStrictUpperTri =
-    {
-        { 0.0, -1.0, 2.0, 4.0, 5.0 },
-        { 0.0, 0.0, 8.0, -1.0, 2.0 },
-        { 0.0, 0.0, 0.0, 7.0, -5.0 },
-        { 0.0, 0.0, 0.0, 0.0, 0.0 },
-        { 0.0, 0.0, 0.0, 0.0, 0.0 }
-    };
+    Matrix<double, 5, 5> ansStrictUpperTri = { { 0.0, -1.0, 2.0, 4.0, 5.0 },
+                                               { 0.0, 0.0, 8.0, -1.0, 2.0 },
+                                               { 0.0, 0.0, 0.0, 7.0, -5.0 },
+                                               { 0.0, 0.0, 0.0, 0.0, 0.0 },
+                                               { 0.0, 0.0, 0.0, 0.0, 0.0 } };
     EXPECT_EQ(ansStrictUpperTri, matCStrictUpperTri);
 
     const auto matCLowerTri = matC.LowerTri();
-    Matrix<double, 5, 5> ansLowerTri =
-    {
-        { 3.0, 0.0, 0.0, 0.0, 0.0 },
-        { -9.0, 2.0, 0.0, 0.0, 0.0 },
-        { 4.0, 3.0, 6.0, 0.0, 0.0 },
-        { -2.0, 6.0, 7.0, 1.0, 0.0 },
-        { 4.0, 2.0, 3.0, 3.0, -9.0 }
-    };
+    Matrix<double, 5, 5> ansLowerTri = { { 3.0, 0.0, 0.0, 0.0, 0.0 },
+                                         { -9.0, 2.0, 0.0, 0.0, 0.0 },
+                                         { 4.0, 3.0, 6.0, 0.0, 0.0 },
+                                         { -2.0, 6.0, 7.0, 1.0, 0.0 },
+                                         { 4.0, 2.0, 3.0, 3.0, -9.0 } };
     EXPECT_EQ(ansLowerTri, matCLowerTri);
 
     const auto matUpperTri = matC.UpperTri();
-    Matrix<double, 5, 5> ansUpperTri =
-    {
-        { 3.0, -1.0, 2.0, 4.0, 5.0 },
-        { 0.0, 2.0, 8.0, -1.0, 2.0 },
-        { 0.0, 0.0, 6.0, 7.0, -5.0 },
-        { 0.0, 0.0, 0.0, 1.0, 0.0 },
-        { 0.0, 0.0, 0.0, 0.0, -9.0 }
-    };
+    Matrix<double, 5, 5> ansUpperTri = { { 3.0, -1.0, 2.0, 4.0, 5.0 },
+                                         { 0.0, 2.0, 8.0, -1.0, 2.0 },
+                                         { 0.0, 0.0, 6.0, 7.0, -5.0 },
+                                         { 0.0, 0.0, 0.0, 1.0, 0.0 },
+                                         { 0.0, 0.0, 0.0, 0.0, -9.0 } };
     EXPECT_EQ(ansUpperTri, matUpperTri);
 
     const Matrix<float, 5, 5> matF = matC.CastTo<float>();
-    const Matrix<float, 5, 5> ansF =
-    {
-        { 3.f, -1.f, 2.f, 4.f, 5.f },
-        { -9.f, 2.f, 8.f, -1.f, 2.f },
-        { 4.f, 3.f, 6.f, 7.f, -5.f },
-        { -2.f, 6.f, 7.f, 1.f, 0.f },
-        { 4.f, 2.f, 3.f, 3.f, -9.f }
-    };
+    const Matrix<float, 5, 5> ansF = { { 3.f, -1.f, 2.f, 4.f, 5.f },
+                                       { -9.f, 2.f, 8.f, -1.f, 2.f },
+                                       { 4.f, 3.f, 6.f, 7.f, -5.f },
+                                       { -2.f, 6.f, 7.f, 1.f, 0.f },
+                                       { 4.f, 2.f, 3.f, 3.f, -9.f } };
     EXPECT_EQ(ansF, matF);
 
     const Matrix<double, 3, 2> matT = matA.Transposed();
-    const Matrix<double, 3, 2> ansT = { { 1.0, 4.0 }, { 2.0, 5.0 }, { 3.0, 6.0 } };
+    const Matrix<double, 3, 2> ansT = { { 1.0, 4.0 },
+                                        { 2.0, 5.0 },
+                                        { 3.0, 6.0 } };
     EXPECT_EQ(ansT, matT);
 
     Matrix<double, 5, 5> matI = matC;
     Matrix<double, 5, 5> mat2I = matI.Inverse();
-    Matrix<double, 5, 5> ansI =
-    {
+    Matrix<double, 5, 5> ansI = {
         { 0.260345, -0.0484326, -0.300157, 0.109404, 0.300627 },
         { -0.215517, -0.138715, 0.188871, 0.167712, -0.255486 },
         { 0.294828, 0.108307, -0.315831, 0.0498433, 0.363323 },
@@ -403,41 +387,33 @@ TEST(Matrix, ComplexGetters)
 
 TEST(Matrix, Modifiers)
 {
-    Matrix<double, 5, 5> mat =
-    {
-        { 3.0, -1.0, 2.0, 4.0, 5.0 },
-        { -9.0, 2.0, 8.0, -1.0, 2.0 },
-        { 4.0, 3.0, 6.0, 7.0, -5.0 },
-        { -2.0, 6.0, 7.0, 1.0, 0.0 },
-        { 4.0, 2.0, 3.0, 3.0, -9.0 }
-    };
+    Matrix<double, 5, 5> mat = { { 3.0, -1.0, 2.0, 4.0, 5.0 },
+                                 { -9.0, 2.0, 8.0, -1.0, 2.0 },
+                                 { 4.0, 3.0, 6.0, 7.0, -5.0 },
+                                 { -2.0, 6.0, 7.0, 1.0, 0.0 },
+                                 { 4.0, 2.0, 3.0, 3.0, -9.0 } };
     mat.Transpose();
 
-    Matrix<double, 5, 5> ans =
-    {
-        { 3.0, -9.0, 4.0, -2.0, 4.0 },
-        { -1.0, 2.0, 3.0, 6.0, 2.0 },
-        { 2.0, 8.0, 6.0, 7.0, 3.0 },
-        { 4.0, -1.0, 7.0, 1.0, 3.0 },
-        { 5.0, 2.0, -5.0, 0.0, -9.0 }
-    };
+    Matrix<double, 5, 5> ans = { { 3.0, -9.0, 4.0, -2.0, 4.0 },
+                                 { -1.0, 2.0, 3.0, 6.0, 2.0 },
+                                 { 2.0, 8.0, 6.0, 7.0, 3.0 },
+                                 { 4.0, -1.0, 7.0, 1.0, 3.0 },
+                                 { 5.0, 2.0, -5.0, 0.0, -9.0 } };
     EXPECT_EQ(ans, mat);
 
-    mat =
-    {
-        { 3.0, -1.0, 2.0, 4.0, 5.0 },
-        { -9.0, 2.0, 8.0, -1.0, 2.0 },
-        { 4.0, 3.0, 6.0, 7.0, -5.0 },
-        { -2.0, 6.0, 7.0, 1.0, 0.0 },
-        { 4.0, 2.0, 3.0, 3.0, -9.0 }
-    };
+    mat = { { 3.0, -1.0, 2.0, 4.0, 5.0 },
+            { -9.0, 2.0, 8.0, -1.0, 2.0 },
+            { 4.0, 3.0, 6.0, 7.0, -5.0 },
+            { -2.0, 6.0, 7.0, 1.0, 0.0 },
+            { 4.0, 2.0, 3.0, 3.0, -9.0 } };
     mat.Invert();
 
-    ans =
-    {
-        { 151 / 580.0, -309 / 6380.0, -383 / 1276.0, 349 / 3190.0, 959 / 3190.0 },
+    ans = {
+        { 151 / 580.0, -309 / 6380.0, -383 / 1276.0, 349 / 3190.0,
+          959 / 3190.0 },
         { -25 / 116.0, -177 / 1276.0, 241 / 1276.0, 107 / 638.0, -163 / 638.0 },
-        { 171 / 580.0, 691 / 6380.0, -403 / 1276.0, 159 / 3190.0, 1159 / 3190.0 },
+        { 171 / 580.0, 691 / 6380.0, -403 / 1276.0, 159 / 3190.0,
+          1159 / 3190.0 },
         { -1 / 4.0, -1 / 44.0, 21 / 44.0, -3 / 22.0, -9 / 22.0 },
         { 12 / 145.0, -38 / 1595.0, -12 / 319.0, 91 / 1595.0, -79 / 1595.0 }
     };
@@ -489,8 +465,7 @@ TEST(Matrix, SetterOperators)
     }
     matA2 *= matC2;
 
-    const Matrix<double, 5, 5> ans2 =
-    {
+    const Matrix<double, 5, 5> ans2 = {
         { 175.0, 160.0, 145.0, 130.0, 115.0 },
         { 550.0, 510.0, 470.0, 430.0, 390.0 },
         { 925.0, 860.0, 795.0, 730.0, 665.0 },

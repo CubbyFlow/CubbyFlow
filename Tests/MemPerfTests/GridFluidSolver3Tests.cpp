@@ -1,4 +1,4 @@
-#include "MemPerfTestsUtils.h"
+#include "MemPerfTestsUtils.hpp"
 
 #include "gtest/gtest.h"
 
@@ -13,9 +13,8 @@ TEST(GridFluidSolver3, Memory)
 
     const size_t mem0 = GetCurrentRSS();
 
-    auto solver = GridFluidSolver3::Builder()
-        .WithResolution({ n, n, n })
-        .MakeShared();
+    auto solver =
+        GridFluidSolver3::Builder().WithResolution({ n, n, n }).MakeShared();
 
     const size_t mem1 = GetCurrentRSS();
 

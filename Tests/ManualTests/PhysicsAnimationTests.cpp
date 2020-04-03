@@ -1,11 +1,11 @@
-#include "pch.h"
+#include "pch.hpp"
 
-#include <ManualTests.h>
+#include <ManualTests.hpp>
 
+#include <Core/Animation/PhysicsAnimation.hpp>
 #include <Core/Array/Array1.hpp>
 #include <Core/Field/ConstantVectorField3.hpp>
 #include <Core/Vector/Vector3.hpp>
-#include <Core/Animation/PhysicsAnimation.hpp>
 
 using namespace CubbyFlow;
 

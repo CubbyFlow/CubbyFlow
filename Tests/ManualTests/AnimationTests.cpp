@@ -1,6 +1,6 @@
-#include "pch.h"
+#include "pch.hpp"
 
-#include <ManualTests.h>
+#include <ManualTests.hpp>
 
 #include <Core/Animation/Animation.hpp>
 #include <Core/Array/Array1.hpp>

@@ -11,7 +11,7 @@ using CubbyFlow::Vector3D;
 
 class PointHashGridSearcher3 : public ::benchmark::Fixture
 {
-protected:
+ protected:
     std::mt19937 rng{ 0 };
     std::uniform_real_distribution<> dist{ 0.0, 1.0 };
     Array1<Vector3D> points;
@@ -43,11 +43,12 @@ BENCHMARK_DEFINE_F(PointHashGridSearcher3, Build)(benchmark::State& state)
 }
 
 BENCHMARK_REGISTER_F(PointHashGridSearcher3, Build)
-->Arg(1 << 5)
-->Arg(1 << 10)
-->Arg(1 << 20);
+    ->Arg(1 << 5)
+    ->Arg(1 << 10)
+    ->Arg(1 << 20);
 
-BENCHMARK_DEFINE_F(PointHashGridSearcher3, ForEachNearbyPoints)(benchmark::State& state)
+BENCHMARK_DEFINE_F(PointHashGridSearcher3, ForEachNearbyPoints)
+(benchmark::State& state)
 {
     CubbyFlow::PointHashGridSearcher3 grid(64, 64, 64, 1.0 / 64.0);
     grid.Build(points);
@@ -56,14 +57,11 @@ BENCHMARK_DEFINE_F(PointHashGridSearcher3, ForEachNearbyPoints)(benchmark::State
     while (state.KeepRunning())
     {
         grid.ForEachNearbyPoint(MakeVec(), 1.0 / 64.0,
-            [&](size_t, const Vector3D&)
-        {
-            ++cnt;
-        });
+                                [&](size_t, const Vector3D&) { ++cnt; });
     }
 }
 
 BENCHMARK_REGISTER_F(PointHashGridSearcher3, ForEachNearbyPoints)
-->Arg(1 << 5)
-->Arg(1 << 10)
-->Arg(1 << 20);
+    ->Arg(1 << 5)
+    ->Arg(1 << 10)
+    ->Arg(1 << 20);

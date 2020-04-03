@@ -1,6 +1,6 @@
-#include "pch.h"
+#include "pch.hpp"
 
-#include <FDMLinearSystemSolverTestHelper2.h>
+#include <FDMLinearSystemSolverTestHelper2.hpp>
 
 #include <Core/Solver/FDM/FDMICCGSolver2.hpp>
 
@@ -20,7 +20,8 @@ TEST(FDMICCGSolver2, SolveLowRes)
 TEST(FDMICCGSolver2, Solve)
 {
     FDMLinearSystem2 system;
-    FDMLinearSystemSolverTestHelper2::BuildTestLinearSystem(&system, { 128, 128 });
+    FDMLinearSystemSolverTestHelper2::BuildTestLinearSystem(&system,
+                                                            { 128, 128 });
 
     FDMICCGSolver2 solver(200, 1e-4);
     EXPECT_TRUE(solver.Solve(&system));

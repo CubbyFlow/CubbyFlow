@@ -7,7 +7,7 @@
 
 class Parallel : public ::benchmark::Fixture
 {
-public:
+ public:
     std::vector<double> a, b, c;
     size_t n = 0;
     unsigned int numThreads = 1;
@@ -42,19 +42,19 @@ BENCHMARK_DEFINE_F(Parallel, ParallelFor)(benchmark::State& state)
 }
 
 BENCHMARK_REGISTER_F(Parallel, ParallelFor)
-->UseRealTime()
-->Args({ 1 << 8, 1 })
-->Args({ 1 << 8, 2 })
-->Args({ 1 << 8, 4 })
-->Args({ 1 << 8, 8 })
-->Args({ 1 << 16, 1 })
-->Args({ 1 << 16, 2 })
-->Args({ 1 << 16, 4 })
-->Args({ 1 << 16, 8 })
-->Args({ 1 << 24, 1 })
-->Args({ 1 << 24, 2 })
-->Args({ 1 << 24, 4 })
-->Args({ 1 << 24, 8 });
+    ->UseRealTime()
+    ->Args({ 1 << 8, 1 })
+    ->Args({ 1 << 8, 2 })
+    ->Args({ 1 << 8, 4 })
+    ->Args({ 1 << 8, 8 })
+    ->Args({ 1 << 16, 1 })
+    ->Args({ 1 << 16, 2 })
+    ->Args({ 1 << 16, 4 })
+    ->Args({ 1 << 16, 8 })
+    ->Args({ 1 << 24, 1 })
+    ->Args({ 1 << 24, 2 })
+    ->Args({ 1 << 24, 4 })
+    ->Args({ 1 << 24, 8 });
 
 BENCHMARK_DEFINE_F(Parallel, ParallelRangeFor)(benchmark::State& state)
 {
@@ -63,30 +63,29 @@ BENCHMARK_DEFINE_F(Parallel, ParallelRangeFor)(benchmark::State& state)
 
     while (state.KeepRunning())
     {
-        CubbyFlow::ParallelRangeFor(CubbyFlow::ZERO_SIZE, n,
-            [this](size_t iBegin, size_t iEnd)
-        {
-            for (size_t i = iBegin; i < iEnd; ++i)
-            {
-                c[i] = 1.0 / std::sqrt(a[i] / b[i] + 1.0);
-            }
-        });
+        CubbyFlow::ParallelRangeFor(
+            CubbyFlow::ZERO_SIZE, n, [this](size_t iBegin, size_t iEnd) {
+                for (size_t i = iBegin; i < iEnd; ++i)
+                {
+                    c[i] = 1.0 / std::sqrt(a[i] / b[i] + 1.0);
+                }
+            });
     }
 
     CubbyFlow::SetMaxNumberOfThreads(oldNumThreads);
 }
 
 BENCHMARK_REGISTER_F(Parallel, ParallelRangeFor)
-->UseRealTime()
-->Args({ 1 << 8, 1 })
-->Args({ 1 << 8, 2 })
-->Args({ 1 << 8, 4 })
-->Args({ 1 << 8, 8 })
-->Args({ 1 << 16, 1 })
-->Args({ 1 << 16, 2 })
-->Args({ 1 << 16, 4 })
-->Args({ 1 << 16, 8 })
-->Args({ 1 << 24, 1 })
-->Args({ 1 << 24, 2 })
-->Args({ 1 << 24, 4 })
-->Args({ 1 << 24, 8 });
+    ->UseRealTime()
+    ->Args({ 1 << 8, 1 })
+    ->Args({ 1 << 8, 2 })
+    ->Args({ 1 << 8, 4 })
+    ->Args({ 1 << 8, 8 })
+    ->Args({ 1 << 16, 1 })
+    ->Args({ 1 << 16, 2 })
+    ->Args({ 1 << 16, 4 })
+    ->Args({ 1 << 16, 8 })
+    ->Args({ 1 << 24, 1 })
+    ->Args({ 1 << 24, 2 })
+    ->Args({ 1 << 24, 4 })
+    ->Args({ 1 << 24, 8 });

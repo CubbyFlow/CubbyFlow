@@ -1,6 +1,6 @@
-#include "pch.h"
+#include "pch.hpp"
 
-#include <FDMLinearSystemSolverTestHelper3.h>
+#include <FDMLinearSystemSolverTestHelper3.hpp>
 
 #include <Core/Solver/FDM/FDMGaussSeidelSolver3.hpp>
 
@@ -9,7 +9,8 @@ using namespace CubbyFlow;
 TEST(FDMGaussSeidelSolver3, SolveLowRes)
 {
     FDMLinearSystem3 system;
-    FDMLinearSystemSolverTestHelper3::BuildTestLinearSystem(&system, { 3, 3, 3 });
+    FDMLinearSystemSolverTestHelper3::BuildTestLinearSystem(&system,
+                                                            { 3, 3, 3 });
 
     FDMGaussSeidelSolver3 solver(100, 10, 1e-9);
     solver.Solve(&system);
@@ -20,7 +21,8 @@ TEST(FDMGaussSeidelSolver3, SolveLowRes)
 TEST(FDMGaussSeidelSolver3, Solve)
 {
     FDMLinearSystem3 system;
-    FDMLinearSystemSolverTestHelper3::BuildTestLinearSystem(&system, { 32, 32, 32 });
+    FDMLinearSystemSolverTestHelper3::BuildTestLinearSystem(&system,
+                                                            { 32, 32, 32 });
 
     auto buffer = system.x;
     FDMBLAS3::Residual(system.A, system.x, system.b, &buffer);
@@ -38,7 +40,8 @@ TEST(FDMGaussSeidelSolver3, Solve)
 TEST(FDMGaussSeidelSolver3, Relax)
 {
     FDMLinearSystem3 system;
-    FDMLinearSystemSolverTestHelper3::BuildTestLinearSystem(&system, { 32, 32, 32 });
+    FDMLinearSystemSolverTestHelper3::BuildTestLinearSystem(&system,
+                                                            { 32, 32, 32 });
 
     auto buffer = system.x;
     FDMBLAS3::Residual(system.A, system.x, system.b, &buffer);
@@ -59,7 +62,8 @@ TEST(FDMGaussSeidelSolver3, Relax)
 TEST(FDMGaussSeidelSolver3, RelaxRedBlack)
 {
     FDMLinearSystem3 system;
-    FDMLinearSystemSolverTestHelper3::BuildTestLinearSystem(&system, { 32, 32, 32 });
+    FDMLinearSystemSolverTestHelper3::BuildTestLinearSystem(&system,
+                                                            { 32, 32, 32 });
 
     auto buffer = system.x;
     FDMBLAS3::Residual(system.A, system.x, system.b, &buffer);
@@ -67,7 +71,8 @@ TEST(FDMGaussSeidelSolver3, RelaxRedBlack)
 
     for (int i = 0; i < 200; ++i)
     {
-        FDMGaussSeidelSolver3::RelaxRedBlack(system.A, system.b, 1.0, &system.x);
+        FDMGaussSeidelSolver3::RelaxRedBlack(system.A, system.b, 1.0,
+                                             &system.x);
 
         FDMBLAS3::Residual(system.A, system.x, system.b, &buffer);
         double norm = FDMBLAS3::L2Norm(buffer);
@@ -84,7 +89,8 @@ TEST(FDMGaussSeidelSolver3, RelaxRedBlack)
 TEST(FDMGaussSeidelSolver3, SolveCompressedLowRes)
 {
     FDMCompressedLinearSystem3 system;
-    FDMLinearSystemSolverTestHelper3::BuildTestCompressedLinearSystem(&system, { 3, 3, 3 });
+    FDMLinearSystemSolverTestHelper3::BuildTestCompressedLinearSystem(
+        &system, { 3, 3, 3 });
 
     FDMGaussSeidelSolver3 solver(100, 10, 1e-9);
     solver.SolveCompressed(&system);
@@ -95,7 +101,8 @@ TEST(FDMGaussSeidelSolver3, SolveCompressedLowRes)
 TEST(FDMGaussSeidelSolver3, SolveCompressed)
 {
     FDMCompressedLinearSystem3 system;
-    FDMLinearSystemSolverTestHelper3::BuildTestCompressedLinearSystem(&system, { 32, 32, 32 });
+    FDMLinearSystemSolverTestHelper3::BuildTestCompressedLinearSystem(
+        &system, { 32, 32, 32 });
 
     auto buffer = system.x;
     FDMCompressedBLAS3::Residual(system.A, system.x, system.b, &buffer);

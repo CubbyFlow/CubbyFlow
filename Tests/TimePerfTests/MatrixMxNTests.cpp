@@ -9,7 +9,7 @@ using CubbyFlow::VectorND;
 
 class MatrixMxN : public ::benchmark::Fixture
 {
-protected:
+ protected:
     CubbyFlow::MatrixMxND mat;
     VectorND x;
     VectorND y;
@@ -24,12 +24,8 @@ protected:
         mat.Resize(n, n);
         x.Resize(n);
         y.Resize(n);
-        mat.ForEachIndex([&](size_t i, size_t j)
-        {
-            mat(i, j) = d(rng);
-        });
-        x.ForEachIndex([&](size_t i)
-        {
+        mat.ForEachIndex([&](size_t i, size_t j) { mat(i, j) = d(rng); });
+        x.ForEachIndex([&](size_t i) {
             x[i] = d(rng);
             y[i] = d(rng);
         });

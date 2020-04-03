@@ -1,5 +1,5 @@
-#ifndef MEM_PERF_TESTS_UTILS_H
-#define MEM_PERF_TESTS_UTILS_H
+#ifndef MEM_PERF_TESTS_UTILS_HPP
+#define MEM_PERF_TESTS_UTILS_HPP
 
 #include <string>
 #include <utility>

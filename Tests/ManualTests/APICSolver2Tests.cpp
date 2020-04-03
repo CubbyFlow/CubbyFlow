@@ -1,6 +1,6 @@
-#include "pch.h"
+#include "pch.hpp"
 
-#include <ManualTests.h>
+#include <ManualTests.hpp>
 
 #include <Core/Collider/RigidBodyCollider2.hpp>
 #include <Core/Emitter/VolumeParticleEmitter2.hpp>
@@ -17,21 +17,21 @@ CUBBYFLOW_BEGIN_TEST_F(APICSolver2, SteadyState)
 {
     // Build solver
     auto solver = APICSolver2::Builder()
-        .WithResolution({ 32, 32 })
-        .WithDomainSizeX(1.0)
-        .MakeShared();
+                      .WithResolution({ 32, 32 })
+                      .WithDomainSizeX(1.0)
+                      .MakeShared();
 
     // Build emitter
     auto box = Box2::Builder()
-        .WithLowerCorner({ 0.0, 0.0 })
-        .WithUpperCorner({ 1.0, 0.5 })
-        .MakeShared();
+                   .WithLowerCorner({ 0.0, 0.0 })
+                   .WithUpperCorner({ 1.0, 0.5 })
+                   .MakeShared();
 
     auto emitter = VolumeParticleEmitter2::Builder()
-        .WithSurface(box)
-        .WithSpacing(1.0 / 64.0)
-        .WithIsOneShot(true)
-        .MakeShared();
+                       .WithSurface(box)
+                       .WithSpacing(1.0 / 64.0)
+                       .WithIsOneShot(true)
+                       .MakeShared();
 
     solver->SetParticleEmitter(emitter);
 
@@ -48,20 +48,23 @@ CUBBYFLOW_BEGIN_TEST_F(APICSolver2, Rotation)
 {
     // Build solver
     auto solver = APICSolver2::Builder()
-        .WithResolution({ 10, 10 })
-        .WithDomainSizeX(1.0)
-        .MakeShared();
+                      .WithResolution({ 10, 10 })
+                      .WithDomainSizeX(1.0)
+                      .MakeShared();
 
     solver->SetGravity({ 0, 0 });
 
     // Build emitter
-    auto box = Sphere2::Builder().WithCenter({ 0.5, 0.5 }).WithRadius(0.4).MakeShared();
+    auto box = Sphere2::Builder()
+                   .WithCenter({ 0.5, 0.5 })
+                   .WithRadius(0.4)
+                   .MakeShared();
 
     auto emitter = VolumeParticleEmitter2::Builder()
-        .WithSurface(box)
-        .WithSpacing(1.0 / 20.0)
-        .WithIsOneShot(true)
-        .MakeShared();
+                       .WithSurface(box)
+                       .WithSpacing(1.0 / 20.0)
+                       .WithIsOneShot(true)
+                       .MakeShared();
 
     solver->SetParticleEmitter(emitter);
 
@@ -97,7 +100,7 @@ CUBBYFLOW_BEGIN_TEST_F(APICSolver2, Rotation)
             for (size_t i = 0; i < x.size(); ++i)
             {
                 Vector2D rp = x[i] - Vector2D(0.5, 0.5);
-                
+
                 if (rp.LengthSquared() > 0.0)
                 {
                     double scale = r[i] / rp.Length();
@@ -115,21 +118,21 @@ CUBBYFLOW_BEGIN_TEST_F(APICSolver2, DamBreaking)
 {
     // Build solver
     auto solver = APICSolver2::Builder()
-        .WithResolution({ 100, 100 })
-        .WithDomainSizeX(1.0)
-        .MakeShared();
+                      .WithResolution({ 100, 100 })
+                      .WithDomainSizeX(1.0)
+                      .MakeShared();
 
     // Build emitter
     auto box = Box2::Builder()
-        .WithLowerCorner({ 0.0, 0.0 })
-        .WithUpperCorner({ 0.2, 0.8 })
-        .MakeShared();
+                   .WithLowerCorner({ 0.0, 0.0 })
+                   .WithUpperCorner({ 0.2, 0.8 })
+                   .MakeShared();
 
     auto emitter = VolumeParticleEmitter2::Builder()
-        .WithSurface(box)
-        .WithSpacing(0.005)
-        .WithIsOneShot(true)
-        .MakeShared();
+                       .WithSurface(box)
+                       .WithSpacing(0.005)
+                       .WithIsOneShot(true)
+                       .MakeShared();
 
     solver->SetParticleEmitter(emitter);
 
@@ -146,21 +149,21 @@ CUBBYFLOW_BEGIN_TEST_F(APICSolver2, LeftWall)
 {
     // Build solver
     auto solver = APICSolver2::Builder()
-        .WithResolution({ 32, 32 })
-        .WithDomainSizeX(1.0)
-        .MakeShared();
+                      .WithResolution({ 32, 32 })
+                      .WithDomainSizeX(1.0)
+                      .MakeShared();
 
     // Build emitter
     auto box = Box2::Builder()
-        .WithLowerCorner({ 0.0, 0.0 })
-        .WithUpperCorner({ 0.01, 0.5 })
-        .MakeShared();
+                   .WithLowerCorner({ 0.0, 0.0 })
+                   .WithUpperCorner({ 0.01, 0.5 })
+                   .MakeShared();
 
     auto emitter = VolumeParticleEmitter2::Builder()
-        .WithSurface(box)
-        .WithSpacing(1.0 / 64.0)
-        .WithIsOneShot(true)
-        .MakeShared();
+                       .WithSurface(box)
+                       .WithSpacing(1.0 / 64.0)
+                       .WithIsOneShot(true)
+                       .MakeShared();
 
     solver->SetParticleEmitter(emitter);
 
@@ -177,21 +180,21 @@ CUBBYFLOW_BEGIN_TEST_F(APICSolver2, RightWall)
 {
     // Build solver
     auto solver = APICSolver2::Builder()
-        .WithResolution({ 32, 32 })
-        .WithDomainSizeX(1.0)
-        .MakeShared();
+                      .WithResolution({ 32, 32 })
+                      .WithDomainSizeX(1.0)
+                      .MakeShared();
 
     // Build emitter
     auto box = Box2::Builder()
-        .WithLowerCorner({ 1.0 - 1.0 / 64.0, 0.0 })
-        .WithUpperCorner({ 1.0, 0.5 })
-        .MakeShared();
+                   .WithLowerCorner({ 1.0 - 1.0 / 64.0, 0.0 })
+                   .WithUpperCorner({ 1.0, 0.5 })
+                   .MakeShared();
 
     auto emitter = VolumeParticleEmitter2::Builder()
-        .WithSurface(box)
-        .WithSpacing(1.0 / 64.0)
-        .WithIsOneShot(true)
-        .MakeShared();
+                       .WithSurface(box)
+                       .WithSpacing(1.0 / 64.0)
+                       .WithIsOneShot(true)
+                       .MakeShared();
 
     solver->SetParticleEmitter(emitter);
 
@@ -208,21 +211,21 @@ CUBBYFLOW_BEGIN_TEST_F(APICSolver2, LeftWallPic)
 {
     // Build solver
     auto solver = PICSolver2::Builder()
-        .WithResolution({ 32, 32 })
-        .WithDomainSizeX(1.0)
-        .MakeShared();
+                      .WithResolution({ 32, 32 })
+                      .WithDomainSizeX(1.0)
+                      .MakeShared();
 
     // Build emitter
     auto box = Box2::Builder()
-        .WithLowerCorner({ 0.0, 0.0 })
-        .WithUpperCorner({ 0.01, 0.5 })
-        .MakeShared();
+                   .WithLowerCorner({ 0.0, 0.0 })
+                   .WithUpperCorner({ 0.01, 0.5 })
+                   .MakeShared();
 
     auto emitter = VolumeParticleEmitter2::Builder()
-        .WithSurface(box)
-        .WithSpacing(1.0 / 64.0)
-        .WithIsOneShot(true)
-        .MakeShared();
+                       .WithSurface(box)
+                       .WithSpacing(1.0 / 64.0)
+                       .WithIsOneShot(true)
+                       .MakeShared();
 
     solver->SetParticleEmitter(emitter);
 
@@ -239,28 +242,32 @@ CUBBYFLOW_BEGIN_TEST_F(APICSolver2, DamBreakingWithCollider)
 {
     // Build solver
     auto solver = APICSolver2::Builder()
-        .WithResolution({ 100, 100 })
-        .WithDomainSizeX(1.0)
-        .MakeShared();
+                      .WithResolution({ 100, 100 })
+                      .WithDomainSizeX(1.0)
+                      .MakeShared();
 
     // Build emitter
     auto box = Box2::Builder()
-        .WithLowerCorner({ 0.0, 0.0 })
-        .WithUpperCorner({ 0.2, 0.8 })
-        .MakeShared();
+                   .WithLowerCorner({ 0.0, 0.0 })
+                   .WithUpperCorner({ 0.2, 0.8 })
+                   .MakeShared();
 
     auto emitter = VolumeParticleEmitter2::Builder()
-        .WithSurface(box)
-        .WithSpacing(0.005)
-        .WithIsOneShot(true)
-        .MakeShared();
+                       .WithSurface(box)
+                       .WithSpacing(0.005)
+                       .WithIsOneShot(true)
+                       .MakeShared();
 
     solver->SetParticleEmitter(emitter);
 
     // Build collider
-    auto sphere = Sphere2::Builder().WithCenter({ 0.5, 0.0 }).WithRadius(0.15).MakeShared();
+    auto sphere = Sphere2::Builder()
+                      .WithCenter({ 0.5, 0.0 })
+                      .WithRadius(0.15)
+                      .MakeShared();
 
-    auto collider = RigidBodyCollider2::Builder().WithSurface(sphere).MakeShared();
+    auto collider =
+        RigidBodyCollider2::Builder().WithSurface(sphere).MakeShared();
 
     solver->SetCollider(collider);
 
@@ -277,20 +284,19 @@ CUBBYFLOW_BEGIN_TEST_F(APICSolver2, Circular)
 {
     // Build solver
     auto solver = APICSolver2::Builder()
-        .WithResolution({ 40, 40 })
-        .WithDomainSizeX(1.0)
-        .MakeShared();
+                      .WithResolution({ 40, 40 })
+                      .WithDomainSizeX(1.0)
+                      .MakeShared();
 
     // Build collider
     auto sphere = Sphere2::Builder()
-        .WithCenter({ 0.5, 0.5 })
-        .WithRadius(0.4)
-        .WithIsNormalFlipped(true)
-        .MakeShared();
+                      .WithCenter({ 0.5, 0.5 })
+                      .WithRadius(0.4)
+                      .WithIsNormalFlipped(true)
+                      .MakeShared();
 
-    auto collider = RigidBodyCollider2::Builder()
-        .WithSurface(sphere)
-        .MakeShared();
+    auto collider =
+        RigidBodyCollider2::Builder().WithSurface(sphere).MakeShared();
 
     solver->SetCollider(collider);
 
@@ -298,7 +304,7 @@ CUBBYFLOW_BEGIN_TEST_F(APICSolver2, Circular)
     size_t resX = solver->GetResolution().x;
     std::mt19937 rng;
     std::uniform_real_distribution<> dist(0, 1);
-    
+
     for (int i = 0; i < 4 * resX * resX; ++i)
     {
         Vector2D pt{ dist(rng), dist(rng) };
@@ -322,21 +328,20 @@ CUBBYFLOW_BEGIN_TEST_F(APICSolver2, CircularWithFriction)
 {
     // Build solver
     auto solver = APICSolver2::Builder()
-        .WithResolution({ 40, 40 })
-        .WithDomainSizeX(1.0)
-        .MakeShared();
+                      .WithResolution({ 40, 40 })
+                      .WithDomainSizeX(1.0)
+                      .MakeShared();
 
     // Build collider
     auto sphere = Sphere2::Builder()
-        .WithCenter({ 0.5, 0.5 })
-        .WithRadius(0.4)
-        .WithIsNormalFlipped(true)
-        .MakeShared();
+                      .WithCenter({ 0.5, 0.5 })
+                      .WithRadius(0.4)
+                      .WithIsNormalFlipped(true)
+                      .MakeShared();
 
-    auto collider = RigidBodyCollider2::Builder()
-        .WithSurface(sphere)
-        .MakeShared();
-    
+    auto collider =
+        RigidBodyCollider2::Builder().WithSurface(sphere).MakeShared();
+
     // Sticky boundary
     collider->SetFrictionCoefficient(100.0);
 

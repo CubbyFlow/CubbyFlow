@@ -7,15 +7,15 @@
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.hpp>
 #include <Core/Vector/Vector3.hpp>
 
-using CubbyFlow::Vector3D;
-using CubbyFlow::FaceCenteredGrid3;
 using CubbyFlow::CellCenteredScalarGrid3;
 using CubbyFlow::ConstantScalarField3;
 using CubbyFlow::ConstantVectorField3;
+using CubbyFlow::FaceCenteredGrid3;
+using CubbyFlow::Vector3D;
 
 class GridFractionalSinglePhasePressureSolver3 : public ::benchmark::Fixture
 {
-public:
+ public:
     FaceCenteredGrid3 vel;
     CellCenteredScalarGrid3 fluidSDF;
     CubbyFlow::GridFractionalSinglePhasePressureSolver3 solver;
@@ -47,29 +47,26 @@ public:
         }
 
         fluidSDF.Resize(n, n, n);
-        fluidSDF.Fill([&](const Vector3D& x)
-        {
-            return x.y - height;
-        });
+        fluidSDF.Fill([&](const Vector3D& x) { return x.y - height; });
     }
 };
 
-BENCHMARK_DEFINE_F(GridFractionalSinglePhasePressureSolver3, Solve)(benchmark::State& state)
+BENCHMARK_DEFINE_F(GridFractionalSinglePhasePressureSolver3, Solve)
+(benchmark::State& state)
 {
     bool compressed = state.range(2) == 1;
     while (state.KeepRunning())
     {
         solver.Solve(vel, 1.0, &vel,
-            ConstantScalarField3(std::numeric_limits<double>::max()),
-            ConstantVectorField3({ 0, 0, 0 }),
-            fluidSDF, compressed);
+                     ConstantScalarField3(std::numeric_limits<double>::max()),
+                     ConstantVectorField3({ 0, 0, 0 }), fluidSDF, compressed);
     }
 }
 
 BENCHMARK_REGISTER_F(GridFractionalSinglePhasePressureSolver3, Solve)
-->Args({ 128, 128, 0 })
-->Args({ 128, 128, 1 })
-->Args({ 128, 64, 0 })
-->Args({ 128, 64, 1 })
-->Args({ 128, 32, 0 })
-->Args({ 128, 32, 1 });
+    ->Args({ 128, 128, 0 })
+    ->Args({ 128, 128, 1 })
+    ->Args({ 128, 64, 0 })
+    ->Args({ 128, 64, 1 })
+    ->Args({ 128, 32, 0 })
+    ->Args({ 128, 32, 1 });
