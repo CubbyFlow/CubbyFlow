@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_MATH_UTILS_IMPL_HPP
 #define CUBBYFLOW_MATH_UTILS_IMPL_HPP
 
-#include <Core/Utils/Constants.h>
+#include <Core/Utils/Constants.hpp>
 
 #include <algorithm>
 #include <cmath>

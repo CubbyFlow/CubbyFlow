@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_VECTOR_EXPRESSION_H
 #define CUBBYFLOW_VECTOR_EXPRESSION_H
 
-#include <Core/Utils/Functors.h>
+#include <Core/Utils/Functors.hpp>
 
 #include <functional>
 

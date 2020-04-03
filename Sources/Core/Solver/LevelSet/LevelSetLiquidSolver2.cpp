@@ -8,13 +8,13 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Utils/Logging.h>
-#include <Core/Utils/Timer.h>
 #include <Core/Grid/CellCenteredScalarGrid2.hpp>
 #include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Solver/LevelSet/ENOLevelSetSolver2.hpp>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver2.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver2.hpp>
+#include <Core/Utils/Logging.hpp>
+#include <Core/Utils/Timer.hpp>
 
 namespace CubbyFlow
 {

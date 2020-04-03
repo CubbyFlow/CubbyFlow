@@ -23,7 +23,7 @@
 #include <Core/MarchingCubes/MarchingCubes.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver3.hpp>
 #include <Core/Surface/ImplicitSurfaceSet3.hpp>
-#include <Core/Utils/Logging.h>
+#include <Core/Utils/Logging.hpp>
 
 #include <Clara/include/clara.hpp>
 #include <pystring/pystring.h>

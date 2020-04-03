@@ -2,8 +2,8 @@
 
 #include <Core/Array/Array2.hpp>
 #include <Core/Array/Array3.hpp>
-#include <Core/Utils/Constants.h>
-#include <Core/Utils/Serial.h>
+#include <Core/Utils/Constants.hpp>
+#include <Core/Utils/Serial.hpp>
 
 #include <random>
 

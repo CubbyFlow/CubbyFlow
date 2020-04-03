@@ -8,7 +8,7 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Utils/Logging.h>
-#include <Core/Utils/Logging.h>
+#include <Core/Utils/Logging.hpp>
 
 #include <pybind11/pybind11.h>
 

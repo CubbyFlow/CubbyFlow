@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_ARRAY_ACCESSOR1_IMPL_HPP
 #define CUBBYFLOW_ARRAY_ACCESSOR1_IMPL_HPP
 
-#include <Core/Utils/Constants.h>
-#include <Core/Utils/Parallel.h>
+#include <Core/Utils/Constants.hpp>
+#include <Core/Utils/Parallel.hpp>
 
 #include <algorithm>
 #include <cassert>

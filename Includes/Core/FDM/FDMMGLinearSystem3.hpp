@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_FDM_MG_LINEAR_SYSTEM3_HPP
 #define CUBBYFLOW_FDM_MG_LINEAR_SYSTEM3_HPP
 
-#include <Core/Utils/MG.h>
 #include <Core/FDM/FDMLinearSystem3.hpp>
+#include <Core/Utils/MG.hpp>
 
 namespace CubbyFlow
 {

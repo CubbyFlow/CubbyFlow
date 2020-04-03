@@ -11,9 +11,9 @@
 #ifndef CUBBYFLOW_POINT3_HPP
 #define CUBBYFLOW_POINT3_HPP
 
-#include <Core/Utils/Constants.h>
 #include <Core/Point/Point.hpp>
 #include <Core/Point/Point2.hpp>
+#include <Core/Utils/Constants.hpp>
 
 namespace CubbyFlow
 {

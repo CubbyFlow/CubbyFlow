@@ -8,9 +8,9 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Utils/MG.h>
 #include <Core/Solver/FDM/FDMGaussSeidelSolver3.hpp>
 #include <Core/Solver/FDM/FDMMGSolver3.hpp>
+#include <Core/Utils/MG.hpp>
 
 namespace CubbyFlow
 {

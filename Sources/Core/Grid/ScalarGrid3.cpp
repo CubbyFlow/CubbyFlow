@@ -8,9 +8,9 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Utils/FlatbuffersHelper.h>
 #include <Core/FDM/FDMUtils.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>
+#include <Core/Utils/FlatbuffersHelper.hpp>
 
 #include <Flatbuffers/generated/ScalarGrid3_generated.h>
 

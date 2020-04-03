@@ -11,7 +11,7 @@
 #define CUBBYFLOW_VECTOR_H
 
 #include <Core/Array/ArrayAccessor1.hpp>
-#include <Core/Utils/TypeHelpers.h>
+#include <Core/Utils/TypeHelpers.hpp>
 #include <Core/Vector/VectorExpression.h>
 
 #include <array>

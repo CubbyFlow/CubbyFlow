@@ -25,7 +25,7 @@
 #include <Core/Solver/Hybrid/FLIP/FLIPSolver3.hpp>
 #include <Core/Solver/Hybrid/PIC/PICSolver3.hpp>
 #include <Core/Surface/ImplicitSurfaceSet3.hpp>
-#include <Core/Utils/Logging.h>
+#include <Core/Utils/Logging.hpp>
 
 #include <Clara/include/clara.hpp>
 #include <pystring/pystring.h>

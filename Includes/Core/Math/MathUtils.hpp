@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_MATH_UTILS_HPP
 #define CUBBYFLOW_MATH_UTILS_HPP
 
-#include <Core/Utils/Macros.h>
+#include <Core/Utils/Macros.hpp>
 
 #include <cstddef>
 #include <limits>

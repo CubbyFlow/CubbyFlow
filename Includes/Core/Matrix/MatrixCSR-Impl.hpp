@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_MATRIX_CSR_IMPL_HPP
 #define CUBBYFLOW_MATRIX_CSR_IMPL_HPP
 
-#include <Core/Utils/CppUtils.h>
-#include <Core/Utils/Parallel.h>
+#include <Core/Utils/CppUtils.hpp>
+#include <Core/Utils/Parallel.hpp>
 
 #include <numeric>
 

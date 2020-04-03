@@ -20,7 +20,7 @@
 #include <Core/PointsToImplicit/ZhuBridsonPointsToImplicit3.hpp>
 #include <Core/MarchingCubes/MarchingCubes.hpp>
 #include <Core/Size/Size3.hpp>
-#include <Core/Utils/Serialization.h>
+#include <Core/Utils/Serialization.hpp>
 
 #include <Clara/include/clara.hpp>
 #include <pystring/pystring.h>

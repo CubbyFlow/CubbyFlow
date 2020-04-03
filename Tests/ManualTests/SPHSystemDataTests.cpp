@@ -8,7 +8,7 @@
 #include <Core/PointGenerator/TrianglePointGenerator.hpp>
 #include <Core/SPH/SPHSystemData2.hpp>
 #include <Core/SPH/SPHSystemData3.hpp>
-#include <Core/Utils/Parallel.h>
+#include <Core/Utils/Parallel.hpp>
 
 #include <random>
 

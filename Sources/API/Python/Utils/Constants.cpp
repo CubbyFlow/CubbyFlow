@@ -8,7 +8,7 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Utils/Constants.h>
-#include <Core/Utils/Constants.h>
+#include <Core/Utils/Constants.hpp>
 
 #include <pybind11/pybind11.h>
 

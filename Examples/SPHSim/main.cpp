@@ -20,7 +20,7 @@
 #include <Core/Solver/Particle/PCISPH/PCISPHSolver3.hpp>
 #include <Core/Solver/Particle/SPH/SPHSolver3.hpp>
 #include <Core/Surface/ImplicitSurfaceSet3.hpp>
-#include <Core/Utils/Logging.h>
+#include <Core/Utils/Logging.hpp>
 
 #include <Clara/include/clara.hpp>
 #include <pystring/pystring.h>

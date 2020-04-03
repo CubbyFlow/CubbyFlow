@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Utils/Timer.h>
+#include <Core/Utils/Timer.hpp>
 
 #include <thread>
 

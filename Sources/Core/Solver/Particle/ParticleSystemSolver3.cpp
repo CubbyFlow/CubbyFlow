@@ -8,12 +8,12 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Utils/Logging.h>
-#include <Core/Utils/Parallel.h>
-#include <Core/Utils/Timer.h>
 #include <Core/Array/ArrayUtils.hpp>
 #include <Core/Field/ConstantVectorField3.hpp>
 #include <Core/Solver/Particle/ParticleSystemSolver3.hpp>
+#include <Core/Utils/Logging.hpp>
+#include <Core/Utils/Parallel.hpp>
+#include <Core/Utils/Timer.hpp>
 
 #include <algorithm>
 

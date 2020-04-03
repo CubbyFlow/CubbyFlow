@@ -8,14 +8,14 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Utils/Logging.h>
-#include <Core/Utils/Timer.h>
 #include <Core/Array/ArrayUtils.hpp>
 #include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/SemiLagrangian/CubicSemiLagrangian2.hpp>
 #include <Core/Solver/Grid/GridBackwardEulerDiffusionSolver2.hpp>
 #include <Core/Solver/Grid/GridFluidSolver2.hpp>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver2.hpp>
+#include <Core/Utils/Logging.hpp>
+#include <Core/Utils/Timer.hpp>
 
 namespace CubbyFlow
 {

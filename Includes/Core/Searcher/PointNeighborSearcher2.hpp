@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_POINT_NEIGHBOR_SEARCHER2_HPP
 #define CUBBYFLOW_POINT_NEIGHBOR_SEARCHER2_HPP
 
-#include <Core/Utils/Serialization.h>
 #include <Core/Vector/Vector2.h>
+#include <Core/Utils/Serialization.hpp>
 
 #include <functional>
 #include <memory>

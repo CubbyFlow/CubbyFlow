@@ -8,8 +8,8 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Utils/Serial.h>
 #include <Core/Grid/Grid3.hpp>
+#include <Core/Utils/Serial.hpp>
 
 namespace CubbyFlow
 {

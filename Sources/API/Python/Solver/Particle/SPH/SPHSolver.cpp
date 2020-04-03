@@ -10,7 +10,7 @@
 #include <API/Python/Solver/Particle/SPH/SPHSolver.h>
 #include <Core/Solver/Particle/SPH/SPHSolver2.hpp>
 #include <Core/Solver/Particle/SPH/SPHSolver3.hpp>
-#include <Core/Utils/Constants.h>
+#include <Core/Utils/Constants.hpp>
 
 #include <pybind11/pybind11.h>
 

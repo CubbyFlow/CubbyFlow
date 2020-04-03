@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Utils/Samplers.h>
+#include <Core/Utils/Samplers.hpp>
 
 #include <random>
 

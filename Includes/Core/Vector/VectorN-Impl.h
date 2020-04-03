@@ -11,7 +11,7 @@
 #define CUBBYFLOW_VECTORN_IMPL_H
 
 #include <Core/Math/MathUtils.hpp>
-#include <Core/Utils/Parallel.h>
+#include <Core/Utils/Parallel.hpp>
 
 namespace CubbyFlow
 {

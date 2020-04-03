@@ -8,10 +8,10 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Utils/FlatbuffersHelper.h>
-#include <Core/Utils/Logging.h>
-#include <Core/Utils/Parallel.h>
 #include <Core/Searcher/PointParallelHashGridSearcher3.hpp>
+#include <Core/Utils/FlatbuffersHelper.hpp>
+#include <Core/Utils/Logging.hpp>
+#include <Core/Utils/Parallel.hpp>
 
 #include <Flatbuffers/generated/PointParallelHashGridSearcher3_generated.h>
 

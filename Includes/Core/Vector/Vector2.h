@@ -10,8 +10,8 @@
 #ifndef CUBBYFLOW_VECTOR2_H
 #define CUBBYFLOW_VECTOR2_H
 
-#include <Core/Utils/Constants.h>
-#include <Core/Utils/TypeHelpers.h>
+#include <Core/Utils/Constants.hpp>
+#include <Core/Utils/TypeHelpers.hpp>
 #include <Core/Vector/Vector.h>
 
 namespace CubbyFlow

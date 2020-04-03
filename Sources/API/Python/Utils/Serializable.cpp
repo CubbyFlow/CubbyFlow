@@ -8,7 +8,7 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Utils/Serializable.h>
-#include <Core/Utils/Serialization.h>
+#include <Core/Utils/Serialization.hpp>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>

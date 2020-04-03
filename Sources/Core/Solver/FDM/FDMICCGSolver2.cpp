@@ -8,9 +8,9 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Utils/Logging.h>
 #include <Core/Math/CG.hpp>
 #include <Core/Solver/FDM/FDMICCGSolver2.hpp>
+#include <Core/Utils/Logging.hpp>
 
 namespace CubbyFlow
 {

@@ -8,12 +8,12 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Utils/Macros.h>
 #include <Core/Emitter/VolumeGridEmitter3.hpp>
 #include <Core/Grid/CollocatedVectorGrid3.hpp>
 #include <Core/Grid/FaceCenteredGrid3.hpp>
 #include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Surface/SurfaceToImplicit3.hpp>
+#include <Core/Utils/Macros.hpp>
 
 namespace CubbyFlow
 {

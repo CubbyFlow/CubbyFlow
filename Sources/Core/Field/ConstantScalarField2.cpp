@@ -8,8 +8,8 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Utils/Macros.h>
 #include <Core/Field/ConstantScalarField2.hpp>
+#include <Core/Utils/Macros.hpp>
 
 namespace CubbyFlow
 {

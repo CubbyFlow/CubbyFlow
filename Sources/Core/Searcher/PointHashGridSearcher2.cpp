@@ -8,8 +8,8 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Utils/FlatbuffersHelper.h>
 #include <Core/Searcher/PointHashGridSearcher2.hpp>
+#include <Core/Utils/FlatbuffersHelper.hpp>
 
 #include <Flatbuffers/generated/PointHashGridSearcher2_generated.h>
 

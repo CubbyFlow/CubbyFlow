@@ -5,7 +5,7 @@
 #include <Core/Array/ArrayAccessor2.hpp>
 #include <Core/Array/ArrayAccessor3.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
-#include <Core/Utils/Macros.h>
+#include <Core/Utils/Macros.hpp>
 
 #include <cnpy/cnpy.h>
 #include <pystring/pystring.h>

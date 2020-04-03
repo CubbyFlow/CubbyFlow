@@ -11,10 +11,10 @@
 #ifndef CUBBYFLOW_ARRAY_UTILS_IMPL_HPP
 #define CUBBYFLOW_ARRAY_UTILS_IMPL_HPP
 
-#include <Core/Utils/Parallel.h>
-#include <Core/Utils/TypeHelpers.h>
 #include <Core/Array/Array2.hpp>
 #include <Core/Array/Array3.hpp>
+#include <Core/Utils/Parallel.hpp>
+#include <Core/Utils/TypeHelpers.hpp>
 
 #include <iostream>
 

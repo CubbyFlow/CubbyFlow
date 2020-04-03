@@ -21,7 +21,7 @@
 #include <Core/SemiLagrangian/CubicSemiLagrangian3.hpp>
 #include <Core/SemiLagrangian/SemiLagrangian3.hpp>
 #include <Core/Solver/Grid/GridSmokeSolver3.hpp>
-#include <Core/Utils/Logging.h>
+#include <Core/Utils/Logging.hpp>
 
 #include <Clara/include/clara.hpp>
 #include <pystring/pystring.h>

@@ -8,8 +8,8 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Utils/FlatbuffersHelper.h>
 #include <Core/Grid/VectorGrid3.hpp>
+#include <Core/Utils/FlatbuffersHelper.hpp>
 
 #include <Flatbuffers/generated/VectorGrid3_generated.h>
 

@@ -11,7 +11,7 @@
 #include <Core/Grid/CellCenteredVectorGrid2.hpp>
 #include <Core/SemiLagrangian/CubicSemiLagrangian2.hpp>
 #include <Core/SemiLagrangian/SemiLagrangian2.hpp>
-#include <Core/Utils/Constants.h>
+#include <Core/Utils/Constants.hpp>
 
 #include <algorithm>
 

@@ -8,11 +8,11 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Utils/Logging.h>
-#include <Core/Utils/PhysicsHelpers.h>
-#include <Core/Utils/Timer.h>
 #include <Core/SPH/SPHStdKernel3.hpp>
 #include <Core/Solver/Particle/SPH/SPHSolver3.hpp>
+#include <Core/Utils/Logging.hpp>
+#include <Core/Utils/PhysicsHelpers.hpp>
+#include <Core/Utils/Timer.hpp>
 
 namespace CubbyFlow
 {

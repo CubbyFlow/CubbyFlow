@@ -19,7 +19,7 @@
 #ifndef CUBBYFLOW_LEVEL_SET_UTILS_IMPL_HPP
 #define CUBBYFLOW_LEVEL_SET_UTILS_IMPL_HPP
 
-#include <Core/Utils/Constants.h>
+#include <Core/Utils/Constants.hpp>
 
 #include <cmath>
 

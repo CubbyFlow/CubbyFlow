@@ -8,11 +8,11 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Utils/Logging.h>
-#include <Core/Utils/Timer.h>
 #include <Core/Array/ArrayUtils.hpp>
 #include <Core/Grid/CellCenteredScalarGrid3.hpp>
 #include <Core/Solver/Hybrid/PIC/PICSolver3.hpp>
+#include <Core/Utils/Logging.hpp>
+#include <Core/Utils/Timer.hpp>
 
 namespace CubbyFlow
 {
