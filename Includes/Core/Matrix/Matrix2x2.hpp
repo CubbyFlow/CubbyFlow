@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_MATRIX2X2_HPP
 #define CUBBYFLOW_MATRIX2X2_HPP
 
-#include <Core/Vector/Vector2.h>
 #include <Core/Matrix/Matrix.hpp>
+#include <Core/Vector/Vector2.hpp>
 
 #include <array>
 #include <limits>

@@ -2,7 +2,7 @@
 
 #include <Core/Matrix/MatrixCSR.hpp>
 #include <Core/Matrix/MatrixMxN.hpp>
-#include <Core/Vector/VectorN.h>
+#include <Core/Vector/VectorN.hpp>
 
 using namespace CubbyFlow;
 

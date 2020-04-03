@@ -11,9 +11,9 @@
 #ifndef CUBBYFLOW_ARRAY_SAMPLERS2_HPP
 #define CUBBYFLOW_ARRAY_SAMPLERS2_HPP
 
-#include <Core/Vector/Vector2.h>
 #include <Core/Array/ArrayAccessor2.hpp>
 #include <Core/Array/ArraySamplers.hpp>
+#include <Core/Vector/Vector2.hpp>
 
 #include <functional>
 

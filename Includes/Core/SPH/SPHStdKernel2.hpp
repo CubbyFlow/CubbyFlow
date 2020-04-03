@@ -16,7 +16,7 @@
 #ifndef CUBBYFLOW_SPH_STD_KERNEL2_HPP
 #define CUBBYFLOW_SPH_STD_KERNEL2_HPP
 
-#include <Core/Vector/Vector2.h>
+#include <Core/Vector/Vector2.hpp>
 
 namespace CubbyFlow
 {

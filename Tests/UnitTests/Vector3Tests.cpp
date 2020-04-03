@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Core/Vector/Vector3.h>
+#include <Core/Vector/Vector3.hpp>
 
 using namespace CubbyFlow;
 

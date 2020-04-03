@@ -11,11 +11,11 @@
 #ifndef CUBBYFLOW_SVD_HPP
 #define CUBBYFLOW_SVD_HPP
 
-#include <Core/Vector/VectorN.h>
 #include <Core/Matrix/Matrix2x2.hpp>
 #include <Core/Matrix/Matrix3x3.hpp>
 #include <Core/Matrix/Matrix4x4.hpp>
 #include <Core/Matrix/MatrixMxN.hpp>
+#include <Core/Vector/VectorN.hpp>
 
 namespace CubbyFlow
 {

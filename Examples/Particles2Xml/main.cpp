@@ -10,7 +10,7 @@
 #include <../ClaraUtils.h>
 
 #include <Core/Array/Array1.hpp>
-#include <Core/Vector/Vector3.h>
+#include <Core/Vector/Vector3.hpp>
 #include <Core/Utils/Serialization.hpp>
 
 #include <Clara/include/clara.hpp>

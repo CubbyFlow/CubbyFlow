@@ -11,13 +11,13 @@
 #ifndef CUBBYFLOW_PARTICLE_SYSTEM_SOLVER3_HPP
 #define CUBBYFLOW_PARTICLE_SYSTEM_SOLVER3_HPP
 
-#include <Core/Vector/Vector3.h>
 #include <Core/Animation/PhysicsAnimation.hpp>
 #include <Core/Collider/Collider3.hpp>
 #include <Core/Emitter/ParticleEmitter3.hpp>
 #include <Core/Field/VectorField3.hpp>
 #include <Core/Particle/ParticleSystemData3.hpp>
 #include <Core/Utils/Constants.hpp>
+#include <Core/Vector/Vector3.hpp>
 
 namespace CubbyFlow
 {

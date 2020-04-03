@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_VECTOR_FIELD2_HPP
 #define CUBBYFLOW_VECTOR_FIELD2_HPP
 
-#include <Core/Vector/Vector2.h>
 #include <Core/Field/Field2.hpp>
+#include <Core/Vector/Vector2.hpp>
 
 #include <functional>
 #include <memory>

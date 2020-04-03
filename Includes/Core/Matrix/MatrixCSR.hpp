@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_MATRIX_CSR_HPP
 #define CUBBYFLOW_MATRIX_CSR_HPP
 
-#include <Core/Vector/VectorExpression.h>
 #include <Core/Matrix/MatrixExpression.hpp>
+#include <Core/Vector/VectorExpression.hpp>
 
 namespace CubbyFlow
 {

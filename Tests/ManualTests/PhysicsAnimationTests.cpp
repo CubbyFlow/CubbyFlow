@@ -4,7 +4,7 @@
 
 #include <Core/Array/Array1.hpp>
 #include <Core/Field/ConstantVectorField3.hpp>
-#include <Core/Vector/Vector3.h>
+#include <Core/Vector/Vector3.hpp>
 #include <Core/Animation/PhysicsAnimation.hpp>
 
 using namespace CubbyFlow;

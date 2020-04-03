@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_BOUNDING_BOX_HPP
 #define CUBBYFLOW_BOUNDING_BOX_HPP
 
-#include <Core/Vector/Vector.h>
+#include <Core/Vector/Vector.hpp>
 
 namespace CubbyFlow
 {

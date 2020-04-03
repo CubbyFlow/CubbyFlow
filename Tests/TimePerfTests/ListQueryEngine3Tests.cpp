@@ -5,7 +5,7 @@
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/QueryEngine/ListQueryEngine3.hpp>
 #include <Core/Ray/Ray3.hpp>
-#include <Core/Vector/Vector3.h>
+#include <Core/Vector/Vector3.hpp>
 
 #include <fstream>
 #include <random>

@@ -11,9 +11,9 @@
 #ifndef CUBBYFLOW_BOUNDING_BOX2_HPP
 #define CUBBYFLOW_BOUNDING_BOX2_HPP
 
-#include <Core/Vector/Vector2.h>
 #include <Core/BoundingBox/BoundingBox.hpp>
 #include <Core/Ray/Ray2.hpp>
+#include <Core/Vector/Vector2.hpp>
 
 #include <limits>
 

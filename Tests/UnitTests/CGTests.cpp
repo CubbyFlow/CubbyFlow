@@ -2,7 +2,7 @@
 
 #include <Core/Math/CG.hpp>
 #include <Core/Matrix/Matrix2x2.hpp>
-#include <Core/Vector/Vector2.h>
+#include <Core/Vector/Vector2.hpp>
 
 using namespace CubbyFlow;
 

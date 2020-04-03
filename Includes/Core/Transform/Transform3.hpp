@@ -11,10 +11,10 @@
 #ifndef CUBBYFLOW_TRANSFORM3_HPP
 #define CUBBYFLOW_TRANSFORM3_HPP
 
-#include <Core/Vector/Vector3.h>
 #include <Core/BoundingBox/BoundingBox3.hpp>
 #include <Core/Math/Quaternion.hpp>
 #include <Core/Ray/Ray3.hpp>
+#include <Core/Vector/Vector3.hpp>
 
 namespace CubbyFlow
 {

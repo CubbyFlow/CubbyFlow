@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_MATRIX4X4_HPP
 #define CUBBYFLOW_MATRIX4X4_HPP
 
-#include <Core/Vector/Vector4.h>
 #include <Core/Matrix/Matrix3x3.hpp>
+#include <Core/Vector/Vector4.hpp>
 
 #include <array>
 #include <limits>

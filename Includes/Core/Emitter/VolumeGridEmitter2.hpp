@@ -11,11 +11,11 @@
 #ifndef CUBBYFLOW_VOLUME_GRID_EMITTER2_HPP
 #define CUBBYFLOW_VOLUME_GRID_EMITTER2_HPP
 
-#include <Core/Vector/Vector2.h>
 #include <Core/Emitter/GridEmitter2.hpp>
 #include <Core/Grid/ScalarGrid2.hpp>
 #include <Core/Grid/VectorGrid2.hpp>
 #include <Core/Surface/ImplicitSurface2.hpp>
+#include <Core/Vector/Vector2.hpp>
 
 #include <memory>
 

@@ -11,9 +11,9 @@
 #include <Core/Array/ArrayAccessor1.hpp>
 #include <Core/Array/ArrayAccessor2.hpp>
 #include <Core/Array/ArrayAccessor3.hpp>
-#include <Core/Vector/Vector2.h>
-#include <Core/Vector/Vector3.h>
-#include <Core/Vector/Vector4.h>
+#include <Core/Vector/Vector2.hpp>
+#include <Core/Vector/Vector3.hpp>
+#include <Core/Vector/Vector4.hpp>
 
 #include <pybind11/pybind11.h>
 

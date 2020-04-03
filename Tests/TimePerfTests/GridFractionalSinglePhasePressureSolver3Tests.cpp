@@ -5,7 +5,7 @@
 #include <Core/Grid/CellCenteredScalarGrid3.hpp>
 #include <Core/Grid/FaceCenteredGrid3.hpp>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.hpp>
-#include <Core/Vector/Vector3.h>
+#include <Core/Vector/Vector3.hpp>
 
 using CubbyFlow::Vector3D;
 using CubbyFlow::FaceCenteredGrid3;

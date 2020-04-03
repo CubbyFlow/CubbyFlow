@@ -11,9 +11,9 @@
 #ifndef CUBBYFLOW_MARCHING_CUBES_HPP
 #define CUBBYFLOW_MARCHING_CUBES_HPP
 
-#include <Core/Vector/Vector3.h>
 #include <Core/Array/ArrayAccessor3.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
+#include <Core/Vector/Vector3.hpp>
 
 namespace CubbyFlow
 {

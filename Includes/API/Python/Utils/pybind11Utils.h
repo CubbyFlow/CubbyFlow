@@ -15,9 +15,9 @@
 #include <Core/Point/Point3.hpp>
 #include <Core/Size/Size2.hpp>
 #include <Core/Size/Size3.hpp>
-#include <Core/Vector/Vector2.h>
-#include <Core/Vector/Vector3.h>
-#include <Core/Vector/Vector4.h>
+#include <Core/Vector/Vector2.hpp>
+#include <Core/Vector/Vector3.hpp>
+#include <Core/Vector/Vector4.hpp>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>

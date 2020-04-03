@@ -11,9 +11,9 @@
 #ifndef CUBBYFLOW_ARRAY_SAMPLERS3_HPP
 #define CUBBYFLOW_ARRAY_SAMPLERS3_HPP
 
-#include <Core/Vector/Vector3.h>
 #include <Core/Array/ArrayAccessor3.hpp>
 #include <Core/Array/ArraySamplers.hpp>
+#include <Core/Vector/Vector3.hpp>
 
 #include <functional>
 

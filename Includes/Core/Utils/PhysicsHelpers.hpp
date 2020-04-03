@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_PHYSICS_HELPERS_HPP
 #define CUBBYFLOW_PHYSICS_HELPERS_HPP
 
-#include <Core/Vector/Vector2.h>
-#include <Core/Vector/Vector3.h>
+#include <Core/Vector/Vector2.hpp>
+#include <Core/Vector/Vector3.hpp>
 
 namespace CubbyFlow
 {

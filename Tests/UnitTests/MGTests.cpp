@@ -3,7 +3,7 @@
 #include <Core/Math/BLAS.hpp>
 #include <Core/Matrix/MatrixMxN.hpp>
 #include <Core/Utils/MG.hpp>
-#include <Core/Vector/VectorN.h>
+#include <Core/Vector/VectorN.hpp>
 
 using namespace CubbyFlow;
 

@@ -12,8 +12,8 @@
 #include <Core/Transform/Transform2.hpp>
 #include <Core/Transform/Transform3.hpp>
 #include <Core/Math/Quaternion.hpp>
-#include <Core/Vector/Vector2.h>
-#include <Core/Vector/Vector3.h>
+#include <Core/Vector/Vector2.hpp>
+#include <Core/Vector/Vector3.hpp>
 
 #include <pybind11/pybind11.h>
 

@@ -9,7 +9,7 @@
 *************************************************************************/
 #include <API/Python/Vector/Vector.h>
 #include <API/Python/Utils/pybind11Utils.h>
-#include <Core/Vector/Vector3.h>
+#include <Core/Vector/Vector3.hpp>
 
 #include <pybind11/pybind11.h>
 

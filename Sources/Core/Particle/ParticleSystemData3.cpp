@@ -8,7 +8,6 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Vector/Vector3.h>
 #include <Core/Particle/ParticleSystemData3.hpp>
 #include <Core/Searcher/PointNeighborSearcher3.hpp>
 #include <Core/Searcher/PointParallelHashGridSearcher3.hpp>
@@ -17,6 +16,7 @@
 #include <Core/Utils/Logging.hpp>
 #include <Core/Utils/Parallel.hpp>
 #include <Core/Utils/Timer.hpp>
+#include <Core/Vector/Vector3.hpp>
 
 #include <Flatbuffers/generated/ParticleSystemData3_generated.h>
 

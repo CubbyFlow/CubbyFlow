@@ -11,9 +11,9 @@
 #ifndef CUBBYFLOW_POINTS_TO_IMPLICIT3_HPP
 #define CUBBYFLOW_POINTS_TO_IMPLICIT3_HPP
 
-#include <Core/Vector/Vector3.h>
 #include <Core/Array/ArrayAccessor1.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>
+#include <Core/Vector/Vector3.hpp>
 
 namespace CubbyFlow
 {

@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_SCALAR_FIELD3_HPP
 #define CUBBYFLOW_SCALAR_FIELD3_HPP
 
-#include <Core/Vector/Vector3.h>
 #include <Core/Field/Field3.hpp>
+#include <Core/Vector/Vector3.hpp>
 
 #include <functional>
 #include <memory>

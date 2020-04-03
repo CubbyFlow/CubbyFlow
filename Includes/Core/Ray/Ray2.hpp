@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_RAY2_HPP
 #define CUBBYFLOW_RAY2_HPP
 
-#include <Core/Vector/Vector2.h>
 #include <Core/Ray/Ray.hpp>
+#include <Core/Vector/Vector2.hpp>
 
 namespace CubbyFlow
 {
