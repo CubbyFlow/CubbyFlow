@@ -8,27 +8,30 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Utils/Timer.hpp>
+#ifndef CUBBYFLOW_TIMER_HPP
+#define CUBBYFLOW_TIMER_HPP
+
+#include <chrono>
 
 namespace CubbyFlow
 {
-Timer::Timer()
+//! Simple timer class.
+class Timer
 {
-    m_startingPoint = m_clock.now();
-}
+ public:
+    //! Constructs the timer and start ticking.
+    Timer();
 
-double Timer::DurationInSeconds() const
-{
-    auto end = std::chrono::steady_clock::now();
-    auto count = std::chrono::duration_cast<std::chrono::microseconds>(
-                     end - m_startingPoint)
-                     .count();
-    return count / 1000000.0;
-}
+    //! Returns the time duration since the creation or reset in seconds.
+    double DurationInSeconds() const;
 
-void Timer::Reset()
-{
-    m_startingPoint = m_clock.now();
-}
+    //! Resets the timer.
+    void Reset();
 
+ private:
+    std::chrono::steady_clock m_clock;
+    std::chrono::steady_clock::time_point m_startingPoint;
+};
 }  // namespace CubbyFlow
+
+#endif

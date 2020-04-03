@@ -8,27 +8,18 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Utils/Timer.hpp>
+#ifndef CUBBYFLOW_CPP_UTILS_HPP
+#define CUBBYFLOW_CPP_UTILS_HPP
+
+#include <algorithm>
 
 namespace CubbyFlow
 {
-Timer::Timer()
-{
-    m_startingPoint = m_clock.now();
+template <class ForwardIter, class T, class Compare = std::less<T>>
+ForwardIter BinaryFind(ForwardIter first, ForwardIter last, const T& value,
+                       Compare comp = {});
 }
 
-double Timer::DurationInSeconds() const
-{
-    auto end = std::chrono::steady_clock::now();
-    auto count = std::chrono::duration_cast<std::chrono::microseconds>(
-                     end - m_startingPoint)
-                     .count();
-    return count / 1000000.0;
-}
+#include <Core/Utils/CppUtils-Impl.hpp>
 
-void Timer::Reset()
-{
-    m_startingPoint = m_clock.now();
-}
-
-}  // namespace CubbyFlow
+#endif

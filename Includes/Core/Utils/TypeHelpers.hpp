@@ -8,27 +8,17 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Utils/Timer.hpp>
+#ifndef CUBBYFLOW_TYPE_HELPERS_HPP
+#define CUBBYFLOW_TYPE_HELPERS_HPP
 
 namespace CubbyFlow
 {
-Timer::Timer()
+//! Returns the type of the value itself.
+template <typename T>
+struct ScalarType
 {
-    m_startingPoint = m_clock.now();
-}
-
-double Timer::DurationInSeconds() const
-{
-    auto end = std::chrono::steady_clock::now();
-    auto count = std::chrono::duration_cast<std::chrono::microseconds>(
-                     end - m_startingPoint)
-                     .count();
-    return count / 1000000.0;
-}
-
-void Timer::Reset()
-{
-    m_startingPoint = m_clock.now();
-}
-
+    typedef T value;
+};
 }  // namespace CubbyFlow
+
+#endif

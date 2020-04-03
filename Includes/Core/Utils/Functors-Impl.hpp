@@ -8,27 +8,28 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Utils/Timer.hpp>
+#ifndef CUBBYFLOW_FUNCTORS_IMPL_HPP
+#define CUBBYFLOW_FUNCTORS_IMPL_HPP
 
 namespace CubbyFlow
 {
-Timer::Timer()
+template <typename T, typename U>
+constexpr U TypeCast<T, U>::operator()(const T& a) const
 {
-    m_startingPoint = m_clock.now();
+    return static_cast<U>(a);
 }
 
-double Timer::DurationInSeconds() const
+template <typename T>
+constexpr T RMinus<T>::operator()(const T& a, const T& b) const
 {
-    auto end = std::chrono::steady_clock::now();
-    auto count = std::chrono::duration_cast<std::chrono::microseconds>(
-                     end - m_startingPoint)
-                     .count();
-    return count / 1000000.0;
+    return b - a;
 }
 
-void Timer::Reset()
+template <typename T>
+constexpr T RDivides<T>::operator()(const T& a, const T& b) const
 {
-    m_startingPoint = m_clock.now();
+    return b / a;
 }
-
 }  // namespace CubbyFlow
+
+#endif
