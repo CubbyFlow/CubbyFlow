@@ -8,8 +8,8 @@
 #include <Core/Geometry/Plane2.hpp>
 #include <Core/Geometry/Sphere2.hpp>
 #include <Core/Solver/Particle/PCISPH/PCISPHSolver2.hpp>
-#include <Core/Surface/ImplicitSurfaceSet2.h>
-#include <Core/Surface/SurfaceToImplicit2.h>
+#include <Core/Surface/ImplicitSurfaceSet2.hpp>
+#include <Core/Surface/SurfaceToImplicit2.hpp>
 
 using namespace CubbyFlow;
 

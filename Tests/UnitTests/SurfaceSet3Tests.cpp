@@ -2,7 +2,7 @@
 #include "UnitTestsUtils.h"
 
 #include <Core/Geometry/Sphere3.hpp>
-#include <Core/Surface/SurfaceSet3.h>
+#include <Core/Surface/SurfaceSet3.hpp>
 
 using namespace CubbyFlow;
 

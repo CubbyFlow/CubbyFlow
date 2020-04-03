@@ -8,12 +8,12 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Surface/ImplicitSurface2.h>
-#include <Core/Surface/SurfaceToImplicit2.h>
 #include <Core/Utils/PhysicsHelpers.h>
 #include <Core/Array/ArrayUtils.hpp>
 #include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver2.hpp>
+#include <Core/Surface/ImplicitSurface2.hpp>
+#include <Core/Surface/SurfaceToImplicit2.hpp>
 
 namespace CubbyFlow
 {

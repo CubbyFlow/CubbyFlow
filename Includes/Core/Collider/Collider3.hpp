@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_COLLIDER3_HPP
 #define CUBBYFLOW_COLLIDER3_HPP
 
-#include <Core/Surface/Surface3.h>
+#include <Core/Surface/Surface3.hpp>
 
 #include <functional>
 

@@ -8,7 +8,7 @@
 #include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver2.hpp>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver2.hpp>
 #include <Core/Solver/Grid/GridSinglePhasePressureSolver2.hpp>
-#include <Core/Surface/SurfaceToImplicit2.h>
+#include <Core/Surface/SurfaceToImplicit2.hpp>
 
 using namespace CubbyFlow;
 

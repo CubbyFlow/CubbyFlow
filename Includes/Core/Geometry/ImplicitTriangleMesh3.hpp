@@ -11,10 +11,10 @@
 #ifndef CUBBYFLOW_IMPLICIT_TRIANGLE_MESH3_HPP
 #define CUBBYFLOW_IMPLICIT_TRIANGLE_MESH3_HPP
 
-#include <Core/Grid/VertexCenteredScalarGrid3.hpp>
-#include <Core/Surface/CustomImplicitSurface3.h>
-#include <Core/Surface/ImplicitSurface3.h>
 #include <Core/Geometry/TriangleMesh3.hpp>
+#include <Core/Grid/VertexCenteredScalarGrid3.hpp>
+#include <Core/Surface/CustomImplicitSurface3.hpp>
+#include <Core/Surface/ImplicitSurface3.hpp>
 
 namespace CubbyFlow
 {

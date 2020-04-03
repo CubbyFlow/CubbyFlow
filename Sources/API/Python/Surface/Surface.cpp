@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Surface/Surface.h>
-#include <Core/Surface/Surface2.h>
-#include <Core/Surface/Surface3.h>
+#include <Core/Surface/Surface2.hpp>
+#include <Core/Surface/Surface3.hpp>
 
 #include <pybind11/pybind11.h>
 

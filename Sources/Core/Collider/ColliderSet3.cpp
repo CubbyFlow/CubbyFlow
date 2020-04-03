@@ -8,8 +8,8 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Surface/SurfaceSet3.h>
 #include <Core/Collider/ColliderSet3.hpp>
+#include <Core/Surface/SurfaceSet3.hpp>
 
 namespace CubbyFlow
 {

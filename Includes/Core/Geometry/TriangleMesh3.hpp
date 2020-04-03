@@ -11,11 +11,11 @@
 #ifndef CUBBYFLOW_TRIANGLE_MESH3_HPP
 #define CUBBYFLOW_TRIANGLE_MESH3_HPP
 
-#include <Core/Surface/Surface3.h>
 #include <Core/Array/Array1.hpp>
 #include <Core/Geometry/BVH3.hpp>
 #include <Core/Geometry/Triangle3.hpp>
 #include <Core/Point/Point3.hpp>
+#include <Core/Surface/Surface3.hpp>
 
 namespace CubbyFlow
 {

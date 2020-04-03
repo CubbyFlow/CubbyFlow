@@ -1,7 +1,7 @@
 #include "pch.h"
 
 #include <Core/Geometry/Box2.hpp>
-#include <Core/Surface/SurfaceToImplicit2.h>
+#include <Core/Surface/SurfaceToImplicit2.hpp>
 
 using namespace CubbyFlow;
 

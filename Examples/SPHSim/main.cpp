@@ -19,7 +19,7 @@
 #include <Core/Particle/ParticleSystemData3.hpp>
 #include <Core/Solver/Particle/PCISPH/PCISPHSolver3.hpp>
 #include <Core/Solver/Particle/SPH/SPHSolver3.hpp>
-#include <Core/Surface/ImplicitSurfaceSet3.h>
+#include <Core/Surface/ImplicitSurfaceSet3.hpp>
 #include <Core/Utils/Logging.h>
 
 #include <Clara/include/clara.hpp>

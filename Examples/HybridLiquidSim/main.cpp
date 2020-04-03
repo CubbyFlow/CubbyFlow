@@ -24,7 +24,7 @@
 #include <Core/Solver/Hybrid/APIC/APICSolver3.hpp>
 #include <Core/Solver/Hybrid/FLIP/FLIPSolver3.hpp>
 #include <Core/Solver/Hybrid/PIC/PICSolver3.hpp>
-#include <Core/Surface/ImplicitSurfaceSet3.h>
+#include <Core/Surface/ImplicitSurfaceSet3.hpp>
 #include <Core/Utils/Logging.h>
 
 #include <Clara/include/clara.hpp>

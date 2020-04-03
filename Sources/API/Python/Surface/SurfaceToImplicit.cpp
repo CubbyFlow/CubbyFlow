@@ -8,8 +8,8 @@
 > Copyright (c) 2018, Chan-Ho Chris Ohk
 *************************************************************************/
 #include <API/Python/Surface/SurfaceToImplicit.h>
-#include <Core/Surface/SurfaceToImplicit2.h>
-#include <Core/Surface/SurfaceToImplicit3.h>
+#include <Core/Surface/SurfaceToImplicit2.hpp>
+#include <Core/Surface/SurfaceToImplicit3.hpp>
 
 #include <pybind11/pybind11.h>
 

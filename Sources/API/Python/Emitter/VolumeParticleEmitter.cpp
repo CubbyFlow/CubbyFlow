@@ -11,8 +11,8 @@
 #include <API/Python/Utils/pybind11Utils.h>
 #include <Core/Emitter/VolumeParticleEmitter2.hpp>
 #include <Core/Emitter/VolumeParticleEmitter3.hpp>
-#include <Core/Surface/SurfaceToImplicit2.h>
-#include <Core/Surface/SurfaceToImplicit3.h>
+#include <Core/Surface/SurfaceToImplicit2.hpp>
+#include <Core/Surface/SurfaceToImplicit3.hpp>
 
 #include <pybind11/pybind11.h>
 

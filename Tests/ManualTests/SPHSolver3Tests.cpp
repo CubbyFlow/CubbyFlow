@@ -8,8 +8,8 @@
 #include <Core/Geometry/Plane3.hpp>
 #include <Core/Geometry/Sphere3.hpp>
 #include <Core/Solver/Particle/SPH/SPHSolver3.hpp>
-#include <Core/Surface/ImplicitSurfaceSet3.h>
-#include <Core/Surface/SurfaceToImplicit3.h>
+#include <Core/Surface/ImplicitSurfaceSet3.hpp>
+#include <Core/Surface/SurfaceToImplicit3.hpp>
 
 using namespace CubbyFlow;
 

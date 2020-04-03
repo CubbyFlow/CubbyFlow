@@ -3,7 +3,7 @@
 #include <Core/Animation/Frame.hpp>
 #include <Core/Emitter/VolumeParticleEmitter2.hpp>
 #include <Core/Geometry/Sphere2.hpp>
-#include <Core/Surface/SurfaceToImplicit2.h>
+#include <Core/Surface/SurfaceToImplicit2.hpp>
 
 using namespace CubbyFlow;
 
