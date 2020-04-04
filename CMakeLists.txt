@@ -51,11 +51,20 @@ set(CMAKE_MACOSX_RPATH ON)
 # Set resources
 set(RESOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Resources)
 
-set(RESOURCES_OBJS
-        ${RESOURCES_DIR}/bunny.obj
-        ${RESOURCES_DIR}/cube.obj
-        ${RESOURCES_DIR}/dragon.obj)
+set(RESOURCES_OBJS  bunny.obj 
+                    cube.obj 
+                    dragon.obj 
+                    sphere.obj)
 
+# we don't want to copy if we're building in the source dir
+if (NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
+    # Copy all resoucre objs to binary directory.
+    foreach(item IN LISTS RESOURCES_OBJS)
+        configure_file(${RESOURCES_DIR}/${item} ${CMAKE_CURRENT_BINARY_DIR}/bin/Resources/${item} COPYONLY)
+    endforeach()
+endif()
+
+#add_custom_target(data-target ALL DEPENDS ${RESOURCES_DIR}/${RESOURCES_OBJS})
 
 # Project modules
 set(BUILD_GTEST ON CACHE BOOL "" FORCE)
