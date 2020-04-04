@@ -1,15 +1,16 @@
-#include "pch.h"
+#include "pch.hpp"
 
-#include <FDMLinearSystemSolverTestHelper3.h>
+#include <FDMLinearSystemSolverTestHelper3.hpp>
 
-#include <Core/Solver/FDM/FDMCGSolver3.h>
+#include <Core/Solver/FDM/FDMCGSolver3.hpp>
 
 using namespace CubbyFlow;
 
 TEST(FDMCGSolver3, Solve)
 {
     FDMLinearSystem3 system;
-    FDMLinearSystemSolverTestHelper3::BuildTestLinearSystem(&system, { 3, 3, 3 });
+    FDMLinearSystemSolverTestHelper3::BuildTestLinearSystem(&system,
+                                                            { 3, 3, 3 });
 
     FDMCGSolver3 solver(100, 1e-9);
     solver.Solve(&system);
@@ -20,7 +21,8 @@ TEST(FDMCGSolver3, Solve)
 TEST(FDMCGSolver3, SolveCompressed)
 {
     FDMCompressedLinearSystem3 system;
-    FDMLinearSystemSolverTestHelper3::BuildTestCompressedLinearSystem(&system, { 3, 3, 3 });
+    FDMLinearSystemSolverTestHelper3::BuildTestCompressedLinearSystem(
+        &system, { 3, 3, 3 });
 
     FDMCGSolver3 solver(100, 1e-9);
     solver.SolveCompressed(&system);

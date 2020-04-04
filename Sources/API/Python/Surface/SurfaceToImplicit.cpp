@@ -1,15 +1,16 @@
-/*************************************************************************
-> File Name: SurfaceToImplicit.cpp
-> Project Name: CubbyFlow
-> This code is based on Jet Framework that was created by Doyub Kim.
-> References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: SurfaceToImplicit functions for CubbyFlow Python API.
-> Created Time: 2018/01/29
-> Copyright (c) 2018, Chan-Ho Chris Ohk
-*************************************************************************/
-#include <API/Python/Surface/SurfaceToImplicit.h>
-#include <Core/Surface/SurfaceToImplicit2.h>
-#include <Core/Surface/SurfaceToImplicit3.h>
+// This code is based on Jet framework.
+// Copyright (c) 2018 Doyub Kim
+// CubbyFlow is voxel-based fluid simulation engine for computer games.
+// Copyright (c) 2020 CubbyFlow Team
+// Core Part: Chris Ohk, Junwoo Hwang, Jihong Sin, Seungwoo Yoo
+// AI Part: Dongheon Cho, Minseo Kim
+// We are making my contributions/submissions to this project solely in our
+// personal capacity and are not conveying any rights to any intellectual
+// property of any third parties.
+
+#include <API/Python/Surface/SurfaceToImplicit.hpp>
+#include <Core/Surface/SurfaceToImplicit2.hpp>
+#include <Core/Surface/SurfaceToImplicit3.hpp>
 
 #include <pybind11/pybind11.h>
 
@@ -17,8 +18,9 @@ using namespace CubbyFlow;
 
 void AddSurfaceToImplicit2(pybind11::module& m)
 {
-	pybind11::class_<SurfaceToImplicit2, SurfaceToImplicit2Ptr, ImplicitSurface2>(m, "SurfaceToImplicit2",
-		R"pbdoc(
+    pybind11::class_<SurfaceToImplicit2, SurfaceToImplicit2Ptr,
+                     ImplicitSurface2>(m, "SurfaceToImplicit2",
+                                       R"pbdoc(
 			2-D implicit surface wrapper for generic Surface2 instance.
 
 			This class represents 2-D implicit surface that converts Surface2 instance
@@ -29,23 +31,24 @@ void AddSurfaceToImplicit2(pybind11::module& m)
 			please take a look at ImplicitTriangleMesh2. Use this class only
 			for the basic primitives such as Sphere2 or Box2.
 		)pbdoc")
-	.def(pybind11::init<Surface2Ptr, Transform2, bool>(),
-		R"pbdoc(
+        .def(pybind11::init<Surface2Ptr, Transform2, bool>(),
+             R"pbdoc(
 			Constructs an instance with generic Surface2 instance.
 		)pbdoc",
-		pybind11::arg("surface"),
-		pybind11::arg("transform") = Transform2(),
-		pybind11::arg("isNormalFlipped") = false)
-	.def_property_readonly("surface", &SurfaceToImplicit2::GetSurface,
-		R"pbdoc(
+             pybind11::arg("surface"),
+             pybind11::arg("transform") = Transform2(),
+             pybind11::arg("isNormalFlipped") = false)
+        .def_property_readonly("surface", &SurfaceToImplicit2::GetSurface,
+                               R"pbdoc(
 			The raw surface instance.
 		)pbdoc");
 }
 
 void AddSurfaceToImplicit3(pybind11::module& m)
 {
-	pybind11::class_<SurfaceToImplicit3, SurfaceToImplicit3Ptr, ImplicitSurface3>(m, "SurfaceToImplicit3",
-		R"pbdoc(
+    pybind11::class_<SurfaceToImplicit3, SurfaceToImplicit3Ptr,
+                     ImplicitSurface3>(m, "SurfaceToImplicit3",
+                                       R"pbdoc(
 			3-D implicit surface wrapper for generic Surface3 instance.
 
 			This class represents 3-D implicit surface that converts Surface3 instance
@@ -56,15 +59,15 @@ void AddSurfaceToImplicit3(pybind11::module& m)
 			please take a look at ImplicitTriangleMesh3. Use this class only
 			for the basic primitives such as Sphere3 or Box3.
 		)pbdoc")
-	.def(pybind11::init<Surface3Ptr, Transform3, bool>(),
-		R"pbdoc(
+        .def(pybind11::init<Surface3Ptr, Transform3, bool>(),
+             R"pbdoc(
 			Constructs an instance with generic Surface3 instance.
 		)pbdoc",
-		pybind11::arg("surface"),
-		pybind11::arg("transform") = Transform3(),
-		pybind11::arg("isNormalFlipped") = false)
-	.def_property_readonly("surface", &SurfaceToImplicit3::GetSurface,
-		R"pbdoc(
+             pybind11::arg("surface"),
+             pybind11::arg("transform") = Transform3(),
+             pybind11::arg("isNormalFlipped") = false)
+        .def_property_readonly("surface", &SurfaceToImplicit3::GetSurface,
+                               R"pbdoc(
 			The raw surface instance.
 		)pbdoc");
 }

@@ -1,24 +1,24 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/BoundingBox/BoundingBox3.h>
-#include <Core/Geometry/Triangle3.h>
-#include <Core/Geometry/TriangleMesh3.h>
-#include <Core/QueryEngine/ListQueryEngine3.h>
-#include <Core/Ray/Ray3.h>
-#include <Core/Vector/Vector3.h>
+#include <Core/BoundingBox/BoundingBox3.hpp>
+#include <Core/Geometry/Triangle3.hpp>
+#include <Core/Geometry/TriangleMesh3.hpp>
+#include <Core/QueryEngine/ListQueryEngine3.hpp>
+#include <Core/Ray/Ray3.hpp>
+#include <Core/Vector/Vector3.hpp>
 
 #include <fstream>
 #include <random>
 
-using CubbyFlow::TriangleMesh3;
-using CubbyFlow::Triangle3;
 using CubbyFlow::BoundingBox3D;
-using CubbyFlow::Vector3D;
 using CubbyFlow::Ray3D;
+using CubbyFlow::Triangle3;
+using CubbyFlow::TriangleMesh3;
+using CubbyFlow::Vector3D;
 
 class ListQueryEngine3 : public ::benchmark::Fixture
 {
-public:
+ public:
     std::mt19937 rng{ 0 };
     std::uniform_real_distribution<> dist{ 0.0, 1.0 };
     TriangleMesh3 triMesh;
@@ -61,7 +61,8 @@ BENCHMARK_DEFINE_F(ListQueryEngine3, Nearest)(benchmark::State& state)
 {
     while (state.KeepRunning())
     {
-        benchmark::DoNotOptimize(queryEngine.GetNearestNeighbor(MakeVec(), DistanceFunc));
+        benchmark::DoNotOptimize(
+            queryEngine.GetNearestNeighbor(MakeVec(), DistanceFunc));
     }
 }
 
@@ -71,7 +72,8 @@ BENCHMARK_DEFINE_F(ListQueryEngine3, RayIntersects)(benchmark::State& state)
 {
     while (state.KeepRunning())
     {
-        benchmark::DoNotOptimize(queryEngine.IsIntersects(Ray3D(MakeVec(), MakeVec().Normalized()), IntersectsFunc));
+        benchmark::DoNotOptimize(queryEngine.IsIntersects(
+            Ray3D(MakeVec(), MakeVec().Normalized()), IntersectsFunc));
     }
 }
 

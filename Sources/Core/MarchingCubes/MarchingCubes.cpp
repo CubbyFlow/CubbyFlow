@@ -1,12 +1,12 @@
-/*************************************************************************
-> File Name: MarchingCubes.cpp
-> Project Name: CubbyFlow
-> This code is based on Jet Framework that was created by Doyub Kim.
-> References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: Computes marching cubes and extract triangle mesh from grid.
-> Created Time: 2017/07/09
-> Copyright (c) 2018, Chan-Ho Chris Ohk
-*************************************************************************/
+// This code is based on Jet framework.
+// Copyright (c) 2018 Doyub Kim
+// CubbyFlow is voxel-based fluid simulation engine for computer games.
+// Copyright (c) 2020 CubbyFlow Team
+// Core Part: Chris Ohk, Junwoo Hwang, Jihong Sin, Seungwoo Yoo
+// AI Part: Dongheon Cho, Minseo Kim
+// We are making my contributions/submissions to this project solely in our
+// personal capacity and are not conveying any rights to any intellectual
+// property of any third parties.
 
 // Marching Cubes Example Program
 // by Cory Bloyd (corysama@yahoo.com)
@@ -21,10 +21,10 @@
 //
 // This code is public domain.
 
-#include <Core/LevelSet/LevelSetUtils.h>
-#include <Core/MarchingCubes/MarchingCubes.h>
-#include <Core/MarchingCubes/MarchingCubesTable.h>
-#include <Core/MarchingCubes/MarchingSquaresTable.h>
+#include <Core/LevelSet/LevelSetUtils.hpp>
+#include <Core/MarchingCubes/MarchingCubes.hpp>
+#include <Core/MarchingCubes/MarchingCubesTable.hpp>
+#include <Core/MarchingCubes/MarchingSquaresTable.hpp>
 
 #include <unordered_map>
 
@@ -118,8 +118,10 @@ inline size_t GlobalEdgeID(size_t i, size_t j, size_t k, const Size3& dim,
 {
     // See edgeConnection in marching_cubes_table.h for the edge ordering.
     static const int edgeOffset3D[12][3] = {
-        {1, 0, 0}, {2, 0, 1}, {1, 0, 2}, {0, 0, 1}, {1, 2, 0}, {2, 2, 1},
-        {1, 2, 2}, {0, 2, 1}, {0, 1, 0}, {2, 1, 0}, {2, 1, 2}, {0, 1, 2}};
+        { 1, 0, 0 }, { 2, 0, 1 }, { 1, 0, 2 }, { 0, 0, 1 },
+        { 1, 2, 0 }, { 2, 2, 1 }, { 1, 2, 2 }, { 0, 2, 1 },
+        { 0, 1, 0 }, { 2, 1, 0 }, { 2, 1, 2 }, { 0, 1, 2 }
+    };
 
     return ((2 * k + edgeOffset3D[localEdgeID][2]) * 2 * dim.y +
             (2 * j + edgeOffset3D[localEdgeID][1])) *
@@ -138,9 +140,10 @@ inline size_t GlobalVertexID(size_t i, size_t j, size_t k, const Size3& dim,
                              size_t localVertexID)
 {
     // See edgeConnection in marching_cubes_table.h for the edge ordering.
-    static const int vertexOffset3D[8][3] = {{0, 0, 0}, {2, 0, 0}, {2, 0, 2},
-                                             {0, 0, 2}, {0, 2, 0}, {2, 2, 0},
-                                             {2, 2, 2}, {0, 2, 2}};
+    static const int vertexOffset3D[8][3] = { { 0, 0, 0 }, { 2, 0, 0 },
+                                              { 2, 0, 2 }, { 0, 0, 2 },
+                                              { 0, 2, 0 }, { 2, 2, 0 },
+                                              { 2, 2, 2 }, { 0, 2, 2 } };
 
     return ((2 * k + vertexOffset3D[localVertexID][2]) * 2 * dim.y +
             (2 * j + vertexOffset3D[localVertexID][1])) *
@@ -320,7 +323,7 @@ static void SingleCube(const std::array<double, 8>& data,
             idxVertexOfTheEdge[1] = edgeConnection[iterEdge][1];
 
             // cube vertex ordering to x-major ordering
-            static int indexMap[8] = {0, 1, 5, 4, 2, 3, 7, 6};
+            static int indexMap[8] = { 0, 1, 5, 4, 2, 3, 7, 6 };
 
             // Find the phi = 0 position
             Vector3D pos0 = bound.Corner(indexMap[idxVertexOfTheEdge[0]]);
@@ -401,7 +404,7 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
     const Vector3D invGridSize = 1.0 / gridSize;
 
     auto pos = [origin, gridSize](ssize_t i, ssize_t j, ssize_t k) {
-        return origin + gridSize * Vector3D({i, j, k});
+        return origin + gridSize * Vector3D({ i, j, k });
     };
 
     ssize_t dimX = static_cast<ssize_t>(dim.x);
@@ -673,4 +676,4 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
         }
     }
 }
-}
+}  // namespace CubbyFlow

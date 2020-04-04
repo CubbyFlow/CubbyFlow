@@ -1,0 +1,45 @@
+FROM ubuntu:20.04
+LABEL maintainer "Chris Ohk <utilforever@gmail.com>"
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    python3-dev \
+    python3-pip \
+    python3-venv \
+    python3-setuptools \
+    cmake \
+    wget \
+    unzip \
+    --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && \
+    apt-get install -yq xorg-dev libglu1-mesa-dev && \
+    apt-get install -yq libxrandr-dev libxi-dev libxxf86vm-dev libxinerama-dev libxcursor-dev lcov && \
+    apt-get install -yq libopenal-dev libvorbis-dev libflac-dev
+    
+RUN wget https://github.com/glfw/glfw/releases/download/3.2.1/glfw-3.2.1.zip && \
+    unzip glfw-3.2.1.zip && cd glfw-3.2.1 && \
+    cmake -DBUILD_SHARED_LIBS=true -DGLFW_BUILD_EXAMPLES=false -DGLFW_BUILD_TESTS=false -DGLFW_BUILD_DOCS=false . && \
+    make -j`nproc` && \
+    make install && \
+    cd ..    
+
+Add . /app
+
+WORKDIR /app/build
+RUN cmake .. && \
+    make -j "$(nproc)" && \
+    make install && \
+    bin/UnitTests
+
+RUN apt-get install -yq pkg-config libfreetype6-dev libpng-dev    
+
+WORKDIR /app/ENV3
+RUN pip3 install -r ../requirements.txt && \
+    pip3 install .. && \
+    python3 ../Tests/PythonTests/main.py
+    
+WORKDIR /

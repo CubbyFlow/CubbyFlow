@@ -1,15 +1,16 @@
-/*************************************************************************
-> File Name: TriangleMesh3.cpp
-> Project Name: CubbyFlow
-> This code is based on Jet Framework that was created by Doyub Kim.
-> References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: 3-D triangle mesh geometry.
-> Created Time: 2017/04/15
-> Copyright (c) 2018, Chan-Ho Chris Ohk
-*************************************************************************/
-#include <Core/Geometry/TriangleMesh3.h>
-#include <Core/Math/MathUtils.h>
-#include <Core/Utils/Parallel.h>
+// This code is based on Jet framework.
+// Copyright (c) 2018 Doyub Kim
+// CubbyFlow is voxel-based fluid simulation engine for computer games.
+// Copyright (c) 2020 CubbyFlow Team
+// Core Part: Chris Ohk, Junwoo Hwang, Jihong Sin, Seungwoo Yoo
+// AI Part: Dongheon Cho, Minseo Kim
+// We are making my contributions/submissions to this project solely in our
+// personal capacity and are not conveying any rights to any intellectual
+// property of any third parties.
+
+#include <Core/Geometry/TriangleMesh3.hpp>
+#include <Core/Math/MathUtils.hpp>
+#include <Core/Utils/Parallel.hpp>
 
 #define TINYOBJLOADER_IMPLEMENTATION
 #define TINYOBJLOADER_USE_DOUBLE
@@ -622,7 +623,7 @@ bool TriangleMesh3::ReadObj(std::istream* stream)
         tinyobj::real_t vy = attrib.vertices[3 * idx + 1];
         tinyobj::real_t vz = attrib.vertices[3 * idx + 2];
 
-        AddPoint({vx, vy, vz});
+        AddPoint({ vx, vy, vz });
     }
 
     // Read normals
@@ -633,7 +634,7 @@ bool TriangleMesh3::ReadObj(std::istream* stream)
         tinyobj::real_t vy = attrib.normals[3 * idx + 1];
         tinyobj::real_t vz = attrib.normals[3 * idx + 2];
 
-        AddNormal({vx, vy, vz});
+        AddNormal({ vx, vy, vz });
     }
 
     // Read UVs
@@ -643,7 +644,7 @@ bool TriangleMesh3::ReadObj(std::istream* stream)
         tinyobj::real_t tu = attrib.texcoords[2 * idx + 0];
         tinyobj::real_t tv = attrib.texcoords[2 * idx + 1];
 
-        AddUV({tu, tv});
+        AddUV({ tu, tv });
     }
 
     // Read faces
@@ -660,24 +661,25 @@ bool TriangleMesh3::ReadObj(std::istream* stream)
                 if (!attrib.vertices.empty())
                 {
                     AddPointTriangle(
-                        {shape.mesh.indices[idx].vertex_index,
-                         shape.mesh.indices[idx + 1].vertex_index,
-                         shape.mesh.indices[idx + 2].vertex_index});
+                        { shape.mesh.indices[idx].vertex_index,
+                          shape.mesh.indices[idx + 1].vertex_index,
+                          shape.mesh.indices[idx + 2].vertex_index });
                 }
 
                 if (!attrib.normals.empty())
                 {
                     AddNormalTriangle(
-                        {shape.mesh.indices[idx].normal_index,
-                         shape.mesh.indices[idx + 1].normal_index,
-                         shape.mesh.indices[idx + 2].normal_index});
+                        { shape.mesh.indices[idx].normal_index,
+                          shape.mesh.indices[idx + 1].normal_index,
+                          shape.mesh.indices[idx + 2].normal_index });
                 }
 
                 if (!attrib.texcoords.empty())
                 {
-                    AddUVTriangle({shape.mesh.indices[idx].texcoord_index,
-                                   shape.mesh.indices[idx + 1].texcoord_index,
-                                   shape.mesh.indices[idx + 2].texcoord_index});
+                    AddUVTriangle(
+                        { shape.mesh.indices[idx].texcoord_index,
+                          shape.mesh.indices[idx + 1].texcoord_index,
+                          shape.mesh.indices[idx + 2].texcoord_index });
                 }
             }
 
@@ -794,4 +796,4 @@ TriangleMesh3Ptr TriangleMesh3::Builder::MakeShared() const
                           m_isNormalFlipped),
         [](TriangleMesh3* obj) { delete obj; });
 }
-}
+}  // namespace CubbyFlow

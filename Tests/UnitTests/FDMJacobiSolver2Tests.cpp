@@ -1,8 +1,8 @@
-#include "pch.h"
+#include "pch.hpp"
 
-#include <FDMLinearSystemSolverTestHelper2.h>
+#include <FDMLinearSystemSolverTestHelper2.hpp>
 
-#include <Core/Solver/FDM/FDMJacobiSolver2.h>
+#include <Core/Solver/FDM/FDMJacobiSolver2.hpp>
 
 using namespace CubbyFlow;
 
@@ -20,7 +20,8 @@ TEST(FDMJacobiSolver2, Solve)
 TEST(FDMJacobiSolver2, SolveCompressed)
 {
     FDMCompressedLinearSystem2 system;
-    FDMLinearSystemSolverTestHelper2::BuildTestCompressedLinearSystem(&system, { 3, 3 });
+    FDMLinearSystemSolverTestHelper2::BuildTestCompressedLinearSystem(&system,
+                                                                      { 3, 3 });
 
     FDMJacobiSolver2 solver(100, 10, 1e-9);
     solver.SolveCompressed(&system);

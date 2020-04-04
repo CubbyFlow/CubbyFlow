@@ -1,7 +1,7 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/Geometry/TriangleMesh3.h>
-#include <Core/Vector/Vector3.h>
+#include <Core/Geometry/TriangleMesh3.hpp>
+#include <Core/Vector/Vector3.hpp>
 
 #include <fstream>
 #include <random>
@@ -10,7 +10,7 @@ using CubbyFlow::Vector3D;
 
 class TriangleMesh3 : public ::benchmark::Fixture
 {
-protected:
+ protected:
     std::mt19937 rng{ 0 };
     std::uniform_real_distribution<> dist{ 0.0, 1.0 };
     CubbyFlow::TriangleMesh3 triMesh;

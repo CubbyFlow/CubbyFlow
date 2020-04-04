@@ -1,20 +1,20 @@
-#include "pch.h"
+#include "pch.hpp"
 
-#include <Core/Utils/Logging.h>
+#include <Core/Utils/Logging.hpp>
 
 #include <fstream>
 
 int main(int argc, char* argv[])
 {
-	::testing::InitGoogleTest(&argc, argv);
+    ::testing::InitGoogleTest(&argc, argv);
 
-	std::ofstream logFile("UnitTests.log");
-	if (logFile)
-	{
-		CubbyFlow::Logging::SetAllStream(&logFile);
-	}
+    std::ofstream logFile("UnitTests.log");
+    if (logFile)
+    {
+        CubbyFlow::Logging::SetAllStream(&logFile);
+    }
 
-	int ret = RUN_ALL_TESTS();
+    int ret = RUN_ALL_TESTS();
 
-	return ret;
+    return ret;
 }

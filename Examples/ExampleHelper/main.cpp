@@ -1,11 +1,13 @@
-/*************************************************************************
-> File Name: main.cpp
-> Project Name: Hearthstone++
-> Author: Chan-Ho Chris Ohk
-> Purpose: Main entry of Hearthstone++ GUI program.
-> Created Time: 2018/02/04
-> Copyright (c) 2017, Chan-Ho Chris Ohk
-*************************************************************************/
+// This code is based on Jet framework.
+// Copyright (c) 2018 Doyub Kim
+// CubbyFlow is voxel-based fluid simulation engine for computer games.
+// Copyright (c) 2020 CubbyFlow Team
+// Core Part: Chris Ohk, Junwoo Hwang, Jihong Sin, Seungwoo Yoo
+// AI Part: Dongheon Cho, Minseo Kim
+// We are making my contributions/submissions to this project solely in our
+// personal capacity and are not conveying any rights to any intellectual
+// property of any third parties.
+
 #include <GLFW/glfw3.h>
 #include <imgui/imgui.h>
 
@@ -14,15 +16,18 @@
 void Setup(GLFWwindow* window);
 void Render(ImDrawData* drawData);
 
-int main() {
-    if (!glfwInit()) {
+int main()
+{
+    if (!glfwInit())
+    {
         exit(EXIT_FAILURE);
     }
 
-    static GLFWwindow* window{glfwCreateWindow(
-        800, 600, "Hearthstone++ simple GUI", nullptr, nullptr)};
+    static GLFWwindow* window{ glfwCreateWindow(
+        800, 600, "CubbyFlow simple GUI", nullptr, nullptr) };
 
-    if (!window) {
+    if (!window)
+    {
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
@@ -32,7 +37,8 @@ int main() {
     // Close window on pressing ESC
     glfwSetKeyCallback(window,
                        [](GLFWwindow* window, int key, int, int action, int) {
-                           if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+                           if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+                           {
                                glfwSetWindowShouldClose(window, GL_TRUE);
                            }
                        });
@@ -40,7 +46,8 @@ int main() {
     Setup(window);
 
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    while (!glfwWindowShouldClose(window)) {
+    while (!glfwWindowShouldClose(window))
+    {
         glClear(GL_COLOR_BUFFER_BIT);
 
         glfwPollEvents();
@@ -49,7 +56,7 @@ int main() {
         ImGui::NewFrame();
 
         // This creates a window
-        ImGui::Begin("Hearthstone++");
+        ImGui::Begin("CubbyFlow");
         ImGui::Text("Simple GUI test");
         ImGui::End();
 
@@ -70,13 +77,14 @@ int main() {
         The ImGuiIO struct is the main configuration and
         I/O between your application and ImGui.
 */
-void Setup(GLFWwindow* window) {
+void Setup(GLFWwindow* window)
+{
     unsigned char* pixels;
     int width, height, displayWidth, displayHeight;
     GLuint g_fontTexture;
 
     ImGui::CreateContext();
-    ImGuiIO& io{ImGui::GetIO()};
+    ImGuiIO& io{ ImGui::GetIO() };
 
     io.Fonts->GetTexDataAsAlpha8(&pixels, &width, &height);
 
@@ -106,18 +114,19 @@ void Setup(GLFWwindow* window) {
 
 /*
         Boilerplate function for OpenGL 2.0 rendering.
-        
+
         This function isn't written by us, but is mandatory
         boilerplate from the library. It can be copy/pasted
         into your projects, but should really be part of the
         library itself?
 */
-void Render(ImDrawData* drawData) {
-    ImGuiIO& io{ImGui::GetIO()};
-    const int fbWidth{
-        static_cast<int>(io.DisplaySize.x * io.DisplayFramebufferScale.x)};
-    const int fbHeight{
-        static_cast<int>(io.DisplaySize.y * io.DisplayFramebufferScale.y)};
+void Render(ImDrawData* drawData)
+{
+    ImGuiIO& io{ ImGui::GetIO() };
+    const int fbWidth{ static_cast<int>(io.DisplaySize.x *
+                                        io.DisplayFramebufferScale.x) };
+    const int fbHeight{ static_cast<int>(io.DisplaySize.y *
+                                         io.DisplayFramebufferScale.y) };
 
     drawData->ScaleClipRects(io.DisplayFramebufferScale);
 
@@ -150,7 +159,8 @@ void Render(ImDrawData* drawData) {
 
     // Render command lists
 #define OFFSETOF(TYPE, ELEMENT) ((size_t) & (((TYPE*)0)->ELEMENT))
-    for (int n = 0; n < drawData->CmdListsCount; n++) {
+    for (int n = 0; n < drawData->CmdListsCount; n++)
+    {
         const ImDrawList* cmdList = drawData->CmdLists[n];
         const unsigned char* vertexBuffer =
             reinterpret_cast<const unsigned char*>(&cmdList->VtxBuffer.front());
@@ -162,11 +172,15 @@ void Render(ImDrawData* drawData) {
         glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(ImDrawVert),
                        (void*)(vertexBuffer + OFFSETOF(ImDrawVert, col)));
 
-        for (int cmds = 0; cmds < cmdList->CmdBuffer.size(); ++cmds) {
+        for (int cmds = 0; cmds < cmdList->CmdBuffer.size(); ++cmds)
+        {
             const ImDrawCmd* pCmd = &cmdList->CmdBuffer[cmds];
-            if (pCmd->UserCallback) {
+            if (pCmd->UserCallback)
+            {
                 pCmd->UserCallback(cmdList, pCmd);
-            } else {
+            }
+            else
+            {
                 glBindTexture(GL_TEXTURE_2D,
                               static_cast<GLuint>(
                                   reinterpret_cast<intptr_t>(pCmd->TextureId)));

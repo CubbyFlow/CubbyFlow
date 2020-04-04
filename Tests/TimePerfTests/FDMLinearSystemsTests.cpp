@@ -1,23 +1,23 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/Array/Array3.h>
-#include <Core/FDM/FDMLinearSystem2.h>
-#include <Core/FDM/FDMLinearSystem3.h>
-#include <Core/Size/Size3.h>
+#include <Core/Array/Array3.hpp>
+#include <Core/FDM/FDMLinearSystem2.hpp>
+#include <Core/FDM/FDMLinearSystem3.hpp>
+#include <Core/Size/Size3.hpp>
 
 #include <random>
 
 using CubbyFlow::Array3;
-using CubbyFlow::FDMMatrix2;
-using CubbyFlow::FDMVector2;
-using CubbyFlow::FDMMatrix3;
-using CubbyFlow::FDMVector3;
 using CubbyFlow::FDMCompressedLinearSystem3;
+using CubbyFlow::FDMMatrix2;
+using CubbyFlow::FDMMatrix3;
+using CubbyFlow::FDMVector2;
+using CubbyFlow::FDMVector3;
 using CubbyFlow::Size3;
 
 class FDMBLAS2 : public ::benchmark::Fixture
 {
-public:
+ public:
     FDMMatrix2 m;
     FDMVector2 a;
     FDMVector2 b;
@@ -33,8 +33,7 @@ public:
         std::mt19937 rng;
         std::uniform_real_distribution<> d(0.0, 1.0);
 
-        m.ForEachIndex([&](size_t i, size_t j)
-        {
+        m.ForEachIndex([&](size_t i, size_t j) {
             m(i, j).center = d(rng);
             m(i, j).right = d(rng);
             m(i, j).up = d(rng);
@@ -45,7 +44,7 @@ public:
 
 class FDMBLAS3 : public ::benchmark::Fixture
 {
-public:
+ public:
     FDMMatrix3 m;
     FDMVector3 a;
     FDMVector3 b;
@@ -61,8 +60,7 @@ public:
         std::mt19937 rng;
         std::uniform_real_distribution<> d(0.0, 1.0);
 
-        m.ForEachIndex([&](size_t i, size_t j, size_t k)
-        {
+        m.ForEachIndex([&](size_t i, size_t j, size_t k) {
             m(i, j, k).center = d(rng);
             m(i, j, k).right = d(rng);
             m(i, j, k).up = d(rng);
@@ -74,7 +72,7 @@ public:
 
 class FDMCompressedBLAS3 : public ::benchmark::Fixture
 {
-public:
+ public:
     FDMCompressedLinearSystem3 system;
 
     void SetUp(const ::benchmark::State& state)
@@ -84,15 +82,15 @@ public:
         BuildSystem(&system, { dim, dim, dim });
     }
 
-    static void BuildSystem(FDMCompressedLinearSystem3* system, const Size3& size)
+    static void BuildSystem(FDMCompressedLinearSystem3* system,
+                            const Size3& size)
     {
         system->Clear();
 
         Array3<size_t> coordToIndex(size);
         const auto acc = coordToIndex.ConstAccessor();
 
-        coordToIndex.ForEachIndex([&](size_t i, size_t j, size_t k)
-        {
+        coordToIndex.ForEachIndex([&](size_t i, size_t j, size_t k) {
             const size_t cIdx = acc.Index(i, j, k);
             const size_t lIdx = acc.Index(i - 1, j, k);
             const size_t rIdx = acc.Index(i + 1, j, k);
@@ -200,4 +198,7 @@ BENCHMARK_DEFINE_F(FDMCompressedBLAS3, MVM)(benchmark::State& state)
     }
 }
 
-BENCHMARK_REGISTER_F(FDMCompressedBLAS3, MVM)->Arg(1 << 4)->Arg(1 << 6)->Arg(1 << 8);
+BENCHMARK_REGISTER_F(FDMCompressedBLAS3, MVM)
+    ->Arg(1 << 4)
+    ->Arg(1 << 6)
+    ->Arg(1 << 8);
