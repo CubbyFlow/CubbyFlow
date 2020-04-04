@@ -52,12 +52,12 @@ namespace CubbyRender {
     VertexBufferPtr ObjReconstructor::generateVertexBuffer(RendererPtr renderer)
     {
         size_t stride = VertexHelper::getNumberOfFloats(_format);
-        return renderer->createVertexBuffer(_vertexBuffer.ConstAccessor(), _vertexBuffer.size() / stride, _format);
+        return renderer->createVertexBuffer(_vertices.ConstAccessor(), _vertices.size() / stride, _format);
     }
     
     IndexBufferPtr ObjReconstructor::generateIndexBuffer(RendererPtr renderer)
     {
-        return renderer->createIndexBuffer(_indexBuffer.ConstAccessor(), _indexBuffer.size());
+        return renderer->createIndexBuffer(_indices.ConstAccessor(), _indices.size());
     }
     
     std::tuple<Vector3F, Vector3F> ObjReconstructor::getBoundingBox() const
@@ -94,9 +94,9 @@ namespace CubbyRender {
                 // Get the three vertex indexes and coordinates
                 Vector3F position[3];  // coordinates
 
-                size_t f0 = idx0.vertex_index;
-                size_t f1 = idx1.vertex_index;
-                size_t f2 = idx2.vertex_index;
+                int f0 = idx0.vertex_index;
+                int f1 = idx1.vertex_index;
+                int f2 = idx2.vertex_index;
                 assert(f0 >= 0 && f1 >= 0 && f2 >= 0);
 
                 position[0] = Vector3F(vertices[3 * f0], vertices[3 * f0 + 1], vertices[3 * f0 + 2]);
@@ -107,7 +107,7 @@ namespace CubbyRender {
                 Vector3F normal = calculateNormal(position[0], position[1], position[2]);
             
                 // Add the normal to the three vertexes
-                size_t faces[3] = {f0, f1, f2};
+                int faces[3] = {f0, f1, f2};
                 for (size_t i = 0; i < 3; ++i) 
                 {
                     auto iter = smoothVertexNormals.find(faces[i]);
@@ -168,7 +168,7 @@ namespace CubbyRender {
             std::map<int, Vector3F> smoothVertexNormals;
             if (static_cast<int>(_format & VertexFormat::Position3))
             {
-                if (hasSmoothingGroup(shape) > 0) 
+                if (hasSmoothingGroup(shape)) 
                 {
                     computeSmoothingNormals(attrib, shape, smoothVertexNormals);
                 }
@@ -177,16 +177,16 @@ namespace CubbyRender {
             for (size_t faceIndex = 0; faceIndex < shape.mesh.indices.size() / 3; ++faceIndex)
             {
                 /*
-                idx0
+                idx0 (pos (float3), normal(float3), texcoords(float2))
                 |\
                 | \
                 |  \
-                |   \ idx2
+                |   \ idx2 (pos (float3), normal(float3), texcoords(float2))
                 |   /
                 |  /
                 | /
                 |/
-                idx1
+                idx1 (pos (float3), normal(float3), texcoords(float2))
                 */
                 tinyobj::index_t idx0 = shape.mesh.indices[3 * faceIndex + 0];
                 tinyobj::index_t idx1 = shape.mesh.indices[3 * faceIndex + 1];
@@ -217,9 +217,9 @@ namespace CubbyRender {
 
                     for (size_t k = 0; k < 3; ++k)
                     {
-                        _vertexBuffer.Append(position[k][0]);
-                        _vertexBuffer.Append(position[k][1]);
-                        _vertexBuffer.Append(position[k][2]);
+                        _vertices.Append(position[k][0]);
+                        _vertices.Append(position[k][1]);
+                        _vertices.Append(position[k][2]);
                     }
                 }
 
@@ -289,9 +289,9 @@ namespace CubbyRender {
 
                     for (size_t k = 0; k < 3; ++k)
                     {
-                        _vertexBuffer.Append(normal[k][0]);
-                        _vertexBuffer.Append(normal[k][1]);
-                        _vertexBuffer.Append(normal[k][2]);
+                        _vertices.Append(normal[k][0]);
+                        _vertices.Append(normal[k][1]);
+                        _vertices.Append(normal[k][2]);
                     }
                 }
 
@@ -330,8 +330,8 @@ namespace CubbyRender {
 
                     for (size_t k = 0; k < 3; ++k)
                     {
-                        _vertexBuffer.Append(texCoords[k][0]);
-                        _vertexBuffer.Append(texCoords[k][1]);
+                        _vertices.Append(texCoords[k][0]);
+                        _vertices.Append(texCoords[k][1]);
                     }
                 }
             }

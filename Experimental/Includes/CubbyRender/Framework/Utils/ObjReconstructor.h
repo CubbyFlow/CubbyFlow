@@ -32,20 +32,26 @@ namespace CubbyRender {
         //! Default destructor
         ~ObjReconstructor();
 
+        //! Set vertex format to be constructed.
         void setVertexFormat(VertexFormat format);
 
+        //! Get vertex format of the obj.
         VertexFormat getVertexFormat() const;
 
+        //! Load obj file from given path and reconstruct it 
         void loadAndReconstruct(const std::string& objPath);
 
+        //! Generate vertex buffer from vertices which loaded by loadAndReconstruct method
         VertexBufferPtr generateVertexBuffer(RendererPtr renderer);
 
+        //! Generate index buffer from indices which loaded by loadAndReconstruct method
         IndexBufferPtr generateIndexBuffer(RendererPtr renderer);
 
+        //! Get left top and right bottom corner for the bounding box which wrap the object.
         std::tuple<Vector3F, Vector3F> getBoundingBox() const;
     private:
-        Array1<float> _vertexBuffer;
-        Array1<unsigned int> _indexBuffer;
+        Array1<float> _vertices;
+        Array1<unsigned int> _indices;
         Vector3F _bbMin;
         Vector3F _bbMax;
         VertexFormat _format = VertexFormat::Position3Normal3;
