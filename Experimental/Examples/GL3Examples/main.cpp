@@ -14,10 +14,11 @@
 #include <pystring/pystring.h>
 
 #include <Framework/Window/Window.h>
-#include <Framework/Utils/Common.h>
 #include <Framework/Renderable/Material.h>
 #include <Framework/Buffer/InputLayout.h>
 #include <Framework/Buffer/Vertex.h>
+#include <Framework/Utils/Common.h>
+#include <Framework/Utils/ObjReconstructor.h>
 #include <GL3/Application/GL3Application.h>
 #include <GL3/Shader/GL3Shader.h>
 #include <GL3/Renderer/GL3Renderer.h>
@@ -25,7 +26,6 @@
 #include <Core/Array/Array1.h>
 #include <Core/Size/Size3.h>
 
-#define TINYOBJLOADER_IMPLEMENTATION
 #include <tiny_obj_loader.h>
 
 #include <memory>
@@ -57,51 +57,13 @@ int RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFram
 
     MaterialPtr simpleMaterial = std::make_shared<Material>(simpleShader);
     
-    std::string inputfile = "Resources/sphere.obj";
-    tinyobj::attrib_t attrib;
-    std::vector<tinyobj::shape_t> shapes;
-    std::vector<tinyobj::material_t> materials;
-
-    std::string warn;
-    std::string err;
-
-    bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, inputfile.c_str());
-
-    if (!warn.empty()) 
-    {
-      std::cout << warn << std::endl;
-    }
-
-    if (!err.empty()) 
-    {
-      std::cerr << err << std::endl;
-    }
-
-    if (!ret) 
-    {
-      exit(1);
-    }
-
-    std::cout << "#shape : " << shapes.size() << std::endl;
-    std::cout << "#materials : " << materials.size() << std::endl;
-    std::cout << "#vertices : " << attrib.vertices.size() << ", " << "#normals : " << attrib.normals.size() << std::endl;
-
-    Array1<float> vertices;
-    vertices.Set(begin(attrib.vertices), end(attrib.vertices));
-    Array1<float> normals;
-    normals.Set(begin(attrib.normals), end(attrib.normals));
-    //! OpenGL one glDrawElements, multi index buffer support or not?
-    //! If not need helper function.
-    //!Array1<unsigned int> indices;
-    //!normals.Set(begin(shapes[0].mesh.indices), end(shapes[0].mesh.indices));
+    ObjReconstructor objRecon;
+    objRecon.setVertexFormat(VertexFormat::Position3Normal3);
+    objRecon.loadAndReconstruct("Resources/sphere.obj");
 
     auto gl = window->getRenderer();
     InputLayoutPtr inputLayout = gl->createInputLayout();
-    VertexBufferPtr positionBuffer = gl->createVertexBuffer(vertices.ConstAccessor(), vertices.size(), VertexFormat::Position3);
-    VertexBufferPtr normalBuffer = gl->createVertexBuffer(normals.ConstAccessor(), normals.size(), VertexFormat::Normal3);
-
-    inputLayout->attachVertexBuffer(gl, simpleMaterial, positionBuffer);
-    inputLayout->attachVertexBuffer(gl, simpleMaterial, normalBuffer);
+    inputLayout->attachVertexBuffer(gl, simpleMaterial, objRecon.generateVertexBuffer(gl));
 
 #ifdef CUBBYFLOW_RECORDING
     auto recorder = std::make_shared<ScreenRecorder>();
@@ -115,8 +77,6 @@ int RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFram
 #else
     application->run(numberOfFrames, nullptr);
 #endif
-
-    application->terminate();
     return EXIT_SUCCESS;
 }
 

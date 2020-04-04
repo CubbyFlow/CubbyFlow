@@ -140,5 +140,3 @@ endif()
 if (APPLE)
     # add_subdirectory(src/examples/metal_examples)
 endif()
-
-# Project dependencies
