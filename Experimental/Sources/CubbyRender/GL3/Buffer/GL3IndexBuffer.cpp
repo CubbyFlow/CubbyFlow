@@ -46,8 +46,8 @@ namespace CubbyRender {
 
     void GL3IndexBuffer::onDestroy() 
     {
-        //!if (static_cast<int>(_indexBufferID))
-        //!    glDeleteBuffers(1, &_indexBufferID);
+        if (static_cast<int>(_indexBufferID))
+            glDeleteBuffers(1, &_indexBufferID);
     }
 
     void GL3IndexBuffer::updateBuffer(RendererPtr renderer, const ConstArrayAccessor1<unsigned int>& data)

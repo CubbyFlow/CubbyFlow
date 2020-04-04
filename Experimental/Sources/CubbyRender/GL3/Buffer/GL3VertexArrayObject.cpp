@@ -53,8 +53,8 @@ namespace CubbyRender {
 
     void GL3VertexArrayObject::onRelease() 
     {
-        //!if (static_cast<int>(_vertexArrayID))
-        //!    glDeleteVertexArrays(1, &_vertexArrayID);
+        if (static_cast<int>(_vertexArrayID))
+            glDeleteVertexArrays(1, &_vertexArrayID);
     }
 } 
 }

@@ -48,8 +48,8 @@ namespace CubbyRender {
 
     void GL3VertexBuffer::onDestroy() 
     {
-        //!if (static_cast<int>(_vertexBufferID))
-        //!    glDeleteBuffers(1, &_vertexBufferID);
+        if (static_cast<int>(_vertexBufferID))
+            glDeleteBuffers(1, &_vertexBufferID);
     }
 
     void GL3VertexBuffer::updateBuffer(RendererPtr renderer, const ConstArrayAccessor1<float>& data)

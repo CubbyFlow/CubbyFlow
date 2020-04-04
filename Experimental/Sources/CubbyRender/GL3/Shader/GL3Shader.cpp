@@ -187,7 +187,7 @@ namespace CubbyRender {
     {
         if (static_cast<int>(_programID))
         {
-            //!glDeleteProgram(_programID); --> this call cause segmentatiln fault. why???..
+            glDeleteProgram(_programID);
             _programID = 0U;
         }
     }
