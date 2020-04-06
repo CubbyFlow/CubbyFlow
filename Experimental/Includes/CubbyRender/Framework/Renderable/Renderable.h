@@ -10,12 +10,31 @@
 #ifndef CUBBYFLOW_RENDERERABLE_H
 #define CUBBYFLOW_RENDERERABLE_H
 
+#include <Framework/Renderer/RenderOptions.h>
 #include <Framework/Utils/Prerequisites.h>
 #include <string>
-
+#include <memory>
 namespace CubbyFlow {
 namespace CubbyRender {
     
+    struct Entry
+    {
+        InputLayoutPtr inputLayout;
+        MaterialPtr material = nullptr;
+        PrimitiveType type = PrimitiveType::TriangleStrip;
+        unsigned int blendOrder = 0;
+
+        //! Default Constructor
+        Entry();
+        //! Constructor with parameteres
+        Entry(InputLayoutPtr inputLayout, MaterialPtr material, PrimitiveType type, unsigned int blendOrder);
+        //! Default Destructor
+        ~Entry();
+        //! Release vertex buffer, index buffer, material.
+        void release();
+    };
+    using EntryPtr = std::shared_ptr<Entry>;
+
     //!
     //! \brief Abstract base class for Renderer object.
     //!
@@ -36,14 +55,13 @@ namespace CubbyRender {
 
         void setEntry(EntryPtr entry);
 
-        void destroy();
-
+        void release();
     protected:
         virtual void onRender(RendererPtr renderer) = 0;
 
         virtual void onSetEntry() = 0;
 
-        virtual void onDestroy() = 0;
+        virtual void onRelease() = 0;
 
         EntryPtr _entry;
     private:

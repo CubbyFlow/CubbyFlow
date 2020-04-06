@@ -42,7 +42,6 @@ namespace CubbyFlow
 		//! \param initVal Initial value of each array element.
 		explicit Array(size_t size, const T& initVal = T());
 
-		/*
 		//!
 		//! \brief Constructs 1-D array with given two iterators
 		//!
@@ -59,10 +58,11 @@ namespace CubbyFlow
 		//! \param first InputIterator that represents begin of the other container
 		//! \param last InputIterator that represents end of the other container
 		//!
+		/*
 		template <typename InputIterator>
-		Array(InputIterator first, InputIterator last);
+		explicit Array(InputIterator first, InputIterator last);
 		*/
-
+	
 		//!
 		//! \brief Constructs 1-D array with given initializer list \p list.
 		//!
@@ -137,6 +137,9 @@ namespace CubbyFlow
 
 		//! Swaps the content of the array with \p other array.
 		void Swap(Array& other);
+
+		//! Increase the capacity of the vector.
+		void Reserve(size_t capacity);
 
 		//! Appends single value \p newVal at the end of the array.
 		void Append(const T& newVal);

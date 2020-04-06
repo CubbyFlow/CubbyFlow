@@ -37,7 +37,7 @@ namespace CubbyRender {
 
         virtual void onSetEntry() override;
 
-        virtual void onDestroy() override;
+        virtual void onRelease() override;
     private:
 
     };

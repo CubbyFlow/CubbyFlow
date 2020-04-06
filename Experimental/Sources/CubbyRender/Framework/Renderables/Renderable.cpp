@@ -9,11 +9,32 @@
 *************************************************************************/
 
 #include <Framework/Renderable/Renderable.h>
-#include <Framework/Renderable/Entry.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
     
+    Entry::Entry()
+    {
+        //! Do nothing.
+    }
+
+    Entry::Entry(InputLayoutPtr inputLayout, MaterialPtr material, PrimitiveType type, unsigned int blendOrder)
+          : inputLayout(inputLayout), material(material), type(type), blendOrder(blendOrder)
+    {
+        //! Do nothing
+    }
+
+    Entry::~Entry()
+    {
+        release();
+    }
+
+    void Entry::release()
+    {
+        inputLayout.reset();
+        material.reset();
+    }
+
     Renderable::Renderable()
     {
         //! Do nothing
@@ -34,13 +55,12 @@ namespace CubbyRender {
         _entry = entry;
     }
 
-    void Renderable::destroy()
+    void Renderable::release()
     {
-        if (_entry)
-        {
-            _entry.reset();
-        }
+        onRelease();
     }
+
+    
 
 } 
 }

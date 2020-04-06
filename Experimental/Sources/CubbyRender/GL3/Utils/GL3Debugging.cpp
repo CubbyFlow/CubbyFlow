@@ -33,17 +33,14 @@ namespace CubbyRender {
 			case GL_OUT_OF_MEMORY:                 error = "OUT_OF_MEMORY"; break;
 			case GL_INVALID_FRAMEBUFFER_OPERATION: error = "INVALID_FRAMEBUFFER_OPERATION"; break;
 			}
+			CUBBYFLOW_ERROR << filename << ":" << line << ": error: " << error;
+			std::cerr << filename << ":" << line << ": error: " << error << std::endl;;
 		}
 
-        if (error.empty() == false)
+        if (error.empty())
         {
-            CUBBYFLOW_ERROR << filename << ":" << line << ": error: " << error;
-			std::cerr << filename << ":" << line << ": error: " << error << std::endl;;
-        }
-		else
-		{
 			CUBBYFLOW_ERROR << filename << ":" << line << " No error occurred here.";
-		}
+        }
 
 		return errorCode == GL_NO_ERROR ? 0 : 1;
 	}

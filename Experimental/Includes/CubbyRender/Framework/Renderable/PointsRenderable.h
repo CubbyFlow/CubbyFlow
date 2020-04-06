@@ -32,14 +32,20 @@ namespace CubbyRender {
         //! Default destructor.
         virtual ~PointsRenderable();
 
+        //! Set radius of the point
+        void setRadius(float radius);
+
+        //! Get radius of the point
+        float getRadius() const;
+
     protected:
         virtual void onRender(RendererPtr renderer) override;
 
         virtual void onSetEntry() override;
 
-        virtual void onDestroy() override;
+        virtual void onRelease() override;
     private:
-
+        float _radius = 0.0f;
     };
 
     using PointsRenderablePtr = std::shared_ptr<PointsRenderable>;

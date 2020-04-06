@@ -9,6 +9,10 @@
 *************************************************************************/
 
 #include <Framework/Renderable/PointsRenderable.h>
+#include <Framework/Renderable/Material.h>
+#include <Framework/Buffer/VertexBuffer.h>
+#include <Framework/Buffer/IndexBuffer.h>
+#include <Framework/Shader/Shader.h>
 #include <Framework/Utils/Common.h>
 
 namespace CubbyFlow {
@@ -26,7 +30,11 @@ namespace CubbyRender {
 
     void PointsRenderable::onRender(RendererPtr renderer)
     {
-        UNUSED_VARIABLE(renderer);
+        if (_entry)
+        {
+            _entry->material->getShader()->bind(renderer);
+            //!_entry->inputLayout->bind(renderer);
+        }
     }
 
     void PointsRenderable::onSetEntry()
@@ -34,9 +42,22 @@ namespace CubbyRender {
 
     }
 
-    void PointsRenderable::onDestroy()
+    void PointsRenderable::onRelease()
     {
+        if (_entry)
+        {
+            _entry.reset();
+        }
+    }
 
+    void PointsRenderable::setRadius(float radius)
+    {
+        _radius = radius;
+    }
+
+    float PointsRenderable::getRadius() const
+    {
+        return _radius;
     }
 
 } 

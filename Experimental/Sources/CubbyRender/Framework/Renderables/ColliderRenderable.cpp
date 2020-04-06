@@ -34,7 +34,7 @@ namespace CubbyRender {
 
     }
 
-    void ColliderRenderable::onDestroy()
+    void ColliderRenderable::onRelease()
     {
 
     }

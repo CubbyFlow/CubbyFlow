@@ -59,12 +59,13 @@ int RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFram
     
     ObjReconstructor objRecon;
     objRecon.setVertexFormat(VertexFormat::Position3Normal3);
-    objRecon.loadAndReconstruct("Resources/sphere.obj");
+    objRecon.loadAndReconstruct("Resources/cube.obj");
 
     auto gl = window->getRenderer();
     InputLayoutPtr inputLayout = gl->createInputLayout();
     inputLayout->attachVertexBuffer(gl, simpleMaterial, objRecon.generateVertexBuffer(gl));
-
+    inputLayout->attachIndexBuffer(gl, objRecon.generateIndexBuffer(gl));
+    
 #ifdef CUBBYFLOW_RECORDING
     auto recorder = std::make_shared<ScreenRecorder>();
     recorder->setWorkingDirectory(APP_NAME "_output");

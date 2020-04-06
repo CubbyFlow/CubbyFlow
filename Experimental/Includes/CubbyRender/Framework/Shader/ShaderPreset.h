@@ -45,6 +45,40 @@ const GLchar* kSimpleColorShaders[2] = {
     }
     )glsl"};
 
+const GLchar* kPointsShaders[2] = {
+    // Vertex shader
+    R"glsl(
+    #version 330 core
+    uniform mat4 ModelViewProjection;
+    uniform float Radius;
+    in vec3 position;
+    in vec4 color;
+    out VertexData {
+        vec4 color;
+    } outData;
+    void main() {
+        outData.color = color;
+        gl_PointSize = 2.0 * Radius;
+        gl_Position = ModelViewProjection * vec4(position,1.0);
+    }
+    )glsl",
+
+    // Fragment shader
+    R"glsl(
+    #version 330 core
+    uniform float Radius;
+    in VertexData {
+    	 vec4 color;
+    } inData;
+    out vec4 fragColor;
+    void main() {
+         if (length(gl_PointCoord - vec2(0.5, 0.5)) > 0.5) {
+             discard;
+         }
+    	 fragColor = inData.color;
+    }
+    )glsl"};
+
 } 
 }
 #elif CUBBYFLOW_USE_METAL
@@ -56,8 +90,17 @@ const char* kSimpleColorShaders[2] = {
     // Fragment shader
     R"metal(
     )metal"};
+const char* kPointsShaders[2] = {
+    // Vertex shader
+    R"metal(
+    )metal",
+
+    // Fragment shader
+    R"metal(
+    )metal"};
 #else //! If any graphics api not exists. 
-const char* kSimpleColorShaders[2] = { nullptr, nullptr };
+const char* kSimpleColorShaders[2]  = { nullptr, nullptr };
+const char* kPointsShaders[2]       = { nullptr, nullptr };
 #endif  
 
 #endif 

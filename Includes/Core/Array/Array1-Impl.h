@@ -25,7 +25,6 @@ namespace CubbyFlow
 	{
 		Resize(size, initVal);
 	}
-
 	/*
 	template <typename T>
 	template <typename InputIterator>
@@ -34,7 +33,6 @@ namespace CubbyFlow
 		Set(first, last);
 	}
 	*/
-
 	template <typename T>
 	Array<T, 1>::Array(const std::initializer_list<T>& list)
 	{
@@ -174,6 +172,12 @@ namespace CubbyFlow
 	void Array<T, 1>::Swap(Array& other)
 	{
 		std::swap(other.m_data, m_data);
+	}
+
+	template <typename T>
+	void Array<T, 1>::Reserve(size_t capacity)
+	{
+		m_data.reserve(capacity);
 	}
 
 	template <typename T>

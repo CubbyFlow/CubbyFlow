@@ -19,6 +19,10 @@
 #include <tiny_obj_loader.h>
 
 #include <cassert>
+#include <cmath>
+#include <array>
+#include <set>
+#include <iostream>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -129,6 +133,33 @@ namespace CubbyRender {
                 p.second.Normalize();
             }
         }
+
+        constexpr float EPSILON = 1e-9f;
+
+        struct Face
+        {
+            Vector3F position;
+            Vector3F normal;
+            Vector2F texCoord;
+            size_t index; 
+        };
+
+        struct FaceComp
+        {
+            inline bool operator() (const Face& face1, const Face& face2)
+            {
+                for (size_t i = 0; i < 3; ++i)
+                    if (std::fabs(face1.position[i] - face2.position[i]) > EPSILON)
+                        return face1.position[i] < face2.position[i];
+                for (size_t i = 0; i < 3; ++i)
+                    if (std::fabs(face1.normal[i] - face2.normal[i]) > EPSILON)
+                        return face1.normal[i] < face2.normal[i];
+                for (size_t i = 0; i < 2; ++i)
+                    if (std::fabs(face1.texCoord[i] - face2.texCoord[i]) > EPSILON)
+                        return face1.texCoord[i] < face2.texCoord[i];
+                return false;
+            }
+        };
     };
 
     void ObjReconstructor::loadAndReconstruct(const std::string& objPath)
@@ -157,12 +188,15 @@ namespace CubbyRender {
             abort();
         }
         CUBBYFLOW_INFO << "tinyobj::LoadObj with obj file [" << objPath << "] took " << timer.DurationInSeconds() << " seconds";
-
         timer.Reset();
+        
         //! Reset bounding box corners.
         _bbMin[0] = _bbMin[1] = _bbMin[2] = std::numeric_limits<float>::max();
         _bbMax[0] = _bbMax[1] = _bbMax[2] = -std::numeric_limits<float>::max();
         
+        std::set<Face, FaceComp> faces;
+        size_t index { 0 };
+
         for (auto& shape : shapes)
         {
             std::map<int, Vector3F> smoothVertexNormals;
@@ -171,6 +205,7 @@ namespace CubbyRender {
                 if (hasSmoothingGroup(shape)) 
                 {
                     computeSmoothingNormals(attrib, shape, smoothVertexNormals);
+                    CUBBYFLOW_INFO << objPath << " have smoothing group. compute smoothing normals conducted";
                 }
             }
 
@@ -194,7 +229,9 @@ namespace CubbyRender {
 
                 Vector3F position[3];
                 Vector3F normal[3];
-                Vector2F texCoords[3];
+                Vector2F texCoord[3];
+
+                //! When Position3 is included in format.
                 if (static_cast<int>(_format & VertexFormat::Position3))
                 {
                     for (int k = 0; k < 3; k++) 
@@ -207,22 +244,17 @@ namespace CubbyRender {
                         position[0][k] = attrib.vertices[3 * f0 + k];
                         position[1][k] = attrib.vertices[3 * f1 + k];
                         position[2][k] = attrib.vertices[3 * f2 + k];
+                        //! Find bounding box lefttop and rightbottom corner.
                         _bbMin[k] = std::min(position[0][k], _bbMin[k]);
                         _bbMin[k] = std::min(position[1][k], _bbMin[k]);
                         _bbMin[k] = std::min(position[2][k], _bbMin[k]);
                         _bbMax[k] = std::max(position[0][k], _bbMax[k]);
                         _bbMax[k] = std::max(position[1][k], _bbMax[k]);
                         _bbMax[k] = std::max(position[2][k], _bbMax[k]);
-                    }         
-
-                    for (size_t k = 0; k < 3; ++k)
-                    {
-                        _vertices.Append(position[k][0]);
-                        _vertices.Append(position[k][1]);
-                        _vertices.Append(position[k][2]);
                     }
                 }
 
+                //! When Normal3 is included in format.
                 if (static_cast<int>(_format & VertexFormat::Normal3))
                 {
                     bool invalidNormal = false;
@@ -265,36 +297,21 @@ namespace CubbyRender {
 
                             if (f0 >= 0 && f1 >= 0 && f2 >= 0) 
                             {
-                              normal[0][0] = smoothVertexNormals[f0][0];
-                              normal[0][1] = smoothVertexNormals[f0][1];
-                              normal[0][2] = smoothVertexNormals[f0][2];
-
-                              normal[1][0] = smoothVertexNormals[f1][0];
-                              normal[1][1] = smoothVertexNormals[f1][1];
-                              normal[1][2] = smoothVertexNormals[f1][2];
-
-                              normal[2][0] = smoothVertexNormals[f2][0];
-                              normal[2][1] = smoothVertexNormals[f2][1];
-                              normal[2][2] = smoothVertexNormals[f2][2];
+                                normal[0] = smoothVertexNormals[f0];
+                                normal[1] = smoothVertexNormals[f1];
+                                normal[2] = smoothVertexNormals[f2];
                             }
                         }
                         else
                         {
                             normal[0] = calculateNormal(position[0], position[1], position[2]);
-
                             normal[1] = normal[0];
                             normal[2] = normal[0];
                         }    
                     }
-
-                    for (size_t k = 0; k < 3; ++k)
-                    {
-                        _vertices.Append(normal[k][0]);
-                        _vertices.Append(normal[k][1]);
-                        _vertices.Append(normal[k][2]);
-                    }
                 }
 
+                //! When TexCoord2 is included in format.
                 if (static_cast<int>(_format & VertexFormat::TexCoord2))
                 {
                     if (attrib.texcoords.size() > 0)
@@ -305,9 +322,9 @@ namespace CubbyRender {
 
                         if (f0 < 0 || f1 < 0 || f2 < 0)
                         {
-                            texCoords[0] = Vector2F(0.0f, 0.0f);
-                            texCoords[1] = Vector2F(0.0f, 0.0f);
-                            texCoords[2] = Vector2F(0.0f, 0.0f);
+                            texCoord[0] = Vector2F(0.0f, 0.0f);
+                            texCoord[1] = Vector2F(0.0f, 0.0f);
+                            texCoord[2] = Vector2F(0.0f, 0.0f);
                         }
                         else
                         {
@@ -316,24 +333,56 @@ namespace CubbyRender {
                             assert(attrib.texcoords.size() > size_t(2 * f2 + 1));
 
                             // Flip Y coord.
-                            texCoords[0] = Vector2F(attrib.texcoords[2 * f0], 1.0f - attrib.texcoords[2 * f0 + 1]);
-                            texCoords[1] = Vector2F(attrib.texcoords[2 * f1], 1.0f - attrib.texcoords[2 * f1 + 1]);
-                            texCoords[2] = Vector2F(attrib.texcoords[2 * f2], 1.0f - attrib.texcoords[2 * f2 + 1]);
+                            texCoord[0] = Vector2F(attrib.texcoords[2 * f0], 1.0f - attrib.texcoords[2 * f0 + 1]);
+                            texCoord[1] = Vector2F(attrib.texcoords[2 * f1], 1.0f - attrib.texcoords[2 * f1 + 1]);
+                            texCoord[2] = Vector2F(attrib.texcoords[2 * f2], 1.0f - attrib.texcoords[2 * f2 + 1]);
                         }
                     }
                     else
                     {
-                        texCoords[0] = Vector2F(0.0f, 0.0f);
-                        texCoords[1] = Vector2F(0.0f, 0.0f);
-                        texCoords[2] = Vector2F(0.0f, 0.0f);
-                    }
-
-                    for (size_t k = 0; k < 3; ++k)
-                    {
-                        _vertices.Append(texCoords[k][0]);
-                        _vertices.Append(texCoords[k][1]);
+                        texCoord[0] = Vector2F(0.0f, 0.0f);
+                        texCoord[1] = Vector2F(0.0f, 0.0f);
+                        texCoord[2] = Vector2F(0.0f, 0.0f);
                     }
                 }
+
+                //! From now on, vertices in one face allocated.
+                for (size_t k = 0; k < 3; ++k)
+                {
+                    auto iter = faces.find({position[k], normal[k], texCoord[k], size_t(0)});
+                    if (iter == faces.end())
+                    {
+                        faces.insert({ position[k], normal[k], texCoord[k], index });
+                        _indices.Append(index++);
+                    }
+                    else
+                    {
+                        _indices.Append(iter->index);
+                    }
+                }
+            }
+        }
+
+        //! std::set<Face, FaceComp> faces to std::vector<float> _vertices.
+        _vertices.Reserve(faces.size() * VertexHelper::getNumberOfFloats(_format));
+        for (const auto& face : faces)
+        {
+            if (static_cast<int>(_format & VertexFormat::Position3))
+            {
+                _vertices.Append(face.position.x);
+                _vertices.Append(face.position.y);
+                _vertices.Append(face.position.z);
+            }
+            if (static_cast<int>(_format & VertexFormat::Normal3))
+            {
+                _vertices.Append(face.normal.x);
+                _vertices.Append(face.normal.y);
+                _vertices.Append(face.normal.z);
+            }
+            if (static_cast<int>(_format & VertexFormat::TexCoord2))
+            {
+                _vertices.Append(face.texCoord.x);
+                _vertices.Append(face.texCoord.y);
             }
         }
 

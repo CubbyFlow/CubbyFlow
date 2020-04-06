@@ -45,6 +45,9 @@ namespace CubbyRender {
         {
             friend class ShaderParameters;
         public:
+            //! Default Constructor
+            Metadata() = default;
+
             //! Default constructor
             Metadata(ParameterType type, Array1<unsigned char>&& data);
 
