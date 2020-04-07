@@ -29,11 +29,6 @@ namespace CubbyRender {
         UNUSED_VARIABLE(renderer);
     }
 
-    void ColliderRenderable::onSetEntry()
-    {
-
-    }
-
     void ColliderRenderable::onRelease()
     {
 

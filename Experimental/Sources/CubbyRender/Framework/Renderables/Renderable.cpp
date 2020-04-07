@@ -12,28 +12,6 @@
 
 namespace CubbyFlow {
 namespace CubbyRender {
-    
-    Entry::Entry()
-    {
-        //! Do nothing.
-    }
-
-    Entry::Entry(InputLayoutPtr inputLayout, MaterialPtr material, PrimitiveType type, unsigned int blendOrder)
-          : inputLayout(inputLayout), material(material), type(type), blendOrder(blendOrder)
-    {
-        //! Do nothing
-    }
-
-    Entry::~Entry()
-    {
-        release();
-    }
-
-    void Entry::release()
-    {
-        inputLayout.reset();
-        material.reset();
-    }
 
     Renderable::Renderable()
     {
@@ -48,11 +26,6 @@ namespace CubbyRender {
     void Renderable::render(RendererPtr renderer)
     {
         onRender(renderer);
-    }
-
-    void Renderable::setEntry(EntryPtr entry)
-    {
-        _entry = entry;
     }
 
     void Renderable::release()

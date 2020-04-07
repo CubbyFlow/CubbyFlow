@@ -47,6 +47,11 @@ namespace CubbyRender {
 
         void release();
 
+        size_t getNumberOfVertices() const;
+
+        size_t getNumberOfIndices() const;
+        
+
         //! Initialize Input layout .
         virtual void initialize(RendererPtr renderer) = 0;
 

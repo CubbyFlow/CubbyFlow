@@ -11,7 +11,11 @@
 #define CUBBYFLOW_POINTS_RENDERERABLE_H
 
 #include <Framework/Renderable/Renderable.h>
+#include <Core/Array/ArrayAccessor1.h>
+#include <Core/Vector/Vector3.h>
+#include <Core/Vector/Vector4.h>
 #include <string>
+#include <mutex>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -29,6 +33,17 @@ namespace CubbyRender {
         //! Default constructor.
         PointsRenderable();
 
+        PointsRenderable(const ConstArrayAccessor1<Vector3F>& positions,
+                         const ConstArrayAccessor1<Vector4F>& colors,
+                         float radius);
+
+        void update(const ConstArrayAccessor1<Vector3F>& positions,
+                         const ConstArrayAccessor1<Vector4F>& colors);
+
+        void update(const ConstArrayAccessor1<Vector3F>& positions,
+                         const ConstArrayAccessor1<Vector4F>& colors,
+                         float radius);
+
         //! Default destructor.
         virtual ~PointsRenderable();
 
@@ -41,11 +56,11 @@ namespace CubbyRender {
     protected:
         virtual void onRender(RendererPtr renderer) override;
 
-        virtual void onSetEntry() override;
-
         virtual void onRelease() override;
-    private:
+
         float _radius = 0.0f;
+        std::mutex _dataMutex;
+    private:
     };
 
     using PointsRenderablePtr = std::shared_ptr<PointsRenderable>;

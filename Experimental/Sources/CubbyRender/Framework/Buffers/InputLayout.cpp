@@ -66,5 +66,16 @@ namespace CubbyRender {
         onRelease();
     }
 
+    size_t InputLayout::getNumberOfVertices() const
+    {
+        return _vertexBuffers.size() == size_t(0) ? size_t(0) : _vertexBuffers.front()->getNumberOfVertices();
+    }
+
+    size_t InputLayout::getNumberOfIndices() const
+    {
+        return _indexBuffer == nullptr ? size_t(0) : _indexBuffer->getNumberOfIndices();
+    }
+
+
 } 
 }

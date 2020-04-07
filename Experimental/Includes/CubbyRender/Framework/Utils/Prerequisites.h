@@ -16,7 +16,6 @@ namespace CubbyFlow {
 namespace CubbyRender {
     class Application;
     class Buffer;
-    class Entry;
     class IndexBuffer;
     class Material;
     class Renderer;
@@ -30,7 +29,6 @@ namespace CubbyRender {
     using InputLayoutPtr     = std::shared_ptr<InputLayout>;
     using ApplicationPtr     = std::shared_ptr<Application>;
     using BufferPtr          = std::shared_ptr<Buffer>;
-    using EntryPtr           = std::shared_ptr<Entry>;
     using IndexBufferPtr     = std::shared_ptr<IndexBuffer>;
     using MaterialPtr        = std::shared_ptr<Material>;
     using RendererPtr        = std::shared_ptr<Renderer>;

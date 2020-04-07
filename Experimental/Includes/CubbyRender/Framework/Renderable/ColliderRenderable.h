@@ -35,8 +35,6 @@ namespace CubbyRender {
     protected:
         virtual void onRender(RendererPtr renderer) override;
 
-        virtual void onSetEntry() override;
-
         virtual void onRelease() override;
     private:
 
