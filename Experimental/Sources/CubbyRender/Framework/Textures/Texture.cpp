@@ -7,7 +7,7 @@
 > Created Time: 2020/02/24
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
-#include <Framework/Texture/Texture.h>
+#include <Framework/Textures/Texture.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {

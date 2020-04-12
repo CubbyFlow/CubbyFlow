@@ -12,7 +12,7 @@
 #define CUBBYFLOW_TEXTURE2D_H
 
 #include <Framework/Utils/Prerequisites.h>
-#include <Framework/Texture/Texture.h>
+#include <Framework/Textures/Texture.h>
 #include <Framework/Utils/Common.h>
 #include <Core/Array/Array2.h>
 #include <Core/Array/ArrayAccessor2.h>
