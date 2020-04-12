@@ -18,9 +18,25 @@ namespace CubbyRender {
         //! Do nothing
     }
 
+    Renderable::Renderable(InputLayoutPtr inputLayout, MaterialPtr material)
+        : _inputLayout(inputLayout), _material(material)
+    {
+        //! Do nothing
+    }
+
     Renderable::~Renderable()
     {
         //! Do nothing
+    }
+
+    void Renderable::attachInputLayout(InputLayoutPtr inputLayout)
+    {
+        _inputLayout = inputLayout;
+    }
+
+    void Renderable::attachMaterial(MaterialPtr material)
+    {
+        _material = material;
     }
 
     void Renderable::render(RendererPtr renderer)
@@ -32,8 +48,5 @@ namespace CubbyRender {
     {
         onRelease();
     }
-
-    
-
 } 
 }

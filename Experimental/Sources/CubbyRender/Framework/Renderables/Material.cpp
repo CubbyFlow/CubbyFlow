@@ -11,6 +11,7 @@
 #include <Framework/Renderable/Material.h>
 #include <Framework/Renderer/Renderer.h>
 #include <Framework/Shader/Shader.h>
+#include <Framework/Textures/Texture.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -28,7 +29,7 @@ namespace CubbyRender {
 
     Material::~Material()
     {
-        destroy();
+        //! Do nothing.
     }
 
     void Material::addTexture(unsigned int slotID, TexturePtr texture)
@@ -46,13 +47,34 @@ namespace CubbyRender {
         return _shader;
     }
 
-    void Material::destroy()
+    void Material::bind(RendererPtr renderer)
     {
+        _shader->bind(renderer);
+        for (auto iter = _textures.begin(); iter < _textures.end(); ++iter)
+        {
+            unsigned int slotID = iter->first;
+            const TexturePtr& texture = iter->second;
+            texture->bind(renderer, slotID);
+        }
+    }
+
+    void Material::unbind(RendererPtr renderer)
+    {
+        _shader->unbind(renderer);
+        for (auto iter = _textures.begin(); iter < _textures.end(); ++iter)
+        {
+            unsigned int slotID = iter->first;
+            const TexturePtr& texture = iter->second;
+            texture->unbind(renderer, slotID);
+        }
+    }
+
+    void Material::release()
+    {
+        _shader.reset();
         for (auto pair : _textures)
             pair.second.reset();
         _textures.clear();
-        _shader.reset();
     }
-
 } 
 }
