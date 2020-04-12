@@ -353,11 +353,11 @@ namespace CubbyRender {
                     if (iter == faces.end())
                     {
                         faces.insert({ position[k], normal[k], texCoord[k], index });
-                        _indices.Append(index++);
+                        _indices.Append(static_cast<unsigned int>(index++));
                     }
                     else
                     {
-                        _indices.Append(iter->index);
+                        _indices.Append(static_cast<unsigned int>(iter->index));
                     }
                 }
             }
