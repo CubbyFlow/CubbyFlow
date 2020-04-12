@@ -31,15 +31,16 @@ namespace CubbyRender {
         //! Default destructor.
         ~GL3Renderer();
 
-        void draw(size_t numberOfVertices) override;
-
-        void drawIndices(size_t numberOfElements) override;
+        //! let inputlayout draw it's vertices using this renderer instance.
+        void draw(InputLayoutPtr inputLayout) override;
 
         //! Initialize and fetch gl commands.
         int initializeGL() override;
 
+        //! get current frame image as array of floating point data.
         ArrayAccessor1<unsigned char> getCurrentFrame(Size2 size) override;
 
+        //! Create Inputlayout pointer with default constructor.
         InputLayoutPtr createInputLayout() override;
 
         //! Create VertexBuffer pointer with given parameters.

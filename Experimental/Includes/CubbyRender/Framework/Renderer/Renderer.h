@@ -42,24 +42,31 @@ namespace CubbyRender {
         //! Initialize and fetch gl commands.
         virtual int initializeGL() = 0;
 
+        //! call all render method of renderable instances.
         void render();
 
-        virtual void draw(size_t numberOfVertices) = 0;
+        //! let inputlayout draw it's vertices using this renderer instance.
+        virtual void draw(InputLayoutPtr inputLayout) = 0;
 
-        virtual void drawIndices(size_t numberOfElements) = 0;
-
+        //! set state of the rendering(culling, etc..)
         void setRenderState(const RenderState& renderState);
 
+        //! set primitive type for rendering geometry. (point, triangle-strip, etc..)
         void setPrimitiveType(PrimitiveType type);
 
+        //! add new renderable instance.
         void addRenderable(RenderablePtr renderable);
 
+        //! clear all renderable instances registered.
         void clearRenderables();
 
+        //! set background color of the window screen.
         void setBackgroundColor(Vector4F color);
 
+        //! get current frame image as array of floating point data.
         virtual ArrayAccessor1<unsigned char> getCurrentFrame(Size2 size) = 0;
 
+        //! Create Inputlayout pointer with default constructor.
         virtual InputLayoutPtr createInputLayout() = 0;
 
         //! Create VertexBuffer pointer with given parameters.
@@ -86,7 +93,11 @@ namespace CubbyRender {
         //! \return new shader pointer
         virtual ShaderPtr createShaderPreset(const std::string& shaderName) = 0;
 
-        //! CreateShader
+        //! Bind material (shader and textures) to this renderer.
+        void bindMaterial(MaterialPtr material);
+
+        //! Unbind material (shader and textures) from this renderer.
+        void unbindMaterial(MaterialPtr material);
     protected:
         virtual void onRenderBegin() = 0;
         virtual void onRenderEnd() = 0;

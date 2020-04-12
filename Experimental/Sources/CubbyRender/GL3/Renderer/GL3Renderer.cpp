@@ -153,21 +153,17 @@ namespace CubbyRender {
         return inputLayout;
     }
 
-    void GL3Renderer::draw(size_t numberOfVertices) 
+    void GL3Renderer::draw(InputLayoutPtr inputLayout)
     {
-        if (numberOfVertices)
+        if (inputLayout->isIndexBufferAttached())
         {
-            GLsizei count = static_cast<GLsizei>(numberOfVertices);
-            glDrawArrays(convertPrimitiveType(_primitiveType), 0, count);
-        }
-    }
-
-    void GL3Renderer::drawIndices(size_t numberOfElements) 
-    {
-        if (numberOfElements)
-        {
-            GLsizei count = static_cast<GLsizei>(numberOfElements);
+            GLsizei count = static_cast<GLsizei>(inputLayout->getNumberOfIndices());
             glDrawElements(convertPrimitiveType(_primitiveType), count, GL_UNSIGNED_INT, NULL);
+        }
+        else
+        {
+            GLsizei count = static_cast<GLsizei>(inputLayout->getNumberOfVertices());
+            glDrawArrays(convertPrimitiveType(_primitiveType), 0, count);
         }
     }
 

@@ -10,6 +10,9 @@
 
 #include <Framework/Renderer/Renderer.h>
 #include <Framework/Renderable/Renderable.h>
+#include <Framework/Renderable/Material.h>
+#include <Framework/Shader/Shader.h>
+#include <cassert>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -60,5 +63,16 @@ namespace CubbyRender {
         _backgroundColor = color;
     }
     
+    void Renderer::bindMaterial(MaterialPtr material)
+    {
+        assert(material);
+        material->bind(shared_from_this());
+    }
+    
+    void Renderer::unbindMaterial(MaterialPtr material)
+    {
+        assert(material);
+        material->bind(shared_from_this());
+    }
 } 
 }
