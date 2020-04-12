@@ -31,21 +31,36 @@ namespace CubbyRender {
         //! Default constructor.
         Renderable();
 
+        //! Constructor with inputlayout and material
+        Renderable(InputLayoutPtr inputLayout, MaterialPtr material);
+
         //! Default destructor.
         virtual ~Renderable();
+
+        void attachInputLayout(InputLayoutPtr inputLayout);
+
+        void attachMaterial(MaterialPtr material);
 
         void render(RendererPtr renderer);
 
         void release();
+
+        void setPrimitiveType(PrimitiveType type);
+
+        void invalidateResources();
+
     protected:
         virtual void onRender(RendererPtr renderer) = 0;
 
         virtual void onRelease() = 0;
 
+        virtual void onInitializeResource() = 0;
+
         InputLayoutPtr _inputLayout { nullptr };
         MaterialPtr _material { nullptr };
         PrimitiveType _primitiveType { PrimitiveType::TriangleStrip };
     private:
+        bool _bResourceInitialized { false };
 
     };
 

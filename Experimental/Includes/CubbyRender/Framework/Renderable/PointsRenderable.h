@@ -33,16 +33,20 @@ namespace CubbyRender {
         //! Default constructor.
         PointsRenderable();
 
-        PointsRenderable(const ConstArrayAccessor1<Vector3F>& positions,
+        //! Constructor with inputlayout and material
+        PointsRenderable(RendererPtr renderer,
+                         const ConstArrayAccessor1<Vector3F>& positions,
                          const ConstArrayAccessor1<Vector4F>& colors,
                          float radius);
 
-        void update(const ConstArrayAccessor1<Vector3F>& positions,
-                         const ConstArrayAccessor1<Vector4F>& colors);
+        void update(RendererPtr renderer,
+                    const ConstArrayAccessor1<Vector3F>& positions,
+                    const ConstArrayAccessor1<Vector4F>& colors);
 
-        void update(const ConstArrayAccessor1<Vector3F>& positions,
-                         const ConstArrayAccessor1<Vector4F>& colors,
-                         float radius);
+        void update(RendererPtr renderer,
+                    const ConstArrayAccessor1<Vector3F>& positions,
+                    const ConstArrayAccessor1<Vector4F>& colors,
+                    float radius);
 
         //! Default destructor.
         virtual ~PointsRenderable();

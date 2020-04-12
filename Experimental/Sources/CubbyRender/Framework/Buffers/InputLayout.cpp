@@ -36,6 +36,20 @@ namespace CubbyRender {
 
     void InputLayout::attachVertexBuffer(RendererPtr renderer, MaterialPtr material, VertexBufferPtr vertexBuffer)
     {
+        for (const auto& buffer : _vertexBuffers)
+        {
+            if (static_cast<int>(vertexBuffer->getInputVertexFormat() & buffer->getInputVertexFormat()))
+            {
+                CUBBYFLOW_ERROR << "Input vertex buffer's format is overlapped with already exist ones.";
+                abort();
+            }
+            if (buffer->getNumberOfVertices() != vertexBuffer->getNumberOfVertices())
+            {
+                CUBBYFLOW_ERROR << "The number of vertices of given buffer and already exist one must matched.";
+                abort();
+            }
+        }
+
         this->bind(renderer);
         vertexBuffer->bindState(renderer, material);
         _drawFormat |= vertexBuffer->getInputVertexFormat();
@@ -49,6 +63,47 @@ namespace CubbyRender {
         indexBuffer->bindState(renderer);
         _indexBuffer = indexBuffer;
         this->unbind(renderer);
+    }
+
+    void InputLayout::updateVertexBuffer(RendererPtr renderer, const ConstArrayAccessor1<float>& data, VertexFormat format)
+    {
+        VertexBufferPtr matchedBuffer = nullptr;
+        for (auto buffer : _vertexBuffers)
+        {
+            if (static_cast<int>(format & buffer->getInputVertexFormat()))
+            {
+                matchedBuffer = buffer;
+                break;
+            }
+        }
+
+        if (matchedBuffer)
+        {
+            matchedBuffer->updateBuffer(renderer, data);
+        }
+        else
+        {
+            CUBBYFLOW_ERROR << "Could not find vertex buffer matched with given vertex format";
+            abort();
+        }
+    }
+
+    void InputLayout::updateIndexBuffer(RendererPtr renderer, const ConstArrayAccessor1<unsigned int>& data)
+    {
+        if (_indexBuffer)
+        {
+            _indexBuffer->updateBuffer(renderer, data);
+        }
+        else
+        {
+            CUBBYFLOW_ERROR << "Could not find any attached index buffer";
+            abort();
+        }
+    }
+    
+    bool InputLayout::isIndexBufferAttached() const
+    {
+        return _indexBuffer != nullptr;
     }
 
     void InputLayout::bind(RendererPtr renderer)

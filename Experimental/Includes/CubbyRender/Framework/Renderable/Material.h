@@ -30,16 +30,25 @@ namespace CubbyRender {
         //! Destructor.
         virtual ~Material();
 
+        //! Add texture to this material instance with its slot id.
         void addTexture(unsigned int slotID, TexturePtr texture);
 
+        //! Set shader instance to this material.
         void setShader(ShaderPtr shader);
 
+        //! Return shader instance of this material.
         ShaderPtr getShader();
 
-        void destroy();
+        //! bind this material to renderer.
+        void bind(RendererPtr renderer);
+
+        //! unbind this material from renderer.
+        void unbind(RendererPtr renderer);
+
+        //! release shader and textures.
+        void release();
         
      protected:
-
      private:
         ShaderPtr _shader;
         std::vector<std::pair<unsigned int, TexturePtr>> _textures;
