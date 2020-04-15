@@ -13,9 +13,17 @@
 #include <Framework/Utils/Common.h>
 #include <cstring>
 #include <cassert>
+#include <type_traits>
 
 namespace CubbyFlow {
 namespace CubbyRender {
+
+    namespace
+    {
+        template <typename T, typename U>
+        struct decay_equiv : std::is_same<typename std::decay<T>::type, U>::type
+        {};
+    };
 
     template <typename Type>
     ShaderParameters::Metadata buildMetadata(Type&& value)
@@ -24,32 +32,32 @@ namespace CubbyRender {
         ParameterType type = ParameterType::NONE;
         size_t sizeBytes = 0U;
 
-        if (std::is_same<Type, int>::value)
+        if (decay_equiv<Type, int>::value)
         {
             type = ParameterType::INT;
             sizeBytes = 4U;
         }
-        else if (std::is_same<Type, float>::value)
+        else if (decay_equiv<Type, float>::value)
         {
             type = ParameterType::FLOAT1;
             sizeBytes = 4U;
         }
-        else if (std::is_same<Type, Vector2F>::value)
+        else if (decay_equiv<Type, Vector2F>::value)
         {
             type = ParameterType::FLOAT2;
             sizeBytes = 8U;
         }
-        else if (std::is_same<Type, Vector3F>::value)
+        else if (decay_equiv<Type, Vector3F>::value)
         {
             type = ParameterType::FLOAT4;
             sizeBytes = 12U;
         }
-        else if (std::is_same<Type, Vector4F>::value)
+        else if (decay_equiv<Type, Vector4F>::value)
         {
             type = ParameterType::FLOAT4;
             sizeBytes = 16U;
         }
-        else if (std::is_same<Type, Matrix4x4F>::value)
+        else if (decay_equiv<Type, Matrix4x4F>::value)
         {
             type = ParameterType::FLOAT4X4;
             sizeBytes = 64U;

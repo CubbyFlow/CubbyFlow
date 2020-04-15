@@ -39,10 +39,16 @@ namespace CubbyRender {
         //! load shader with shader map.
         int load(VertexFormat format, const ShaderMap& fileMap);
 
+        //! get a format of the vertex buffer in the program.
         VertexFormat getInputVertexFormat() const;
 
+        //! get immutable shader parameters which will be sent to program.
         const ShaderParameters& getParameters() const;
 
+        //! get mutable shader parameters which will be send to program.
+        ShaderParameters& getParameters();
+
+        //! set shader parameters which will be sent to program.
         void setParameters(const ShaderParameters& parameters);
 
         void bind(RendererPtr renderer);
@@ -63,6 +69,8 @@ namespace CubbyRender {
 
         //! implementation of destry method
         virtual void onDestroy() = 0;
+
+        virtual void sendParametersToGPU() = 0;
 
         //! Input format of the vertex shader.
         VertexFormat _format = VertexFormat::Position3Normal3;

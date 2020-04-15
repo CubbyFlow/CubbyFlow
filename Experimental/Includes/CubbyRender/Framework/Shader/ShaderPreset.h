@@ -22,8 +22,8 @@ const GLchar* kSimpleColorShaders[2] = {
     // Vertex shader
     R"glsl(
     #version 330 core
-    in vec3 position;
-    in vec3 normal;
+    layout (location = 0) in vec3 position;
+    layout (location = 1) in vec3 normal;
     out VSOUT {
         vec4 color;
     } vs_out;
@@ -49,17 +49,16 @@ const GLchar* kPointsShaders[2] = {
     // Vertex shader
     R"glsl(
     #version 330 core
-    uniform mat4 ModelViewProjection;
+    layout (location = 0) in vec3 position;
+    layout (location = 1) in vec4 color;
     uniform float Radius;
-    in vec3 position;
-    in vec4 color;
     out VertexData {
         vec4 color;
     } outData;
     void main() {
         outData.color = color;
         gl_PointSize = 2.0 * Radius;
-        gl_Position = ModelViewProjection * vec4(position,1.0);
+        gl_Position = vec4(position, 1.0);
     }
     )glsl",
 
@@ -72,9 +71,6 @@ const GLchar* kPointsShaders[2] = {
     } inData;
     out vec4 fragColor;
     void main() {
-         if (length(gl_PointCoord - vec2(0.5, 0.5)) > 0.5) {
-             discard;
-         }
     	 fragColor = inData.color;
     }
     )glsl"};

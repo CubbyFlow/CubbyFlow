@@ -36,9 +36,14 @@ namespace CubbyRender {
             iter->second = metadata;
         }
     }
+
+    const ShaderParameters::meta_table& ShaderParameters::getMetatable() const
+    {
+        return _params;
+    }
     
-    ShaderParameters::Metadata::Metadata(ParameterType type, Array1<unsigned char>&& data)
-        : _type(type), _data(std::move(data))
+    ShaderParameters::Metadata::Metadata(ParameterType type_, Array1<unsigned char>&& data_)
+        : type(type_), data(std::move(data_))
     {
         //! Do nothing
     }
@@ -46,11 +51,6 @@ namespace CubbyRender {
     ShaderParameters::Metadata::~Metadata()
     {
         //! Do nothing
-    }
-    
-    ArrayAccessor1<unsigned char> ShaderParameters::Metadata::getDataAccessor()
-    {
-        return _data.Accessor();
     }
 }
 }

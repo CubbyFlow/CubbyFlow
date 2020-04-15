@@ -17,7 +17,6 @@
 #include <Framework/Renderer/Renderer.h>
 #include <Framework/Shader/Shader.h>
 #include <Framework/Utils/Common.h>
-#include <Core/Array/Array1.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -54,37 +53,64 @@ namespace CubbyRender {
                                   float radius)
     {
         _radius = radius;
-        Array1<float> vertices;
         const size_t totalSize = positions.size() * 3 + colors.size() * 4;
 
         std::lock_guard<std::mutex> lock(_dataMutex);
-        vertices.Reserve(totalSize);
+        _vertices.Reserve(totalSize);
         for (size_t i = 0; i < totalSize / size_t(7); ++i)
         {
-            vertices.Append(positions[i].x);
-            vertices.Append(positions[i].y);
-            vertices.Append(positions[i].z);
-            vertices.Append(colors[i].x);
-            vertices.Append(colors[i].y);
-            vertices.Append(colors[i].z);
-            vertices.Append(colors[i].w);
+            _vertices.Append(positions[i].x);
+            _vertices.Append(positions[i].y);
+            _vertices.Append(positions[i].z);
+            _vertices.Append(colors[i].x);
+            _vertices.Append(colors[i].y);
+            _vertices.Append(colors[i].z);
+            _vertices.Append(colors[i].w);
         }
 
-        _inputLayout->updateVertexBuffer(renderer, vertices.ConstAccessor(), VertexFormat::Position3Color4);
+        invalidateResources();
+    }
+
+    void PointsRenderable::onInitializeResource(RendererPtr renderer)
+    {
+        if (_material == nullptr)
+        {
+            _material = renderer->createMaterial();
+            ShaderPtr shader = renderer->createShaderPreset("point_shader");
+            _material->setShader(shader);
+        }
+        auto params = _material->getShader()->getParameters();
+        params.setParameter("Radius", _radius);
+        
+        if (_inputLayout == nullptr)
+        {
+            _inputLayout = renderer->createInputLayout();
+            VertexBufferPtr buffer = renderer->createVertexBuffer(_vertices.ConstAccessor(), 
+                                                                  static_cast<size_t>(_vertices.size() / size_t(7)),  
+                                                                  VertexFormat::Position3Color4);
+            _inputLayout->attachVertexBuffer(renderer, _material, buffer);
+        }
+        else
+        {
+            _inputLayout->updateVertexBuffer(renderer, _vertices.ConstAccessor(), VertexFormat::Position3Color4);
+        }
+
+        _primitiveType = PrimitiveType::Point;
     }
 
     void PointsRenderable::onRender(RendererPtr renderer)
     {
         renderer->bindMaterial(_material);
+        renderer->bindInputLayout(_inputLayout);
         renderer->setPrimitiveType(_primitiveType);
         renderer->draw(_inputLayout);
+        renderer->unbindInputLayout(_inputLayout);
         renderer->unbindMaterial(_material);
     }
 
     void PointsRenderable::onRelease()
     {
-        _inputLayout.reset();
-        _material.reset();
+        //! Do nothing.
     }
 
     void PointsRenderable::setRadius(float radius)

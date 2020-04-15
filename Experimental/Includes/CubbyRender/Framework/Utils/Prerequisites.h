@@ -20,6 +20,7 @@ namespace CubbyRender {
     class Material;
     class Renderer;
     class Renderable;
+    class PointsRenderable;
     class Shader;
     class Texture;
     class VertexBuffer;
@@ -32,6 +33,7 @@ namespace CubbyRender {
     using IndexBufferPtr     = std::shared_ptr<IndexBuffer>;
     using MaterialPtr        = std::shared_ptr<Material>;
     using RendererPtr        = std::shared_ptr<Renderer>;
+    using PointsRenderablePtr= std::shared_ptr<PointsRenderable>;
     using ConstRendererPtr   = std::shared_ptr<const Renderer>;
     using RenderablePtr      = std::shared_ptr<Renderable>;
     using ShaderPtr          = std::shared_ptr<Shader>;

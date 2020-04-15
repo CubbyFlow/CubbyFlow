@@ -13,7 +13,6 @@
 #include <GL3/Buffer/GL3VertexArrayObject.h>
 #include <GL3/Renderer/GL3Renderer.h>
 #include <GL3/Utils/GL3Common.h>
-#include <GL3/Utils/GL3Debugging.h>
 #include <GL3/Shader/GL3Shader.h>
 #include <Framework/Renderable/Material.h>
 #include <Framework/Renderer/Renderer.h>

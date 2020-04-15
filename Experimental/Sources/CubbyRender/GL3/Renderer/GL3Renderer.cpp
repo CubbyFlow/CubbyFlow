@@ -58,6 +58,11 @@ namespace CubbyRender {
                 mode = GL_TRIANGLE_STRIP;
                 break;
             }
+            default:
+            {
+                CUBBYFLOW_ERROR << "Unknown PrimitiveType";
+                abort();
+            }
         }
         return mode;
     }
@@ -117,13 +122,17 @@ namespace CubbyRender {
                 factor = GL_ONE_MINUS_DST_COLOR;
                 break;
             }
+            default:
+            {
+                CUBBYFLOW_ERROR << "Unknown PrimitiveType";
+                abort();
+            }
         }
         return factor;   
     }
 
     GL3Renderer::GL3Renderer()
     {
-        //! Do nothing
     }
 
     GL3Renderer::~GL3Renderer()
@@ -174,7 +183,8 @@ namespace CubbyRender {
             CUBBYFLOW_ERROR << "Failed to initialize OpenGL";
             return -1;                
         }
-
+        
+        onSetRenderState();
         return 0;
     }
 
@@ -263,6 +273,7 @@ namespace CubbyRender {
         {
             glDisable(GL_DEPTH_TEST);
         }
+        glPointSize(20.0f);
     }
 } 
 }

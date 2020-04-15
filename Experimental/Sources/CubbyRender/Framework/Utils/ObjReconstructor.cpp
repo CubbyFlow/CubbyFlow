@@ -22,7 +22,6 @@
 #include <cmath>
 #include <array>
 #include <set>
-#include <iostream>
 
 namespace CubbyFlow {
 namespace CubbyRender {

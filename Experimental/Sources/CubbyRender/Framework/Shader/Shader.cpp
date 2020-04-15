@@ -96,6 +96,11 @@ namespace CubbyRender {
         return _parameters;
     }
 
+    ShaderParameters& Shader::getParameters()
+    {
+        return _parameters;
+    }
+
     void Shader::setParameters(const ShaderParameters& parameters)
     {
         _parameters = parameters;
@@ -104,6 +109,7 @@ namespace CubbyRender {
     void Shader::bind(RendererPtr renderer)
     {
         onBind(renderer);
+        sendParametersToGPU();
     }
 
     void Shader::unbind(RendererPtr renderer)

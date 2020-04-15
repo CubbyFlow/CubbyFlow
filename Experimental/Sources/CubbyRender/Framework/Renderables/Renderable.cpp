@@ -18,35 +18,37 @@ namespace CubbyRender {
         //! Do nothing
     }
 
-    Renderable::Renderable(InputLayoutPtr inputLayout, MaterialPtr material)
-        : _inputLayout(inputLayout), _material(material)
-    {
-        //! Do nothing
-    }
-
     Renderable::~Renderable()
     {
         //! Do nothing
     }
 
-    void Renderable::attachInputLayout(InputLayoutPtr inputLayout)
-    {
-        _inputLayout = inputLayout;
-    }
-
-    void Renderable::attachMaterial(MaterialPtr material)
-    {
-        _material = material;
-    }
-
     void Renderable::render(RendererPtr renderer)
     {
+        if (_bResourceInitialized == false)
+        {
+            onInitializeResource(renderer);
+            _bResourceInitialized = true;
+        }
+
         onRender(renderer);
     }
 
     void Renderable::release()
     {
+        _inputLayout.reset();
+        _material.reset();
         onRelease();
+    }
+
+    void Renderable::setPrimitiveType(PrimitiveType type)
+    {
+        _primitiveType = type;
+    }
+
+    void Renderable::invalidateResources()
+    {
+        _bResourceInitialized = false;
     }
 } 
 }

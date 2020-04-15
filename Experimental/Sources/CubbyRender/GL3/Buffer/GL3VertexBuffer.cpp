@@ -20,7 +20,6 @@
 #include <Framework/Utils/Common.h>
 #include <glad/glad.h>
 
-#include <GL3/Utils/GL3Debugging.h>
 namespace CubbyFlow {
 namespace CubbyRender {
     
@@ -75,14 +74,11 @@ namespace CubbyRender {
         GL3Shader* shader = dynamic_cast<GL3Shader*>(material->getShader().get());
         if (!shader)
             abort();
-        CUBBYFLOW_CHECK_GLERROR();
         shader->bind(renderer);
         bind(renderer);
-        CUBBYFLOW_CHECK_GLERROR();
 
         GLsizei stride = static_cast<GLsizei>(VertexHelper::getSizeInBytes(_vertexFormat));   
         GLsizeiptr offset = 0;
-        CUBBYFLOW_CHECK_GLERROR();
         
         if (static_cast<int>(_vertexFormat & VertexFormat::Position3))
         {
@@ -91,7 +87,6 @@ namespace CubbyRender {
             glVertexAttribPointer(attribLoc, static_cast<GLint>(numberOfFloats), GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void*>(offset));
             glEnableVertexAttribArray(attribLoc);
             offset += sizeof(float) * numberOfFloats;
-        CUBBYFLOW_CHECK_GLERROR();
         }
         
         if (static_cast<int>(_vertexFormat & VertexFormat::Normal3))
@@ -101,7 +96,6 @@ namespace CubbyRender {
             glVertexAttribPointer(attribLoc, static_cast<GLint>(numberOfFloats), GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void*>(offset));
             glEnableVertexAttribArray(attribLoc);
             offset += sizeof(float) * numberOfFloats;
-        CUBBYFLOW_CHECK_GLERROR();
         }       
         
         if (static_cast<int>(_vertexFormat & VertexFormat::TexCoord2))
@@ -111,7 +105,6 @@ namespace CubbyRender {
             glVertexAttribPointer(attribLoc, static_cast<GLint>(numberOfFloats), GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void*>(offset));
             glEnableVertexAttribArray(attribLoc);
             offset += sizeof(float) * numberOfFloats;
-        CUBBYFLOW_CHECK_GLERROR();
         }
         
         if (static_cast<int>(_vertexFormat & VertexFormat::TexCoord3))
@@ -131,7 +124,6 @@ namespace CubbyRender {
             glEnableVertexAttribArray(attribLoc);
         }
 
-        CUBBYFLOW_CHECK_GLERROR();
         shader->unbind(renderer);
     }
 } 

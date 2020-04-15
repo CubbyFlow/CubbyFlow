@@ -19,11 +19,13 @@ namespace CubbyFlow {
 namespace CubbyRender {
     
     //!
-    //! \brief Abstract base class for Renderer object.
+    //! \brief Abstract base class for Rendererable object.
     //!
-    //! This class contains basic interface for renderer. 
-    //! The wrapper class of each Graphics API must overrides 
-    //! this renderer class.
+    //! This class contains basic interface for renderable object 
+    //! and also resources which are essential for rendering.
+    //! 
+    //! The renderable instance does not represent the *unique instance* of specific species,
+    //! but represents *whole instance* of specific species.
     //!
     class Renderable 
     {
@@ -31,15 +33,8 @@ namespace CubbyRender {
         //! Default constructor.
         Renderable();
 
-        //! Constructor with inputlayout and material
-        Renderable(InputLayoutPtr inputLayout, MaterialPtr material);
-
         //! Default destructor.
         virtual ~Renderable();
-
-        void attachInputLayout(InputLayoutPtr inputLayout);
-
-        void attachMaterial(MaterialPtr material);
 
         void render(RendererPtr renderer);
 
@@ -47,15 +42,15 @@ namespace CubbyRender {
 
         void setPrimitiveType(PrimitiveType type);
 
-        void invalidateResources();
-
     protected:
         virtual void onRender(RendererPtr renderer) = 0;
 
+        virtual void onInitializeResource(RendererPtr renderer) = 0;
+
         virtual void onRelease() = 0;
-
-        virtual void onInitializeResource() = 0;
-
+        
+        void invalidateResources();
+        
         InputLayoutPtr _inputLayout { nullptr };
         MaterialPtr _material { nullptr };
         PrimitiveType _primitiveType { PrimitiveType::TriangleStrip };

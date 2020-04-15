@@ -39,10 +39,27 @@ namespace CubbyRender {
         //! Default destructor.
         virtual ~GL3Shader();
 
+        //! return shader program id
         GLuint getProgramID() const;
 
+        //! return shader attribute location id.
+        //!
+        //! if given parameter does not exist in _locationCache, cache it.
+        //! because of communication between cpu and gpu cause bottleneck,
+        //! use unordered_map for caching.
+        //!
+        //! \param name of the shader attribute want to know
+        //! \return shader attribute location.
         GLuint getAttribLocation(const std::string& name);
 
+        //! return shader uniform location id.
+        //!
+        //! if given parameter does not exist in _locationCache, cache it.
+        //! because of communication between cpu and gpu cause bottleneck,
+        //! use unordered_map for caching.
+        //!
+        //! \param name of the shader uniform want to know
+        //! \return shader uniform location.
         GLuint getUniformLocation(const std::string& name);
     protected:
         //! implementation of shader load
@@ -56,6 +73,8 @@ namespace CubbyRender {
 
         //! implementation of destroy method
         void onDestroy() override;
+
+        void sendParametersToGPU() override;
 
     private:
         void printShaderLog();

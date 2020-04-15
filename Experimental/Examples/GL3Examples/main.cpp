@@ -15,6 +15,7 @@
 
 #include <Framework/Window/Window.h>
 #include <Framework/Renderable/Material.h>
+#include <Framework/Renderable/PointsRenderable.h>
 #include <Framework/Buffer/InputLayout.h>
 #include <Framework/Buffer/Vertex.h>
 #include <Framework/Utils/Common.h>
@@ -22,6 +23,7 @@
 #include <GL3/Application/GL3Application.h>
 #include <GL3/Shader/GL3Shader.h>
 #include <GL3/Renderer/GL3Renderer.h>
+#include <GL3/Utils/GL3Debugging.h>
 #include <Media/ScreenRecorder.h>
 #include <Core/Array/Array1.h>
 #include <Core/Size/Size3.h>
@@ -48,23 +50,13 @@ using namespace CubbyRender;
 int RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFrames)
 {
     auto window = application->createWindow("SPH Simulation", resX, resY);
-    ShaderPtr simpleShader = std::make_shared<GL3Shader>("simple_shader");
-
-    ShaderParameters params;
-    params.setParameter("color", Vector4F(0.5f, 0.5f, 0.5f, 1.0f));
-
-    simpleShader->setParameters(params);
-
-    MaterialPtr simpleMaterial = std::make_shared<Material>(simpleShader);
-    
-    ObjReconstructor objRecon;
-    objRecon.setVertexFormat(VertexFormat::Position3Normal3);
-    objRecon.loadAndReconstruct("Resources/cube.obj");
-
     auto gl = window->getRenderer();
-    InputLayoutPtr inputLayout = gl->createInputLayout();
-    inputLayout->attachVertexBuffer(gl, simpleMaterial, objRecon.generateVertexBuffer(gl));
-    inputLayout->attachIndexBuffer(gl, objRecon.generateIndexBuffer(gl));
+
+    PointsRenderablePtr renderable = std::make_shared<PointsRenderable>();
+    Array1<Vector3F> position   = { Vector3F(0.0f, 0.0f, 0.0f), Vector3F(0.0f, 0.3f, 0.0f)};
+    Array1<Vector4F> color      = { Vector4F(0.0f, 0.0f, 1.0f, 1.0f), Vector4F(1.0f, 0.0f, 1.0f, 1.0f) };
+    renderable->update(gl, position.ConstAccessor(), color.ConstAccessor(), 20.0f);
+    gl->addRenderable(renderable);
     
 #ifdef CUBBYFLOW_RECORDING
     auto recorder = std::make_shared<ScreenRecorder>();

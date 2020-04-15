@@ -11,7 +11,6 @@
 #ifdef CUBBYFLOW_USE_GL
 
 #include <GL3/Shader/GL3Shader.h>
-#include <GL3/Utils/GL3Debugging.h>
 #include <Framework/Utils/Common.h>
 #include <Core/Utils/Logging.h>
 #include <glad/glad.h>
@@ -192,6 +191,62 @@ namespace CubbyRender {
         }
     }
 
+    void GL3Shader::sendParametersToGPU()
+    {
+        using ParameterType = ShaderParameters::ParameterType;
+        const auto& metatable = _parameters.getMetatable();
+
+        for (const auto& p : metatable)
+        {
+            const auto& name = p.first;
+            const auto& metadata = p.second;
+
+            GLint location = getUniformLocation(name);
+            
+            const unsigned char* data = metadata.data.data();
+            const GLint* intdata = reinterpret_cast<const GLint*>(data);
+            const GLfloat* floatdata = reinterpret_cast<const GLfloat*>(data);
+
+            switch(metadata.type)
+            {
+                case ParameterType::INT      :
+                {
+                    glUniform1i(location, *intdata);
+                    break;
+                }      
+                case ParameterType::FLOAT1   :
+                {
+                    glUniform1f(location, *floatdata);
+                    break;
+                }            
+                case ParameterType::FLOAT2   :
+                {
+                    glUniform2fv(location, 1, floatdata);
+                    break;
+                }               
+                case ParameterType::FLOAT3   :
+                {
+                    glUniform3fv(location, 1, floatdata);
+                    break;
+                }                     
+                case ParameterType::FLOAT4   :
+                {
+                    glUniform4fv(location, 1, floatdata);
+                    break;
+                }            
+                case ParameterType::FLOAT4X4 :
+                {
+                    glUniformMatrix4fv(location, 1, GL_TRUE, floatdata);
+                    break;
+                }                   
+                default:
+                {
+                    CUBBYFLOW_ERROR << "Unknown ShaderParamter::ParameterType";
+                    abort();
+                }
+            }
+        }
+    }    
 } 
 }
 

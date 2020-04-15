@@ -12,6 +12,7 @@
 
 #include <Framework/Renderable/Renderable.h>
 #include <Core/Array/ArrayAccessor1.h>
+#include <Core/Array/Array1.h>
 #include <Core/Vector/Vector3.h>
 #include <Core/Vector/Vector4.h>
 #include <string>
@@ -60,11 +61,14 @@ namespace CubbyRender {
     protected:
         virtual void onRender(RendererPtr renderer) override;
 
+        virtual void onInitializeResource(RendererPtr renderer) override;
+
         virtual void onRelease() override;
 
         float _radius = 0.0f;
         std::mutex _dataMutex;
     private:
+        Array1<float> _vertices;
     };
 
     using PointsRenderablePtr = std::shared_ptr<PointsRenderable>;

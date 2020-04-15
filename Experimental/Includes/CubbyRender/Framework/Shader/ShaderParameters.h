@@ -43,31 +43,30 @@ namespace CubbyRender {
 
         class Metadata
         {
-            friend class ShaderParameters;
         public:
             //! Default Constructor
             Metadata() = default;
 
             //! Default constructor
-            Metadata(ParameterType type, Array1<unsigned char>&& data);
+            Metadata(ParameterType type_, Array1<unsigned char>&& data_);
 
             //! Default destructor
             ~Metadata();
-
-            ArrayAccessor1<unsigned char> getDataAccessor();
-
-        private:
-            ParameterType _type;
-            Array1<unsigned char> _data;
+        public:
+            ParameterType type;
+            Array1<unsigned char> data;
         };
+
+        using meta_table = std::unordered_map<std::string, ShaderParameters::Metadata>;
         
         template <typename Type>
         void setParameter(const std::string& name, Type&& value);
 
+        const meta_table& getMetatable() const;
     private:
         void setMetadata(const std::string& name, const ShaderParameters::Metadata&  metadata);
 
-        std::unordered_map<std::string, ShaderParameters::Metadata> _params;
+        meta_table _params;
     };
 }
 }

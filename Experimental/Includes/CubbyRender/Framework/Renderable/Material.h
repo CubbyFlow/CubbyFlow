@@ -18,7 +18,7 @@
 namespace CubbyFlow {
 namespace CubbyRender {
 
-    class Material
+    class Material final
     {
     public:
         //! Default constructor.
@@ -28,7 +28,7 @@ namespace CubbyRender {
         Material(ShaderPtr shader);
 
         //! Destructor.
-        virtual ~Material();
+        ~Material();
 
         //! Add texture to this material instance with its slot id.
         void addTexture(unsigned int slotID, TexturePtr texture);

@@ -93,11 +93,21 @@ namespace CubbyRender {
         //! \return new shader pointer
         virtual ShaderPtr createShaderPreset(const std::string& shaderName) = 0;
 
+        //! Create Material
+        //! \return new material pointer
+        MaterialPtr createMaterial() const;
+
         //! Bind material (shader and textures) to this renderer.
         void bindMaterial(MaterialPtr material);
 
         //! Unbind material (shader and textures) from this renderer.
         void unbindMaterial(MaterialPtr material);
+
+        //! Bind inputLayout (vertex buffer and index buffer) to this renderer.
+        void bindInputLayout(InputLayoutPtr inputLayout);
+
+        //! Unbind inputLayout (vertex buffer and index buffer) from this renderer.
+        void unbindInputLayout(InputLayoutPtr inputLayout);
     protected:
         virtual void onRenderBegin() = 0;
         virtual void onRenderEnd() = 0;
