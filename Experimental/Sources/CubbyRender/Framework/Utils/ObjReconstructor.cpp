@@ -146,7 +146,8 @@ namespace CubbyRender {
 
         struct FaceComp
         {
-            inline bool operator() (const Face& face1, const Face& face2)
+            //! lexicographically sorting vector.
+            inline bool operator() (const Face& face1, const Face& face2) const
             {
                 for (size_t i = 0; i < 3; ++i)
                     if (std::fabs(face1.position[i] - face2.position[i]) > EPSILON)
@@ -205,7 +206,7 @@ namespace CubbyRender {
                 if (hasSmoothingGroup(shape)) 
                 {
                     computeSmoothingNormals(attrib, shape, smoothVertexNormals);
-                    CUBBYFLOW_INFO << objPath << " have smoothing group. compute smoothing normals conducted";
+                    CUBBYFLOW_INFO << objPath << " has smoothing group. computing smoothing normals conducted";
                 }
             }
 
@@ -290,7 +291,7 @@ namespace CubbyRender {
                     {
                         if (!smoothVertexNormals.empty())
                         {
-                            // Use smoothing normals
+                            //! Use smoothing normals
                             int f0 = idx0.vertex_index;
                             int f1 = idx1.vertex_index;
                             int f2 = idx2.vertex_index;
@@ -332,7 +333,7 @@ namespace CubbyRender {
                             assert(attrib.texcoords.size() > size_t(2 * f1 + 1));
                             assert(attrib.texcoords.size() > size_t(2 * f2 + 1));
 
-                            // Flip Y coord.
+                            //! Flip Y coord.
                             texCoord[0] = Vector2F(attrib.texcoords[2 * f0], 1.0f - attrib.texcoords[2 * f0 + 1]);
                             texCoord[1] = Vector2F(attrib.texcoords[2 * f1], 1.0f - attrib.texcoords[2 * f1 + 1]);
                             texCoord[2] = Vector2F(attrib.texcoords[2 * f2], 1.0f - attrib.texcoords[2 * f2 + 1]);
