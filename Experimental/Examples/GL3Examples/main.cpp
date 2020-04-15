@@ -55,7 +55,7 @@ int RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFram
     PointsRenderablePtr renderable = std::make_shared<PointsRenderable>();
     Array1<Vector3F> position   = { Vector3F(0.0f, 0.0f, 0.0f), Vector3F(0.0f, 0.3f, 0.0f)};
     Array1<Vector4F> color      = { Vector4F(0.0f, 0.0f, 1.0f, 1.0f), Vector4F(1.0f, 0.0f, 1.0f, 1.0f) };
-    renderable->update(gl, position.ConstAccessor(), color.ConstAccessor(), 20.0f);
+    renderable->update(gl, position.ConstAccessor(), color.ConstAccessor(), 10.0f);
     gl->addRenderable(renderable);
     
 #ifdef CUBBYFLOW_RECORDING
