@@ -26,12 +26,11 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
-    PointsRenderable::PointsRenderable(RendererPtr renderer,
-                                       const ConstArrayAccessor1<Vector3F>& positions,
+    PointsRenderable::PointsRenderable(const ConstArrayAccessor1<Vector3F>& positions,
                                        const ConstArrayAccessor1<Vector4F>& colors,
                                        float radius)
     {
-        update(renderer, positions, colors, radius);
+        update(positions, colors, radius);
     }
 
 
@@ -40,15 +39,13 @@ namespace CubbyRender {
         release();
     }
 
-    void PointsRenderable::update(RendererPtr renderer,
-                                  const ConstArrayAccessor1<Vector3F>& positions,
+    void PointsRenderable::update(const ConstArrayAccessor1<Vector3F>& positions,
                                   const ConstArrayAccessor1<Vector4F>& colors)
     {
-        update(renderer, positions, colors, _radius);
+        update(positions, colors, _radius);
     }
 
-    void PointsRenderable::update(RendererPtr renderer,
-                                  const ConstArrayAccessor1<Vector3F>& positions,
+    void PointsRenderable::update(const ConstArrayAccessor1<Vector3F>& positions,
                                   const ConstArrayAccessor1<Vector4F>& colors,
                                   float radius)
     {
@@ -56,16 +53,16 @@ namespace CubbyRender {
         const size_t totalSize = positions.size() * 3 + colors.size() * 4;
 
         std::lock_guard<std::mutex> lock(_dataMutex);
-        _vertices.Reserve(totalSize);
+        _vertices.Resize(totalSize);
         for (size_t i = 0; i < totalSize / size_t(7); ++i)
         {
-            _vertices.Append(positions[i].x);
-            _vertices.Append(positions[i].y);
-            _vertices.Append(positions[i].z);
-            _vertices.Append(colors[i].x);
-            _vertices.Append(colors[i].y);
-            _vertices.Append(colors[i].z);
-            _vertices.Append(colors[i].w);
+            _vertices[  i  ] = positions[i].x;
+            _vertices[i + 1] = positions[i].y;
+            _vertices[i + 2] = positions[i].z;
+            _vertices[i + 3] = colors[i].x;
+            _vertices[i + 4] = colors[i].y;
+            _vertices[i + 5] = colors[i].z;
+            _vertices[i + 6] = colors[i].w;
         }
 
         invalidateResources();

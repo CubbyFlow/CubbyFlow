@@ -79,7 +79,7 @@ namespace CubbyRender {
 
         if (matchedBuffer)
         {
-            matchedBuffer->updateBuffer(renderer, data);
+            matchedBuffer->allocateBuffer(renderer, data, static_cast<size_t>(data.size() / VertexHelper::getNumberOfFloats(format)));
         }
         else
         {

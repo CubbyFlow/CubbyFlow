@@ -26,6 +26,7 @@ namespace CubbyRender {
     class VertexBuffer;
     class Window;
     class InputLayout;
+    class Simulation;
 
     using InputLayoutPtr     = std::shared_ptr<InputLayout>;
     using ApplicationPtr     = std::shared_ptr<Application>;
@@ -40,6 +41,7 @@ namespace CubbyRender {
     using TexturePtr         = std::shared_ptr<Texture>;
     using VertexBufferPtr    = std::shared_ptr<VertexBuffer>;
     using WindowPtr          = std::shared_ptr<Window>;
+    using SimulationPtr      = std::shared_ptr<Simulation>;
 }
 }
 

@@ -63,7 +63,6 @@ namespace CubbyRender {
     {   
         GLsizei stride = static_cast<GLsizei>(VertexHelper::getSizeInBytes(_vertexFormat));   
         glGenBuffers(1, &_vertexBufferID);
-
         bind(renderer);
         glBufferData(GL_ARRAY_BUFFER, _numberOfVertices * stride, data.data(), GL_DYNAMIC_DRAW);
         unbind(renderer);
