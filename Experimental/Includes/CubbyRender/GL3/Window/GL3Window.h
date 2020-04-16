@@ -100,7 +100,7 @@ namespace CubbyRender {
         void onDrop(int numDroppedFiles, const char** pathNames);
     protected:
         void onUpdate() override;
-
+        
     private:
         GLFWWindowPtr _window;
         unsigned int _numRequestedRenderFrames = 0;

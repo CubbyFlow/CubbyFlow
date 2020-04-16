@@ -66,10 +66,9 @@ namespace CubbyRender {
         return Size2 {width, height};
     }
 
-    void GL3Window::onUpdate() 
+    void GL3Window::onUpdate()
     {
-        for (auto& closure : _updateClosures)
-            closure(shared_from_this());
+        //! Do nothing.
     }
 
     void GL3Window::onWindowResized(int width, int height)

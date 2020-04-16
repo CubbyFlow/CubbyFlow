@@ -15,7 +15,6 @@
 #include <Core/Vector/Vector2.h>
 #include <string>
 #include <vector>
-#include <functional>
 #include <memory>
 
 namespace CubbyFlow {
@@ -30,7 +29,6 @@ namespace CubbyRender {
     class Window : public std::enable_shared_from_this<Window>
     {
     public: 
-        using UpdateClosure = std::function<void(WindowPtr)>;
         //! Default Constructor.
         Window();
 
@@ -84,20 +82,20 @@ namespace CubbyRender {
         //! Get Renderer pointer
         RendererPtr getRenderer();
 
-        //! Add update closure
-        void addUpdateClosure(const UpdateClosure& closure);
-
-        //! Update window (this routine include scene update, view update, etc..)
-        void update();
-
         //! call render function through renderer.
         void render();
+
+        //! update window
+        void update();
+
+        //! Add simulation to list
+        void addSimulation(SimulationPtr simulation);
     protected:
-        //! Implementation of the update routine.
-        virtual void onUpdate() = 0;
+        //! Implementation of the window update;
+        virtual void onUpdate() = 0;        
 
         RendererPtr _renderer;
-        std::vector<UpdateClosure> _updateClosures;
+        std::vector<SimulationPtr> _simulations;
         std::string _title;
         Size2 _windowSize;
         int _swapInterval = 0;

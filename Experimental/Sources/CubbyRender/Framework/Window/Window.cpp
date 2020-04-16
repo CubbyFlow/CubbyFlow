@@ -11,6 +11,7 @@
 #include <Framework/Window/Window.h>
 #include <Framework/Renderer/Renderer.h>
 #include <Framework/Utils/Common.h>
+#include <Framework/Simulation/Simulation.h>
 #include <Core/Point/Point2.h>
 
 namespace CubbyFlow {
@@ -79,19 +80,21 @@ namespace CubbyRender {
         return _renderer;
     }
 
-    void Window::update()
-    {
-        onUpdate();
-    }
-
     void Window::render()
     {
         _renderer->render();
     }
 
-    void Window::addUpdateClosure(const UpdateClosure& closure)
+    void Window::update()
     {
-        _updateClosures.push_back(closure);
+        for (auto& simulation : _simulations)
+            simulation->advanceSimulation();
+        onUpdate();
+    }
+
+    void Window::addSimulation(SimulationPtr simulation)
+    {
+        _simulations.push_back(simulation);
     }
 } 
 }
