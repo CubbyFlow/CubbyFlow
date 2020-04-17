@@ -13,6 +13,7 @@
 #include <Framework/Utils/Prerequisites.h>
 #include <Core/Animation/Frame.h>
 #include <memory>
+#include <string>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -31,7 +32,7 @@ namespace CubbyRender {
         //! Default destructor.
         virtual ~Simulation();
 
-        virtual const std::string& name() const = 0;
+        virtual std::string name() const = 0;
 
         //! Setup simulation.
         void setup(WindowPtr window);
