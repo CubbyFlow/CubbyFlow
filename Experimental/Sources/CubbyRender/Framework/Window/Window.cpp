@@ -94,12 +94,15 @@ namespace CubbyRender {
 
     void Window::switchSimulation(int index)
     {
+        //! Reset simulation which will be postponed.
         _simulations[_currentSimulationIndex]->resetSimulation();
-        const size_t numSimulation = _simulations.size();
+        const int numSimulation = static_cast<int>(_simulations.size());
         
         _currentSimulationIndex += index;
-        _currentSimulationIndex = _currentSimulationIndex >= 0 ? _currentSimulationIndex % numSimulation :
-                                                                 numSimulation - (-_currentSimulationIndex % numSimulation);
+        if (_currentSimulationIndex >= 0)
+            _currentSimulationIndex = _currentSimulationIndex % numSimulation;
+        else
+            _currentSimulationIndex = numSimulation - (-_currentSimulationIndex % numSimulation);
     }
 
     void Window::addSimulation(SimulationPtr simulation)
