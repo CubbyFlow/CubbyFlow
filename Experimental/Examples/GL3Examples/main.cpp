@@ -14,21 +14,13 @@
 #include <pystring/pystring.h>
 
 #include <Framework/Window/Window.h>
-#include <Framework/Renderable/Material.h>
-#include <Framework/Renderable/PointsRenderable.h>
-#include <Framework/Buffer/InputLayout.h>
-#include <Framework/Buffer/Vertex.h>
 #include <Framework/Utils/Common.h>
-#include <Framework/Utils/ObjReconstructor.h>
 #include <GL3/Application/GL3Application.h>
-#include <GL3/Shader/GL3Shader.h>
 #include <GL3/Renderer/GL3Renderer.h>
 #include <GL3/Utils/GL3Debugging.h>
 #include <Media/ScreenRecorder.h>
 #include <Core/Array/Array1.h>
 #include <Core/Size/Size3.h>
-
-#include <tiny_obj_loader.h>
 
 #include <memory>
 #include <fstream>
@@ -41,47 +33,17 @@
 #include <sys/stat.h>
 #endif
 
+#include "SPHSimulation.h"
 
 #define APP_NAME "GL3Examples"
 
 using namespace CubbyFlow;
 using namespace CubbyRender;
 
-
-
-int RunExample1(ApplicationPtr application, int resX, int resY, int numberOfFrames)
-{
-    auto window = application->createWindow("SPH Simulation", resX, resY);
-    
-#ifdef CUBBYFLOW_RECORDING
-    auto recorder = std::make_shared<ScreenRecorder>();
-    recorder->setWorkingDirectory(APP_NAME "_output");
-
-    application->run(numberOfFrames, [&](Size2 dim, const ArrayAccessor1<unsigned char>& frame){
-        return recorder->EncodeFrame(dim, frame);
-    });
-
-    recorder.reset();
-#else
-    application->run(numberOfFrames, nullptr);
-#endif
-    return EXIT_SUCCESS;
-}
-
-int RunExample2(ApplicationPtr application, int resX, int resY, int numberOfFrames)
-{
-    auto window = application->createWindow("PCISPH Simulation", resX, resY);
-    UNUSED_VARIABLE(window);
-    application->run(numberOfFrames, nullptr);
-    application->terminate();
-    return EXIT_SUCCESS;
-}
-
 int main(int argc, char* argv[])
 {
     bool showHelp = false;
     int numberOfFrames = 60;
-    int exampleNum = 1;
     int resX = 800;
     int resY = 600;
     std::string logFileName = APP_NAME ".log";
@@ -103,9 +65,6 @@ int main(int argc, char* argv[])
         clara::Opt(logFileName, "logFileName")
         ["-l"]["--log"]
         ("log file name (default is " APP_NAME ".log)") |
-        clara::Opt(exampleNum, "exampleNum")
-        ["-e"]["--example"]
-        ("example number (between 1 and 5, default is 1)") |
         clara::Opt(outputDir, "outputDir")
         ["-o"]["--output"]
         ("output directory name (default is " APP_NAME "_output)");
@@ -142,19 +101,20 @@ int main(int argc, char* argv[])
         return -1;
     }
     
-    int retCode = EXIT_FAILURE;
-    switch (exampleNum)
-    {
-    case 1:
-        retCode = RunExample1(application, resX, resY, numberOfFrames);
-        break;
-    case 2:
-        retCode = RunExample2(application, resX, resY, numberOfFrames);
-        break;
-    default:
-        std::cout << ToString(parser) << '\n';
-        retCode = EXIT_FAILURE;
-    }
+    auto window = application->createWindow("SPH Simulation", resX, resY);
+    window->addSimulation(std::make_shared<SPHSimulation>());
     
-    return retCode;
+#ifdef CUBBYFLOW_RECORDING
+    auto recorder = std::make_shared<ScreenRecorder>();
+    recorder->setWorkingDirectory(APP_NAME "_output");
+
+    application->run(numberOfFrames, [&](Size2 dim, const ArrayAccessor1<unsigned char>& frame){
+        return recorder->EncodeFrame(dim, frame);
+    });
+
+    recorder.reset();
+#else
+    application->run(numberOfFrames, nullptr);
+#endif
+    return EXIT_SUCCESS;
 }

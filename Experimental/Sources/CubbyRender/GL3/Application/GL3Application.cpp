@@ -116,13 +116,7 @@ namespace CubbyRender {
         CUBBYFLOW_INFO << "Application validation before running simulation success";
         //! Frequently used local variables.
         RendererPtr rendererPtr = _window->getRenderer();
-
-        PointsRenderablePtr renderable = std::make_shared<PointsRenderable>(Array1<Vector3F>().ConstAccessor(), Array1<Vector4F>().ConstAccessor(), 1.0f);
-        rendererPtr->addRenderable(renderable);
     
-        Array1<Vector3F> positions { Vector3F(0.0f, 0.0f, 0.0f)};
-        Array1<Vector4F> colors{ Vector4F(0.0f, 0.0f, 1.0f, 1.0f)};
-
         _window->setIsUpdateEnabled(true);
         _window->requestRender(numberOfFrames);
         while (validateApplication()) 
@@ -136,9 +130,6 @@ namespace CubbyRender {
                 {
                     _window->update();
                 }
-
-                positions[0][0] += 0.1f;
-                renderable->update(positions.ConstAccessor(), colors.ConstAccessor());
 
                 _window->render();
                 //! Decrease render request count
