@@ -102,6 +102,7 @@ namespace CubbyRender {
         void onUpdate() override;
         
     private:
+
         GLFWWindowPtr _window;
         unsigned int _numRequestedRenderFrames = 0;
     };

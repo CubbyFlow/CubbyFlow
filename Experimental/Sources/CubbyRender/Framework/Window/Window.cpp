@@ -87,13 +87,24 @@ namespace CubbyRender {
 
     void Window::update()
     {
-        for (auto& simulation : _simulations)
-            simulation->advanceSimulation();
+        if (_simulations.empty() == false)
+            _simulations[_currentSimulationIndex]->advanceSimulation();
         onUpdate();
+    }
+
+    void Window::switchSimulation(int index)
+    {
+        _simulations[_currentSimulationIndex]->resetSimulation();
+        const size_t numSimulation = _simulations.size();
+        
+        _currentSimulationIndex += index;
+        _currentSimulationIndex = _currentSimulationIndex >= 0 ? _currentSimulationIndex % numSimulation :
+                                                                 numSimulation - (-_currentSimulationIndex % numSimulation);
     }
 
     void Window::addSimulation(SimulationPtr simulation)
     {
+        simulation->setup(shared_from_this());
         _simulations.push_back(simulation);
     }
 } 

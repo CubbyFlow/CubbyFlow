@@ -88,17 +88,21 @@ namespace CubbyRender {
         //! update window
         void update();
 
-        //! Add simulation to list
+        //! Setup and Add simulation to list
         void addSimulation(SimulationPtr simulation);
+
+        //! Switch simulation which will be simulated.   
+        void switchSimulation(int index);
     protected:
         //! Implementation of the window update;
-        virtual void onUpdate() = 0;        
+        virtual void onUpdate() = 0;     
 
         RendererPtr _renderer;
         std::vector<SimulationPtr> _simulations;
         std::string _title;
         Size2 _windowSize;
         int _swapInterval = 0;
+        int _currentSimulationIndex = 0;
         bool _isUpdateEnabled = false;
 
     private:
