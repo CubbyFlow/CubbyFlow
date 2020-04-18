@@ -13,7 +13,7 @@
 #include <Framework/Utils/Prerequisites.h>
 #include <Framework/Simulation/Simulation.h>
 #include <Framework/Renderable/PointsRenderable.h>
-#include <Core/Solver/Particle/SPH/SPHSolver2.h>
+#include <Core/Solver/Particle/SPH/SPHSolver3.h>
 #include <memory>
 
 //!
@@ -47,10 +47,11 @@ protected:
     void onUpdateRenderables() override;
 
 private:
-    CubbyFlow::SPHSolver2 _solver;
+    CubbyFlow::SPHSolver3Ptr _solver;
     CubbyFlow::Array1<CubbyFlow::Vector3F> _positions;
     CubbyFlow::Array1<CubbyFlow::Vector4F> _colors;
     CubbyFlow::CubbyRender::PointsRenderablePtr _renderable;
+    float _spacing = 0.02f;
 };
     
 using SPHSimulationPtr = std::shared_ptr<SPHSimulation>;
