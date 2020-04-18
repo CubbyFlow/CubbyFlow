@@ -13,6 +13,7 @@
 #include <Framework/Utils/Prerequisites.h>
 #include <Framework/Buffer/Vertex.h>
 #include <Framework/Renderer/RenderOptions.h>
+#include <Framework/View/Camera.h>
 #include <Core/Array/ArrayAccessor1.h>
 #include <Core/Array/ArrayAccessor2.h>
 #include <Core/Vector/Vector4.h>
@@ -108,6 +109,9 @@ namespace CubbyRender {
 
         //! Unbind inputLayout (vertex buffer and index buffer) from this renderer.
         void unbindInputLayout(InputLayoutPtr inputLayout);
+
+        void setCamera(CameraPtr camera);
+        const CameraPtr& getCamera() const;
     protected:
         virtual void onRenderBegin() = 0;
         virtual void onRenderEnd() = 0;
@@ -116,6 +120,7 @@ namespace CubbyRender {
         std::vector<RenderablePtr> _renderables;
         RenderState _renderState;
         PrimitiveType _primitiveType;
+        CameraPtr _camera = nullptr;
         Vector4F _backgroundColor = Vector4F(1.0f, 0.0f, 0.0f, 1.0f);
     private:
     };

@@ -92,5 +92,15 @@ namespace CubbyRender {
         assert(inputLayout);
         inputLayout->unbind(shared_from_this());
     }
+
+    void Renderer::setCamera(CameraPtr camera)
+    {
+        _camera = camera;
+    }
+
+    const CameraPtr& Renderer::getCamera() const
+    {
+        return _camera;
+    }
 } 
 }

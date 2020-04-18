@@ -273,7 +273,7 @@ namespace CubbyRender {
         {
             glDisable(GL_DEPTH_TEST);
         }
-        glPointSize(10.0f);
+        glPointSize(3.0f);
     }
 } 
 }
