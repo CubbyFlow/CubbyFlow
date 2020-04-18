@@ -11,6 +11,7 @@
 #include <Framework/Window/Window.h>
 #include <Framework/Renderer/Renderer.h>
 #include <Framework/Utils/Common.h>
+#include <Framework/View/CameraController.h>
 #include <Framework/Simulation/Simulation.h>
 #include <Core/Point/Point2.h>
 
@@ -89,6 +90,7 @@ namespace CubbyRender {
     {
         if (_simulations.empty() == false)
             _simulations[_currentSimulationIndex]->advanceSimulation();
+        
         onUpdate();
     }
 
@@ -109,6 +111,12 @@ namespace CubbyRender {
     {
         simulation->setup(shared_from_this());
         _simulations.push_back(simulation);
+    }
+
+    void Window::setCameraController(CameraControllerPtr camController)
+    {
+        _camController = camController;
+        _renderer->setCamera(_camController->getCamera());
     }
 } 
 }

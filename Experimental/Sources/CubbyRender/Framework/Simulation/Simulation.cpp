@@ -9,6 +9,7 @@
 *************************************************************************/
 #include <Framework/Simulation/Simulation.h>
 #include <memory>
+#include <iostream>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -38,13 +39,15 @@ namespace CubbyRender {
 
     void Simulation::advanceSimulation()
     {
+        std::cout << "Frame index : " << _frame.index << std::endl;
         onAdvanceSimulation();
+        onUpdateRenderables();
+        _frame++;
     }
 
     const Frame& Simulation::getCurrentFrame() const
     {
         return _frame;
     }
-
 } 
 }

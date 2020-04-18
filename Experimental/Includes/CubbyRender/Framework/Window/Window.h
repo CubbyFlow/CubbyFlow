@@ -93,11 +93,15 @@ namespace CubbyRender {
 
         //! Switch simulation which will be simulated.   
         void switchSimulation(int index);
+
+        //! Set camera controller instance;
+        void setCameraController(CameraControllerPtr camController);
     protected:
         //! Implementation of the window update;
         virtual void onUpdate() = 0;     
 
         RendererPtr _renderer;
+        CameraControllerPtr _camController;
         std::vector<SimulationPtr> _simulations;
         std::string _title;
         Size2 _windowSize;

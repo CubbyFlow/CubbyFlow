@@ -132,6 +132,7 @@ namespace CubbyRender {
                 }
 
                 _window->render();
+
                 //! Decrease render request count
                 numRequestedRenderFramesRef -= 1;
 

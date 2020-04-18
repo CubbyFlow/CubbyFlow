@@ -56,15 +56,14 @@ namespace CubbyRender {
         _vertices.Resize(totalSize);
         for (size_t i = 0; i < totalSize / size_t(7); ++i)
         {
-            _vertices[  i  ] = positions[i].x;
-            _vertices[i + 1] = positions[i].y;
-            _vertices[i + 2] = positions[i].z;
-            _vertices[i + 3] = colors[i].x;
-            _vertices[i + 4] = colors[i].y;
-            _vertices[i + 5] = colors[i].z;
-            _vertices[i + 6] = colors[i].w;
+            _vertices[i * 7 + 0] = positions[i].x;
+            _vertices[i * 7 + 1] = positions[i].y;
+            _vertices[i * 7 + 2] = positions[i].z;
+            _vertices[i * 7 + 3] = colors[i].x;
+            _vertices[i * 7 + 4] = colors[i].y;
+            _vertices[i * 7 + 5] = colors[i].z;
+            _vertices[i * 7 + 6] = colors[i].w;
         }
-
         invalidateResources();
     }
 

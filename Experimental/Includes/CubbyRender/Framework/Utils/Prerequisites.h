@@ -27,6 +27,8 @@ namespace CubbyRender {
     class Window;
     class InputLayout;
     class Simulation;
+    class Camera;
+    class CameraController;
 
     using InputLayoutPtr     = std::shared_ptr<InputLayout>;
     using ApplicationPtr     = std::shared_ptr<Application>;
@@ -42,6 +44,8 @@ namespace CubbyRender {
     using VertexBufferPtr    = std::shared_ptr<VertexBuffer>;
     using WindowPtr          = std::shared_ptr<Window>;
     using SimulationPtr      = std::shared_ptr<Simulation>;
+    using CameraPtr          = std::shared_ptr<Camera>;
+    using CameraControllerPtr= std::shared_ptr<CameraController>;
 }
 }
 

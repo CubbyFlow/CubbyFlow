@@ -20,6 +20,7 @@
 #include <Framework/Utils/Common.h>
 #include <glad/glad.h>
 
+#include <GL3/Utils/GL3Debugging.h>
 namespace CubbyFlow {
 namespace CubbyRender {
     
@@ -87,7 +88,6 @@ namespace CubbyRender {
             glEnableVertexAttribArray(attribLoc);
             offset += sizeof(float) * numberOfFloats;
         }
-        
         if (static_cast<int>(_vertexFormat & VertexFormat::Normal3))
         {
             GLuint attribLoc = shader->getAttribLocation("normal");
