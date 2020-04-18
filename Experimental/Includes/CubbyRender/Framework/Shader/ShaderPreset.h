@@ -24,12 +24,14 @@ const GLchar* kSimpleColorShaders[2] = {
     #version 330 core
     layout (location = 0) in vec3 position;
     layout (location = 1) in vec3 normal;
+    uniform mat4 view;
+    uniform mat4 projection;
     out VSOUT {
         vec4 color;
     } vs_out;
     void main() {
         vs_out.color = vec4(normal, 1.0);
-        gl_Position = vec4(position,1.0);
+        gl_Position = projection * view * vec4(position,1.0);
     }
     )glsl",
 
@@ -52,6 +54,8 @@ const GLchar* kPointsShaders[2] = {
     layout (location = 0) in vec3 position;
     layout (location = 1) in vec4 color;
     uniform float Radius;
+    uniform mat4 view;
+    uniform mat4 projection;
     out VertexData {
         vec4 color;
     } outData;
@@ -65,7 +69,6 @@ const GLchar* kPointsShaders[2] = {
     // Fragment shader
     R"glsl(
     #version 330 core
-    uniform float Radius;
     in VertexData {
     	 vec4 color;
     } inData;

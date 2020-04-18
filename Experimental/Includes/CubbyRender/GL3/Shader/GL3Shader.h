@@ -74,7 +74,7 @@ namespace CubbyRender {
         //! implementation of destroy method
         void onDestroy() override;
 
-        void sendParametersToGPU() override;
+        void sendParametersToGPU();
 
     private:
         void printShaderLog();

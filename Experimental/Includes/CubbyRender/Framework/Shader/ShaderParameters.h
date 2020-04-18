@@ -21,20 +21,27 @@
 namespace CubbyFlow {
 namespace CubbyRender {
 
+    enum class ParameterType
+    {
+        NONE     = 0,
+        INT      = 1,
+        FLOAT1   = 2,
+        FLOAT2   = 3,
+        FLOAT3   = 4,
+        FLOAT4   = 5,
+        FLOAT4X4 = 6
+    };
+
+    class ParameterHelper final
+    {
+    public:
+        static size_t getNumberOfFloats(ParameterType type);
+        static size_t getSizeInBytes(ParameterType type);
+    };
+
     class ShaderParameters final
     {
     public:
-        enum class ParameterType
-        {
-            NONE     = 0,
-            INT      = 1,
-            FLOAT1   = 2,
-            FLOAT2   = 3,
-            FLOAT3   = 4,
-            FLOAT4   = 5,
-            FLOAT4X4 = 6
-        };
-
         //! Default Constructor
         ShaderParameters();
 
@@ -59,18 +66,22 @@ namespace CubbyRender {
 
         using meta_table = std::unordered_map<std::string, ShaderParameters::Metadata>;
         
-        template <typename Type>
-        void setParameter(const std::string& name, Type&& value);
+        void setParameter(const std::string& name, int value);
+        void setParameter(const std::string& name, float value);
+        void setParameter(const std::string& name, Vector2F value);
+        void setParameter(const std::string& name, Vector3F value);
+        void setParameter(const std::string& name, Vector4F value);
+        void setParameter(const std::string& name, Matrix4x4F value);
 
         const meta_table& getMetatable() const;
     private:
-        void setMetadata(const std::string& name, const ShaderParameters::Metadata&  metadata);
-
+        void setMetadata(const std::string& name, const ShaderParameters::Metadata& metadata);
+        void setParameter(const std::string& name, void* bytes, ParameterType type);
         meta_table _params;
     };
-}
-}
 
-#include <Framework/Shader/ShaderParameters-Impl.h>
+
+}
+}
 
 #endif

@@ -70,8 +70,6 @@ namespace CubbyRender {
         //! implementation of destry method
         virtual void onDestroy() = 0;
 
-        virtual void sendParametersToGPU() = 0;
-
         //! Input format of the vertex shader.
         VertexFormat _format = VertexFormat::Position3Normal3;
         ShaderParameters _parameters;

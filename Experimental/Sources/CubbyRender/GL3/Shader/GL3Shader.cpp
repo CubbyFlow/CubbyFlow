@@ -107,7 +107,7 @@ namespace CubbyRender {
         if (iter == _locationCache.end())
         {
             //! When Cache miss.
-            GLuint location = glGetAttribLocation(_programID, name.c_str());
+            GLuint location = glGetUniformLocation(_programID, name.c_str());
             _locationCache[name] = location;
 
            return location; 
@@ -174,6 +174,7 @@ namespace CubbyRender {
     {
         UNUSED_VARIABLE(renderer);
         glUseProgram(_programID);
+        sendParametersToGPU();
     }
         
     void GL3Shader::onUnbind(RendererPtr renderer)
@@ -193,7 +194,6 @@ namespace CubbyRender {
 
     void GL3Shader::sendParametersToGPU()
     {
-        using ParameterType = ShaderParameters::ParameterType;
         const auto& metatable = _parameters.getMetatable();
 
         for (const auto& p : metatable)
@@ -202,7 +202,7 @@ namespace CubbyRender {
             const auto& metadata = p.second;
 
             GLint location = getUniformLocation(name);
-            
+
             const unsigned char* data = metadata.data.data();
             const GLint* intdata = reinterpret_cast<const GLint*>(data);
             const GLfloat* floatdata = reinterpret_cast<const GLfloat*>(data);
@@ -236,7 +236,7 @@ namespace CubbyRender {
                 }            
                 case ParameterType::FLOAT4X4 :
                 {
-                    glUniformMatrix4fv(location, 1, GL_TRUE, floatdata);
+                    glUniformMatrix4fv(location, 1, GL_FALSE, floatdata);
                     break;
                 }                   
                 default:

@@ -8,9 +8,11 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 #include <Framework/Shader/Shader.h>
+#include <Framework/View/Camera.h>
 #include <Framework/Renderer/Renderer.h>
 #include <Framework/Shader/ShaderPreset.h>
 #include <Framework/Utils/Common.h>
+#include <Core/Matrix/Matrix4x4.h>
 #include <cassert>
 
 #include <fstream>
@@ -108,8 +110,17 @@ namespace CubbyRender {
 
     void Shader::bind(RendererPtr renderer)
     {
+        const auto& camera = renderer->getCamera();
+        if (camera)
+        {
+            const auto& view        = camera->getViewMatrix();
+            const auto& projection  = camera->getProjectionMatrix();
+
+            _parameters.setParameter("view", view);
+            _parameters.setParameter("projection", projection);
+        }
+
         onBind(renderer);
-        sendParametersToGPU();
     }
 
     void Shader::unbind(RendererPtr renderer)
