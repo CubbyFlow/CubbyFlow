@@ -11,6 +11,7 @@
 #define CUBBYFLOW_VIEWPORT_H
 
 #include <Framework/Utils/Prerequisites.h>
+#include <Core/Vector/Vector3.h>
 #include <memory>
 
 namespace CubbyFlow {
@@ -19,20 +20,22 @@ namespace CubbyRender {
     //!
     //! \brief The Viewport class matched with camera view
     //!
-    class Viewport 
+    struct Viewport 
     {
     public:
-        //! Default constructor.
-        Viewport();
+        float getWidth() const;
 
-        //! Default destructor.
-        ~Viewport();
+        float getHeight() const;
+
+        bool operator==(const Viewport& other) const;
+        bool operator!=(const Viewport& other) const;
+
+        Vector2F leftTop;      
+        Vector2F rightBottom;  
 
     protected:
     private:
     };
-
-    using ViewportPtr = std::shared_ptr<Viewport>;
 } 
 }
 

@@ -9,18 +9,30 @@
 *************************************************************************/
 
 #include <Framework/View/Viewport.h>
+#include <cmath>
 
 namespace CubbyFlow {
 namespace CubbyRender {
     
-    Viewport::Viewport()
+    float Viewport::getWidth() const
     {
-        //! Do nothing
+        return std::fabs(rightBottom.x - leftTop.x);
+    }
+    
+    float Viewport::getHeight() const
+    {
+        return std::fabs(leftTop.y - rightBottom.y);
     }
 
-    Viewport::~Viewport()
+    bool Viewport::operator==(const Viewport& other) const
     {
-        //! Do nothing
+        return (leftTop == other.leftTop) &&
+               (rightBottom == other.rightBottom);
+    }
+
+    bool Viewport::operator!=(const Viewport& other) const
+    {
+        return !(*this == other);
     }
 
 } 

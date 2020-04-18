@@ -1,19 +1,19 @@
 /*************************************************************************
-> File Name: Camera.h
+> File Name: PerspectiveCamera.h
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: The camera class which view simulator scene
+> Purpose: The perspective camera derived from camera class.
 > Created Time: 2020/04/16
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
-#ifndef CUBBYFLOW_CAMERA_H
-#define CUBBYFLOW_CAMERA_H
+#ifndef CUBBYFLOW_PERSPECTIVE_CAMERA_H
+#define CUBBYFLOW_PERSPECTIVE_CAMERA_H
 
 #include <Framework/Utils/Prerequisites.h>
-#include <Framework/View/CameraState.h>
-#include <Framework/View/Viewport.h>
+#include <Framework/View/Camera.h>
 #include <Core/Matrix/Matrix4x4.h>
+#include <Core/Utils/Constants.h>
 #include <memory>
 
 namespace CubbyFlow {
@@ -22,32 +22,26 @@ namespace CubbyRender {
     //!
     //! \brief The camera class which view simulator scene
     //!
-    class Camera 
+    class PerspectiveCamera : public Camera 
     {
     public:
         //! Default constructor.
-        Camera();
+        PerspectiveCamera();
 
         //! constructor with cameraState.
-        Camera(const CameraState& camState);
+        PerspectiveCamera(const CameraState& camState, float fov);
 
         //! Default destructor.
-        virtual ~Camera();
-
-        //! Get camera view transition matrix.
-        Matrix4x4F getViewMatrix() const;
+        ~PerspectiveCamera();
 
         //! Get perspective projection matrix.
-        virtual Matrix4x4F getProjectionMatrix() const = 0;
-
-        //! Get the origin of the camera.
-        Vector3F getCameraOrigin() const;
+        Matrix4x4F getProjectionMatrix() const override;
     protected:
-        CameraState _camState;
+        float _fov = HALF_PI_FLOAT;
     private:
     };
 
-    using CameraPtr = std::shared_ptr<Camera>;
+    using PerspectiveCameraPtr = std::shared_ptr<PerspectiveCamera>;
 } 
 }
 
