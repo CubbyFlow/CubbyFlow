@@ -38,6 +38,12 @@ SPHSimulation::SPHSimulation()
     //! Do nothing
 }
 
+SPHSimulation::SPHSimulation(double fps)
+    : Simulation(fps)
+{
+
+}
+
 SPHSimulation::~SPHSimulation()
 {
     //! Do nothing
@@ -75,11 +81,14 @@ void SPHSimulation::onSetup(WindowPtr window)
 void SPHSimulation::onResetView(WindowPtr window)
 {
     Size2 framebufferSize = window->getFramebufferSize();
-    Viewport viewport {.leftTop     = Vector2F(0.0f, framebufferSize.y),
-                       .rightBottom = Vector2F(framebufferSize.x, 0.0f)};
-    CameraState camState{.viewport = viewport,
-                       .origin = Vector3F(0, 1, 1),
-                       .lookAt = Vector3F(0, 0, -1)};
+    Viewport viewport;
+    viewport.leftTop     = Vector2F(0.0f, framebufferSize.y);
+    viewport.rightBottom = Vector2F(framebufferSize.x, 0.0f);
+
+    CameraState camState;
+    camState.viewport = viewport;
+    camState.origin = Vector3F(0, 1, 1);
+    camState.lookAt = Vector3F(0, 0, -1);
 
     window->setCameraController(std::make_shared<CameraController>(
         std::make_shared<PerspectiveCamera>(camState, HALF_PI_FLOAT)
@@ -88,9 +97,9 @@ void SPHSimulation::onResetView(WindowPtr window)
 
 void SPHSimulation::onResetSimulation()
 {
-    BoundingBox3D domain(Vector3D(-1.0f, -1.0f, -1.0f), Vector3D(1, 2, 1));
+    BoundingBox3D domain(Vector3D(-0.2f, -1.0f, -0.2f), Vector3D(0.2f, 1.0f, 0.2f));
 
-	_solver = SPHSolver3::GetBuilder()
+	_solver = PCISPHSolver3::GetBuilder()
 		.WithTargetDensity(1000.0)
 		.WithTargetSpacing(_spacing)
 		.MakeShared();
