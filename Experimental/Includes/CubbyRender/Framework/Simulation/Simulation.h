@@ -29,6 +29,9 @@ namespace CubbyRender {
         //! Default constructor.
         Simulation();
 
+        //! Constructor with fps
+        Simulation(double fps);
+
         //! Default destructor.
         virtual ~Simulation();
 
@@ -63,6 +66,7 @@ namespace CubbyRender {
         virtual void onUpdateRenderables() = 0;
 
         Frame _frame;
+        double _fps = 60.0;
     private:
     };
 

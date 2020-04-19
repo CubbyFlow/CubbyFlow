@@ -46,6 +46,7 @@ int main(int argc, char* argv[])
     int numberOfFrames = 60;
     int resX = 800;
     int resY = 600;
+    double fps = 60.0;
     std::string logFileName = APP_NAME ".log";
     std::string outputDir = APP_NAME "_output";
     std::string format = "null";
@@ -62,6 +63,9 @@ int main(int argc, char* argv[])
         clara::Opt(numberOfFrames, "numberOfFrames")
         ["-n"]["--numberOfFrames"]
         ("total number of frames (default is 100)") |
+        clara::Opt(fps, "fps")
+        ["-f"]["--fps"]
+        ("frame per second for simulation (default is 60)") |
         clara::Opt(logFileName, "logFileName")
         ["-l"]["--log"]
         ("log file name (default is " APP_NAME ".log)") |
@@ -102,7 +106,7 @@ int main(int argc, char* argv[])
     }
     
     auto window = application->createWindow("SPH Simulation", resX, resY);
-    window->addSimulation(std::make_shared<SPHSimulation>());
+    window->addSimulation(std::make_shared<SPHSimulation>(fps));
     
 #ifdef CUBBYFLOW_RECORDING
     auto recorder = std::make_shared<ScreenRecorder>();

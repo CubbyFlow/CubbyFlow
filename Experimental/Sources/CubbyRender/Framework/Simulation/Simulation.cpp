@@ -19,6 +19,12 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
+    Simulation::Simulation(double fps)
+        : _fps(fps)
+    {
+
+    }
+
     Simulation::~Simulation()
     {
         //! Do nothing.
@@ -26,14 +32,15 @@ namespace CubbyRender {
 
     void Simulation::setup(WindowPtr window)
     {
-        _frame = Frame(0, 1.0 / 60.0);
+        
+        _frame = Frame(0, 1.0 / _fps);
         onResetView(window);
         onSetup(window);
     }
 
     void Simulation::resetSimulation()
     {
-        _frame = Frame(0, 1.0 / 60.0);
+        _frame = Frame(0, 1.0 / _fps);
         onResetSimulation();
     }
 

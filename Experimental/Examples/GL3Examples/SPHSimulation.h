@@ -13,7 +13,7 @@
 #include <Framework/Utils/Prerequisites.h>
 #include <Framework/Simulation/Simulation.h>
 #include <Framework/Renderable/PointsRenderable.h>
-#include <Core/Solver/Particle/SPH/SPHSolver3.h>
+#include <Core/Solver/Particle/PCISPH/PCISPHSolver3.h>
 #include <memory>
 
 //!
@@ -24,6 +24,9 @@ class SPHSimulation : public CubbyFlow::CubbyRender::Simulation
 public:
     //! Default constructor.
     SPHSimulation();
+    
+    //! Constructor with fps.
+    SPHSimulation(double fps);
 
     //! Default destructor.
     virtual ~SPHSimulation();
@@ -47,11 +50,11 @@ protected:
     void onUpdateRenderables() override;
 
 private:
-    CubbyFlow::SPHSolver3Ptr _solver;
+    CubbyFlow::PCISPHSolver3Ptr _solver;
     CubbyFlow::Array1<CubbyFlow::Vector3F> _positions;
     CubbyFlow::Array1<CubbyFlow::Vector4F> _colors;
     CubbyFlow::CubbyRender::PointsRenderablePtr _renderable;
-    float _spacing = 0.02f;
+    float _spacing = 0.01f;
 };
     
 using SPHSimulationPtr = std::shared_ptr<SPHSimulation>;
