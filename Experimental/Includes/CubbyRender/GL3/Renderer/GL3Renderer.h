@@ -66,6 +66,13 @@ namespace CubbyRender {
         //! \param shader preset name
         //! \return new shader pointer
         ShaderPtr createShaderPreset(const std::string& shaderName) override;
+        
+        //! Set viewport of the current window
+        //! \param x left top x position
+        //! \param y left top y position
+        //! \param width width of the viewport
+        //! \param height height of the viewport.
+        void setViewport(int x, int y, size_t width, size_t height) override;
     protected:
         void onRenderBegin() override;
         void onRenderEnd() override;

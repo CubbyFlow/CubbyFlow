@@ -61,8 +61,8 @@ const GLchar* kPointsShaders[2] = {
     } outData;
     void main() {
         outData.color = color;
-        gl_PointSize = 2.0 * Radius;
-        gl_Position = vec4(position, 1.0);
+        gl_PointSize = 2.0 * Radius * color.x;
+        gl_Position = projection * view * vec4(position, 1.0);
     }
     )glsl",
 

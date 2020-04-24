@@ -25,6 +25,3 @@
 [submodule "Experimental/Libraries/libpng"]
 	path = Experimental/Libraries/libpng
 	url = https://github.com/glennrp/libpng
-[submodule "Experimental/Libraries/renderdoc"]
-	path = Experimental/Libraries/renderdoc
-	url = https://github.com/baldurk/renderdoc

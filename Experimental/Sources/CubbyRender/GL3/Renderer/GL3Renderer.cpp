@@ -210,6 +210,11 @@ namespace CubbyRender {
         return shader;
     }
 
+    void GL3Renderer::setViewport(int x, int y, size_t width, size_t height)
+    {
+        glViewport(x, y, width, height);
+    }
+
     void GL3Renderer::onRenderBegin() 
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

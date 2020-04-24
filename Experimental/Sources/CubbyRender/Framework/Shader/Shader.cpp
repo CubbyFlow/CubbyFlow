@@ -17,6 +17,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <iostream>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -113,9 +114,16 @@ namespace CubbyRender {
         const auto& camera = renderer->getCamera();
         if (camera)
         {
-            const auto& view        = camera->getViewMatrix();
+            const auto&     view    = camera->getViewMatrix();
             const auto& projection  = camera->getProjectionMatrix();
-
+            for (int i = 0; i < 4; ++i)
+            {
+                for (int j = 0; j < 4; ++j)
+                {
+                    std::cout << projection(i, j) << ", ";
+                }
+                std::cout << std::endl;
+            }
             _parameters.setParameter("view", view);
             _parameters.setParameter("projection", projection);
         }

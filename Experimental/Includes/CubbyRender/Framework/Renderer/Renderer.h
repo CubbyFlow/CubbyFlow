@@ -94,6 +94,13 @@ namespace CubbyRender {
         //! \return new shader pointer
         virtual ShaderPtr createShaderPreset(const std::string& shaderName) = 0;
 
+        //! Set viewport of the current window
+        //! \param x left top x position
+        //! \param y left top y position
+        //! \param width width of the viewport
+        //! \param height height of the viewport.
+        virtual void setViewport(int x, int y, size_t width, size_t height) = 0;
+
         //! Create Material
         //! \return new material pointer
         MaterialPtr createMaterial() const;

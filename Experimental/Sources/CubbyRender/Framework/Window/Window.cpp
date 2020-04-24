@@ -83,6 +83,7 @@ namespace CubbyRender {
 
     void Window::render()
     {
+        _renderer->setViewport(0, 0, static_cast<size_t>(_windowSize[0] / 2.0f), static_cast<size_t>(_windowSize[1] / 2.0f));
         _renderer->render();
     }
 

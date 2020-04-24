@@ -37,7 +37,7 @@ namespace CubbyRender {
         //! Get perspective projection matrix.
         Matrix4x4F getProjectionMatrix() const override;
     protected:
-        float _fov = HALF_PI_FLOAT;
+        float _fov = 60.0f;
     private:
     };
 

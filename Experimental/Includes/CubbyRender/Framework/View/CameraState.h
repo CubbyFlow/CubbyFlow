@@ -35,7 +35,7 @@ namespace CubbyRender {
         Vector3F lookUp { 0.0f, 1.0f, 0.0f };
 
         float zFar = 100.0f;
-        float zNear = 0.1f;
+        float zNear = 0.01f;
     protected:
     private:
     };

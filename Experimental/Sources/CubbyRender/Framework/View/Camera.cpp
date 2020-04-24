@@ -38,10 +38,10 @@ namespace CubbyRender {
         Vector3F right = lookAt.Cross(lookUp).Normalized();
         Vector3F up = right.Cross(lookAt).Normalized();
 
-        Matrix4x4F view = { {right.x    , right.y   , right.z   , 0.0f},
-                            {up.x       , up.y      , up.z      , 0.0f},
-                            {lookAt.x   , lookAt.y  , lookAt.z  , 0.0f},
-                            {origin.x   , origin.y  , origin.z  , 1.0f} };
+        Matrix4x4F view = { {right.x    , up.x      , lookAt.x  , origin.x},
+                            {right.y    , up.y      , lookAt.y  , origin.y},
+                            {right.z    , up.z      , lookAt.z  , origin.z},
+                            {0.0f       , 0.0f      , 0.0f      ,   1.0f  }};
         return view;
     }
     

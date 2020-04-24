@@ -9,7 +9,9 @@
 *************************************************************************/
 
 #include <Framework/View/PerspectiveCamera.h>
+#include <Core/Utils/Constants.h>
 #include <cassert>
+#include <iostream>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -33,19 +35,19 @@ namespace CubbyRender {
     Matrix4x4F PerspectiveCamera::getProjectionMatrix() const
     {
         //! http://www.songho.ca/opengl/gl_projectionmatrix.html
-        const float width   = _camState.viewport.getWidth();
-        const float height  = _camState.viewport.getHeight();
-        const float aspect  = width / height;
-        const float far     = _camState.zFar;
-        const float near    = _camState.zNear;
-
-        Matrix4x4F projection = { {1.0f / (aspect * std::tan(_fov/2.0f)), 0.0f, 0.0f, 0.0f},
-                                  {0.0f, 1.0f / std::tan(_fov/2.0f), 0.0f, 0.0f},
-                                  {0.0f, 0.0f, -(far + near) / (far - near), -1.0f},
-                                  {0.0f, 0.0f, 2.0f * far * near / (far - near), 0.0f}};
-                                  
+        //! https://github.com/g-truc/glm/blob/master/glm/ext/matrix_clip_space.inl
+        Matrix4x4F projection(0.0f);
+        const float tanHalfFovy = std::tan(0.45f / static_cast<float>(2));
+        const float aspect = _camState.viewport.getWidth() / _camState.viewport.getHeight();
+        const float zNear = _camState.zNear;
+        const float zFar = _camState.zFar;
+        
+		projection(0, 0) = static_cast<float>(1) / (aspect * tanHalfFovy);
+		projection(1, 1) = static_cast<float>(1) / (tanHalfFovy);
+		projection(2, 2) = zFar / (zNear - zFar);
+		projection(2, 3) = - static_cast<float>(1);
+		projection(3, 2) = -(zFar * zNear) / (zFar - zNear);
         return projection;
     }
-
 } 
 }
