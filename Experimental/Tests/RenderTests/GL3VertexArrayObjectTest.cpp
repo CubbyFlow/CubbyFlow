@@ -20,7 +20,7 @@ TEST(GL3VertexArrayObject, Constructor)
 	ApplicationPtr application = std::make_shared<GL3Application>();
     int result = application->initialize();
     
-    WindowPtr window = application->createWindow("Test Window", 600, 400);
+    WindowPtr window = application->createMainWindow("Test Window", 600, 400);
     RendererPtr gl = window->getRenderer();
 
     

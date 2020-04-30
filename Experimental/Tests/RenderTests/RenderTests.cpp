@@ -1,7 +1,6 @@
 #include "pch.h"
 
 #include <Core/Utils/Logging.h>
-
 #include <fstream>
 
 int main(int argc, char* argv[])
