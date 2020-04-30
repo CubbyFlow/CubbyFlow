@@ -97,7 +97,7 @@ void SPHSimulation::onResetView(WindowPtr window)
 
 void SPHSimulation::onResetSimulation()
 {
-    BoundingBox3D domain(Vector3D(-0.5f, -0.5f, -0.5f), Vector3D(0.5f, 0.5f, 0.5f));
+    BoundingBox3D domain(Vector3D(-1.0f, -1.0f, -1.0f), Vector3D(1.0f, 1.0f, 1.0f));
 
 	_solver = SPHSolver3::GetBuilder()
 		.WithTargetDensity(1000.0)
@@ -154,10 +154,9 @@ void SPHSimulation::onAdvanceSimulation()
 void SPHSimulation::onUpdateRenderables()
 {
     auto particles = _solver->GetParticleSystemData();
-    auto forces = particles->GetForces();
     auto pos2D = particles->GetPositions();
 
-    //size_t oldNumParticles = _positions.size();
+    size_t oldNumParticles = _positions.size();
     size_t newNumParticles = particles->GetNumberOfParticles();
     _positions.Resize(newNumParticles);
     _colors.Resize(newNumParticles);
@@ -169,21 +168,8 @@ void SPHSimulation::onUpdateRenderables()
 
     std::mt19937 rng(0);
     std::uniform_real_distribution<float> dist2(0.0f, 1.0f);
-    Vector3D vmin(std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
-    Vector3D vmax(std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), std::numeric_limits<float>::min());
-    for (size_t i = 0; i < newNumParticles; ++i) {
-        vmin.x = std::min(vmin.x, forces[i].x);
-        vmin.y = std::min(vmin.y, forces[i].y);
-        vmin.z = std::min(vmin.z, forces[i].z);
-        vmax.x = std::max(vmax.x, forces[i].x);
-        vmax.y = std::max(vmax.y, forces[i].y);
-        vmax.z = std::max(vmax.z, forces[i].z);
-    }
-    for (size_t i = 0; i < newNumParticles; ++i) {
-        forces[i] -= vmin;
-        Vector3D scale = vmax - vmin;
-        forces[i] /= scale;
-        _colors[i] = Vector4F(forces[i].x, forces[i].y, forces[i].z, 1.0f);
+    for (size_t i = oldNumParticles; i < newNumParticles; ++i) {
+        _colors[i] = Vector4F(dist2(rng), dist2(rng), dist2(rng), 1.0f);
     }
     _renderable->update(_positions, _colors);
 }

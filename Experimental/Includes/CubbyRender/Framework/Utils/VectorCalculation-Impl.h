@@ -31,7 +31,7 @@ namespace CubbyRender {
         Vector<T, N> edge1 = v2 - v1;
         Vector<T, N> edge2 = v3 - v2;
 
-        return edge1.Cross(edge2);
+        return edge1.Cross(edge2).Normalized();
     }
 }
 }

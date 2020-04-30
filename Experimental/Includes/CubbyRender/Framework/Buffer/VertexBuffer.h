@@ -29,9 +29,6 @@ namespace CubbyRender {
         //! Default constructor.
         VertexBuffer();
 
-        //! Default constructor.
-        VertexBuffer(VertexFormat format);
-        
         //! Default destructor.
         virtual ~VertexBuffer();
 
@@ -44,11 +41,15 @@ namespace CubbyRender {
         //! Allocate gpu 
         void allocateBuffer(RendererPtr renderer, const ConstArrayAccessor1<float>& data, size_t numberOfVertices);
 
-        //! Update 
+        //! Update the buffer contents
         virtual void updateBuffer(RendererPtr renderer, const ConstArrayAccessor1<float>& data) = 0;
 
+        //! Get number of the vertices.
+        //! Be cautious of the fact that this method does not return
+        //! the number of the floats in the buffer.
         size_t getNumberOfVertices() const;
         
+        //! Bind state of this buffer to the render shader.
         void bindState(RendererPtr renderer, MaterialPtr material);
 
     protected:

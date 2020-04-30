@@ -34,7 +34,11 @@ namespace CubbyRender {
     ObjReconstructor::ObjReconstructor(const std::string& objPath, VertexFormat format)
         : _format(format)
     {
-        loadAndReconstruct(objPath);
+        bool result = loadAndReconstruct(objPath);
+        if (!result)
+        {
+            std::abort();
+        }
     }
 
     ObjReconstructor::~ObjReconstructor()
@@ -162,7 +166,7 @@ namespace CubbyRender {
         };
     };
 
-    void ObjReconstructor::loadAndReconstruct(const std::string& objPath)
+    bool ObjReconstructor::loadAndReconstruct(const std::string& objPath)
     {
         tinyobj::attrib_t attrib;
         std::vector<tinyobj::shape_t> shapes;
@@ -185,7 +189,7 @@ namespace CubbyRender {
         if (!ret) 
         {
             CUBBYFLOW_ERROR << "Abort because of LoadObj failed";
-            abort();
+            return false;
         }
         CUBBYFLOW_INFO << "tinyobj::LoadObj with obj file [" << objPath << "] took " << timer.DurationInSeconds() << " seconds";
         timer.Reset();
@@ -387,6 +391,7 @@ namespace CubbyRender {
         }
 
         CUBBYFLOW_INFO << "Reconstruction Vertices with #vertex " << attrib.vertices.size() << " took " << timer.DurationInSeconds() << " seconds";
+        return true;
     }
 }
 }

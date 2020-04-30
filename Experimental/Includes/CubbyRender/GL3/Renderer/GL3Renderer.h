@@ -38,7 +38,7 @@ namespace CubbyRender {
         int initializeGL() override;
 
         //! get current frame image as array of floating point data.
-        ArrayAccessor1<unsigned char> getCurrentFrame(Size2 size) override;
+        ArrayAccessor1<unsigned char> getCurrentFramebuffer(Size2 size) const override;
 
         //! Create Inputlayout pointer with default constructor.
         InputLayoutPtr createInputLayout() override;
@@ -68,8 +68,8 @@ namespace CubbyRender {
         ShaderPtr createShaderPreset(const std::string& shaderName) override;
         
         //! Set viewport of the current window
-        //! \param x left top x position
-        //! \param y left top y position
+        //! \param x left bottom x position
+        //! \param y left bottom y position
         //! \param width width of the viewport
         //! \param height height of the viewport.
         void setViewport(int x, int y, size_t width, size_t height) override;

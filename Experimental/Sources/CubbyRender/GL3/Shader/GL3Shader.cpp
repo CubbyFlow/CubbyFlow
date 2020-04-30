@@ -17,6 +17,8 @@
 #include <cassert>
 #include <vector>
 
+#include <iostream>
+
 namespace CubbyFlow {
 namespace CubbyRender {
     
@@ -83,13 +85,19 @@ namespace CubbyRender {
         return _programID;
     }
 
-    GLuint GL3Shader::getAttribLocation(const std::string& name)
+    GLint GL3Shader::getAttribLocation(const std::string& name)
     {
         auto iter = _locationCache.find(name);
         if (iter == _locationCache.end())
         {
             //! When Cache miss.
-            GLuint location = glGetAttribLocation(_programID, name.c_str());
+            GLint location = glGetAttribLocation(_programID, name.c_str());
+	    if (location == -1)
+	    {
+		    CUBBYFLOW_ERROR << "Cannot find attrib [" << name << "] in this shader.";
+		    std::cout << "Cannot find attrib [" << name << "] in this shader." << std::endl;
+		    std::abort();
+	    }
             _locationCache[name] = location;
 
            return location; 
@@ -101,13 +109,19 @@ namespace CubbyRender {
         }
     }
 
-    GLuint GL3Shader::getUniformLocation(const std::string& name)
+    GLint GL3Shader::getUniformLocation(const std::string& name)
     {
         auto iter = _locationCache.find(name);
         if (iter == _locationCache.end())
         {
             //! When Cache miss.
-            GLuint location = glGetUniformLocation(_programID, name.c_str());
+            GLint location = glGetUniformLocation(_programID, name.c_str());
+	    if (location == -1)
+	    {
+		    CUBBYFLOW_ERROR << "Cannot find uniform [" << name << "] in this shader.";
+		    std::cout << "Cannot find uniform [" << name << "] in this shader." << std::endl;
+		    std::abort();
+	    }
             _locationCache[name] = location;
 
            return location; 

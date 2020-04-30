@@ -43,36 +43,6 @@ namespace CubbyRender {
     {
         return sizeof(float) * getNumberOfFloats(format);
     }
-
-    std::vector<float> VertexHelper::ReconstructVertices(std::vector<float>&& vertices, std::vector<float>&& normals)
-    {
-        std::vector<float> vertexArray = std::move(vertices);
-        std::vector<float> normalArray = std::move(normals);
-
-        
-
-        if (vertexArray.size() != normalArray.size())
-        {
-            abort();
-        }
-
-        Timer timer;
-
-        const size_t numFloats = vertexArray.size();
-        const size_t numVertices = numFloats / 3U;
-
-        std::vector<float> result;
-        
-        result.reserve(numFloats * 2U);
-        for (size_t i = 0; i < numVertices; ++i)
-        {
-            result.insert(result.end(), vertexArray.begin() + i * 3U, vertexArray.begin() + (i + 1) * 3U);
-            result.insert(result.end(), normalArray.begin() + i * 3U, normalArray.begin() + (i + 1) * 3U);
-        }
-
-        CUBBYFLOW_INFO << "Reconstruct vertices with #Vertex : " << numVertices << " took " << timer.DurationInSeconds() << " seconds";
-
-        return result;
-    }
+    
 }  
 }  

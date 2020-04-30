@@ -68,7 +68,7 @@ namespace CubbyRender {
         //! return number of indices from index buffer.
         size_t getNumberOfIndices() const;
 
-        //! Initialize Input layout .
+        //! The implementation of the initialize Input layout .
         virtual void initialize(RendererPtr renderer) = 0;
 
     protected:

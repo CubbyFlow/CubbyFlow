@@ -11,14 +11,15 @@
 #ifndef CUBBYFLOW_GL3VERTEXARRAYOBJECT_H
 #define CUBBYFLOW_GL3VERTEXARRAYOBJECT_H
 
-#ifdef CUBBYFLOW_USE_GL
-
 #include <Framework/Utils/Prerequisites.h>
 #include <Framework/Buffer/InputLayout.h>
 #include <Framework/Buffer/Vertex.h>
-#include <GL3/Utils/GL3Common.h>
 #include <vector>
 #include <memory>
+
+#ifdef CUBBYFLOW_USE_GL
+
+#include <GL3/Utils/GL3Common.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -35,6 +36,7 @@ namespace CubbyRender {
         //! Default destructor.
         virtual ~GL3VertexArrayObject();
 
+        //! Initialize the input layout.
         void initialize(RendererPtr renderer) override;
 
     protected:

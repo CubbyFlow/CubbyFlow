@@ -65,7 +65,7 @@ namespace CubbyRender {
         void setBackgroundColor(Vector4F color);
 
         //! get current frame image as array of floating point data.
-        virtual ArrayAccessor1<unsigned char> getCurrentFrame(Size2 size) = 0;
+        virtual ArrayAccessor1<unsigned char> getCurrentFramebuffer(Size2 size) const = 0;
 
         //! Create Inputlayout pointer with default constructor.
         virtual InputLayoutPtr createInputLayout() = 0;

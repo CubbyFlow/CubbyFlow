@@ -11,6 +11,7 @@
 #define CUBBYFLOW_WINDOW_H
 
 #include <Framework/Utils/Prerequisites.h>
+#include <Core/Array/ArrayAccessor1.h>
 #include <Core/Size/Size2.h>
 #include <Core/Vector/Vector2.h>
 #include <string>
@@ -47,7 +48,7 @@ namespace CubbyRender {
         virtual Size2 getWindowSize() const = 0;
 
         //! Returns framebuffer / window size ratio.
-        virtual Vector2F displayScalingFactor() const;
+        Vector2F displayScalingFactor() const;
 
         //! Request to render given number of frames to the renderer.
         virtual void requestRender(unsigned int numFrames);
@@ -64,8 +65,31 @@ namespace CubbyRender {
         //! Action implementation when any event is happend on "KEY"
         virtual void onKey(int key, int scancode, int action, int mods) = 0;
 
+        //! Action implementation when any mouse button is pressed or released.
+        virtual void onMouseButton(int button, int action, int mods) = 0;
+
+        //! Action implementation when the cursor entered or left the content area of the window
+        virtual void onMouseCursorEnter(int entered) = 0;
+
+        //! Action implementation when cursor is moved
+        virtual void onMouseCursorPos(double x, double y) = 0;
+
+        //! Action implementation when mouse scroll is moved
+        virtual void onMouseScroll(double deltaX, double deltaY) = 0;
+
+        //! Action implementation when text input in the form of a stream of Unicode code points,
+        //! as produced by the operating system text input system
+        virtual void onChar(unsigned int code) = 0;
+
+        //! Action implementation when any file in the filesystem is
+        //! dragged and dropped on this application.
+        virtual void onDrop(int numDroppedFiles, const char** pathNames) = 0;
+
         //! Returns renderer.
         const RendererPtr& getRenderer() const;
+
+        //! Get Renderer pointer
+        RendererPtr getRenderer();
 
         //! Returns true if update is enabled.
         bool isUpdateEnabled() const;
@@ -79,9 +103,13 @@ namespace CubbyRender {
         //! Set renderer pointer
         void setRenderer(RendererPtr renderer);
         
-        //! Get Renderer pointer
-        RendererPtr getRenderer();
-
+        //! Set viewport of the current window
+        //! \param x left bottom x position
+        //! \param y left bottom y position
+        //! \param width width of the viewport
+        //! \param height height of the viewport.
+        void setViewport(int x, int y, size_t width, size_t height);
+        
         //! call render function through renderer.
         void render();
 
@@ -89,28 +117,35 @@ namespace CubbyRender {
         void update();
 
         //! Setup and Add simulation to list
-        void addSimulation(SimulationPtr simulation);
-
-        //! Switch simulation which will be simulated.   
-        void switchSimulation(int index);
+        void registerSimulation(SimulationPtr simulation);
 
         //! Set camera controller instance;
         void setCameraController(CameraControllerPtr camController);
+
+        //! Get camera controller instance.
+        const CameraControllerPtr& getCameraController() const;
+
+        //! Return Number of requested render frames.
+        unsigned int getNumRequestedRenderFrames() const;
+
+        //! Return reference of the number of requested render frames variable.
+        unsigned int& getNumRequestedRenderFrames();
+
+        ArrayAccessor1<unsigned char> getCurrentScreen(Size2 size) const;
+
     protected:
         //! Implementation of the window update;
         virtual void onUpdate() = 0;     
 
         RendererPtr _renderer;
         CameraControllerPtr _camController;
-        std::vector<SimulationPtr> _simulations;
+        SimulationPtr _simulation;
         std::string _title;
         Size2 _windowSize;
         int _swapInterval = 0;
-        int _currentSimulationIndex = 0;
+        unsigned int _numRequestedRenderFrames = 0;
         bool _isUpdateEnabled = false;
-
     private:
-
     };
 
 } 

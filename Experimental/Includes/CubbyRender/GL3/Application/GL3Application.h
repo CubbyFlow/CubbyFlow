@@ -15,6 +15,7 @@
 #include <Framework/Application/Application.h>
 #include <memory>
 #include <string>
+#include <vector>
 
 struct GLFWwindow;
 using GLFWWindowPtr = GLFWwindow*;
@@ -41,14 +42,10 @@ namespace CubbyRender {
         int initialize() override;
 
         //! Run the application with limited frames and fps.
-        int run(int numberOfFrames, EncodingCallback callback = nullptr) override;
+        int run(int numberOfFrames, EncodingCallback makeScreenshot = nullptr) override;
         
         //! Create window and return it.
-        WindowPtr createWindow(const std::string& title, int width, int height) override;
-
-        //! Get application window.
-        GL3WindowPtr& getApplicationWindow();
-        const GL3WindowPtr& getApplicationWindow() const;
+        WindowPtr createMainWindow(const std::string& title, int width, int height) override;
 
         //! Destroy the application.
         void terminate() override;
@@ -69,8 +66,6 @@ namespace CubbyRender {
         static void onCharMods(GLFWwindow* glfwWindow, unsigned int code, int mods);
         static void onDrop(GLFWwindow* glfwWindow, int numDroppedFiles, const char** pathNames);
         static void onErrorEvent(int error, const char* description);
-
-        GL3WindowPtr _window = nullptr;
     };
 
     using GL3ApplicationPtr = std::shared_ptr<GL3Application>;

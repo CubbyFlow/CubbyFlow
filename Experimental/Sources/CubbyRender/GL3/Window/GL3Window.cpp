@@ -41,7 +41,6 @@ namespace CubbyRender {
     void GL3Window::requestRender(unsigned int numFrames)
     {
         super_t::requestRender(numFrames);
-        _numRequestedRenderFrames = std::max(_numRequestedRenderFrames, numFrames);
         glfwPostEmptyEvent();
     }
 

@@ -39,7 +39,8 @@ namespace CubbyRender {
         VertexFormat getVertexFormat() const;
 
         //! Load obj file from given path and reconstruct it 
-        void loadAndReconstruct(const std::string& objPath);
+        //! If Obj loading is failed, return false. otherwise return true.
+        bool loadAndReconstruct(const std::string& objPath);
 
         //! Generate vertex buffer from vertices which loaded by loadAndReconstruct method
         VertexBufferPtr generateVertexBuffer(RendererPtr renderer);

@@ -42,8 +42,7 @@ namespace CubbyRender {
 
     void Window::requestRender(unsigned int numFrames)
     {
-        //! Do nothing.
-        UNUSED_VARIABLE(numFrames);
+        _numRequestedRenderFrames = std::max(_numRequestedRenderFrames, numFrames);
     }
 
     void Window::setSwapInterval(int interval)
@@ -83,41 +82,53 @@ namespace CubbyRender {
 
     void Window::render()
     {
-        _renderer->setViewport(0, 0, static_cast<size_t>(_windowSize[0] / 2.0f), static_cast<size_t>(_windowSize[1] / 2.0f));
         _renderer->render();
     }
 
     void Window::update()
     {
-        if (_simulations.empty() == false)
-            _simulations[_currentSimulationIndex]->advanceSimulation();
-        
+        if (_simulation)
+        {
+            _simulation->advanceSimulation();
+        }
         onUpdate();
     }
 
-    void Window::switchSimulation(int index)
+    void Window::setViewport(int x, int y, size_t width, size_t height)
     {
-        //! Reset simulation which will be postponed.
-        _simulations[_currentSimulationIndex]->resetSimulation();
-        const int numSimulation = static_cast<int>(_simulations.size());
-        
-        _currentSimulationIndex += index;
-        if (_currentSimulationIndex >= 0)
-            _currentSimulationIndex = _currentSimulationIndex % numSimulation;
-        else
-            _currentSimulationIndex = numSimulation - (-_currentSimulationIndex % numSimulation);
+        _renderer->setViewport(x, y, width, height);
     }
 
-    void Window::addSimulation(SimulationPtr simulation)
+    void Window::registerSimulation(SimulationPtr simulation)
     {
-        simulation->setup(shared_from_this());
-        _simulations.push_back(simulation);
+        _simulation = simulation;
+        _simulation->setup(shared_from_this());
+    }
+
+    const CameraControllerPtr& Window::getCameraController() const
+    {
+        return _camController;
     }
 
     void Window::setCameraController(CameraControllerPtr camController)
     {
         _camController = camController;
         _renderer->setCamera(_camController->getCamera());
+    }
+
+    unsigned int Window::getNumRequestedRenderFrames() const
+    {
+        return _numRequestedRenderFrames;
+    }
+    
+    unsigned int& Window::getNumRequestedRenderFrames()
+    {
+        return _numRequestedRenderFrames;
+    }
+    
+    ArrayAccessor1<unsigned char> Window::getCurrentScreen(Size2 size) const
+    {
+        return _renderer->getCurrentFramebuffer(size);
     }
 } 
 }

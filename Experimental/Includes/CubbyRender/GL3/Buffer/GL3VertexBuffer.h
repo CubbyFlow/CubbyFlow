@@ -10,11 +10,12 @@
 #ifndef CUBBYFLOW_GL3VERTEXBUFFER_H
 #define CUBBYFLOW_GL3VERTEXBUFFER_H
 
+#include <Framework/Buffer/VertexBuffer.h>
+#include <memory>
+
 #ifdef CUBBYFLOW_USE_GL
 
-#include <Framework/Buffer/VertexBuffer.h>
 #include <GL3/Utils/GL3Common.h>
-#include <memory>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -31,7 +32,7 @@ namespace CubbyRender {
         //! Default destructor.
         virtual ~GL3VertexBuffer();
 
-        //! Update 
+        //! Update the buffer contents
         void updateBuffer(RendererPtr renderer, const ConstArrayAccessor1<float>& data) override;
 
     protected:
@@ -47,6 +48,7 @@ namespace CubbyRender {
         //! Allocate gpu 
         void onAllocateBuffer(RendererPtr renderer, const ConstArrayAccessor1<float>& data) override;
 
+        //! implementation of bind state method.
         void onBindState(RendererPtr renderer, MaterialPtr material) override;
 
     private:

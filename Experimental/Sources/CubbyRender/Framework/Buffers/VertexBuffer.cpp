@@ -19,11 +19,6 @@ namespace CubbyRender {
         //! Do nothing
     }
 
-    VertexBuffer::VertexBuffer(VertexFormat format)
-        : _vertexFormat(format)
-    {
-    }
-
     VertexBuffer::~VertexBuffer()
     {
         //! Do nothing

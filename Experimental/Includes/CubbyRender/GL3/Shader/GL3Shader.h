@@ -50,7 +50,7 @@ namespace CubbyRender {
         //!
         //! \param name of the shader attribute want to know
         //! \return shader attribute location.
-        GLuint getAttribLocation(const std::string& name);
+        GLint getAttribLocation(const std::string& name);
 
         //! return shader uniform location id.
         //!
@@ -60,7 +60,7 @@ namespace CubbyRender {
         //!
         //! \param name of the shader uniform want to know
         //! \return shader uniform location.
-        GLuint getUniformLocation(const std::string& name);
+        GLint getUniformLocation(const std::string& name);
     protected:
         //! implementation of shader load
         int onLoad(const ShaderMap& shaderMap) override;

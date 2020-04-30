@@ -10,17 +10,18 @@
 #ifndef CUBBYFLOW_GL3INDEXBUFFER_H
 #define CUBBYFLOW_GL3INDEXBUFFER_H
 
+#include <Framework/Buffer/IndexBuffer.h>
+#include <memory>
+
 #ifdef CUBBYFLOW_USE_GL
 
-#include <Framework/Buffer/IndexBuffer.h>
 #include <GL3/Utils/GL3Common.h>
-#include <memory>
 
 namespace CubbyFlow {
 namespace CubbyRender {
     
     //!
-    //! \brief VertexBuffer implemeneted by Modern opengl(exactly above opengl3.3)
+    //! \brief IndexBuffer implemeneted by Modern opengl(exactly above opengl3.3)
     //!
     class GL3IndexBuffer final : public IndexBuffer
     {
@@ -46,7 +47,8 @@ namespace CubbyRender {
 
         //! Allocate gpu 
         void onAllocateBuffer(RendererPtr renderer, const ConstArrayAccessor1<unsigned int>& data) override;
-
+        
+        //! implementation of bind state method.
         void onBindState(RendererPtr renderer) override;
 
     private:

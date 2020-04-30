@@ -46,7 +46,6 @@ namespace CubbyRender {
 
     void Simulation::advanceSimulation()
     {
-        std::cout << "\33[2K\rFrame index : " << _frame.index << std::flush;
         onAdvanceSimulation();
         onUpdateRenderables();
         _frame++;

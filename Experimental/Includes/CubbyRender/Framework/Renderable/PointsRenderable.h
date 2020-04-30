@@ -34,14 +34,16 @@ namespace CubbyRender {
         //! Default constructor.
         PointsRenderable();
 
-        //! Constructor with inputlayout and material
+        //! Constructor with positions, colors and radius of the particle point.
         PointsRenderable(const ConstArrayAccessor1<Vector3F>& positions,
                          const ConstArrayAccessor1<Vector4F>& colors,
                          float radius);
-
+        //! Update the current position attribute and color attribute of the vertex buffer.
         void update(const ConstArrayAccessor1<Vector3F>& positions,
                     const ConstArrayAccessor1<Vector4F>& colors);
 
+        //! Update the current position attribute and color attribute of the vertex buffer.
+        //! Also modify the radius of fluid particles.
         void update(const ConstArrayAccessor1<Vector3F>& positions,
                     const ConstArrayAccessor1<Vector4F>& colors,
                     float radius);
@@ -49,17 +51,20 @@ namespace CubbyRender {
         //! Default destructor.
         virtual ~PointsRenderable();
 
-        //! Set radius of the point
+        //! Set radius of the fluid particle
         void setRadius(float radius);
 
-        //! Get radius of the point
+        //! Get radius of the  fluid particle
         float getRadius() const;
 
     protected:
+        //! bind input layout and material and draw renderables.
         virtual void onRender(RendererPtr renderer) override;
 
+        //! initialize input layout, vertex buffers and materials.
         virtual void onInitializeResource(RendererPtr renderer) override;
 
+        //! Release the resources.
         virtual void onRelease() override;
 
         float _radius = 0.0f;

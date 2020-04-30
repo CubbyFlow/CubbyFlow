@@ -140,7 +140,7 @@ namespace CubbyRender {
         //! Do nothing
     }
 
-    ArrayAccessor1<unsigned char> GL3Renderer::getCurrentFrame(Size2 size)
+    ArrayAccessor1<unsigned char> GL3Renderer::getCurrentFramebuffer(Size2 size) const
     {
         constexpr size_t kNumChannels = 4;
         size_t width = size[0], height = size[1];

@@ -36,19 +36,26 @@ namespace CubbyRender {
         //! Default destructor.
         virtual ~Renderable();
 
+        //! bind input layout and material and draw renderables.
         void render(RendererPtr renderer);
 
+        //! Release the resources.
         void release();
 
+        //! Set the primitive type of the object.
         void setPrimitiveType(PrimitiveType type);
 
     protected:
+        //! bind input layout and material and draw renderables.
         virtual void onRender(RendererPtr renderer) = 0;
 
+        //! initialize input layout, vertex buffers and materials.
         virtual void onInitializeResource(RendererPtr renderer) = 0;
 
+        //! Release the resources.
         virtual void onRelease() = 0;
         
+        //! let initialization occur before rendering this instance.
         void invalidateResources();
         
         InputLayoutPtr _inputLayout { nullptr };

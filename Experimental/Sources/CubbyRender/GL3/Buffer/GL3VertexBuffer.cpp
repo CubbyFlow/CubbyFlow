@@ -8,19 +8,22 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 
+#include <Framework/Renderable/Material.h>
+#include <Framework/Buffer/InputLayout.h>
+#include <Framework/Renderer/Renderer.h>
+#include <Framework/Utils/Common.h>
+
 #ifdef CUBBYFLOW_USE_GL
 
 #include <GL3/Buffer/GL3VertexBuffer.h>
 #include <GL3/Renderer/GL3Renderer.h>
 #include <GL3/Utils/GL3Common.h>
 #include <GL3/Shader/GL3Shader.h>
-#include <Framework/Renderable/Material.h>
-#include <Framework/Buffer/InputLayout.h>
-#include <Framework/Renderer/Renderer.h>
-#include <Framework/Utils/Common.h>
 #include <glad/glad.h>
 
 #include <GL3/Utils/GL3Debugging.h>
+#include <iostream>
+
 namespace CubbyFlow {
 namespace CubbyRender {
     
@@ -71,59 +74,74 @@ namespace CubbyRender {
 
     void GL3VertexBuffer::onBindState(RendererPtr renderer, MaterialPtr material) 
     { 
-        GL3Shader* shader = dynamic_cast<GL3Shader*>(material->getShader().get());
-        if (!shader)
+        GL3ShaderPtr shader = std::dynamic_pointer_cast<GL3Shader>(material->getShader());
+        if (shader == nullptr)
             abort();
-        shader->bind(renderer);
-        bind(renderer);
 
+        shader->bind(renderer); // bind shader to the renderer..
+        bind(renderer); // bind vertex buffer to the renderer.
+
+        // get the bytes size of the vertex format.
+        // ex. in case of position3normal3, there is six floats.
+        // therefore stride = 6 * 4 = 24
         GLsizei stride = static_cast<GLsizei>(VertexHelper::getSizeInBytes(_vertexFormat));   
         GLsizeiptr offset = 0;
         
+        std::cout << "vertexformat : " << static_cast<int>(_vertexFormat) << std::endl;
+        std::cout << "stride : " << stride << std::endl;
+        
         if (static_cast<int>(_vertexFormat & VertexFormat::Position3))
         {
-            GLuint attribLoc = shader->getAttribLocation("position");
+            GLint attribLoc = shader->getAttribLocation("position");
             GLint numberOfFloats = static_cast<GLint>(VertexHelper::getNumberOfFloats(VertexFormat::Position3));
-            glVertexAttribPointer(attribLoc, static_cast<GLint>(numberOfFloats), GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void*>(offset));
+            std::cout << numberOfFloats << std::endl;
+            glVertexAttribPointer(static_cast<GLuint>(attribLoc), static_cast<GLint>(numberOfFloats), GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void*>(offset));
             glEnableVertexAttribArray(attribLoc);
             offset += sizeof(float) * numberOfFloats;
         }
         if (static_cast<int>(_vertexFormat & VertexFormat::Normal3))
         {
-            GLuint attribLoc = shader->getAttribLocation("normal");
+            GLint attribLoc = shader->getAttribLocation("normal");
             GLint numberOfFloats = static_cast<GLint>(VertexHelper::getNumberOfFloats(VertexFormat::Normal3));
-            glVertexAttribPointer(attribLoc, static_cast<GLint>(numberOfFloats), GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void*>(offset));
+            glVertexAttribPointer(static_cast<GLuint>(attribLoc), static_cast<GLint>(numberOfFloats), GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void*>(offset));
             glEnableVertexAttribArray(attribLoc);
             offset += sizeof(float) * numberOfFloats;
         }       
         
         if (static_cast<int>(_vertexFormat & VertexFormat::TexCoord2))
         {
-            GLuint attribLoc = shader->getAttribLocation("texCoord");
+            GLint attribLoc = shader->getAttribLocation("texCoord");
             GLint numberOfFloats = static_cast<GLint>(VertexHelper::getNumberOfFloats(VertexFormat::TexCoord2));
-            glVertexAttribPointer(attribLoc, static_cast<GLint>(numberOfFloats), GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void*>(offset));
+            glVertexAttribPointer(static_cast<GLuint>(attribLoc), static_cast<GLint>(numberOfFloats), GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void*>(offset));
             glEnableVertexAttribArray(attribLoc);
             offset += sizeof(float) * numberOfFloats;
         }
         
         if (static_cast<int>(_vertexFormat & VertexFormat::TexCoord3))
         {
-            GLuint attribLoc = shader->getAttribLocation("texCoord");
+            GLint attribLoc = shader->getAttribLocation("texCoord");
             GLint numberOfFloats = static_cast<GLint>(VertexHelper::getNumberOfFloats(VertexFormat::TexCoord3));
-            glVertexAttribPointer(attribLoc, static_cast<GLint>(numberOfFloats), GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void*>(offset));
+            glVertexAttribPointer(static_cast<GLuint>(attribLoc), static_cast<GLint>(numberOfFloats), GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void*>(offset));
             glEnableVertexAttribArray(attribLoc);
             offset += sizeof(float) * numberOfFloats;
         }
         
+        std::cout << "offset : " << offset << std::endl;
         if (static_cast<int>(_vertexFormat & VertexFormat::Color4))
         {
-            GLuint attribLoc = shader->getAttribLocation("color");
+            GLint attribLoc = shader->getAttribLocation("color");
+        CUBBYFLOW_CHECK_GLERROR();
             GLint numberOfFloats = static_cast<GLint>(VertexHelper::getNumberOfFloats(VertexFormat::Color4));
-            glVertexAttribPointer(attribLoc, static_cast<GLint>(numberOfFloats), GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void*>(offset));
+        CUBBYFLOW_CHECK_GLERROR();
+        std::cout << attribLoc << std::endl;
+            glVertexAttribPointer(static_cast<GLuint>(attribLoc), static_cast<GLint>(numberOfFloats), GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void*>(offset));
+        CUBBYFLOW_CHECK_GLERROR();
             glEnableVertexAttribArray(attribLoc);
+        CUBBYFLOW_CHECK_GLERROR();
         }
 
-        shader->unbind(renderer);
+        unbind(renderer); // unbind vertex buffer from the renderer.
+        shader->unbind(renderer); // unbind shader from the renderer.
     }
 } 
 }
