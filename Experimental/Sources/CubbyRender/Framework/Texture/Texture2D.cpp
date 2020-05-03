@@ -7,7 +7,7 @@
 > Created Time: 2020/02/24
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
-#include <Framework/Textures/Texture2D.h>
+#include <Framework/Texture/Texture2D.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -22,39 +22,45 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
-    void Texture2D::allocateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor2<Vector4F>& data, bool storeData)
+    void Texture2D::allocateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor2<Vector4F>& data)
     {
-        if (storeData)
-        {
-            data.ParallelForEachIndex([&](size_t i, size_t j){
-                _data(i, j) = data(i, j);
-            });
-        }
-
         if (data.size() == Size2())
         {
             destroy();
         }
-        else if (data.size() == _size)
+        else if (data.size() == _textureSize)
         {
-            updateTexture(renderer, material, data, false);
+            updateTexture(renderer, material, data);
         }
         else
         {
             destroy();
-            _size = data.size();
+            _textureSize = data.size();
             onAllocateTexture(renderer, material, data);
         }
     }
 
-    void Texture2D::setSize(const Size2& size)
+    void Texture2D::allocateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor2<Vector4UB>& data)
     {
-        _size = size;
+        if (data.size() == Size2())
+        {
+            destroy();
+        }
+        else if (data.size() == _textureSize)
+        {
+            updateTexture(renderer, material, data);
+        }
+        else
+        {
+            destroy();
+            _textureSize = data.size();
+            onAllocateTexture(renderer, material, data);
+        }
     }
 
-    const Size2& Texture2D::size() const
+    Size2 Texture2D::getTextureSize() const
     {
-        return _size;
+        return _textureSize;
     }
 } 
 }

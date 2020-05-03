@@ -40,15 +40,15 @@ namespace CubbyRender {
         virtual ~Texture();
 
         //! Returns the sampling mode of the texture.
-        const TextureSamplingMode& samplingMode() const;
+        const TextureSamplingMode& getSamplingMode() const;
 
         //! Sets the sampling mode of the texture.
         void setSamplingMode(const TextureSamplingMode& mode);
 
+        //! Bind texture to the shader in given slot id 
         void bind(RendererPtr renderer, unsigned int slotID);
 
-        void unbind(RendererPtr renderer, unsigned int slotID);
-
+        //! Destroy the texture from the renderer.
         void destroy();
 
      protected:
@@ -57,9 +57,6 @@ namespace CubbyRender {
 
         //! implementation of bind method
         virtual void onBind(RendererPtr renderer, unsigned int slotID) = 0;
-        
-        //! implementation of unbind method
-        virtual void onUnbind(RendererPtr renderer, unsigned int slotID) = 0;
 
         //! implementation of destry method
         virtual void onDestroy() = 0;        

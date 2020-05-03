@@ -12,9 +12,8 @@
 #define CUBBYFLOW_TEXTURE2D_H
 
 #include <Framework/Utils/Prerequisites.h>
-#include <Framework/Textures/Texture.h>
+#include <Framework/Texture/Texture.h>
 #include <Framework/Utils/Common.h>
-#include <Core/Array/Array2.h>
 #include <Core/Array/ArrayAccessor2.h>
 #include <Core/Size/Size2.h>
 #include <Core/Vector/Vector4.h>
@@ -34,18 +33,20 @@ namespace CubbyRender {
         //! Destructor.
         virtual ~Texture2D();
 
-        //! Updates current texture with given 32-bit color data.
-        virtual void updateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor2<Vector4F>& data, bool storeData) = 0;
+        //! Updates current texture with given 128bit color data.
+        virtual void updateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor2<Vector4F>& data) = 0;
 
-        //! Sets the texture with given 32-bit color data and size.
-        void allocateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor2<Vector4F>& data, bool storeData);
+        //! Updates current texture with given 32bit color data.
+        virtual void updateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor2<Vector4UB>& data) = 0;
 
-        //! Set size of the texture.
-        void setSize(const Size2& size);
+        //! Sets the texture with given 128bit color data and size.
+        void allocateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor2<Vector4F>& data);
 
-        //! Returns the size of the texture.
-        const Size2& size() const;
+        //! Sets the texture with given 32bit color data and size.
+        void allocateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor2<Vector4UB>& data);
 
+        //! Get the size of texture.
+        Size2 getTextureSize() const;
      protected:
         //! Called when sampling mode has changed.
         virtual void onSamplingModeChanged(const TextureSamplingMode& mode) override = 0;
@@ -53,17 +54,16 @@ namespace CubbyRender {
         //! implementation of bind method
         virtual void onBind(RendererPtr renderer, unsigned int slotID) override = 0;
         
-        //! implementation of unbind method
-        virtual void onUnbind(RendererPtr renderer, unsigned int slotID) override = 0;
-
         //! implementation of destry method
         virtual void onDestroy() override = 0;
 
         //! Allocate gpu 
         virtual void onAllocateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor2<Vector4F>& data) = 0;
 
-        Array2<Vector4F> _data;
-        Size2 _size;
+        //! Allocate gpu 
+        virtual void onAllocateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor2<Vector4UB>& data) = 0;
+
+        Size2 _textureSize;
     private:
     };
 

@@ -7,7 +7,7 @@
 > Created Time: 2020/02/24
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
-#include <Framework/Textures/Texture.h>
+#include <Framework/Texture/Texture.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -22,7 +22,7 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
-    const TextureSamplingMode& Texture::samplingMode() const
+    const TextureSamplingMode& Texture::getSamplingMode() const
     {
         return _samplingMode;
     }
@@ -37,15 +37,9 @@ namespace CubbyRender {
         onBind(renderer, slotID);
     }
 
-    void Texture::unbind(RendererPtr renderer, unsigned int slotID)
-    {
-        onUnbind(renderer, slotID);
-    }
-
     void Texture::destroy()
     {
         onDestroy();    
     }
-    
 } 
 }
