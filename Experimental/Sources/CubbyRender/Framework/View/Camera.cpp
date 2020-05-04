@@ -21,7 +21,7 @@ namespace CubbyRender {
     Camera::Camera(const CameraState& camState)
         : _camState(camState)
     {
-
+        //! Do nothing
     }
 
     Camera::~Camera()
@@ -36,7 +36,7 @@ namespace CubbyRender {
         const auto& lookUp = _camState.lookUp;
         const auto& origin = _camState.origin;
         Vector3F right = lookAt.Cross(lookUp).Normalized();
-        Vector3F up = right.Cross(lookAt).Normalized();
+        Vector3F up     = right.Cross(lookAt).Normalized();
 
         Matrix4x4F view = { {right.x    , up.x      , lookAt.x  , origin.x},
                             {right.y    , up.y      , lookAt.y  , origin.y},
