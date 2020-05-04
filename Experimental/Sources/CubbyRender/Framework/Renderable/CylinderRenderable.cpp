@@ -18,7 +18,6 @@
 #include <Framework/Shader/Shader.h>
 #include <Framework/Utils/Common.h>
 
-
 namespace CubbyFlow {
 namespace CubbyRender {
     
@@ -50,28 +49,14 @@ namespace CubbyRender {
         if (_material == nullptr)
         {
             _material = renderer->createMaterial();
-            ShaderPtr shader = renderer->createShaderPreset("collider_shader");
-            _material->setShader(shader);
         }
-        //! set radius uniform variable of the shader.
-        auto& params = _material->getShader()->getParameters();
-        //! params.setParameter("Radius", _radius);
 
         //! allocate and initialize input layout instance.
         if (_inputLayout == nullptr)
         {
             _inputLayout = renderer->createInputLayout();
-            //! create vertex buffer from the positions and colors.
-            VertexBufferPtr buffer = renderer->createVertexBuffer(_vertices.ConstAccessor(), 
-                                                                  static_cast<size_t>(_vertices.size() / size_t(7)),  
-                                                                  VertexFormat::Position3Color4);
-            _inputLayout->attachVertexBuffer(renderer, _material, buffer);
         }
-        else
-        {
-            //! without initialization, update the contents of the buffer.
-            _inputLayout->updateVertexBuffer(renderer, _vertices.ConstAccessor(), VertexFormat::Position3Color4);
-        }
+
         //! Set the primitive type as Point.
         _primitiveType = PrimitiveType::TriangleStrip;
     }

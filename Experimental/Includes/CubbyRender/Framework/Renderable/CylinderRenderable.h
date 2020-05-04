@@ -12,6 +12,7 @@
 
 #include <Framework/Renderable/Renderable.h>
 #include <Core/Geometry/Cylinder3.h>
+#include <Core/Array/Array1.h>
 #include <string>
 
 namespace CubbyFlow {
