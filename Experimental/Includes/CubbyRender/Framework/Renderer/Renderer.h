@@ -14,8 +14,10 @@
 #include <Framework/Buffer/Vertex.h>
 #include <Framework/Renderer/RenderOptions.h>
 #include <Framework/View/Camera.h>
+#include <Framework/Texture/Texture.h>
 #include <Core/Array/ArrayAccessor1.h>
 #include <Core/Array/ArrayAccessor2.h>
+#include <Core/Array/ArrayAccessor3.h>
 #include <Core/Vector/Vector4.h>
 #include <Core/Size/Size2.h>
 #include <vector>
@@ -117,8 +119,35 @@ namespace CubbyRender {
         //! Unbind inputLayout (vertex buffer and index buffer) from this renderer.
         void unbindInputLayout(InputLayoutPtr inputLayout);
 
+        //! Set the camera of the renderer.
         void setCamera(CameraPtr camera);
+
+        //! Get the camera of the renderer.
         const CameraPtr& getCamera() const;
+
+        //! Create the 2d texture from the image data.
+        //! \param data 2d floating-point data of the texture
+        //! \param samplingMode texture sampling mode. select kNearest or kLinear
+        //! \return return genearted 2d texture with given data and sampling mode
+        virtual Texture2DPtr createTexture2D(const ConstArrayAccessor2<Vector4F>& data, TextureSamplingMode samplingMode) = 0;
+
+        //! Create the 2d texture from the image data.
+        //! \param data 2d unsigned char data of the texture
+        //! \param samplingMode texture sampling mode. select kNearest or kLinear
+        //! \return return genearted 2d texture with given data and sampling mode
+        virtual Texture2DPtr createTexture2D(const ConstArrayAccessor2<Vector4UB>& data, TextureSamplingMode samplingMode) = 0;
+
+        //! Create the 3d texture from the image data.
+        //! \param data 3d floating-point data of the texture
+        //! \param samplingMode texture sampling mode. select kNearest or kLinear
+        //! \return return genearted 3d texture with given data and sampling mode
+        virtual Texture3DPtr createTexture3D(const ConstArrayAccessor3<Vector4F>& data, TextureSamplingMode samplingMode) = 0;
+
+        //! Create the 3d texture from the image data.
+        //! \param data 3d unsigned char data of the texture
+        //! \param samplingMode texture sampling mode. select kNearest or kLinear
+        //! \return return genearted 3d texture with given data and sampling mode
+        virtual Texture3DPtr createTexture3D(const ConstArrayAccessor3<Vector4UB>& data, TextureSamplingMode samplingMode) = 0;
     protected:
         virtual void onRenderBegin() = 0;
         virtual void onRenderEnd() = 0;

@@ -25,7 +25,7 @@ namespace CubbyRender {
 
     Renderer::~Renderer()
     {
-        //!clearRenderables();
+        clearRenderables();
     }
 
     void Renderer::render()
@@ -54,8 +54,6 @@ namespace CubbyRender {
     
     void Renderer::clearRenderables()
     {
-        for (auto renderable : _renderables)
-            renderable->release();
         _renderables.clear();
     }
     

@@ -8,6 +8,15 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 
+#include <Framework/Utils/Common.h>
+#include <Framework/Renderer/RenderOptions.h>
+#include <Framework/Texture/Texture.h>
+#include <Framework/Texture/Texture2D.h>
+#include <Framework/Texture/Texture3D.h>
+#include <Core/Array/Array2.h>
+#include <Core/Vector/Vector4.h>
+#include <Core/Utils/Logging.h>
+
 #ifdef CUBBYFLOW_USE_GL
 
 #include <GL3/Renderer/GL3Renderer.h>
@@ -17,13 +26,15 @@
 #include <GL3/Shader/GL3Shader.h>
 #include <GL3/Renderer/GL3Renderer.h>
 #include <GL3/Utils/GL3Common.h>
-#include <Framework/Utils/Common.h>
-#include <Framework/Renderer/RenderOptions.h>
-#include <Core/Array/Array2.h>
-#include <Core/Vector/Vector4.h>
-#include <Core/Utils/Logging.h>
-#include <GLFW/glfw3.h>
+#include <GL3/Texture/GL3Texture.h>
+#include <GL3/Texture/GL3Texture2D.h>
+#include <GL3/Texture/GL3Texture3D.h>
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
+#ifdef CUBBYFLOW_GL3_DEBUG
+    #include <iostream>
+#endif
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -133,6 +144,7 @@ namespace CubbyRender {
 
     GL3Renderer::GL3Renderer()
     {
+        //! Do nothing
     }
 
     GL3Renderer::~GL3Renderer()
@@ -183,7 +195,6 @@ namespace CubbyRender {
             CUBBYFLOW_ERROR << "Failed to initialize OpenGL";
             return -1;                
         }
-        
         onSetRenderState();
         return 0;
     }
@@ -280,6 +291,40 @@ namespace CubbyRender {
         }
         glPointSize(3.0f);
     }
+
+    Texture2DPtr GL3Renderer::createTexture2D(const ConstArrayAccessor2<Vector4F>& data, TextureSamplingMode samplingMode) 
+    {
+        Texture2DPtr texture = std::make_shared<GL3Texture2D>();
+        texture->allocateTexture(shared_from_this(), data);
+        texture->setSamplingMode(samplingMode);
+        return texture;
+    }
+
+    Texture2DPtr GL3Renderer::createTexture2D(const ConstArrayAccessor2<Vector4UB>& data, TextureSamplingMode samplingMode) 
+    {
+        Texture2DPtr texture = std::make_shared<GL3Texture2D>();
+        texture->allocateTexture(shared_from_this(), data);
+        texture->setSamplingMode(samplingMode);
+        return texture;
+    }
+
+    Texture3DPtr GL3Renderer::createTexture3D(const ConstArrayAccessor3<Vector4F>& data, TextureSamplingMode samplingMode)
+    {
+        Texture3DPtr texture = std::make_shared<GL3Texture3D>();
+        texture->allocateTexture(shared_from_this(), data);
+        texture->setSamplingMode(samplingMode);
+        return texture;
+    }
+
+    Texture3DPtr GL3Renderer::createTexture3D(const ConstArrayAccessor3<Vector4UB>& data, TextureSamplingMode samplingMode) 
+    {
+        Texture3DPtr texture = std::make_shared<GL3Texture3D>();
+        texture->allocateTexture(shared_from_this(), data);
+        texture->setSamplingMode(samplingMode);
+        return texture;
+    }
+
+
 } 
 }
 

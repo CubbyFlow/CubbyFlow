@@ -10,11 +10,12 @@
 #ifndef CUBBYFLOW_GLRENDERER_H
 #define CUBBYFLOW_GLRENDERER_H
 
-#ifdef CUBBYFLOW_USE_GL
-
 #include <Framework/Renderer/Renderer.h>
 #include <string>
 #include <memory>
+
+#ifdef CUBBYFLOW_USE_GL
+#include <GL3/Utils/GL3Common.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -73,6 +74,30 @@ namespace CubbyRender {
         //! \param width width of the viewport
         //! \param height height of the viewport.
         void setViewport(int x, int y, size_t width, size_t height) override;
+
+        //! Create the 2d texture from the image data.
+        //! \param data 2d floating-point data of the texture
+        //! \param samplingMode texture sampling mode. select kNearest or kLinear
+        //! \return return genearted 2d texture with given data and sampling mode
+        Texture2DPtr createTexture2D(const ConstArrayAccessor2<Vector4F>& data, TextureSamplingMode samplingMode) override;
+
+        //! Create the 2d texture from the image data.
+        //! \param data 2d unsigned char data of the texture
+        //! \param samplingMode texture sampling mode. select kNearest or kLinear
+        //! \return return genearted 2d texture with given data and sampling mode
+        Texture2DPtr createTexture2D(const ConstArrayAccessor2<Vector4UB>& data, TextureSamplingMode samplingMode) override;
+
+        //! Create the 3d texture from the image data.
+        //! \param data 3d floating-point data of the texture
+        //! \param samplingMode texture sampling mode. select kNearest or kLinear
+        //! \return return genearted 3d texture with given data and sampling mode
+        Texture3DPtr createTexture3D(const ConstArrayAccessor3<Vector4F>& data, TextureSamplingMode samplingMode)override;
+
+        //! Create the 3d texture from the image data.
+        //! \param data 3d unsigned char data of the texture
+        //! \param samplingMode texture sampling mode. select kNearest or kLinear
+        //! \return return genearted 3d texture with given data and sampling mode
+        Texture3DPtr createTexture3D(const ConstArrayAccessor3<Vector4UB>& data, TextureSamplingMode samplingMode) override;
     protected:
         void onRenderBegin() override;
         void onRenderEnd() override;
