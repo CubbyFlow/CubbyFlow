@@ -21,8 +21,6 @@
 #include <GL3/Shader/GL3Shader.h>
 #include <glad/glad.h>
 
-#include <GL3/Utils/GL3Debugging.h>
-#include <iostream>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -87,14 +85,10 @@ namespace CubbyRender {
         GLsizei stride = static_cast<GLsizei>(VertexHelper::getSizeInBytes(_vertexFormat));   
         GLsizeiptr offset = 0;
         
-        std::cout << "vertexformat : " << static_cast<int>(_vertexFormat) << std::endl;
-        std::cout << "stride : " << stride << std::endl;
-        
         if (static_cast<int>(_vertexFormat & VertexFormat::Position3))
         {
             GLint attribLoc = shader->getAttribLocation("position");
             GLint numberOfFloats = static_cast<GLint>(VertexHelper::getNumberOfFloats(VertexFormat::Position3));
-            std::cout << numberOfFloats << std::endl;
             glVertexAttribPointer(static_cast<GLuint>(attribLoc), static_cast<GLint>(numberOfFloats), GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void*>(offset));
             glEnableVertexAttribArray(attribLoc);
             offset += sizeof(float) * numberOfFloats;
@@ -126,18 +120,12 @@ namespace CubbyRender {
             offset += sizeof(float) * numberOfFloats;
         }
         
-        std::cout << "offset : " << offset << std::endl;
         if (static_cast<int>(_vertexFormat & VertexFormat::Color4))
         {
             GLint attribLoc = shader->getAttribLocation("color");
-        CUBBYFLOW_CHECK_GLERROR();
             GLint numberOfFloats = static_cast<GLint>(VertexHelper::getNumberOfFloats(VertexFormat::Color4));
-        CUBBYFLOW_CHECK_GLERROR();
-        std::cout << attribLoc << std::endl;
             glVertexAttribPointer(static_cast<GLuint>(attribLoc), static_cast<GLint>(numberOfFloats), GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void*>(offset));
-        CUBBYFLOW_CHECK_GLERROR();
             glEnableVertexAttribArray(attribLoc);
-        CUBBYFLOW_CHECK_GLERROR();
         }
 
         unbind(renderer); // unbind vertex buffer from the renderer.

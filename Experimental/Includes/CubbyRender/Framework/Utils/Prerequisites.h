@@ -23,6 +23,8 @@ namespace CubbyRender {
     class PointsRenderable;
     class Shader;
     class Texture;
+    class Texture2D;
+    class Texture3D;
     class VertexBuffer;
     class Window;
     class InputLayout;
@@ -41,6 +43,8 @@ namespace CubbyRender {
     using RenderablePtr      = std::shared_ptr<Renderable>;
     using ShaderPtr          = std::shared_ptr<Shader>;
     using TexturePtr         = std::shared_ptr<Texture>;
+    using Texture2DPtr       = std::shared_ptr<Texture2D>;
+    using Texture3DPtr       = std::shared_ptr<Texture3D>;
     using VertexBufferPtr    = std::shared_ptr<VertexBuffer>;
     using WindowPtr          = std::shared_ptr<Window>;
     using SimulationPtr      = std::shared_ptr<Simulation>;

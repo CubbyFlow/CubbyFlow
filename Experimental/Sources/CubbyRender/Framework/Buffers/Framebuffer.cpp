@@ -9,6 +9,7 @@
 *************************************************************************/
 
 #include <Framework/Buffer/Framebuffer.h>
+#include <Framework/Texture/Texture2D.h>
 #include <cassert>
 
 namespace CubbyFlow {
@@ -21,28 +22,27 @@ namespace CubbyRender {
 
     Framebuffer::~Framebuffer()
     {
-        //! Do nothing
+        _colorTextures.clear();
+        _depthTexture.reset();
     }
 
-    void Framebuffer::allocateBuffer(RendererPtr renderer, const std::vector<TexturePtr>& colorTextures, const std::vector<TexturePtr>& depthTextures)
+    void Framebuffer::allocateBuffer(RendererPtr renderer, const std::vector<Texture2DPtr>& colorTextures, Texture2DPtr depthTexture)
     {
         _colorTextures = colorTextures;
-        _depthTextures = depthTextures;
+        _depthTexture = depthTexture;
 
         onAllocateBuffer(renderer);
     }
 
-    TexturePtr Framebuffer::getColorTexture(size_t index)
+    Texture2DPtr Framebuffer::getColorTexture(size_t index)
     {
         assert(size_t(0) <= index && index < _colorTextures.size());
         return _colorTextures[index];
     }
 
-    TexturePtr Framebuffer::getDepthTexture(size_t index)
+    Texture2DPtr Framebuffer::getDepthTexture()
     {
-        assert(size_t(0) <= index && index < _depthTextures.size());
-        return _depthTextures[index];
+        return _depthTexture;
     }
-
 } 
 }

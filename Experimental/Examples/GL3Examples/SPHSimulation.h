@@ -28,6 +28,9 @@ public:
     //! Constructor with fps.
     SPHSimulation(double fps);
 
+    //! Constructor with spacing and fps.
+    SPHSimulation(float spacing, double fps);
+
     //! Default destructor.
     virtual ~SPHSimulation();
 

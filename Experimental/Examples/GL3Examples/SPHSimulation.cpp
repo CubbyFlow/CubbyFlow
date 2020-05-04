@@ -41,7 +41,13 @@ SPHSimulation::SPHSimulation()
 SPHSimulation::SPHSimulation(double fps)
     : Simulation(fps)
 {
+    //! Do nothing
+}
 
+SPHSimulation::SPHSimulation(float spacing, double fps)
+    : Simulation(fps), _spacing(spacing)
+{
+    //! Do nothing
 }
 
 SPHSimulation::~SPHSimulation()
@@ -87,8 +93,8 @@ void SPHSimulation::onResetView(WindowPtr window)
 
     CameraState camState;
     camState.viewport = viewport;
-    camState.origin = Vector3F(0, 0, -3);
-    camState.lookAt = Vector3F(0, 0, 1);
+    camState.origin = Vector3F(0, 2, 0);
+    camState.lookAt = Vector3F(0, -1, 0);
 
     window->setCameraController(std::make_shared<CameraController>(
         std::make_shared<PerspectiveCamera>(camState, 60.0f)
@@ -97,7 +103,7 @@ void SPHSimulation::onResetView(WindowPtr window)
 
 void SPHSimulation::onResetSimulation()
 {
-    BoundingBox3D domain(Vector3D(-1.0f, -1.0f, -1.0f), Vector3D(1.0f, 1.0f, 1.0f));
+    BoundingBox3D domain(Vector3D(-0.5f, -0.5f, -0.5f), Vector3D(0.5f, 0.5f, 0.5f));
 
 	_solver = SPHSolver3::GetBuilder()
 		.WithTargetDensity(1000.0)
@@ -108,7 +114,7 @@ void SPHSimulation::onResetSimulation()
 
 	// Build emitter
 	BoundingBox3D sourceBound(domain);
-	sourceBound.Expand(-_spacing);
+	sourceBound.Expand(-_spacing * 8);
 
 	const auto plane = Plane3::GetBuilder()
 		.WithNormal({ 0, 1, 0 })
@@ -117,7 +123,7 @@ void SPHSimulation::onResetSimulation()
 
 	const auto sphere = Sphere3::GetBuilder()
 		.WithCenter(domain.MidPoint())
-		.WithRadius(0.15 * domain.GetWidth())
+		.WithRadius(0.25 * domain.GetWidth())
 		.MakeShared();
 
 	const auto surfaceSet = ImplicitSurfaceSet3::GetBuilder()

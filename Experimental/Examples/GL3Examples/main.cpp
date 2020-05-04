@@ -34,6 +34,7 @@
 #endif
 
 #include "SPHSimulation.h"
+#include "PICSimulation.h"
 
 #define APP_NAME "GL3Examples"
 
@@ -49,7 +50,6 @@ int main(int argc, char* argv[])
     double fps = 60.0;
     std::string logFileName = APP_NAME ".log";
     std::string outputDir = APP_NAME "_output";
-    std::string format = "null";
 
     // Parsing
     auto parser =

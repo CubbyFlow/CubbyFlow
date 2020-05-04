@@ -30,17 +30,17 @@ namespace CubbyRender {
         //! Default destructor.
         virtual ~Framebuffer();
 
-        //! allocate framebuffer with already configured textures.
-        void allocateBuffer(RendererPtr renderer, const std::vector<TexturePtr>& colorTextures, const std::vector<TexturePtr>& depthTextures);
+        //! allocate framebuffer with pre-configured textures.
+        void allocateBuffer(RendererPtr renderer, const std::vector<Texture2DPtr>& colorTextures, Texture2DPtr depthTexture);
 
         //! Get color texture pointer with index 
-        TexturePtr getColorTexture(size_t index);
+        Texture2DPtr getColorTexture(size_t index);
 
         //! Get depth texture pointer with index 
-        TexturePtr getDepthTexture(size_t index);
+        Texture2DPtr getDepthTexture();
 
         //! configure framebuffer with currently binded color and depth textures.
-        virtual void configure() = 0;
+        virtual void configure(RendererPtr renderer) = 0;
 
     protected:
         //! implementation of bind method
@@ -55,8 +55,8 @@ namespace CubbyRender {
         //! implementation of allocate framebuffer
         virtual void onAllocateBuffer(RendererPtr renderer) = 0;
 
-        std::vector<TexturePtr> _colorTextures;
-        std::vector<TexturePtr> _depthTextures;
+        std::vector<Texture2DPtr> _colorTextures;
+        Texture2DPtr _depthTexture { nullptr };
     private:
     };
 

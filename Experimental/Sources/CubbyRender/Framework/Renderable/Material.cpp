@@ -11,7 +11,7 @@
 #include <Framework/Renderable/Material.h>
 #include <Framework/Renderer/Renderer.h>
 #include <Framework/Shader/Shader.h>
-#include <Framework/Textures/Texture.h>
+#include <Framework/Texture/Texture.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -61,12 +61,6 @@ namespace CubbyRender {
     void Material::unbind(RendererPtr renderer)
     {
         _shader->unbind(renderer);
-        for (auto iter = _textures.begin(); iter < _textures.end(); ++iter)
-        {
-            unsigned int slotID = iter->first;
-            const TexturePtr& texture = iter->second;
-            texture->unbind(renderer, slotID);
-        }
     }
 
     void Material::release()
