@@ -74,9 +74,10 @@ namespace CubbyRender {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	    glfwWindowHint(GLFW_SAMPLES, 4);
 	    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-#if defined(CUBBYFLOW_MACOSX)
+#ifdef CUBBYFLOW_MACOSX
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
+
 
         _mainWindow = std::make_shared<GL3Window>(title, width, height);
 

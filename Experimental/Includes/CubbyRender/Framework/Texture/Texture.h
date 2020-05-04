@@ -20,7 +20,7 @@ namespace CubbyFlow {
 namespace CubbyRender {
 
     //! Texture sampling modes.
-    enum class TextureSamplingMode : uint8_t 
+    enum class TextureSamplingMode : unsigned char
     {
         //! Sample nearest pixel.
         kNearest = 0,
@@ -61,8 +61,8 @@ namespace CubbyRender {
         //! implementation of destry method
         virtual void onDestroy() = 0;        
 
-     private:
         TextureSamplingMode _samplingMode = TextureSamplingMode::kNearest;
+     private:
     };
 
     using TexturePtr = std::shared_ptr<Texture>;

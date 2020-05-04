@@ -22,15 +22,19 @@ namespace CubbyRender {
     class GL3Texture;
     class GL3VertexBuffer;
     class GL3IndexBuffer;
+    class GL3Texture;
+    class GL3Texture2D;
+    class GL3Texture3D;
     class GL3Window;
 
-    using GL3Renderer = std::shared_ptr<GL3Renderer>;
-    using GL3Shader = std::shared_ptr<GL3Shader>;
-    using GL3Application = std::shared_ptr<GL3Application>;
-    using GL3Texture = std::shared_ptr<GL3Texture>;
-    using GL3VertexBuffer = std::shared_ptr<GL3VertexBuffer>;
-    using GL3IndexBuffer = std::shared_ptr<GL3IndexBuffer>;
-    using GL3Window = std::shared_ptr<GL3Window>;
+    using GL3RendererPtr        = std::shared_ptr<GL3Renderer>;
+    using GL3ShaderPtr          = std::shared_ptr<GL3Shader>;
+    using GL3ApplicationPtr     = std::shared_ptr<GL3Application>;
+    using GL3VertexBufferPtr    = std::shared_ptr<GL3VertexBuffer>;
+    using GL3TexturePtr         = std::shared_ptr<GL3Texture>;
+    using GL3Texture2DPtr       = std::shared_ptr<GL3Texture2D>;
+    using GL3Texture3DPtr       = std::shared_ptr<GL3Texture3D>;
+    using GL3WindowPtr          = std::shared_ptr<GL3Window>;
 }
 }
 

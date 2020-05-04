@@ -1,22 +1,23 @@
 /*************************************************************************
-> File Name: GLTexture2D.h
+> File Name: GL3Texture3D.h
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: the abstract base class for texture/
-> Created Time: 2020/05/03
+> Created Time: 2020/05/04
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
-#ifndef CUBBYFLOW_GL_TEXTURE2D_H
-#define CUBBYFLOW_GL_TEXTURE2D_H
+#ifndef CUBBYFLOW_GL_TEXTURE3D_H
+#define CUBBYFLOW_GL_TEXTURE3D_H
 
 #include <Framework/Utils/Prerequisites.h>
 #include <Framework/Utils/Common.h>
-#include <Framework/Texture/Texture2D.h>
+#include <Framework/Texture/Texture3D.h>
 #include <cstdint>
 #include <memory>
 
 #ifdef CUBBYFLOW_USE_GL
+#include <GL3/Texture/GL3Texture.h>
 #include <GL3/Utils/GL3Common.h>
 
 namespace CubbyFlow {
@@ -24,20 +25,20 @@ namespace CubbyRender {
 
 
     //! Abstract base class for textures.
-    class GLTexture2D : public GLTexture, Texture2D
+    class GL3Texture3D : public GL3Texture, public Texture3D
     {
     public:
         //! Default constructor.
-        GLTexture2D();
+        GL3Texture3D();
 
         //! Destructor.
-        virtual ~GLTexture2D();
+        virtual ~GL3Texture3D();
 
         //! Updates current texture with given 128bit color data.
-        void updateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor2<Vector4F>& data) override;
+        void updateTexture(RendererPtr renderer, const ConstArrayAccessor3<Vector4F>& data) override;
 
         //! Updates current texture with given 32bit color data.
-        void updateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor2<Vector4UB>& data) override;
+        void updateTexture(RendererPtr renderer, const ConstArrayAccessor3<Vector4UB>& data) override;
 
      protected:
         //! Called when sampling mode has changed.
@@ -50,14 +51,14 @@ namespace CubbyRender {
         void onDestroy() override;
 
         //! Allocate gpu 
-        void onAllocateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor2<Vector4F>& data) override;
+        void onAllocateTexture(RendererPtr renderer, const ConstArrayAccessor3<Vector4F>& data) override;
 
         //! Allocate gpu 
-        void onAllocateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor2<Vector4UB>& data) override;
+        void onAllocateTexture(RendererPtr renderer, const ConstArrayAccessor3<Vector4UB>& data) override;
      private:
     };
 
-    using GLTexture2DPtr = std::shared_ptr<GLTexture2D>;
+    using GL3Texture3DPtr = std::shared_ptr<GL3Texture3D>;
 } 
 } 
 

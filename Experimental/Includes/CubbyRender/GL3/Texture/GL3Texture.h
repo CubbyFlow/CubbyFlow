@@ -1,5 +1,5 @@
 /*************************************************************************
-> File Name: GLTexture.h
+> File Name: GL3Texture.h
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
@@ -22,7 +22,7 @@ namespace CubbyFlow {
 namespace CubbyRender {
 
     //! Texture sampling modes.
-    struct GLTextureParameters
+    struct GL3TextureParameters
     {
         GLuint minFilter = GL_NEAREST;
         GLuint magFilter = GL_NEAREST;
@@ -32,47 +32,47 @@ namespace CubbyRender {
     };
 
     //! Abstract base class for textures.
-    class GLTexture
+    class GL3Texture
     {
     public:
         //! Default constructor.
-        GLTexture();
+        GL3Texture();
 
         //! Constructor with target id.
-        GLTexture(GLuint target);
+        GL3Texture(GLuint target);
 
         //! Destructor.
-        virtual ~GLTexture();
-
-        //! Set the parameters of the texture which will be generated.
-        void setGLTextureParameters(const GLTextureParameters& glTexParams);
-
-        //! Get teh parameters of the texture.
-        GLTextureParameters getGLTextureParameters() const;
+        virtual ~GL3Texture();
 
         //! Get the id of the opengl texture.
         GLuint getGLTextureID() const;
 
      protected:
         //! create texture and allocate id value.
-        void createTexture();
+        void createGLTexture();
 
         //! destroy texture 
-        void destroyTexture();
+        void destroyGLTexture();
 
         //! bind texture to the renderer.
-        void bindTexture(unsigned int slotID);
+        void bindGLTexture(unsigned int slotID);
 
         //! get texture target.
         GLuint getTextureTarget() const;
 
+        //! Set the parameters of the texture which will be generated.
+        void setGLTextureParameters(const GL3TextureParameters& glTexParams);
+
+        //! Get teh parameters of the texture.
+        GL3TextureParameters getGLTextureParameters() const;
+
      private:
-        GLTextureParameters _glTexParams;
+        GL3TextureParameters _glTexParams;
         GLuint _textureID;
         GLuint _target;
     };
 
-    using GLTexturePtr = std::shared_ptr<GLTexture>;
+    using GL3TexturePtr = std::shared_ptr<GL3Texture>;
 
 } 
 } 

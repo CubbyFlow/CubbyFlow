@@ -22,7 +22,7 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
-    void Texture3D::allocateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor3<Vector4F>& data)
+    void Texture3D::allocateTexture(RendererPtr renderer, const ConstArrayAccessor3<Vector4F>& data)
     {
         if (data.size() == Size3())
         {
@@ -30,17 +30,17 @@ namespace CubbyRender {
         }
         else if (data.size() == _textureSize)
         {
-            updateTexture(renderer, material, data);
+            updateTexture(renderer, data);
         }
         else
         {
             destroy();
             _textureSize = data.size();
-            onAllocateTexture(renderer, material, data);
+            onAllocateTexture(renderer, data);
         }
     }
 
-    void Texture3D::allocateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor3<Vector4UB>& data)
+    void Texture3D::allocateTexture(RendererPtr renderer, const ConstArrayAccessor3<Vector4UB>& data)
     {
         if (data.size() == Size3())
         {
@@ -48,13 +48,13 @@ namespace CubbyRender {
         }
         else if (data.size() == _textureSize)
         {
-            updateTexture(renderer, material, data);
+            updateTexture(renderer, data);
         }
         else
         {
             destroy();
             _textureSize = data.size();
-            onAllocateTexture(renderer, material, data);
+            onAllocateTexture(renderer, data);
         }
     }
 

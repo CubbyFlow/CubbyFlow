@@ -34,16 +34,16 @@ namespace CubbyRender {
         virtual ~Texture3D();
 
         //! Updates current texture with given 128bit color data.
-        virtual void updateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor3<Vector4F>& data) = 0;
+        virtual void updateTexture(RendererPtr renderer, const ConstArrayAccessor3<Vector4F>& data) = 0;
 
         //! Updates current texture with given 32bit color data.
-        virtual void updateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor3<Vector4UB>& data) = 0;
+        virtual void updateTexture(RendererPtr renderer, const ConstArrayAccessor3<Vector4UB>& data) = 0;
 
         //! Sets the texture with given 128bit color data and size.
-        void allocateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor3<Vector4F>& data);
+        void allocateTexture(RendererPtr renderer, const ConstArrayAccessor3<Vector4F>& data);
 
         //! Sets the texture with given 32bit color data and size.
-        void allocateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor3<Vector4UB>& data);
+        void allocateTexture(RendererPtr renderer, const ConstArrayAccessor3<Vector4UB>& data);
 
         //! Get the size of texture.
         Size3 getTextureSize() const;
@@ -58,10 +58,10 @@ namespace CubbyRender {
         virtual void onDestroy() override = 0;
 
         //! Allocate gpu 
-        virtual void onAllocateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor3<Vector4F>& data) = 0;
+        virtual void onAllocateTexture(RendererPtr renderer, const ConstArrayAccessor3<Vector4F>& data) = 0;
 
         //! Allocate gpu 
-        virtual void onAllocateTexture(RendererPtr renderer, MaterialPtr material, const ConstArrayAccessor3<Vector4UB>& data) = 0;
+        virtual void onAllocateTexture(RendererPtr renderer, const ConstArrayAccessor3<Vector4UB>& data) = 0;
 
         Size3 _textureSize;
     private:
