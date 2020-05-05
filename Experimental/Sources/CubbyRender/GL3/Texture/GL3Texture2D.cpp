@@ -91,7 +91,7 @@ namespace CubbyRender {
         glTexParameteri(target, GL_TEXTURE_WRAP_T, texParam.wrapT);
 
         glTexImage2D(target, 0, GL_RGBA8, static_cast<GLsizei>(_textureSize.x),
-                     static_cast<GLsizei>(_textureSize.y), 0, GL_RGBA, GL_UNSIGNED_BYTE,
+                     static_cast<GLsizei>(_textureSize.y), 0, GL_RGBA, GL_FLOAT,
                      data.data());
     }
 
@@ -109,7 +109,7 @@ namespace CubbyRender {
         glTexParameteri(target, GL_TEXTURE_WRAP_T, texParam.wrapT);
 
         glTexImage2D(target, 0, GL_RGBA8, static_cast<GLsizei>(_textureSize.x),
-                     static_cast<GLsizei>(_textureSize.y), 0, GL_RGBA, GL_FLOAT,
+                     static_cast<GLsizei>(_textureSize.y), 0, GL_RGBA, GL_UNSIGNED_BYTE,
                      data.data());
     }
 
