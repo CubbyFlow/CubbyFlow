@@ -23,7 +23,7 @@ namespace CubbyRender {
     
     CylinderRenderable::CylinderRenderable()
     {
-
+        //! Do nothing.
     }
 
     CylinderRenderable::CylinderRenderable(const Cylinder3Ptr& cylinder)
@@ -33,11 +33,12 @@ namespace CubbyRender {
     
     CylinderRenderable::~CylinderRenderable()
     {
-
+        //! Do nothing.
     }
 
     void CylinderRenderable::update(const Cylinder3Ptr& cylinder)
     {
+        UNUSED_VARIABLE(cylinder);
         std::lock_guard<std::mutex> lock(_dataMutex);
         //! rebuilding vertices ...
         invalidateResources();
