@@ -29,12 +29,7 @@
 #include <GL3/Texture/GL3Texture.h>
 #include <GL3/Texture/GL3Texture2D.h>
 #include <GL3/Texture/GL3Texture3D.h>
-#include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
-#ifdef CUBBYFLOW_GL3_DEBUG
-    #include <iostream>
-#endif
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -289,7 +284,9 @@ namespace CubbyRender {
         {
             glDisable(GL_DEPTH_TEST);
         }
+        
         glPointSize(3.0f);
+
     }
 
     Texture2DPtr GL3Renderer::createTexture2D(const ConstArrayAccessor2<Vector4F>& data, TextureSamplingMode samplingMode) 

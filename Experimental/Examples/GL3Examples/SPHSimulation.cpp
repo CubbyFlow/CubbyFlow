@@ -93,8 +93,8 @@ void SPHSimulation::onResetView(WindowPtr window)
 
     CameraState camState;
     camState.viewport = viewport;
-    camState.origin = Vector3F(0, 2, 0);
-    camState.lookAt = Vector3F(0, -1, 0);
+    camState.origin = Vector3F(0, 0, 4);
+    camState.lookAt = Vector3F(0, 0, -1);
 
     window->setCameraController(std::make_shared<CameraController>(
         std::make_shared<PerspectiveCamera>(camState, 60.0f)
