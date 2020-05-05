@@ -20,8 +20,8 @@ TEST(GL3VertexBuffer, Constructor)
 	ApplicationPtr application = std::make_shared<GL3Application>();
     int result = application->initialize();
     
-    WindowPtr window = application->createMainWindow("Test Window", 600, 400);
-    RendererPtr gl = window->getRenderer();
+    application->createMainWindow("Test Window", 600, 400);
+    RendererPtr gl = application->getMainWindow()->getRenderer();
 
     Array1<float> vertices = {
         0.5f,  0.5f, 0.0f,  // top right

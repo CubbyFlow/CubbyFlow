@@ -20,8 +20,8 @@ TEST(GL3IndexBuffer, Constructor)
 	ApplicationPtr application = std::make_shared<GL3Application>();
     int result = application->initialize();
     
-    WindowPtr window = application->createMainWindow("Test Window", 600, 400);
-    RendererPtr gl = window->getRenderer();
+    application->createMainWindow("Test Window", 600, 400);
+    RendererPtr gl = application->getMainWindow()->getRenderer();
     
     Array1<unsigned int> indices = {  // note that we start from 0!
         0, 1, 3,   // first triangle

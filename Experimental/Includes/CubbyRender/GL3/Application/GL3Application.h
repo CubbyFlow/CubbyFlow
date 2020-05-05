@@ -45,11 +45,13 @@ namespace CubbyRender {
         int run(int numberOfFrames, EncodingCallback makeScreenshot = nullptr) override;
         
         //! Create window and return it.
-        WindowPtr createMainWindow(const std::string& title, int width, int height) override;
+        void createMainWindow(const std::string& title, int width, int height) override;
+
+        //! Return Main window of the application.
+        WindowPtr getMainWindow() override;
 
         //! Destroy the application.
         void terminate() override;
-        
     protected:
         //! Validate the application whether the app can run simulation or not.
         bool validateApplication() override;
@@ -66,6 +68,8 @@ namespace CubbyRender {
         static void onCharMods(GLFWwindow* glfwWindow, unsigned int code, int mods);
         static void onDrop(GLFWwindow* glfwWindow, int numDroppedFiles, const char** pathNames);
         static void onErrorEvent(int error, const char* description);
+
+        GL3WindowPtr _mainWindow;
     };
 
     using GL3ApplicationPtr = std::shared_ptr<GL3Application>;

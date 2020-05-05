@@ -19,8 +19,8 @@ TEST(GL3Texture2D, Constructor)
 	ApplicationPtr application = std::make_shared<GL3Application>();
     application->initialize();
     
-    WindowPtr window = application->createMainWindow("Test Window", 600, 400);
-    RendererPtr gl = window->getRenderer();
+    application->createMainWindow("Test Window", 600, 400);
+    RendererPtr gl = application->getMainWindow()->getRenderer();
 
     ImageLoader loader;
     bool result = loader.loadImage(RESOURCES_DIR "textures/metal.png");

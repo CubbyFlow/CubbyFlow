@@ -43,20 +43,18 @@ namespace CubbyRender {
         //! Run the application with limited frames and fps.
         virtual int run(int numberOfFrames, EncodingCallback makeScreenshot = nullptr) = 0;
 
-        //! Create window and return it.
-        virtual WindowPtr createMainWindow(const std::string& title, int width, int height) = 0;
+        //! Create window with window title, width, height.
+        virtual void createMainWindow(const std::string& title, int width, int height) = 0;
+
+        //! Return Main window of the application.
+        virtual WindowPtr getMainWindow() = 0;
 
         //! Destroy the application.
         virtual void terminate() = 0;
-
-        //! Get main window ptr.
-        const WindowPtr& getMainWindow() const;
     protected:
         //! Validate the application whether the app can run simulation or not.
         //! If this method return true, the application can run any simulation.
         virtual bool validateApplication() = 0;
-        
-        WindowPtr _mainWindow;
     private:
     
     };

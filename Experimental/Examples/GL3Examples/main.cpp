@@ -105,7 +105,9 @@ int main(int argc, char* argv[])
         return -1;
     }
     
-    auto window = application->createMainWindow("SPH Simulation", resX, resY);
+    application->createMainWindow("SPH Simulation", resX, resY);
+    
+    auto window = application->getMainWindow();
     window->registerSimulation(std::make_shared<SPHSimulation>(fps));
     
 #ifdef CUBBYFLOW_RECORDING

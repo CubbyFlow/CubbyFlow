@@ -20,8 +20,8 @@ TEST(GL3VertexArrayObject, Constructor)
 	ApplicationPtr application = std::make_shared<GL3Application>();
     int result = application->initialize();
     
-    WindowPtr window = application->createMainWindow("Test Window", 600, 400);
-    RendererPtr gl = window->getRenderer();
+    application->createMainWindow("Test Window", 600, 400);
+    RendererPtr gl = application->getMainWindow()->getRenderer();
 
     
     EXPECT_EQ(0, CUBBYFLOW_CHECK_GLERROR());

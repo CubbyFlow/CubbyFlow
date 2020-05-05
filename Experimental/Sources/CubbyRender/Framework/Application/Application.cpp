@@ -22,10 +22,5 @@ namespace CubbyRender {
     {
         //! Do nothing.
     }
-
-    const WindowPtr& Application::getMainWindow() const
-    {
-        return _mainWindow;
-    }
 } 
 }
