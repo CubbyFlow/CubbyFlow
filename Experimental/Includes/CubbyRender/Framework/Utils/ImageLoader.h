@@ -11,8 +11,9 @@
 #define CUBBYFLOW_IMAGELOADER_H
 
 #include <Framework/Utils/Prerequisites.h>
-#include <Core/Array/Array3.h>
-#include <Core/Size/Size3.h>
+#include <Core/Array/Array2.h>
+#include <Core/Size/Size2.h>
+#include <Core/Vector/Vector4.h>
 #include <string>
 #include <memory>
 
@@ -29,15 +30,15 @@ namespace CubbyRender {
         ~ImageLoader();
 
         //! load image at the given path. 
-        void loadImage(const std::string& path);
+        bool loadImage(const std::string& path) noexcept;
 
         //! Get the width x height of the image.
-        Size3 getImageSize() const;
+        Size2 getImageSize() const;
 
         //! Return the const array accessor of the image data;
-        ConstArrayAccessor3<unsigned char> getImageAccessor() const;
+        ConstArrayAccessor2<Vector4UB> getImageAccessor() const;
     private:
-        Array3<unsigned char> _data;
+        Array2<Vector4UB> _data;
     };
 
     using ImageLoaderPtr = std::shared_ptr<ImageLoader>;

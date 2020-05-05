@@ -15,7 +15,6 @@
 #include <stb_image.h>
 
 #include <cstring>
-#include <cassert>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -30,31 +29,37 @@ namespace CubbyRender {
         //! Do nothing
     }
 
-    void ImageLoader::loadImage(const std::string& path)
+    bool ImageLoader::loadImage(const std::string& path) noexcept
     {
         int width, height, channels;
         stbi_set_flip_vertically_on_load(true);
         unsigned char *image = stbi_load(path.c_str(), &width, &height, &channels, 0/*STBI_rgb_alpha*/); 
-        
+        //i + Width() * j + Width() * Height() * k
+
         if (image == nullptr || width == 0 || height == 0 || channels == 0)
         {
-            CUBBYFLOW_ERROR << "Failed to loading image [" << path << "]";
-            std::abort();
+            return false;
         }
 
-        _data.Resize(width, height, channels);
+        _data.Resize(width, height, Vector4UB(0, 0, 0, 255));
+        _data.ParallelForEachIndex([&](size_t i, size_t j){
+            Vector4UB& pixel = _data.At(i, j);
+            for (size_t c = 0; c < static_cast<size_t>(channels); ++c)
+            {
+                pixel.At(c) = image[i + static_cast<size_t>(width) * j + static_cast<size_t>(width) * static_cast<size_t>(height) * c];
+            }
+        });
 
-        unsigned char* dst = _data.data();
-        const size_t size = width * height * channels * sizeof(unsigned char);
-        std::memcpy(static_cast<void*>(dst), static_cast<void*>(image), size);
+        stbi_image_free(static_cast<void*>(image));
+        return true;
     }
 
-    Size3 ImageLoader::getImageSize() const
+    Size2 ImageLoader::getImageSize() const
     {
         return _data.size();
     }
 
-    ConstArrayAccessor3<unsigned char> ImageLoader::getImageAccessor() const
+    ConstArrayAccessor2<Vector4UB> ImageLoader::getImageAccessor() const
     {
         return _data.ConstAccessor();
     }
