@@ -18,7 +18,7 @@ using namespace CubbyRender;
 TEST(GL3IndexBuffer, Constructor)
 {
 	ApplicationPtr application = std::make_shared<GL3Application>();
-    int result = application->initialize();
+    EXPECT_EQ(0, application->initialize());
     
     application->createMainWindow("Test Window", 600, 400);
     RendererPtr gl = application->getMainWindow()->getRenderer();

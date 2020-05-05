@@ -18,11 +18,11 @@ using namespace CubbyRender;
 TEST(GL3VertexArrayObject, Constructor)
 {
 	ApplicationPtr application = std::make_shared<GL3Application>();
-    int result = application->initialize();
+    EXPECT_EQ(0, application->initialize());
     
     application->createMainWindow("Test Window", 600, 400);
     RendererPtr gl = application->getMainWindow()->getRenderer();
-
+    gl->createInputLayout();
     
     EXPECT_EQ(0, CUBBYFLOW_CHECK_GLERROR());
 }

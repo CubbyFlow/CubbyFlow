@@ -18,14 +18,13 @@ TEST(GL3Application, Constructor)
 TEST(GL3Application, Initialize)
 {
 	ApplicationPtr application = std::make_shared<GL3Application>();
-    int result = application->initialize();
-    EXPECT_EQ(0, result);
+    EXPECT_EQ(0, application->initialize());
 }
 
 TEST(GL3Application, CreateMainWindow)
 {
 	ApplicationPtr application = std::make_shared<GL3Application>();
-    int result = application->initialize();
+    EXPECT_EQ(0, application->initialize());
     
     application->createMainWindow("Test Window", 600, 400);
     EXPECT_EQ(0, CUBBYFLOW_CHECK_GLERROR());
@@ -34,13 +33,10 @@ TEST(GL3Application, CreateMainWindow)
 TEST(GL3Application, Run)
 {
 	ApplicationPtr application = std::make_shared<GL3Application>();
-    int result = application->initialize();
+    EXPECT_EQ(0, application->initialize());
     
     application->createMainWindow("Test Window", 600, 400);
-
-    result = application->run(5);
-    EXPECT_EQ(0, result);
-
+    EXPECT_EQ(0, application->run(3));
     EXPECT_EQ(0, CUBBYFLOW_CHECK_GLERROR());
 }
 
