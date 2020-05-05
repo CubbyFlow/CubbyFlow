@@ -218,7 +218,7 @@ namespace CubbyRender {
 
     void GL3Renderer::setViewport(int x, int y, size_t width, size_t height)
     {
-        glViewport(x, y, width, height);
+        glViewport(x, y, static_cast<GLsizei>(width), static_cast<GLsizei>(height));
     }
 
     void GL3Renderer::onRenderBegin() 
