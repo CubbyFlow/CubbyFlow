@@ -51,15 +51,30 @@ set(CMAKE_MACOSX_RPATH ON)
 # Set resources
 set(RESOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Resources)
 
-set(RESOURCES_OBJS  bunny.obj 
-                    cube.obj 
-                    dragon.obj 
-                    sphere.obj)
+set(RESOURCES_OBJS  objects/bunny.obj 
+                    objects/cube.obj 
+                    objects/dragon.obj 
+                    objects/sphere.obj)
+
+set(RESOURCES_TEXTURES  textures/bricks2_disp.jpg
+                        textures/bricks2_normal.jpg
+                        textures/bricks2.jpg
+                        textures/container.jpg
+                        textures/container2_specular_colored.png
+                        textures/container2_specular.png
+                        textures/container2.png
+                        textures/grass.png
+                        textures/metal.png
+                        textures/wood.png)                    
 
 # we don't want to copy if we're building in the source dir
 if (NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
     # Copy all resoucre objs to binary directory.
     foreach(item IN LISTS RESOURCES_OBJS)
+        configure_file(${RESOURCES_DIR}/${item} ${CMAKE_CURRENT_BINARY_DIR}/bin/Resources/${item} COPYONLY)
+    endforeach()
+
+    foreach(item IN LISTS RESOURCES_TEXTURES)
         configure_file(${RESOURCES_DIR}/${item} ${CMAKE_CURRENT_BINARY_DIR}/bin/Resources/${item} COPYONLY)
     endforeach()
 endif()
