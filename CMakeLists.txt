@@ -51,10 +51,10 @@ set(CMAKE_MACOSX_RPATH ON)
 # Set resources
 set(RESOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Resources)
 
-set(RESOURCES_OBJS  objects/bunny.obj 
-                    objects/cube.obj 
-                    objects/dragon.obj 
-                    objects/sphere.obj)
+set(RESOURCES_OBJS  bunny.obj 
+                    cube.obj 
+                    dragon.obj 
+                    sphere.obj)
 
 set(RESOURCES_TEXTURES  textures/bricks2_disp.jpg
                         textures/bricks2_normal.jpg
