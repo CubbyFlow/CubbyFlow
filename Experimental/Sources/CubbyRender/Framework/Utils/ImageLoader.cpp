@@ -41,12 +41,13 @@ namespace CubbyRender {
             return false;
         }
 
-        _data.Resize(width, height, Vector4UB(0, 0, 0, 255));
+        const size_t kWidth  = width, kHeight = height, kChannels = channels;
+        _data.Resize(kWidth, kHeight, Vector4UB(0, 0, 0, 255));
         _data.ParallelForEachIndex([&](size_t i, size_t j){
-            Vector4UB& pixel = _data.At(i, j);
-            for (size_t c = 0; c < static_cast<size_t>(channels); ++c)
+            auto& pixel = _data.At(i, j);
+            for (size_t c = 0; c < kChannels; ++c)
             {
-                pixel.At(c) = image[i + static_cast<size_t>(width) * j + static_cast<size_t>(width) * static_cast<size_t>(height) * c];
+                pixel.At(c) = image[i + kWidth * j + kWidth * kHeight * c];
             }
         });
 
@@ -63,6 +64,5 @@ namespace CubbyRender {
     {
         return _data.ConstAccessor();
     }
-
 }
 }

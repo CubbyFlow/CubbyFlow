@@ -188,7 +188,7 @@ namespace CubbyRender {
         }
         if (!ret) 
         {
-            CUBBYFLOW_ERROR << "Abort because of LoadObj failed";
+            CUBBYFLOW_ERROR << "LoadObj failed";
             return false;
         }
         CUBBYFLOW_INFO << "tinyobj::LoadObj with obj file [" << objPath << "] took " << timer.DurationInSeconds() << " seconds";
