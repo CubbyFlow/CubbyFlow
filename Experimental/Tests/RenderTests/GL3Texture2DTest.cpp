@@ -19,13 +19,17 @@ TEST(GL3Texture2D, Constructor)
 	ApplicationPtr application = std::make_shared<GL3Application>();
     EXPECT_EQ(0, application->initialize());
     
-    application->createMainWindow("Test Window", 600, 400);
+    TestWindowPtr window = std::make_shared<TestWindow>("TestWindow", 600, 400);
+    application->setMainWindow(window);
     RendererPtr gl = application->getMainWindow()->getRenderer();
 
     ImageLoader loader;
     EXPECT_EQ(true, loader.loadImage(RESOURCES_DIR "textures/metal.png"));
+    
+    Size2 textureSize = loader.getImageSize();
+    TextureParams params; //! default setting.
 
-    Texture2DPtr texture = gl->createTexture2D(loader.getImageAccessor(), TextureSamplingMode::kNearest);
+    Texture2DPtr texture = gl->createTexture2D(params, textureSize, static_cast<void*>(loader.getImageAccessor().data()));
     EXPECT_EQ(0, CUBBYFLOW_CHECK_GLERROR());
 }
 

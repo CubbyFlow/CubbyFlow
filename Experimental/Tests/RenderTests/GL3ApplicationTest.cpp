@@ -26,7 +26,8 @@ TEST(GL3Application, CreateMainWindow)
 	ApplicationPtr application = std::make_shared<GL3Application>();
     EXPECT_EQ(0, application->initialize());
     
-    application->createMainWindow("Test Window", 600, 400);
+    TestWindowPtr window = std::make_shared<TestWindow>("TestWindow", 600, 400);
+    application->setMainWindow(window);
     EXPECT_EQ(0, CUBBYFLOW_CHECK_GLERROR());
 }
 
@@ -35,7 +36,8 @@ TEST(GL3Application, Run)
 	ApplicationPtr application = std::make_shared<GL3Application>();
     EXPECT_EQ(0, application->initialize());
     
-    application->createMainWindow("Test Window", 600, 400);
+    TestWindowPtr window = std::make_shared<TestWindow>("TestWindow", 600, 400);
+    application->setMainWindow(window);
     EXPECT_EQ(0, application->run(3));
     EXPECT_EQ(0, CUBBYFLOW_CHECK_GLERROR());
 }

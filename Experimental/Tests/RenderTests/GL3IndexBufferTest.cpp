@@ -20,7 +20,8 @@ TEST(GL3IndexBuffer, Constructor)
 	ApplicationPtr application = std::make_shared<GL3Application>();
     EXPECT_EQ(0, application->initialize());
     
-    application->createMainWindow("Test Window", 600, 400);
+    TestWindowPtr window = std::make_shared<TestWindow>("TestWindow", 600, 400);
+    application->setMainWindow(window);
     RendererPtr gl = application->getMainWindow()->getRenderer();
     
     Array1<unsigned int> indices = {  // note that we start from 0!
