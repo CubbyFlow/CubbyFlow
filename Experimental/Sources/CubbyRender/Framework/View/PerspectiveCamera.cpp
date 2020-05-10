@@ -36,17 +36,15 @@ namespace CubbyRender {
     {
         //! http://www.songho.ca/opengl/gl_projectionmatrix.html
         //! https://github.com/g-truc/glm/blob/master/glm/ext/matrix_clip_space.inl
-        Matrix4x4F projection(0.0f);
-        const float tanHalfFovy = std::tan(0.45f / static_cast<float>(2));
-        const float aspect = _camState.viewport.getWidth() / _camState.viewport.getHeight();
-        const float zNear = _camState.zNear;
-        const float zFar = _camState.zFar;
+        const float aspect = static_cast<float>(_camState.viewport.getWidth()) / _camState.viewport.getHeight();
+        const float fovTan = 1.0f / std::tan((PI_FLOAT * _fov / 180.0f) / 2.0f);
         
-		projection(0, 0) = static_cast<float>(1) / (aspect * tanHalfFovy);
-		projection(1, 1) = static_cast<float>(1) / (tanHalfFovy);
-		projection(2, 2) = zFar / (zNear - zFar);
-		projection(2, 3) = - static_cast<float>(1);
-		projection(3, 2) = -(zFar * zNear) / (zFar - zNear);
+        Matrix4x4F projection(0.0f);
+		projection(0, 0) = fovTan / aspect;
+		projection(1, 1) = fovTan;
+		projection(2, 2) = -(_camState.zFar - _camState.zNear) / (_camState.zFar + _camState.zNear);
+		projection(2, 3) = -1.0f;
+		projection(3, 2) = -2.0f * _camState.zFar * _camState.zNear / (_camState.zFar - _camState.zNear);
         return projection;
     }
 } 

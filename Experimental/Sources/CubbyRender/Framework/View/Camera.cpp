@@ -35,13 +35,17 @@ namespace CubbyRender {
         const auto& lookAt = _camState.lookAt;
         const auto& lookUp = _camState.lookUp;
         const auto& origin = _camState.origin;
-        Vector3F right = lookAt.Cross(lookUp).Normalized();
-        Vector3F up     = right.Cross(lookAt).Normalized();
 
-        Matrix4x4F view = { {right.x    , up.x      , lookAt.x  , origin.x},
-                            {right.y    , up.y      , lookAt.y  , origin.y},
-                            {right.z    , up.z      , lookAt.z  , origin.z},
-                            {0.0f       , 0.0f      , 0.0f      ,   1.0f  }};
+        Vector3F at = (origin - lookAt).Normalized();
+        Vector3F up = lookUp;
+        Vector3F right = up.Cross(at).Normalized();
+        up = at.Cross(right);
+
+        Matrix4x4F view = {{right.x,           up.x,           at.x,               0.0f},
+                           {right.y,           up.y,           at.y,               0.0f},
+                           {right.z,           up.z,           at.z,               0.0f},
+                           {right.Dot(origin), up.Dot(origin), (-at).Dot(origin),  1.0f}};
+
         return view;
     }
     
