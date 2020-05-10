@@ -14,8 +14,9 @@
 #include <Framework/View/PerspectiveCamera.h>
 #include <Framework/View/CameraState.h>
 #include <Framework/View/Viewport.h>
-#include <Framework/Window/Window.h>
+#include <Framework/Window/Docker.h>
 #include <Framework/Renderer/Renderer.h>
+#include <Framework/Buffer/Framebuffer.h>
 #include <Core/Collider/RigidBodyCollider3.h>
 #include <Core/Emitter/VolumeParticleEmitter3.h>
 #include <Core/Geometry/Box3.h>
@@ -59,7 +60,7 @@ std::string PICSimulation::name() const
     return "PIC Simulation";
 }
 
-void PICSimulation::onSetup(WindowPtr window)
+void PICSimulation::onSetup(RendererPtr renderer)
 {
     onResetSimulation();
 
@@ -76,14 +77,14 @@ void PICSimulation::onSetup(WindowPtr window)
     _renderable = std::make_shared<PointsRenderable>(
         _positions, _colors, 0.5f
     );
-    window->getRenderer()->addRenderable(_renderable);
-    window->getRenderer()->setBackgroundColor(Vector4F(0.1f, 0.1f, 0.1f, 1.0f));
-    window->setSwapInterval(1);
+
+    renderer->addRenderable(_renderable);
+    renderer->setBackgroundColor(Vector4F(0.1f, 0.1f, 0.1f, 1.0f));
 }
 
-void PICSimulation::onResetView(WindowPtr window)
+void PICSimulation::onResetView(DockerPtr docker)
 {
-    Size2 framebufferSize = window->getFramebufferSize();
+    Size2 framebufferSize = docker->getFramebuffer()->getViewportSize();
     Viewport viewport;
     viewport.leftTop     = Vector2F(0.0f, framebufferSize.y);
     viewport.rightBottom = Vector2F(framebufferSize.x, 0.0f);
@@ -93,7 +94,7 @@ void PICSimulation::onResetView(WindowPtr window)
     camState.origin = Vector3F(1, -1, -3);
     camState.lookAt = Vector3F(0, 0,  1);
 
-    window->setCameraController(std::make_shared<CameraController>(
+    docker->setCameraController(std::make_shared<CameraController>(
         std::make_shared<PerspectiveCamera>(camState, 60.0f)
     ));
 }

@@ -1,12 +1,13 @@
 # Target name
-set(target GL3Examples)
+set(target ParticleSimulation)
 
 # Includes
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../Utils)
 # Sources
 file(GLOB sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../Utils/*.cpp)
 
 # Build executable
 add_executable(${target}
@@ -38,6 +39,7 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
         PRIVATE
         ${DEFAULT_LINKER_OPTIONS}
         ${DEFAULT_LIBRARIES}
+        CubbyFlow
         CubbyRender
         pystring)
 else()
@@ -45,6 +47,7 @@ else()
         PRIVATE
         ${DEFAULT_LINKER_OPTIONS}
         ${DEFAULT_LIBRARIES}
+        CubbyFlow
         CubbyRender
         pystring)
 endif()
