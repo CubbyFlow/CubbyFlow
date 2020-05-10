@@ -60,7 +60,12 @@ namespace CubbyRender {
         return _data.size();
     }
 
-    ConstArrayAccessor2<Vector4UB> ImageLoader::getImageAccessor() const
+    ArrayAccessor2<Vector4UB> ImageLoader::getImageAccessor() 
+    {
+        return _data.Accessor();
+    }
+
+    ConstArrayAccessor2<Vector4UB> ImageLoader::getConstImageAccessor() const
     {
         return _data.ConstAccessor();
     }

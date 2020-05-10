@@ -35,8 +35,11 @@ namespace CubbyRender {
         //! Get the width x height of the image.
         Size2 getImageSize() const;
 
+        //! Return the mutable array accessor of the image data;
+        ArrayAccessor2<Vector4UB> getImageAccessor();
+
         //! Return the const array accessor of the image data;
-        ConstArrayAccessor2<Vector4UB> getImageAccessor() const;
+        ConstArrayAccessor2<Vector4UB> getConstImageAccessor() const;
     private:
         Array2<Vector4UB> _data;
     };
