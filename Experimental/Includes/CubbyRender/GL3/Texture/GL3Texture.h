@@ -24,11 +24,14 @@ namespace CubbyRender {
     //! Texture sampling modes.
     struct GL3TextureParameters
     {
-        GLuint minFilter = GL_NEAREST;
-        GLuint magFilter = GL_NEAREST;
-        GLuint wrapS = GL_CLAMP_TO_EDGE;
-        GLuint wrapT = GL_CLAMP_TO_EDGE;
-        GLuint wrapR = GL_CLAMP_TO_EDGE;
+        GLenum format = GL_RGBA;
+        GLenum internalFormat = GL_RGBA8;
+        GLuint type = GL_UNSIGNED_BYTE;
+        GLint minFilter = GL_NEAREST;
+        GLint magFilter = GL_NEAREST;
+        GLint wrapS = GL_CLAMP_TO_EDGE;
+        GLint wrapT = GL_CLAMP_TO_EDGE;
+        GLint wrapR = GL_CLAMP_TO_EDGE;
     };
 
     //! Abstract base class for textures.

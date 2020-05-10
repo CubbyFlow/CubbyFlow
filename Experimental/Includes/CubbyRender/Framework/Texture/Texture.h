@@ -13,22 +13,26 @@
 
 #include <Framework/Utils/Prerequisites.h>
 #include <Framework/Utils/Common.h>
+#include <Framework/Enum/ImageEnums.h>
 #include <cstdint>
 #include <memory>
 
 namespace CubbyFlow {
 namespace CubbyRender {
 
-    //! Texture sampling modes.
-    enum class TextureSamplingMode : unsigned char
+    struct TextureParams
     {
-        //! Sample nearest pixel.
-        kNearest = 0,
+        ImageFormat format = ImageFormat::RGBA;
 
-        //! Linear-interpolate nearby pixels.
-        kLinear = 1
+        ImageInternalFormat internalFormat = ImageInternalFormat::RGBA8;
+
+        DataType type = DataType::FLOAT;
+
+        ImageSamplingMode samplingMode = ImageSamplingMode::LINEAR;
+
+        ImageWrapMethod wrapMethod = ImageWrapMethod::REPEAT;
     };
-
+    
     //! Abstract base class for textures.
     class Texture
     {
@@ -40,10 +44,10 @@ namespace CubbyRender {
         virtual ~Texture();
 
         //! Returns the sampling mode of the texture.
-        const TextureSamplingMode& getSamplingMode() const;
+        const TextureParams& getTextureParams() const;
 
         //! Sets the sampling mode of the texture.
-        void setSamplingMode(const TextureSamplingMode& mode);
+        void setTextureParams(const TextureParams& mode);
 
         //! Bind texture to the shader in given slot id 
         void bind(RendererPtr renderer, unsigned int slotID);
@@ -53,7 +57,7 @@ namespace CubbyRender {
 
      protected:
         //! Called when sampling mode has changed.
-        virtual void onSamplingModeChanged(const TextureSamplingMode& mode) = 0;
+        virtual void onSetTextureParams(const TextureParams& mode) = 0;
 
         //! implementation of bind method
         virtual void onBind(RendererPtr renderer, unsigned int slotID) = 0;
@@ -61,7 +65,7 @@ namespace CubbyRender {
         //! implementation of destry method
         virtual void onDestroy() = 0;        
 
-        TextureSamplingMode _samplingMode = TextureSamplingMode::kNearest;
+        TextureParams _textureParams;
      private:
     };
 

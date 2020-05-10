@@ -33,23 +33,18 @@ namespace CubbyRender {
         //! Destructor.
         virtual ~Texture2D();
 
-        //! Updates current texture with given 128bit color data.
-        virtual void updateTexture(RendererPtr renderer, const ConstArrayAccessor2<Vector4F>& data) = 0;
+        //! Updates current texture with given data.
+        //! given image bytes array size must matched with original one.
+        virtual void updateTexture(RendererPtr renderer, void* data) = 0;
 
-        //! Updates current texture with given 32bit color data.
-        virtual void updateTexture(RendererPtr renderer, const ConstArrayAccessor2<Vector4UB>& data) = 0;
-
-        //! Sets the texture with given 128bit color data and size.
-        void allocateTexture(RendererPtr renderer, const ConstArrayAccessor2<Vector4F>& data);
-
-        //! Sets the texture with given 32bit color data and size.
-        void allocateTexture(RendererPtr renderer, const ConstArrayAccessor2<Vector4UB>& data);
+        //! Sets the texture with given data and size.
+        void allocateTexture(RendererPtr renderer, Size2 size, void* data);
 
         //! Get the size of texture.
         Size2 getTextureSize() const;
      protected:
         //! Called when sampling mode has changed.
-        virtual void onSamplingModeChanged(const TextureSamplingMode& mode) override = 0;
+        virtual void onSetTextureParams(const TextureParams& mode) override = 0;
 
         //! implementation of bind method
         virtual void onBind(RendererPtr renderer, unsigned int slotID) override = 0;
@@ -58,10 +53,7 @@ namespace CubbyRender {
         virtual void onDestroy() override = 0;
 
         //! Allocate gpu 
-        virtual void onAllocateTexture(RendererPtr renderer, const ConstArrayAccessor2<Vector4F>& data) = 0;
-
-        //! Allocate gpu 
-        virtual void onAllocateTexture(RendererPtr renderer, const ConstArrayAccessor2<Vector4UB>& data) = 0;
+        virtual void onAllocateTexture(RendererPtr renderer, void* data) = 0;
 
         Size2 _textureSize;
     private:

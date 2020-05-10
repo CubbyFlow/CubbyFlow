@@ -34,15 +34,13 @@ namespace CubbyRender {
         //! Destructor.
         virtual ~GL3Texture2D();
 
-        //! Updates current texture with given 128bit color data.
-        void updateTexture(RendererPtr renderer, const ConstArrayAccessor2<Vector4F>& data) override;
-
-        //! Updates current texture with given 32bit color data.
-        void updateTexture(RendererPtr renderer, const ConstArrayAccessor2<Vector4UB>& data) override;
+        //! Updates current texture with given data.
+        //! given image bytes array size must matched with original one.
+        void updateTexture(RendererPtr renderer, void* data) override;
 
      protected:
         //! Called when sampling mode has changed.
-        void onSamplingModeChanged(const TextureSamplingMode& mode) override;
+        void onSetTextureParams(const TextureParams& mode) override;
 
         //! implementation of bind method
         void onBind(RendererPtr renderer, unsigned int slotID) override;
@@ -51,10 +49,8 @@ namespace CubbyRender {
         void onDestroy() override;
 
         //! Allocate gpu 
-        void onAllocateTexture(RendererPtr renderer, const ConstArrayAccessor2<Vector4F>& data) override;
+        void onAllocateTexture(RendererPtr renderer, void* data) override;
 
-        //! Allocate gpu 
-        void onAllocateTexture(RendererPtr renderer, const ConstArrayAccessor2<Vector4UB>& data) override;
      private:
     };
 

@@ -11,6 +11,7 @@
 #include <cassert>
 
 #ifdef CUBBYFLOW_USE_GL
+#include <GL3/Enum/GL3EnumHelper.h>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -26,44 +27,27 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
-    void GL3Texture3D::updateTexture(RendererPtr renderer, const ConstArrayAccessor3<Vector4F>& data)
+    void GL3Texture3D::updateTexture(RendererPtr renderer, void* data)
     {
         UNUSED_VARIABLE(renderer);
-        glBindTexture(GL3Texture::getTextureTarget(), GL3Texture::getGLTextureID());
-        glTexSubImage2D(GL3Texture::getTextureTarget(), 0, 0, 0, static_cast<GLsizei>(_textureSize.x),
-                    static_cast<GLsizei>(_textureSize.y), GL_RGBA, GL_FLOAT,
-                    data.data());
-    }
-
-    void GL3Texture3D::updateTexture(RendererPtr renderer, const ConstArrayAccessor3<Vector4UB>& data)
-    {
-        UNUSED_VARIABLE(renderer);
-        glBindTexture(GL3Texture::getTextureTarget(), GL3Texture::getGLTextureID());
-        glTexSubImage2D(GL3Texture::getTextureTarget(), 0, 0, 0, static_cast<GLsizei>(_textureSize.x),
-                    static_cast<GLsizei>(_textureSize.y), GL_RGBA, GL_UNSIGNED_BYTE,
-                    data.data());
-    }
-
-    void GL3Texture3D::onSamplingModeChanged(const TextureSamplingMode& mode)
-    {
+        GLuint target = GL3Texture::getTextureTarget();
         GL3TextureParameters texParam = GL3Texture::getGLTextureParameters();
-        if (mode == TextureSamplingMode::kNearest)
-        {
-            texParam.minFilter = GL_NEAREST;
-            texParam.magFilter = GL_NEAREST;
-            GL3Texture::setGLTextureParameters(texParam);
-        }
-        else if (mode == TextureSamplingMode::kLinear)
-        {
-            texParam.minFilter = GL_LINEAR;
-            texParam.magFilter = GL_LINEAR;
-            GL3Texture::setGLTextureParameters(texParam);
-        }
-        else
-        {
-            CUBBYFLOW_ERROR << "Unknown TextureSamplingMode enum was given.";
-            std::abort();
-        }
+        glBindTexture(target, GL3Texture::getGLTextureID());
+        glTexSubImage2D(target, 0, 0, 0, static_cast<GLsizei>(_textureSize.x),
+                    static_cast<GLsizei>(_textureSize.y), texParam.format, texParam.type,
+                    data);
+    }
+    
+    void GL3Texture3D::onSetTextureParams(const TextureParams& param)
+    {
+        GL3TextureParameters glParam = GL3Texture::getGLTextureParameters();
+        
+        glParam.minFilter = glParam.magFilter = GL3EnumHelper::ImageSamplingModeConverter(param.samplingMode);
+        glParam.format = GL3EnumHelper::ImageFormatConverter(param.format);
+        glParam.internalFormat = GL3EnumHelper::ImageInternalFormatConverter(param.internalFormat);
+        glParam.wrapR = glParam.wrapS = glParam.wrapT = GL3EnumHelper::ImageWrapMethodConverter(param.wrapMethod);
+
+        GL3Texture::setGLTextureParameters(glParam);
     }
 
     void GL3Texture3D::onBind(RendererPtr renderer, unsigned int slotID)
@@ -77,7 +61,7 @@ namespace CubbyRender {
         GL3Texture::destroyGLTexture();
     }
 
-    void GL3Texture3D::onAllocateTexture(RendererPtr renderer, const ConstArrayAccessor3<Vector4F>& data)
+    void GL3Texture3D::onAllocateTexture(RendererPtr renderer, void* data)
     {
         UNUSED_VARIABLE(renderer);
         GL3Texture::createGLTexture();
@@ -90,29 +74,10 @@ namespace CubbyRender {
         glTexParameteri(target, GL_TEXTURE_WRAP_S, texParam.wrapS);
         glTexParameteri(target, GL_TEXTURE_WRAP_T, texParam.wrapT);
 
-        glTexImage2D(target, 0, GL_RGBA8, static_cast<GLsizei>(_textureSize.x),
-                     static_cast<GLsizei>(_textureSize.y), 0, GL_RGBA, GL_FLOAT,
-                     data.data());
+        glTexImage2D(target, 0, texParam.internalFormat, static_cast<GLsizei>(_textureSize.x),
+                     static_cast<GLsizei>(_textureSize.y), 0, texParam.format, texParam.type,
+                     data);
     }
-
-    void GL3Texture3D::onAllocateTexture(RendererPtr renderer, const ConstArrayAccessor3<Vector4UB>& data)
-    {
-        UNUSED_VARIABLE(renderer);
-        GL3Texture::createGLTexture();
-
-        GLuint target = GL3Texture::getTextureTarget();
-        GL3TextureParameters texParam = GL3Texture::getGLTextureParameters();
-
-        glTexParameteri(target, GL_TEXTURE_MIN_FILTER, texParam.minFilter);
-        glTexParameteri(target, GL_TEXTURE_MAG_FILTER, texParam.magFilter);
-        glTexParameteri(target, GL_TEXTURE_WRAP_S, texParam.wrapS);
-        glTexParameteri(target, GL_TEXTURE_WRAP_T, texParam.wrapT);
-
-        glTexImage2D(target, 0, GL_RGBA8, static_cast<GLsizei>(_textureSize.x),
-                     static_cast<GLsizei>(_textureSize.y), 0, GL_RGBA, GL_UNSIGNED_BYTE,
-                     data.data());
-    }
-
 } 
 } 
 

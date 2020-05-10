@@ -22,14 +22,15 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
-    const TextureSamplingMode& Texture::getSamplingMode() const
+    const TextureParams& Texture::getTextureParams() const
     {
-        return _samplingMode;
+        return _textureParams;
     }
 
-    void Texture::setSamplingMode(const TextureSamplingMode& mode)
+    void Texture::setTextureParams(const TextureParams& mode)
     {
-        _samplingMode = mode;
+        _textureParams = mode;
+        onSetTextureParams(mode);
     }
 
     void Texture::bind(RendererPtr renderer, unsigned int slotID)

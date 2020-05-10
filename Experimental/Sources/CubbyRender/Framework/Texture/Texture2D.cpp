@@ -22,38 +22,20 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
-    void Texture2D::allocateTexture(RendererPtr renderer, const ConstArrayAccessor2<Vector4F>& data)
+    void Texture2D::allocateTexture(RendererPtr renderer, Size2 size, void* data)
     {
-        if (data.size() == Size2())
+        if (size == Size2())
         {
             destroy();
         }
-        else if (data.size() == _textureSize)
+        else if (size == _textureSize)
         {
             updateTexture(renderer, data);
         }
         else
         {
             destroy();
-            _textureSize = data.size();
-            onAllocateTexture(renderer, data);
-        }
-    }
-
-    void Texture2D::allocateTexture(RendererPtr renderer, const ConstArrayAccessor2<Vector4UB>& data)
-    {
-        if (data.size() == Size2())
-        {
-            destroy();
-        }
-        else if (data.size() == _textureSize)
-        {
-            updateTexture(renderer, data);
-        }
-        else
-        {
-            destroy();
-            _textureSize = data.size();
+            _textureSize = size;
             onAllocateTexture(renderer, data);
         }
     }
