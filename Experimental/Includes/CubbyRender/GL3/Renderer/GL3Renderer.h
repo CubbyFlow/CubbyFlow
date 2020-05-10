@@ -68,6 +68,10 @@ namespace CubbyRender {
         //! \return new shader pointer
         ShaderPtr createShaderPreset(const std::string& shaderName) override;
         
+        //! Create Framebuffer object 
+        //! \return new framebuffer object
+        FramebufferPtr createFramebuffer() override;
+
         //! Set viewport of the current window
         //! \param x left bottom x position
         //! \param y left bottom y position
@@ -76,28 +80,18 @@ namespace CubbyRender {
         void setViewport(int x, int y, size_t width, size_t height) override;
 
         //! Create the 2d texture from the image data.
-        //! \param data 2d floating-point data of the texture
-        //! \param samplingMode texture sampling mode. select kNearest or kLinear
-        //! \return return genearted 2d texture with given data and sampling mode
-        Texture2DPtr createTexture2D(const ConstArrayAccessor2<Vector4F>& data, TextureSamplingMode samplingMode) override;
-
-        //! Create the 2d texture from the image data.
-        //! \param data 2d unsigned char data of the texture
-        //! \param samplingMode texture sampling mode. select kNearest or kLinear
-        //! \return return genearted 2d texture with given data and sampling mode
-        Texture2DPtr createTexture2D(const ConstArrayAccessor2<Vector4UB>& data, TextureSamplingMode samplingMode) override;
+        //! \param param texture parameter which will be used for creating or binding texture.
+        //! \param size width x height of the given image data.
+        //! \param data first pixel pointer of the image bytes array.
+        //! \return return genearted 2d texture.
+        Texture2DPtr createTexture2D(const TextureParams& param, Size2 size, void* data) override;
 
         //! Create the 3d texture from the image data.
-        //! \param data 3d floating-point data of the texture
-        //! \param samplingMode texture sampling mode. select kNearest or kLinear
-        //! \return return genearted 3d texture with given data and sampling mode
-        Texture3DPtr createTexture3D(const ConstArrayAccessor3<Vector4F>& data, TextureSamplingMode samplingMode)override;
-
-        //! Create the 3d texture from the image data.
-        //! \param data 3d unsigned char data of the texture
-        //! \param samplingMode texture sampling mode. select kNearest or kLinear
-        //! \return return genearted 3d texture with given data and sampling mode
-        Texture3DPtr createTexture3D(const ConstArrayAccessor3<Vector4UB>& data, TextureSamplingMode samplingMode) override;
+        //! \param param texture parameter which will be used for creating or binding texture.
+        //! \param size width x height x depth of the given image data.
+        //! \param data first pixel pointer of the image bytes array.
+        //! \return return genearted 3d texture.
+        Texture3DPtr createTexture3D(const TextureParams& param, Size3 size, void* data) override;
     protected:
         void onRenderBegin() override;
         void onRenderEnd() override;

@@ -8,11 +8,11 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 
-#include <Framework/Utils/Common.h>
 #include <Framework/Renderer/RenderOptions.h>
 #include <Framework/Texture/Texture.h>
 #include <Framework/Texture/Texture2D.h>
 #include <Framework/Texture/Texture3D.h>
+#include <Framework/Utils/Common.h>
 #include <Core/Array/Array2.h>
 #include <Core/Vector/Vector4.h>
 #include <Core/Utils/Logging.h>
@@ -20,11 +20,11 @@
 #ifdef CUBBYFLOW_USE_GL
 
 #include <GL3/Renderer/GL3Renderer.h>
+#include <GL3/Buffer/GL3Framebuffer.h>
 #include <GL3/Buffer/GL3VertexBuffer.h>
 #include <GL3/Buffer/GL3IndexBuffer.h>
 #include <GL3/Buffer/GL3VertexArrayObject.h>
 #include <GL3/Shader/GL3Shader.h>
-#include <GL3/Renderer/GL3Renderer.h>
 #include <GL3/Utils/GL3Common.h>
 #include <GL3/Texture/GL3Texture.h>
 #include <GL3/Texture/GL3Texture2D.h>
@@ -216,6 +216,12 @@ namespace CubbyRender {
         return shader;
     }
 
+    FramebufferPtr GL3Renderer::createFramebuffer()
+    {
+        FramebufferPtr framebuffer = std::make_shared<GL3Framebuffer>();
+        return framebuffer;
+    }
+
     void GL3Renderer::setViewport(int x, int y, size_t width, size_t height)
     {
         glViewport(x, y, static_cast<GLsizei>(width), static_cast<GLsizei>(height));
@@ -257,13 +263,9 @@ namespace CubbyRender {
         }
 
         if (_renderState.isFrontFaceClockWise) 
-        {
             glFrontFace(GL_CW);
-        } 
         else
-        {
             glFrontFace(GL_CCW);
-        }
 
         if (_renderState.isBlendEnabled) 
         {
@@ -272,55 +274,32 @@ namespace CubbyRender {
                         convertBlendFactor(_renderState.destinationBlendFactor));
         } 
         else 
-        {
             glDisable(GL_BLEND);
-        }
 
         if (_renderState.isDepthTestEnabled) 
-        {
             glEnable(GL_DEPTH_TEST);
-        } 
         else 
-        {
             glDisable(GL_DEPTH_TEST);
-        }
         
         glPointSize(3.0f);
 
     }
 
-    Texture2DPtr GL3Renderer::createTexture2D(const ConstArrayAccessor2<Vector4F>& data, TextureSamplingMode samplingMode) 
+    Texture2DPtr GL3Renderer::createTexture2D(const TextureParams& param, Size2 size, void* data)
     {
         Texture2DPtr texture = std::make_shared<GL3Texture2D>();
-        texture->allocateTexture(shared_from_this(), data);
-        texture->setSamplingMode(samplingMode);
+        texture->allocateTexture(shared_from_this(), size, data);
+        texture->setTextureParams(param);
         return texture;
     }
 
-    Texture2DPtr GL3Renderer::createTexture2D(const ConstArrayAccessor2<Vector4UB>& data, TextureSamplingMode samplingMode) 
-    {
-        Texture2DPtr texture = std::make_shared<GL3Texture2D>();
-        texture->allocateTexture(shared_from_this(), data);
-        texture->setSamplingMode(samplingMode);
-        return texture;
-    }
-
-    Texture3DPtr GL3Renderer::createTexture3D(const ConstArrayAccessor3<Vector4F>& data, TextureSamplingMode samplingMode)
+    Texture3DPtr GL3Renderer::createTexture3D(const TextureParams& param, Size3 size, void* data)
     {
         Texture3DPtr texture = std::make_shared<GL3Texture3D>();
-        texture->allocateTexture(shared_from_this(), data);
-        texture->setSamplingMode(samplingMode);
+        texture->allocateTexture(shared_from_this(), size, data);
+        texture->setTextureParams(param);
         return texture;
     }
-
-    Texture3DPtr GL3Renderer::createTexture3D(const ConstArrayAccessor3<Vector4UB>& data, TextureSamplingMode samplingMode) 
-    {
-        Texture3DPtr texture = std::make_shared<GL3Texture3D>();
-        texture->allocateTexture(shared_from_this(), data);
-        texture->setSamplingMode(samplingMode);
-        return texture;
-    }
-
 
 } 
 }
