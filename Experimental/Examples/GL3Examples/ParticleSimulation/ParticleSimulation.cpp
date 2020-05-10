@@ -135,28 +135,42 @@ bool SampleWindow::addDocker(SimulationPtr simulation)
 
 void SampleWindow::onWindowResized(int width, int height)
 {
-    //! Do nothing
+    UNUSED_VARIABLE(width);
+    UNUSED_VARIABLE(height);
 }
+
 void SampleWindow::onKey(int key, int scancode, int action, int mods)
 {
-    //! Do nothing
+    UNUSED_VARIABLE(key);
+    UNUSED_VARIABLE(scancode);
+    UNUSED_VARIABLE(action);
+    UNUSED_VARIABLE(mods);
 }
+
 void SampleWindow::onMouseButton(int button, int action, int mods)
 {
-    //! Do nothing
+    UNUSED_VARIABLE(button);
+    UNUSED_VARIABLE(action);
+    UNUSED_VARIABLE(mods);
 }
+
 void SampleWindow::onMouseCursorPos(double x, double y)
 {
-    //! Do nothing
+    UNUSED_VARIABLE(x);
+    UNUSED_VARIABLE(y);
 }
+
 void SampleWindow::onMouseScroll(double deltaX, double deltaY)
 {
-    //! Do nothing
+    UNUSED_VARIABLE(deltaX);
+    UNUSED_VARIABLE(deltaY);
 }
+
 void SampleWindow::onRenderScene()
 {
     //! Do nothing
 }
+
 void SampleWindow::onUpdateScene()
 {
     //! Do nothing
