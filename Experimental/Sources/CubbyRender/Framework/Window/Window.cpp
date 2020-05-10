@@ -11,8 +11,8 @@
 #include <Framework/Window/Window.h>
 #include <Framework/Renderer/Renderer.h>
 #include <Framework/Utils/Common.h>
-#include <Framework/View/CameraController.h>
-#include <Framework/Simulation/Simulation.h>
+#include <Framework/Window/Docker.h>
+#include <Framework/Texture/Texture2D.h>
 #include <Core/Point/Point2.h>
 
 namespace CubbyFlow {
@@ -80,40 +80,28 @@ namespace CubbyRender {
         return _renderer;
     }
 
-    void Window::render()
+    void Window::renderScene()
     {
+        for (auto& docker : _dockers)
+        {
+            docker->renderDocker(_renderer);
+        }
         _renderer->render();
+        onRenderScene();
     }
 
-    void Window::update()
+    void Window::updateScene()
     {
-        if (_simulation)
+        for (auto& docker : _dockers)
         {
-            _simulation->advanceSimulation();
+            docker->updateDocker();
         }
-        onUpdate();
+        onUpdateScene();
     }
 
     void Window::setViewport(int x, int y, size_t width, size_t height)
     {
         _renderer->setViewport(x, y, width, height);
-    }
-
-    void Window::registerSimulation(SimulationPtr simulation)
-    {
-        _simulation = simulation;
-        _simulation->setup(shared_from_this());
-    }
-
-    const CameraControllerPtr& Window::getCameraController() const
-    {
-        return _camController;
-    }
-
-    void Window::setCameraController(CameraControllerPtr camController)
-    {
-        _camController = camController;
-        _renderer->setCamera(_camController->getCamera());
     }
 
     unsigned int Window::getNumRequestedRenderFrames() const
@@ -130,5 +118,6 @@ namespace CubbyRender {
     {
         return _renderer->getCurrentFramebuffer(size);
     }
+
 } 
 }

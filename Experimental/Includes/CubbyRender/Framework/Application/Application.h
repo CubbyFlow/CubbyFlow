@@ -10,16 +10,17 @@
 #ifndef CUBBYFLOW_APPLICATION_H
 #define CUBBYFLOW_APPLICATION_H
 
-#include <Framework/Window/Window.h>
-#include <Media/ScreenRecorder.h>
+#include <Framework/Utils/Prerequisites.h>
+#include <Core/Size/Size2.h>
 #include <Core/Array/ArrayAccessor1.h>
-#include <Core/Vector/Vector4.h>
+#include <Media/ScreenRecorder.h>
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace CubbyFlow {
 namespace CubbyRender {
-    
+
     //!
     //! \brief Abstract base class for Application.
     //!
@@ -43,18 +44,20 @@ namespace CubbyRender {
         //! Run the application with limited frames and fps.
         virtual int run(int numberOfFrames, EncodingCallback makeScreenshot = nullptr) = 0;
 
-        //! Create window with window title, width, height.
-        virtual void createMainWindow(const std::string& title, int width, int height) = 0;
+        //! Set the given window as main window of this application.
+        //! Additionally register callback functions to main window
+        virtual void setMainWindow(WindowPtr window) = 0;
 
         //! Return Main window of the application.
         virtual WindowPtr getMainWindow() = 0;
 
         //! Destroy the application.
         virtual void terminate() = 0;
-    protected:
+
         //! Validate the application whether the app can run simulation or not.
         //! If this method return true, the application can run any simulation.
         virtual bool validateApplication() = 0;
+    protected:
     private:
     
     };

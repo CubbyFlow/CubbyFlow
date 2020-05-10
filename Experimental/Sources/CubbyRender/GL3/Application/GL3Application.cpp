@@ -66,23 +66,18 @@ namespace CubbyRender {
         return 0;
     }
 
-    void GL3Application::createMainWindow(const std::string& title, int width, int height)
+    void GL3Application::setMainWindow(WindowPtr window)
     {
-        // Use OpenGL 3.3
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, CUBBYFLOW_GL_MAJOR_VERSION);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, CUBBYFLOW_GL_MINOR_VERSION);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	    glfwWindowHint(GLFW_SAMPLES, 4);
-	    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-#ifdef CUBBYFLOW_MACOSX
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-
-        _mainWindow = std::make_shared<GL3Window>(title, width, height);
+        GL3WindowPtr glwindow = std::dynamic_pointer_cast<GL3Window>(window);
+        if (glwindow == nullptr)
+        {
+            CUBBYFLOW_ERROR << "Failed to dynamic cast from WindowPtr to GL3WindowPtr";
+            std::abort();
+        }
 
 //! In headless server, register window callback function cause segmentation fault.
 #if !defined(CUBBYFLOW_HEADLESS)
-        GLFWwindow* glfwWindow = _mainWindow->getGLFWWindow();
+        GLFWwindow* glfwWindow = glwindow->getGLFWWindow();
         glfwSetWindowSizeCallback(glfwWindow, onWindowResized);
         glfwSetWindowPosCallback(glfwWindow, onWindowMoved);
         glfwSetKeyCallback(glfwWindow, onKey);
@@ -93,7 +88,8 @@ namespace CubbyRender {
         glfwSetCharCallback(glfwWindow, onChar);
         glfwSetDropCallback(glfwWindow, onDrop);
 #endif
-        CUBBYFLOW_INFO << "Create GLFWwindow with value (" << title << ", " << width << ", " << height << ")";
+
+        _mainWindow = glwindow;
     }
 
     WindowPtr GL3Application::getMainWindow()
@@ -103,16 +99,17 @@ namespace CubbyRender {
 
     int GL3Application::run(int numberOfFrames, EncodingCallback makeScreenshot)
     {
+        //! Application Validation before run main loop
         bool bValidation = validateApplication();
         if (bValidation == false)
             return 1;
-
         CUBBYFLOW_INFO << "Application validation before running simulation success";
     
+        //! Prepare rendering.
         _mainWindow->setIsUpdateEnabled(true);
         _mainWindow->requestRender(numberOfFrames);
-        CUBBYFLOW_CHECK_GLERROR();
 
+        //! Main Loop
         while (validateApplication()) 
         {
             GLFWWindowPtr glfwWindow = _mainWindow->getGLFWWindow();
@@ -123,10 +120,10 @@ namespace CubbyRender {
             {
                 if (_mainWindow->isUpdateEnabled()) 
                 {
-                    _mainWindow->update();
+                    _mainWindow->updateScene();
                 }
 
-                _mainWindow->render();
+                _mainWindow->renderScene();
 
                 //! Decrease render request count
                 numRequestedRenderFramesRef -= 1;
@@ -155,6 +152,7 @@ namespace CubbyRender {
             }
         }
         
+        //! After simulation, check error occurrence.
         CUBBYFLOW_CHECK_GLERROR();
 
         return 0;
@@ -183,16 +181,6 @@ namespace CubbyRender {
         window->onWindowResized(width, height);
     }
 
-    void GL3Application::onWindowMoved(GLFWwindow* glfwWindow, int width, int height)
-    {
-        UNUSED_VARIABLE(glfwWindow);
-        if(gApplicationInstance == nullptr || gApplicationInstance->validateApplication() == false)
-            std::abort();
-        auto window = gApplicationInstance->getMainWindow();
-
-        window->onWindowMoved(width, height);
-    }
-
     void GL3Application::onKey(GLFWwindow* glfwWindow, int key, int scancode, int action, int mods)
     {
         UNUSED_VARIABLE(glfwWindow);
@@ -213,16 +201,6 @@ namespace CubbyRender {
         window->onMouseButton(button, action, mods);
     }
 
-    void GL3Application::onMouseCursorEnter(GLFWwindow* glfwWindow, int entered)
-    {
-        UNUSED_VARIABLE(glfwWindow);
-        if(gApplicationInstance == nullptr || gApplicationInstance->validateApplication() == false)
-            std::abort();
-        auto window = gApplicationInstance->getMainWindow();
-
-        window->onMouseCursorEnter(entered);
-    }
-
     void GL3Application::onMouseCursorPos(GLFWwindow* glfwWindow, double x, double y)
     {
         UNUSED_VARIABLE(glfwWindow);
@@ -241,26 +219,6 @@ namespace CubbyRender {
         auto window = gApplicationInstance->getMainWindow();
 
         window->onMouseScroll(deltaX, deltaY);
-    }
-
-    void GL3Application::onChar(GLFWwindow* glfwWindow, unsigned int code)
-    {
-        UNUSED_VARIABLE(glfwWindow);
-        if(gApplicationInstance == nullptr || gApplicationInstance->validateApplication() == false)
-            std::abort();
-        auto window = gApplicationInstance->getMainWindow();
-
-        window->onChar(code);
-    }
-
-    void GL3Application::onDrop(GLFWwindow* glfwWindow, int numDroppedFiles, const char** pathNames)
-    {
-        UNUSED_VARIABLE(glfwWindow);
-        if(gApplicationInstance == nullptr || gApplicationInstance->validateApplication() == false)
-            std::abort();
-        auto window = gApplicationInstance->getMainWindow();
-
-        window->onDrop(numDroppedFiles, pathNames);
     }
 
     void GL3Application::onErrorEvent(int error, const char* description)

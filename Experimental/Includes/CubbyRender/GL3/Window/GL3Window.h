@@ -25,10 +25,13 @@ namespace CubbyRender {
     //!
     //! \brief implementation of the abstract window class with GLFW
     //!
-    class GL3Window final : public Window
+    class GL3Window : public Window
     {
         using super_t = Window;
     public: 
+        //! Default Constructor
+        GL3Window();
+
         //! Default Constructor.
         GL3Window(const std::string& title, int width, int height);
 
@@ -49,45 +52,31 @@ namespace CubbyRender {
         //! Returns the window size.
         Size2 getWindowSize() const override;
 
-        inline GLFWWindowPtr getGLFWWindow() const
-        {
-            return _window;
-        }
+        //! Return the glfw window ptr;
+        GLFWWindowPtr getGLFWWindow();
         
         //! Action implementation when window is resized.
-        void onWindowResized(int width, int height) override;
-
-        //! Action implementation when window is moved.
-        void onWindowMoved(int width, int height) override;
+        virtual void onWindowResized(int width, int height) override = 0;
 
         //! Action implementation when any key is pressed or released
-        void onKey(int key, int scancode, int action, int mods) override;
+        virtual void onKey(int key, int scancode, int action, int mods) override = 0;
 
         //! Action implementation when any mouse button is pressed or released.
-        void onMouseButton(int button, int action, int mods) override;
-
-        //! Action implementation when the cursor entered or left the content area of the window
-        void onMouseCursorEnter(int entered) override;
+        virtual void onMouseButton(int button, int action, int mods) override = 0;
 
         //! Action implementation when cursor is moved
-        void onMouseCursorPos(double x, double y) override;
+        virtual void onMouseCursorPos(double x, double y) override = 0;
 
         //! Action implementation when mouse scroll is moved
-        void onMouseScroll(double deltaX, double deltaY) override;
+        virtual void onMouseScroll(double deltaX, double deltaY) override = 0;
 
-        //! Action implementation when text input in the form of a stream of Unicode code points,
-        //! as produced by the operating system text input system
-        void onChar(unsigned int code) override;
-
-        //! Action implementation when any file in the filesystem is
-        //! dragged and dropped on this application.
-        void onDrop(int numDroppedFiles, const char** pathNames) override;
     protected:
-        void onUpdate() override;
+        virtual void onRenderScene() override = 0;
+
+        virtual void onUpdateScene() override = 0;
         
     private:
-
-        GLFWWindowPtr _window;
+        GLFWWindowPtr _glfwWindow;
     };
 
     using GL3WindowPtr = std::shared_ptr<GL3Window>;

@@ -10,6 +10,7 @@
 
 #include <Framework/Buffer/Framebuffer.h>
 #include <Framework/Texture/Texture2D.h>
+#include <Framework/Utils/Common.h>
 #include <cassert>
 
 namespace CubbyFlow {
@@ -26,12 +27,20 @@ namespace CubbyRender {
         _depthTexture.reset();
     }
 
-    void Framebuffer::allocateBuffer(RendererPtr renderer, const std::vector<Texture2DPtr>& colorTextures, Texture2DPtr depthTexture)
+    void Framebuffer::attachColorTexture(RendererPtr renderer, Texture2DPtr texture)
     {
-        _colorTextures = colorTextures;
-        _depthTexture = depthTexture;
+        onAttachColorTexture(renderer, texture);
+    }
 
-        onAllocateBuffer(renderer);
+    void Framebuffer::attachDepthTexture(RendererPtr renderer, Texture2DPtr texture)
+    {
+        if (_depthTexture)
+        {
+            CUBBYFLOW_ERROR << "Depth texture already attached.";
+            std::abort();
+        }
+
+        onAttachDepthTexture(renderer, texture);
     }
 
     Texture2DPtr Framebuffer::getColorTexture(size_t index)
@@ -43,6 +52,16 @@ namespace CubbyRender {
     Texture2DPtr Framebuffer::getDepthTexture()
     {
         return _depthTexture;
+    }
+
+    void Framebuffer::setViewportSize(Size2 viewportSize)
+    {
+        _viewportSize = viewportSize;
+    }
+
+    Size2 Framebuffer::getViewportSize() const
+    {
+        return _viewportSize;
     }
 } 
 }

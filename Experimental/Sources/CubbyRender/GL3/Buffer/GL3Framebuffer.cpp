@@ -9,9 +9,11 @@
 *************************************************************************/
 
 #include <Framework/Texture/Texture2D.h>
+#include <Framework/Renderer/Renderer.h>
 
 #ifdef CUBBYFLOW_USE_GL
 #include <GL3/Buffer/GL3Framebuffer.h>
+#include <GL3/Texture/GL3Texture2D.h>
 #include <cassert>
 
 namespace CubbyFlow {
@@ -27,7 +29,7 @@ namespace CubbyRender {
         destroy();
     }
     
-    void GL3Framebuffer::configure(RendererPtr renderer)
+    bool GL3Framebuffer::configure(RendererPtr renderer)
     {
         this->bind(renderer);
 	
@@ -40,21 +42,17 @@ namespace CubbyRender {
 	    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {
             CUBBYFLOW_ERROR << "OpenGL Framebuffer Object ID [" << _fboID << "] Configure Failed.";
-            std::abort();
+            return false;
         }
 
         this->unbind(renderer);
+        return true;
     }
     
     void GL3Framebuffer::onBind(RendererPtr renderer)
     {
         glBindFramebuffer(GL_FRAMEBUFFER, _fboID);
-        unsigned int clearFlag = 0;
-        if (_colorTextures.empty() == false)
-            clearFlag |= GL_COLOR_BUFFER_BIT;
-        if (_depthTexture)
-            clearFlag |= GL_DEPTH_BUFFER_BIT;
-        glClear(clearFlag);
+        renderer->setViewport(0, 0, _viewportSize.x, _viewportSize.y);
     }
     
     void GL3Framebuffer::onUnbind(RendererPtr renderer)
@@ -74,31 +72,50 @@ namespace CubbyRender {
         }
     }
     
-    void GL3Framebuffer::onAllocateBuffer(RendererPtr renderer)
+    void GL3Framebuffer::allocateBuffer(RendererPtr renderer)
     {
+        UNUSED_VARIABLE(renderer);
         glGenFramebuffers(1, &_fboID);
+    }
 
-        this->bind(renderer);
-
-        //! Attach color textures.
-        for (unsigned int i = 0; i < _colorTextures.size(); ++i)
+    void GL3Framebuffer::onAttachColorTexture(RendererPtr renderer, Texture2DPtr texture)
+    {
+        bind(renderer);
+        auto glTexture = std::dynamic_pointer_cast<GL3Texture2D>(texture);
+        if (glTexture == nullptr)
         {
-            _colorTextures[i]->bind(renderer, i);
-            //glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, colorTexture, 0);
+            CUBBYFLOW_ERROR << "Failed to dynamic casting from Texture2DPtr to GLTexture2DPtr";
+            std::abort();
         }
+        glTexture->bind(renderer, static_cast<unsigned int>(_colorTextures.size()));
+        //! Attach color texture to framebuffer.
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + _colorTextures.size(), GL_TEXTURE_2D, glTexture->getGLTextureID(), 0);
+        _colorTextures.push_back(texture);
+        unbind(renderer);
+    }
 
-        //! Attach depth texture
-        //glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTexture, 0);
-        //! Attach depth buffer with depth texture size.
-	    _depthTexture->bind(renderer, 0);
+    void GL3Framebuffer::onAttachDepthTexture(RendererPtr renderer, Texture2DPtr texture)
+    {
+        bind(renderer);
+        auto glTexture = std::dynamic_pointer_cast<GL3Texture2D>(texture);
+        if (glTexture == nullptr)
+        {
+            CUBBYFLOW_ERROR << "Failed to dynamic casting from Texture2DPtr to GLTexture2DPtr";
+            std::abort();
+        }
+        //! Attach depth texture to framebuffer
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, glTexture->getGLTextureID(), 0);
+	    glTexture->bind(renderer, 0U);
+        //! Create render buffer and attach.
 	    glGenRenderbuffers(1, &_rboID);
 	    glBindRenderbuffer(GL_RENDERBUFFER, _rboID);
-        Size2 size = _depthTexture->getTextureSize();
+        Size2 size = glTexture->getTextureSize();
 	    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, static_cast<GLsizei>(size.x), static_cast<GLsizei>(size.y));
-	
 	    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _rboID);
-        this->unbind(renderer);
+        _depthTexture = texture;
+        unbind(renderer);
     }
+
 } 
 }
 

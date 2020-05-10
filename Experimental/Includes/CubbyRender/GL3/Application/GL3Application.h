@@ -10,12 +10,12 @@
 #ifndef CUBBYFLOW_GL3APPLICATION_H
 #define CUBBYFLOW_GL3APPLICATION_H
 
-#ifdef CUBBYFLOW_USE_GL
-
 #include <Framework/Application/Application.h>
 #include <memory>
 #include <string>
 #include <vector>
+
+#ifdef CUBBYFLOW_USE_GL
 
 struct GLFWwindow;
 using GLFWWindowPtr = GLFWwindow*;
@@ -25,7 +25,6 @@ namespace CubbyRender {
 
     class GL3Window;
     using GL3WindowPtr = std::shared_ptr<GL3Window>;
-
     //!
     //! \brief implementation of the abstract application with GLFW Library
     //!
@@ -36,7 +35,7 @@ namespace CubbyRender {
         GL3Application();
 
         //! Default Destructor.
-        ~GL3Application() override;
+        ~GL3Application();
 
         //! Initializes the application.
         int initialize() override;
@@ -44,29 +43,25 @@ namespace CubbyRender {
         //! Run the application with limited frames and fps.
         int run(int numberOfFrames, EncodingCallback makeScreenshot = nullptr) override;
         
-        //! Create window and return it.
-        void createMainWindow(const std::string& title, int width, int height) override;
+        //! Set the given window as main window of this application.
+        //! Additionally register callback functions to main window
+        void setMainWindow(WindowPtr window) override;
 
         //! Return Main window of the application.
         WindowPtr getMainWindow() override;
 
         //! Destroy the application.
         void terminate() override;
-    protected:
+
         //! Validate the application whether the app can run simulation or not.
         bool validateApplication() override;
-
+    protected:
     private:
         static void onWindowResized(GLFWwindow* glfwWindow, int width, int height);
-        static void onWindowMoved(GLFWwindow* glfwWindow, int width, int height);
         static void onKey(GLFWwindow* glfwWindow, int key, int scancode, int action, int mods);
         static void onMouseButton(GLFWwindow* glfwWindow, int button, int action, int mods);
-        static void onMouseCursorEnter(GLFWwindow* glfwWindow, int entered);
         static void onMouseCursorPos(GLFWwindow* glfwWindow, double x, double y);
         static void onMouseScroll(GLFWwindow* glfwWindow, double deltaX, double deltaY);
-        static void onChar(GLFWwindow* glfwWindow, unsigned int code);
-        static void onCharMods(GLFWwindow* glfwWindow, unsigned int code, int mods);
-        static void onDrop(GLFWwindow* glfwWindow, int numDroppedFiles, const char** pathNames);
         static void onErrorEvent(int error, const char* description);
 
         GL3WindowPtr _mainWindow;

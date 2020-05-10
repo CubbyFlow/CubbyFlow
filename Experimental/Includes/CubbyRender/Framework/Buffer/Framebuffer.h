@@ -12,6 +12,7 @@
 
 #include <Framework/Utils/Prerequisites.h>
 #include <Framework/Buffer/Buffer.h>
+#include <Core/Size/Size2.h>
 #include <memory>
 #include <vector>
 
@@ -31,7 +32,11 @@ namespace CubbyRender {
         virtual ~Framebuffer();
 
         //! allocate framebuffer with pre-configured textures.
-        void allocateBuffer(RendererPtr renderer, const std::vector<Texture2DPtr>& colorTextures, Texture2DPtr depthTexture);
+        virtual void allocateBuffer(RendererPtr renderer) = 0;
+
+        virtual void attachColorTexture(RendererPtr renderer, Texture2DPtr texture);
+
+        virtual void attachDepthTexture(RendererPtr renderer, Texture2DPtr texture);
 
         //! Get color texture pointer with index 
         Texture2DPtr getColorTexture(size_t index);
@@ -40,7 +45,13 @@ namespace CubbyRender {
         Texture2DPtr getDepthTexture();
 
         //! configure framebuffer with currently binded color and depth textures.
-        virtual void configure(RendererPtr renderer) = 0;
+        virtual bool configure(RendererPtr renderer) = 0;
+
+        //! Set viewport size
+        void setViewportSize(Size2 viewportSize);
+
+        //! Get viewport size
+        Size2 getViewportSize() const;
 
     protected:
         //! implementation of bind method
@@ -52,11 +63,13 @@ namespace CubbyRender {
         //! implementation of destroy method
         virtual void onDestroy() override = 0;
 
-        //! implementation of allocate framebuffer
-        virtual void onAllocateBuffer(RendererPtr renderer) = 0;
+        virtual void onAttachColorTexture(RendererPtr renderer, Texture2DPtr texture) = 0;
+
+        virtual void onAttachDepthTexture(RendererPtr renderer, Texture2DPtr texture) = 0;
 
         std::vector<Texture2DPtr> _colorTextures;
         Texture2DPtr _depthTexture { nullptr };
+        Size2 _viewportSize;
     private:
     };
 

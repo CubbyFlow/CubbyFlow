@@ -38,7 +38,7 @@ namespace CubbyRender {
         virtual std::string name() const = 0;
 
         //! Setup simulation.
-        void setup(WindowPtr window);
+        void setup(RendererPtr renderer, DockerPtr docker);
 
         //! Reset simulation to beginning state without modifying parameters.
         void resetSimulation();
@@ -51,10 +51,10 @@ namespace CubbyRender {
 
     protected:
         //! implementation of the setup method.
-        virtual void onSetup(WindowPtr window) = 0;
+        virtual void onSetup(RendererPtr renderer) = 0;
 
         //! Reset camera view of the window 
-        virtual void onResetView(WindowPtr window) = 0;
+        virtual void onResetView(DockerPtr docker) = 0;
 
         //! implementation of the reset simulation method.
         virtual void onResetSimulation() = 0;

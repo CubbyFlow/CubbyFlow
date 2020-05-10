@@ -30,12 +30,12 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
-    void Simulation::setup(WindowPtr window)
+    void Simulation::setup(RendererPtr renderer, DockerPtr docker)
     {
         
         _frame = Frame(0, 1.0 / _fps);
-        onResetView(window);
-        onSetup(window);
+        onResetView(docker);
+        onSetup(renderer);
     }
 
     void Simulation::resetSimulation()

@@ -33,7 +33,10 @@ namespace CubbyRender {
         virtual ~GL3Framebuffer();
 
         //! configure framebuffer with currently binded color and depth textures.
-        void configure(RendererPtr renderer) override;
+        bool configure(RendererPtr renderer) override;
+
+        //! implementation of allocate framebuffer
+        void allocateBuffer(RendererPtr renderer) override;
 
     protected:
         //! implementation of bind method
@@ -45,8 +48,9 @@ namespace CubbyRender {
         //! implementation of destroy method
         void onDestroy() override;
 
-        //! implementation of allocate framebuffer
-        void onAllocateBuffer(RendererPtr renderer) override;
+        virtual void onAttachColorTexture(RendererPtr renderer, Texture2DPtr texture) override;
+
+        virtual void onAttachDepthTexture(RendererPtr renderer, Texture2DPtr texture) override;
     private:
         GLuint _fboID; //! framebuffer  object id.
         GLuint _rboID; //! renderbuffer object id.

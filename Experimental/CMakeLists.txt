@@ -135,7 +135,7 @@ endif()
 # Project modules
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Sources/CubbyRender)
 if (USE_GL)
-    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/GL3Examples)
+    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/GL3Examples/ParticleSimulation)
 endif()
 if (APPLE)
     # add_subdirectory(src/examples/metal_examples)

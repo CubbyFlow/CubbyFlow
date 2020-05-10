@@ -47,6 +47,21 @@ namespace CubbyRender {
         //! Returns the window size.
         virtual Size2 getWindowSize() const = 0;
 
+        //! Action implementation when window is resized.
+        virtual void onWindowResized(int width, int height) = 0;
+
+        //! Action implementation when any key is pressed or released
+        virtual void onKey(int key, int scancode, int action, int mods) = 0;
+
+        //! Action implementation when any mouse button is pressed or released.
+        virtual void onMouseButton(int button, int action, int mods) = 0;
+
+        //! Action implementation when cursor is moved
+        virtual void onMouseCursorPos(double x, double y) = 0;
+
+        //! Action implementation when mouse scroll is moved
+        virtual void onMouseScroll(double deltaX, double deltaY) = 0;
+
         //! Returns framebuffer / window size ratio.
         Vector2F displayScalingFactor() const;
 
@@ -55,35 +70,6 @@ namespace CubbyRender {
 
         //! Sets swap interval.
         virtual void setSwapInterval(int interval);
-
-        //! Action implementation when window is resized.
-        virtual void onWindowResized(int width, int height) = 0;
-
-        //! Action implementation when window is moved.
-        virtual void onWindowMoved(int width, int height) = 0;
-
-        //! Action implementation when any event is happend on "KEY"
-        virtual void onKey(int key, int scancode, int action, int mods) = 0;
-
-        //! Action implementation when any mouse button is pressed or released.
-        virtual void onMouseButton(int button, int action, int mods) = 0;
-
-        //! Action implementation when the cursor entered or left the content area of the window
-        virtual void onMouseCursorEnter(int entered) = 0;
-
-        //! Action implementation when cursor is moved
-        virtual void onMouseCursorPos(double x, double y) = 0;
-
-        //! Action implementation when mouse scroll is moved
-        virtual void onMouseScroll(double deltaX, double deltaY) = 0;
-
-        //! Action implementation when text input in the form of a stream of Unicode code points,
-        //! as produced by the operating system text input system
-        virtual void onChar(unsigned int code) = 0;
-
-        //! Action implementation when any file in the filesystem is
-        //! dragged and dropped on this application.
-        virtual void onDrop(int numDroppedFiles, const char** pathNames) = 0;
 
         //! Returns renderer.
         const RendererPtr& getRenderer() const;
@@ -111,19 +97,10 @@ namespace CubbyRender {
         void setViewport(int x, int y, size_t width, size_t height);
         
         //! call render function through renderer.
-        void render();
+        void renderScene();
 
         //! update window
-        void update();
-
-        //! Setup and Add simulation to list
-        void registerSimulation(SimulationPtr simulation);
-
-        //! Set camera controller instance;
-        void setCameraController(CameraControllerPtr camController);
-
-        //! Get camera controller instance.
-        const CameraControllerPtr& getCameraController() const;
+        void updateScene();
 
         //! Return Number of requested render frames.
         unsigned int getNumRequestedRenderFrames() const;
@@ -131,15 +108,18 @@ namespace CubbyRender {
         //! Return reference of the number of requested render frames variable.
         unsigned int& getNumRequestedRenderFrames();
 
+        //! Return current screen pixel array.
         ArrayAccessor1<unsigned char> getCurrentScreen(Size2 size) const;
 
     protected:
         //! Implementation of the window update;
-        virtual void onUpdate() = 0;     
+        virtual void onUpdateScene() = 0;     
 
+        //! Implementation of the render;
+        virtual void onRenderScene() = 0;     
+
+        std::vector<DockerPtr> _dockers;
         RendererPtr _renderer;
-        CameraControllerPtr _camController;
-        SimulationPtr _simulation;
         std::string _title;
         Size2 _windowSize;
         int _swapInterval = 0;
