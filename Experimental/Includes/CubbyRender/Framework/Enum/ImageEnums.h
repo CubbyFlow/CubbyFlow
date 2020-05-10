@@ -14,6 +14,7 @@
 #include <Framework/Utils/Prerequisites.h>
 #include <cstdint>
 #include <memory>
+#include <string>
 
 namespace CubbyFlow {
 namespace CubbyRender {

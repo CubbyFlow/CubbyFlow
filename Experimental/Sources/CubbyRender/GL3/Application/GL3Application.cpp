@@ -79,14 +79,10 @@ namespace CubbyRender {
 #if !defined(CUBBYFLOW_HEADLESS)
         GLFWwindow* glfwWindow = glwindow->getGLFWWindow();
         glfwSetWindowSizeCallback(glfwWindow, onWindowResized);
-        glfwSetWindowPosCallback(glfwWindow, onWindowMoved);
         glfwSetKeyCallback(glfwWindow, onKey);
         glfwSetMouseButtonCallback(glfwWindow, onMouseButton);
         glfwSetCursorPosCallback(glfwWindow, onMouseCursorPos);
-        glfwSetCursorEnterCallback(glfwWindow, onMouseCursorEnter);
         glfwSetScrollCallback(glfwWindow, onMouseScroll);
-        glfwSetCharCallback(glfwWindow, onChar);
-        glfwSetDropCallback(glfwWindow, onDrop);
 #endif
 
         _mainWindow = glwindow;

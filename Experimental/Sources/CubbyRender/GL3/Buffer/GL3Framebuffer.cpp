@@ -89,7 +89,7 @@ namespace CubbyRender {
         }
         glTexture->bind(renderer, static_cast<unsigned int>(_colorTextures.size()));
         //! Attach color texture to framebuffer.
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + _colorTextures.size(), GL_TEXTURE_2D, glTexture->getGLTextureID(), 0);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(_colorTextures.size()), GL_TEXTURE_2D, glTexture->getGLTextureID(), 0);
         _colorTextures.push_back(texture);
         unbind(renderer);
     }
