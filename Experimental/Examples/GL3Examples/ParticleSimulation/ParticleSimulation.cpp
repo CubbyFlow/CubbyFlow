@@ -20,6 +20,7 @@
 
 #include "../Utils/ClaraUtils.h"
 #include "../Utils/main.h"
+#include "../Utils/SimulationHelper.h"
 #include <GL3/Window/GL3Window.h>
 #include <GL3/Buffer/GL3Framebuffer.h>
 #include <GL3/Renderer/GL3Renderer.h>
@@ -73,8 +74,9 @@ protected:
     void onUpdateScene() override;
 private:
     bool addDocker(SimulationPtr simulation);
-};
 
+    SimulationHelper _simHelper;
+};
 using SampleWindowPtr = std::shared_ptr<SampleWindow>;
 
 ApplicationPtr application;
@@ -101,7 +103,7 @@ bool SampleWindow::initialize()
 
 bool SampleWindow::addDocker(SimulationPtr simulation)
 {
-    FramebufferPtr framebuffer = _renderer->createFramebuffer();
+    FramebufferPtr framebuffer = _renderer->createFramebuffer(_windowSize);
 
     TextureParams textureParam;
     textureParam.format = ImageFormat::RGBA;
@@ -125,7 +127,7 @@ bool SampleWindow::addDocker(SimulationPtr simulation)
     if (!framebuffer->configure(_renderer))
         return false;
 
-    DockerPtr docker = std::make_shared<Docker>();
+    DockerPtr docker = std::make_shared<Docker>(simulation->name());
     docker->setFramebuffer(framebuffer);
     docker->registerSimulation(_renderer, simulation);
 
