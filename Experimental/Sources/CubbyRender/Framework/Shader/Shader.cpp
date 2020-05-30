@@ -58,6 +58,18 @@ namespace CubbyRender {
                 {"FragmentShader", fragmentShader}
             };
         }
+        else if (shaderName == "fluid_mesh_shader")
+        {
+            const std::string& vertexShader     = kFluidMeshShaders[0];
+            const std::string& geometryShader   = kFluidMeshShaders[1];
+            const std::string& fragmentShader   = kFluidMeshShaders[2];
+
+            shaderMap = {
+                {"VertexShader", vertexShader},
+                {"GeometryShader", geometryShader},
+                {"FragmentShader", fragmentShader}
+            };
+        }
         return onLoad(shaderMap);
     }
 
