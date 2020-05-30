@@ -59,6 +59,9 @@ private:
     CubbyFlow::Array1<CubbyFlow::Vector4F> _colors;
     CubbyFlow::CubbyRender::PointsRenderablePtr _renderable;
     size_t _resolutionX { 60 };
+    double _anisoCutOffDensity = 0.5;
+    double _anisoPositionSmoothingFactor = 0.5;
+    size_t _anisoMinNumNeighbors = 25;
 };
     
 using PICSimulationPtr = std::shared_ptr<PICSimulation>;
