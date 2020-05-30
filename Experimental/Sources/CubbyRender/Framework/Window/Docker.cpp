@@ -73,12 +73,14 @@ namespace CubbyRender {
 
     void Docker::updateDocker()
     {
-        //! Do nothing.
+        _simulation->advanceSimulation();
     }
 
     void Docker::renderDocker(RendererPtr renderer)
     {
-        //! Do nothing.
+        _framebuffer->bind(renderer);
+        renderer->render();
+        _framebuffer->unbind(renderer); 
     }
 
 
