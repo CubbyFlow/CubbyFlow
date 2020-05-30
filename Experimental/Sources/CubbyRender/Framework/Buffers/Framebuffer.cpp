@@ -21,6 +21,12 @@ namespace CubbyRender {
         //! Do nothing
     }
 
+    Framebuffer::Framebuffer(Size2 viewportSize)
+        : _viewportSize(viewportSize)
+    {
+        //! Do nothing.
+    }
+
     Framebuffer::~Framebuffer()
     {
         _colorTextures.clear();
