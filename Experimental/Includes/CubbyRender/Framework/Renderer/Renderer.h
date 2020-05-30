@@ -97,8 +97,9 @@ namespace CubbyRender {
         virtual ShaderPtr createShaderPreset(const std::string& shaderName) = 0;
 
         //! Create Framebuffer object 
+        //! \param viewportSize viewport size of the framebuffer
         //! \return new framebuffer object
-        virtual FramebufferPtr createFramebuffer() = 0;
+        virtual FramebufferPtr createFramebuffer(Size2 viewportSize) = 0;
 
         //! Set viewport of the current window
         //! \param x left top x position

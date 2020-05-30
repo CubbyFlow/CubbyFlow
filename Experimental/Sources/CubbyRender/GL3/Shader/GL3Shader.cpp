@@ -148,9 +148,9 @@ namespace CubbyRender {
             {"VertexShader", GL_VERTEX_SHADER},
             {"GeometryShader", GL_GEOMETRY_SHADER},
             {"FragmentShader", GL_FRAGMENT_SHADER},
-            //{"TessControlShader", GL_TESS_CONTROL_SHADER},
-            //{"TessEvaluationShader", GL_TESS_EVALUATION_SHADER},
-            //{"ComputeShader", GL_COMPUTE_SHADER},
+            //! {"TessControlShader", GL_TESS_CONTROL_SHADER}, -- UNSUPPORTED IN GLSL VERSION 330
+            //! {"TessEvaluationShader", GL_TESS_EVALUATION_SHADER}, -- UNSUPPORTED IN GLSL VERSION 330
+            //! {"ComputeShader", GL_COMPUTE_SHADER}, -- UNSUPPORTED IN GLSL VERSION 330
         };
 
         std::vector<GLuint> compiledShaders;

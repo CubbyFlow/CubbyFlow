@@ -24,6 +24,12 @@ namespace CubbyRender {
         //! Do nothing
     }
 
+    GL3Framebuffer::GL3Framebuffer(Size2 viewportSize)
+        : Framebuffer(viewportSize)
+    {
+        //! Do nothing
+    }
+
     GL3Framebuffer::~GL3Framebuffer()
     {
         destroy();

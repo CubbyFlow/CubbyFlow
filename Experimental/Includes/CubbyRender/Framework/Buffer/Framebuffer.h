@@ -28,6 +28,9 @@ namespace CubbyRender {
         //! Default constructor.
         Framebuffer();
 
+        //! Constructor with viewport size.
+        Framebuffer(Size2 viewportSize);
+
         //! Default destructor.
         virtual ~Framebuffer();
 

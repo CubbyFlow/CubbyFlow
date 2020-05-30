@@ -29,6 +29,9 @@ namespace CubbyRender {
         //! Default constructor.
         GL3Framebuffer();
 
+        //! Constructor with viewport size.
+        GL3Framebuffer(Size2 viewportSize);
+
         //! Default destructor.
         virtual ~GL3Framebuffer();
 
