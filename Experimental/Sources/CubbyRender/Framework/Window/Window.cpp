@@ -86,7 +86,6 @@ namespace CubbyRender {
         {
             docker->renderDocker(_renderer);
         }
-        _renderer->render();
         onRenderScene();
     }
 
