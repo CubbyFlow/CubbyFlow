@@ -78,6 +78,52 @@ const GLchar* kPointsShaders[2] = {
     }
     )glsl"};
 
+const GLchar* kFluidMeshShaders[3] = {
+    //! Vertex shader
+    R"glsl(
+    #version 330 core
+    in vec3 position;
+    uniform mat4 View;
+    uniform mat4 Projection;
+
+    void main() {
+        gl_Position = View * vec4(position, 1.0);
+    }
+    )glsl",
+
+    //! Geometry shader
+    R"glsl(
+    #version 330 core
+    layout(triangles) in;
+    layout(triangle_strip, max_vertices=3) out;
+    out vec3 normal;
+
+    void main() {
+        vec3 edge0 = (gl_in[1].gl_Position - gl_in[0].gl_Position).xyz;
+        vec3 edge1 = (gl_in[2].gl_Position - gl_in[0].gl_Position).xyz;
+        vec3 n = normalize(cross(b, a));
+
+        for (int i = 0; i < 3; ++i)
+        {
+            gl_Position = gl_in[i].gl_Position;
+            normal = n;
+            EmitVertex();
+        }
+        EndPrimitive();
+    }
+    )glsl",
+
+    //! Fragment shader
+    R"glsl(
+    #version 330 core
+    in vec3 normal;
+
+    out vec4 fragColor;
+    void main() {
+    	 fragColor = vec4(normal, 1.0);
+    }
+    )glsl"};
+
 } 
 }
 #elif CUBBYFLOW_USE_METAL
@@ -97,6 +143,16 @@ const char* kPointsShaders[2] = {
     // Fragment shader
     R"metal(
     )metal"};
+
+const char* kFluidMeshShaders[2] = {
+    // Vertex shader
+    R"metal(
+    )metal",
+
+    // Fragment shader
+    R"metal(
+    )metal"
+}
 #else //! If any graphics api not exists. 
 const char* kSimpleColorShaders[2]  = { nullptr, nullptr };
 const char* kPointsShaders[2]       = { nullptr, nullptr };
