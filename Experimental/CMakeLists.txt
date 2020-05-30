@@ -15,9 +15,7 @@ option(RECORDING "Use libpng for recording simulation result" OFF)
 if (RECORDING)
     message("-- Using libpng for recording simulation result")
     add_definitions(-DCUBBYFLOW_RECORDING)
-    add_custom_target(pnglibconfig_copy COMMAND cp scripts/pnglibconf.h.prebuilt ./pnglibconf.h
-                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Libraries/libpng
-    )
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Libraries/libpng/scripts/pnglibconf.h.prebuilt  ${CMAKE_CURRENT_SOURCE_DIR}/Libraries/libpng/pnglibconf.h COPYONLY)
     add_subdirectory(Libraries/libpng)
     include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/libpng)
     set(PNG_LIBRARIES 
