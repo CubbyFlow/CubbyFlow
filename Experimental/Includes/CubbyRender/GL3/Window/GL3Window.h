@@ -75,8 +75,8 @@ namespace CubbyRender {
 
         virtual void onUpdateScene() override = 0;
         
-    private:
         GLFWWindowPtr _glfwWindow;
+     private:
     };
 
     using GL3WindowPtr = std::shared_ptr<GL3Window>;

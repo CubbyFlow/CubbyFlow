@@ -219,6 +219,7 @@ namespace CubbyRender {
     FramebufferPtr GL3Renderer::createFramebuffer(Size2 viewportSize)
     {
         FramebufferPtr framebuffer = std::make_shared<GL3Framebuffer>(viewportSize);
+        framebuffer->allocateBuffer(shared_from_this());
         return framebuffer;
     }
 

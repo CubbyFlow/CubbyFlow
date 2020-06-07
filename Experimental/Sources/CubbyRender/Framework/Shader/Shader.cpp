@@ -58,6 +58,16 @@ namespace CubbyRender {
                 {"FragmentShader", fragmentShader}
             };
         }
+        else if (shaderName == "screen_shader")
+        {
+            const std::string& vertexShader     = kScreenShaders[0];
+            const std::string& fragmentShader   = kScreenShaders[1];
+
+            shaderMap = {
+                {"VertexShader", vertexShader},
+                {"FragmentShader", fragmentShader}
+            };
+        }
         else if (shaderName == "fluid_mesh_shader")
         {
             const std::string& vertexShader     = kFluidMeshShaders[0];

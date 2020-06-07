@@ -31,7 +31,7 @@ namespace CubbyRender {
         ~Material();
 
         //! Add texture to this material instance with its slot id.
-        void addTexture(unsigned int slotID, TexturePtr texture);
+        void addTexture(unsigned int slotID, Texture2DPtr texture);
 
         //! Set shader instance to this material.
         void setShader(ShaderPtr shader);
@@ -51,7 +51,7 @@ namespace CubbyRender {
      protected:
      private:
         ShaderPtr _shader;
-        std::vector<std::pair<unsigned int, TexturePtr>> _textures;
+        std::vector<std::pair<unsigned int, Texture2DPtr>> _textures;
     };
 
     using MaterialPtr = std::shared_ptr<Material>;

@@ -61,8 +61,8 @@ const GLchar* kPointsShaders[2] = {
     } outData;
     void main() {
         outData.color = color;
-        gl_PointSize = 2.0 * Radius * Projection[0][0];
-        gl_Position = View * vec4(position, 1.0);
+        gl_PointSize = 2.0 * Radius;
+        gl_Position = Projection * View * vec4(position, 1.0);
     }
     )glsl",
 
@@ -75,6 +75,35 @@ const GLchar* kPointsShaders[2] = {
     out vec4 fragColor;
     void main() {
     	 fragColor = inData.color;
+    }
+    )glsl"};
+
+const GLchar* kScreenShaders[2] = {
+    // Vertex shader
+    R"glsl(
+    #version 330 core
+    in vec3 position;
+    in vec2 texCoord;
+    out VertexData {
+        vec2 texCoord;
+    } outData;
+    void main() {
+        outData.texCoord = texCoord;
+        gl_Position = vec4(position, 1.0);
+    }
+    )glsl",
+
+    // Fragment shader
+    R"glsl(
+    #version 330 core
+    uniform sampler2D screenTexture;
+    in VertexData {
+        vec2 texCoord;
+    } inData;
+    out vec4 fragColor;
+    void main() {
+    	 vec3 color = texture(screenTexture, inData.texCoord).rgb;
+         fragColor = vec4(color, 1.0);
     }
     )glsl"};
 
@@ -143,9 +172,21 @@ const char* kPointsShaders[2] = {
     // Fragment shader
     R"metal(
     )metal"};
+const GLchar* kScreenShaders[2] = {
+    // Vertex shader
+    R"metal(
+    )metal",
 
+    // Fragment shader
+    R"metal(
+    )metal",
+};
 const char* kFluidMeshShaders[2] = {
     // Vertex shader
+    R"metal(
+    )metal",
+
+    // Geometry shader
     R"metal(
     )metal",
 
@@ -156,6 +197,8 @@ const char* kFluidMeshShaders[2] = {
 #else //! If any graphics api not exists. 
 const char* kSimpleColorShaders[2]  = { nullptr, nullptr };
 const char* kPointsShaders[2]       = { nullptr, nullptr };
+const char* kScreenShaders[2]       = { nullptr, nullptr };
+const char* kFluidMeshShaders[3]    = { nullptr, nullptr, nullptr };
 #endif  
 
 #endif 

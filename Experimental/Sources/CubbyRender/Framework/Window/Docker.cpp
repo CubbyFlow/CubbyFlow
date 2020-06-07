@@ -79,10 +79,9 @@ namespace CubbyRender {
     void Docker::renderDocker(RendererPtr renderer)
     {
         _framebuffer->bind(renderer);
+        renderer->setCamera(_camController->getCamera());
         renderer->render();
         _framebuffer->unbind(renderer); 
     }
-
-
 } 
 }

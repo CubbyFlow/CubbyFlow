@@ -34,20 +34,21 @@ namespace CubbyRender {
     //! \return return compile or link result.
     int checkStatus(GLuint target, TargetType type)
     {
-        int success = 0;
+        int success = 1;
         int infoLogLength;
         std::vector<char> infoLog;
 
         if (type == TargetType::SHADER)
         {
 			glGetShaderiv(target, GL_COMPILE_STATUS, &success);
-			glGetShaderiv(target, GL_INFO_LOG_LENGTH, &infoLogLength);
-			infoLog.resize(infoLogLength);
-			glGetShaderInfoLog(target, static_cast<GLsizei>(infoLog.size()), nullptr, &infoLog[0]);
         }
         else if (type == TargetType::PROGRAM)
         {
             glGetProgramiv(target, GL_LINK_STATUS, &success);
+        }
+        
+        if (!success)
+        {
 		    glGetProgramiv(target, GL_INFO_LOG_LENGTH, &infoLogLength);
 		    infoLog.resize(infoLogLength);
 		    glGetProgramInfoLog(target, static_cast<GLsizei>(infoLog.size()), nullptr, &infoLog[0]);

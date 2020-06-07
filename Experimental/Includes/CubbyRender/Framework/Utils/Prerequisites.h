@@ -33,6 +33,7 @@ namespace CubbyRender {
     class Simulation;
     class Camera;
     class CameraController;
+    class ParticleParser;
 
     using InputLayoutPtr     = std::shared_ptr<InputLayout>;
     using ApplicationPtr     = std::shared_ptr<Application>;
@@ -54,6 +55,7 @@ namespace CubbyRender {
     using SimulationPtr      = std::shared_ptr<Simulation>;
     using CameraPtr          = std::shared_ptr<Camera>;
     using CameraControllerPtr= std::shared_ptr<CameraController>;
+    using ParticleParserPtr  = std::shared_ptr<ParticleParser>;
 }
 }
 

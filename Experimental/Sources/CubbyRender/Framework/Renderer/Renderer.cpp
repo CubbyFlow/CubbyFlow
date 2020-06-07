@@ -28,6 +28,13 @@ namespace CubbyRender {
         clearRenderables();
     }
 
+    //!void Renderer::render(RenderablePtr renderable)
+    //!{
+    //!    onRenderBegin();
+    //!    renderable->render(shared_from_this());
+    //!    onRenderEnd();
+    //!}
+
     void Renderer::render()
     {
         onRenderBegin();
