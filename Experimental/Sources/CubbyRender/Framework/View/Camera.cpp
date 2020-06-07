@@ -36,7 +36,7 @@ namespace CubbyRender {
         const auto& lookUp = _camState.lookUp;
         const auto& origin = _camState.origin;
 
-        Vector3F at = (origin - lookAt).Normalized();
+        Vector3F at = (-lookAt).Normalized();
         Vector3F up = lookUp;
         Vector3F right = up.Cross(at).Normalized();
         up = at.Cross(right);
@@ -48,10 +48,15 @@ namespace CubbyRender {
 
         return view;
     }
-    
-    Vector3F Camera::getCameraOrigin() const
+
+    CameraState& Camera::getCameraState()
     {
-        return _camState.origin;
+        return _camState;
+    }
+
+    const CameraState& Camera::getCameraState() const
+    {
+        return _camState;
     }
 
 } 

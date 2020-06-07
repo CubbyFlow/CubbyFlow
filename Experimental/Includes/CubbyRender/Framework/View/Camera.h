@@ -40,8 +40,12 @@ namespace CubbyRender {
         //! Get perspective projection matrix.
         virtual Matrix4x4F getProjectionMatrix() const = 0;
 
-        //! Get the origin of the camera.
-        Vector3F getCameraOrigin() const;
+        //! Get the mutable reference of the camera state
+        CameraState& getCameraState();
+
+        //! Get the immutable reference of the camera state.
+        const CameraState& getCameraState() const;
+
     protected:
         CameraState _camState;
     private:

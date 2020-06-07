@@ -31,11 +31,22 @@ namespace CubbyRender {
         //! Default destructor.
         ~CameraController();
 
+        //! Set the camera instance.
         void setCamera(CameraPtr camera);
 
+        //! Return the camera pointer.
         CameraPtr getCamera();
+
+        //! Translate the origin of the camera
+        void translateCamera(int vertical, int horizontal);
+
+        //! Rotate the pointing direction.
+        void modifyDirection(double xoffset, double yoffset);
     protected:
         CameraPtr _camera;
+        float _camSpeed = 0.5f;
+        float _pitch    = 0.0f;
+        float _yaw      = -90.0f;
     private:
     };
 
