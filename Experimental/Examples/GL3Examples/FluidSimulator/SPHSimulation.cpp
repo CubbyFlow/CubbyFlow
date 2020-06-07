@@ -73,7 +73,7 @@ void SPHSimulation::onSetup(RendererPtr renderer)
     std::mt19937 rng(0);
     std::uniform_real_distribution<float> dist2(0.0f, 1.0f);
     ParallelFor(ZERO_SIZE, particles->GetNumberOfParticles(), [&](size_t i){
-        _positions[i] = Vector3F(positions[i].x, positions[i].y, 0.0f);
+        _positions[i] = Vector3F(positions[i].x, positions[i].y, positions[i].z);
         _colors[i] = Vector4F(dist2(rng), dist2(rng), dist2(rng), 1.0f);
     });
 
@@ -103,7 +103,7 @@ void SPHSimulation::onResetView(DockerPtr docker)
 
 void SPHSimulation::onResetSimulation()
 {
-    BoundingBox3D domain(Vector3D(-0.5f, -0.5f, -0.5f), Vector3D(0.5f, 0.5f, 0.5f));
+    BoundingBox3D domain(Vector3D(-0.1f, -0.1f, -0.1f), Vector3D(0.1f, 0.1f, 0.1f));
 
 	_solver = SPHSolver3::GetBuilder()
 		.WithTargetDensity(1000.0)

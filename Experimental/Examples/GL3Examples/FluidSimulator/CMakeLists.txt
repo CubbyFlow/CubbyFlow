@@ -1,5 +1,5 @@
 # Target name
-set(target ParticleSimulation)
+set(target FluidSimulator)
 
 # Includes
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
@@ -30,6 +30,7 @@ target_compile_options(${target}
 )
 target_compile_definitions(${target}
     PRIVATE
+    PUBLIC
     RESOURCES_DIR="${CMAKE_CURRENT_SOURCE_DIR}/../../../Resources/"
 )
 

@@ -1,5 +1,5 @@
 /*************************************************************************
-> File Name: ParticleSimulation.cpp
+> File Name: FluidSimulator.cpp
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
@@ -7,24 +7,23 @@
 > Created Time: 2020/05/09
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
-#ifndef CUBBYFLOW_ParticleSimulation_SIMULATION_H
-#define CUBBYFLOW_ParticleSimulation_SIMULATION_H
+#ifndef CUBBYFLOW_FLUID_SIMULATOR_H
+#define CUBBYFLOW_FLUID_SIMULATOR_H
 
 #include <Framework/Buffer/Framebuffer.h>
 #include <Framework/Texture/Texture.h>
 #include <Framework/Texture/Texture2D.h>
 #include <Framework/Window/Docker.h>
 #include <Framework/Application/Application.h>
-
 #ifdef CUBBYFLOW_USE_GL
 
 #include "../Utils/ClaraUtils.h"
 #include "../Utils/main.h"
-#include "../Utils/SimulationHelper.h"
 #include <GL3/Window/GL3Window.h>
 #include <GL3/Buffer/GL3Framebuffer.h>
 #include <GL3/Renderer/GL3Renderer.h>
 #include <GL3/Application/GL3Application.h>
+#include <GLFW/glfw3.h>
 
 #include <Media/ScreenRecorder.h>
 
@@ -39,13 +38,16 @@
 #include <sys/stat.h>
 #endif
 
+#include "SimulationHelper.h"
 #include "PICSimulation.h"
 #include "SPHSimulation.h"
 
-#define APP_NAME "ParticleSimulation"
+#define APP_NAME "FluidSimulator"
 
 using namespace CubbyFlow;
 using namespace CubbyRender;
+
+//! 실시간으로 다 돌리기보다는 한 프레임 한 프레임 정지해가며 관찰한다는 느낌으로
 
 class SampleWindow final : public GL3Window
 {
@@ -74,7 +76,6 @@ protected:
     void onUpdateScene() override;
 private:
     bool addDocker(SimulationPtr simulation);
-
     SimulationHelper _simHelper;
 };
 using SampleWindowPtr = std::shared_ptr<SampleWindow>;
@@ -94,10 +95,13 @@ SampleWindow::~SampleWindow()
 
 bool SampleWindow::initialize()
 {
+    if (!_simHelper.initialize(_glfwWindow))
+        return false;
     if (!addDocker(std::make_shared<SPHSimulation>()))
         return false;
     if (!addDocker(std::make_shared<PICSimulation>()))
         return false;
+    
     return true;
 }
 
@@ -132,6 +136,7 @@ bool SampleWindow::addDocker(SimulationPtr simulation)
     docker->registerSimulation(_renderer, simulation);
 
     _dockers.push_back(docker);
+    _simHelper.addSimulationTexture(colorTexture); //! connect simulation result texture pointer 
     return true;
 }
 
@@ -143,9 +148,11 @@ void SampleWindow::onWindowResized(int width, int height)
 
 void SampleWindow::onKey(int key, int scancode, int action, int mods)
 {
-    UNUSED_VARIABLE(key);
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+    {
+        glfwSetWindowShouldClose(_glfwWindow, GLFW_TRUE);
+    }
     UNUSED_VARIABLE(scancode);
-    UNUSED_VARIABLE(action);
     UNUSED_VARIABLE(mods);
 }
 
@@ -154,13 +161,13 @@ void SampleWindow::onMouseButton(int button, int action, int mods)
     UNUSED_VARIABLE(button);
     UNUSED_VARIABLE(action);
     UNUSED_VARIABLE(mods);
-}
+}   
 
 void SampleWindow::onMouseCursorPos(double x, double y)
 {
     UNUSED_VARIABLE(x);
     UNUSED_VARIABLE(y);
-}
+}   
 
 void SampleWindow::onMouseScroll(double deltaX, double deltaY)
 {
@@ -170,7 +177,10 @@ void SampleWindow::onMouseScroll(double deltaX, double deltaY)
 
 void SampleWindow::onRenderScene()
 {
-    //! Do nothing
+    _simHelper.beginRender();
+    //! Sample Window Rendering Here.
+    _simHelper.render();
+    _simHelper.endRender();
 }
 
 void SampleWindow::onUpdateScene()
@@ -181,7 +191,7 @@ void SampleWindow::onUpdateScene()
 int sampleMain(int argc, const char** argv)
 {
     bool showHelp = false;
-    int numberOfFrames = 60;
+    int numberOfFrames = 1;
     int resX = 800;
     int resY = 600;
     double fps = 60.0;
@@ -263,6 +273,9 @@ int sampleMain(int argc, const char** argv)
     exitCode = application->run(numberOfFrames, nullptr);
 #endif
 
+    //! release application and sample window .
+    sample.reset();
+    application.reset();
     return exitCode;
 }
 
