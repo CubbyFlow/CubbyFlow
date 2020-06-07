@@ -24,6 +24,7 @@ else()
     set(PNG_LIBRARIES )
 endif()
 
+include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries)
 # include header-only stb library for image read & write
 include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/stb)
 
@@ -86,7 +87,7 @@ if (USE_GL)
             ${IMGUI_LIBRARY}
             ${COREFOUNDATION_LIB})
 
-        # Include other directories
+        # Include the other directories
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Includes/CubbyRender)
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/gli)
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/glad)
@@ -133,7 +134,8 @@ endif()
 # Project modules
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Sources/CubbyRender)
 if (USE_GL)
-    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/GL3Examples/ParticleSimulation)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/GL3Examples/FluidSimulator)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/GL3Examples/ParticleRenderer)
 endif()
 if (APPLE)
     # add_subdirectory(src/examples/metal_examples)
