@@ -31,7 +31,7 @@ RUN wget https://github.com/glfw/glfw/releases/download/3.2.1/glfw-3.2.1.zip && 
 ADD . /app
 
 WORKDIR /app/build
-RUN cmake .. -DCMAKE_C_COMPILER=clang-8 -DCMAKE_CXX_COMPILER=clang++-8 && \
+RUN cmake .. -DCMAKE_C_COMPILER=clang-10 -DCMAKE_CXX_COMPILER=clang++-10 && \
     make -j "$(nproc)" && \
     make install && \
     bin/UnitTests
