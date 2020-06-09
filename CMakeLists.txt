@@ -25,8 +25,11 @@ include_directories(Libraries/tinyobj)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Build type - Release by default
+message("CMake build type: " ${CMAKE_BUILD_TYPE})
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
+elseif(CMAKE_BUILD_TYPE MATCHES "Debug")
+    add_definitions(-DDEBUG)
 endif()
 
 # Find TBB
