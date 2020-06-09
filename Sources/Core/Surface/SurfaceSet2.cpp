@@ -45,6 +45,21 @@ void SurfaceSet2::UpdateQueryEngine()
     BuildBVH();
 }
 
+bool SurfaceSet2::IsValidGeometry() const
+{
+    // All surfaces should be valid.
+    for (const auto& surface : m_surfaces)
+    {
+        if (!surface->IsValidGeometry())
+        {
+            return false;
+        }
+    }
+
+    // Empty set is not valid.
+    return !m_surfaces.empty();
+}
+
 size_t SurfaceSet2::NumberOfSurfaces() const
 {
     return m_surfaces.size();

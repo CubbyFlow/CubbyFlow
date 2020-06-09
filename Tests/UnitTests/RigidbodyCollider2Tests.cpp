@@ -2,6 +2,7 @@
 
 #include <Core/Collider/RigidBodyCollider2.hpp>
 #include <Core/Geometry/Plane2.hpp>
+#include <Core/Surface/ImplicitSurfaceSet2.hpp>
 
 using namespace CubbyFlow;
 
@@ -116,4 +117,22 @@ TEST(RigidBodyCollider2, VelocityAt)
     Vector2D result = collider.VelocityAt({ 5, 7 });
     EXPECT_DOUBLE_EQ(-35.0, result.x);
     EXPECT_DOUBLE_EQ(27.0, result.y);
+}
+
+TEST(RigidBodyCollider2, Empty)
+{
+    RigidBodyCollider2 collider{ ImplicitSurfaceSet2::Builder().MakeShared() };
+
+    Vector2D newPosition{ 1, 0.1 };
+    Vector2D newVelocity{ 1, 0 };
+    const double radius = 0.05;
+    const double restitutionCoefficient = 0.5;
+
+    collider.ResolveCollision(radius, restitutionCoefficient, &newPosition,
+                              &newVelocity);
+
+    EXPECT_DOUBLE_EQ(1.0, newPosition.x);
+    EXPECT_DOUBLE_EQ(0.1, newPosition.y);
+    EXPECT_DOUBLE_EQ(1.0, newVelocity.x);
+    EXPECT_DOUBLE_EQ(0.0, newVelocity.y);
 }

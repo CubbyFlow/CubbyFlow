@@ -77,6 +77,9 @@ class Surface2
     //! Returns true if bounding box can be defined.
     virtual bool IsBounded() const;
 
+    //! Returns true if the surface is a valid geometry.
+    virtual bool IsValidGeometry() const;
+
  protected:
     //! Returns the closest point from the given point \p otherPoint to the
     //! surface in local frame.

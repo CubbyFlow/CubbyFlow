@@ -78,6 +78,11 @@ bool Surface2::IsBounded() const
     return true;
 }
 
+bool Surface2::IsValidGeometry() const
+{
+    return true;
+}
+
 bool Surface2::IntersectsLocal(const Ray2D& ray) const
 {
     auto result = ClosestIntersectionLocal(ray);

@@ -446,3 +446,31 @@ TEST(SurfaceSet3, MixedBoundTypes)
 
     EXPECT_VECTOR3_NEAR(answer, cp, 1e-9);
 }
+
+TEST(SurfaceSet3, IsValidGeometry)
+{
+    const auto surfaceSet{ SurfaceSet3::Builder().MakeShared() };
+
+    EXPECT_FALSE(surfaceSet->IsValidGeometry());
+
+    const BoundingBox3D domain{ Vector3D{}, Vector3D{ 1, 2, 1 } };
+
+    const auto plane = Plane3::Builder()
+                           .WithNormal({ 0, 1, 0 })
+                           .WithPoint({ 0, 0.25 * domain.GetHeight(), 0 })
+                           .MakeShared();
+
+    const auto sphere = Sphere3::Builder()
+                            .WithCenter(domain.MidPoint())
+                            .WithRadius(0.15 * domain.GetWidth())
+                            .MakeShared();
+
+    auto surfaceSet2 =
+        SurfaceSet3::Builder().WithSurfaces({ plane, sphere }).MakeShared();
+
+    EXPECT_TRUE(surfaceSet2->IsValidGeometry());
+
+    surfaceSet2->AddSurface(surfaceSet);
+
+    EXPECT_FALSE(surfaceSet2->IsValidGeometry());
+}

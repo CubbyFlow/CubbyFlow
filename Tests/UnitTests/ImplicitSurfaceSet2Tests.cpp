@@ -204,3 +204,21 @@ TEST(ImplicitSurfaceSet2, ClosestNormal)
     EXPECT_DOUBLE_EQ(boxNormal.x, setNormal.x);
     EXPECT_DOUBLE_EQ(boxNormal.y, setNormal.y);
 }
+
+TEST(ImplicitSurfaceSet2, IsValidGeometry)
+{
+    const auto surfaceSet{ ImplicitSurfaceSet2::Builder().MakeShared() };
+
+    EXPECT_FALSE(surfaceSet->IsValidGeometry());
+
+    const auto box =
+        std::make_shared<Box2>(BoundingBox2D{ { 0, 0 }, { 1, 2 } });
+    auto surfaceSet2{ ImplicitSurfaceSet2::Builder().MakeShared() };
+    surfaceSet2->AddExplicitSurface(box);
+
+    EXPECT_TRUE(surfaceSet2->IsValidGeometry());
+
+    surfaceSet2->AddSurface(surfaceSet);
+
+    EXPECT_FALSE(surfaceSet2->IsValidGeometry());
+}

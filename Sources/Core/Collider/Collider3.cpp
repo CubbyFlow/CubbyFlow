@@ -25,6 +25,13 @@ Collider3::~Collider3()
 void Collider3::ResolveCollision(double radius, double restitutionCoefficient,
                                  Vector3D* newPosition, Vector3D* newVelocity)
 {
+    assert(m_surface != nullptr);
+
+    if (!m_surface->IsValidGeometry())
+    {
+        return;
+    }
+
     ColliderQueryResult colliderPoint;
 
     GetClosestPoint(m_surface, *newPosition, &colliderPoint);
@@ -120,6 +127,13 @@ bool Collider3::IsPenetrating(const ColliderQueryResult& colliderPoint,
 void Collider3::Update(double currentTimeInSeconds,
                        double timeIntervalInSeconds)
 {
+    assert(m_surface != nullptr);
+
+    if (!m_surface->IsValidGeometry())
+    {
+        return;
+    }
+
     m_surface->UpdateQueryEngine();
 
     if (m_onUpdateCallback)

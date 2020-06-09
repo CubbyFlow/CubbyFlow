@@ -84,6 +84,11 @@ bool Surface3::IsBounded() const
     return true;
 }
 
+bool Surface3::IsValidGeometry() const
+{
+    return true;
+}
+
 double Surface3::ClosestDistanceLocal(const Vector3D& otherPoint) const
 {
     return otherPoint.DistanceTo(ClosestPointLocal(otherPoint));
