@@ -58,6 +58,7 @@ class SurfaceSet2 final : public Surface2
 
  private:
     std::vector<Surface2Ptr> m_surfaces;
+    std::vector<Surface2Ptr> m_unboundedSurfaces;
     mutable BVH2<Surface2Ptr> m_bvh;
     mutable bool m_bvhInvalidated = true;
 

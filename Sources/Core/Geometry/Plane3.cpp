@@ -40,6 +40,11 @@ Plane3::Plane3(const Plane3& other)
     // Do nothing
 }
 
+bool Plane3::IsBounded() const
+{
+    return false;
+}
+
 Vector3D Plane3::ClosestPointLocal(const Vector3D& otherPoint) const
 {
     Vector3D r = otherPoint - point;

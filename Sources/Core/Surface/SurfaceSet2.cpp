@@ -21,11 +21,21 @@ SurfaceSet2::SurfaceSet2(const std::vector<Surface2Ptr>& others,
                          const Transform2& transform, bool isNormalFlipped)
     : Surface2(transform, isNormalFlipped), m_surfaces(others)
 {
+    for (const auto& surface : m_surfaces)
+    {
+        if (!surface->IsBounded())
+        {
+            m_unboundedSurfaces.push_back(surface);
+        }
+    }
+
     InvalidateBVH();
 }
 
 SurfaceSet2::SurfaceSet2(const SurfaceSet2& other)
-    : Surface2(other), m_surfaces(other.m_surfaces)
+    : Surface2(other),
+      m_surfaces(other.m_surfaces),
+      m_unboundedSurfaces(other.m_unboundedSurfaces)
 {
     InvalidateBVH();
 }
@@ -48,6 +58,12 @@ const Surface2Ptr& SurfaceSet2::SurfaceAt(size_t i) const
 void SurfaceSet2::AddSurface(const Surface2Ptr& surface)
 {
     m_surfaces.push_back(surface);
+
+    if (!surface->IsBounded())
+    {
+        m_unboundedSurfaces.push_back(surface);
+    }
+
     InvalidateBVH();
 }
 
@@ -60,14 +76,29 @@ Vector2D SurfaceSet2::ClosestPointLocal(const Vector2D& otherPoint) const
         return surface->ClosestDistance(pt);
     };
 
+    Vector2D result{ std::numeric_limits<double>::max(),
+                     std::numeric_limits<double>::max() };
+
     const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
     if (queryResult.item != nullptr)
     {
-        return (*queryResult.item)->ClosestPoint(otherPoint);
+        result = (*queryResult.item)->ClosestPoint(otherPoint);
     }
 
-    return Vector2D{ std::numeric_limits<double>::max(),
-                     std::numeric_limits<double>::max() };
+    double minDist = queryResult.distance;
+    for (const auto& surface : m_unboundedSurfaces)
+    {
+        auto pt = surface->ClosestPoint(otherPoint);
+        const double dist = pt.DistanceTo(otherPoint);
+
+        if (dist < minDist)
+        {
+            minDist = dist;
+            result = surface->ClosestPoint(otherPoint);
+        }
+    }
+
+    return result;
 }
 
 Vector2D SurfaceSet2::ClosestNormalLocal(const Vector2D& otherPoint) const
@@ -79,13 +110,28 @@ Vector2D SurfaceSet2::ClosestNormalLocal(const Vector2D& otherPoint) const
         return surface->ClosestDistance(pt);
     };
 
+    Vector2D result{ 1.0, 0.0 };
+
     const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
     if (queryResult.item != nullptr)
     {
-        return (*queryResult.item)->ClosestNormal(otherPoint);
+        result = (*queryResult.item)->ClosestNormal(otherPoint);
     }
 
-    return Vector2D{ 1.0, 0.0 };
+    double minDist = queryResult.distance;
+    for (const auto& surface : m_unboundedSurfaces)
+    {
+        auto pt = surface->ClosestPoint(otherPoint);
+        const double dist = pt.DistanceTo(otherPoint);
+
+        if (dist < minDist)
+        {
+            minDist = dist;
+            result = surface->ClosestNormal(otherPoint);
+        }
+    }
+
+    return result;
 }
 
 double SurfaceSet2::ClosestDistanceLocal(const Vector2D& otherPoint) const
@@ -98,7 +144,20 @@ double SurfaceSet2::ClosestDistanceLocal(const Vector2D& otherPoint) const
     };
 
     const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
-    return queryResult.distance;
+
+    double minDist = queryResult.distance;
+    for (const auto& surface : m_unboundedSurfaces)
+    {
+        auto pt = surface->ClosestPoint(otherPoint);
+        const double dist = pt.DistanceTo(otherPoint);
+
+        if (dist < minDist)
+        {
+            minDist = dist;
+        }
+    }
+
+    return minDist;
 }
 
 bool SurfaceSet2::IntersectsLocal(const Ray2D& ray) const
@@ -109,7 +168,13 @@ bool SurfaceSet2::IntersectsLocal(const Ray2D& ray) const
         return surface->Intersects(ray);
     };
 
-    return m_bvh.IsIntersects(ray, testFunc);
+    bool result = m_bvh.IsIntersects(ray, testFunc);
+    for (const auto& surface : m_unboundedSurfaces)
+    {
+        result |= surface->Intersects(ray);
+    }
+
+    return result;
 }
 
 SurfaceRayIntersection2 SurfaceSet2::ClosestIntersectionLocal(
@@ -132,6 +197,16 @@ SurfaceRayIntersection2 SurfaceSet2::ClosestIntersectionLocal(
     {
         result.point = ray.PointAt(queryResult.distance);
         result.normal = (*queryResult.item)->ClosestNormal(result.point);
+    }
+
+    for (const auto& surface : m_unboundedSurfaces)
+    {
+        const SurfaceRayIntersection2 localResult =
+            surface->ClosestIntersection(ray);
+        if (localResult.distance < result.distance)
+        {
+            result = localResult;
+        }
     }
 
     return result;
@@ -158,10 +233,13 @@ void SurfaceSet2::BuildBVH() const
 {
     if (m_bvhInvalidated)
     {
-        std::vector<BoundingBox2D> bounds(m_surfaces.size());
-        for (size_t i = 0; i < m_surfaces.size(); ++i)
+        std::vector<BoundingBox2D> bounds;
+        for (const auto& surface : m_surfaces)
         {
-            bounds[i] = m_surfaces[i]->BoundingBox();
+            if (surface->IsBounded())
+            {
+                bounds.push_back(surface->BoundingBox());
+            }
         }
 
         m_bvh.Build(m_surfaces, bounds);

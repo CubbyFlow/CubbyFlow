@@ -1,6 +1,7 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
+#include <Core/Geometry/Plane3.hpp>
 #include <Core/Geometry/Sphere3.hpp>
 #include <Core/Surface/SurfaceSet3.hpp>
 
@@ -421,4 +422,27 @@ TEST(SurfaceSet3, BoundingBox)
 
     EXPECT_BOUNDING_BOX3_NEAR(answer, debug, 1e-9);
     EXPECT_BOUNDING_BOX3_NEAR(answer, sset2.BoundingBox(), 1e-9);
+}
+
+TEST(SurfaceSet3, MixedBoundTypes)
+{
+    const BoundingBox3D domain{ Vector3D{}, Vector3D{ 1, 2, 1 } };
+
+    const auto plane = Plane3::Builder()
+                           .WithNormal({ 0, 1, 0 })
+                           .WithPoint({ 0, 0.25 * domain.GetHeight(), 0 })
+                           .MakeShared();
+
+    const auto sphere = Sphere3::Builder()
+                            .WithCenter(domain.MidPoint())
+                            .WithRadius(0.15 * domain.GetWidth())
+                            .MakeShared();
+
+    const auto surfaceSet =
+        SurfaceSet3::Builder().WithSurfaces({ plane, sphere }).MakeShared();
+
+    const auto cp = surfaceSet->ClosestPoint(Vector3D{ 0.5, 0.4, 0.5 });
+    const Vector3D answer{ 0.5, 0.5, 0.5 };
+
+    EXPECT_VECTOR3_NEAR(answer, cp, 1e-9);
 }

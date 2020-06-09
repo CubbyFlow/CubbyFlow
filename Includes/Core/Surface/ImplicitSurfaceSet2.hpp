@@ -66,6 +66,7 @@ class ImplicitSurfaceSet2 final : public ImplicitSurface2
 
  private:
     std::vector<ImplicitSurface2Ptr> m_surfaces;
+    std::vector<ImplicitSurface2Ptr> m_unboundedSurfaces;
     mutable BVH2<ImplicitSurface2Ptr> m_bvh;
     mutable bool m_bvhInvalidated = true;
 

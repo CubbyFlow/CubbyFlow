@@ -66,6 +66,7 @@ class ImplicitSurfaceSet3 final : public ImplicitSurface3
 
  private:
     std::vector<ImplicitSurface3Ptr> m_surfaces;
+    std::vector<ImplicitSurface3Ptr> m_unboundedSurfaces;
     mutable BVH3<ImplicitSurface3Ptr> m_bvh;
     mutable bool m_bvhInvalidated = true;
 

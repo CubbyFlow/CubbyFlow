@@ -1,6 +1,7 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
+#include <Core/Geometry/Plane2.hpp>
 #include <Core/Geometry/Sphere2.hpp>
 #include <Core/Surface/SurfaceSet2.hpp>
 
@@ -415,4 +416,27 @@ TEST(SurfaceSet2, BoundingBox)
 
     EXPECT_BOUNDING_BOX2_NEAR(answer, debug, 1e-9);
     EXPECT_BOUNDING_BOX2_NEAR(answer, sset2.BoundingBox(), 1e-9);
+}
+
+TEST(SurfaceSet2, MixedBoundTypes)
+{
+    const BoundingBox2D domain{ Vector2D{}, Vector2D{ 1, 2 } };
+
+    const auto plane = Plane2::Builder()
+                           .WithNormal({ 0, 1 })
+                           .WithPoint({ 0, 0.25 * domain.GetHeight() })
+                           .MakeShared();
+
+    const auto sphere = Sphere2::Builder()
+                            .WithCenter(domain.MidPoint())
+                            .WithRadius(0.15 * domain.GetWidth())
+                            .MakeShared();
+
+    const auto surfaceSet =
+        SurfaceSet2::Builder().WithSurfaces({ plane, sphere }).MakeShared();
+
+    auto cp = surfaceSet->ClosestPoint(Vector2D{ 0.5, 0.4 });
+    const Vector2D answer{ 0.5, 0.5 };
+
+    EXPECT_VECTOR2_NEAR(answer, cp, 1e-9);
 }

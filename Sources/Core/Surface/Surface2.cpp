@@ -73,6 +73,11 @@ void Surface2::UpdateQueryEngine()
     // Do nothing
 }
 
+bool Surface2::IsBounded() const
+{
+    return true;
+}
+
 bool Surface2::IntersectsLocal(const Ray2D& ray) const
 {
     auto result = ClosestIntersectionLocal(ray);

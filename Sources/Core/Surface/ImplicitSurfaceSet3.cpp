@@ -23,7 +23,15 @@ ImplicitSurfaceSet3::ImplicitSurfaceSet3(
     const Transform3& transform, bool isNormalFlipped)
     : ImplicitSurface3(transform, isNormalFlipped), m_surfaces(surfaces)
 {
-    // Do nothing
+    for (const auto& surface : m_surfaces)
+    {
+        if (!surface->IsBounded())
+        {
+            m_unboundedSurfaces.push_back(surface);
+        }
+    }
+
+    InvalidateBVH();
 }
 
 ImplicitSurfaceSet3::ImplicitSurfaceSet3(
@@ -38,7 +46,9 @@ ImplicitSurfaceSet3::ImplicitSurfaceSet3(
 }
 
 ImplicitSurfaceSet3::ImplicitSurfaceSet3(const ImplicitSurfaceSet3& other)
-    : ImplicitSurface3(other), m_surfaces(other.m_surfaces)
+    : ImplicitSurface3(other),
+      m_surfaces(other.m_surfaces),
+      m_unboundedSurfaces(other.m_unboundedSurfaces)
 {
     // Do nothing
 }
@@ -66,6 +76,12 @@ void ImplicitSurfaceSet3::AddExplicitSurface(const Surface3Ptr& surface)
 void ImplicitSurfaceSet3::AddSurface(const ImplicitSurface3Ptr& surface)
 {
     m_surfaces.push_back(surface);
+
+    if (!surface->IsBounded())
+    {
+        m_unboundedSurfaces.push_back(surface);
+    }
+
     InvalidateBVH();
 }
 
@@ -79,15 +95,64 @@ Vector3D ImplicitSurfaceSet3::ClosestPointLocal(
         return surface->ClosestDistance(pt);
     };
 
+    Vector3D result{ std::numeric_limits<double>::max(),
+                     std::numeric_limits<double>::max(),
+                     std::numeric_limits<double>::max() };
+
     const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
     if (queryResult.item != nullptr)
     {
-        return (*queryResult.item)->ClosestPoint(otherPoint);
+        result = (*queryResult.item)->ClosestPoint(otherPoint);
     }
 
-    return Vector3D{ std::numeric_limits<double>::max(),
-                     std::numeric_limits<double>::max(),
-                     std::numeric_limits<double>::max() };
+    double minDist = queryResult.distance;
+    for (const auto& surface : m_unboundedSurfaces)
+    {
+        auto pt = surface->ClosestPoint(otherPoint);
+        const double dist = pt.DistanceTo(otherPoint);
+
+        if (dist < minDist)
+        {
+            minDist = dist;
+            result = surface->ClosestPoint(otherPoint);
+        }
+    }
+
+    return result;
+}
+
+Vector3D ImplicitSurfaceSet3::ClosestNormalLocal(
+    const Vector3D& otherPoint) const
+{
+    BuildBVH();
+
+    const auto distanceFunc = [](const Surface3Ptr& surface,
+                                 const Vector3D& pt) {
+        return surface->ClosestDistance(pt);
+    };
+
+    Vector3D result{ 1.0, 0.0, 0.0 };
+
+    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
+    if (queryResult.item != nullptr)
+    {
+        result = (*queryResult.item)->ClosestNormal(otherPoint);
+    }
+
+    double minDist = queryResult.distance;
+    for (const auto& surface : m_unboundedSurfaces)
+    {
+        auto pt = surface->ClosestPoint(otherPoint);
+        const double dist = pt.DistanceTo(otherPoint);
+
+        if (dist < minDist)
+        {
+            minDist = dist;
+            result = surface->ClosestNormal(otherPoint);
+        }
+    }
+
+    return result;
 }
 
 double ImplicitSurfaceSet3::ClosestDistanceLocal(
@@ -101,26 +166,20 @@ double ImplicitSurfaceSet3::ClosestDistanceLocal(
     };
 
     const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
-    return queryResult.distance;
-}
 
-Vector3D ImplicitSurfaceSet3::ClosestNormalLocal(
-    const Vector3D& otherPoint) const
-{
-    BuildBVH();
-
-    const auto distanceFunc = [](const Surface3Ptr& surface,
-                                 const Vector3D& pt) {
-        return surface->ClosestDistance(pt);
-    };
-
-    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
-    if (queryResult.item != nullptr)
+    double minDist = queryResult.distance;
+    for (const auto& surface : m_unboundedSurfaces)
     {
-        return (*queryResult.item)->ClosestNormal(otherPoint);
+        auto pt = surface->ClosestPoint(otherPoint);
+        const double dist = pt.DistanceTo(otherPoint);
+
+        if (dist < minDist)
+        {
+            minDist = dist;
+        }
     }
 
-    return Vector3D{ 1.0, 0.0, 0.0 };
+    return minDist;
 }
 
 bool ImplicitSurfaceSet3::IntersectsLocal(const Ray3D& ray) const
@@ -131,7 +190,13 @@ bool ImplicitSurfaceSet3::IntersectsLocal(const Ray3D& ray) const
         return surface->Intersects(ray);
     };
 
-    return m_bvh.IsIntersects(ray, testFunc);
+    bool result = m_bvh.IsIntersects(ray, testFunc);
+    for (const auto& surface : m_unboundedSurfaces)
+    {
+        result |= surface->Intersects(ray);
+    }
+
+    return result;
 }
 
 SurfaceRayIntersection3 ImplicitSurfaceSet3::ClosestIntersectionLocal(
@@ -154,6 +219,16 @@ SurfaceRayIntersection3 ImplicitSurfaceSet3::ClosestIntersectionLocal(
     {
         result.point = ray.PointAt(queryResult.distance);
         result.normal = (*queryResult.item)->ClosestNormal(result.point);
+    }
+
+    for (const auto& surface : m_unboundedSurfaces)
+    {
+        const SurfaceRayIntersection3 localResult =
+            surface->ClosestIntersection(ray);
+        if (localResult.distance < result.distance)
+        {
+            result = localResult;
+        }
     }
 
     return result;
@@ -188,11 +263,14 @@ void ImplicitSurfaceSet3::BuildBVH() const
 {
     if (m_bvhInvalidated)
     {
-        std::vector<BoundingBox3D> bounds(m_surfaces.size());
+        std::vector<BoundingBox3D> bounds;
 
-        for (size_t i = 0; i < m_surfaces.size(); ++i)
+        for (const auto& surface : m_surfaces)
         {
-            bounds[i] = m_surfaces[i]->BoundingBox();
+            if (surface->IsBounded())
+            {
+                bounds.push_back(surface->BoundingBox());
+            }
         }
 
         m_bvh.Build(m_surfaces, bounds);
