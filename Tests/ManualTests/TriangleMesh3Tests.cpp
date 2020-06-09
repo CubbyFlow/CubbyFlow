@@ -113,7 +113,7 @@ CUBBYFLOW_BEGIN_TEST_F(TriangleMesh3, BasicIO)
 {
     TriangleMesh3 triMesh;
 
-    std::ifstream file("resources/bunny.obj");
+    std::ifstream file(RESOURCES_DIR "/bunny.obj");
     if (file)
     {
         triMesh.ReadObj(&file);

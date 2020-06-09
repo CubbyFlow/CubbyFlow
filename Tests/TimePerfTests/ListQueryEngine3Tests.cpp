@@ -26,7 +26,7 @@ class ListQueryEngine3 : public ::benchmark::Fixture
 
     void SetUp(const ::benchmark::State&)
     {
-        std::ifstream file(RESOURCES_DIR "bunny.obj");
+        std::ifstream file(RESOURCES_DIR "/bunny.obj");
 
         if (file)
         {

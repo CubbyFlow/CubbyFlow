@@ -337,7 +337,7 @@ void RunExample3(const std::string& rootDir, size_t resolutionX,
 
     // Build emitter
     auto dragonMesh = TriangleMesh3::Builder().MakeShared();
-    std::ifstream objFile("Resources/dragon.obj");
+    std::ifstream objFile(RESOURCES_DIR "/dragon.obj");
     if (objFile)
     {
         dragonMesh->ReadObj(&objFile);
