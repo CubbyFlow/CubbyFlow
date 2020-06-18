@@ -110,9 +110,7 @@ ParticleRenderer::~ParticleRenderer()
 bool ParticleRenderer::initialize(const std::string& inputDir, const std::string& format)
 {
     ParticleParserPtr parser = std::make_shared<ParticleParser>();
-    std::wstring wDir(inputDir.begin(), inputDir.end());
-    std::wstring wFormat(format.begin(), format.end());
-    if (!parser->loadParticleFiles(wDir, wFormat))
+    if (!parser->loadParticleFiles(inputDir, format))
         return false;
 
     _simulator = OfflineSimulation(_fps, Vector3F(0.3f, 0.0f, 0.0f));
@@ -193,7 +191,6 @@ void ParticleRenderer::onMouseButton(int button, int action, int mods)
 
 void ParticleRenderer::onMouseCursorPos(double x, double y)
 {
-    static bool bFirst = true;
     static Vector2D prevMousePos = Vector2D(x, y);
     constexpr double kSensitivity = 0.1f;
     

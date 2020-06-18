@@ -63,13 +63,13 @@ bool SimulationHelper::initialize(GLFWwindow* window)
 void SimulationHelper::render() const
 {
 	ImGui::Begin("Scene Window");
-	ImVec2 cursorPos = ImGui::GetCursorScreenPos();
+	//! ImVec2 cursorPos = ImGui::GetCursorScreenPos();
 	ImDrawList* drawList = ImGui::GetWindowDrawList();
 	for (auto& texture : _simulationTextures)
 	{
 		GLuint id = texture->getGLTextureID();
 		Size2 size = texture->getTextureSize();
-		drawList->AddImage(static_cast<void*>(&id), ImVec2(0, 0), ImVec2(100, 100));
+		drawList->AddImage(static_cast<void*>(&id), ImVec2(0, 0), ImVec2(size.x, size.y));
 	}
 	ImGui::End();
 }

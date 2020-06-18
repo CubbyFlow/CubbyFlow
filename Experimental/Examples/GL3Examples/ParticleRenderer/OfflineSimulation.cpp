@@ -27,7 +27,7 @@ OfflineSimulation::OfflineSimulation(double fps)
 }
 
 OfflineSimulation::OfflineSimulation(double fps, Vector3F origin)
-    : _fps(fps), _simulationOrigin(origin)
+    : _simulationOrigin(origin), _fps(fps)
 {
     //! Do nothing
 }
@@ -76,7 +76,7 @@ void OfflineSimulation::updateRenderable()
 void OfflineSimulation::advanceSimulation()
 {
     _frame.Advance();
-    if (_frame.index == static_cast<size_t>(_particleParser->getNumberOfParticleState() * _fps))
+    if (_frame.index == static_cast<int>(_particleParser->getNumberOfParticleState() * _fps))
     {
         resetSimulation();
     }
