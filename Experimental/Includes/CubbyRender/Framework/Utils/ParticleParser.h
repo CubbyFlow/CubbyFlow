@@ -30,7 +30,7 @@ namespace CubbyRender {
         ~ParticleParser();
 
         //! load multiple fluid files from given directory.
-        bool loadParticleFiles(const std::wstring& dir, const std::wstring& format);
+        bool loadParticleFiles(const std::string& dir, const std::string& format);
 
         //! return const reference of particle vector of one state.
         ArrayAccessor1<Vector3F> getParticles(size_t index);
@@ -39,9 +39,9 @@ namespace CubbyRender {
         size_t getNumberOfParticleState() const;
     protected:
         //! load particles from pos file.
-        void loadPosFile(const std::wstring& path);
+        void loadPosFile(const std::string& path);
         //! load particles from xyz file.
-        void loadXyzFile(const std::wstring& path);
+        void loadXyzFile(const std::string& path);
     private:
         std::vector<Array1<Vector3F>> _particleStates;
     };

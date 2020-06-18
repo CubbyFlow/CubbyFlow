@@ -18,16 +18,16 @@ namespace CubbyFlow {
 namespace CubbyRender {
 #ifdef CUBBYFLOW_WINDOWS
     template <typename Callback>
-    inline void loopDirectory(const std::wstring& dir, const std::wstring& extension, Callback callback, bool recursive=true);
+    inline void loopDirectory(const std::string& dir, const std::string& extension, Callback callback, bool recursive=true);
 #else
     template <typename Callback>
-    inline void loopDirectory(const std::wstring& dir, const std::wstring& extension, Callback callback, bool recursive=true);
+    inline void loopDirectory(const std::string& dir, const std::string& extension, Callback callback, bool recursive=true);
 #endif
 
-    inline void listFileNames(const std::wstring& dir, const std::wstring& extension, std::vector<std::wstring>* files)
+    inline void listFileNames(const std::string& dir, const std::string& extension, std::vector<std::string>* files)
     {
         files->clear();
-        loopDirectory(dir, extension, [&](const std::wstring& path){
+        loopDirectory(dir, extension, [&](const std::string& path){
             files->push_back(path);
         });
     }

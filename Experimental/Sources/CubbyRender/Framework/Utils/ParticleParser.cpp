@@ -28,19 +28,19 @@ namespace CubbyRender {
 		//! Do nothing.
 	}
 
-	bool ParticleParser::loadParticleFiles(const std::wstring& dir, const std::wstring& format)
+	bool ParticleParser::loadParticleFiles(const std::string& dir, const std::string& format)
 	{
-		std::vector<std::wstring> files;
+		std::vector<std::string> files;
 		listFileNames(dir, format, &files);
 		if (files.empty())
 		{
-			CUBBYFLOW_ERROR << "No fluid files detected with format [" << std::string(format.begin(), format.end()) << "]";
+			CUBBYFLOW_ERROR << "No fluid files detected with format [" << format << "]";
 			return false;	
 		}
 		CUBBYFLOW_INFO << "#Loaded fluid files : " << files.size();
 		std::sort(files.begin(), files.end());
 
-		if (wcscmp(format.c_str(), L"pos") == 0)
+		if (strcmp(format.c_str(), "pos") == 0)
 		{
 			_particleStates.clear();
 			for (const auto& path : files)
@@ -49,7 +49,7 @@ namespace CubbyRender {
 			}
 			return true;
 		}
-		else if (wcscmp(format.c_str(), L"xyz") == 0)
+		else if (strcmp(format.c_str(), "xyz") == 0)
 		{
 			_particleStates.clear();
 			for (const auto& path : files)
@@ -60,7 +60,7 @@ namespace CubbyRender {
 		}
 		else
 		{
-			CUBBYFLOW_ERROR << "Unknown file format [" << std::string(format.begin(), format.end()) << "]";
+			CUBBYFLOW_ERROR << "Unknown file format [" << format << "]";
 			return false;
 		}
 	}
@@ -76,12 +76,12 @@ namespace CubbyRender {
 		return _particleStates.size();
 	}
 
-	void ParticleParser::loadPosFile(const std::wstring& path)
+	void ParticleParser::loadPosFile(const std::string& path)
 	{
 		std::ifstream file(path, std::ifstream::binary);
 		if (file.is_open() == false)
 	    {
-			CUBBYFLOW_ERROR << "Failed to load file [" << std::string(path.begin(), path.end()) << "]";
+			CUBBYFLOW_ERROR << "Failed to load file [" << path << "]";
 			return;
 	    }
 		Array1<Vector3D> dParticles;
@@ -95,13 +95,13 @@ namespace CubbyRender {
 	    file.close();
 	}
 
-	void ParticleParser::loadXyzFile(const std::wstring& path)
+	void ParticleParser::loadXyzFile(const std::string& path)
 	{
 		Array1<Vector3F> particles;
 		std::ifstream file(path);
 		if (file.is_open() == false)
 		{
-			CUBBYFLOW_ERROR << "Failed to load file [" << std::string(path.begin(), path.end()) << "]";
+			CUBBYFLOW_ERROR << "Failed to load file [" << path << "]";
 			return;
 		}
 
