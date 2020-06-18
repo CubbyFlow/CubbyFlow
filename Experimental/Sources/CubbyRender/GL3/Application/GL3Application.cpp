@@ -60,8 +60,7 @@ int GL3Application::initialize()
 
     int major, minor, revision;
     glfwGetVersion(&major, &minor, &revision);
-    CUBBYFLOW_INFO << "GLFW version : " << major << "." << minor << "."
-                   << revision;
+    CUBBYFLOW_INFO << "GLFW version : " << major << "." << minor << "." << revision;
 
     glfwSetErrorCallback(onErrorEvent);
 
@@ -73,8 +72,7 @@ void GL3Application::setMainWindow(WindowPtr window)
     GL3WindowPtr glwindow = std::dynamic_pointer_cast<GL3Window>(window);
     if (glwindow == nullptr)
     {
-        CUBBYFLOW_ERROR
-            << "Failed to dynamic cast from WindowPtr to GL3WindowPtr";
+        CUBBYFLOW_ERROR << "Failed to dynamic cast from WindowPtr to GL3WindowPtr";
         std::abort();
     }
 
@@ -147,8 +145,7 @@ int GL3Application::run(int numberOfFrames, EncodingCallback makeScreenshot)
         }
         else
         {
-            _mainWindow->renderScene();
-            //! glfwSetWindowShouldClose(glfwWindow, GLFW_TRUE);
+            glfwSetWindowShouldClose(glfwWindow, GLFW_TRUE);
         }
         glfwSwapBuffers(glfwWindow);
     }

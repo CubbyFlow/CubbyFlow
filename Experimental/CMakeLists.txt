@@ -24,9 +24,11 @@ else()
     set(PNG_LIBRARIES )
 endif()
 
-include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries)
 # include header-only stb library for image read & write
+include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/stb)
+
+set(OPENGL_LIBRARIES "")
 
 # OpenGL
 option(USE_GL "Use OpenGL features" ON)
@@ -82,7 +84,6 @@ if (USE_GL)
         set(IMGUI_LIBRARY imgui)
 
         set(OPENGL_LIBRARIES 
-            ${OPENGL_LIBRARIES}
             ${GLFW_LIBRARY}
             ${IMGUI_LIBRARY}
             ${COREFOUNDATION_LIB})
@@ -98,6 +99,7 @@ if (USE_GL)
 endif()
 
 # CUDA
+set(CUDA_LIBRARIES "")
 option(USE_CUDA "Use CUDA features" ON)
 if (USE_CUDA)
     find_package(CUDA)
@@ -120,6 +122,13 @@ if (USE_CUDA)
         else()
             list(APPEND CUDA_NVCC_FLAGS --std=c++14)
         endif()
+
+        add_subdirectory(Libraries/gvdb)
+        set(GVDB_LIBRARY gvdb)
+
+        set(CUDA_LIBRARIES 
+            ${GVDB_LIBRARY})
+
     else()
         set(USE_CUDA OFF)
     endif()
@@ -134,8 +143,12 @@ endif()
 # Project modules
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Sources/CubbyRender)
 if (USE_GL)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/GL3Examples/FluidSimulator)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/GL3Examples/ParticleRenderer)
+    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/GL3Examples/FluidSimulator)
+    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/GL3Examples/ParticleRenderer)
+    if (USE_CUDA)
+        add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/gvdbExamples/InteractiveFluid)
+        add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/gvdbExamples/RenderToFiles)
+    endif()
 endif()
 if (APPLE)
     # add_subdirectory(src/examples/metal_examples)
