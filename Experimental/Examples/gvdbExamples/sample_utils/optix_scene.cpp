@@ -27,6 +27,8 @@
 //----------------------------------------------------------------------------------
 
 #include <GL/glew.h>
+#include <cudaGL.h>
+#include <cstring>
 #include "main.h"
 #include "file_png.h"
 #include "optix_scene.h"
@@ -189,7 +191,7 @@ optix::Program OptixScene::CreateProgramOptix ( std::string name, std::string pr
 // Clears the OptiX scene graph
 void OptixScene::ClearGraph ()
 {
-	for (int n=0; n < m_OptixModels.size(); n++ ) {
+	for (int n=0; n < static_cast<int>(m_OptixModels.size()); n++ ) {
 		optix::GeometryGroup	geomgroup	= (optix::GeometryGroup) m_OptixModels[n]->m_tform->getChild<optix::GeometryGroup> ();
 		optix::GeometryInstance geominst	= (optix::GeometryInstance) geomgroup->getChild(0);
 		optix::Geometry			geom		= (optix::Geometry) geominst->getGeometry ();
@@ -199,7 +201,7 @@ void OptixScene::ClearGraph ()
 	}
 	if ( m_OptixModels.size() > 0 ) m_OptixModels.clear ();
 
-	for (int n=0; n < m_OptixVolumes.size(); n++ ) {
+	for (int n=0; n < static_cast<int>(m_OptixVolumes.size()); n++ ) {
 		optix::GeometryGroup	geomgroup	= (optix::GeometryGroup) m_OptixVolumes[n]->getChild<optix::GeometryGroup> ();
 		optix::GeometryInstance geominst	= (optix::GeometryInstance) geomgroup->getChild(0);
 		optix::Geometry			geom		= (optix::Geometry) geominst->getGeometry ();
@@ -210,7 +212,7 @@ void OptixScene::ClearGraph ()
 	}
 	if ( m_OptixVolumes.size() > 0 ) m_OptixVolumes.clear ();
 
-	for (int n=0; n < m_OptixMats.size(); n++ )
+	for (int n=0; n < static_cast<int>(m_OptixMats.size()); n++ )
 		m_OptixMats[n]->destroy();
 
 	if ( m_OptixMats.size() > 0 ) m_OptixMats.clear ();	
@@ -305,7 +307,7 @@ OptixModel* OptixScene::AddPolygons ( Model* model, int mat_id, Matrix4F& xform 
 	om->m_tform->setChild ( geomgroup );
 
 	// Add model root (Transform) to the Main Group
-	int id = m_OptixModels.size() - 1 + m_OptixVolumes.size();
+	unsigned int id = static_cast<unsigned int>(m_OptixModels.size() - 1 + m_OptixVolumes.size());
 	m_OptixMainGroup->setChildCount ( id+1 );
 	m_OptixMainGroup->setChild ( id, om->m_tform );
 
@@ -448,8 +450,8 @@ void OptixScene::AddVolume ( int atlas_glid, Vector3DF vmin, Vector3DF vmax, Mat
 	optix::Buffer brick_buffer = m_OptixContext->createBuffer( RT_BUFFER_INPUT, RT_FORMAT_FLOAT3, num_bricks*2 );
 	
 	optix::float3* brick_data = static_cast<optix::float3*>( brick_buffer->map() );		
-	brick_data[0] = * (optix::float3*) &vmin;		// Cast Vector3DF to float3. Assumes both are 3x floats
-	brick_data[1] = * (optix::float3*) &vmax;
+	std::memcpy(&(brick_data[0]), &vmin, sizeof(Vector3DF));
+	std::memcpy(&(brick_data[1]), &vmax, sizeof(Vector3DF));
 
 	geom[ "brick_buffer" ]->setBuffer( brick_buffer );
 	
@@ -526,7 +528,7 @@ void OptixScene::SetSample(int frame, int sample)
 	m_OptixSeeds->getSize(bw, bh);
 	unsigned int* seeds = (unsigned int*) m_OptixSeeds->map();
 	srand( sample*17 + 4732 + frame );
-	for (int i = 0; i < bw*bh; i++) {
+	for (int i = 0; i < static_cast<int>(bw*bh); i++) {
 		seeds[i] = rand() * 0xffffL / RAND_MAX;
 	}
 	m_OptixSeeds->unmap();
@@ -565,7 +567,7 @@ void OptixScene::SetTransferFunc ( Vector4DF* src )
 		
 	m_OptixContext[ "scn_transfer_func" ]->set( m_OptixTransferFunc );
 }
-void OptixScene::CreateEnvmap (char* fpath)
+void OptixScene::CreateEnvmap (const char* fpath)
 {
 	// Load env map
 	nvImg img;
@@ -594,13 +596,14 @@ void OptixScene::CreateEnvmap (char* fpath)
 	optix::Buffer buffer = m_OptixContext->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, nx, ny);
 	float* buf_data = static_cast<float*>(buffer->map());
 	float* buf_pix = buf_data;
-	for (int y = 0; y < ny; y++)
-		for (int x = 0; x < nx; x++) {
+	for (unsigned int y = 0; y < ny; y++) {
+		for (unsigned int x = 0; x < nx; x++) {
 			*buf_pix++ = float(*ipx++) / 255.0f;
 			*buf_pix++ = float(*ipx++) / 255.0f;
 			*buf_pix++ = float(*ipx++) / 255.0f;
 			*buf_pix++ = float(*ipx++) / 255.0f;
 		}
+	}
 	buffer->unmap();
 
 	m_OptixEnvmap->setBuffer(0u, 0u, buffer);
@@ -637,19 +640,19 @@ void OptixScene::UpdateVolume ( nvdb::VolumeGVDB* gvdb )
 
 void OptixScene::UpdatePolygons ()
 {
-	for (int n=0; n < m_OptixModels.size(); n++ ) {
+	for (int n=0; n < static_cast<int>(m_OptixModels.size()); n++ ) {
 		UpdatePolygons ( m_OptixModels[n], m_OptixModels[n]->m, m_OptixModels[n]->m_matid, m_OptixModels[n]->m_xform );
 	}
 }
 
 void OptixScene::Render ( VolumeGVDB* gvdb, char shading, char chan )
 {
-	// Get buffer dims	
-	RTsize bw, bh;	
-	m_OptixBuffer->getSize ( bw, bh );		
+	// Get buffer dims
+	RTsize bw, bh;
+	m_OptixBuffer->getSize(bw, bh);
 
 	// Prepare ScnInfo for GVDB
-	gvdb->PrepareRender(bw, bh, shading);
+	gvdb->PrepareRender(static_cast<int>(bw), static_cast<int>(bh), shading);
 
 	// Transfer ScnInfo to OptiX variable
 	size_t sz = gvdb->getScnSize();
@@ -661,7 +664,7 @@ void OptixScene::Render ( VolumeGVDB* gvdb, char shading, char chan )
 	UpdateScene(gvdb->getScene());
 	
 	try {
-		m_OptixContext->launch ( 0, (int) bw, (int) bh );	
+		m_OptixContext->launch(0, bw, bh);
 	} catch (const optix::Exception& e) {
 		std::string msg = m_OptixContext->getErrorString ( e.getErrorCode() );		
 		nvprintf  ( "OPTIX ERROR:\n%s\n", msg.c_str() );
@@ -670,7 +673,7 @@ void OptixScene::Render ( VolumeGVDB* gvdb, char shading, char chan )
 	cuCtxSynchronize ();
 
 }
-void OptixScene::SaveOutput(char* fname)
+void OptixScene::SaveOutput(const char* fname)
 {
 	// map optix buffer
 	RTsize bw, bh;
@@ -683,21 +686,22 @@ void OptixScene::SaveOutput(char* fname)
 	float vmax = 1.2f;	
 	
 	// remap to 8-bit RGB
-	unsigned char* pix_buf = (unsigned char*) malloc(bw*bh * 3);
+	unsigned char* pix_buf = new unsigned char[bw * bh * 3];
 	unsigned char* pix = pix_buf;	
-	for (int y=0; y < bh; y++)
-		for (int x = 0; x < bw; x++) {
-			v = (*dat++)*255.0f / vmax; *pix++ = (unsigned char) ((v > 255) ? 255 : v);
-			v = (*dat++)*255.0f / vmax; *pix++ = (unsigned char) ((v > 255) ? 255 : v);
-			v = (*dat++)*255.0f / vmax; *pix++ = (unsigned char) ((v > 255) ? 255 : v);
+	for (RTsize y = 0; y < bh; y++) {
+		for (RTsize x = 0; x < bw; x++) {
+			v = (*dat++) * 255.0f / vmax; *pix++ = (unsigned char)((v > 255) ? 255 : v);
+			v = (*dat++) * 255.0f / vmax; *pix++ = (unsigned char)((v > 255) ? 255 : v);
+			v = (*dat++) * 255.0f / vmax; *pix++ = (unsigned char)((v > 255) ? 255 : v);
 		}
+	}
 			
 	// save to png file
-	save_png(fname, pix_buf, bw, bh, 3);
+	save_png(fname, pix_buf, static_cast<int>(bw), static_cast<int>(bh), 3);
 
 	m_OptixBuffer->unmap();
 
-	free(pix_buf);
+	delete[] pix_buf;
 }
 
 void OptixScene::ReadOutputTex ( int out_tex )
@@ -727,6 +731,7 @@ void OptixScene::ReadOutputTex ( int out_tex )
 	case RT_FORMAT_FLOAT4:			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F_ARB,		tw, th, 0, GL_RGBA, GL_FLOAT, 0);	break;
 	case RT_FORMAT_FLOAT3:			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F_ARB,		tw, th, 0, GL_RGB, GL_FLOAT, 0);		break;
 	case RT_FORMAT_FLOAT:			glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE32F_ARB, tw, th, 0, GL_LUMINANCE, GL_FLOAT, 0);	break;	
+	default : break;
 	}
 	glBindBuffer( GL_PIXEL_UNPACK_BUFFER, 0 );	
 	glBindTexture( GL_TEXTURE_2D, 0);

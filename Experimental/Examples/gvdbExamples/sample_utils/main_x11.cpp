@@ -53,14 +53,6 @@ XEvent uMsg;
 
 typedef GLXContext(*glXCreateContextAttribsARBProc)(Display *,GLXFBConfig, GLXContext,Bool, const int*);
 
-static int attrListDbl[] = {
-    GLX_RGBA,GLX_DOUBLEBUFFER,
-    GLX_RED_SIZE,4,
-    GLX_GREEN_SIZE,4,
-    GLX_BLUE_SIZE,4,
-    GLX_DEPTH_SIZE,16,0
-};
-
  
 static bool ctxErrorOccurred;
 static int ctxErrorHandler(Display *dpy, XErrorEvent *evt){
@@ -215,8 +207,6 @@ bool WINinternal::initBase(const NVPWindow::ContextFlags *cflags, NVPWindow *sou
         settings = *cflags;
     }
 
-    const char *glxExts = glXQueryExtensionsString(m_dpy,DefaultScreen(m_dpy));
-
     glXCreateContextAttribsARBProc glXCreateContextAttribsARB = 0;
     glXCreateContextAttribsARB  = (glXCreateContextAttribsARBProc) glXGetProcAddressARB((const GLubyte *) "glXCreateContextAttribsARB");
 
@@ -272,8 +262,6 @@ static int translateKey(XEvent &evt, bool& printableKey)
 {
     printableKey = false;
     if(evt.type != KeyPress && evt.type != KeyRelease) return 0;
-
-    unsigned int key = evt.xkey.keycode;
 
     KeySym ksym = XLookupKeysym(&evt.xkey,0);
 
@@ -444,10 +432,6 @@ bool NVPWindow::create(const char *title, const ContextFlags *cflags, int width,
 int NVPWindow::run ( const std::string& title, const std::string& shortname, int argc, const char** argv, int width, int height, int Major, int Minor, int GoldenFrame )
 {
     bool vsyncstate = true;
-    unsigned int intervalSeconds = 2;
-    unsigned int frameLimit = 0;
-    unsigned int timerLimit = 0;
-    const char* dumpatexit = NULL;
 
     for (int i = 0; i < argc; i++){
       if (strcmp(argv[i],"-winsize") == 0 && i + 2 < argc){
@@ -458,22 +442,6 @@ int NVPWindow::run ( const std::string& title, const std::string& shortname, int
       if (strcmp(argv[i],"-vsync") == 0 && i + 1 < argc){
         vsyncstate = atoi(argv[i+1]) ? true : false;
         i+=1;
-      }
-      if (strcmp(argv[i],"-frames")==0 && i+1<argc){
-        frameLimit = atoi(argv[i+1]);
-        i++;
-      }
-      if (strcmp(argv[i],"-timerprints")==0 && i+1<argc){
-        timerLimit = atoi(argv[i+1]);
-        i++;
-      }
-      if (strcmp(argv[i],"-timerinterval")==0 && i+1<argc){
-        intervalSeconds = atoi(argv[i+1]);
-        i++;
-      }
-      if (strcmp(argv[i],"-bmpatexit")==0 && i+1<argc){
-        dumpatexit = argv[i+1];
-        i++;
       }
     }
 
@@ -491,11 +459,7 @@ int NVPWindow::run ( const std::string& title, const std::string& shortname, int
     bool Run = begin();
     m_active = true;
 
-    double timeStart = sysGetTime();
-    double timeBegin = sysGetTime();
     double frames = 0;
-
-    bool   lastVsync = m_vsync;
 
     m_display_frame = 0;
     m_golden_frame = GoldenFrame;
@@ -603,8 +567,7 @@ void NVPWindow::swapInterval(int i){
 
 bool NVPWindow::sysPollEvents(bool bLoop)
 {
-    NVPWindow::MouseButton btn;   
-    bool done = false;
+    NVPWindow::MouseButton btn { NVPWindow::MouseButton::MOUSE_BUTTON_LEFT };   
     XEvent event;
     static short mouseWheelScale = 5;
 
@@ -671,7 +634,6 @@ bool NVPWindow::sysPollEvents(bool bLoop)
                 case ClientMessage:
                     if(strcmp(XGetAtomName(pWin->m_internal->m_dpy,event.xclient.message_type),"WM_PROTOCOLS") == 0){
                         pWin->shutdown();
-                        done = True;
                     }
                  break;            
             }
@@ -739,8 +701,6 @@ int NVPWindow::sysExtensionSupported(const char *name){
   // Check platform specifc gets
 
   const char* exts = NULL;
-  NVPWindow* win = g_windows[0];
-
  
   if (!exts) {
     return 0;
@@ -768,7 +728,6 @@ static int getMilliCount(){
 
 }
 
-static double s_frequency;
 double NVPWindow::sysGetTime(){
 
     //Handle timeb get time.
@@ -1050,8 +1009,7 @@ bool WINinternal::create(const char *title,int width, int height){
   
 
     m_dpy = XOpenDisplay(0);
-    char *dpyName = XDisplayName(NULL);
-
+    
     //nvprintf("Display Name : %s\n",dpyName);
 
    Atom wmDelete;
@@ -1113,8 +1071,8 @@ bool WINinternal::create(const char *title,int width, int height){
                 printf("GLX Config Sample Buffers : %d.\n",sampleBuf);
                 printf("GLX Config Samples : %d.\n",samples);
 
-                if(bestfbc < 0 || sampleBuf && samples > best_num_sample) bestfbc = i,best_num_sample = samples;
-                if(worstfbc < 0 || !sampleBuf || samples < worst_num_sample) worstfbc = i, worst_num_sample = samples;
+                if((bestfbc < 0 || sampleBuf) && (samples > best_num_sample)) bestfbc = i,best_num_sample = samples;
+                if((worstfbc < 0 || !sampleBuf) || (samples < worst_num_sample)) worstfbc = i, worst_num_sample = samples;
          }
         XFree(vi);
     }
@@ -1150,7 +1108,7 @@ bool WINinternal::create(const char *title,int width, int height){
         CWBorderPixel | CWColormap | CWEventMask | CWOverrideRedirect,&swa);
     sleep(1);
 
-    printf("Window : %d.\n",m_window);
+    printf("Window : %d.\n",static_cast<int>(m_window));
     XFree(vi);
     
     XSetStandardProperties(m_dpy,m_window,title,title,None,NULL,0,NULL);
@@ -1172,6 +1130,7 @@ nvprintf ("Starting here\n");
 Display *dpy = XOpenDisplay(0); 
 int nelements;
 GLXFBConfig *fbc = glXChooseFBConfig(dpy, DefaultScreen(dpy), 0, &nelements);
+(void)fbc;
 nvprintf ("Got here\n");
 
     std::string exe = std::string(argv[0]);
@@ -1187,7 +1146,7 @@ nvprintf ("Got here\n");
 
     sample_main(argc,(const char **)&argv[0]);
 
-    for(int i=0;i<g_windows.size();++i){
+    for(int i=0;i<static_cast<int>(g_windows.size());++i){
             NVPWindow *pWin = g_windows[i];
             if(pWin->m_internal){
                 if(pWin->m_internal->m_glx_context != NULL){
@@ -1207,8 +1166,6 @@ nvprintf ("Got here\n");
 //------------------------------------------------------------------------------
 static size_t fmt2_sz    = 0;
 static char *fmt2 = NULL;
-static FILE *fd = NULL;
-static bool bLogReady = false;
 static bool bPrintLogging = true;
 static int  printLevel = -1; // <0 mean no level prefix
 void nvprintSetLevel(int l)
@@ -1257,6 +1214,8 @@ void nvprintf2(va_list &vlist, const char * fmt, int level)
     //OutputDebugStringA(prefix);
     OutputDebugStringA(fmt2);
 #ifdef _DEBUG
+    static bool bLogReady = false;
+    static FILE *fd = NULL;
     if(bLogReady == false)
     {
         fd = fopen("Log.txt", "w");
@@ -1271,7 +1230,6 @@ void nvprintf2(va_list &vlist, const char * fmt, int level)
 #endif
     sample_print(level, fmt2);
     //::printf(prefix);
-    ::printf(fmt2);
 }
 void nvprintf(const char * fmt, ...)
 {
@@ -1311,7 +1269,7 @@ bool getFileLocation ( const char* filename, char* outpath, std::vector<std::str
 		found = true;
 		strcpy ( outpath, filename );		
 	} else {
-		for (int i=0; i < searchPaths.size(); i++) {			
+		for (int i=0; i < static_cast<int>(searchPaths.size()); i++) {			
 			if (searchPaths[i].empty() ) continue;  
 			sprintf ( outpath, "%s%s", searchPaths[i].c_str(), filename );
 			fp = fopen( outpath, "rb" );

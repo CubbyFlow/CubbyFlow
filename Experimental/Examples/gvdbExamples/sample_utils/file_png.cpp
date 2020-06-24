@@ -6227,7 +6227,7 @@ unsigned encode(const std::string& filename,
 #endif /*LODEPNG_COMPILE_CPP*/
 
 
-void save_png ( char* fname, unsigned char* img, int w, int h, int ch )
+void save_png ( const char* fname, unsigned char* img, int w, int h, int ch )
 {
 	unsigned error = lodepng::encode ( fname, img, w, h, (ch==3) ? LCT_RGB : LCT_RGBA, 8 );	  
 	if (error) printf ( "png encoder error: %s\n", lodepng_error_text(error) );

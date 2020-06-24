@@ -130,7 +130,7 @@
 		nvImg();
 		void	Create ( int x, int y, int fmt );
 		void	Fill ( float r, float g, float b, float a );
-		bool	LoadPng ( char* fname, bool bGray=false );		// Load PNG
+		bool	LoadPng ( const char* fname, bool bGray=false );		// Load PNG
 		bool	LoadTga ( char* fname );			// Load TGA
 		void	FlipY ();
 		void	SavePng ( char* fname );
@@ -258,7 +258,7 @@
 		void drawCircle ( float x1, float y1, float radius, float r, float g, float b, float a );
 		void drawCircleDash ( float x1, float y1, float radius, float r, float g, float b, float a );
 		void drawCircleFill ( float x1, float y1, float radius, float r, float g, float b, float a );
-		void drawText ( float x1, float y1, char* msg, float r, float g, float b, float a );
+		void drawText ( float x1, float y1, const char* msg, float r, float g, float b, float a );
 		float getTextX ( char* msg );
 		float getTextY ( char* msg );		
 		void draw2D ();		// do all 2D draws

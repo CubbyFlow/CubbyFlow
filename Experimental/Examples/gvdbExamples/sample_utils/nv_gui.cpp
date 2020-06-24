@@ -82,7 +82,7 @@ void drawTri  ( float x1, float y1, float x2, float y2, float x3, float y3, floa
 void drawCircle ( float x1, float y1, float radius, float r, float g, float b, float a )		{ g_2D.drawCircle(x1,y1,radius,r,g,b,a); }
 void drawCircleDash ( float x1, float y1, float radius, float r, float g, float b, float a )	{ g_2D.drawCircleDash(x1,y1,radius,r,g,b,a); }
 void drawCircleFill ( float x1, float y1, float radius, float r, float g, float b, float a )	{ g_2D.drawCircleFill(x1,y1,radius,r,g,b,a); }
-void drawText ( float x1, float y1, char* msg, float r, float g, float b, float a )				{ g_2D.drawText(x1,y1,msg,r,g,b,a); }
+void drawText ( float x1, float y1, const char* msg, float r, float g, float b, float a )				{ g_2D.drawText(x1,y1,msg,r,g,b,a); }
 float getTextX ( char* msg )	{ return g_2D.getTextX(msg); }
 float getTextY ( char* msg )	{ return g_2D.getTextY(msg); }
 
@@ -143,7 +143,7 @@ void nvDraw::setView2D ( float* model, float* view, float* proj )
 }
 void nvDraw::updateStatic2D ( int n )
 {
-	if ( n < 0 || n >= mStatic.size()) return;
+	if ( n < 0 || n >= static_cast<int>(mStatic.size())) return;
 	if ( mWidth==-1 ) {		
 		SetMatrixView ( mStatic[n], mModelMtx, mViewMtx, mProjMtx, (float) mZFactor );
 	} else {
@@ -165,7 +165,7 @@ void nvDraw::start3D ( Camera3D* cam )
 		nvprintf ( "ERROR: nv_gui was not initialized. Must call init2D.\n" );
 		nverror ();
 	}
-	if ( m3DNum >= m3D.size() ) {
+	if ( m3DNum >= static_cast<int>(m3D.size()) ) {
 		nvSet new_set;	
 		memset ( &new_set, 0, sizeof(nvSet) );
 		m3D.push_back ( new_set );		
@@ -218,7 +218,7 @@ int nvDraw::start2D ( bool bStatic )
 		mCurrSet = s;		
 	} else {
 		int curr = mDynNum;					
-		if ( mDynNum >= mDynamic.size() ) {			
+		if ( mDynNum >= static_cast<int>(mDynamic.size()) ) {			
 			mDynamic.push_back ( new_set );						
 			mDynNum = (int) mDynamic.size();
 			s = &mDynamic[curr];	
@@ -286,10 +286,10 @@ nvVert* nvDraw::allocGeom ( int cnt, int grp, nvSet* s, int& ndx )
 	if ( s->mNum[grp] + cnt >= s->mMax[grp] ) {		
 		xlong new_max = s->mMax[grp] * 8 + cnt;		
 		//	nvprintf  ( "allocGeom: expand, %lu\n", new_max );
-		nvVert* new_data = (nvVert*) malloc ( new_max*sizeof(nvVert) );
+		nvVert* new_data = new nvVert[new_max];
 		if ( s->mGeom[grp] != 0x0 ) {
 			memcpy ( new_data, s->mGeom[grp], s->mNum[grp]*sizeof(nvVert) );
-			free ( s->mGeom[grp] );
+			delete[] s->mGeom[grp];
 		}
 		s->mGeom[grp] = new_data;
 		s->mMax[grp] = new_max;
@@ -306,13 +306,13 @@ nvVert* nvDraw::allocGeom ( nvImg* img, int grp, nvSet* s, int& ndx )
 	
 	if ( s->mNum[grp] + cnt >= s->mMax[grp] ) {
 		xlong new_max = s->mMax[grp] * 8 + cnt;		
-		nvImg** new_imgs = (nvImg**) malloc ( new_max*sizeof(nvImg*) );
-		nvVert* new_data = (nvVert*) malloc ( new_max*sizeof(nvVert) );
+		nvImg** new_imgs = new nvImg * [new_max];
+		nvVert* new_data = new nvVert[new_max];
 		if ( s->mGeom[grp] != 0x0 ) {
 			memcpy ( new_data, s->mGeom[grp], s->mNum[grp]*sizeof(nvVert) );
 			memcpy ( new_imgs, s->mImgs, s->mNum[grp]*sizeof(nvImg*) );
-			free ( s->mGeom[grp] );
-			free ( s->mImgs );
+			delete[] s->mGeom[grp];
+			delete[] s->mImgs;
 		}
 		s->mGeom[grp] = new_data;		
 		s->mMax[grp] = new_max;
@@ -330,10 +330,10 @@ uint* nvDraw::allocIdx ( int cnt, int grp, nvSet* s )
 	if ( s->mNumI[grp] + cnt >= s->mMaxI[grp] ) {		
 		xlong new_max = s->mMaxI[grp] * 8 + cnt;
 		// nvprintf  ( "allocIdx: expand, %lu\n", new_max );
-		uint* new_data = (uint*) malloc ( new_max*sizeof(uint) );
+		uint* new_data = new uint[new_max];
 		if ( s->mIdx[grp] != 0x0 ) {
 			memcpy ( new_data, s->mIdx[grp], s->mNumI[grp]*sizeof(uint) );
-			delete s->mIdx[grp];
+			delete[] s->mIdx[grp];
 		}
 		s->mIdx[grp] = new_data;
 		s->mMaxI[grp] = new_max;
@@ -467,7 +467,7 @@ void nvDraw::drawCircleFill ( float x1, float y1, float radius, float r, float g
 }
 
 // from Tristan Lorach, OpenGLText
-void nvDraw::drawText ( float x1, float y1, char* msg, float r, float g, float b, float a )
+void nvDraw::drawText ( float x1, float y1, const char* msg, float r, float g, float b, float a )
 {
 #ifdef DEBUG_UTIL
 	nvprintf  ( "Draw text.\n" );
@@ -501,7 +501,7 @@ void nvDraw::drawText ( float x1, float y1, char* msg, float r, float g, float b
 			lLinePosY += h;
 			lPosY = lLinePosY;
 		} else if ( *c >=0 && *c <= 128 ) {
-			GlyphInfo& gly = mGlyphInfos.glyphs[*c];
+			GlyphInfo& gly = mGlyphInfos.glyphs[static_cast<size_t>(*c)];
 			float pX = lPosX + gly.pix.offX;
 			float pY = lPosY + gly.pix.height + gly.pix.offY;
 			
@@ -541,7 +541,6 @@ void nvDraw::drawText ( float x1, float y1, char* msg, float r, float g, float b
 
 float nvDraw::getTextX ( char* msg )
 {
-	int len = (int) strlen ( msg );
 	int h = mGlyphInfos.pix.ascent + mGlyphInfos.pix.descent + mGlyphInfos.pix.linegap;
 	float lPosX = 0;
 	float lPosY = 0;
@@ -554,9 +553,7 @@ float nvDraw::getTextX ( char* msg )
 			lLinePosY += h;
 			lPosY = lLinePosY;
 		} else if ( *c >=0 && *c <= 128 ) {
-			GlyphInfo& gly = mGlyphInfos.glyphs[*c];
-			float pX = lPosX + gly.pix.offX;
-			float pY = lPosY + gly.pix.height + gly.pix.offY;			
+			GlyphInfo& gly = mGlyphInfos.glyphs[static_cast<size_t>(*c)];
 			lPosX += gly.pix.advance* mTextScale + mTextKern;
             lPosY += 0;
 		}
@@ -566,7 +563,6 @@ float nvDraw::getTextX ( char* msg )
 }
 float nvDraw::getTextY ( char* msg )
 {
-	int len = (int) strlen ( msg );
 	int h = mGlyphInfos.pix.ascent + mGlyphInfos.pix.descent + mGlyphInfos.pix.linegap;
 	float lPosX = 0;
 	float lPosY = 0;
@@ -579,9 +575,7 @@ float nvDraw::getTextY ( char* msg )
 			lLinePosY += h;
 			lPosY = lLinePosY;
 		} else if ( *c >=0 && *c <= 128 ) {
-			GlyphInfo& gly = mGlyphInfos.glyphs[*c];
-			float pX = lPosX + gly.pix.offX;
-			float pY = lPosY + gly.pix.height + gly.pix.offY;			
+			GlyphInfo& gly = mGlyphInfos.glyphs[static_cast<size_t>(*c)];
 			lPosX += gly.pix.advance* mTextScale + mTextKern;
             lPosY += 0;
 		}
@@ -1073,21 +1067,21 @@ void nvDraw::drawSet2D ( nvSet& s )
 
 	// images
 	// * Note: Must be drawn individually unless we use bindless
-	int pos=0;
+	char* pos=0;
 	nvImg* img;
 	
-	for (int n=0; n < s.mNum[GRP_IMG] / 4 ; n++ ) {
+	for (int n=0; n < static_cast<int>(s.mNum[GRP_IMG] / 4) ; n++ ) {
 		img = s.mImgs[n];		
 		glBindTexture ( GL_TEXTURE_2D, img->getTex());										
 		glBindBuffer ( GL_ARRAY_BUFFER, s.mVBO[ GRP_IMG ] );	
 		glEnableVertexAttribArray ( localPos );
-		glVertexAttribPointer( localPos, 3, GL_FLOAT, GL_FALSE, sizeof(nvVert), (void*) (pos + 0) );
+		glVertexAttribPointer( localPos, 3, GL_FLOAT, GL_FALSE, sizeof(nvVert), pos + 0 );
 		
 		glEnableVertexAttribArray ( localClr );
-		glVertexAttribPointer( localClr, 4, GL_FLOAT, GL_FALSE, sizeof(nvVert), (void*) (pos + 12) );
+		glVertexAttribPointer( localClr, 4, GL_FLOAT, GL_FALSE, sizeof(nvVert), pos + 12 );
 
 		glEnableVertexAttribArray ( localUV );
-		glVertexAttribPointer( localUV,  2, GL_FLOAT, GL_FALSE, sizeof(nvVert), (void*) (pos + 28) );
+		glVertexAttribPointer( localUV,  2, GL_FLOAT, GL_FALSE, sizeof(nvVert), pos + 28 );
 
 		glDrawArrays (GL_TRIANGLE_STRIP, 0, 4 );			
 		pos += sizeof(nvVert)*4;
@@ -1222,7 +1216,7 @@ void nvDraw::draw2D ()
 
 	// Delete dynamic buffers	
 	nvSet* s;
-	for (int n=0; n < mDynamic.size(); n++ ) {		
+	for (int n=0; n < static_cast<int>(mDynamic.size()); n++ ) {		
 		s = &mDynamic[n];
 		for (int grp=0; grp < GRP_MAX; grp++) {
 			if ( s->mGeom[grp] != 0x0 ) delete s->mGeom[grp]; 
@@ -1295,7 +1289,8 @@ bool nvDraw::LoadFont ( const char * fontName )
     FILE *fd = fopen( fpath, "rb" );
     if ( !fd ) return false;
 
-    int r = (int)fread(&mGlyphInfos, 1, sizeof(FileHeader), fd);
+    size_t result = fread(&mGlyphInfos, 1, sizeof(FileHeader), fd);
+	(void)result;
     fclose(fd);
 
 	return true;
@@ -1363,7 +1358,7 @@ std::string nvGui::getItemName ( int g, int v )
 
 bool nvGui::guiChanged ( int n )
 {
-	if ( n < 0 || n >= mGui.size() ) return false;
+	if ( n < 0 || n >= static_cast<int>(mGui.size()) ) return false;
 	if ( mGui[n].changed ) {
 		mGui[n].changed = false;
 		return true;
@@ -1373,8 +1368,8 @@ bool nvGui::guiChanged ( int n )
 void nvGui::Clear ()
 {	
 	// delete images
-	for (int n = 0; n < mGui.size(); n++) {
-		for (int j = 0; j < mGui[n].imgs.size(); j++) 
+	for (int n = 0; n < static_cast<int>(mGui.size()); n++) {
+		for (int j = 0; j < static_cast<int>(mGui[n].imgs.size()); j++) 
 			delete mGui[n].imgs[j];			
 		mGui[n].imgs.clear();
 	}
@@ -1385,16 +1380,16 @@ void nvGui::Clear ()
 void nvGui::Draw ( nvImg* chrome )
 {
 	char buf[1024];
-	float x1, y1, x2, y2, frac, dx, x3;
+	float x1, y1, x2, y2, frac { 0 }, x3;
 	float tx, ty;
-	bool bval;
+	bool bval { false };
 
 	start2D ();
 
 	Vector4DF	tc ( 1, 1, 1, 1);		// text color
 	Vector3DF	toff ( 5, 15, 0 );		// text offset
 	
-	for (int n=0; n < mGui.size(); n++ ) {
+	for (int n=0; n < static_cast<int>(mGui.size()); n++ ) {
 		
 		x1 = mGui[n].x;	y1 = mGui[n].y;
 		x2 = x1 + mGui[n].w; y2 = y1 + mGui[n].h;	
@@ -1420,7 +1415,7 @@ void nvGui::Draw ( nvImg* chrome )
 			case GUI_FLOAT: sprintf ( buf, "%.5f", *(float*) mGui[n].data );	break;
 			case GUI_BOOL:  if (*(bool*) mGui[n].data) sprintf (buf, "on" ); else sprintf(buf,"off");	break;
 			};
-			dx = getTextX (buf);
+			getTextX (buf);
 			drawText ( x3, ty, buf, tc.x, tc.y, tc.z, tc.w );
 			sprintf ( buf, "%s", mGui[n].name.c_str() );	
 			drawText ( tx, ty, buf, tc.x, tc.y, tc.z, tc.w );	
@@ -1434,7 +1429,7 @@ void nvGui::Draw ( nvImg* chrome )
 			case GUI_FLOAT: frac = (     (*(float*) mGui[n].data) - mGui[n].vmin) / (mGui[n].vmax-mGui[n].vmin); sprintf ( buf, "%.3f", *(float*) mGui[n].data );	break;
 			};			
 			drawFill ( x3, y1+2, x3+frac*(x2-x3), y2-2, .6f, 1.0f, .8f, 1.0f );		
-			dx = getTextX (buf);
+			getTextX (buf);
 			drawText ( x3, ty, buf, tc.x, tc.y, tc.z, tc.w );
 			sprintf ( buf, "%s", mGui[n].name.c_str() );	
 			drawText ( tx, ty, buf, tc.x, tc.y, tc.z, tc.w );		
@@ -1461,10 +1456,10 @@ void nvGui::Draw ( nvImg* chrome )
 			drawText ( tx, ty, buf, tc.x, tc.y, tc.z, tc.w);
 			
 			int val = *(int*) mGui[n].data;
-			if ( val >=0 && val < mGui[n].items.size() ) {
+			if ( val >=0 && val < static_cast<int>(mGui[n].items.size()) ) {
 				sprintf ( buf, "%s", mGui[n].items[val].c_str() );
 			} else {
-				sprintf ( buf, "" );
+				sprintf ( buf, " " );
 			}
 			drawText ( x3, ty, buf, tc.x, tc.y, tc.z, tc.w );
 			} break;
@@ -1479,7 +1474,7 @@ void nvGui::Draw ( nvImg* chrome )
 			ix = x1 + val*(iw + 25); iy = y1;
 			drawFill ( ix, iy, ix+iw, iy+ih, 1.0, 1.0, 1.0, 0.25 );
 
-			for (int j=0; j < mGui[n].items.size(); j++ ) {      // buttons
+			for (int j=0; j < static_cast<int>(mGui[n].items.size()); j++ ) {      // buttons
 				ix = x1 + j*(iw + 25); iy = y1;
 				drawImg ( mGui[n].imgs[j], ix, iy, ix+iw, iy+ih, 1, 1, 1, 1 );
 				strcpy ( msg, mGui[n].items[j].c_str() );
@@ -1509,7 +1504,7 @@ bool nvGui::MouseDown ( float x, float y )
 	// GUI down - Check if GUI is hit
 	float xoff = 150;
 	float x1, y1, x2, x3, y2;
-	for (int n=0; n < mGui.size(); n++ ) {
+	for (int n=0; n < static_cast<int>(mGui.size()); n++ ) {
 		x1 = mGui[n].x;			y1 = mGui[n].y;
 		x2 = x1 + mGui[n].w;	y2 = y1 + mGui[n].h;		
 		x3 = x2 - xoff;
@@ -1525,7 +1520,7 @@ bool nvGui::MouseDown ( float x, float y )
 			if ( x > x1 && x < x2 && y > y1 && y < y2 ) {
 				mActiveGui = -1;
 				mGui[ n ].changed = true;
-				int val;
+				int val { 0 };
 				switch ( mGui[ n ].dtype ) {
 				case GUI_INT:	val = ( (*(int*) mGui[n].data) == 0 ) ? 1 : 0;			*(int*) mGui[n].data = (int) val;		break;
 				case GUI_FLOAT:	val = ( (*(float*) mGui[n].data) == 0.0 ) ? 1 : 0;		*(float*) mGui[n].data = (float) val;	break;
@@ -1540,7 +1535,7 @@ bool nvGui::MouseDown ( float x, float y )
 				mActiveGui = n;
 				mGui [ n ].changed = true;								// combe box has changed
 				int val = *(int*) mGui[n].data;							// get combo id
-				val = (val >= mGui[n].items.size()-1 ) ? 0 : val+1;		// increment value
+				val = (val >= static_cast<int>(mGui[n].items.size()-1) ) ? 0 : val+1;		// increment value
 				*(int*) mGui[n].data = val;
 				if ( g_GuiCallback ) g_GuiCallback( n, (float) val );
 			} 
@@ -1550,7 +1545,7 @@ bool nvGui::MouseDown ( float x, float y )
 			int ih = mGui[n].imgs[0]->getHeight();
 			float ix, iy;
 
-			for (int j=0; j < mGui[n].items.size(); j++ ) {      // buttons
+			for (int j=0; j < static_cast<int>(mGui[n].items.size()); j++ ) {      // buttons
 				ix = x1 + j*(iw + 25); iy = y1;
 				if ( x > ix && y > iy && x < ix+iw && y < iy+ih ) {
 					mActiveGui = n;
@@ -1573,11 +1568,11 @@ bool nvGui::MouseDown ( float x, float y )
 bool nvGui::MouseDrag ( float x, float y )
 {
 	// GUI drag - Adjust value of hit gui
-	float x1, y1, x2, x3, y2, val;
+	float x1, x2, x3, val { 0.0f };
 	float xoff = 150;
 	if ( mActiveGui != -1 ) {
-		x1 = mGui[ mActiveGui].x;			y1 = mGui[mActiveGui ].y;
-		x2 = x1 + mGui[ mActiveGui ].w;	y2 = y1 + mGui[mActiveGui ].h;
+		x1 = mGui[ mActiveGui].x;
+		x2 = x1 + mGui[ mActiveGui ].w;
 		x3 = x2 - xoff;
 		if ( x <= x3 ) {
 			mGui[ mActiveGui ].changed = true;			
@@ -1652,7 +1647,7 @@ nvImg::nvImg ()
 {
 	mXres = 0;
 	mYres = 0;
-	mData = 0;
+	mData = nullptr;
 	mTex = UINT_NULL;
 }
 
@@ -1669,8 +1664,8 @@ void nvImg::Create ( int x, int y, int fmt )
 	case IMG_GREY16:	mSize *= 2; break;	
 	}
 
-    if ( mData != 0x0 ) free ( mData );
-    mData = (unsigned char*) malloc ( mSize );
+	if (mData != nullptr) delete[] mData;
+	mData = new unsigned char[mSize];
 	 
 	memset ( mData, 0, mSize );
     
@@ -1691,17 +1686,18 @@ void nvImg::Fill ( float r, float g, float b, float a )
 void nvImg::FlipY ()
 {
 	int pitch = mSize / mYres;
-	unsigned char* buf = (unsigned char*) malloc ( pitch );
+	unsigned char* buf = new unsigned char[pitch];
 	for (int y=0; y < mYres/2; y++ ) {
 		memcpy ( buf, mData + (y*pitch), pitch );		
 		memcpy ( mData + (y*pitch), mData + ((mYres-y-1)*pitch), pitch );		
 		memcpy ( mData + ((mYres-y-1)*pitch), buf, pitch );
 	}
+	delete[] buf;
 	UpdateTex ();
 }
 
 
-bool nvImg::LoadPng ( char* fname, bool bGrey )
+bool nvImg::LoadPng ( const char* fname, bool bGrey )
 {
 	std::vector< unsigned char > out;
 	unsigned int w, h; 
@@ -1751,8 +1747,8 @@ bool nvImg::LoadTga ( char* fname )
 		return false;
 	}
 
-    if ( mData != 0x0 ) free ( mData );
-    mData = (unsigned char*) malloc ( mSize );
+	if (mData != nullptr) delete[] mData;
+	mData = new unsigned char[mSize];
 	 
 	memcpy ( mData, fontTGA->m_nImageData, mSize );
     
@@ -1854,12 +1850,11 @@ void nvImg::UpdateTex ()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		
-		GLenum fmt;
-		int size;
+		GLenum fmt { 0 };
 		switch ( mFmt ) {
-		case IMG_RGB:	fmt = GL_RGB; size = 3;			break;
-		case IMG_RGBA:	fmt = GL_RGBA; size = 4;		break;
-		case IMG_GREY16: fmt = GL_LUMINANCE; size = 2;	break;
+		case IMG_RGB:	fmt = GL_RGB; 			break;
+		case IMG_RGBA:	fmt = GL_RGBA; 		break;
+		case IMG_GREY16: fmt = GL_LUMINANCE; 	break;
 		}
 
 		glTexImage2D ( GL_TEXTURE_2D, 0, fmt, mXres, mYres, 0, fmt, GL_UNSIGNED_BYTE, mData );
@@ -1885,14 +1880,13 @@ void nvMesh::ComputeNormals ()
 	Vector3DF norm, side;
 
     // Clear vertex normals
-    for (int n=0; n < mVertices.size(); n++) {
+    for (int n=0; n < static_cast<int>(mVertices.size()); n++) {
 		mVertices[n].nx = 0;
 		mVertices[n].ny = 0;
 		mVertices[n].nz = 0;			
     }
 
     // Compute normals of all faces
-    int n=0;
     for (int f = 0; f < mNumFaces; f++ ) {
 		v1 = mFaceVN[f*3]; v2 = mFaceVN[f*3+1]; v3 = mFaceVN[f*3+2]; 
 		p1.Set ( mVertices[v1].x, mVertices[v1].y, mVertices[v1].z );
@@ -1908,7 +1902,7 @@ void nvMesh::ComputeNormals ()
 
     // Normalize vertex normals
     Vector3DF vec;
-    for (int n=0; n < mVertices.size(); n++) {
+    for (int n=0; n < static_cast<int>(mVertices.size()); n++) {
 		p1.Set ( mVertices[n].nx, mVertices[n].ny, mVertices[n].nz );
 		p1.Normalize ();
 		mVertices[n].nx = p1.x; mVertices[n].ny = p1.y; mVertices[n].nz = p1.z;
@@ -1962,13 +1956,14 @@ bool nvMesh::LoadPly ( char* fname, float scal )
     char bword[200];
     std::string word;
     int vnum, fnum, elem, cnt;
-    char typ;
+    char typ { 0 };
 
     fp = fopen ( fname, "rt" );
     if ( fp == 0x0 ) { nvprintf  ( "ERROR: Could not find mesh file: %s\n", fname ); }
 
     // Read header
-    fgets ( buf, 1000, fp );
+    char* result = fgets ( buf, 1000, fp );
+	(void)result;
     readword ( buf, bword, ' ' ); word = bword;
     if ( word.compare("ply" )!=0 ) {
 		nvprintf  ( "ERROR: Not a ply file. %s\n", fname );        
@@ -1978,7 +1973,8 @@ bool nvMesh::LoadPly ( char* fname, float scal )
 
     nvprintf  ( "Reading PLY mesh: %s.\n", fname );
     while ( feof( fp ) == 0 ) {
-        fgets ( buf, 1000, fp );
+        char* result1 = fgets ( buf, 1000, fp );
+		(void)result1;
         readword ( buf, bword, ' ' );
         word = bword;
         if ( word.compare("comment" )!=0 ) {
@@ -2031,14 +2027,14 @@ bool nvMesh::LoadPly ( char* fname, float scal )
         nvprintf  ( "ERROR: Vertex data not found.\n" );
     }
 
-    xref vert;
     for (int n=0; n < m_Ply[elem]->num; n++) {
-        fgets ( buf, 1000, fp );
+        char* result1 = fgets ( buf, 1000, fp );
+		(void)result1;
         for (int j=0; j < (int) m_Ply[elem]->prop_list.size(); j++) {
             readword ( buf, bword, ' ' );
             m_PlyData[ j ] = (float) atof ( bword );
         }
-        vert = AddVert ( m_PlyData[xi]*scal, m_PlyData[yi]*scal, m_PlyData[zi]*scal, m_PlyData[ui], m_PlyData[vi], 0 );
+        AddVert ( m_PlyData[xi]*scal, m_PlyData[yi]*scal, m_PlyData[zi]*scal, m_PlyData[ui], m_PlyData[vi], 0 );
     }
 
     nvprintf  ( "Reading faces..\n" );
@@ -2048,7 +2044,8 @@ bool nvMesh::LoadPly ( char* fname, float scal )
         nvprintf  ( "ERROR: Face data not found.\n" );
     }
     for (int n=0; n < m_Ply[elem]->num; n++) {
-        fgets ( buf, 1000, fp );
+        char* result1 = fgets ( buf, 1000, fp );
+		(void)result1;
         m_PlyCnt = 0;
         for (int j=0; j < (int) m_Ply[elem]->prop_list.size(); j++) {
             if ( m_Ply[elem]->prop_list[j].type == PLY_LIST ) {
@@ -2139,10 +2136,10 @@ int nvMesh::AddFace4 ( int v0, int v1, int v2, int v3 )
 
 void nvMesh::UpdateVBO ( bool rebuild, int cnt )
 {
-	int numv = (int) mVertices.size();
 	int numf = mNumFaces;
 
 	#ifdef USE_DX
+		int numv = (int) mVertices.size();
 		if ( rebuild ) {
 			#ifdef DEBUG_UTIL
 				nvprintf  ( "nvMesh: UpdateVBO (rebuild)\n" );

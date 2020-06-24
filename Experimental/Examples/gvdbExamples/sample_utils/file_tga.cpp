@@ -133,8 +133,6 @@ unsigned char *TGA::getGray( FILE *s, int size )
     return grayData;
 }
 
-#pragma warning(disable: 4996)
-
 TGA::TGAError TGA::load( const char *name )
 {
     // Loads up a targa file. Supported types are 8,24 and 32 
@@ -147,9 +145,10 @@ TGA::TGAError TGA::load( const char *name )
     if( !(s = fopen( name, "rb" )) )
         return TGA_FILE_NOT_FOUND;
 
-    fread( &type, sizeof (char), 3, s );   // Read in colormap info and image type, byte 0 ignored
+    size_t result = fread( &type, sizeof (char), 3, s );   // Read in colormap info and image type, byte 0 ignored
     fseek( s, 12, SEEK_SET);			   // Seek past the header and useless info
-    fread( &info, sizeof (char), 6, s );
+    result = fread( &info, sizeof (char), 6, s );
+    (void)result;
 
     if( type[1] != 0 || (type[2] != 2 && type[2] != 3) )
         returnError( s, TGA_BAD_IMAGE_TYPE );
@@ -199,6 +198,7 @@ void TGA::writeRGBA( FILE *s, const unsigned char *externalImage, int size )
     }
 
     bread = (int)fwrite( rgba, sizeof (unsigned char), size * 4, s ); 
+    (void)bread;
     free( rgba );
 }
 
@@ -220,6 +220,7 @@ void TGA::writeRGB( FILE *s, const unsigned char *externalImage, int size )
     }
 
     bread = (int)fwrite( rgb, sizeof (unsigned char), size * 3, s ); 
+    (void)bread;
     free( rgb );
 }
 
@@ -242,6 +243,7 @@ void TGA::writeGrayAsRGB( FILE *s, const unsigned char *externalImage, int size 
     }
 
     bread = (int)fwrite( rgb, sizeof (unsigned char), size * 3, s ); 
+    (void)bread;
     free( rgb );
 }
 
@@ -251,6 +253,7 @@ void TGA::writeGray( FILE *s, const unsigned char *externalImage, int size )
     int bread;
 
     bread = (int)fwrite( externalImage, sizeof (unsigned char), size, s );
+    (void)bread;
 }
 
 TGA::TGAError TGA::saveFromExternalData( const char *name, int w, int h, TGA::TGAFormat fmt, const unsigned char *externalImage )
@@ -282,6 +285,8 @@ TGA::TGAError TGA::saveFromExternalData( const char *name, int w, int h, TGA::TG
     case RGBA:
         info[4] = 32;
         break;
+    default:
+        break;
     }
     fwrite( info, sizeof (char), 6, s );
 
@@ -296,6 +301,8 @@ TGA::TGAError TGA::saveFromExternalData( const char *name, int w, int h, TGA::TG
         break;
     case RGBA:
         writeRGBA(s, externalImage, size);
+        break;
+    default:
         break;
     }
 

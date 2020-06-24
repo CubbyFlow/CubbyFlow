@@ -7,7 +7,7 @@
 > Created Time: 2020/06/16
 > Copyright (c) 2020, Chan-Ho Chris Ohk
 *************************************************************************/
-#include <../Utils/ClaraUtils.h>
+#include <../ClaraUtils.h>
 
 #include <Clara/include/clara.hpp>
 #include <pystring/pystring.h>

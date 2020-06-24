@@ -29,7 +29,7 @@ distribution.
 	#define LODEPNG_H
 
 	// Helper function (by Nvidia)
-	void save_png ( char* fname, unsigned char* img, int w, int h, int ch );
+	void save_png ( const char* fname, unsigned char* img, int w, int h, int ch );
 
 	#include <string.h> /*for size_t*/
 

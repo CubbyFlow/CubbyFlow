@@ -3,9 +3,6 @@ set(target InteractiveFluid)
 
 # Includes
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/gvdb/gvdb_library/src)
-include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/gvdb/gvdb_utils)
-include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/gvdb/sample_utils)
 # Sources
 file(GLOB sources
     ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)

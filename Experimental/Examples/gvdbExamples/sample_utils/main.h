@@ -22,8 +22,6 @@
 #ifndef __MAIN_H__
 	#define __MAIN_H__
 
-	#pragma warning(disable:4996) // preventing snprintf >> _snprintf_s
-
 	#include "platform.h"
 
 	// trick for pragma message so we can write:
@@ -284,9 +282,9 @@
 	  int			m_screenquad_uscreen;
 
 	  NVPWindow()
-		: m_renderCnt(1)
+		: m_debugFilter(0)
 		, m_internal(0)
-		, m_debugFilter(0)
+		, m_renderCnt(1)
 	  {
 		m_curX = -1;
 		m_curY = -1;

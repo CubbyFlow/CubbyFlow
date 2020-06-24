@@ -102,7 +102,7 @@
 		void	UpdatePolygons ( OptixModel* om, Model* model, int mat_id, Matrix4F& xform );
 		void	AddVolume ( int atlas_glid, Vector3DF vmin, Vector3DF vmax, Matrix4F& xform, int mat_id, char isect );
 		void	ValidateGraph ();
-		void	CreateEnvmap(char* fname);
+		void	CreateEnvmap(const char* fname);
 		void	ResizeOutput ( int w, int h );
 
 		void	UpdateScene ( nvdb::Scene* scene );
@@ -119,7 +119,7 @@
 		void	Render (nvdb::VolumeGVDB* gvdb, char shading, char chan );
 
 		void	ReadOutputTex ( int out_tex );
-		void	SaveOutput (char* fname);
+		void	SaveOutput (const char* fname);
 		
 		void*	getContext()	{ return &m_OptixContext; }
 		MaterialParams* getMaterialParams( int n )	{ return &m_OptixMatParams[n]; }
