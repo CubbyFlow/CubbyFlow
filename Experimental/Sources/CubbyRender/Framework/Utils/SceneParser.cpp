@@ -57,6 +57,78 @@ namespace CubbyRender {
             std::abort();
         }
     }
+
+    template <>
+    void SceneParser::parseSceneObject<PointsRenderable>(const nlohmann::json& json)
+    {
+        UNUSED_VARIABLE(json);
+        //! const std::string& dir = json["dir"].get<std::string>();
+        //! const std::string& format = json["format"].get<std::string>();
+        //! const int numPointsCache = json["count"].get<int>();
+        //! onLoadSceneObject(camera);
+    }
+    template <>
+    void SceneParser::parseSceneObject<TriangleMeshRenderable>(const nlohmann::json& json)
+    {
+        UNUSED_VARIABLE(json);
+        //! const std::string& objPath = json["path"].get<std::string>();
+        //! const float scale = json["scale"].get<float>();
+        //! const Vector3F translation = { json["translation"][0].get<float>(), json["translation"][1].get<float>(), json["translation"][2].get<float>() };
+        //! onLoadSceneObject(camera);
+    }
+    template <>
+    void SceneParser::parseSceneObject<Camera>(const nlohmann::json& json)
+    {
+        Pivot pivot;
+
+        Viewport viewport;
+        viewport.leftTop = { json["viewport"][0].get<float>(),  json["viewport"][1].get<float>()};
+        viewport.rightBottom = { json["viewport"][2].get<float>(),  json["viewport"][3].get<float>()};
+        pivot.viewport = viewport;
+
+        pivot.origin = {json["origin"][0].get<float>(), json["origin"][1].get<float>(), json["origin"][2].get<float>() };
+        pivot.lookAt = {json["target"][0].get<float>(), json["target"][1].get<float>(), json["target"][2].get<float>() };
+        pivot.zNear = json["near"].get<float>();
+        pivot.zFar = json["far"].get<float>();
+
+        const std::string methodStr = json["method"].get<std::string>();
+        const std::string name = json["name"].get<std::string>();
+        if (methodStr == "perspective")
+        {
+            float fov = json["fov"].get<float>();
+            PerspectiveCamera camera(pivot, fov);
+            onLoadSceneObject(name, camera);
+        }
+        else if (methodStr == "orthogonal")
+        {
+            OrthogonalCamera camera(pivot);
+            onLoadSceneObject(name, camera);
+        }
+        else 
+        {
+            CUBBYFLOW_ERROR << "Unknown camera projection method.";
+            std::abort();
+        }
+    }
+    template <>
+    void SceneParser::parseSceneObject<Light>(const nlohmann::json& json)
+    {
+        Pivot pivot;
+
+        Viewport viewport;
+        viewport.leftTop = { json["viewport"][0].get<float>(),  json["viewport"][1].get<float>()};
+        viewport.rightBottom = { json["viewport"][2].get<float>(),  json["viewport"][3].get<float>()};
+        pivot.viewport = viewport;
+
+        pivot.origin = {json["origin"][0].get<float>(), json["origin"][1].get<float>(), json["origin"][2].get<float>() };
+        pivot.lookAt = {json["target"][0].get<float>(), json["target"][1].get<float>(), json["target"][2].get<float>() };
+        pivot.zNear = json["near"].get<float>();
+        pivot.zFar = json["far"].get<float>();
+
+        Light light(pivot);
+        const std::string name = json["name"].get<std::string>();
+        onLoadSceneObject(name, light);
+    }
     
     void SceneParser::onLoadScene(const nlohmann::json& json)
     {

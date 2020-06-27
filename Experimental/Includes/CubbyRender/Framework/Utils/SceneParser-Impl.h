@@ -10,7 +10,10 @@
 #ifndef CUBBYFLOW_SCENEPARSER_IMPL_H
 #define CUBBYFLOW_SCENEPARSER_IMPL_H
 
-#include <Framework/View/Camera.h>
+#include <Framework/View/PerspectiveCamera.h>
+#include <Framework/View/OrthogonalCamera.h>
+#include <Framework/View/Light.h>
+#include <Framework/View/Pivot.h>
 #include <Framework/View/Viewport.h>
 #include <Framework/Renderable/PointsRenderable.h>
 #include <Framework/Renderable/TriangleMeshRenderable.h>
@@ -41,55 +44,21 @@ namespace CubbyRender {
         return instance;
     }
 
-    template <>
-    void SceneParser::parseSceneObject<PointsRenderable>(const nlohmann::json& json)
+    template <typename SceneObject>
+    void SceneParser::parseSceneObject(const nlohmann::json& json)
     {
-        const std::string& dir = json["dir"].get<std::string>();
-        const std::string& format = json["format"].get<std::string>();
-        const int numPointsCache = json["count"].get<int>();
+        static_assert("No implementation exists.");
     }
-    template <>
-    void SceneParser::parseSceneObject<TriangleMeshRenderable>(const nlohmann::json& json)
-    {
-        const std::string& objPath = json["path"].get<std::string>();
-        const float scale = json["scale"].get<float>();
-        const Vector3F translation = { json["translation"][0].get<float>(), json["translation"][1].get<float>(), json["translation"][2].get<float>() };
-    }
-    template <>
-    void SceneParser::parseSceneObject<Camera>(const nlohmann::json& json)
-    {
-        Viewport viewport;
-        viewport.leftTop = { json["viewport"][0].get<float>(), json["viewport"][1].get<float>() };
-        viewport.rightBottom = { json["viewport"][2].get<float>(), json["viewport"][3].get<float>() };
 
-        Pivot pivot;
-        pivot.origin = {json["origin"][0].get<float>(), json["origin"][1].get<float>(), json["origin"][2].get<float>() };
-        pivot.lookAt = {json["target"][0].get<float>(), json["target"][1].get<float>(), json["target"][2].get<float>() };
+    
 
-        float zNear = json["near"].get<float>();
-        float zFar = json["far"].get<float>();
-        float fovy = json["fovy"].get<float>();
-
-        const std::string methodStr = json["method"].get<std::string>();
-        ProjectionMethod method;
-        if (methodStr == "perspective") method = ProjectionMethod::PERSPECTIVE;
-        else if (methodStr == "orthogonal") method = ProjectionMethod::ORTHOGONAL;
-        else 
-        {
-            CUBBYFLOW_ERROR << "Unknown camera projection method.";
-            std::abort();
-        }
-    }
-    template <>
-    void SceneParser::parseSceneObject<Light>(const nlohmann::json& json)
+    template <typename SceneObject>
+    void SceneParser::onLoadSceneObject(const std::string& name,  SceneObject object)
     {
-        
+        std::vector<unsigned char> byteArray(sizeof(object));
+        std::memcpy(static_cast<void*>(byteArray.data()), static_cast<void*>(&object), sizeof(object));
+        _metadata.emplace(name, byteArray);
     }
-    //! template <>
-    //! void SceneParser::parseSceneObject<RenderSetting>(const nlohmann::json& json)
-    //! {
-    //!     
-    //! }
 } 
 }
 

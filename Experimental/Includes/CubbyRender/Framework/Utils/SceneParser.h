@@ -43,10 +43,10 @@ namespace CubbyRender {
         void onLoadScene(const nlohmann::json& json);
 
         template <typename SceneObject>
-        void parseSceneObject(const nlohmann::json& json)
-        {
-            static_assert("No implementation exists.");
-        }
+        void onLoadSceneObject(const std::string& name, SceneObject object);
+
+        template <typename SceneObject>
+        void parseSceneObject(const nlohmann::json& json);
 
         std::unordered_map<std::string, std::vector<unsigned char>> _metadata;
     };
