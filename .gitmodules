@@ -25,6 +25,6 @@
 [submodule "Experimental/Libraries/libpng"]
 	path = Experimental/Libraries/libpng
 	url = https://github.com/glennrp/libpng
-[submodule "Experimental/Libraries/gvdb-voxels"]
-	path = Experimental/Libraries/gvdb-voxels
-	url = https://github.com/NVIDIA/gvdb-voxels
+[submodule "Experimental/Libraries/nlohmann"]
+	path = Experimental/Libraries/nlohmann
+	url = https://github.com/nlohmann/json
