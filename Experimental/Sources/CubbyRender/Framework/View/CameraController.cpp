@@ -45,14 +45,14 @@ namespace CubbyRender {
 
     void CameraController::translateCamera(int vertical, int horizontal)
     {
-        auto& camState = _camera->getCameraState();
+        auto& pivot = _camera->getPivot();
         if (vertical) //! If vertical value is non-zero
         {
-            camState.origin -= camState.lookAt * (_camSpeed * vertical);
+            pivot.origin -= pivot.lookAt * (_camSpeed * vertical);
         }
         if (horizontal) //! If horizontal value is non-zero
         {
-            camState.origin -= camState.lookAt.Cross(camState.lookUp).Normalized() * (_camSpeed * horizontal);
+            pivot.origin -= pivot.lookAt.Cross(pivot.lookUp).Normalized() * (_camSpeed * horizontal);
         }
     }
 
@@ -63,13 +63,13 @@ namespace CubbyRender {
         //! Clamping Pitch;
         _pitch = std::min( std::max(-89.0f, _pitch), 89.0f );
 
-        auto& camState = _camera->getCameraState();
+        auto& pivot = _camera->getPivot();
         const float yawRadian   = degreeToRadian(_yaw);
         const float pitchRadian = degreeToRadian(_pitch);
-        camState.lookAt.x = std::cos(yawRadian) * std::cos(pitchRadian);
-        camState.lookAt.y = std::sin(pitchRadian);
-        camState.lookAt.z = std::sin(yawRadian) * std::cos(pitchRadian);
-        camState.lookAt.Normalize();
+        pivot.lookAt.x = std::cos(yawRadian) * std::cos(pitchRadian);
+        pivot.lookAt.y = std::sin(pitchRadian);
+        pivot.lookAt.z = std::sin(yawRadian) * std::cos(pitchRadian);
+        pivot.lookAt.Normalize();
     }
 } 
 }
