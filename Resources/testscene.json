@@ -1,0 +1,14 @@
+[
+    {
+        "type" : "points",
+        "dir" : "./points",
+        "format" : "simulated%04d.pos",
+        "count" : 100
+    },
+    {
+        "type" : "object",
+        "path" : "./cube.obj",
+        "scale" : 0.5,
+        "translation" : [0, 0, 0]
+    }
+]
