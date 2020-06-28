@@ -21,10 +21,10 @@
 //
 // This code is public domain.
 
+#include <Core/Geometry/MarchingCubes.hpp>
+#include <Core/Geometry/MarchingCubesTable.hpp>
+#include <Core/Geometry/MarchingSquaresTable.hpp>
 #include <Core/LevelSet/LevelSetUtils.hpp>
-#include <Core/MarchingCubes/MarchingCubes.hpp>
-#include <Core/MarchingCubes/MarchingCubesTable.hpp>
-#include <Core/MarchingCubes/MarchingSquaresTable.hpp>
 
 #include <unordered_map>
 
