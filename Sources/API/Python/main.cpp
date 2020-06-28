@@ -30,6 +30,7 @@
 #include <API/Python/Field/VectorField.hpp>
 #include <API/Python/Geometry/Box.hpp>
 #include <API/Python/Geometry/Cylinder.hpp>
+#include <API/Python/Geometry/ImplicitTriangleMesh.hpp>
 #include <API/Python/Geometry/Plane.hpp>
 #include <API/Python/Geometry/Sphere.hpp>
 #include <API/Python/Geometry/Triangle.hpp>
@@ -210,6 +211,7 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddSphere3(m);
     AddTriangle3(m);
     AddTriangleMesh3(m);
+    AddImplicitTriangleMesh3(m);
 
     // Implicit surfaces
     AddImplicitSurface2(m);
