@@ -14,6 +14,7 @@
 #include <API/Python/Array/ArrayAccessor.hpp>
 #include <API/Python/BoundingBox/BoundingBox.hpp>
 #include <API/Python/Collider/Collider.hpp>
+#include <API/Python/Collider/ColliderSet.hpp>
 #include <API/Python/Collider/RigidbodyCollider.hpp>
 #include <API/Python/Emitter/GridEmitter.hpp>
 #include <API/Python/Emitter/ParticleEmitter.hpp>
@@ -246,6 +247,8 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     // Colliders
     AddCollider2(m);
     AddCollider3(m);
+    AddColliderSet2(m);
+    AddColliderSet3(m);
     AddRigidBodyCollider2(m);
     AddRigidBodyCollider3(m);
 
