@@ -1,3 +1,4 @@
+#include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
 #include <Core/Animation/Frame.hpp>
@@ -12,10 +13,12 @@ TEST(VolumeParticleEmitter2, Constructors)
     auto sphere = std::make_shared<SurfaceToImplicit2>(
         std::make_shared<Sphere2>(Vector2D(1.0, 2.0), 3.0));
 
-    VolumeParticleEmitter2 emitter(sphere,
-                                   BoundingBox2D({ 0.0, 0.0 }, { 3.0, 3.0 }),
-                                   0.1, { -1.0, 0.5 }, 30, 0.01, false, true);
+    BoundingBox2D region({ 0.0, 0.0 }, { 3.0, 3.0 });
 
+    VolumeParticleEmitter2 emitter(sphere, region, 0.1, { -1.0, 0.5 },
+                                   { 0.0, 0.0 }, 0.0, 30, 0.01, false, true);
+
+    EXPECT_BOUNDING_BOX2_EQ(region, emitter.GetMaxRegion());
     EXPECT_EQ(0.01, emitter.GetJitter());
     EXPECT_FALSE(emitter.GetIsOneShot());
     EXPECT_TRUE(emitter.GetAllowOverlapping());
@@ -23,6 +26,8 @@ TEST(VolumeParticleEmitter2, Constructors)
     EXPECT_EQ(0.1, emitter.GetSpacing());
     EXPECT_EQ(-1.0, emitter.GetInitialVelocity().x);
     EXPECT_EQ(0.5, emitter.GetInitialVelocity().y);
+    EXPECT_EQ(Vector2D(), emitter.GetLinearVelocity());
+    EXPECT_EQ(0.0, emitter.GetAngularVelocity());
 }
 
 TEST(VolumeParticleEmitter2, Emit)
@@ -32,8 +37,8 @@ TEST(VolumeParticleEmitter2, Emit)
 
     BoundingBox2D box({ 0.0, 0.0 }, { 3.0, 3.0 });
 
-    VolumeParticleEmitter2 emitter(sphere, box, 0.3, { -1.0, 0.5 }, 30, 0.0,
-                                   false, false);
+    VolumeParticleEmitter2 emitter(sphere, box, 0.3, { -1.0, 0.5 },
+                                   { 3.0, 4.0 }, 5.0, 30, 0.0, false, false);
 
     auto particles = std::make_shared<ParticleSystemData2>();
     emitter.SetTarget(particles);
@@ -50,8 +55,9 @@ TEST(VolumeParticleEmitter2, Emit)
         EXPECT_GE(3.0, (pos[i] - Vector2D(1.0, 2.0)).Length());
         EXPECT_TRUE(box.Contains(pos[i]));
 
-        EXPECT_EQ(-1.0, vel[i].x);
-        EXPECT_EQ(0.5, vel[i].y);
+        Vector2D r = pos[i];
+        Vector2D w = 5.0 * Vector2D(-r.y, r.x);
+        EXPECT_VECTOR2_NEAR(Vector2D(2.0, 4.5) + w, vel[i], 1e-9);
     }
 
     ++frame;
@@ -81,6 +87,8 @@ TEST(VolumeParticleEmitter2, Builder)
             .WithMaxRegion(BoundingBox2D({ 0.0, 0.0 }, { 3.0, 3.0 }))
             .WithSpacing(0.1)
             .WithInitialVelocity({ -1.0, 0.5 })
+            .WithLinearVelocity({ 3.0, 4.0 })
+            .WithAngularVelocity(5.0)
             .WithMaxNumberOfParticles(30)
             .WithJitter(0.01)
             .WithIsOneShot(false)
@@ -94,4 +102,6 @@ TEST(VolumeParticleEmitter2, Builder)
     EXPECT_EQ(0.1, emitter.GetSpacing());
     EXPECT_EQ(-1.0, emitter.GetInitialVelocity().x);
     EXPECT_EQ(0.5, emitter.GetInitialVelocity().y);
+    EXPECT_VECTOR2_EQ(Vector2D(3.0, 4.0), emitter.GetLinearVelocity());
+    EXPECT_EQ(5.0, emitter.GetAngularVelocity());
 }
