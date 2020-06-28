@@ -32,11 +32,13 @@ class ImplicitTriangleMesh3 final : public ImplicitSurface3
  public:
     class Builder;
 
+    //! Constructs an ImplicitSurface3 with mesh and other grid parameters.
     ImplicitTriangleMesh3(const TriangleMesh3Ptr& mesh, size_t resolutionX,
                           double margin,
                           const Transform3& transform = Transform3(),
                           bool isNormalFlipped = false);
 
+    //! Virtual destructor.
     virtual ~ImplicitTriangleMesh3();
 
     //! Returns builder fox ImplicitTriangleMesh3.
