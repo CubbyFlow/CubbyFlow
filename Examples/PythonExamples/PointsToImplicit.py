@@ -2,6 +2,7 @@ from pyCubbyFlow import *
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def main():
 	np.random.seed(0)
 	points = np.random.rand(100, 2) * 0.6 + 0.2

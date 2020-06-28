@@ -5,6 +5,7 @@ import os
 ANIM_NUM_FRAMES = 360
 ANIM_FPS = 60
 
+
 def main():
     # Create APIC solver
     resX = 100

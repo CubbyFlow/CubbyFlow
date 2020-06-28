@@ -7,6 +7,7 @@ import matplotlib.animation as animation
 ANIM_NUM_FRAMES = 360
 ANIM_FPS = 60
 
+
 def main():
 	# Create smoke solver
 	resX = 100
