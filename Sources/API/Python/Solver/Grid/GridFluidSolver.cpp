@@ -92,6 +92,14 @@ void AddGridFluidSolver2(pybind11::module& m)
 			DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_DOWN, DIRECTION_UP,
 			and DIRECTION_BACK.
 		)pbdoc")
+        .def_property_readonly("gridSystemData",
+                               &GridFluidSolver2::GetGridSystemData,
+                               R"pbdoc(
+             The grid system data.
+             This function returns the grid system data. The grid system data stores
+             the core fluid flow fields such as velocity. By default, the data
+             instance has velocity field only.
+             )pbdoc")
         .def(
             "ResizeGrid",
             [](GridFluidSolver2& instance, pybind11::args args,
@@ -252,6 +260,14 @@ void AddGridFluidSolver3(pybind11::module& m)
 			DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_DOWN, DIRECTION_UP,
 			and DIRECTION_BACK.
 		)pbdoc")
+        .def_property_readonly("gridSystemData",
+                               &GridFluidSolver3::GetGridSystemData,
+                               R"pbdoc(
+             The grid system data.
+             This function returns the grid system data. The grid system data stores
+             the core fluid flow fields such as velocity. By default, the data
+             instance has velocity field only.
+             )pbdoc")
         .def(
             "ResizeGrid",
             [](GridFluidSolver3& instance, pybind11::args args,
