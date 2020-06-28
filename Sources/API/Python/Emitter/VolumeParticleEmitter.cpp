@@ -108,9 +108,9 @@ void AddVolumeParticleEmitter2(pybind11::module& m)
                 {
                     spacing = kwargs["spacing"].cast<double>();
                 }
-                if (kwargs.contains("initialVel"))
+                if (kwargs.contains("initialVelocity"))
                 {
-                    initialVel = ObjectToVector2D(kwargs["initialVel"]);
+                    initialVel = ObjectToVector2D(kwargs["initialVelocity"]);
                 }
                 if (kwargs.contains("maxNumberOfParticles"))
                 {
@@ -148,7 +148,38 @@ void AddVolumeParticleEmitter2(pybind11::module& m)
 			(optional), whether it's one shot or not (optional), whether it
 			should allow overlapping or not (optional), and random seed
 			(optional).
-		)pbdoc");
+		)pbdoc")
+        .def_property("jitter", &VolumeParticleEmitter2::GetJitter,
+                      &VolumeParticleEmitter2::SetJitter, R"pbdoc(
+             Jitter amount between 0 and 1.
+             )pbdoc")
+        .def_property("isOneShot", &VolumeParticleEmitter2::GetIsOneShot,
+                      &VolumeParticleEmitter2::SetIsOneShot, R"pbdoc(
+             True if particles should be emitted just once.
+             )pbdoc")
+        .def_property("allowOverlapping",
+                      &VolumeParticleEmitter2::GetAllowOverlapping,
+                      &VolumeParticleEmitter2::SetAllowOverlapping, R"pbdoc(
+             True if particles can be overlapped.
+             )pbdoc")
+        .def_property("maxNumberOfParticles",
+                      &VolumeParticleEmitter2::GetMaxNumberOfParticles,
+                      &VolumeParticleEmitter2::SetMaxNumberOfParticles, R"pbdoc(
+             Max number of particles to be emitted.
+             )pbdoc")
+        .def_property("spacing", &VolumeParticleEmitter2::GetSpacing,
+                      &VolumeParticleEmitter2::SetSpacing, R"pbdoc(
+             The spacing between particles.
+             )pbdoc")
+        .def_property(
+            "initialVelocity", &VolumeParticleEmitter2::GetInitialVelocity,
+            [](VolumeParticleEmitter2& instance,
+               pybind11::object newInitialVel) {
+                instance.SetInitialVelocity(ObjectToVector2D(newInitialVel));
+            },
+            R"pbdoc(
+             The initial velocity of the particles.
+             )pbdoc");
 }
 
 void AddVolumeParticleEmitter3(pybind11::module& m)
@@ -240,9 +271,9 @@ void AddVolumeParticleEmitter3(pybind11::module& m)
                 {
                     spacing = kwargs["spacing"].cast<double>();
                 }
-                if (kwargs.contains("initialVel"))
+                if (kwargs.contains("initialVelocity"))
                 {
-                    initialVel = ObjectToVector3D(kwargs["initialVel"]);
+                    initialVel = ObjectToVector3D(kwargs["initialVelocity"]);
                 }
                 if (kwargs.contains("maxNumberOfParticles"))
                 {
@@ -280,5 +311,36 @@ void AddVolumeParticleEmitter3(pybind11::module& m)
 			(optional), whether it's one shot or not (optional), whether it
 			should allow overlapping or not (optional), and random seed
 			(optional).
-		)pbdoc");
+		)pbdoc")
+        .def_property("jitter", &VolumeParticleEmitter3::GetJitter,
+                      &VolumeParticleEmitter3::SetJitter, R"pbdoc(
+             Jitter amount between 0 and 1.
+             )pbdoc")
+        .def_property("isOneShot", &VolumeParticleEmitter3::GetIsOneShot,
+                      &VolumeParticleEmitter3::SetIsOneShot, R"pbdoc(
+             True if particles should be emitted just once.
+             )pbdoc")
+        .def_property("allowOverlapping",
+                      &VolumeParticleEmitter3::GetAllowOverlapping,
+                      &VolumeParticleEmitter3::SetAllowOverlapping, R"pbdoc(
+             True if particles can be overlapped.
+             )pbdoc")
+        .def_property("maxNumberOfParticles",
+                      &VolumeParticleEmitter3::GetMaxNumberOfParticles,
+                      &VolumeParticleEmitter3::SetMaxNumberOfParticles, R"pbdoc(
+             Max number of particles to be emitted.
+             )pbdoc")
+        .def_property("spacing", &VolumeParticleEmitter3::GetSpacing,
+                      &VolumeParticleEmitter3::SetSpacing, R"pbdoc(
+             The spacing between particles.
+             )pbdoc")
+        .def_property(
+            "initialVelocity", &VolumeParticleEmitter3::GetInitialVelocity,
+            [](VolumeParticleEmitter3& instance,
+               pybind11::object newInitialVel) {
+                instance.SetInitialVelocity(ObjectToVector3D(newInitialVel));
+            },
+            R"pbdoc(
+             The initial velocity of the particles.
+             )pbdoc");
 }
