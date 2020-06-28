@@ -35,9 +35,11 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2
     //! the particle generation region.
     //!
     //! \param[in]  implicitSurface         The implicit surface.
-    //! \param[in]  bounds                  The max region.
+    //! \param[in]  maxRegion               The max region.
     //! \param[in]  spacing                 The spacing between particles.
     //! \param[in]  initialVel              The initial velocity.
+    //! \param[in]  linearVel               The linear velocity of the emitter.
+    //! \param[in]  angularVel              The angular velocity of the emitter.
     //! \param[in]  maxNumberOfParticles    The max number of particles to be
     //!                                     emitted.
     //! \param[in]  jitter                  The jitter amount between 0 and 1.
@@ -47,8 +49,10 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2
     //! \param[in]  seed                    The random seed.
     //!
     VolumeParticleEmitter2(
-        const ImplicitSurface2Ptr& implicitSurface, const BoundingBox2D& bounds,
-        double spacing, const Vector2D& initialVel = Vector2D(),
+        const ImplicitSurface2Ptr& implicitSurface,
+        const BoundingBox2D& maxRegion, double spacing,
+        const Vector2D& initialVel = Vector2D(),
+        const Vector2D& linearVel = Vector2D(), double angularVel = 0.0,
         size_t maxNumberOfParticles = std::numeric_limits<size_t>::max(),
         double jitter = 0.0, bool isOneShot = true,
         bool allowOverlapping = false, uint32_t seed = 0);
@@ -62,6 +66,18 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2
     //! \param[in]  newPointsGen The new points generator.
     //!
     void SetPointGenerator(const PointGenerator2Ptr& newPointsGen);
+
+    //! Returns source surface.
+    const ImplicitSurface2Ptr& GetSurface() const;
+
+    //! Sets the source surface.
+    void SetSurface(const ImplicitSurface2Ptr& newSurface);
+
+    //! Returns max particle generator region.
+    const BoundingBox2D& GetMaxRegion() const;
+
+    //! Sets the max particle generator region.
+    void SetMaxRegion(const BoundingBox2D& newMaxRegion);
 
     //! Returns jitter amount.
     double GetJitter() const;
@@ -115,6 +131,18 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2
     //! Returns the initial velocity of the particles.
     void SetInitialVelocity(const Vector2D& newInitialVel);
 
+    //! Returns the linear velocity of the emitter.
+    Vector2D GetLinearVelocity() const;
+
+    //! Sets the linear velocity of the emitter.
+    void SetLinearVelocity(const Vector2D& newLinearVel);
+
+    //! Returns the angular velocity of the emitter.
+    double GetAngularVelocity() const;
+
+    //! Sets the linear velocity of the emitter.
+    void SetAngularVelocity(double newAngularVel);
+
     //! Returns builder fox VolumeParticleEmitter2.
     static Builder GetBuilder();
 
@@ -122,9 +150,11 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2
     std::mt19937 m_rng;
 
     ImplicitSurface2Ptr m_implicitSurface;
-    BoundingBox2D m_bounds;
+    BoundingBox2D m_maxRegion;
     double m_spacing;
     Vector2D m_initialVel;
+    Vector2D m_linearVel;
+    double m_angularVel = 0.0;
     PointGenerator2Ptr m_pointsGen;
 
     size_t m_maxNumberOfParticles = std::numeric_limits<size_t>::max();
@@ -147,6 +177,8 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2
               Array1<Vector2D>* newPositions, Array1<Vector2D>* newVelocities);
 
     double Random();
+
+    Vector2D VelocityAt(const Vector2D& point) const;
 };
 
 //! Shared pointer for the VolumeParticleEmitter2 type.
@@ -165,13 +197,19 @@ class VolumeParticleEmitter2::Builder final
     Builder& WithSurface(const Surface2Ptr& surface);
 
     //! Returns builder with max region.
-    Builder& WithMaxRegion(const BoundingBox2D& bounds);
+    Builder& WithMaxRegion(const BoundingBox2D& maxRegion);
 
     //! Returns builder with spacing.
     Builder& WithSpacing(double spacing);
 
     //! Returns builder with initial velocity.
     Builder& WithInitialVelocity(const Vector2D& initialVel);
+
+    //! Returns builder with linear velocity.
+    Builder& WithLinearVelocity(const Vector2D& linearVel);
+
+    //! Returns builder with angular velocity.
+    Builder& WithAngularVelocity(double angularVel);
 
     //! Returns builder with max number of particles.
     Builder& WithMaxNumberOfParticles(size_t maxNumberOfParticles);
@@ -197,9 +235,11 @@ class VolumeParticleEmitter2::Builder final
  private:
     ImplicitSurface2Ptr m_implicitSurface;
     bool m_isBoundSet = false;
-    BoundingBox2D m_bounds;
+    BoundingBox2D m_maxRegion;
     double m_spacing = 0.1;
-    Vector2D m_initialVel{ 0, 0 };
+    Vector2D m_initialVel;
+    Vector2D m_linearVel;
+    double m_angularVel = 0.0;
     size_t m_maxNumberOfParticles = std::numeric_limits<size_t>::max();
     double m_jitter = 0.0;
     bool m_isOneShot = true;
