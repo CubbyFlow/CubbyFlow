@@ -3,8 +3,8 @@
 #include <ManualTests.hpp>
 
 #include <Core/Array/Array3.hpp>
+#include <Core/Geometry/MarchingCubes.hpp>
 #include <Core/Grid/VertexCenteredScalarGrid3.hpp>
-#include <Core/MarchingCubes/MarchingCubes.hpp>
 
 using namespace CubbyFlow;
 

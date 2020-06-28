@@ -16,11 +16,11 @@
 #include <Core/Geometry/Box3.hpp>
 #include <Core/Geometry/Cylinder3.hpp>
 #include <Core/Geometry/ImplicitTriangleMesh3.hpp>
+#include <Core/Geometry/MarchingCubes.hpp>
 #include <Core/Geometry/Plane3.hpp>
 #include <Core/Geometry/Sphere3.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>
-#include <Core/MarchingCubes/MarchingCubes.hpp>
 #include <Core/Math/MathUtils.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver3.hpp>
 #include <Core/Surface/ImplicitSurfaceSet3.hpp>

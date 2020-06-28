@@ -2,8 +2,8 @@
 
 #include <ManualTests.hpp>
 
+#include <Core/Geometry/MarchingCubes.hpp>
 #include <Core/Grid/VertexCenteredScalarGrid3.hpp>
-#include <Core/MarchingCubes/MarchingCubes.hpp>
 #include <Core/PointsToImplicit/ZhuBridsonPointsToImplicit3.hpp>
 
 #include <random>
