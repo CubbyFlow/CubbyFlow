@@ -203,7 +203,7 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddSurfaceSet2(m);
     AddSurfaceSet3(m);
 
-    // Geometries
+    // Geometries, part 1
     AddBox2(m);
     AddBox3(m);
     AddCylinder3(m);
@@ -213,14 +213,16 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddSphere3(m);
     AddTriangle3(m);
     AddTriangleMesh3(m);
-    AddImplicitTriangleMesh3(m);
-    AddMarchingCubes(m);
 
     // Implicit surfaces
     AddImplicitSurface2(m);
     AddImplicitSurface3(m);
     AddSurfaceToImplicit2(m);
     AddSurfaceToImplicit3(m);
+
+    // Geometries, part 2
+    AddImplicitTriangleMesh3(m);
+    AddMarchingCubes(m);
 
     // Data models
     AddGridSystemData2(m);

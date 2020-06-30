@@ -18,7 +18,8 @@ using namespace CubbyFlow;
 void AddImplicitTriangleMesh3(pybind11::module& m)
 {
     pybind11::class_<ImplicitTriangleMesh3, ImplicitTriangleMesh3Ptr,
-                     ImplicitSurface3>(m, "ImplicitTriangleMesh3",
+                     ImplicitSurface3>(static_cast<pybind11::handle>(m),
+                                       "ImplicitTriangleMesh3",
                                        R"pbdoc(
          TriangleMesh3 to ImplicitSurface3 converter.
 
