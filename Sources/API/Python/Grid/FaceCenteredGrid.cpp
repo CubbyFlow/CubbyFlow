@@ -153,19 +153,19 @@ void AddFaceCenteredGrid2(pybind11::module& m)
              pybind11::arg("i"), pybind11::arg("j"))
         .def("GetUAccessor", &FaceCenteredGrid2::GetUAccessor,
              R"pbdoc(
-			Returns u data accessor.
+			U data accessor.
 		)pbdoc")
         .def("GetVAccessor", &FaceCenteredGrid2::GetVAccessor,
              R"pbdoc(
-			Returns v data accessor.
+			V data accessor.
 		)pbdoc")
         .def("GetUPosition", &FaceCenteredGrid2::GetUPosition,
              R"pbdoc(
-			Returns function object that maps u data point to its actual position.
+			The function object that maps u data point to its actual position.
 		)pbdoc")
         .def("GetVPosition", &FaceCenteredGrid2::GetVPosition,
              R"pbdoc(
-			Returns function object that maps v data point to its actual position.
+			The function object that maps v data point to its actual position.
 		)pbdoc")
         .def("GetUSize", &FaceCenteredGrid2::GetUSize,
              R"pbdoc(
@@ -454,27 +454,27 @@ void AddFaceCenteredGrid3(pybind11::module& m)
              pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("k"))
         .def("GetUAccessor", &FaceCenteredGrid3::GetUAccessor,
              R"pbdoc(
-			Returns u data accessor.
+			U data accessor.
 		)pbdoc")
         .def("GetVAccessor", &FaceCenteredGrid3::GetVAccessor,
              R"pbdoc(
-			Returns v data accessor.
+			V data accessor.
 		)pbdoc")
         .def("GetWAccessor", &FaceCenteredGrid3::GetWAccessor,
              R"pbdoc(
-			Returns w data accessor.
+			W data accessor.
 		)pbdoc")
         .def("GetUPosition", &FaceCenteredGrid3::GetUPosition,
              R"pbdoc(
-			Returns function object that maps u data point to its actual position.
+			The function object that maps u data point to its actual position.
 		)pbdoc")
         .def("GetVPosition", &FaceCenteredGrid3::GetVPosition,
              R"pbdoc(
-			Returns function object that maps v data point to its actual position.
+			The function object that maps v data point to its actual position.
 		)pbdoc")
         .def("GetWPosition", &FaceCenteredGrid3::GetWPosition,
              R"pbdoc(
-			Returns function object that maps w data point to its actual position.
+			The function object that maps w data point to its actual position.
 		)pbdoc")
         .def("GetUSize", &FaceCenteredGrid3::GetUSize,
              R"pbdoc(
