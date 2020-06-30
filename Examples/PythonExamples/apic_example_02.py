@@ -1,5 +1,4 @@
-from pyjet import *
-import math
+from pyCubbyFlow import *
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
@@ -9,23 +8,18 @@ ANIM_FPS = 60
 
 
 def main():
-    """
-    This example demonstrates how to animate emitter as well as collider properties.
-    """
-
     # Create APIC solver
-    resX = 24
+    resX = 32
     solver = APICSolver3(resolution=(resX, 2 * resX, resX), domainSizeX=1.0)
-    solver.useCompressedLinearSystem = True
+
+    pressureSolver = GridFractionalSinglePhasePressureSolver3()
+    pressureSolver.linearSystemSolver = FDMMGPCGSolver3(20, 3)
+    solver.pressureSolver = pressureSolver
 
     # Setup emitter
     sphere = Sphere3(center=(0.5, 1.0, 0.5), radius=0.15)
     emitter = VolumeParticleEmitter3(
-        implicitSurface=sphere,
-        maxRegion=solver.gridSystemData.boundingBox,
-        spacing=1.0 / (2 * resX),
-        isOneShot=False,
-        initialVelocity=(0, 0, 0))
+        implicitSurface=sphere, spacing=1.0 / (2 * resX))
     solver.particleEmitter = emitter
 
     # Setup collider
@@ -50,25 +44,11 @@ def main():
 
     # Animation
     def updateFig(*args):
-        # Change emitter velocity after frame 50
-        if frame.index == 50:
-            emitter.initialVelocity = (0, 3, 0)
-        # Stop emitter after frame 100
-        if frame.index == 100:
-            emitter.isOneShot = True
-        # Animate emitter's position (and thus the velocity which is its derivative)
-        emitter.surface.transform = Transform3(translation=(0.1 * math.sin(5 * frame.TimeInSeconds()), 0, 0))
-        emitter.linearVelocity = (0.5 * math.cos(5 * frame.TimeInSeconds()), 0, 0)
-
-        # Animate collider's position (and thus the velocity which is its derivative)
-        collider.surface.transform = Transform3(translation=(0.2 * math.sin(10 * frame.TimeInSeconds()), 0, 0))
-        collider.linearVelocity = (2.0 * math.cos(10 * frame.TimeInSeconds()), 0, 0)
-
         solver.Update(frame)
         frame.Advance()
         pos = np.array(solver.particleSystemData.positions, copy=False)
         scat.set_offsets(np.vstack((pos[:, 0], pos[:, 1])).transpose())
-        return scat
+        return scat,
 
     anim = animation.FuncAnimation(fig, updateFig, frames=ANIM_NUM_FRAMES,
                                    interval=1, blit=True)

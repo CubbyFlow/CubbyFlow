@@ -12,13 +12,10 @@ def main():
     resX = 32
     solver = APICSolver3(resolution=(resX, 2 * resX, resX), domainSizeX=1.0)
 
-    pressureSolver = GridFractionalSinglePhasePressureSolver3()
-    pressureSolver.linearSystemSolver = FDMMGPCGSolver3(20, 3)
-    solver.pressureSolver = pressureSolver
-
     # Setup emitter
     sphere = Sphere3(center=(0.5, 1.0, 0.5), radius=0.15)
-    emitter = VolumeParticleEmitter3(implicitSurface=sphere, spacing=1.0 / (2 * resX))
+    emitter = VolumeParticleEmitter3(
+        implicitSurface=sphere, spacing=1.0 / (2 * resX))
     solver.particleEmitter = emitter
 
     # Setup collider
