@@ -293,7 +293,7 @@ pip install -r Requirements.txt
 Once installed, try running the unit test to see if the module is installed correctly:
 
 ```
-python Tests/PythonTests/main.py
+pytest Tests/PythonTests
 ```
 
 The tests should pass.
