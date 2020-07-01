@@ -26,11 +26,9 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
-    PointsRenderable::PointsRenderable(const ConstArrayAccessor1<Vector3F>& positions,
-                                       const ConstArrayAccessor1<Vector4F>& colors,
-                                       float radius)
+    PointsRenderable::PointsRenderable(const ConstArrayAccessor1<Vector3F>& positions, const Vector3F& color)
     {
-        update(positions, colors, radius);
+        update(positions, color);
     }
 
 
@@ -39,29 +37,23 @@ namespace CubbyRender {
         release();
     }
 
-    void PointsRenderable::update(const ConstArrayAccessor1<Vector3F>& positions,
-                                  const ConstArrayAccessor1<Vector4F>& colors)
+    void PointsRenderable::update(const ConstArrayAccessor1<Vector3F>& positions)
     {
-        update(positions, colors, _radius);
+        update(positions, _color);
     }
 
-    void PointsRenderable::update(const ConstArrayAccessor1<Vector3F>& positions,
-                                  const ConstArrayAccessor1<Vector4F>& colors,
-                                  float radius)
+    void PointsRenderable::update(const ConstArrayAccessor1<Vector3F>& positions, const Vector3F& color)
     {
-        _radius = radius;
-        const size_t totalSize = positions.size() * 3 + colors.size() * 4;
+        _color = color;
+        const size_t totalSize = positions.size() * 3;
+        const size_t numVertices = positions.size();
         std::lock_guard<std::mutex> lock(_dataMutex);
         _vertices.Resize(totalSize);
-        for (size_t i = 0; i < totalSize / size_t(7); ++i)
+        for (size_t i = 0; i < numVertices; ++i)
         {
-            _vertices[i * 7 + 0] = positions[i].x;
-            _vertices[i * 7 + 1] = positions[i].y;
-            _vertices[i * 7 + 2] = positions[i].z;
-            _vertices[i * 7 + 3] = colors[i].x;
-            _vertices[i * 7 + 4] = colors[i].y;
-            _vertices[i * 7 + 5] = colors[i].z;
-            _vertices[i * 7 + 6] = colors[i].w;
+            _vertices[i * 3 + 0] = positions[i].x;
+            _vertices[i * 3 + 1] = positions[i].y;
+            _vertices[i * 3 + 2] = positions[i].z;
         }
         invalidateResources();
     }
@@ -75,9 +67,9 @@ namespace CubbyRender {
             ShaderPtr shader = renderer->createShaderPreset("point_shader");
             _material->setShader(shader);
         }
-        //! set radius uniform variable of the shader.
+        //! set color uniform variable of the shader.
         auto& params = _material->getShader()->getParameters();
-        params.setParameter("Radius", _radius);
+        params.setParameter("Color", _color);
         
         //! allocate and initialize input layout instance.
         if (_inputLayout == nullptr)
@@ -85,14 +77,14 @@ namespace CubbyRender {
             _inputLayout = renderer->createInputLayout();
             //! create vertex buffer from the positions and colors.
             VertexBufferPtr buffer = renderer->createVertexBuffer(_vertices.ConstAccessor(), 
-                                                                  static_cast<size_t>(_vertices.size() / size_t(7)),  
-                                                                  VertexFormat::Position3Color4);
+                                                                  static_cast<size_t>(_vertices.size() / size_t(3)),  
+                                                                  VertexFormat::Position3);
             _inputLayout->attachVertexBuffer(renderer, _material, buffer);
         }
         else
         {
             //! without initialization, update the contents of the buffer.
-            _inputLayout->updateVertexBuffer(renderer, _vertices.ConstAccessor(), VertexFormat::Position3Color4);
+            _inputLayout->updateVertexBuffer(renderer, _vertices.ConstAccessor(), VertexFormat::Position3);
         }
         //! Set the primitive type as Point.
         _primitiveType = PrimitiveType::Point;
@@ -113,14 +105,14 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
-    void PointsRenderable::setRadius(float radius)
+    void PointsRenderable::setColor(const Vector3F& color)
     {
-        _radius = radius;
+        _color = color;
     }
 
-    float PointsRenderable::getRadius() const
+    Vector3F PointsRenderable::getColor() const
     {
-        return _radius;
+        return _color;
     }
 } 
 }

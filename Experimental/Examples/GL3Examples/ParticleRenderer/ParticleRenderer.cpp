@@ -23,9 +23,10 @@
 #include <Framework/Renderable/ScreenRenderable.h>
 #include <Framework/Renderable/PointsRenderable.h>
 #include <Framework/View/Viewport.h>
+#include <Framework/View/Pivot.h>
 #include <Framework/View/PerspectiveCamera.h>
-#include <Framework/View/CameraState.h>
 #include <Framework/View/CameraController.h>
+#include <Framework/View/Light.h>
 #include <Framework/Utils/ParticleParser.h>
 
 #include "OfflineSimulation.h"
@@ -70,7 +71,9 @@ public:
     ParticleRenderer(const std::string& title, int width, int height, double fps);
     //! Default Destructor.
     ~ParticleRenderer();
-    
+    //! Set timer for automatic shutdown.
+    void setShutdownTimer(int numFrames);
+    //! Initialize the sample renderer with simulated particle files directory and format.
     bool initialize(const std::string& inputDir, const std::string& format);
     //! Action implementation when window is resized.
     void onWindowResized(int width, int height) override;
@@ -89,6 +92,7 @@ private:
     OfflineSimulation _simulator;
     CameraControllerPtr _camController;
     double _fps = 60.0;
+    int _shutdownTimer = -1;
     bool _enableCursor = false;
     bool _pause = false;
 };
@@ -113,7 +117,7 @@ bool ParticleRenderer::initialize(const std::string& inputDir, const std::string
     if (!parser->loadParticleFiles(inputDir, format))
         return false;
 
-    _simulator = OfflineSimulation(_fps, Vector3F(0.3f, 0.0f, 0.0f));
+    _simulator = OfflineSimulation(_fps, Vector3F(0.0f, 0.0f, 0.0f));
     _simulator.setParticleParser(parser);
     _simulator.setup(_renderer);
 
@@ -121,18 +125,23 @@ bool ParticleRenderer::initialize(const std::string& inputDir, const std::string
     viewport.leftTop     = Vector2F(0.0f, _windowSize.y);
     viewport.rightBottom = Vector2F(_windowSize.x, 0.0f);
 
-    CameraState camState;
-    camState.viewport = viewport;
-    camState.origin = Vector3F(1, 1, 4);
-    camState.lookAt = Vector3F(0, 0, -1);
+    Pivot pivot;
+    pivot.origin = Vector3F(-1.5f, 0, 4);
+    pivot.lookAt = Vector3F(0, 0, -1);
+    pivot.viewport = viewport;
 
-    _camController = std::make_shared<CameraController>(
-        std::make_shared<PerspectiveCamera>(camState, 60.0f)
-    );
+    CameraPtr camera = std::make_shared<PerspectiveCamera>(pivot, 60.0f);
+    _camController = std::make_shared<CameraController>(camera);
 
-    _renderer->setBackgroundColor(Vector4F(0.8f, 0.8f, 0.8f, 1.0f));
+    _renderer->setCamera(_camController->getCamera());
+    _renderer->setBackgroundColor(Vector4F(0.1f, 0.2f, 0.4f, 1.0f));
 
     return true;
+}
+
+void ParticleRenderer::setShutdownTimer(int numFrames)
+{
+    _shutdownTimer = numFrames;
 }
 
 void ParticleRenderer::onWindowResized(int width, int height)
@@ -213,8 +222,10 @@ void ParticleRenderer::onMouseScroll(double deltaX, double deltaY)
 
 void ParticleRenderer::onRenderScene()
 {
-    _renderer->setCamera(_camController->getCamera());
     _renderer->render();
+
+    if (_shutdownTimer == 0)     glfwSetWindowShouldClose(_glfwWindow, GLFW_TRUE);
+    else if (_shutdownTimer > 0) --_shutdownTimer;
 }
 
 void ParticleRenderer::onUpdateScene()
@@ -228,7 +239,7 @@ void ParticleRenderer::onUpdateScene()
 int sampleMain(int argc, const char** argv)
 {
     bool showHelp = false;
-    int numberOfFrames = 100000;
+    int numberOfFrames = 100;
     int resX = 800;
     int resY = 600;
     double fps = 60.0;
@@ -300,6 +311,7 @@ int sampleMain(int argc, const char** argv)
         std::cerr << "Renderer Window Initialize Failed" << std::endl;
         return -1;
     }
+    renderer->setShutdownTimer(numberOfFrames);
     
     int exitCode = 0;
     application->setMainWindow(renderer);
@@ -307,12 +319,11 @@ int sampleMain(int argc, const char** argv)
 #ifdef CUBBYFLOW_RECORDING
     auto recorder = std::make_shared<ScreenRecorder>();
     recorder->setWorkingDirectory(APP_NAME "_output");
-
-    exitCode = application->run(numberOfFrames, [&](Size2 dim, const ArrayAccessor1<unsigned char>& frame){
+    exitCode = application->run([&](Size2 dim, const ArrayAccessor1<unsigned char>& frame){
         return recorder->EncodeFrame(dim, frame);
     });
 #else
-    exitCode = application->run(numberOfFrames, nullptr);
+    exitCode = application->run();
 #endif
 
     //! release application and renderer window .

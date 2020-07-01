@@ -34,28 +34,23 @@ namespace CubbyRender {
         //! Default constructor.
         PointsRenderable();
 
-        //! Constructor with positions, colors and radius of the particle point.
-        PointsRenderable(const ConstArrayAccessor1<Vector3F>& positions,
-                         const ConstArrayAccessor1<Vector4F>& colors,
-                         float radius);
-        //! Update the current position attribute and color attribute of the vertex buffer.
-        void update(const ConstArrayAccessor1<Vector3F>& positions,
-                    const ConstArrayAccessor1<Vector4F>& colors);
+        //! Constructor with positions, color of the particle point.
+        PointsRenderable(const ConstArrayAccessor1<Vector3F>& positions, const Vector3F& color);
+        
+        //! Update the current position attribute and color uniform of the vertex buffer.
+        void update(const ConstArrayAccessor1<Vector3F>& positions);
 
-        //! Update the current position attribute and color attribute of the vertex buffer.
-        //! Also modify the radius of fluid particles.
-        void update(const ConstArrayAccessor1<Vector3F>& positions,
-                    const ConstArrayAccessor1<Vector4F>& colors,
-                    float radius);
+        //! Update the current position attribute and color uniform of the vertex buffer.
+        void update(const ConstArrayAccessor1<Vector3F>& positions, const Vector3F& color);
 
         //! Default destructor.
         virtual ~PointsRenderable();
 
         //! Set radius of the fluid particle
-        void setRadius(float radius);
+        void setColor(const Vector3F& color);
 
         //! Get radius of the  fluid particle
-        float getRadius() const;
+        Vector3F getColor() const;
 
     protected:
         //! bind input layout and material and draw renderables.
@@ -67,7 +62,7 @@ namespace CubbyRender {
         //! Release the resources.
         virtual void onRelease() override;
 
-        float _radius = 0.0f;
+        Vector3F _color = Vector3F(221 / 255.0f, 145 / 255.0f, 48 / 255.0f);
         std::mutex _dataMutex;
     private:
         Array1<float> _vertices;

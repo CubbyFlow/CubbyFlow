@@ -52,16 +52,9 @@ const GLchar* kPointsShaders[2] = {
     R"glsl(
     #version 330 core
     in vec3 position;
-    in vec4 color;
-    uniform float Radius;
     uniform mat4 View;
     uniform mat4 Projection;
-    out VertexData {
-        vec4 color;
-    } outData;
     void main() {
-        outData.color = color;
-        gl_PointSize = 2.0 * Radius;
         gl_Position = Projection * View * vec4(position, 1.0);
     }
     )glsl",
@@ -69,12 +62,10 @@ const GLchar* kPointsShaders[2] = {
     // Fragment shader
     R"glsl(
     #version 330 core
-    in VertexData {
-    	 vec4 color;
-    } inData;
+    uniform vec3 Color;
     out vec4 fragColor;
     void main() {
-    	 fragColor = inData.color;
+        fragColor = vec4(Color, 1.0);
     }
     )glsl"};
 
@@ -108,6 +99,8 @@ const GLchar* kScreenShaders[2] = {
     )glsl"};
 
 const GLchar* kFluidMeshShaders[3] = {
+    //https://developer.download.nvidia.com/books/HTML/gpugems/gpugems_ch01.html
+    //https://developer.download.nvidia.com/books/HTML/gpugems/gpugems_ch02.html
     //! Vertex shader
     R"glsl(
     #version 330 core
@@ -126,6 +119,16 @@ const GLchar* kFluidMeshShaders[3] = {
     layout(triangles) in;
     layout(triangle_strip, max_vertices=3) out;
     out vec3 normal;
+//    const int kMaxNumLights = 5;
+//    struct DirectionalLight
+//    {
+//        vec3 origin;
+//        vec3 lookAt;
+//        vec3 color;
+//    };
+//    uniform int numLights;
+//    uniform DirectionalLight directionalLight[kMaxNumLights];
+//    uniform vec3 view;
 
     void main() {
         vec3 edge0 = (gl_in[1].gl_Position - gl_in[0].gl_Position).xyz;

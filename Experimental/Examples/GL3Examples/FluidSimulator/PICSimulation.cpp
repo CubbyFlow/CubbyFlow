@@ -10,9 +10,9 @@
 #include "PICSimulation.h"
 
 #include <Framework/View/Camera.h>
-#include <Framework/View/CameraController.h>
 #include <Framework/View/PerspectiveCamera.h>
-#include <Framework/View/CameraState.h>
+#include <Framework/View/CameraController.h>
+#include <Framework/View/Pivot.h>
 #include <Framework/View/Viewport.h>
 #include <Framework/Window/Docker.h>
 #include <Framework/Renderer/Renderer.h>
@@ -70,16 +70,12 @@ void PICSimulation::onSetup(RendererPtr renderer)
     auto particles = _solver->GetParticleSystemData();
     auto positions = particles->GetPositions();
     _positions.Resize(particles->GetNumberOfParticles());
-    _colors.Resize(particles->GetNumberOfParticles());
 
     ParallelFor(ZERO_SIZE, particles->GetNumberOfParticles(), [&](size_t i){
         _positions[i] = Vector3F(positions[i].x, positions[i].y, 0.0f);
-        _colors[i] = Vector4F(0.0f, 0.0f, 0.8f, 1.0f);
     });
 
-    _renderable = std::make_shared<PointsRenderable>(
-        _positions, _colors, 0.5f
-    );
+    _renderable = std::make_shared<PointsRenderable>(_positions, Vector3F(221 / 255.0f, 145 / 255.0f, 48 / 255.0f));
 
     renderer->addRenderable(_renderable);
     renderer->setBackgroundColor(Vector4F(0.1f, 0.1f, 0.1f, 1.0f));
@@ -92,14 +88,14 @@ void PICSimulation::onResetView(DockerPtr docker)
     viewport.leftTop     = Vector2F(0.0f, framebufferSize.y);
     viewport.rightBottom = Vector2F(framebufferSize.x, 0.0f);
 
-    CameraState camState;
-    camState.viewport = viewport;
-    camState.origin = Vector3F(1, -1, -3);
-    camState.lookAt = Vector3F(0, 0,  1);
+    Pivot pivot;
+    pivot.origin = Vector3F(1, -1, -3);
+    pivot.lookAt = Vector3F(0, 0,  1);
+    pivot.viewport = viewport;
+    
+    CameraPtr camera = std::make_shared<PerspectiveCamera>(pivot, 60.0f);
 
-    docker->setCameraController(std::make_shared<CameraController>(
-        std::make_shared<PerspectiveCamera>(camState, 60.0f)
-    ));
+    docker->setCameraController(std::make_shared<CameraController>( camera ));
 }
 
 void PICSimulation::onResetSimulation()
@@ -181,18 +177,12 @@ void PICSimulation::onUpdateRenderables()
     auto particles = _solver->GetParticleSystemData();
     auto pos2D = particles->GetPositions();
 
-    size_t oldNumParticles = _positions.size();
     size_t newNumParticles = particles->GetNumberOfParticles();
     _positions.Resize(newNumParticles);
-    _colors.Resize(newNumParticles);
 
     for (size_t i = 0; i < newNumParticles; ++i) {
         Vector3F pt((float)pos2D[i].x, (float)pos2D[i].y, 0);
         _positions[i] = pt;
-    }
-
-    for (size_t i = oldNumParticles; i < newNumParticles; ++i) {
-        _colors[i] = Vector4F(0.0f, 0.0f, 0.8f, 1.0f);
     }
 
     //! AnisotropicPointsToImplicit3 converter(kernelRadius, _anisoCutoffDensity, _anisoPositionSmoothingFactor, _anisoMinNumNeighbors, false);
@@ -206,5 +196,5 @@ void PICSimulation::onUpdateRenderables()
     //! }
     //! converter.Convert(positions.ConstAccessor(),&sdf);
 
-    _renderable->update(_positions, _colors);
+    _renderable->update(_positions);
 }

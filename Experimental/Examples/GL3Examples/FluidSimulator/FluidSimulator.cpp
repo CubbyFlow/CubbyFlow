@@ -191,7 +191,6 @@ void SampleWindow::onUpdateScene()
 int sampleMain(int argc, const char** argv)
 {
     bool showHelp = false;
-    int numberOfFrames = 1;
     int resX = 800;
     int resY = 600;
     double fps = 60.0;
@@ -207,9 +206,6 @@ int sampleMain(int argc, const char** argv)
         clara::Opt(resY, "resY")
         ["-y"]["--resy"]
         ("grid resolution in y-axis (default is 600)") |
-        clara::Opt(numberOfFrames, "numberOfFrames")
-        ["-n"]["--numberOfFrames"]
-        ("total number of frames (default is 100)") |
         clara::Opt(fps, "fps")
         ["-f"]["--fps"]
         ("frame per second for simulation (default is 60)") |
@@ -266,11 +262,11 @@ int sampleMain(int argc, const char** argv)
     auto recorder = std::make_shared<ScreenRecorder>();
     recorder->setWorkingDirectory(APP_NAME "_output");
 
-    exitCode = application->run(numberOfFrames, [&](Size2 dim, const ArrayAccessor1<unsigned char>& frame){
+    exitCode = application->run([&](Size2 dim, const ArrayAccessor1<unsigned char>& frame){
         return recorder->EncodeFrame(dim, frame);
     });
 #else
-    exitCode = application->run(numberOfFrames, nullptr);
+    exitCode = application->run(nullptr);
 #endif
 
     //! release application and sample window .

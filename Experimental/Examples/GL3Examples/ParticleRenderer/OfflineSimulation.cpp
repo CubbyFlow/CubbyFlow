@@ -11,6 +11,11 @@
 
 #include <Framework/Renderer/Renderer.h>
 #include <Framework/Utils/ParticleParser.h>
+#include <Core/PointsToImplicit/AnisotropicPointsToImplicit3.h>
+#include <Core/Grid/ScalarGrid3.h>
+#include <Core/Grid/VertexCenteredScalarGrid3.h>
+#include <Core/Geometry/TriangleMesh3.h>
+#include <Core/MarchingCubes/MarchingCubes.h>
 
 using namespace CubbyFlow;
 using namespace CubbyRender;
@@ -57,18 +62,28 @@ void OfflineSimulation::resetSimulation()
 
 void OfflineSimulation::updateRenderable()
 {
-    if (_frame.index % static_cast<size_t>(_fps) == 0)
-    {
-        auto particles = _particleParser->getParticles(static_cast<size_t>(_frame.TimeInSeconds()));
-        const size_t numParticles = particles.size();
+    const ConstArrayAccessor1<Vector3D> dParticles = _particleParser->getParticles(static_cast<size_t>(_frame.index));
 
-        Array1<Vector4F> colors(numParticles, Vector4F(221 / 255.0f, 145 / 255.0f, 48 / 255.0f, 1.0f));
-        particles.ParallelForEachIndex([&](size_t index){
-            particles[index] += _simulationOrigin;
-        });
+    //AnisotropicPointsToImplicit3 converter(_kernelRadius, _anisoCutOffDensity, _anisoPositionSmoothingFactor, _anisoMinNumNeighbors, false);
+    //Size3 resolution(100, 100, 100);
+    //Vector3D gridSpacing(0.01, 0.01, 0.01);
+    //VertexCenteredScalarGrid3 sdf(resolution, gridSpacing);
+    //converter.Convert(dParticles, &sdf);
+    //TriangleMesh3 mesh;
+    //MarchingCubes(
+    //    sdf.GetConstDataAccessor(),
+    //    sdf.GridSpacing(),
+    //    sdf.GetDataOrigin(),
+    //    &mesh,
+    //    0.0,
+    //    DIRECTION_ALL);
+    //UNUSED_VARIABLE(mesh);
 
-        _renderable->update(particles, colors.ConstAccessor());
-    }
+    Array1<Vector3F> fParticles(dParticles.size());
+    fParticles.ParallelForEachIndex([&](size_t i){
+        fParticles[i] = dParticles[i].CastTo<float>() + _simulationOrigin;
+    });
+    _renderable->update(fParticles);
 
     advanceSimulation();
 }
@@ -76,7 +91,7 @@ void OfflineSimulation::updateRenderable()
 void OfflineSimulation::advanceSimulation()
 {
     _frame.Advance();
-    if (_frame.index == static_cast<int>(_particleParser->getNumberOfParticleState() * _fps))
+    if (_frame.index == static_cast<int>(_particleParser->getNumberOfParticleCache()))
     {
         resetSimulation();
     }

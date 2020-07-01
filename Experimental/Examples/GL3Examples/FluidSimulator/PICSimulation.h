@@ -56,7 +56,6 @@ protected:
 private:
     CubbyFlow::PICSolver3Ptr _solver;
     CubbyFlow::Array1<CubbyFlow::Vector3F> _positions;
-    CubbyFlow::Array1<CubbyFlow::Vector4F> _colors;
     CubbyFlow::CubbyRender::PointsRenderablePtr _renderable;
     size_t _resolutionX { 60 };
     double _anisoCutOffDensity = 0.5;

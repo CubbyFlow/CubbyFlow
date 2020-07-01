@@ -55,7 +55,6 @@ protected:
 private:
     CubbyFlow::SPHSolver3Ptr _solver;
     CubbyFlow::Array1<CubbyFlow::Vector3F> _positions;
-    CubbyFlow::Array1<CubbyFlow::Vector4F> _colors;
     CubbyFlow::CubbyRender::PointsRenderablePtr _renderable;
     float _spacing = 0.03f;
 };
