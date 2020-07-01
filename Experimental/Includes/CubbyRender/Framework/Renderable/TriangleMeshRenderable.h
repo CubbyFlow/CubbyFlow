@@ -34,8 +34,14 @@ namespace CubbyRender {
         //! Default constructor.
         TriangleMeshRenderable();
         
+        //! Initialize the current position attribute and normal attribute of the vertex buffer.
+        TriangleMeshRenderable(const ConstArrayAccessor1<Vector3F>& positions);
+
         //! Default destructor.
         virtual ~TriangleMeshRenderable();
+
+        //! Update the current position attribute and normal attribute of the vertex buffer.
+        void update(const ConstArrayAccessor1<Vector3F>& positions);
 
     protected:
         //! bind input layout and material and draw renderables.
@@ -49,6 +55,7 @@ namespace CubbyRender {
 
         std::mutex _dataMutex;
     private:
+        Array1<float> _vertices;
     };
 
     using TriangleMeshRenderablePtr = std::shared_ptr<TriangleMeshRenderable>;
