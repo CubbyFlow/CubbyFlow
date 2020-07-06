@@ -33,7 +33,7 @@ namespace CubbyRender {
         WIN32_FIND_DATAA ffd;
         std::string filename;
         std::string format = "." + extension;
-        char_t* ext = nullptr;
+        char* ext = nullptr;
 
         filename = dir + "/*";
         hFind = FindFirstFileA(filename.c_str(), &ffd);
