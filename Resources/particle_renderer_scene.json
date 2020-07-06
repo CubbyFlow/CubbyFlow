@@ -1,11 +1,16 @@
 [
     {
+        "type" : "points",
+        "name" : "points",
+        "dir" : "./points",
+        "format" : "simulated%04d.pos",
+        "count" : 100
+    },
+    {
         "type" : "object",
-        "name" : "fluid",
-        "dir" : "./Particles2Obj_output",
-        "format" : "surface%d.obj",
-        "count" : 100,
-        "scale" : 0.7,
+        "name" : "cube",
+        "path" : "./cube.obj",
+        "scale" : 0.5,
         "translation" : [0, 0, 0]
     },
     {
@@ -16,7 +21,7 @@
         "fov" : 60.0,
         "near" : 0.01,
         "far" : 10000,
-        "origin" : [0, 0.3, 4],
+        "origin" : [0, 0, 0],
         "target" : [0, 0, -1]
     },
     {
