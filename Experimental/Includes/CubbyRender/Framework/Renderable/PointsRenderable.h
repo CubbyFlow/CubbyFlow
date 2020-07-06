@@ -35,13 +35,13 @@ namespace CubbyRender {
         PointsRenderable();
 
         //! Constructor with positions, color of the particle point.
-        PointsRenderable(const ConstArrayAccessor1<Vector3F>& positions, const Vector3F& color);
+        PointsRenderable(const ConstArrayAccessor1<float>& vertices, const Vector3F& color);
         
         //! Update the current position attribute and color uniform of the vertex buffer.
-        void update(const ConstArrayAccessor1<Vector3F>& positions);
+        void update(const ConstArrayAccessor1<float>& vertices);
 
         //! Update the current position attribute and color uniform of the vertex buffer.
-        void update(const ConstArrayAccessor1<Vector3F>& positions, const Vector3F& color);
+        void update(const ConstArrayAccessor1<float>& vertices, const Vector3F& color);
 
         //! Default destructor.
         virtual ~PointsRenderable();

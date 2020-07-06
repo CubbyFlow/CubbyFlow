@@ -17,6 +17,7 @@
 #include <Framework/Renderer/Renderer.h>
 #include <Framework/Shader/Shader.h>
 #include <Framework/Utils/Common.h>
+#include <cstring>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -26,9 +27,9 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
-    PointsRenderable::PointsRenderable(const ConstArrayAccessor1<Vector3F>& positions, const Vector3F& color)
+    PointsRenderable::PointsRenderable(const ConstArrayAccessor1<float>& vertices, const Vector3F& color)
     {
-        update(positions, color);
+        update(vertices, color);
     }
 
 
@@ -37,24 +38,17 @@ namespace CubbyRender {
         release();
     }
 
-    void PointsRenderable::update(const ConstArrayAccessor1<Vector3F>& positions)
+    void PointsRenderable::update(const ConstArrayAccessor1<float>& vertices)
     {
-        update(positions, _color);
+        update(vertices, _color);
     }
 
-    void PointsRenderable::update(const ConstArrayAccessor1<Vector3F>& positions, const Vector3F& color)
+    void PointsRenderable::update(const ConstArrayAccessor1<float>& vertices, const Vector3F& color)
     {
         _color = color;
-        const size_t totalSize = positions.size() * 3;
-        const size_t numVertices = positions.size();
         std::lock_guard<std::mutex> lock(_dataMutex);
-        _vertices.Resize(totalSize);
-        for (size_t i = 0; i < numVertices; ++i)
-        {
-            _vertices[i * 3 + 0] = positions[i].x;
-            _vertices[i * 3 + 1] = positions[i].y;
-            _vertices[i * 3 + 2] = positions[i].z;
-        }
+        _vertices.Resize(vertices.size());
+        std::memcpy(static_cast<void*>(_vertices.data()), static_cast<const void*>(vertices.data()), vertices.size() * sizeof(float));
         invalidateResources();
     }
 
