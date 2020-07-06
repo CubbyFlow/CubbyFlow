@@ -7,13 +7,20 @@
 > Created Time: 2020/06/24
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
-#include <Framework/Utils/SceneParser.h>
+#include <Framework/Scene/SceneParser.h>
+#include <Framework/Utils/GeometryCacheParser.h>
 #include <Framework/Utils/Common.h>
 #include <Framework/View/Camera.h>
 #include <Framework/Renderable/PointsRenderable.h>
 #include <Framework/Renderable/TriangleMeshRenderable.h>
+#include <Framework/Buffer/Vertex.h>
+#include <Core/Array/Array1.h>
+#include <Core/Vector/Vector3.h>
+#include <Core/Matrix/Matrix4x4.h>
+#include <pystring/pystring.h>
 #include <fstream>
 #include <cassert>
+#include <iostream>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -22,24 +29,14 @@ namespace CubbyRender {
         //! Do nothing
     }
 
-    SceneParser::~SceneParser()
-    {
-        //! Do nothing
+    SceneParser::SceneParser(const std::string& path)
+    {   
+        loadScene(path);
     }
 
-    void SceneParser::writeScene(const std::string& path)
+    SceneParser::~SceneParser()
     {
-        std::ofstream sceneFile(path);
-
-        if (sceneFile.is_open())
-        {
-            
-        }
-        else
-        {
-            CUBBYFLOW_ERROR << "Cannot create scene file [" << path << "]";
-            std::abort();
-        }
+        _metadata.clear();
     }
 
     void SceneParser::loadScene(const std::string& path)
@@ -59,25 +56,53 @@ namespace CubbyRender {
     }
 
     template <>
-    void SceneParser::parseSceneObject<PointsRenderable>(const nlohmann::json& json)
+    void SceneParser::onLoadSceneObject<PointsRenderable>(const nlohmann::json& json)
     {
         UNUSED_VARIABLE(json);
         //! const std::string& dir = json["dir"].get<std::string>();
         //! const std::string& format = json["format"].get<std::string>();
         //! const int numPointsCache = json["count"].get<int>();
-        //! onLoadSceneObject(camera);
+        //!_metadata.emplace(name, std::make_shared<TriangleMeshRenderable>(positions, normals));
     }
+
     template <>
-    void SceneParser::parseSceneObject<TriangleMeshRenderable>(const nlohmann::json& json)
+    void SceneParser::onLoadSceneObject<TriangleMeshRenderable>(const nlohmann::json& json)
     {
-        UNUSED_VARIABLE(json);
-        //! const std::string& objPath = json["path"].get<std::string>();
-        //! const float scale = json["scale"].get<float>();
-        //! const Vector3F translation = { json["translation"][0].get<float>(), json["translation"][1].get<float>(), json["translation"][2].get<float>() };
-        //! onLoadSceneObject(camera);
+        const std::string& name = json["name"].get<std::string>();
+        const std::string& dir = json["dir"].get<std::string>();
+        const std::string& format = json["format"].get<std::string>();
+        const size_t numPointsCache = json["count"].get<size_t>();    
+
+        std::string fileformat = pystring::os::path::join(dir, format);
+        
+        GeometryCacheParserPtr parser = std::make_shared<GeometryCacheParser>();
+        parser->loadGeometryCache(fileformat, numPointsCache);
+        
+        const float scale = json["scale"].get<float>();
+        const Vector3F translation(json["translation"][0].get<float>(), json["translation"][1].get<float>(), json["translation"][2].get<float>());
+
+        const Matrix4x4F st = Matrix4x4F::MakeScaleMatrix(Vector3F(scale, scale, scale)) * Matrix4x4F::MakeTranslationMatrix(translation);
+
+        for (size_t i = 0; i < parser->getNumberOfGeometryCache(); ++i)
+        {
+            auto vertices = parser->getVertexCache(i);
+            const size_t numberOfFloats = VertexHelper::getNumberOfFloats(VertexFormat::Position3Normal3);
+            const size_t numVertices = static_cast<size_t>(vertices.size() / numberOfFloats);
+            ParallelFor(ZERO_SIZE, numVertices, [&](size_t index){
+                const size_t baseIndex = index * numberOfFloats;
+                Vector4F pos = st * Vector4F(vertices[baseIndex + 0], vertices[baseIndex + 1], vertices[baseIndex + 2], 1.0f);
+                vertices[baseIndex]     = pos.x;
+                vertices[baseIndex + 1] = pos.y;
+                vertices[baseIndex + 2] = pos.z;
+            });
+        }
+        
+        _metadata.emplace(name + std::string("Cache"), parser);
+        _metadata.emplace(name, std::make_shared<TriangleMeshRenderable>(parser->getVertexCache(0), parser->getIndexCache(0)));
     }
+
     template <>
-    void SceneParser::parseSceneObject<Camera>(const nlohmann::json& json)
+    void SceneParser::onLoadSceneObject<Camera>(const nlohmann::json& json)
     {
         Pivot pivot;
 
@@ -96,13 +121,11 @@ namespace CubbyRender {
         if (methodStr == "perspective")
         {
             float fov = json["fov"].get<float>();
-            PerspectiveCamera camera(pivot, fov);
-            onLoadSceneObject(name, camera);
+            _metadata.emplace(name, std::make_shared<PerspectiveCamera>(pivot, fov));
         }
         else if (methodStr == "orthogonal")
         {
-            OrthogonalCamera camera(pivot);
-            onLoadSceneObject(name, camera);
+            _metadata.emplace(name, std::make_shared<OrthogonalCamera>(pivot));
         }
         else 
         {
@@ -111,7 +134,7 @@ namespace CubbyRender {
         }
     }
     template <>
-    void SceneParser::parseSceneObject<Light>(const nlohmann::json& json)
+    void SceneParser::onLoadSceneObject<Light>(const nlohmann::json& json)
     {
         Pivot pivot;
 
@@ -125,21 +148,20 @@ namespace CubbyRender {
         pivot.zNear = json["near"].get<float>();
         pivot.zFar = json["far"].get<float>();
 
-        Light light(pivot);
         const std::string name = json["name"].get<std::string>();
-        onLoadSceneObject(name, light);
+        _metadata.emplace(name, std::make_shared<Light>(pivot));
     }
-    
+
     void SceneParser::onLoadScene(const nlohmann::json& json)
     {
         for (auto& data : json)
         {
             const std::string objectType = data["type"].get<std::string>();
 
-            if (objectType == "points") parseSceneObject<PointsRenderable>(data);
-            else if (objectType == "object") parseSceneObject<TriangleMeshRenderable>(data);
-            else if (objectType == "camera") parseSceneObject<Camera>(data);
-            else if (objectType == "light") parseSceneObject<Light>(data);
+            if (objectType == "points") onLoadSceneObject<PointsRenderable>(data);
+            else if (objectType == "object") onLoadSceneObject<TriangleMeshRenderable>(data);
+            else if (objectType == "camera") onLoadSceneObject<Camera>(data);
+            else if (objectType == "light") onLoadSceneObject<Light>(data);
             //! else if (objectType == "render") parseSceneObject<RenderSetting>(data);
             else 
             {

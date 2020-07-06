@@ -26,8 +26,8 @@
 namespace CubbyFlow {
 namespace CubbyRender {
 
-    template <typename SceneObject>
-    std::shared_ptr<SceneObject> SceneParser::getSceneObject(const std::string& objName)
+    template <typename Type>
+    std::shared_ptr<Type> SceneParser::getSceneObject(const std::string& objName)
     {
         auto iter = _metadata.find(objName);
         if (iter == _metadata.end())
@@ -35,29 +35,22 @@ namespace CubbyRender {
             CUBBYFLOW_ERROR << "Failed to find [" << objName << "] from the scene file.";
             return nullptr;
         }
-        const std::vector<unsigned char>& byteArray = *iter;
-        const size_t byteLength = byteArray.size();
+        std::shared_ptr<SceneObject> obj = iter->second;
+        std::shared_ptr<Type> instance = std::dynamic_pointer_cast<Type>(obj);
 
-        std::shared_ptr<SceneObject> instance = std::make_shared<SceneObject>();
-        std::memcpy(static_cast<void*>(instance.get()), static_cast<void*>(byteArray.data()), byteLength);
+        if (instance == nullptr)
+        {
+            CUBBYFLOW_ERROR << "Cannot down-casting scene object with name [" << objName << "]";
+            std::abort();
+        }
 
         return instance;
     }
 
-    template <typename SceneObject>
-    void SceneParser::parseSceneObject(const nlohmann::json& json)
+    template <typename Type>
+    void SceneParser::onLoadSceneObject(const nlohmann::json& json)
     {
         static_assert("No implementation exists.");
-    }
-
-    
-
-    template <typename SceneObject>
-    void SceneParser::onLoadSceneObject(const std::string& name,  SceneObject object)
-    {
-        std::vector<unsigned char> byteArray(sizeof(object));
-        std::memcpy(static_cast<void*>(byteArray.data()), static_cast<void*>(&object), sizeof(object));
-        _metadata.emplace(name, byteArray);
     }
 } 
 }

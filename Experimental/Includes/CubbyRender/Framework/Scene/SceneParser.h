@@ -10,6 +10,7 @@
 #ifndef CUBBYFLOW_SCENEPARSER_H
 #define CUBBYFLOW_SCENEPARSER_H
 
+#include <Framework/Scene/SceneObject.h>
 #include <Framework/Utils/Prerequisites.h>
 #include <nlohmann/json.hpp>
 #include <memory>
@@ -28,33 +29,31 @@ namespace CubbyRender {
         //! Default Constructor
         SceneParser();
 
+        //! Constructor with scene file path.
+        SceneParser(const std::string& path);
+
         //! Default Destructor.
         ~SceneParser();
 
-        //! Write scene objects' information to the scn file.
-        void writeScene(const std::string& path);
         //! Load scene objects' information from the scn file.
         void loadScene(const std::string& path);
         //! Create scene object instance and copy parsed data.
-        template <typename SceneObject>
-        std::shared_ptr<SceneObject> getSceneObject(const std::string& objName);
+        template <typename Type>
+        std::shared_ptr<Type> getSceneObject(const std::string& objName);
     protected:
     private:
         void onLoadScene(const nlohmann::json& json);
 
-        template <typename SceneObject>
-        void onLoadSceneObject(const std::string& name, SceneObject object);
+        template <typename Type>
+        void onLoadSceneObject(const nlohmann::json& json);
 
-        template <typename SceneObject>
-        void parseSceneObject(const nlohmann::json& json);
-
-        std::unordered_map<std::string, std::vector<unsigned char>> _metadata;
+        std::unordered_map<std::string, std::shared_ptr<SceneObject>> _metadata;
     };
 
     using SceneParserPtr = std::shared_ptr<SceneParser>;
 } 
 }
 
-#include <Framework/Utils/SceneParser-Impl.h>
+#include <Framework/Scene/SceneParser-Impl.h>
 
 #endif
