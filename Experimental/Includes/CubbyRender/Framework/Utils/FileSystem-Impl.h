@@ -97,7 +97,7 @@ namespace CubbyRender {
     	while((file = readdir(dirHandle)) != NULL)
     	{
             //! Skip file with name "." or ".."
-    		if (strcmp(file->d_name, ".") || strcmp(file->d_name, ".."))
+    		if (strcmp(file->d_name, ".") == 0 || strcmp(file->d_name, "..") == 0)
     		{
     			continue;
     		}
@@ -117,6 +117,7 @@ namespace CubbyRender {
     		}
     		else if (S_ISREG(buf.st_mode))
     		{
+                
                 //! If the given file is regular file, pass it to the callback function.
                 if ((ext = strchr(file->d_name, '.')) == NULL)
                     return;
