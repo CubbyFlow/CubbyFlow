@@ -27,6 +27,7 @@ endif()
 # include header-only stb library for image read & write
 include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/stb)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/nlohmann)
 
 set(OPENGL_LIBRARIES "")
 
@@ -123,7 +124,8 @@ if (USE_CUDA)
             list(APPEND CUDA_NVCC_FLAGS --std=c++14)
         endif()
 
-        add_subdirectory(Libraries/gvdb)
+        add_subdirectory(Libraries/gvdb-voxels/gvdb_library)
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/gvdb-voxels/gvdb_library/src)
         set(GVDB_LIBRARY gvdb)
 
         set(CUDA_LIBRARIES 
@@ -145,6 +147,7 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Sources/CubbyRender)
 if (USE_GL)
     add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/GL3Examples/FluidSimulator)
     add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/GL3Examples/ParticleRenderer)
+    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/GL3Examples/FluidMeshRenderer)
     if (USE_CUDA)
         add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/gvdbExamples/InteractiveFluid)
         add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/gvdbExamples/RenderToFiles)
