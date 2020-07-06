@@ -47,8 +47,6 @@
 using namespace CubbyFlow;
 using namespace CubbyRender;
 
-//! 실시간으로 다 돌리기보다는 한 프레임 한 프레임 정지해가며 관찰한다는 느낌으로
-
 class SampleWindow final : public GL3Window
 {
     using super_t = GL3Window;

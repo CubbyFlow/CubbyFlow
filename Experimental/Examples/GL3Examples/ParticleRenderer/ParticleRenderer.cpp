@@ -27,7 +27,7 @@
 #include <Framework/View/PerspectiveCamera.h>
 #include <Framework/View/CameraController.h>
 #include <Framework/View/Light.h>
-#include <Framework/Utils/ParticleParser.h>
+#include <Framework/Utils/GeometryCacheParser.h>
 
 #include "OfflineSimulation.h"
 
@@ -74,7 +74,7 @@ public:
     //! Set timer for automatic shutdown.
     void setShutdownTimer(int numFrames);
     //! Initialize the sample renderer with simulated particle files directory and format.
-    bool initialize(const std::string& inputDir, const std::string& format);
+    bool initialize(const std::string& format, size_t count);
     //! Action implementation when window is resized.
     void onWindowResized(int width, int height) override;
     //! Action implementation when any key is pressed or released
@@ -111,11 +111,10 @@ ParticleRenderer::~ParticleRenderer()
     //! Do nothing.
 }
 
-bool ParticleRenderer::initialize(const std::string& inputDir, const std::string& format)
+bool ParticleRenderer::initialize(const std::string& format, size_t count)
 {
-    ParticleParserPtr parser = std::make_shared<ParticleParser>();
-    if (!parser->loadParticleFiles(inputDir, format))
-        return false;
+    GeometryCacheParserPtr parser = std::make_shared<GeometryCacheParser>();
+    parser->loadGeometryCache(format, count);
 
     _simulator = OfflineSimulation(_fps, Vector3F(0.0f, 0.0f, 0.0f));
     _simulator.setParticleParser(parser);
@@ -239,14 +238,13 @@ void ParticleRenderer::onUpdateScene()
 int sampleMain(int argc, const char** argv)
 {
     bool showHelp = false;
-    int numberOfFrames = 100;
+    int numberOfFrames = 50;
     int resX = 800;
     int resY = 600;
     double fps = 60.0;
     std::string logFileName = APP_NAME ".log";
-    std::string inputDir;
+    std::string format;
     std::string outputDir = APP_NAME "_output";
-    std::string format = "xyz";
 
     // Parsing
     auto parser =
@@ -263,15 +261,12 @@ int sampleMain(int argc, const char** argv)
         clara::Opt(logFileName, "logFileName")
         ["-l"]["--log"]
         ("log file name (default is " APP_NAME ".log)") |
-        clara::Opt(inputDir, "InputDir")
-        ["-i"]["--input"]
-        ("input directory name") |
-        clara::Opt(outputDir, "outputDir")
-        ["-o"]["--output"]
-        ("output directory name (default is " APP_NAME "_output)") |
         clara::Opt(format, "format")
         ["-m"]["--format"]
-        ("format of the fluid file (default is xyz)");
+        ("geometry cache files format (ex : geometry_cache/frame_%04d.pos)") |
+        clara::Opt(outputDir, "outputDir")
+        ["-o"]["--output"]
+        ("output directory name (default is " APP_NAME "_output)");
 
     auto result = parser.parse(clara::Args(argc, argv));
     if (!result)
@@ -280,7 +275,7 @@ int sampleMain(int argc, const char** argv)
         exit(EXIT_FAILURE);
     }
 
-    if (inputDir.empty() || showHelp)
+    if (format.empty() || showHelp)
     {
         std::cout << ToString(parser) << '\n';
         exit(EXIT_SUCCESS);
@@ -306,7 +301,7 @@ int sampleMain(int argc, const char** argv)
     }
     
     renderer = std::make_shared<ParticleRenderer>(APP_NAME, resX, resY, fps);
-    if (renderer->initialize(inputDir, format) == false)
+    if (renderer->initialize(format, numberOfFrames) == false)
     {
         std::cerr << "Renderer Window Initialize Failed" << std::endl;
         return -1;
