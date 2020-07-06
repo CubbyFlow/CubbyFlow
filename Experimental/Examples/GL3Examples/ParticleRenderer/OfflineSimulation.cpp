@@ -10,12 +10,13 @@
 #include "OfflineSimulation.h"
 
 #include <Framework/Renderer/Renderer.h>
-#include <Framework/Utils/ParticleParser.h>
+#include <Framework/Utils/GeometryCacheParser.h>
 #include <Core/PointsToImplicit/AnisotropicPointsToImplicit3.h>
 #include <Core/Grid/ScalarGrid3.h>
 #include <Core/Grid/VertexCenteredScalarGrid3.h>
 #include <Core/Geometry/TriangleMesh3.h>
 #include <Core/MarchingCubes/MarchingCubes.h>
+#include <Core/Array/Array1.h>
 
 using namespace CubbyFlow;
 using namespace CubbyRender;
@@ -42,7 +43,7 @@ OfflineSimulation::~OfflineSimulation()
     //! Do nothing
 }
 
-void OfflineSimulation::setParticleParser(ParticleParserPtr parser)
+void OfflineSimulation::setParticleParser(GeometryCacheParserPtr parser)
 {
     _particleParser = parser;
 }
@@ -62,28 +63,7 @@ void OfflineSimulation::resetSimulation()
 
 void OfflineSimulation::updateRenderable()
 {
-    const ConstArrayAccessor1<Vector3D> dParticles = _particleParser->getParticles(static_cast<size_t>(_frame.index));
-
-    //AnisotropicPointsToImplicit3 converter(_kernelRadius, _anisoCutOffDensity, _anisoPositionSmoothingFactor, _anisoMinNumNeighbors, false);
-    //Size3 resolution(100, 100, 100);
-    //Vector3D gridSpacing(0.01, 0.01, 0.01);
-    //VertexCenteredScalarGrid3 sdf(resolution, gridSpacing);
-    //converter.Convert(dParticles, &sdf);
-    //TriangleMesh3 mesh;
-    //MarchingCubes(
-    //    sdf.GetConstDataAccessor(),
-    //    sdf.GridSpacing(),
-    //    sdf.GetDataOrigin(),
-    //    &mesh,
-    //    0.0,
-    //    DIRECTION_ALL);
-    //UNUSED_VARIABLE(mesh);
-
-    Array1<Vector3F> fParticles(dParticles.size());
-    fParticles.ParallelForEachIndex([&](size_t i){
-        fParticles[i] = dParticles[i].CastTo<float>() + _simulationOrigin;
-    });
-    _renderable->update(fParticles);
+    _renderable->update(_particleParser->getVertexCache(static_cast<size_t>(_frame.index)));
 
     advanceSimulation();
 }
@@ -91,7 +71,7 @@ void OfflineSimulation::updateRenderable()
 void OfflineSimulation::advanceSimulation()
 {
     _frame.Advance();
-    if (_frame.index == static_cast<int>(_particleParser->getNumberOfParticleCache()))
+    if (_frame.index == static_cast<int>(_particleParser->getNumberOfGeometryCache()))
     {
         resetSimulation();
     }

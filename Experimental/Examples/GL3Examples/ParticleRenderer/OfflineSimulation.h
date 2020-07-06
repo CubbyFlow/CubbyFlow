@@ -35,7 +35,7 @@ public:
     ~OfflineSimulation();
 
     //! Set offline particle file parser.
-    void setParticleParser(CubbyFlow::CubbyRender::ParticleParserPtr parser);
+    void setParticleParser(CubbyFlow::CubbyRender::GeometryCacheParserPtr parser);
 
     //! Setup the offline simualtor.
     void setup(CubbyFlow::CubbyRender::RendererPtr renderer);
@@ -49,16 +49,11 @@ protected:
     //! implementation of the advance simulation.
     void advanceSimulation();
 private:
-    CubbyFlow::CubbyRender::ParticleParserPtr _particleParser;
+    CubbyFlow::CubbyRender::GeometryCacheParserPtr _particleParser;
     CubbyFlow::CubbyRender::PointsRenderablePtr _renderable;
     CubbyFlow::Vector3F _simulationOrigin;
     CubbyFlow::Frame _frame;
     double _fps = 60.0;
-    double _kernelRadius = 0.2;
-    size_t _resolutionX { 60 };
-    double _anisoCutOffDensity = 0.5;
-    double _anisoPositionSmoothingFactor = 0.5;
-    size_t _anisoMinNumNeighbors = 25;
 };
 
 using OfflineSimulationnPtr = std::shared_ptr<OfflineSimulation>;

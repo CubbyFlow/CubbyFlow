@@ -69,13 +69,16 @@ void PICSimulation::onSetup(RendererPtr renderer)
 
     auto particles = _solver->GetParticleSystemData();
     auto positions = particles->GetPositions();
-    _positions.Resize(particles->GetNumberOfParticles());
-
-    ParallelFor(ZERO_SIZE, particles->GetNumberOfParticles(), [&](size_t i){
-        _positions[i] = Vector3F(positions[i].x, positions[i].y, 0.0f);
+    
+    Array1<float> vertices(particles->GetNumberOfParticles() * 3);
+    positions.ParallelForEachIndex([&](size_t index){
+        const size_t baseIndex = index * 3;
+        vertices[  baseIndex  ] = static_cast<float>(positions[index].x);
+        vertices[baseIndex + 1] = static_cast<float>(positions[index].y);
+        vertices[baseIndex + 2] = 0.0f;
     });
 
-    _renderable = std::make_shared<PointsRenderable>(_positions, Vector3F(221 / 255.0f, 145 / 255.0f, 48 / 255.0f));
+    _renderable = std::make_shared<PointsRenderable>(vertices, Vector3F(221 / 255.0f, 145 / 255.0f, 48 / 255.0f));
 
     renderer->addRenderable(_renderable);
     renderer->setBackgroundColor(Vector4F(0.1f, 0.1f, 0.1f, 1.0f));
@@ -175,15 +178,15 @@ void PICSimulation::onAdvanceSimulation()
 void PICSimulation::onUpdateRenderables()
 {
     auto particles = _solver->GetParticleSystemData();
-    auto pos2D = particles->GetPositions();
+    auto positions = particles->GetPositions();
 
-    size_t newNumParticles = particles->GetNumberOfParticles();
-    _positions.Resize(newNumParticles);
-
-    for (size_t i = 0; i < newNumParticles; ++i) {
-        Vector3F pt((float)pos2D[i].x, (float)pos2D[i].y, 0);
-        _positions[i] = pt;
-    }
+    Array1<float> vertices(particles->GetNumberOfParticles() * 3);
+    positions.ParallelForEachIndex([&](size_t index){
+        const size_t baseIndex = index * 3;
+        vertices[  baseIndex  ] = static_cast<float>(positions[index].x);
+        vertices[baseIndex + 1] = static_cast<float>(positions[index].y);
+        vertices[baseIndex + 2] = 0.0f;
+    });
 
     //! AnisotropicPointsToImplicit3 converter(kernelRadius, _anisoCutoffDensity, _anisoPositionSmoothingFactor, _anisoMinNumNeighbors, false);
     //! Size3 resolution(100, 100, 100);
@@ -195,6 +198,5 @@ void PICSimulation::onUpdateRenderables()
     //!     positions[i] = _positions[i].CastTo<double>();
     //! }
     //! converter.Convert(positions.ConstAccessor(),&sdf);
-
-    _renderable->update(_positions);
+    _renderable->update(vertices);
 }
