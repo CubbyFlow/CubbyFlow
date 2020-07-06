@@ -17,6 +17,8 @@
 #include <Framework/Renderer/Renderer.h>
 #include <Framework/Shader/Shader.h>
 #include <Framework/Utils/Common.h>
+#include <cstring>
+#include <iostream>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -26,9 +28,10 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
-    TriangleMeshRenderable::TriangleMeshRenderable(const ConstArrayAccessor1<Vector3F>& positions)
+    TriangleMeshRenderable::TriangleMeshRenderable(const ConstArrayAccessor1<float>& vertices,
+                                                   const ConstArrayAccessor1<unsigned int>& indices)
     {
-        update(positions);
+        update(vertices, indices);
     }
 
     TriangleMeshRenderable::~TriangleMeshRenderable()
@@ -36,18 +39,13 @@ namespace CubbyRender {
         release();
     }
 
-    void TriangleMeshRenderable::update(const ConstArrayAccessor1<Vector3F>& positions)
+    void TriangleMeshRenderable::update(const ConstArrayAccessor1<float>& vertices,
+                                        const ConstArrayAccessor1<unsigned int>& indices)
     {
-        const std::size_t totalSize = positions.size() * 3;
-        const std::size_t numVertices = positions.size();
         std::lock_guard<std::mutex> lock(_dataMutex);
-        _vertices.Resize(totalSize);
-        for (size_t i = 0; i < numVertices; ++i)
-        {
-            _vertices[i * 3 + 0] = positions[i].x;
-            _vertices[i * 3 + 1] = positions[i].y;
-            _vertices[i * 3 + 2] = positions[i].z;
-        }
+        _vertices.Resize(vertices.size()); _indices.Resize(indices.size());
+        std::memcpy(static_cast<void*>(_vertices.data()), static_cast<const void*>(vertices.data()), vertices.size() * sizeof(float));
+        std::memcpy(static_cast<void*>(_indices.data()), static_cast<const void*>(indices.data()), indices.size() * sizeof(unsigned int));
         invalidateResources();
     }
 
@@ -70,18 +68,21 @@ namespace CubbyRender {
         {
             _inputLayout = renderer->createInputLayout();
             //! create vertex buffer from the positions and colors.
-            VertexBufferPtr buffer = renderer->createVertexBuffer(_vertices.ConstAccessor(), 
-                                                                  static_cast<size_t>(_vertices.size() / size_t(3)),  
-                                                                  VertexFormat::Position3);
-            _inputLayout->attachVertexBuffer(renderer, _material, buffer);
+            VertexBufferPtr vertexBuffer = renderer->createVertexBuffer(_vertices.ConstAccessor(), 
+                                                                        static_cast<size_t>(_vertices.size() / 6),  
+                                                                        VertexFormat::Position3Normal3);
+            //IndexBufferPtr elementBuffer = renderer->createIndexBuffer(_indices.ConstAccessor(), _indices.size());
+            _inputLayout->attachVertexBuffer(renderer, _material, vertexBuffer);
+            //_inputLayout->attachIndexBuffer(renderer, elementBuffer);
         }
         else
         {
             //! without initialization, update the contents of the buffer.
-            _inputLayout->updateVertexBuffer(renderer, _vertices.ConstAccessor(), VertexFormat::Position3);
+            _inputLayout->updateVertexBuffer(renderer, _vertices.ConstAccessor(), VertexFormat::Position3Normal3);
+            //_inputLayout->updateIndexBuffer(renderer, _indices.ConstAccessor());
         }
         //! Set the primitive type as Point.
-        _primitiveType = PrimitiveType::TriangleStrip;
+        _primitiveType = PrimitiveType::Triangle;
     }
 
     void TriangleMeshRenderable::onRender(RendererPtr renderer)
