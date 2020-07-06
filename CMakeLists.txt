@@ -67,6 +67,8 @@ set(RESOURCES_TEXTURES  textures/bricks2_disp.jpg
                         textures/metal.png
                         textures/wood.png)                    
 
+set(RESOURCES_SCENES    testscene.json)
+
 # we don't want to copy if we're building in the source dir
 if (NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
     # Copy all resoucre objs to binary directory.
@@ -75,6 +77,10 @@ if (NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
     endforeach()
 
     foreach(item IN LISTS RESOURCES_TEXTURES)
+        configure_file(${RESOURCES_DIR}/${item} ${CMAKE_CURRENT_BINARY_DIR}/bin/Resources/${item} COPYONLY)
+    endforeach()
+
+    foreach(item IN LISTS RESOURCES_SCENES)
         configure_file(${RESOURCES_DIR}/${item} ${CMAKE_CURRENT_BINARY_DIR}/bin/Resources/${item} COPYONLY)
     endforeach()
 endif()
