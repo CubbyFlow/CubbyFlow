@@ -11,6 +11,7 @@
 #define CUBBYFLOW_CAMERACONTROLLER_H
 
 #include <Framework/Utils/Prerequisites.h>
+#include <Core/Vector/Vector3.h>
 #include <memory>
 
 namespace CubbyFlow {
@@ -42,9 +43,13 @@ namespace CubbyRender {
 
         //! Rotate the pointing direction.
         void modifyDirection(double xoffset, double yoffset);
+
+        //! Orbit rotation
+        void orbitRotation(const Vector3F& focusPoint, float yaw, float pitch, float distance);
+
     protected:
         CameraPtr _camera;
-        float _camSpeed = 0.5f;
+        float _camSpeed = 0.1f;
         float _pitch    = 0.0f;
         float _yaw      = -90.0f;
     private:

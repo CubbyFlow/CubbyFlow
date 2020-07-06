@@ -11,9 +11,8 @@
 #include <Framework/View/CameraController.h>
 #include <Framework/View/Camera.h>
 #include <Framework/Utils/MathUtils.h>
-
+#include <Core/Math/Quaternion.h>
 #include <cmath>
-#include <iostream>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -70,6 +69,20 @@ namespace CubbyRender {
         pivot.lookAt.y = std::sin(pitchRadian);
         pivot.lookAt.z = std::sin(yawRadian) * std::cos(pitchRadian);
         pivot.lookAt.Normalize();
+    }
+
+    void CameraController::orbitRotation(const Vector3F& focusPoint, float yaw, float pitch, float distance)
+    {
+        auto& pivot = _camera->getPivot();
+        Vector3F camFocus = (pivot.origin - focusPoint).Normalized();
+        //! create quaternion matrix with up vector and yaw angle.
+        QuaternionF yawRotation(pivot.lookUp, yaw); 
+        //! create quaternion matrix with right vector and pitch angle.
+        QuaternionF pitchRotation(pivot.lookAt.Cross(pivot.lookUp).Normalized(), pitch); 
+
+        camFocus = (yawRotation * pitchRotation * camFocus);
+        pivot.origin = focusPoint + camFocus * distance;
+        pivot.lookAt = (focusPoint - pivot.origin).Normalized();
     }
 } 
 }
