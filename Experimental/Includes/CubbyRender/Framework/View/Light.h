@@ -33,9 +33,9 @@ namespace CubbyRender {
         //! Default destructor.
         virtual ~Light();
 
-        inline void setColor(const Vector3F& color);
+        void setColor(const Vector3F& color);
 
-        inline Vector3F getColor() const;
+        Vector3F getColor() const;
 
     protected:
     private:

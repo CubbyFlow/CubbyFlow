@@ -28,12 +28,12 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
-    inline void Light::setColor(const Vector3F& color)
+    void Light::setColor(const Vector3F& color)
     {
         _color = color;
     }
 
-    inline Vector3F Light::getColor() const
+    Vector3F Light::getColor() const
     {
         return _color;
     }
