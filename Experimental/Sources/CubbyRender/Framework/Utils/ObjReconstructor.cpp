@@ -55,18 +55,17 @@ namespace CubbyRender {
     {
         return _format;
     }
-    
-    VertexBufferPtr ObjReconstructor::generateVertexBuffer(RendererPtr renderer)
+
+    const Array1<float>& ObjReconstructor::getVertices() const
     {
-        size_t stride = VertexHelper::getNumberOfFloats(_format);
-        return renderer->createVertexBuffer(_vertices.ConstAccessor(), _vertices.size() / stride, _format);
+        return _vertices;
     }
-    
-    IndexBufferPtr ObjReconstructor::generateIndexBuffer(RendererPtr renderer)
+
+    const Array1<unsigned int>& ObjReconstructor::getIndices() const
     {
-        return renderer->createIndexBuffer(_indices.ConstAccessor(), _indices.size());
+        return _indices;
     }
-    
+
     std::tuple<Vector3F, Vector3F> ObjReconstructor::getBoundingBox() const
     {
         return std::make_tuple(_bbMin, _bbMax);
@@ -141,9 +140,9 @@ namespace CubbyRender {
 
         struct Face
         {
-            Vector3F position;
-            Vector3F normal;
-            Vector2F texCoord;
+            Vector3D position;
+            Vector3D normal;
+            Vector2D texCoord;
             size_t index; 
         };
 
@@ -198,8 +197,8 @@ namespace CubbyRender {
         _bbMin[0] = _bbMin[1] = _bbMin[2] = std::numeric_limits<float>::max();
         _bbMax[0] = _bbMax[1] = _bbMax[2] = -std::numeric_limits<float>::max();
         
-        std::set<Face, FaceComp> faces;
-        size_t index { 0 };
+        //std::set<Face, FaceComp> faces;
+        //size_t index { 0 };
 
         for (auto& shape : shapes)
         {
@@ -353,42 +352,60 @@ namespace CubbyRender {
                 //! From now on, vertices in one face allocated.
                 for (size_t k = 0; k < 3; ++k)
                 {
-                    auto iter = faces.find({position[k], normal[k], texCoord[k], size_t(0)});
-                    if (iter == faces.end())
+                    if (static_cast<int>(_format & VertexFormat::Position3))
                     {
-                        faces.insert({ position[k], normal[k], texCoord[k], index });
-                        _indices.Append(static_cast<unsigned int>(index++));
+                        _vertices.Append(position[k].x);
+                        _vertices.Append(position[k].y);
+                        _vertices.Append(position[k].z);
                     }
-                    else
+                    if (static_cast<int>(_format & VertexFormat::Normal3))
                     {
-                        _indices.Append(static_cast<unsigned int>(iter->index));
+                        _vertices.Append(normal[k].x);
+                        _vertices.Append(normal[k].y);
+                        _vertices.Append(normal[k].z);
                     }
+                    if (static_cast<int>(_format & VertexFormat::TexCoord2))
+                    {
+                        _vertices.Append(texCoord[k].x);
+                        _vertices.Append(texCoord[k].y);
+                    }
+                    //auto iter = faces.find({position[k], normal[k], texCoord[k], size_t(0)});
+                    //if (iter == faces.end())
+                    //{
+                    //    faces.insert({ position[k], normal[k], texCoord[k], index });
+                    //    _indices.Append(static_cast<unsigned int>(index++));
+                    //}
+                    //else
+                    //{
+                    //    _indices.Append(static_cast<unsigned int>(iter->index));
+                    //}
                 }
             }
         }
 
         //! std::set<Face, FaceComp> faces to std::vector<float> _vertices.
-        _vertices.Reserve(faces.size() * VertexHelper::getNumberOfFloats(_format));
-        for (const auto& face : faces)
-        {
-            if (static_cast<int>(_format & VertexFormat::Position3))
-            {
-                _vertices.Append(face.position.x);
-                _vertices.Append(face.position.y);
-                _vertices.Append(face.position.z);
-            }
-            if (static_cast<int>(_format & VertexFormat::Normal3))
-            {
-                _vertices.Append(face.normal.x);
-                _vertices.Append(face.normal.y);
-                _vertices.Append(face.normal.z);
-            }
-            if (static_cast<int>(_format & VertexFormat::TexCoord2))
-            {
-                _vertices.Append(face.texCoord.x);
-                _vertices.Append(face.texCoord.y);
-            }
-        }
+        //_vertices.Resize(faces.size() * VertexHelper::getNumberOfFloats(_format));
+        //for (const auto& face : faces)
+        //{
+        //    const size_t index = face.index * VertexHelper::getNumberOfFloats(_format);
+        //    if (static_cast<int>(_format & VertexFormat::Position3))
+        //    {
+        //        _vertices.At(  index  ) = face.position.x;
+        //        _vertices.At(index + 1) = face.position.y;
+        //        _vertices.At(index + 2) = face.position.z;
+        //    }
+        //    if (static_cast<int>(_format & VertexFormat::Normal3))
+        //    {
+        //        _vertices.At(index + 3) = face.normal.x;
+        //        _vertices.At(index + 4) = face.normal.y;
+        //        _vertices.At(index + 5) = face.normal.z;
+        //    }
+        //    if (static_cast<int>(_format & VertexFormat::TexCoord2))
+        //    {
+        //        _vertices.At(index + 6) = face.texCoord.x;
+        //        _vertices.At(index + 7) = face.texCoord.y;
+        //    }
+        //}
 
         CUBBYFLOW_INFO << "Reconstruction Vertices with #vertex " << attrib.vertices.size() << " took " << timer.DurationInSeconds() << " seconds";
         return true;

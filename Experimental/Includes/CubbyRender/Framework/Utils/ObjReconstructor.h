@@ -38,15 +38,15 @@ namespace CubbyRender {
         //! Get vertex format of the obj.
         VertexFormat getVertexFormat() const;
 
+        //! Get immutable vertices
+        const Array1<float>& getVertices() const;
+
+        //! Get imuutable indices 
+        const Array1<unsigned int>& getIndices() const;
+
         //! Load obj file from given path and reconstruct it 
         //! If Obj loading is failed, return false. otherwise return true.
         bool loadAndReconstruct(const std::string& objPath);
-
-        //! Generate vertex buffer from vertices which loaded by loadAndReconstruct method
-        VertexBufferPtr generateVertexBuffer(RendererPtr renderer);
-
-        //! Generate index buffer from indices which loaded by loadAndReconstruct method
-        IndexBufferPtr generateIndexBuffer(RendererPtr renderer);
 
         //! Get left top and right bottom corner for the bounding box which wrap the object.
         std::tuple<Vector3F, Vector3F> getBoundingBox() const;
