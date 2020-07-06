@@ -107,5 +107,15 @@ namespace CubbyRender {
     {
         return _camera;
     }
+
+    void Renderer::addLight(LightPtr light)
+    {
+        _lights.push_back(light);
+    }
+
+    const std::vector<LightPtr>& Renderer::getLights() const
+    {
+        return _lights;
+    }
 } 
 }

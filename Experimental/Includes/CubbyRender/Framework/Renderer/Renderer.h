@@ -130,6 +130,12 @@ namespace CubbyRender {
         //! Get the camera of the renderer.
         const CameraPtr& getCamera() const;
 
+        //! Add the light to the renderer;
+        void addLight(LightPtr light);
+
+        //! Get the vector of the lights in the scene.
+        const std::vector<LightPtr>& getLights() const;
+
         //! Create the 2d texture from the image data.
         //! \param param texture parameter which will be used for creating or binding texture.
         //! \param size width x height of the given image data.
@@ -150,6 +156,7 @@ namespace CubbyRender {
         virtual void onSetRenderState() = 0;
 
         std::vector<RenderablePtr> _renderables;
+        std::vector<LightPtr> _lights;
         RenderState _renderState;
         PrimitiveType _primitiveType;
         CameraPtr _camera = nullptr;

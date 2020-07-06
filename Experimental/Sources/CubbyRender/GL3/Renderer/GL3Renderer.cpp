@@ -245,8 +245,7 @@ namespace CubbyRender {
         switch (_renderState.cullMode) {
             case RenderState::CullMode::None:
             {
-                glEnable(GL_CULL_FACE);
-                glCullFace(GL_NONE);
+                glDisable(GL_CULL_FACE);
                 break;
             }
             case RenderState::CullMode::Front:
@@ -262,6 +261,7 @@ namespace CubbyRender {
                 break;
             }
         }
+        
 
         if (_renderState.isFrontFaceClockWise) 
             glFrontFace(GL_CW);

@@ -84,7 +84,7 @@ namespace CubbyRender {
         bool isDepthTestEnabled = true;
 
         //! The cull mode.
-        CullMode cullMode = CullMode::Back;
+        CullMode cullMode = CullMode::None;
 
         //! The blend factor for the source.
         BlendFactor sourceBlendFactor = BlendFactor::SrcAlpha;
