@@ -73,7 +73,7 @@ target_link_libraries(${target}
     ${OPENGL_LIBRARIES}
     ${PNG_LIBRARIES}
     CubbyFlow
-    
+    pystring
     INTERFACE
 )
 
