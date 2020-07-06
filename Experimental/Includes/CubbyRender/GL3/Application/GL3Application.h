@@ -41,7 +41,7 @@ namespace CubbyRender {
         int initialize() override;
 
         //! Run the application with limited frames and fps.
-        int run(int numberOfFrames, EncodingCallback makeScreenshot = nullptr) override;
+        int run(EncodingCallback makeScreenshot = nullptr) override;
         
         //! Set the given window as main window of this application.
         //! Additionally register callback functions to main window

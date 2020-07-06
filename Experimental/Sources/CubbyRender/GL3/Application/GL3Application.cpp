@@ -95,7 +95,7 @@ WindowPtr GL3Application::getMainWindow()
     return _mainWindow;
 }
 
-int GL3Application::run(int numberOfFrames, EncodingCallback makeScreenshot)
+int GL3Application::run(EncodingCallback makeScreenshot)
 {
     //! Application Validation before run main loop
     bool bValidation = validateApplication();
@@ -105,48 +105,36 @@ int GL3Application::run(int numberOfFrames, EncodingCallback makeScreenshot)
 
     //! Prepare rendering.
     _mainWindow->setIsUpdateEnabled(true);
-    _mainWindow->requestRender(numberOfFrames);
-
+    
     //! Main Loop
     while (validateApplication())
     {
         GLFWWindowPtr glfwWindow = _mainWindow->getGLFWWindow();
         glfwMakeContextCurrent(glfwWindow);
         glfwWaitEvents();
-        auto& numRequestedRenderFramesRef = _mainWindow->getNumRequestedRenderFrames();
-        if (numRequestedRenderFramesRef > 0)
+            
+        if (_mainWindow->isUpdateEnabled())
         {
-            if (_mainWindow->isUpdateEnabled())
-            {
-                _mainWindow->updateScene();
-            }
+            _mainWindow->updateScene();
+        }
+        _mainWindow->renderScene();
 
-            _mainWindow->renderScene();
-
-            //! Decrease render request count
-            numRequestedRenderFramesRef -= 1;
-
-            if (_mainWindow->isUpdateEnabled())
-            {
-                glfwPostEmptyEvent();
-            }
+        if (_mainWindow->isUpdateEnabled())
+        {
+            glfwPostEmptyEvent();
+        }
 
 #ifdef CUBBYFLOW_RECORDING
-            if (makeScreenshot)
-            {
-                Size2 framebufferSize = _mainWindow->getFramebufferSize();
-                const auto& frame =
-                    _mainWindow->getCurrentScreen(framebufferSize);
-                makeScreenshot(framebufferSize, frame);
-            }
-#else
-            UNUSED_VARIABLE(makeScreenshot);
-#endif
-        }
-        else
+        if (makeScreenshot)
         {
-            glfwSetWindowShouldClose(glfwWindow, GLFW_TRUE);
+            Size2 framebufferSize = _mainWindow->getFramebufferSize();
+            const auto& frame =
+                _mainWindow->getCurrentScreen(framebufferSize);
+            makeScreenshot(framebufferSize, frame);
         }
+#else
+        UNUSED_VARIABLE(makeScreenshot);
+#endif
         glfwSwapBuffers(glfwWindow);
     }
 

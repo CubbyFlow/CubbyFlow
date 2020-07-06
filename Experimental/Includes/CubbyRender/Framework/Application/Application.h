@@ -42,7 +42,7 @@ namespace CubbyRender {
         virtual int initialize() = 0;
 
         //! Run the application with limited frames and fps.
-        virtual int run(int numberOfFrames, EncodingCallback makeScreenshot = nullptr) = 0;
+        virtual int run(EncodingCallback makeScreenshot = nullptr) = 0;
 
         //! Set the given window as main window of this application.
         //! Additionally register callback functions to main window

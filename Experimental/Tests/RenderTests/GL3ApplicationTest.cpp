@@ -37,8 +37,9 @@ TEST(GL3Application, Run)
     EXPECT_EQ(0, application->initialize());
     
     TestWindowPtr window = std::make_shared<TestWindow>("TestWindow", 600, 400);
+    window->setShutdownTimer(1); //! After render one frame, window will be shutdown.
     application->setMainWindow(window);
-    EXPECT_EQ(0, application->run(3));
+    EXPECT_EQ(0, application->run());
     EXPECT_EQ(0, CUBBYFLOW_CHECK_GLERROR());
 }
 
