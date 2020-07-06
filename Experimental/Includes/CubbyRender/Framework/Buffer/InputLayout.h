@@ -40,7 +40,7 @@ namespace CubbyRender {
         //! attached vertex buffers' format must not be overlapped.
         //! also number of vertices in the given buffer must matched with original ones.
         void attachVertexBuffer(RendererPtr renderer, MaterialPtr material, VertexBufferPtr vertexBuffer);
-
+        
         //! attach index buffer to this input layout
         void attachIndexBuffer(RendererPtr renderer, IndexBufferPtr indexBuffer);
 

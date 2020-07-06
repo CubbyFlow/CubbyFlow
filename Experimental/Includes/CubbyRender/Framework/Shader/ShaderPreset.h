@@ -98,61 +98,36 @@ const GLchar* kScreenShaders[2] = {
     }
     )glsl"};
 
-const GLchar* kFluidMeshShaders[3] = {
+const GLchar* kFluidMeshShaders[2] = {
     //https://developer.download.nvidia.com/books/HTML/gpugems/gpugems_ch01.html
     //https://developer.download.nvidia.com/books/HTML/gpugems/gpugems_ch02.html
     //! Vertex shader
     R"glsl(
     #version 330 core
     in vec3 position;
+    in vec3 normal;
     uniform mat4 View;
     uniform mat4 Projection;
+    out VertexData {
+        vec3 normal;
+    } outData;
 
     void main() {
-        gl_Position = View * vec4(position, 1.0);
-    }
-    )glsl",
-
-    //! Geometry shader
-    R"glsl(
-    #version 330 core
-    layout(triangles) in;
-    layout(triangle_strip, max_vertices=3) out;
-    out vec3 normal;
-//    const int kMaxNumLights = 5;
-//    struct DirectionalLight
-//    {
-//        vec3 origin;
-//        vec3 lookAt;
-//        vec3 color;
-//    };
-//    uniform int numLights;
-//    uniform DirectionalLight directionalLight[kMaxNumLights];
-//    uniform vec3 view;
-
-    void main() {
-        vec3 edge0 = (gl_in[1].gl_Position - gl_in[0].gl_Position).xyz;
-        vec3 edge1 = (gl_in[2].gl_Position - gl_in[0].gl_Position).xyz;
-        vec3 n = normalize(cross(b, a));
-
-        for (int i = 0; i < 3; ++i)
-        {
-            gl_Position = gl_in[i].gl_Position;
-            normal = n;
-            EmitVertex();
-        }
-        EndPrimitive();
+        outData.normal = normal;
+        gl_Position = Projection * View * vec4(position, 1.0);
     }
     )glsl",
 
     //! Fragment shader
     R"glsl(
     #version 330 core
-    in vec3 normal;
-
+    in VertexData {
+        vec3 normal;
+    } inData;
     out vec4 fragColor;
     void main() {
-    	 fragColor = vec4(normal, 1.0);
+        vec3 normal = (inData.normal + vec3(1.0)) * 0.5;
+    	fragColor = vec4(normal, 1.0);
     }
     )glsl"};
 

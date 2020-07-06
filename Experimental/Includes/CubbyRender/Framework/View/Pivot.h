@@ -28,10 +28,14 @@ namespace CubbyRender {
         bool operator==(const Pivot& other) const;
         bool operator!=(const Pivot& other) const;
 
+        Viewport viewport;
+
         Vector3F origin { 0.0f, 0.0f, 0.0f };
         Vector3F lookAt { 0.0f, 0.0f, 1.0f};
         Vector3F lookUp { 0.0f, 1.0f, 0.0f };
 
+        float zFar = 100.0f;
+        float zNear = 0.01f;
     protected:
     private:
     };

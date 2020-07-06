@@ -17,7 +17,6 @@
 #include <cassert>
 #include <vector>
 
-#include <iostream>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -96,7 +95,6 @@ namespace CubbyRender {
 	    if (location == -1)
 	    {
 		    CUBBYFLOW_ERROR << "Cannot find attrib [" << name << "] in this shader.";
-		    std::cout << "Cannot find attrib [" << name << "] in this shader." << std::endl;
 		    std::abort();
 	    }
             _locationCache[name] = location;
@@ -120,7 +118,6 @@ namespace CubbyRender {
 	    if (location == -1)
 	    {
 		    CUBBYFLOW_ERROR << "Cannot find uniform [" << name << "] in this shader.";
-		    std::cout << "Cannot find uniform [" << name << "] in this shader." << std::endl;
 		    std::abort();
 	    }
             _locationCache[name] = location;

@@ -65,9 +65,6 @@ namespace CubbyRender {
         //! Returns framebuffer / window size ratio.
         Vector2F displayScalingFactor() const;
 
-        //! Request to render given number of frames to the renderer.
-        virtual void requestRender(unsigned int numFrames);
-
         //! Sets swap interval.
         virtual void setSwapInterval(int interval);
 
@@ -123,7 +120,6 @@ namespace CubbyRender {
         std::string _title;
         Size2 _windowSize;
         int _swapInterval = 0;
-        unsigned int _numRequestedRenderFrames = 0;
         bool _isUpdateEnabled = false;
     private:
     };

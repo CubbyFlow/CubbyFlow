@@ -9,6 +9,7 @@
 *************************************************************************/
 #include <Framework/Shader/Shader.h>
 #include <Framework/View/Camera.h>
+#include <Framework/View/Light.h>
 #include <Framework/Renderer/Renderer.h>
 #include <Framework/Shader/ShaderPreset.h>
 #include <Framework/Utils/Common.h>
@@ -71,12 +72,10 @@ namespace CubbyRender {
         else if (shaderName == "fluid_mesh_shader")
         {
             const std::string& vertexShader     = kFluidMeshShaders[0];
-            const std::string& geometryShader   = kFluidMeshShaders[1];
-            const std::string& fragmentShader   = kFluidMeshShaders[2];
+            const std::string& fragmentShader   = kFluidMeshShaders[1];
 
             shaderMap = {
                 {"VertexShader", vertexShader},
-                {"GeometryShader", geometryShader},
                 {"FragmentShader", fragmentShader}
             };
         }
@@ -142,6 +141,24 @@ namespace CubbyRender {
             _parameters.setParameter("View", view);
             _parameters.setParameter("Projection", projection);
         }
+
+        //const auto& lights = renderer->getLights();
+        //if (lights.empty() == false)
+        //{
+        //    const int numLights = lights.size();
+        //    _parameters.setParameter("NumLights", numLights);
+        //
+        //    for (int i = 0; i < numLights; ++i)
+        //    {
+        //        const auto& light = lights[i];
+        //        
+        //        const auto& pivot = light->getPivot();
+        //        const std::string& prefix = "directionalLight[" + std::to_string(i) + "]";
+        //        _parameters.setParameter(prefix + ".origin", pivot.origin);
+        //        _parameters.setParameter(prefix + ".lookAt", pivot.lookAt);
+        //        _parameters.setParameter(prefix + ".color", light->getColor());
+        //    }
+        //}
 
         onBind(renderer);
     }

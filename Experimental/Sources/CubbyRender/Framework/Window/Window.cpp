@@ -40,11 +40,6 @@ namespace CubbyRender {
         return Vector2F { factor.x, factor.y };
     }
 
-    void Window::requestRender(unsigned int numFrames)
-    {
-        _numRequestedRenderFrames = std::max(_numRequestedRenderFrames, numFrames);
-    }
-
     void Window::setSwapInterval(int interval)
     {
         _swapInterval = interval;
@@ -101,16 +96,6 @@ namespace CubbyRender {
     void Window::setViewport(int x, int y, size_t width, size_t height)
     {
         _renderer->setViewport(x, y, width, height);
-    }
-
-    unsigned int Window::getNumRequestedRenderFrames() const
-    {
-        return _numRequestedRenderFrames;
-    }
-    
-    unsigned int& Window::getNumRequestedRenderFrames()
-    {
-        return _numRequestedRenderFrames;
     }
     
     ArrayAccessor1<unsigned char> Window::getCurrentScreen(Size2 size) const

@@ -41,8 +41,8 @@ namespace CubbyFlow
 		//! \param size Initial size of the array.
 		//! \param initVal Initial value of each array element.
 		explicit Array(size_t size, const T& initVal = T());
-
-		//!
+	
+	//!
 		//! \brief Constructs 1-D array with given two iterators
 		//!
 		//! For the compatibility with other standard containers, 

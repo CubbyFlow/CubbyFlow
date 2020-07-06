@@ -38,9 +38,6 @@ namespace CubbyRender {
         //! Default Destructor.
         ~GL3Window();
 
-        //! Request to render given number of frames to the renderer.
-        void requestRender(unsigned int numFrames) override;
-
         //! Sets swap interval.
         void setSwapInterval(int interval) override;
 

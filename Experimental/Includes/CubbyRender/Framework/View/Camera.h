@@ -13,6 +13,7 @@
 #include <Framework/Utils/Prerequisites.h>
 #include <Framework/View/Pivot.h>
 #include <Framework/View/Viewport.h>
+#include <Framework/Scene/SceneObject.h>
 #include <Core/Matrix/Matrix4x4.h>
 #include <memory>
 
@@ -22,7 +23,7 @@ namespace CubbyRender {
     //!
     //! \brief The camera class which view simulator scene
     //!
-    class Camera 
+    class Camera : public SceneObject
     {
     public:
         //! Default constructor.

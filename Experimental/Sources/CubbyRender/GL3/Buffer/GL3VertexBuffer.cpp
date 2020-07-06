@@ -20,6 +20,7 @@
 #include <GL3/Utils/GL3Common.h>
 #include <GL3/Shader/GL3Shader.h>
 #include <glad/glad.h>
+#include <iostream>
 
 
 namespace CubbyFlow {

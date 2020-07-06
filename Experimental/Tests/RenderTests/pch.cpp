@@ -6,6 +6,9 @@
 #include "pch.h"
 #include <Framework/Utils/Common.h>
 
+#ifdef CUBBYFLOW_USE_GL
+#include <GLFW/glfw3.h>
+
 TestWindow::TestWindow(const std::string& title, int width, int height)
     : GL3Window(title, width, height)
 {
@@ -15,6 +18,11 @@ TestWindow::TestWindow(const std::string& title, int width, int height)
 TestWindow::~TestWindow()
 {
     //! Do nothing.
+}
+
+void TestWindow::setShutdownTimer(int numFrames)
+{
+    _shutdownTimer = numFrames;
 }
 
 void TestWindow::onWindowResized(int width, int height)
@@ -52,10 +60,13 @@ void TestWindow::onMouseScroll(double deltaX, double deltaY)
 
 void TestWindow::onRenderScene()
 {
-    //! Do nothing.
+    if (_shutdownTimer == 0)     glfwSetWindowShouldClose(_glfwWindow, GLFW_TRUE);
+    else if (_shutdownTimer > 0) --_shutdownTimer;
 }
 
 void TestWindow::onUpdateScene()
 {
     //! Do nothing.
 }
+
+#endif

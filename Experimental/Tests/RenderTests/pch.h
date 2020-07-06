@@ -19,7 +19,9 @@ public:
     TestWindow(const std::string& title, int width, int height);
     //! Default Destructor.
     ~TestWindow();
-    
+
+    //! Set timer for automatic shutdown.
+    void setShutdownTimer(int numFrames);
     //! Action implementation when window is resized.
     void onWindowResized(int width, int height) override;
     //! Action implementation when any key is pressed or released
@@ -34,5 +36,6 @@ protected:
     void onRenderScene() override;
     void onUpdateScene() override;
 private:
+    int _shutdownTimer = -1;
 };
 using TestWindowPtr = std::shared_ptr<TestWindow>;

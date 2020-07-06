@@ -11,6 +11,7 @@
 #define CUBBYFLOW_RENDERERABLE_H
 
 #include <Framework/Renderer/RenderOptions.h>
+#include <Framework/Scene/SceneObject.h>
 #include <Framework/Utils/Prerequisites.h>
 #include <string>
 #include <memory>
@@ -27,7 +28,7 @@ namespace CubbyRender {
     //! The renderable instance does not represent the *unique instance* of specific species,
     //! but represents *whole instance* of specific species.
     //!
-    class Renderable 
+    class Renderable : public SceneObject
     {
     public:
         //! Default constructor.

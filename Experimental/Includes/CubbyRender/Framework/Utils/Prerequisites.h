@@ -33,29 +33,33 @@ namespace CubbyRender {
     class Simulation;
     class Camera;
     class CameraController;
-    class ParticleParser;
+    class GeometryCacheParser;
+    class Light;
+    class SceneObject;
 
-    using InputLayoutPtr     = std::shared_ptr<InputLayout>;
-    using ApplicationPtr     = std::shared_ptr<Application>;
-    using BufferPtr          = std::shared_ptr<Buffer>;
-    using DockerPtr          = std::shared_ptr<Docker>;
-    using IndexBufferPtr     = std::shared_ptr<IndexBuffer>;
-    using FramebufferPtr     = std::shared_ptr<Framebuffer>;
-    using MaterialPtr        = std::shared_ptr<Material>;
-    using RendererPtr        = std::shared_ptr<Renderer>;
-    using ConstRendererPtr   = std::shared_ptr<const Renderer>;
-    using PointsRenderablePtr= std::shared_ptr<PointsRenderable>;
-    using RenderablePtr      = std::shared_ptr<Renderable>;
-    using ShaderPtr          = std::shared_ptr<Shader>;
-    using TexturePtr         = std::shared_ptr<Texture>;
-    using Texture2DPtr       = std::shared_ptr<Texture2D>;
-    using Texture3DPtr       = std::shared_ptr<Texture3D>;
-    using VertexBufferPtr    = std::shared_ptr<VertexBuffer>;
-    using WindowPtr          = std::shared_ptr<Window>;
-    using SimulationPtr      = std::shared_ptr<Simulation>;
-    using CameraPtr          = std::shared_ptr<Camera>;
-    using CameraControllerPtr= std::shared_ptr<CameraController>;
-    using ParticleParserPtr  = std::shared_ptr<ParticleParser>;
+    using InputLayoutPtr         = std::shared_ptr<InputLayout>;
+    using ApplicationPtr         = std::shared_ptr<Application>;
+    using BufferPtr              = std::shared_ptr<Buffer>;
+    using DockerPtr              = std::shared_ptr<Docker>;
+    using IndexBufferPtr         = std::shared_ptr<IndexBuffer>;
+    using FramebufferPtr         = std::shared_ptr<Framebuffer>;
+    using MaterialPtr            = std::shared_ptr<Material>;
+    using RendererPtr            = std::shared_ptr<Renderer>;
+    using ConstRendererPtr       = std::shared_ptr<const Renderer>;
+    using PointsRenderablePtr    = std::shared_ptr<PointsRenderable>;
+    using RenderablePtr          = std::shared_ptr<Renderable>;
+    using ShaderPtr              = std::shared_ptr<Shader>;
+    using TexturePtr             = std::shared_ptr<Texture>;
+    using Texture2DPtr           = std::shared_ptr<Texture2D>;
+    using Texture3DPtr           = std::shared_ptr<Texture3D>;
+    using VertexBufferPtr        = std::shared_ptr<VertexBuffer>;
+    using WindowPtr              = std::shared_ptr<Window>;
+    using SimulationPtr          = std::shared_ptr<Simulation>;
+    using CameraPtr              = std::shared_ptr<Camera>;
+    using CameraControllerPtr    = std::shared_ptr<CameraController>;
+    using GeometryCacheParserPtr = std::shared_ptr<GeometryCacheParser>;
+    using LightPtr               = std::shared_ptr<Light>;
+    using SceneObjectPtr         = std::shared_ptr<SceneObject>;
 }
 }
 

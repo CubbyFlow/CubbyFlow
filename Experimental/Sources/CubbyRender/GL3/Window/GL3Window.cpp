@@ -54,12 +54,6 @@ namespace CubbyRender {
         glfwDestroyWindow(_glfwWindow);
     }
 
-    void GL3Window::requestRender(unsigned int numFrames)
-    {
-        super_t::requestRender(numFrames);
-        glfwPostEmptyEvent();
-    }
-
     void GL3Window::setSwapInterval(int interval)
     {
         super_t::setSwapInterval(interval);

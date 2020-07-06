@@ -15,7 +15,9 @@ namespace CubbyRender {
 
     bool Pivot::operator==(const Pivot& other) const
     {
-        return (origin == other.origin) && (lookAt == other.lookAt) && (lookUp == other.lookUp);
+        return (viewport == other.viewport) &&
+               (origin == other.origin) && (lookAt == other.lookAt) && (lookUp == other.lookUp) &&
+               (zNear == other.zNear) && (zFar == other.zFar);
     }
 
     bool Pivot::operator!=(const Pivot& other) const
