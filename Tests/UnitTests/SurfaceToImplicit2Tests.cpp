@@ -1,6 +1,8 @@
 #include "pch.hpp"
 
 #include <Core/Geometry/Box2.hpp>
+#include <Core/Geometry/Plane2.hpp>
+#include <Core/Surface/SurfaceSet2.hpp>
 #include <Core/Surface/SurfaceToImplicit2.hpp>
 
 using namespace CubbyFlow;
@@ -130,4 +132,34 @@ TEST(SurfaceToImplicit2, ClosestNormal)
     Vector2D s2iNormal = s2i.ClosestNormal(pt);
     EXPECT_DOUBLE_EQ(boxNormal.x, s2iNormal.x);
     EXPECT_DOUBLE_EQ(boxNormal.y, s2iNormal.y);
+}
+
+TEST(SurfaceToImplicit2, IsBounded)
+{
+    const Plane2Ptr plane =
+        Plane2::Builder{}.WithPoint({ 0, 0 }).WithNormal({ 0, 1 }).MakeShared();
+    const SurfaceToImplicit2Ptr s2i =
+        SurfaceToImplicit2::Builder{}.WithSurface(plane).MakeShared();
+    EXPECT_FALSE(s2i->IsBounded());
+}
+
+TEST(SurfaceToImplicit2, IsValidGeometry)
+{
+    const SurfaceSet2Ptr sset = SurfaceSet2::Builder{}.MakeShared();
+    const SurfaceToImplicit2Ptr s2i =
+        SurfaceToImplicit2::Builder{}.WithSurface(sset).MakeShared();
+    EXPECT_FALSE(s2i->IsValidGeometry());
+}
+
+TEST(SurfaceToImplicit2, IsInside)
+{
+    const Plane2Ptr plane = Plane2::Builder{}
+                                .WithPoint({ 0, 0 })
+                                .WithNormal({ 0, 1 })
+                                .WithTranslation({ 0, -1 })
+                                .MakeShared();
+    const SurfaceToImplicit2Ptr s2i =
+        SurfaceToImplicit2::Builder{}.WithSurface(plane).MakeShared();
+    EXPECT_FALSE(s2i->IsInside({ 0, -0.5 }));
+    EXPECT_TRUE(s2i->IsInside({ 0, -1.5 }));
 }

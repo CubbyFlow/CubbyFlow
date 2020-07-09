@@ -33,6 +33,16 @@ SurfaceToImplicit3::SurfaceToImplicit3(const SurfaceToImplicit3& other)
     // Do nothing
 }
 
+bool SurfaceToImplicit3::IsBounded() const
+{
+    return m_surface->IsBounded();
+}
+
+bool SurfaceToImplicit3::IsValidGeometry() const
+{
+    return m_surface->IsValidGeometry();
+}
+
 Surface3Ptr SurfaceToImplicit3::GetSurface() const
 {
     return m_surface;
@@ -48,12 +58,6 @@ Vector3D SurfaceToImplicit3::ClosestPointLocal(const Vector3D& otherPoint) const
     return m_surface->ClosestPoint(otherPoint);
 }
 
-Vector3D SurfaceToImplicit3::ClosestNormalLocal(
-    const Vector3D& otherPoint) const
-{
-    return m_surface->ClosestNormal(otherPoint);
-}
-
 double SurfaceToImplicit3::ClosestDistanceLocal(
     const Vector3D& otherPoint) const
 {
@@ -65,15 +69,15 @@ bool SurfaceToImplicit3::IntersectsLocal(const Ray3D& ray) const
     return m_surface->Intersects(ray);
 }
 
-SurfaceRayIntersection3 SurfaceToImplicit3::ClosestIntersectionLocal(
-    const Ray3D& ray) const
-{
-    return m_surface->ClosestIntersection(ray);
-}
-
 BoundingBox3D SurfaceToImplicit3::BoundingBoxLocal() const
 {
     return m_surface->BoundingBox();
+}
+
+Vector3D SurfaceToImplicit3::ClosestNormalLocal(
+    const Vector3D& otherPoint) const
+{
+    return m_surface->ClosestNormal(otherPoint);
 }
 
 double SurfaceToImplicit3::SignedDistanceLocal(const Vector3D& otherPoint) const
@@ -89,6 +93,17 @@ double SurfaceToImplicit3::SignedDistanceLocal(const Vector3D& otherPoint) const
     }
 
     return x.DistanceTo(otherPoint);
+}
+
+SurfaceRayIntersection3 SurfaceToImplicit3::ClosestIntersectionLocal(
+    const Ray3D& ray) const
+{
+    return m_surface->ClosestIntersection(ray);
+}
+
+bool SurfaceToImplicit3::IsInsideLocal(const Vector3D& otherPoint) const
+{
+    return m_surface->IsInside(otherPoint);
 }
 
 SurfaceToImplicit3::Builder& SurfaceToImplicit3::Builder::WithSurface(

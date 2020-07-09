@@ -26,6 +26,16 @@ SurfaceToImplicit2::SurfaceToImplicit2(const SurfaceToImplicit2& other)
     // Do nothing
 }
 
+bool SurfaceToImplicit2::IsBounded() const
+{
+    return m_surface->IsBounded();
+}
+
+bool SurfaceToImplicit2::IsValidGeometry() const
+{
+    return m_surface->IsValidGeometry();
+}
+
 Surface2Ptr SurfaceToImplicit2::GetSurface() const
 {
     return m_surface;
@@ -41,12 +51,6 @@ Vector2D SurfaceToImplicit2::ClosestPointLocal(const Vector2D& otherPoint) const
     return m_surface->ClosestPoint(otherPoint);
 }
 
-Vector2D SurfaceToImplicit2::ClosestNormalLocal(
-    const Vector2D& otherPoint) const
-{
-    return m_surface->ClosestNormal(otherPoint);
-}
-
 double SurfaceToImplicit2::ClosestDistanceLocal(
     const Vector2D& otherPoint) const
 {
@@ -58,15 +62,15 @@ bool SurfaceToImplicit2::IntersectsLocal(const Ray2D& ray) const
     return m_surface->Intersects(ray);
 }
 
-SurfaceRayIntersection2 SurfaceToImplicit2::ClosestIntersectionLocal(
-    const Ray2D& ray) const
-{
-    return m_surface->ClosestIntersection(ray);
-}
-
 BoundingBox2D SurfaceToImplicit2::BoundingBoxLocal() const
 {
     return m_surface->BoundingBox();
+}
+
+Vector2D SurfaceToImplicit2::ClosestNormalLocal(
+    const Vector2D& otherPoint) const
+{
+    return m_surface->ClosestNormal(otherPoint);
 }
 
 double SurfaceToImplicit2::SignedDistanceLocal(const Vector2D& otherPoint) const
@@ -82,6 +86,17 @@ double SurfaceToImplicit2::SignedDistanceLocal(const Vector2D& otherPoint) const
     }
 
     return x.DistanceTo(otherPoint);
+}
+
+SurfaceRayIntersection2 SurfaceToImplicit2::ClosestIntersectionLocal(
+    const Ray2D& ray) const
+{
+    return m_surface->ClosestIntersection(ray);
+}
+
+bool SurfaceToImplicit2::IsInsideLocal(const Vector2D& otherPoint) const
+{
+    return m_surface->IsInside(otherPoint);
 }
 
 SurfaceToImplicit2::Builder& SurfaceToImplicit2::Builder::WithSurface(

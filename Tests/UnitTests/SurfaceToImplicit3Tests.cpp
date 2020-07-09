@@ -1,6 +1,8 @@
 #include "pch.hpp"
 
 #include <Core/Geometry/Box3.hpp>
+#include <Core/Geometry/Plane3.hpp>
+#include <Core/Surface/SurfaceSet3.hpp>
 #include <Core/Surface/SurfaceToImplicit3.hpp>
 
 using namespace CubbyFlow;
@@ -135,4 +137,36 @@ TEST(SurfaceToImplicit3, ClosestNormal)
     EXPECT_DOUBLE_EQ(boxNormal.x, s2iNormal.x);
     EXPECT_DOUBLE_EQ(boxNormal.y, s2iNormal.y);
     EXPECT_DOUBLE_EQ(boxNormal.z, s2iNormal.z);
+}
+
+TEST(SurfaceToImplicit3, IsBounded)
+{
+    const Plane3Ptr plane = Plane3::Builder{}
+                                .WithPoint({ 0, 0, 0 })
+                                .WithNormal({ 0, 1, 0 })
+                                .MakeShared();
+    const SurfaceToImplicit3Ptr s2i =
+        SurfaceToImplicit3::Builder{}.WithSurface(plane).MakeShared();
+    EXPECT_FALSE(s2i->IsBounded());
+}
+
+TEST(SurfaceToImplicit3, IsValidGeometry)
+{
+    const SurfaceSet3Ptr sset = SurfaceSet3::Builder{}.MakeShared();
+    const SurfaceToImplicit3Ptr s2i =
+        SurfaceToImplicit3::Builder{}.WithSurface(sset).MakeShared();
+    EXPECT_FALSE(s2i->IsValidGeometry());
+}
+
+TEST(SurfaceToImplicit3, IsInside)
+{
+    const Plane3Ptr plane = Plane3::Builder{}
+                                .WithPoint({ 0, 0, 0 })
+                                .WithNormal({ 0, 1, 0 })
+                                .WithTranslation({ 0, -1, 0 })
+                                .MakeShared();
+    const SurfaceToImplicit3Ptr s2i =
+        SurfaceToImplicit3::Builder{}.WithSurface(plane).MakeShared();
+    EXPECT_FALSE(s2i->IsInside({ 0, -0.5, 0 }));
+    EXPECT_TRUE(s2i->IsInside({ 0, -1.5, 0 }));
 }
