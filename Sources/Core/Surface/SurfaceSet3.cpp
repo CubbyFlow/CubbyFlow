@@ -45,6 +45,21 @@ void SurfaceSet3::UpdateQueryEngine()
     BuildBVH();
 }
 
+bool SurfaceSet3::IsBounded() const
+{
+    // All surfaces should be bounded
+    for (const auto& surface : m_surfaces)
+    {
+        if (!surface->IsBounded())
+        {
+            return false;
+        }
+    }
+
+    // Empty set is not bounded
+    return !m_surfaces.empty();
+}
+
 bool SurfaceSet3::IsValidGeometry() const
 {
     // All surfaces should be valid.

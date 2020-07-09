@@ -85,7 +85,7 @@ bool Surface2::IsValidGeometry() const
 
 bool Surface2::IsInside(const Vector2D& otherPoint) const
 {
-    return IsInsideLocal(transform.ToLocal(otherPoint));
+    return isNormalFlipped == !IsInsideLocal(transform.ToLocal(otherPoint));
 }
 
 bool Surface2::IntersectsLocal(const Ray2D& ray) const

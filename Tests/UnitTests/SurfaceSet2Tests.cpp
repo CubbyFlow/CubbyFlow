@@ -33,6 +33,17 @@ TEST(SurfaceSet2, Constructors)
                       false);
     EXPECT_EQ(Vector2D(1, 2), sset3.transform.GetTranslation());
     EXPECT_EQ(0.5, sset3.transform.GetOrientation());
+
+    SurfaceSet2 sset4(sset3);
+    EXPECT_EQ(3u, sset4.NumberOfSurfaces());
+    EXPECT_EQ(sph1->radius,
+              std::dynamic_pointer_cast<Sphere2>(sset4.SurfaceAt(0))->radius);
+    EXPECT_EQ(sph2->radius,
+              std::dynamic_pointer_cast<Sphere2>(sset4.SurfaceAt(1))->radius);
+    EXPECT_EQ(sph3->radius,
+              std::dynamic_pointer_cast<Sphere2>(sset4.SurfaceAt(2))->radius);
+    EXPECT_EQ(Vector2D(1, 2), sset4.transform.GetTranslation());
+    EXPECT_EQ(0.5, sset4.transform.GetOrientation());
 }
 
 TEST(SurfaceSet2, AddSurface)
@@ -424,7 +435,7 @@ TEST(SurfaceSet2, MixedBoundTypes)
 
     const auto plane = Plane2::Builder()
                            .WithNormal({ 0, 1 })
-                           .WithPoint({ 0, 0.25 * domain.GetHeight() })
+                           .WithPoint({ 0.0, 0.25 * domain.GetHeight() })
                            .MakeShared();
 
     const auto sphere = Sphere2::Builder()
@@ -435,6 +446,8 @@ TEST(SurfaceSet2, MixedBoundTypes)
     const auto surfaceSet{
         SurfaceSet2::Builder().WithSurfaces({ plane, sphere }).MakeShared()
     };
+
+    EXPECT_FALSE(surfaceSet->IsBounded());
 
     const auto cp = surfaceSet->ClosestPoint(Vector2D{ 0.5, 0.4 });
     const Vector2D answer{ 0.5, 0.5 };

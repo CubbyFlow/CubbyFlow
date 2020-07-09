@@ -1,3 +1,4 @@
+#include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
 #include <Core/Geometry/Box3.hpp>
@@ -20,6 +21,9 @@ TEST(ImplicitSurfaceSet3, Constructor)
     ImplicitSurfaceSet3 sset2(sset);
     EXPECT_EQ(1u, sset2.NumberOfSurfaces());
     EXPECT_TRUE(sset2.isNormalFlipped);
+
+    ImplicitSurfaceSet3 sset3({ box });
+    EXPECT_EQ(1u, sset3.NumberOfSurfaces());
 }
 
 TEST(ImplicitSurfaceSet3, NumberOfSurfaces)
@@ -211,6 +215,32 @@ TEST(ImplicitSurfaceSet3, ClosestNormal)
     EXPECT_DOUBLE_EQ(boxNormal.x, setNormal.x);
     EXPECT_DOUBLE_EQ(boxNormal.y, setNormal.y);
     EXPECT_DOUBLE_EQ(boxNormal.z, setNormal.z);
+}
+
+TEST(ImplicitSurfaceSet3, MixedBoundTypes)
+{
+    const BoundingBox3D domain(Vector3D{}, Vector3D{ 1, 2, 1 });
+
+    const auto plane = Plane3::Builder{}
+                           .WithNormal({ 0, 1, 0 })
+                           .WithPoint({ 0, 0.25 * domain.GetHeight(), 0 })
+                           .MakeShared();
+
+    const auto sphere = Sphere3::Builder{}
+                            .WithCenter(domain.MidPoint())
+                            .WithRadius(0.15 * domain.GetWidth())
+                            .MakeShared();
+
+    const auto surfaceSet = ImplicitSurfaceSet3::Builder{}
+                                .WithExplicitSurfaces({ plane, sphere })
+                                .MakeShared();
+
+    EXPECT_FALSE(surfaceSet->IsBounded());
+
+    const auto cp = surfaceSet->ClosestPoint(Vector3D{ 0.5, 0.4, 0.5 });
+    const Vector3D answer{ 0.5, 0.5, 0.5 };
+
+    EXPECT_VECTOR3_NEAR(answer, cp, 1e-9);
 }
 
 TEST(ImplicitSurfaceSet3, IsValidGeometry)

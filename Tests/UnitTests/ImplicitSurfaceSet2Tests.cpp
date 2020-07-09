@@ -1,3 +1,4 @@
+#include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
 #include <Core/Geometry/Box2.hpp>
@@ -20,6 +21,9 @@ TEST(ImplicitSurfaceSet2, Constructor)
     ImplicitSurfaceSet2 sset2(sset);
     EXPECT_EQ(1u, sset2.NumberOfSurfaces());
     EXPECT_TRUE(sset2.isNormalFlipped);
+
+    ImplicitSurfaceSet2 sset3({ box });
+    EXPECT_EQ(1u, sset3.NumberOfSurfaces());
 }
 
 TEST(ImplicitSurfaceSet2, NumberOfSurfaces)
@@ -205,6 +209,32 @@ TEST(ImplicitSurfaceSet2, ClosestNormal)
     Vector2D setNormal = sset->ClosestNormal(pt);
     EXPECT_DOUBLE_EQ(boxNormal.x, setNormal.x);
     EXPECT_DOUBLE_EQ(boxNormal.y, setNormal.y);
+}
+
+TEST(ImplicitSurfaceSet2, MixedBoundTypes)
+{
+    const BoundingBox2D domain(Vector2D{}, Vector2D{ 1, 2 });
+
+    const auto plane = Plane2::Builder{}
+                           .WithNormal({ 0, 1 })
+                           .WithPoint({ 0.0, 0.25 * domain.GetHeight() })
+                           .MakeShared();
+
+    const auto sphere = Sphere2::Builder{}
+                            .WithCenter(domain.MidPoint())
+                            .WithRadius(0.15 * domain.GetWidth())
+                            .MakeShared();
+
+    const auto surfaceSet = ImplicitSurfaceSet2::Builder{}
+                                .WithExplicitSurfaces({ plane, sphere })
+                                .MakeShared();
+
+    EXPECT_FALSE(surfaceSet->IsBounded());
+
+    const auto cp = surfaceSet->ClosestPoint(Vector2D{ 0.5, 0.4 });
+    const Vector2D answer{ 0.5, 0.5 };
+
+    EXPECT_VECTOR2_NEAR(answer, cp, 1e-9);
 }
 
 TEST(ImplicitSurfaceSet2, IsValidGeometry)

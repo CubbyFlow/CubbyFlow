@@ -91,7 +91,7 @@ bool Surface3::IsValidGeometry() const
 
 bool Surface3::IsInside(const Vector3D& otherPoint) const
 {
-    return IsInsideLocal(transform.ToLocal(otherPoint));
+    return isNormalFlipped == !IsInsideLocal(transform.ToLocal(otherPoint));
 }
 
 double Surface3::ClosestDistanceLocal(const Vector3D& otherPoint) const

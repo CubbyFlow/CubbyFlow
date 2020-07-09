@@ -36,6 +36,17 @@ TEST(SurfaceSet3, Constructors)
         Transform3(Vector3D(1, 2, 3), QuaternionD({ 1, 0, 0 }, 0.5)), false);
     EXPECT_EQ(Vector3D(1, 2, 3), sset3.transform.GetTranslation());
     EXPECT_EQ(QuaternionD({ 1, 0, 0 }, 0.5), sset3.transform.GetOrientation());
+
+    SurfaceSet3 sset4(sset3);
+    EXPECT_EQ(3u, sset4.NumberOfSurfaces());
+    EXPECT_EQ(sph1->radius,
+              std::dynamic_pointer_cast<Sphere3>(sset4.SurfaceAt(0))->radius);
+    EXPECT_EQ(sph2->radius,
+              std::dynamic_pointer_cast<Sphere3>(sset4.SurfaceAt(1))->radius);
+    EXPECT_EQ(sph3->radius,
+              std::dynamic_pointer_cast<Sphere3>(sset4.SurfaceAt(2))->radius);
+    EXPECT_EQ(Vector3D(1, 2, 3), sset4.transform.GetTranslation());
+    EXPECT_EQ(QuaternionD({ 1, 0, 0 }, 0.5), sset4.transform.GetOrientation());
 }
 
 TEST(SurfaceSet3, AddSurface)
@@ -440,6 +451,8 @@ TEST(SurfaceSet3, MixedBoundTypes)
 
     const auto surfaceSet =
         SurfaceSet3::Builder().WithSurfaces({ plane, sphere }).MakeShared();
+
+    EXPECT_FALSE(surfaceSet->IsBounded());
 
     const auto cp = surfaceSet->ClosestPoint(Vector3D{ 0.5, 0.4, 0.5 });
     const Vector3D answer{ 0.5, 0.5, 0.5 };
