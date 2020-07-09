@@ -82,6 +82,11 @@ void SurfaceSet3::AddSurface(const Surface3Ptr& surface)
     InvalidateBVH();
 }
 
+SurfaceSet3::Builder SurfaceSet3::GetBuilder()
+{
+    return Builder();
+}
+
 Vector3D SurfaceSet3::ClosestPointLocal(const Vector3D& otherPoint) const
 {
     BuildBVH();
@@ -235,6 +240,19 @@ BoundingBox3D SurfaceSet3::BoundingBoxLocal() const
     return m_bvh.GetBoundingBox();
 }
 
+bool SurfaceSet3::IsInsideLocal(const Vector3D& otherPoint) const
+{
+    for (const auto& surface : m_surfaces)
+    {
+        if (surface->IsInside(otherPoint))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void SurfaceSet3::InvalidateBVH() const
 {
     m_bvhInvalidated = true;
@@ -257,11 +275,6 @@ void SurfaceSet3::BuildBVH() const
         m_bvh.Build(m_surfaces, bounds);
         m_bvhInvalidated = false;
     }
-}
-
-SurfaceSet3::Builder SurfaceSet3::GetBuilder()
-{
-    return Builder();
 }
 
 SurfaceSet3::Builder& SurfaceSet3::Builder::WithSurfaces(

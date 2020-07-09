@@ -469,3 +469,28 @@ TEST(SurfaceSet2, IsValidGeometry)
 
     EXPECT_FALSE(surfaceSet2->IsValidGeometry());
 }
+
+TEST(SurfaceSet2, IsInside)
+{
+    const BoundingBox2D domain(Vector2D{}, Vector2D{ 1, 2 });
+    const Vector2D offset{ 1, 2 };
+
+    const auto plane = Plane2::Builder{}
+                           .WithNormal({ 0, 1 })
+                           .WithPoint({ 0, 0.25 * domain.GetHeight() })
+                           .MakeShared();
+
+    const auto sphere = Sphere2::Builder{}
+                            .WithCenter(domain.MidPoint())
+                            .WithRadius(0.15 * domain.GetWidth())
+                            .MakeShared();
+
+    const auto surfaceSet = SurfaceSet2::Builder{}
+                                .WithSurfaces({ plane, sphere })
+                                .WithTransform(Transform2{ offset, 0.0 })
+                                .MakeShared();
+
+    EXPECT_TRUE(surfaceSet->IsInside(Vector2D{ 0.5, 0.25 } + offset));
+    EXPECT_TRUE(surfaceSet->IsInside(Vector2D{ 0.5, 1.0 } + offset));
+    EXPECT_FALSE(surfaceSet->IsInside(Vector2D{ 0.5, 1.5 } + offset));
+}

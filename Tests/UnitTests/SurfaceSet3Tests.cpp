@@ -474,3 +474,29 @@ TEST(SurfaceSet3, IsValidGeometry)
 
     EXPECT_FALSE(surfaceSet2->IsValidGeometry());
 }
+
+TEST(SurfaceSet3, IsInside)
+{
+    const BoundingBox3D domain(Vector3D{}, Vector3D{ 1, 2, 1 });
+    const Vector3D offset{ 1, 2, 3 };
+
+    const auto plane = Plane3::Builder{}
+                           .WithNormal({ 0, 1, 0 })
+                           .WithPoint({ 0, 0.25 * domain.GetHeight(), 0 })
+                           .MakeShared();
+
+    const auto sphere = Sphere3::Builder{}
+                            .WithCenter(domain.MidPoint())
+                            .WithRadius(0.15 * domain.GetWidth())
+                            .MakeShared();
+
+    const auto surfaceSet =
+        SurfaceSet3::Builder{}
+            .WithSurfaces({ plane, sphere })
+            .WithTransform(Transform3{ offset, QuaternionD{} })
+            .MakeShared();
+
+    EXPECT_TRUE(surfaceSet->IsInside(Vector3D{ 0.5, 0.25, 0.5 } + offset));
+    EXPECT_TRUE(surfaceSet->IsInside(Vector3D{ 0.5, 1.0, 0.5 } + offset));
+    EXPECT_FALSE(surfaceSet->IsInside(Vector3D{ 0.5, 1.5, 0.5 } + offset));
+}

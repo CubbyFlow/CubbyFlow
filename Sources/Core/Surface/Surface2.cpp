@@ -83,6 +83,11 @@ bool Surface2::IsValidGeometry() const
     return true;
 }
 
+bool Surface2::IsInside(const Vector2D& otherPoint) const
+{
+    return IsInsideLocal(transform.ToLocal(otherPoint));
+}
+
 bool Surface2::IntersectsLocal(const Ray2D& ray) const
 {
     auto result = ClosestIntersectionLocal(ray);
@@ -92,5 +97,12 @@ bool Surface2::IntersectsLocal(const Ray2D& ray) const
 double Surface2::ClosestDistanceLocal(const Vector2D& otherPoint) const
 {
     return otherPoint.DistanceTo(ClosestPointLocal(otherPoint));
+}
+
+bool Surface2::IsInsideLocal(const Vector2D& otherPointLocal) const
+{
+    Vector2D cpLocal = ClosestPointLocal(otherPointLocal);
+    Vector2D normalLocal = ClosestNormalLocal(otherPointLocal);
+    return (otherPointLocal - cpLocal).Dot(normalLocal) < 0.0;
 }
 }  // namespace CubbyFlow

@@ -79,6 +79,8 @@ class SurfaceSet3 final : public Surface3
     SurfaceRayIntersection3 ClosestIntersectionLocal(
         const Ray3D& ray) const override;
 
+    bool IsInsideLocal(const Vector3D& otherPoint) const override;
+
     void InvalidateBVH() const;
 
     void BuildBVH() const;

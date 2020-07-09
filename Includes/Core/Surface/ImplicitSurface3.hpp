@@ -39,6 +39,8 @@ class ImplicitSurface3 : public Surface3
 
  private:
     double ClosestDistanceLocal(const Vector3D& otherPoint) const override;
+
+    bool IsInsideLocal(const Vector3D& otherPoint) const override;
 };
 
 //! Shared pointer type for the ImplicitSurface3.

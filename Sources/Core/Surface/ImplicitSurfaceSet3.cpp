@@ -256,6 +256,19 @@ BoundingBox3D ImplicitSurfaceSet3::BoundingBoxLocal() const
     return m_bvh.GetBoundingBox();
 }
 
+bool ImplicitSurfaceSet3::IsInsideLocal(const Vector3D& otherPoint) const
+{
+    for (const auto& surface : m_surfaces)
+    {
+        if (surface->IsInside(otherPoint))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 double ImplicitSurfaceSet3::SignedDistanceLocal(
     const Vector3D& otherPoint) const
 {

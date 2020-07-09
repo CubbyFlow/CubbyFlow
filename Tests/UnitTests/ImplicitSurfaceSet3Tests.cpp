@@ -1,6 +1,8 @@
 #include "pch.hpp"
 
 #include <Core/Geometry/Box3.hpp>
+#include <Core/Geometry/Plane3.hpp>
+#include <Core/Geometry/Sphere3.hpp>
 #include <Core/Surface/ImplicitSurfaceSet3.hpp>
 #include <Core/Surface/SurfaceToImplicit3.hpp>
 
@@ -227,4 +229,30 @@ TEST(ImplicitSurfaceSet3, IsValidGeometry)
     surfaceSet2->AddSurface(surfaceSet);
 
     EXPECT_FALSE(surfaceSet2->IsValidGeometry());
+}
+
+TEST(ImplicitSurfaceSet3, IsInside)
+{
+    const BoundingBox3D domain(Vector3D{}, Vector3D{ 1, 2, 1 });
+    const Vector3D offset{ 1, 2, 3 };
+
+    const auto plane = Plane3::Builder{}
+                           .WithNormal({ 0, 1, 0 })
+                           .WithPoint({ 0, 0.25 * domain.GetHeight(), 0 })
+                           .MakeShared();
+
+    const auto sphere = Sphere3::Builder{}
+                            .WithCenter(domain.MidPoint())
+                            .WithRadius(0.15 * domain.GetWidth())
+                            .MakeShared();
+
+    const auto surfaceSet =
+        ImplicitSurfaceSet3::Builder{}
+            .WithExplicitSurfaces({ plane, sphere })
+            .WithTransform(Transform3{ offset, QuaternionD{} })
+            .MakeShared();
+
+    EXPECT_TRUE(surfaceSet->IsInside(Vector3D{ 0.5, 0.25, 0.5 } + offset));
+    EXPECT_TRUE(surfaceSet->IsInside(Vector3D{ 0.5, 1.0, 0.5 } + offset));
+    EXPECT_FALSE(surfaceSet->IsInside(Vector3D{ 0.5, 1.5, 0.5 } + offset));
 }

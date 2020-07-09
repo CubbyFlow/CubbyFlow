@@ -255,6 +255,19 @@ BoundingBox2D ImplicitSurfaceSet2::BoundingBoxLocal() const
     return m_bvh.GetBoundingBox();
 }
 
+bool ImplicitSurfaceSet2::IsInsideLocal(const Vector2D& otherPoint) const
+{
+    for (const auto& surface : m_surfaces)
+    {
+        if (surface->IsInside(otherPoint))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 double ImplicitSurfaceSet2::SignedDistanceLocal(
     const Vector2D& otherPoint) const
 {

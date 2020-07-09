@@ -82,6 +82,11 @@ void SurfaceSet2::AddSurface(const Surface2Ptr& surface)
     InvalidateBVH();
 }
 
+SurfaceSet2::Builder SurfaceSet2::GetBuilder()
+{
+    return Builder();
+}
+
 Vector2D SurfaceSet2::ClosestPointLocal(const Vector2D& otherPoint) const
 {
     BuildBVH();
@@ -234,9 +239,17 @@ BoundingBox2D SurfaceSet2::BoundingBoxLocal() const
     return m_bvh.GetBoundingBox();
 }
 
-SurfaceSet2::Builder SurfaceSet2::GetBuilder()
+bool SurfaceSet2::IsInsideLocal(const Vector2D& otherPoint) const
 {
-    return Builder();
+    for (const auto& surface : m_surfaces)
+    {
+        if (surface->IsInside(otherPoint))
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void SurfaceSet2::InvalidateBVH() const

@@ -1,6 +1,8 @@
 #include "pch.hpp"
 
 #include <Core/Geometry/Box2.hpp>
+#include <Core/Geometry/Plane2.hpp>
+#include <Core/Geometry/Sphere2.hpp>
 #include <Core/Surface/ImplicitSurfaceSet2.hpp>
 #include <Core/Surface/SurfaceToImplicit2.hpp>
 
@@ -221,4 +223,29 @@ TEST(ImplicitSurfaceSet2, IsValidGeometry)
     surfaceSet2->AddSurface(surfaceSet);
 
     EXPECT_FALSE(surfaceSet2->IsValidGeometry());
+}
+
+TEST(ImplicitSurfaceSet2, IsInside)
+{
+    const BoundingBox2D domain(Vector2D{}, Vector2D{ 1, 2 });
+    const Vector2D offset{ 1, 2 };
+
+    const auto plane = Plane2::Builder{}
+                           .WithNormal({ 0, 1 })
+                           .WithPoint({ 0, 0.25 * domain.GetHeight() })
+                           .MakeShared();
+
+    const auto sphere = Sphere2::Builder{}
+                            .WithCenter(domain.MidPoint())
+                            .WithRadius(0.15 * domain.GetWidth())
+                            .MakeShared();
+
+    const auto surfaceSet = ImplicitSurfaceSet2::Builder{}
+                                .WithExplicitSurfaces({ plane, sphere })
+                                .WithTransform(Transform2{ offset, 0.0 })
+                                .MakeShared();
+
+    EXPECT_TRUE(surfaceSet->IsInside(Vector2D{ 0.5, 0.25 } + offset));
+    EXPECT_TRUE(surfaceSet->IsInside(Vector2D{ 0.5, 1.0 } + offset));
+    EXPECT_FALSE(surfaceSet->IsInside(Vector2D{ 0.5, 1.5 } + offset));
 }

@@ -89,8 +89,20 @@ bool Surface3::IsValidGeometry() const
     return true;
 }
 
+bool Surface3::IsInside(const Vector3D& otherPoint) const
+{
+    return IsInsideLocal(transform.ToLocal(otherPoint));
+}
+
 double Surface3::ClosestDistanceLocal(const Vector3D& otherPoint) const
 {
     return otherPoint.DistanceTo(ClosestPointLocal(otherPoint));
+}
+
+bool Surface3::IsInsideLocal(const Vector3D& otherPointLocal) const
+{
+    Vector3D cpLocal = ClosestPointLocal(otherPointLocal);
+    Vector3D normalLocal = ClosestNormalLocal(otherPointLocal);
+    return (otherPointLocal - cpLocal).Dot(normalLocal) < 0.0;
 }
 }  // namespace CubbyFlow

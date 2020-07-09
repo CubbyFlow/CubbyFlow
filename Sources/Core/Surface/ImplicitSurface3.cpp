@@ -8,6 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
+#include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Surface/ImplicitSurface3.hpp>
 
 namespace CubbyFlow
@@ -38,5 +39,10 @@ double ImplicitSurface3::SignedDistance(const Vector3D& otherPoint) const
 double ImplicitSurface3::ClosestDistanceLocal(const Vector3D& otherPoint) const
 {
     return std::fabs(SignedDistanceLocal(otherPoint));
+}
+
+bool ImplicitSurface3::IsInsideLocal(const Vector3D& otherPoint) const
+{
+    return IsInsideSDF(SignedDistanceLocal(otherPoint));
 }
 }  // namespace CubbyFlow

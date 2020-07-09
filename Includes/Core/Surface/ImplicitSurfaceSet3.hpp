@@ -87,6 +87,8 @@ class ImplicitSurfaceSet3 final : public ImplicitSurface3
     SurfaceRayIntersection3 ClosestIntersectionLocal(
         const Ray3D& ray) const override;
 
+    bool IsInsideLocal(const Vector3D& otherPoint) const override;
+
     // ImplicitSurface3 implementations.
     double SignedDistanceLocal(const Vector3D& otherPoint) const override;
 
