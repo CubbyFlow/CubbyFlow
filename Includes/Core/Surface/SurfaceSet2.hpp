@@ -92,7 +92,8 @@ using SurfaceSet2Ptr = std::shared_ptr<SurfaceSet2>;
 //!
 //! \brief Front-end to create SurfaceSet2 objects step by step.
 //!
-class SurfaceSet2::Builder final : public SurfaceBuilderBase2<SurfaceSet2>
+class SurfaceSet2::Builder final
+    : public SurfaceBuilderBase2<SurfaceSet2::Builder>
 {
  public:
     //! Returns builder with other surfaces.

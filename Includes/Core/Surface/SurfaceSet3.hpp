@@ -92,7 +92,8 @@ using SurfaceSet3Ptr = std::shared_ptr<SurfaceSet3>;
 //!
 //! \brief Front-end to create SurfaceSet3 objects step by step.
 //!
-class SurfaceSet3::Builder final : public SurfaceBuilderBase3<SurfaceSet3>
+class SurfaceSet3::Builder final
+    : public SurfaceBuilderBase3<SurfaceSet3::Builder>
 {
  public:
     //! Returns builder with other surfaces.
