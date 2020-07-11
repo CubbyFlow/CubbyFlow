@@ -25,7 +25,7 @@ CUBBYFLOW_BEGIN_TEST_F(MarchingCubes, SingleCube)
     grid(1, 1, 1) = 0.5;
 
     MarchingCubes(grid, Vector3D(1, 1, 1), Vector3D(), &triMesh, 0,
-                  DIRECTION_ALL);
+                  DIRECTION_ALL, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh, "single_cube.obj");
 }

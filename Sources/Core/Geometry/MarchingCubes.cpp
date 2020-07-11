@@ -396,7 +396,8 @@ static void SingleCube(const std::array<double, 8>& data,
 
 void MarchingCubes(const ConstArrayAccessor3<double>& grid,
                    const Vector3D& gridSize, const Vector3D& origin,
-                   TriangleMesh3* mesh, double isoValue, int bndFlag)
+                   TriangleMesh3* mesh, double isoValue, int bndClose,
+                   int bndConnectivity)
 {
     MarchingCubeVertexMap vertexMap;
 
@@ -455,10 +456,11 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
     }
 
     // Construct boundaries parallel to x-y plane
-    vertexMap.clear();
-
-    if (bndFlag & (DIRECTION_BACK | DIRECTION_FRONT))
+    if (bndClose & (DIRECTION_BACK | DIRECTION_FRONT))
     {
+        MarchingCubeVertexMap vertexMapBack;
+        MarchingCubeVertexMap vertexMapFront;
+
         for (ssize_t j = 0; j < dimY - 1; ++j)
         {
             for (ssize_t i = 0; i < dimX - 1; ++i)
@@ -475,7 +477,7 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
                 data[2] = grid(i, j + 1, k);
                 data[3] = grid(i + 1, j + 1, k);
 
-                if (bndFlag & DIRECTION_BACK)
+                if (bndClose & DIRECTION_BACK)
                 {
                     normal = Vector3D(0, 0, -1);
 
@@ -494,7 +496,10 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
                     corners[3] = pos(i + 1, j + 1, k);
 
                     SingleSquare(data, vertexAndEdgeIDs, normal, corners,
-                                 &vertexMap, mesh, isoValue);
+                                 (bndConnectivity & DIRECTION_BACK)
+                                     ? &vertexMap
+                                     : &vertexMapBack,
+                                 mesh, isoValue);
                 }
 
                 k = dimZ - 2;
@@ -503,7 +508,7 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
                 data[2] = grid(i + 1, j + 1, k + 1);
                 data[3] = grid(i, j + 1, k + 1);
 
-                if (bndFlag & DIRECTION_FRONT)
+                if (bndClose & DIRECTION_FRONT)
                 {
                     normal = Vector3D(0, 0, 1);
 
@@ -522,17 +527,21 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
                     corners[3] = pos(i, j + 1, k + 1);
 
                     SingleSquare(data, vertexAndEdgeIDs, normal, corners,
-                                 &vertexMap, mesh, isoValue);
+                                 (bndConnectivity & DIRECTION_FRONT)
+                                     ? &vertexMap
+                                     : &vertexMapFront,
+                                 mesh, isoValue);
                 }
             }
         }
     }
 
     // Construct boundaries parallel to y-z plane
-    vertexMap.clear();
-
-    if (bndFlag & (DIRECTION_LEFT | DIRECTION_RIGHT))
+    if (bndClose & (DIRECTION_LEFT | DIRECTION_RIGHT))
     {
+        MarchingCubeVertexMap vertexMapLeft;
+        MarchingCubeVertexMap vertexMapRight;
+
         for (ssize_t k = 0; k < dimZ - 1; ++k)
         {
             for (ssize_t j = 0; j < dimY - 1; ++j)
@@ -549,7 +558,7 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
                 data[2] = grid(i, j + 1, k + 1);
                 data[3] = grid(i, j + 1, k);
 
-                if (bndFlag & DIRECTION_LEFT)
+                if (bndClose & DIRECTION_LEFT)
                 {
                     normal = Vector3D(-1, 0, 0);
 
@@ -568,7 +577,10 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
                     corners[3] = pos(i, j + 1, k);
 
                     SingleSquare(data, vertexAndEdgeIDs, normal, corners,
-                                 &vertexMap, mesh, isoValue);
+                                 (bndConnectivity & DIRECTION_LEFT)
+                                     ? &vertexMap
+                                     : &vertexMapLeft,
+                                 mesh, isoValue);
                 }
 
                 i = dimX - 2;
@@ -577,7 +589,7 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
                 data[2] = grid(i + 1, j + 1, k);
                 data[3] = grid(i + 1, j + 1, k + 1);
 
-                if (bndFlag & DIRECTION_RIGHT)
+                if (bndClose & DIRECTION_RIGHT)
                 {
                     normal = Vector3D(1, 0, 0);
 
@@ -586,7 +598,7 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
                     vertexAndEdgeIDs[2] = GlobalVertexID(i, j, k, dim, 5);
                     vertexAndEdgeIDs[3] = GlobalVertexID(i, j, k, dim, 6);
                     vertexAndEdgeIDs[4] = GlobalEdgeID(i, j, k, dim, 1);
-                    vertexAndEdgeIDs[5] = GlobalEdgeID(i, j, k, dim, 7);
+                    vertexAndEdgeIDs[5] = GlobalEdgeID(i, j, k, dim, 9);
                     vertexAndEdgeIDs[6] = GlobalEdgeID(i, j, k, dim, 5);
                     vertexAndEdgeIDs[7] = GlobalEdgeID(i, j, k, dim, 10);
 
@@ -596,17 +608,21 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
                     corners[3] = pos(i + 1, j + 1, k + 1);
 
                     SingleSquare(data, vertexAndEdgeIDs, normal, corners,
-                                 &vertexMap, mesh, isoValue);
+                                 (bndConnectivity & DIRECTION_RIGHT)
+                                     ? &vertexMap
+                                     : &vertexMapRight,
+                                 mesh, isoValue);
                 }
             }
         }
     }
 
     // Construct boundaries parallel to x-z plane
-    vertexMap.clear();
-
-    if (bndFlag & (DIRECTION_DOWN | DIRECTION_UP))
+    if (bndClose & (DIRECTION_DOWN | DIRECTION_UP))
     {
+        MarchingCubeVertexMap vertexMapDown;
+        MarchingCubeVertexMap vertexMapUp;
+
         for (ssize_t k = 0; k < dimZ - 1; ++k)
         {
             for (ssize_t i = 0; i < dimX - 1; ++i)
@@ -623,7 +639,7 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
                 data[2] = grid(i + 1, j, k + 1);
                 data[3] = grid(i, j, k + 1);
 
-                if (bndFlag & DIRECTION_DOWN)
+                if (bndClose & DIRECTION_DOWN)
                 {
                     normal = Vector3D(0, -1, 0);
 
@@ -642,7 +658,10 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
                     corners[3] = pos(i, j, k + 1);
 
                     SingleSquare(data, vertexAndEdgeIDs, normal, corners,
-                                 &vertexMap, mesh, isoValue);
+                                 (bndConnectivity & DIRECTION_DOWN)
+                                     ? &vertexMap
+                                     : &vertexMapDown,
+                                 mesh, isoValue);
                 }
 
                 j = dimY - 2;
@@ -651,7 +670,7 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
                 data[2] = grid(i, j + 1, k + 1);
                 data[3] = grid(i + 1, j + 1, k + 1);
 
-                if (bndFlag & DIRECTION_UP)
+                if (bndClose & DIRECTION_UP)
                 {
                     normal = Vector3D(0, 1, 0);
 
@@ -670,7 +689,10 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
                     corners[3] = pos(i + 1, j + 1, k + 1);
 
                     SingleSquare(data, vertexAndEdgeIDs, normal, corners,
-                                 &vertexMap, mesh, isoValue);
+                                 (bndConnectivity & DIRECTION_UP)
+                                     ? &vertexMap
+                                     : &vertexMapUp,
+                                 mesh, isoValue);
                 }
             }
         }
