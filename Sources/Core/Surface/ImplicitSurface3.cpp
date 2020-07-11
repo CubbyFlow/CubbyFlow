@@ -33,7 +33,8 @@ ImplicitSurface3::~ImplicitSurface3()
 
 double ImplicitSurface3::SignedDistance(const Vector3D& otherPoint) const
 {
-    return SignedDistanceLocal(transform.ToLocal(otherPoint));
+    const double sd = SignedDistanceLocal(transform.ToLocal(otherPoint));
+    return (isNormalFlipped) ? -sd : sd;
 }
 
 double ImplicitSurface3::ClosestDistanceLocal(const Vector3D& otherPoint) const

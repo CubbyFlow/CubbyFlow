@@ -67,7 +67,7 @@ TEST(VolumeParticleEmitter3, Emit)
     emitter.SetMaxNumberOfParticles(80);
     emitter.Update(frame.TimeInSeconds(), frame.timeIntervalInSeconds);
 
-    EXPECT_EQ(69u, particles->GetNumberOfParticles());
+    EXPECT_EQ(79u, particles->GetNumberOfParticles());
 
     pos = particles->GetPositions();
     for (size_t i = 0; i < particles->GetNumberOfParticles(); ++i)
@@ -77,7 +77,7 @@ TEST(VolumeParticleEmitter3, Emit)
 
     ++frame;
     emitter.Update(frame.TimeInSeconds(), frame.timeIntervalInSeconds);
-    EXPECT_LT(69u, particles->GetNumberOfParticles());
+    EXPECT_LT(79u, particles->GetNumberOfParticles());
 }
 
 TEST(VolumeParticleEmitter3, Builder)

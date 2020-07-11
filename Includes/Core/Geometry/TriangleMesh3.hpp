@@ -56,6 +56,9 @@ class TriangleMesh3 final : public Surface3
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;
 
+    //! Updates internal spatial query engine.
+    void UpdateQueryEngine() const;
+
     //! Clears all content.
     void Clear();
 
@@ -196,6 +199,8 @@ class TriangleMesh3 final : public Surface3
     SurfaceRayIntersection3 ClosestIntersectionLocal(
         const Ray3D& ray) const override;
 
+    bool IsInsideLocal(const Vector3D& otherPoint) const override;
+
  private:
     PointArray m_points;
     NormalArray m_normals;
@@ -207,9 +212,25 @@ class TriangleMesh3 final : public Surface3
     mutable BVH3<size_t> m_bvh;
     mutable bool m_bvhInvalidated = true;
 
+    mutable Array1<Vector3D> m_wnAreaWeightedNormalSums;
+    mutable Array1<Vector3D> m_wnAreaWeightedAvgPositions;
+    mutable bool m_wnInvalidated = true;
+
+    void InvalidateCache() const;
+
     void InvalidateBVH() const;
 
     void BuildBVH() const;
+
+    void BuildWindingNumbers() const;
+
+    double GetWindingNumber(const Vector3D& queryPoint, size_t triIndex) const;
+
+    double GetFastWindingNumber(const Vector3D& queryPoint,
+                                double accuracy) const;
+
+    double GetFastWindingNumber(const Vector3D& queryPoint,
+                                size_t rootNodeIndex, double accuracy) const;
 };
 
 //! Shared pointer for the TriangleMesh3 type.

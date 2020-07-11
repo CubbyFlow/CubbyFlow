@@ -41,3 +41,13 @@ BENCHMARK_DEFINE_F(TriangleMesh3, ClosestPoint)(benchmark::State& state)
 }
 
 BENCHMARK_REGISTER_F(TriangleMesh3, ClosestPoint);
+
+BENCHMARK_DEFINE_F(TriangleMesh3, IsInside)(benchmark::State& state)
+{
+    while (state.KeepRunning())
+    {
+        benchmark::DoNotOptimize(triMesh.IsInside(MakeVec()));
+    }
+}
+
+BENCHMARK_REGISTER_F(TriangleMesh3, IsInside);

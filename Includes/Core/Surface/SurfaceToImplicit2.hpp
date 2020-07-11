@@ -37,6 +37,9 @@ class SurfaceToImplicit2 final : public ImplicitSurface2
     //! Copy constructor.
     SurfaceToImplicit2(const SurfaceToImplicit2& other);
 
+    //! Updates internal spatial query engine.
+    void UpdateQueryEngine() override;
+
     //! Returns true if bounding box can be defined.
     bool IsBounded() const override;
 

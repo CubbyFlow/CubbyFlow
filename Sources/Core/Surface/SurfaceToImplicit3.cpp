@@ -22,8 +22,9 @@ SurfaceToImplicit3::SurfaceToImplicit3(const Surface3Ptr& surface,
     if (std::dynamic_pointer_cast<TriangleMesh3>(surface) != nullptr)
     {
         CUBBYFLOW_WARN
-            << "Using TriangleMesh3 with SurfaceToImplicit3 can cause "
-            << "undefined behavior. Use ImplicitTriangleMesh3 instead.";
+            << "Using TriangleMesh3 with SurfaceToImplicit3 is accurate "
+               "but slow. ImplicitTriangleMesh3 can provide faster but "
+               "approximated results.";
     }
 }
 
@@ -36,6 +37,11 @@ SurfaceToImplicit3::SurfaceToImplicit3(const SurfaceToImplicit3& other)
 bool SurfaceToImplicit3::IsBounded() const
 {
     return m_surface->IsBounded();
+}
+
+void SurfaceToImplicit3::UpdateQueryEngine()
+{
+    m_surface->UpdateQueryEngine();
 }
 
 bool SurfaceToImplicit3::IsValidGeometry() const
@@ -82,17 +88,9 @@ Vector3D SurfaceToImplicit3::ClosestNormalLocal(
 
 double SurfaceToImplicit3::SignedDistanceLocal(const Vector3D& otherPoint) const
 {
-    Vector3D x = m_surface->ClosestPoint(otherPoint);
-    Vector3D n = m_surface->ClosestNormal(otherPoint);
-
-    n = (isNormalFlipped) ? -n : n;
-
-    if (n.Dot(otherPoint - x) < 0.0)
-    {
-        return -x.DistanceTo(otherPoint);
-    }
-
-    return x.DistanceTo(otherPoint);
+    const Vector3D x = m_surface->ClosestPoint(otherPoint);
+    const bool inside = m_surface->IsInside(otherPoint);
+    return inside ? -x.DistanceTo(otherPoint) : x.DistanceTo(otherPoint);
 }
 
 SurfaceRayIntersection3 SurfaceToImplicit3::ClosestIntersectionLocal(

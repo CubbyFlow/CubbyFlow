@@ -7,6 +7,9 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/Builds/CMake")
 # Declare project
 project(CubbyFlow)
 
+# Useful paths
+set(LIBRARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Libraries)
+
 # Set output directories
 set(DEFAULT_CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
@@ -17,7 +20,6 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 include_directories(Includes)
 include_directories(Libraries)
 include_directories(Libraries/pybind11/include)
-include_directories(Libraries/googletest/googletest/include)
 include_directories(Libraries/Clara/include)
 include_directories(Libraries/tinyobj)
 
@@ -61,7 +63,7 @@ set(RESOURCES_OBJS
 
 # Project modules
 set(BUILD_GTEST ON CACHE BOOL "" FORCE)
-set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
+set(BUILD_GMOCK ON CACHE BOOL "" FORCE)
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 add_subdirectory(Libraries/googletest EXCLUDE_FROM_ALL)
 cmake_policy(SET CMP0063 NEW)

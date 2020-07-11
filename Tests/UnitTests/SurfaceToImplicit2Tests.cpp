@@ -7,6 +7,26 @@
 
 using namespace CubbyFlow;
 
+namespace
+{
+class MockSurface2 final : public Surface2
+{
+ public:
+    MockSurface2() = default;
+
+    ~MockSurface2() = default;
+
+    MOCK_METHOD0(UpdateQueryEngine, void());
+
+ protected:
+    MOCK_CONST_METHOD1(ClosestPointLocal, Vector2D(const Vector2D&));
+    MOCK_CONST_METHOD0(BoundingBoxLocal, BoundingBox2D());
+    MOCK_CONST_METHOD1(ClosestIntersectionLocal,
+                       SurfaceRayIntersection2(const Ray2D&));
+    MOCK_CONST_METHOD1(ClosestNormalLocal, Vector2D(const Vector2D&));
+};
+}  // namespace
+
 TEST(SurfaceToImplicit2, Constructor)
 {
     auto box = std::make_shared<Box2>(BoundingBox2D({ 0, 0 }, { 1, 2 }));
@@ -18,6 +38,16 @@ TEST(SurfaceToImplicit2, Constructor)
     SurfaceToImplicit2 s2i2(s2i);
     EXPECT_EQ(box, s2i2.GetSurface());
     EXPECT_TRUE(s2i2.isNormalFlipped);
+}
+
+TEST(SurfaceToImplicit2, UpdateQueryEngine)
+{
+    const auto mockSurface2 = std::make_shared<MockSurface2>();
+    SurfaceToImplicit2 s2i(mockSurface2);
+
+    EXPECT_CALL(*mockSurface2, UpdateQueryEngine()).Times(1);
+
+    s2i.UpdateQueryEngine();
 }
 
 TEST(SurfaceToImplicit2, ClosestPoint)

@@ -13,6 +13,7 @@
 #include <Core/PointGenerator/TrianglePointGenerator.hpp>
 #include <Core/Searcher/PointHashGridSearcher2.hpp>
 #include <Core/Surface/SurfaceToImplicit2.hpp>
+#include <Core/Utils/Logging.hpp>
 
 namespace CubbyFlow
 {
@@ -126,6 +127,7 @@ void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
             neighborSearcher.Build(particles->GetPositions());
         }
 
+        size_t numNewParticles = 0;
         m_pointsGen->ForEachPoint(
             region, m_spacing, [&](const Vector2D& point) {
                 double newAngleInRadian = (Random() - 0.5) * (2 * PI_DOUBLE);
@@ -135,7 +137,7 @@ void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
                 Vector2D offset = maxJitterDist * randomDir;
                 Vector2D candidate = point + offset;
 
-                if (m_implicitSurface->SignedDistance(candidate) <= 0.0 &&
+                if (m_implicitSurface->IsInside(candidate) &&
                     (!m_allowOverlapping &&
                      !neighborSearcher.HasNearbyPoint(candidate, m_spacing)))
                 {
@@ -144,6 +146,7 @@ void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
                         newPositions->Append(candidate);
                         neighborSearcher.Add(candidate);
                         ++m_numberOfEmittedParticles;
+                        ++numNewParticles;
                     }
                     else
                     {
@@ -153,6 +156,11 @@ void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
 
                 return true;
             });
+
+        CUBBYFLOW_INFO << "Number of newly generated particles: "
+                       << numNewParticles;
+        CUBBYFLOW_INFO << "Number of total generated particles: "
+                       << m_numberOfEmittedParticles;
     }
 
     newVelocities->Resize(newPositions->size());

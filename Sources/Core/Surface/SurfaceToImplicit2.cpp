@@ -31,6 +31,11 @@ bool SurfaceToImplicit2::IsBounded() const
     return m_surface->IsBounded();
 }
 
+void SurfaceToImplicit2::UpdateQueryEngine()
+{
+    m_surface->UpdateQueryEngine();
+}
+
 bool SurfaceToImplicit2::IsValidGeometry() const
 {
     return m_surface->IsValidGeometry();
@@ -75,17 +80,9 @@ Vector2D SurfaceToImplicit2::ClosestNormalLocal(
 
 double SurfaceToImplicit2::SignedDistanceLocal(const Vector2D& otherPoint) const
 {
-    Vector2D x = m_surface->ClosestPoint(otherPoint);
-    Vector2D n = m_surface->ClosestNormal(otherPoint);
-
-    n = (isNormalFlipped) ? -n : n;
-
-    if (n.Dot(otherPoint - x) < 0.0)
-    {
-        return -x.DistanceTo(otherPoint);
-    }
-
-    return x.DistanceTo(otherPoint);
+    const Vector2D x = m_surface->ClosestPoint(otherPoint);
+    const bool inside = m_surface->IsInside(otherPoint);
+    return inside ? -x.DistanceTo(otherPoint) : x.DistanceTo(otherPoint);
 }
 
 SurfaceRayIntersection2 SurfaceToImplicit2::ClosestIntersectionLocal(

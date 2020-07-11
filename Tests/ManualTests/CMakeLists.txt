@@ -2,7 +2,10 @@
 set(target ManualTests)
 
 # Includes
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${EXTERNAL_DIR}/googletest/googlemock/include
+    ${EXTERNAL_DIR}/googletest/googletest/include)
 
 # Sources
 file(GLOB sources

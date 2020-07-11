@@ -12,6 +12,7 @@
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>
 #include <Core/Searcher/PointHashGridSearcher3.hpp>
 #include <Core/Surface/SurfaceToImplicit3.hpp>
+#include <Core/Utils/Logging.hpp>
 #include <Core/Utils/Samplers.hpp>
 
 namespace CubbyFlow
@@ -124,13 +125,14 @@ void VolumeParticleEmitter3::Emit(const ParticleSystemData3Ptr& particles,
             neighborSearcher.Build(particles->GetPositions());
         }
 
+        size_t numNewParticles = 0;
         m_pointsGen->ForEachPoint(
             region, m_spacing, [&](const Vector3D& point) {
                 Vector3D randomDir = UniformSampleSphere(Random(), Random());
                 Vector3D offset = maxJitterDist * randomDir;
                 Vector3D candidate = point + offset;
 
-                if (m_implicitSurface->SignedDistance(candidate) <= 0.0 &&
+                if (m_implicitSurface->IsInside(candidate) &&
                     (!m_allowOverlapping &&
                      !neighborSearcher.HasNearbyPoint(candidate, m_spacing)))
                 {
@@ -139,6 +141,7 @@ void VolumeParticleEmitter3::Emit(const ParticleSystemData3Ptr& particles,
                         newPositions->Append(candidate);
                         neighborSearcher.Add(candidate);
                         ++m_numberOfEmittedParticles;
+                        ++numNewParticles;
                     }
                     else
                     {
@@ -148,6 +151,11 @@ void VolumeParticleEmitter3::Emit(const ParticleSystemData3Ptr& particles,
 
                 return true;
             });
+
+        CUBBYFLOW_INFO << "Number of newly generated particles: "
+                       << numNewParticles;
+        CUBBYFLOW_INFO << "Number of total generated particles: "
+                       << m_numberOfEmittedParticles;
     }
 
     newVelocities->Resize(newPositions->size());
