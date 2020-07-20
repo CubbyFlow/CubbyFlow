@@ -33,7 +33,6 @@ namespace CubbyRender {
         WIN32_FIND_DATAA ffd;
         std::string filename;
         std::string format = "." + extension;
-        char* ext = nullptr;
 
         filename = dir + "/*";
         hFind = FindFirstFileA(filename.c_str(), &ffd);
@@ -62,6 +61,7 @@ namespace CubbyRender {
             }
             else
             {
+                char* ext = nullptr;
                 //! Split the filename with "."
                 if ((ext = strchr(ffd.cFileName, '.')) == NULL)
                     return;
