@@ -27,9 +27,9 @@ namespace CubbyRender {
         //! Do nothing.
     }
 
-    PointsRenderable::PointsRenderable(const ConstArrayAccessor1<float>& vertices, const Vector3F& color)
+    PointsRenderable::PointsRenderable(const ConstArrayAccessor1<float>& vertices, const Vector3F& color, float radius)
     {
-        update(vertices, color);
+        update(vertices, color, radius);
     }
 
 
@@ -40,12 +40,13 @@ namespace CubbyRender {
 
     void PointsRenderable::update(const ConstArrayAccessor1<float>& vertices)
     {
-        update(vertices, _color);
+        update(vertices, _color, _radius);
     }
 
-    void PointsRenderable::update(const ConstArrayAccessor1<float>& vertices, const Vector3F& color)
+    void PointsRenderable::update(const ConstArrayAccessor1<float>& vertices, const Vector3F& color, float radius)
     {
         _color = color;
+        _radius = radius;
         std::lock_guard<std::mutex> lock(_dataMutex);
         _vertices.Resize(vertices.size());
         std::memcpy(static_cast<void*>(_vertices.data()), static_cast<const void*>(vertices.data()), vertices.size() * sizeof(float));
@@ -64,6 +65,7 @@ namespace CubbyRender {
         //! set color uniform variable of the shader.
         auto& params = _material->getShader()->getParameters();
         params.setParameter("Color", _color);
+        params.setParameter("Radius", _radius);
         
         //! allocate and initialize input layout instance.
         if (_inputLayout == nullptr)
