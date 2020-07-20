@@ -27,9 +27,7 @@
 #include <Core/Surface/ImplicitSurfaceSet3.h>
 #include <Core/PointGenerator/GridPointGenerator3.h>
 #include <Core/Utils/Constants.h>
-#include <Core/PointsToImplicit/AnisotropicPointsToImplicit3.h>
 #include <Core/Grid/ScalarGrid3.h>
-#include <Core/Grid/VertexCenteredScalarGrid3.h>
 #include <random>
 #include <limits>
 
@@ -187,16 +185,6 @@ void PICSimulation::onUpdateRenderables()
         vertices[baseIndex + 1] = static_cast<float>(positions[index].y);
         vertices[baseIndex + 2] = 0.0f;
     });
-
-    //! AnisotropicPointsToImplicit3 converter(kernelRadius, _anisoCutoffDensity, _anisoPositionSmoothingFactor, _anisoMinNumNeighbors, false);
-    //! Size3 resolution(100, 100, 100);
-    //! Vector3D gridSpacing(0.01, 0.01, 0.01);
-    //! VertexCenteredScalarGrid3 sdf(resolution, gridSpacing);
-    //! Array1<Vector3D> positions(_positions.size());
-    //! for (size_t i = 0; i < positions.size(); ++i)
-    //! {
-    //!     positions[i] = _positions[i].CastTo<double>();
-    //! }
-    //! converter.Convert(positions.ConstAccessor(),&sdf);
+    
     _renderable->update(vertices);
 }
