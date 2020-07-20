@@ -45,6 +45,11 @@ namespace CubbyRender {
         _primitiveType = type;
     }
 
+    void Renderable::setMaterial(MaterialPtr material)
+    {
+        _material = material;
+    }
+
     void Renderable::invalidateResources()
     {
         _bResourceInitialized = false;

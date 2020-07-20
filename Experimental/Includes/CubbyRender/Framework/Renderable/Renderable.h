@@ -46,6 +46,9 @@ namespace CubbyRender {
         //! Set the primitive type of the object.
         void setPrimitiveType(PrimitiveType type);
 
+        //! Set the material instance
+        void setMaterial(MaterialPtr material);
+
     protected:
         //! bind input layout and material and draw renderables.
         virtual void onRender(RendererPtr renderer) = 0;
