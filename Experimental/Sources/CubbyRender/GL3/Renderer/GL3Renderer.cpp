@@ -12,6 +12,7 @@
 #include <Framework/Texture/Texture.h>
 #include <Framework/Texture/Texture2D.h>
 #include <Framework/Texture/Texture3D.h>
+#include <Framework/Utils/ImageLoader.h>
 #include <Framework/Utils/Common.h>
 #include <Core/Array/Array2.h>
 #include <Core/Vector/Vector4.h>
@@ -282,8 +283,7 @@ namespace CubbyRender {
         else 
             glDisable(GL_DEPTH_TEST);
         
-        glPointSize(3.0f);
-
+        glEnable(GL_PROGRAM_POINT_SIZE);
     }
 
     Texture2DPtr GL3Renderer::createTexture2D(const TextureParams& param, Size2 size, void* data)
@@ -302,6 +302,21 @@ namespace CubbyRender {
         return texture;
     }
 
+    void GL3Renderer::writeTextureToPNG(const std::string& path, const Texture2DPtr& texture)
+    {   
+        const auto size = texture->getTextureSize();
+        const size_t numBytes = size.x * size.y * sizeof(Vector4UB);
+
+        unsigned char* data = new unsigned char[numBytes];
+
+        texture->bind(shared_from_this(), 0);
+        glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, static_cast<void*>(data));
+
+        ImageLoader imageLoader;
+        imageLoader.writeImage(path, data, size);
+
+        delete[] data;
+    }
 } 
 }
 

@@ -93,6 +93,12 @@ namespace CubbyRender {
         //! \param data first pixel pointer of the image bytes array.
         //! \return return genearted 3d texture.
         Texture3DPtr createTexture3D(const TextureParams& param, Size3 size, void* data) override;
+
+        //! Write the texture contents to the png image.
+        //! \param path image file path which will be generated.
+        //! \param texture target texture which will be wrote on image.
+        void writeTextureToPNG(const std::string& path, const Texture2DPtr& texture) override;
+
     protected:
         void onRenderBegin() override;
         void onRenderEnd() override;
