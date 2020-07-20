@@ -12,7 +12,9 @@
 #include <Framework/Utils/Common.h>
 
 #define STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb_image.h>
+#include <stb_image_write.h>
 
 #include <cstring>
 
@@ -27,6 +29,11 @@ namespace CubbyRender {
     ImageLoader::~ImageLoader()
     {
         //! Do nothing
+    }
+
+    void ImageLoader::writeImage(const std::string& path, void* data, Size2 size)
+    {
+        stbi_write_png(path.c_str(), static_cast<int>(size.x), static_cast<int>(size.y), 4, data, 0);
     }
 
     bool ImageLoader::loadImage(const std::string& path) noexcept
@@ -68,6 +75,12 @@ namespace CubbyRender {
     ConstArrayAccessor2<Vector4UB> ImageLoader::getConstImageAccessor() const
     {
         return _data.ConstAccessor();
+    }
+
+    void* ImageLoader::data()
+    {
+        if (_data.size() == Size2(0, 0)) return nullptr;
+        else return static_cast<void*>(&_data[0].x);
     }
 }
 }

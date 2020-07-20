@@ -29,6 +29,9 @@ namespace CubbyRender {
         //! Default destructor
         ~ImageLoader();
 
+        //! write image with the given data and size.
+        void writeImage(const std::string& path, void* data, Size2 size);
+
         //! load image at the given path. 
         bool loadImage(const std::string& path) noexcept;
 
@@ -40,6 +43,9 @@ namespace CubbyRender {
 
         //! Return the const array accessor of the image data;
         ConstArrayAccessor2<Vector4UB> getConstImageAccessor() const;
+
+        //! return the raw pointer of the first element;
+        void* data();
     private:
         Array2<Vector4UB> _data;
     };
