@@ -150,8 +150,13 @@ namespace CubbyRender {
         //! \return return genearted 3d texture.
         virtual Texture3DPtr createTexture3D(const TextureParams& param, Size3 size, void* data) = 0;
 
+        //! Write the texture contents to the png image.
+        //! \param path image file path which will be generated.
+        //! \param texture target texture which will be wrote on image.
+        virtual void writeTextureToPNG(const std::string& path, const Texture2DPtr& texture) = 0;
+
     protected:
-        virtual void onRenderBegin() = 0;
+        virtual void onRenderBegin() = 0;   
         virtual void onRenderEnd() = 0;
         virtual void onSetRenderState() = 0;
 
