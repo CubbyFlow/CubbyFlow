@@ -54,7 +54,9 @@ const GLchar* kPointsShaders[2] = {
     in vec3 position;
     uniform mat4 View;
     uniform mat4 Projection;
+    uniform float Radius;
     void main() {
+        gl_PointSize = Radius;
         gl_Position = Projection * View * vec4(position, 1.0);
     }
     )glsl",
@@ -63,9 +65,10 @@ const GLchar* kPointsShaders[2] = {
     R"glsl(
     #version 330 core
     uniform vec3 Color;
+    uniform sampler2D sphereTexture;
     out vec4 fragColor;
     void main() {
-        fragColor = vec4(Color, 1.0);
+        fragColor = vec4(texture(sphereTexture, gl_PointCoord).xyz * Color, 1.0f);
     }
     )glsl"};
 
