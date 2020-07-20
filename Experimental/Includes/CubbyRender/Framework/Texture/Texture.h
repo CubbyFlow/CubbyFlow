@@ -14,7 +14,9 @@
 #include <Framework/Utils/Prerequisites.h>
 #include <Framework/Utils/Common.h>
 #include <Framework/Enum/ImageEnums.h>
+#include <fstream>
 #include <cstdint>
+#include <string>
 #include <memory>
 
 namespace CubbyFlow {
