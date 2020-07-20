@@ -47,7 +47,6 @@ using namespace CubbyRender;
 
 class FluidMeshRenderer final : public GL3Window
 {
-    using super_t = GL3Window;
 public: 
     //! Default constructor.
     FluidMeshRenderer() = default;
@@ -92,6 +91,10 @@ FluidMeshRenderer::FluidMeshRenderer(const std::string& title, int width, int he
 }
 FluidMeshRenderer::~FluidMeshRenderer()
 {
+    _camController.reset();
+    _cacheParser.reset();
+    _renderable.reset();
+    _sceneParser.reset();
 }
 
 bool FluidMeshRenderer::initialize(const std::string& scenePath)
@@ -204,13 +207,14 @@ void FluidMeshRenderer::onUpdateScene()
     _renderable->update(_cacheParser->getVertexCache(count), _cacheParser->getIndexCache(count));
     if (++count >= _cacheParser->getNumberOfGeometryCache())
         count = 0;
-    //_camController->orbitRotation(Vector3F(0.0f, 0.0f, 0.0f), 0.03f, 0.0f, 2.5f);
+
+    _camController->orbitRotation(Vector3F(0.0f, 0.0f, 0.0f), 0.03f, 0.0f, 2.5f);
 }
 
 int sampleMain(int argc, const char** argv)
 {
     bool showHelp = false;
-    int numberOfFrames = 100;
+    int numberOfFrames = -1;
     int resX = 800;
     int resY = 600;
     std::string logFileName = APP_NAME ".log";
@@ -220,6 +224,9 @@ int sampleMain(int argc, const char** argv)
     // Parsing
     auto parser =
         clara::Help(showHelp) |
+        clara::Opt(numberOfFrames, "numberOfFrames")
+        ["-n"]["--numframe"]
+        ("number of frames will be rendered (default is -1 which means [no shutdown timer])") |
         clara::Opt(resX, "resX")
         ["-x"]["--resx"]
         ("grid resolution in x-axis (default is 800)") |
@@ -289,7 +296,7 @@ int sampleMain(int argc, const char** argv)
     exitCode = application->run();
 #endif
 
-    //! release application and renderer window .
+    //! deallocate application and renderer window with preserving order.
     renderer.reset();
     application.reset();
     return exitCode;

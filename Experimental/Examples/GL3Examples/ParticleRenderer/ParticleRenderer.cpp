@@ -14,22 +14,23 @@
 #include <Core/Vector/Vector2.h>
 #include <Core/Vector/Vector4.h>
 
+#include <Framework/Scene/SceneParser.h>
 #include <Framework/Buffer/Framebuffer.h>
 #include <Framework/Texture/Texture.h>
 #include <Framework/Texture/Texture2D.h>
-#include <Framework/Window/Docker.h>
 #include <Framework/Application/Application.h>
 #include <Framework/Utils/FileSystem.h>
 #include <Framework/Renderable/ScreenRenderable.h>
 #include <Framework/Renderable/PointsRenderable.h>
+#include <Framework/Renderable/Material.h>
+#include <Framework/Shader/Shader.h>
 #include <Framework/View/Viewport.h>
 #include <Framework/View/Pivot.h>
 #include <Framework/View/PerspectiveCamera.h>
 #include <Framework/View/CameraController.h>
 #include <Framework/View/Light.h>
+#include <Framework/Utils/ImageLoader.h>
 #include <Framework/Utils/GeometryCacheParser.h>
-
-#include "OfflineSimulation.h"
 
 #include "../Utils/ClaraUtils.h"
 #include "../Utils/main.h"
@@ -74,7 +75,7 @@ public:
     //! Set timer for automatic shutdown.
     void setShutdownTimer(int numFrames);
     //! Initialize the sample renderer with simulated particle files directory and format.
-    bool initialize(const std::string& format, size_t count);
+    bool initialize(const std::string& scenePath);
     //! Action implementation when window is resized.
     void onWindowResized(int width, int height) override;
     //! Action implementation when any key is pressed or released
@@ -89,7 +90,9 @@ protected:
     void onRenderScene() override;
     void onUpdateScene() override;
 private:
-    OfflineSimulation _simulator;
+    SceneParserPtr _sceneParser;
+    PointsRenderablePtr _renderable;
+    GeometryCacheParserPtr _cacheParser;
     CameraControllerPtr _camController;
     double _fps = 60.0;
     int _shutdownTimer = -1;
@@ -106,34 +109,50 @@ ParticleRenderer::ParticleRenderer(const std::string& title, int width, int heig
 {
     //! Do nothing.
 }
+
 ParticleRenderer::~ParticleRenderer()
 {
-    //! Do nothing.
+    _camController.reset();
+    _cacheParser.reset();
+    _renderable.reset();
+    _sceneParser.reset();
 }
 
-bool ParticleRenderer::initialize(const std::string& format, size_t count)
+bool ParticleRenderer::initialize(const std::string& scenePath)
 {
-    GeometryCacheParserPtr parser = std::make_shared<GeometryCacheParser>();
-    parser->loadGeometryCache(format, count);
+    _sceneParser = std::make_shared<SceneParser>();
+    _sceneParser->loadScene(scenePath); 
 
-    _simulator = OfflineSimulation(_fps, Vector3F(0.0f, 0.0f, 0.0f));
-    _simulator.setParticleParser(parser);
-    _simulator.setup(_renderer);
-
-    Viewport viewport;
-    viewport.leftTop     = Vector2F(0.0f, _windowSize.y);
-    viewport.rightBottom = Vector2F(_windowSize.x, 0.0f);
-
-    Pivot pivot;
-    pivot.origin = Vector3F(-1.5f, 0, 4);
-    pivot.lookAt = Vector3F(0, 0, -1);
-    pivot.viewport = viewport;
-
-    CameraPtr camera = std::make_shared<PerspectiveCamera>(pivot, 60.0f);
+    CameraPtr camera = _sceneParser->getSceneObject<Camera>("camera");
     _camController = std::make_shared<CameraController>(camera);
 
+    _cacheParser = _sceneParser->getSceneObject<GeometryCacheParser>("particleCache");
+    _renderable = _sceneParser->getSceneObject<PointsRenderable>("particle");
+
+    _renderer->addRenderable(_renderable);
     _renderer->setCamera(_camController->getCamera());
     _renderer->setBackgroundColor(Vector4F(0.1f, 0.2f, 0.4f, 1.0f));
+
+    ImageLoader loader;
+    if (!loader.loadImage("./Resources/textures/metal.png"))
+        return false;
+
+
+    TextureParams params; //! default setting.
+    params.type = DataType::UNSIGNED_BYTE;
+    params.samplingMode = ImageSamplingMode::NEAREST;
+
+    Texture2DPtr texture = _renderer->createTexture2D(params, loader.getImageSize(), loader.data());
+
+    MaterialPtr material = _renderer->createMaterial();
+    material->addTexture(0, texture);
+
+    ShaderPtr shader = _renderer->createShaderPreset("point_shader");
+    auto& shaderParams = shader->getParameters();
+    shaderParams.setParameter("sphereTexture", 0);
+    material->setShader(shader);
+    
+    _renderable->setMaterial(material);
 
     return true;
 }
@@ -229,26 +248,33 @@ void ParticleRenderer::onRenderScene()
 
 void ParticleRenderer::onUpdateScene()
 {
-    if (_pause == false)
-    {
-        _simulator.updateRenderable();
-    }
+    if (_pause) return;
+    static size_t count = 0;
+
+    _renderable->update(_cacheParser->getVertexCache(count));
+    if (++count >= _cacheParser->getNumberOfGeometryCache())
+        count = 0;
+
+    _camController->orbitRotation(Vector3F(0.0f, 0.0f, 0.0f), 0.02f, 0.0f, 3.0f);
 }
 
 int sampleMain(int argc, const char** argv)
 {
     bool showHelp = false;
-    int numberOfFrames = 50;
+    int numberOfFrames = 60;
     int resX = 800;
     int resY = 600;
     double fps = 60.0;
     std::string logFileName = APP_NAME ".log";
-    std::string format;
+    std::string scenePath;
     std::string outputDir = APP_NAME "_output";
 
     // Parsing
     auto parser =
         clara::Help(showHelp) |
+        clara::Opt(numberOfFrames, "numberOfFrames")
+        ["-n"]["--numframe"]
+        ("number of frames will be rendered (default is -1 which means [no shutdown timer])") |
         clara::Opt(resX, "resX")
         ["-x"]["--resx"]
         ("grid resolution in x-axis (default is 800)") |
@@ -261,9 +287,9 @@ int sampleMain(int argc, const char** argv)
         clara::Opt(logFileName, "logFileName")
         ["-l"]["--log"]
         ("log file name (default is " APP_NAME ".log)") |
-        clara::Opt(format, "format")
-        ["-m"]["--format"]
-        ("geometry cache files format (ex : geometry_cache/frame_%04d.pos)") |
+        clara::Opt(scenePath, "scenePath")
+        ["-s"]["--scenePath"]
+        ("path to scene file for parsing scene objects.") |
         clara::Opt(outputDir, "outputDir")
         ["-o"]["--output"]
         ("output directory name (default is " APP_NAME "_output)");
@@ -275,7 +301,7 @@ int sampleMain(int argc, const char** argv)
         exit(EXIT_FAILURE);
     }
 
-    if (format.empty() || showHelp)
+    if (scenePath.empty() || showHelp)
     {
         std::cout << ToString(parser) << '\n';
         exit(EXIT_SUCCESS);
@@ -301,7 +327,7 @@ int sampleMain(int argc, const char** argv)
     }
     
     renderer = std::make_shared<ParticleRenderer>(APP_NAME, resX, resY, fps);
-    if (renderer->initialize(format, numberOfFrames) == false)
+    if (renderer->initialize(scenePath) == false)
     {
         std::cerr << "Renderer Window Initialize Failed" << std::endl;
         return -1;
