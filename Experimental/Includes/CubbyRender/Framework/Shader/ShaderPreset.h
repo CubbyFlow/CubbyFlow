@@ -64,11 +64,27 @@ const GLchar* kPointsShaders[2] = {
     // Fragment shader
     R"glsl(
     #version 330 core
+    struct DirectionalLight {
+        vec3 lookAt;
+    };
+    #define MAX_NUM_LIGHTS 4
+    uniform DirectionalLight directionalLights[MAX_NUM_LIGHTS];
+    uniform int NumLights;
     uniform vec3 Color;
-    uniform sampler2D sphereTexture;
     out vec4 fragColor;
     void main() {
-        fragColor = vec4(texture(sphereTexture, gl_PointCoord).xyz * Color, 1.0f);
+        vec3 N;
+        N.xy = gl_PointCoord* 2.0 - vec2(1.0);
+        float mag = dot(N.xy, N.xy);
+        if(mag > 1.0) discard; // kill pixels outside circle
+        N.z = sqrt(1.0-mag);
+        float diffuse = 0.0f;
+        for (int i = 0; i < NumLights; ++i)
+        {
+            vec3 lightDir = normalize(directionalLights[i].lookAt);
+            diffuse = diffuse + max(0.0, dot(lightDir, N));
+        }
+        fragColor = vec4((N * Color) * diffuse, 1.0f);
     }
     )glsl"};
 
