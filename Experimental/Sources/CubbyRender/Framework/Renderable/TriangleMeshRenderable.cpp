@@ -17,6 +17,7 @@
 #include <Framework/Renderer/Renderer.h>
 #include <Framework/Shader/Shader.h>
 #include <Framework/Utils/Common.h>
+#include <Core/Utils/Timer.h>
 #include <cstring>
 #include <iostream>
 
@@ -42,10 +43,12 @@ namespace CubbyRender {
     void TriangleMeshRenderable::update(const ConstArrayAccessor1<float>& vertices,
                                         const ConstArrayAccessor1<unsigned int>& indices)
     {
+        Timer timer;
         std::lock_guard<std::mutex> lock(_dataMutex);
         _vertices.Resize(vertices.size()); _indices.Resize(indices.size());
         std::memcpy(static_cast<void*>(_vertices.data()), static_cast<const void*>(vertices.data()), vertices.size() * sizeof(float));
         std::memcpy(static_cast<void*>(_indices.data()), static_cast<const void*>(indices.data()), indices.size() * sizeof(unsigned int));
+        CUBBYFLOW_INFO << "Update TriangleMeshRenderable buffer data with #floats:" << vertices.size() << " took " << timer.DurationInSeconds() << " seconds";
         invalidateResources();
     }
 

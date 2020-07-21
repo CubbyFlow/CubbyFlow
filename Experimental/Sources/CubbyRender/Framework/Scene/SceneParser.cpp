@@ -17,6 +17,7 @@
 #include <Core/Array/Array1.h>
 #include <Core/Vector/Vector3.h>
 #include <Core/Matrix/Matrix4x4.h>
+#include <Core/Utils/Timer.h>
 #include <pystring/pystring.h>
 #include <fstream>
 #include <cassert>
@@ -140,7 +141,8 @@ namespace CubbyRender {
         pivot.viewport = viewport;
 
         pivot.origin = {json["origin"][0].get<float>(), json["origin"][1].get<float>(), json["origin"][2].get<float>() };
-        pivot.lookAt = {json["target"][0].get<float>(), json["target"][1].get<float>(), json["target"][2].get<float>() };
+        const Vector3F target = {json["target"][0].get<float>(), json["target"][1].get<float>(), json["target"][2].get<float>() };
+        pivot.lookAt = (target - pivot.origin).Normalized();
         pivot.zNear = json["near"].get<float>();
         pivot.zFar = json["far"].get<float>();
 
@@ -172,7 +174,8 @@ namespace CubbyRender {
         pivot.viewport = viewport;
 
         pivot.origin = {json["origin"][0].get<float>(), json["origin"][1].get<float>(), json["origin"][2].get<float>() };
-        pivot.lookAt = {json["target"][0].get<float>(), json["target"][1].get<float>(), json["target"][2].get<float>() };
+        const Vector3F target = {json["target"][0].get<float>(), json["target"][1].get<float>(), json["target"][2].get<float>() };
+        pivot.lookAt = (target - pivot.origin).Normalized();
         pivot.zNear = json["near"].get<float>();
         pivot.zFar = json["far"].get<float>();
 
@@ -187,10 +190,11 @@ namespace CubbyRender {
 
     void SceneParser::onLoadScene(const nlohmann::json& json)
     {
-        for (auto& data : json)
-        {
+        ParallelFor(ZERO_SIZE, json.size(), [&](size_t index){
+            auto& data = json[index];
             const std::string objectType = data["type"].get<std::string>();
 
+            Timer timer;
             if (objectType == "points") onLoadSceneObject<PointsRenderable>(data);
             else if (objectType == "object") onLoadSceneObject<TriangleMeshRenderable>(data);
             else if (objectType == "camera") onLoadSceneObject<Camera>(data);
@@ -202,7 +206,8 @@ namespace CubbyRender {
                 CUBBYFLOW_ERROR << "Unknown scene object type.";
                 std::abort();
             }
-        }
+            CUBBYFLOW_INFO << "Parse scene object with name [" << data["name"].get<std::string>() << "] took " << timer.DurationInSeconds() << " seconds";
+        });
     }
 }
 }

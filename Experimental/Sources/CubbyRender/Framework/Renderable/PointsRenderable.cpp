@@ -17,6 +17,7 @@
 #include <Framework/Renderer/Renderer.h>
 #include <Framework/Shader/Shader.h>
 #include <Framework/Utils/Common.h>
+#include <Core/Utils/Timer.h>
 #include <cstring>
 
 namespace CubbyFlow {
@@ -45,11 +46,13 @@ namespace CubbyRender {
 
     void PointsRenderable::update(const ConstArrayAccessor1<float>& vertices, const Vector3F& color, float radius)
     {
+        Timer timer;
         _color = color;
         _radius = radius;
         std::lock_guard<std::mutex> lock(_dataMutex);
         _vertices.Resize(vertices.size());
         std::memcpy(static_cast<void*>(_vertices.data()), static_cast<const void*>(vertices.data()), vertices.size() * sizeof(float));
+        CUBBYFLOW_INFO << "Update PointsRenderable buffer data with #floats:" << vertices.size() << " took " << timer.DurationInSeconds() << " seconds";
         invalidateResources();
     }
 
