@@ -13,6 +13,7 @@
 #include <Core/Array/Array1.h>
 #include <Core/Vector/Vector2.h>
 #include <Core/Vector/Vector4.h>
+#include <Core/Utils/Timer.h>
 
 #include <Framework/Scene/SceneParser.h>
 #include <Framework/Buffer/Framebuffer.h>
@@ -29,6 +30,7 @@
 #include <Framework/View/PerspectiveCamera.h>
 #include <Framework/View/CameraController.h>
 #include <Framework/View/Light.h>
+#include <Framework/Utils/DeviceLogging.h>
 #include <Framework/Utils/ImageLoader.h>
 #include <Framework/Utils/GeometryCacheParser.h>
 
@@ -133,26 +135,8 @@ bool ParticleRenderer::initialize(const std::string& scenePath)
     _renderer->setCamera(_camController->getCamera());
     _renderer->setBackgroundColor(Vector4F(0.1f, 0.2f, 0.4f, 1.0f));
 
-    ImageLoader loader;
-    if (!loader.loadImage("./Resources/textures/metal.png"))
-        return false;
-
-
-    TextureParams params; //! default setting.
-    params.type = DataType::UNSIGNED_BYTE;
-    params.samplingMode = ImageSamplingMode::NEAREST;
-
-    Texture2DPtr texture = _renderer->createTexture2D(params, loader.getImageSize(), loader.data());
-
-    MaterialPtr material = _renderer->createMaterial();
-    material->addTexture(0, texture);
-
-    ShaderPtr shader = _renderer->createShaderPreset("point_shader");
-    auto& shaderParams = shader->getParameters();
-    shaderParams.setParameter("sphereTexture", 0);
-    material->setShader(shader);
-    
-    _renderable->setMaterial(material);
+    LightPtr light = _sceneParser->getSceneObject<Light>("light");
+    _renderer->addLight(light);
 
     return true;
 }
@@ -255,7 +239,7 @@ void ParticleRenderer::onUpdateScene()
     if (++count >= _cacheParser->getNumberOfGeometryCache())
         count = 0;
 
-    _camController->orbitRotation(Vector3F(0.0f, 0.0f, 0.0f), 0.02f, 0.0f, 3.0f);
+    //!_camController->orbitRotation(Vector3F(0.0f, 0.0f, 0.0f), 0.02f, 0.0f, 3.0f);
 }
 
 int sampleMain(int argc, const char** argv)
@@ -319,6 +303,7 @@ int sampleMain(int argc, const char** argv)
         Logging::SetAllStream(&logFile);
     }
 
+    Timer timer;
     application = std::make_shared<GL3Application>();
     if (application->initialize())
     {
@@ -346,6 +331,8 @@ int sampleMain(int argc, const char** argv)
 #else
     exitCode = application->run();
 #endif
+
+    CUBBYFLOW_INFO << "Running " APP_NAME " with " << numberOfFrames << " frames took " << timer.DurationInSeconds() << " seconds";
 
     //! release application and renderer window .
     renderer.reset();

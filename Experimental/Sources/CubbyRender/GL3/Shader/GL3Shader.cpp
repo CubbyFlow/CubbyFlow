@@ -40,17 +40,31 @@ namespace CubbyRender {
         if (type == TargetType::SHADER)
         {
 			glGetShaderiv(target, GL_COMPILE_STATUS, &success);
+        
+            if (!success)
+            {
+		        glGetShaderiv(target, GL_INFO_LOG_LENGTH, &infoLogLength);
+		        infoLog.resize(infoLogLength);
+		        glGetShaderInfoLog(target, static_cast<GLsizei>(infoLog.size()), nullptr, &infoLog[0]);
+                CUBBYFLOW_ERROR << infoLog.data();
+            }
         }
         else if (type == TargetType::PROGRAM)
         {
             glGetProgramiv(target, GL_LINK_STATUS, &success);
+
+            if (!success)
+            {
+		        glGetProgramiv(target, GL_INFO_LOG_LENGTH, &infoLogLength);
+		        infoLog.resize(infoLogLength);
+		        glGetProgramInfoLog(target, static_cast<GLsizei>(infoLog.size()), nullptr, &infoLog[0]);
+                CUBBYFLOW_ERROR << infoLog.data();
+            }
         }
-        
-        if (!success)
+        else
         {
-		    glGetProgramiv(target, GL_INFO_LOG_LENGTH, &infoLogLength);
-		    infoLog.resize(infoLogLength);
-		    glGetProgramInfoLog(target, static_cast<GLsizei>(infoLog.size()), nullptr, &infoLog[0]);
+            CUBBYFLOW_ERROR << "Unknown Shader Target type was given";
+            std::abort();
         }
 
         return !success;

@@ -18,7 +18,6 @@
 
 #include <fstream>
 #include <sstream>
-#include <iostream>
 
 namespace CubbyFlow {
 namespace CubbyRender {
@@ -142,23 +141,23 @@ namespace CubbyRender {
             _parameters.setParameter("Projection", projection);
         }
 
-        //const auto& lights = renderer->getLights();
-        //if (lights.empty() == false)
-        //{
-        //    const int numLights = lights.size();
-        //    _parameters.setParameter("NumLights", numLights);
-        //
-        //    for (int i = 0; i < numLights; ++i)
-        //    {
-        //        const auto& light = lights[i];
-        //        
-        //        const auto& pivot = light->getPivot();
-        //        const std::string& prefix = "directionalLight[" + std::to_string(i) + "]";
-        //        _parameters.setParameter(prefix + ".origin", pivot.origin);
-        //        _parameters.setParameter(prefix + ".lookAt", pivot.lookAt);
-        //        _parameters.setParameter(prefix + ".color", light->getColor());
-        //    }
-        //}
+        const auto& lights = renderer->getLights();
+        if (lights.empty() == false)
+        {
+            const size_t numLights = lights.size();
+            _parameters.setParameter("NumLights", static_cast<int>(numLights));
+        
+            for (size_t i = 0; i < numLights; ++i)
+            {
+                const auto& light = lights[i];
+                
+                const auto& pivot = light->getPivot();
+                const std::string& prefix = "directionalLights[" + std::to_string(i) + "]";
+                //_parameters.setParameter(prefix + ".origin", pivot.origin);
+                _parameters.setParameter(prefix + ".lookAt", pivot.lookAt);
+                //_parameters.setParameter(prefix + ".color", light->getColor());
+            }
+        }
 
         onBind(renderer);
     }
