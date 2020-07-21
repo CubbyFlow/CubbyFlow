@@ -22,10 +22,10 @@ namespace CubbyFlow
 		Timer();
 
 		//! Returns the time duration since the creation or reset in seconds.
-		double DurationInSeconds() const;
+		virtual double DurationInSeconds() const;
 
 		//! Resets the timer.
-		void Reset();
+		virtual void Reset();
 
 	private:
 		std::chrono::steady_clock m_clock;
