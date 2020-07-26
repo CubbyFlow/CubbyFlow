@@ -55,6 +55,7 @@ ImplicitSurfaceSet3::ImplicitSurfaceSet3(const ImplicitSurfaceSet3& other)
 
 void ImplicitSurfaceSet3::UpdateQueryEngine()
 {
+    InvalidateBVH();
     BuildBVH();
 }
 

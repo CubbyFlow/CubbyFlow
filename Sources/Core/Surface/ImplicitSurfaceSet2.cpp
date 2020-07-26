@@ -55,6 +55,7 @@ ImplicitSurfaceSet2::ImplicitSurfaceSet2(const ImplicitSurfaceSet2& other)
 
 void ImplicitSurfaceSet2::UpdateQueryEngine()
 {
+    InvalidateBVH();
     BuildBVH();
 }
 

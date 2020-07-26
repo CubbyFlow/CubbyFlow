@@ -62,6 +62,7 @@ void BVH2<T>::Build(const std::vector<T>& items,
     }
 
     m_nodes.clear();
+    m_bound = BoundingBox2D{};
 
     for (size_t i = 0; i < m_items.size(); ++i)
     {

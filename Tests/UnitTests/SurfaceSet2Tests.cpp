@@ -507,3 +507,29 @@ TEST(SurfaceSet2, IsInside)
     EXPECT_TRUE(surfaceSet->IsInside(Vector2D{ 0.5, 1.0 } + offset));
     EXPECT_FALSE(surfaceSet->IsInside(Vector2D{ 0.5, 1.5 } + offset));
 }
+
+TEST(SurfaceSet2, UpdateQueryEngine)
+{
+    auto sphere = Sphere2::Builder{}
+                      .WithCenter({ -1.0, 1.0 })
+                      .WithRadius(0.5)
+                      .MakeShared();
+
+    auto surfaceSet = SurfaceSet2::Builder{}
+                          .WithSurfaces({ sphere })
+                          .WithTransform(Transform2{ { 1.0, 2.0 }, 0.0 })
+                          .MakeShared();
+
+    const auto bbox1 = surfaceSet->BoundingBox();
+    EXPECT_BOUNDING_BOX2_EQ(BoundingBox2D({ -0.5, 2.5 }, { 0.5, 3.5 }), bbox1);
+
+    surfaceSet->transform = Transform2{ { 3.0, -4.0 }, 0.0 };
+    surfaceSet->UpdateQueryEngine();
+    const auto bbox2 = surfaceSet->BoundingBox();
+    EXPECT_BOUNDING_BOX2_EQ(BoundingBox2D({ 1.5, -3.5 }, { 2.5, -2.5 }), bbox2);
+
+    sphere->transform = Transform2{ { -6.0, 9.0 }, 0.0 };
+    surfaceSet->UpdateQueryEngine();
+    const auto bbox3 = surfaceSet->BoundingBox();
+    EXPECT_BOUNDING_BOX2_EQ(BoundingBox2D({ -4.5, 5.5 }, { -3.5, 6.5 }), bbox3);
+}

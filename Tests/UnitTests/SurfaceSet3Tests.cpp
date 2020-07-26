@@ -513,3 +513,33 @@ TEST(SurfaceSet3, IsInside)
     EXPECT_TRUE(surfaceSet->IsInside(Vector3D{ 0.5, 1.0, 0.5 } + offset));
     EXPECT_FALSE(surfaceSet->IsInside(Vector3D{ 0.5, 1.5, 0.5 } + offset));
 }
+
+TEST(SurfaceSet3, UpdateQueryEngine)
+{
+    auto sphere = Sphere3::Builder{}
+                      .WithCenter({ -1.0, 1.0, 2.0 })
+                      .WithRadius(0.5)
+                      .MakeShared();
+
+    auto surfaceSet =
+        SurfaceSet3::Builder{}
+            .WithSurfaces({ sphere })
+            .WithTransform(Transform3{ { 1.0, 2.0, -1.0 }, QuaternionD{} })
+            .MakeShared();
+
+    const auto bbox1 = surfaceSet->BoundingBox();
+    EXPECT_BOUNDING_BOX2_EQ(
+        BoundingBox3D({ -0.5, 2.5, 0.5 }, { 0.5, 3.5, 1.5 }), bbox1);
+
+    surfaceSet->transform = Transform3{ { 3.0, -4.0, 7.0 }, QuaternionD{} };
+    surfaceSet->UpdateQueryEngine();
+    const auto bbox2 = surfaceSet->BoundingBox();
+    EXPECT_BOUNDING_BOX2_EQ(
+        BoundingBox3D({ 1.5, -3.5, 4.5 }, { 2.5, -2.5, 5.5 }), bbox2);
+
+    sphere->transform = Transform3{ { -6.0, 9.0, 2.0 }, QuaternionD{} };
+    surfaceSet->UpdateQueryEngine();
+    const auto bbox3 = surfaceSet->BoundingBox();
+    EXPECT_BOUNDING_BOX2_EQ(
+        BoundingBox3D({ -4.5, 5.5, 10.5 }, { -3.5, 6.5, 11.5 }), bbox3);
+}

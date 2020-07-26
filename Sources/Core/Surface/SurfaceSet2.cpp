@@ -42,6 +42,7 @@ SurfaceSet2::SurfaceSet2(const SurfaceSet2& other)
 
 void SurfaceSet2::UpdateQueryEngine()
 {
+    InvalidateBVH();
     BuildBVH();
 }
 

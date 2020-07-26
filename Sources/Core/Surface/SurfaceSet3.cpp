@@ -42,6 +42,7 @@ SurfaceSet3::SurfaceSet3(const SurfaceSet3& other)
 
 void SurfaceSet3::UpdateQueryEngine()
 {
+    InvalidateBVH();
     BuildBVH();
 }
 
