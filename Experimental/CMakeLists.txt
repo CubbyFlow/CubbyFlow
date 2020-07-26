@@ -91,6 +91,7 @@ if (USE_GL)
 
         # Include the other directories
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Includes/CubbyRender)
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/Includes)
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/gli)
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/glad)
 
@@ -143,11 +144,12 @@ else()
 endif()
 
 # Project modules
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Sources/CubbyRender)
+#add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Sources/CubbyRender)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Sources/Vox)
 if (USE_GL)
-    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/GL3Examples/FluidSimulator)
-    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/GL3Examples/ParticleRenderer)
-    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/GL3Examples/FluidMeshRenderer)
+    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/Vox/ParticleViewer)
+    #add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/GL3Examples/ParticleRenderer)
+    #add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/GL3Examples/FluidMeshRenderer)
     if (USE_CUDA)
         add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/gvdbExamples/InteractiveFluid)
         add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/gvdbExamples/RenderToFiles)
@@ -156,7 +158,7 @@ endif()
 if (APPLE)
     # add_subdirectory(src/examples/metal_examples)
 endif()
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Tests/RenderTests)
+#add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Tests/RenderTests)
 
 if(CMAKE_BUILD_TYPE MATCHES Debug AND CMAKE_COMPILER_IS_GNUCXX)
     include(CodeCoverage)
