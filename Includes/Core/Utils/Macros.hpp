@@ -22,7 +22,7 @@
 #define CUBBYFLOW_LINUX
 #endif
 
-#ifdef CUBBYFLOW_WINDOWS
+#if defined(CUBBYFLOW_WINDOWS) && defined(_MSC_VER)
 #include <BaseTsd.h>
 typedef SSIZE_T ssize_t;
 #else
