@@ -25,3 +25,6 @@
 [submodule "Experimental/Libraries/libpng"]
 	path = Experimental/Libraries/libpng
 	url = https://github.com/glennrp/libpng
+[submodule "Experimental/Libraries/apitest"]
+	path = Experimental/Libraries/apitest
+	url = https://github.com/nvMcJohn/apitest
