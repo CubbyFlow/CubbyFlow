@@ -165,7 +165,7 @@ void GridForwardEulerDiffusionSolver3::Solve(const FaceCenteredGrid3& source,
 
     BuildMarkers(source.GetWSize(), wPos, boundarySDF, fluidSDF);
 
-    source.ParallelForEachUIndex([&](size_t i, size_t j, size_t k) {
+    source.ParallelForEachWIndex([&](size_t i, size_t j, size_t k) {
         if (!IsInsideSDF(boundarySDF.Sample(wPos(i, j, k))))
         {
             w(i, j, k) = wSrc(i, j, k) + diffusionCoefficient *
