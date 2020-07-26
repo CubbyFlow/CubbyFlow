@@ -28,14 +28,37 @@ TEST(SPHStdKernel3, KernelFunction)
 
 TEST(SPHStdKernel3, FirstDerivative)
 {
-    SPHStdKernel3 kernel(10.0);
+    const SPHStdKernel3 kernel{ 10.0 };
 
-    double value0 = kernel.FirstDerivative(0.0);
-    double value1 = kernel.FirstDerivative(5.0);
-    double value2 = kernel.FirstDerivative(10.0);
+    const double value0 = kernel.FirstDerivative(0.0);
+    const double value1 = kernel.FirstDerivative(5.0);
+    const double value2 = kernel.FirstDerivative(10.0);
     EXPECT_DOUBLE_EQ(0.0, value0);
     EXPECT_DOUBLE_EQ(0.0, value2);
-    EXPECT_LT(value1, value0);
+
+    // Compare with finite difference
+    const double e = 0.001;
+    const double fdm = (kernel(5.0 + e) - kernel(5.0 - e)) / (2.0 * e);
+    EXPECT_NEAR(fdm, value1, 1e-10);
+}
+
+TEST(SPHStdKernel3, SecondDerivative)
+{
+    const SPHStdKernel3 kernel{ 10.0 };
+
+    const double value0 = kernel.SecondDerivative(0.0);
+    const double value1 = kernel.SecondDerivative(5.0);
+    const double value2 = kernel.SecondDerivative(10.0);
+
+    const double h5 = pow(10.0, 5.0);
+    EXPECT_DOUBLE_EQ(-945.0 / (32.0 * PI_DOUBLE * h5), value0);
+    EXPECT_DOUBLE_EQ(0.0, value2);
+
+    // Compare with finite difference
+    const double e = 0.001;
+    const double fdm =
+        (kernel(5.0 + e) - 2.0 * kernel(5.0) + kernel(5.0 - e)) / (e * e);
+    EXPECT_NEAR(fdm, value1, 1e-10);
 }
 
 TEST(SPHStdKernel3, Gradient)
@@ -87,6 +110,11 @@ TEST(SPHSpikyKernel3, FirstDerivative)
     double value2 = kernel.FirstDerivative(10.0);
     EXPECT_LT(value0, value1);
     EXPECT_LT(value1, value2);
+
+    // Compare with finite difference
+    const double e = 0.001;
+    double fdm = (kernel(5.0 + e) - kernel(5.0 - e)) / (2.0 * e);
+    EXPECT_NEAR(fdm, value1, 1e-10);
 }
 
 TEST(SPHSpikyKernel3, Gradient)
@@ -109,11 +137,19 @@ TEST(SPHSpikyKernel3, Gradient)
 
 TEST(SPHSpikyKernel3, SecondDerivative)
 {
-    SPHSpikyKernel3 kernel(10.0);
+    const SPHSpikyKernel3 kernel{ 10.0 };
 
-    double value0 = kernel.SecondDerivative(0.0);
-    double value1 = kernel.SecondDerivative(5.0);
-    double value2 = kernel.SecondDerivative(10.0);
-    EXPECT_LT(value1, value0);
-    EXPECT_LT(value2, value1);
+    const double value0 = kernel.SecondDerivative(0.0);
+    const double value1 = kernel.SecondDerivative(5.0);
+    const double value2 = kernel.SecondDerivative(10.0);
+
+    const double h5 = pow(10.0, 5.0);
+    EXPECT_DOUBLE_EQ(90.0 / (PI_DOUBLE * h5), value0);
+    EXPECT_DOUBLE_EQ(0.0, value2);
+
+    // Compare with finite difference
+    const double e = 0.001;
+    const double fdm =
+        (kernel(5.0 + e) - 2.0 * kernel(5.0) + kernel(5.0 - e)) / (e * e);
+    EXPECT_NEAR(fdm, value1, 1e-10);
 }
