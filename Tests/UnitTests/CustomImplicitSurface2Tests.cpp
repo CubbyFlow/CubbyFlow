@@ -89,21 +89,22 @@ TEST(CustomImplicitSurface2, Intersects)
 
 TEST(CustomImplicitSurface2, ClosestIntersection)
 {
-    auto sphere = Sphere2::Builder()
-                      .WithCenter({ 0.5, 0.45 })
-                      .WithRadius(0.3)
-                      .MakeShared();
-    SurfaceToImplicit2 refSurf(sphere);
-    CustomImplicitSurface2 cis1(
+    const auto sphere = Sphere2::Builder{}
+                            .WithCenter({ 0.5, 0.45 })
+                            .WithRadius(0.3)
+                            .MakeShared();
+    SurfaceToImplicit2 refSurf{ sphere };
+    const CustomImplicitSurface2 cis1{
         [&](const Vector2D& pt) { return refSurf.SignedDistance(pt); },
-        BoundingBox2D({ 0, 0 }, { 1, 1 }), 1e-3, 1e-6);
+        BoundingBox2D{ { 0, 0 }, { 1, 1 } }, 1e-3, 1e-3
+    };
 
     for (size_t i = 0; i < GetNumberOfSamplePoints2(); ++i)
     {
         auto x = GetSamplePoints2()[i];
         auto d = GetSampleDirs2()[i];
-        auto refAns = refSurf.ClosestIntersection(Ray2D(x, d));
-        auto actAns = cis1.ClosestIntersection(Ray2D(x, d));
+        auto refAns = refSurf.ClosestIntersection(Ray2D{ x, d });
+        auto actAns = cis1.ClosestIntersection(Ray2D{ x, d });
 
         EXPECT_EQ(refAns.isIntersecting, actAns.isIntersecting);
         EXPECT_NEAR(refAns.distance, actAns.distance, 1e-5);
