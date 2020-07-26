@@ -12,6 +12,7 @@
 #define CUBBYFLOW_POINT_HPP
 
 #include <array>
+#include <cstddef>
 #include <type_traits>
 
 namespace CubbyFlow
