@@ -1,3 +1,4 @@
+#include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
 #include <Core/Geometry/Box2.hpp>
@@ -113,22 +114,25 @@ TEST(Box2, Intersects)
 
 TEST(Box2, ClosestIntersection)
 {
-    Box2 box(Vector2D(-1, 2), Vector2D(5, 3));
+    const Box2 box{ Vector2D{ -1, 2 }, Vector2D{ 5, 3 },
+                    Transform2{ Vector2D{ 1.0, -3.0 }, 0 } };
 
-    SurfaceRayIntersection2 result0 = box.ClosestIntersection(
-        Ray2D(Vector2D(1, 4), Vector2D(-1, -1).Normalized()));
+    const SurfaceRayIntersection2 result0 = box.ClosestIntersection(
+        Ray2D{ Vector2D{ 2, 1 }, Vector2D{ -1, -1 }.Normalized() });
     EXPECT_TRUE(result0.isIntersecting);
     EXPECT_DOUBLE_EQ(std::sqrt(2), result0.distance);
-    EXPECT_EQ(Vector2D(0, 3), result0.point);
+    EXPECT_VECTOR2_EQ(Vector2D(1, 0), result0.point);
+    EXPECT_VECTOR2_EQ(Vector2D(0, 1), result0.normal);
 
-    SurfaceRayIntersection2 result1 = box.ClosestIntersection(
-        Ray2D(Vector2D(1, 2.5), Vector2D(-1, -1).Normalized()));
+    const SurfaceRayIntersection2 result1 = box.ClosestIntersection(
+        Ray2D{ Vector2D{ 2, -0.5 }, Vector2D{ -1, -1 }.Normalized() });
     EXPECT_TRUE(result1.isIntersecting);
     EXPECT_DOUBLE_EQ(std::sqrt(0.5), result1.distance);
-    EXPECT_EQ(Vector2D(0.5, 2), result1.point);
+    EXPECT_VECTOR2_EQ(Vector2D(1.5, -1), result1.point);
+    EXPECT_VECTOR2_EQ(Vector2D(0, -1), result1.normal);
 
-    SurfaceRayIntersection2 result2 = box.ClosestIntersection(
-        Ray2D(Vector2D(1, 1), Vector2D(-1, -1).Normalized()));
+    const SurfaceRayIntersection2 result2 = box.ClosestIntersection(
+        Ray2D{ Vector2D{ 2, -2 }, Vector2D{ -1, -1 }.Normalized() });
     EXPECT_FALSE(result2.isIntersecting);
 }
 
