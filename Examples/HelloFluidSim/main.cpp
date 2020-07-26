@@ -21,8 +21,8 @@
 #include <thread>
 
 const size_t BUFFER_SIZE = 80;
-const char* GRAY_SCALE_TABLE = " .:-=+*#%@";
-const size_t GRAY_SCALE_TABLE_SIZE = sizeof(GRAY_SCALE_TABLE) / sizeof(char);
+const std::string GRAY_SCALE_TABLE = " .:-=+*#%@";
+const size_t GRAY_SCALE_TABLE_SIZE = GRAY_SCALE_TABLE.length();
 
 void UpdateWave(const double timeInterval, double* x, double* speed)
 {
