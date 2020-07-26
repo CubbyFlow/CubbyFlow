@@ -23,18 +23,6 @@ ParticleEmitter2::~ParticleEmitter2()
     // Do nothing
 }
 
-const ParticleSystemData2Ptr& ParticleEmitter2::GetTarget() const
-{
-    return m_particles;
-}
-
-void ParticleEmitter2::SetTarget(const ParticleSystemData2Ptr& particles)
-{
-    m_particles = particles;
-
-    OnSetTarget(particles);
-}
-
 void ParticleEmitter2::Update(double currentTimeInSeconds,
                               double timeIntervalInSeconds)
 {
@@ -47,15 +35,37 @@ void ParticleEmitter2::Update(double currentTimeInSeconds,
     OnUpdate(currentTimeInSeconds, timeIntervalInSeconds);
 }
 
-// TODO: particles is unused variable.
-void ParticleEmitter2::OnSetTarget(const ParticleSystemData2Ptr& particles)
+const ParticleSystemData2Ptr& ParticleEmitter2::GetTarget() const
 {
-    UNUSED_VARIABLE(particles);
+    return m_particles;
+}
+
+void ParticleEmitter2::SetTarget(const ParticleSystemData2Ptr& particles)
+{
+    m_particles = particles;
+
+    OnSetTarget(particles);
+}
+
+bool ParticleEmitter2::GetIsEnabled() const
+{
+    return m_isEnabled;
+}
+
+void ParticleEmitter2::SetIsEnabled(bool enabled)
+{
+    m_isEnabled = enabled;
 }
 
 void ParticleEmitter2::SetOnBeginUpdateCallback(
     const OnBeginUpdateCallback& callback)
 {
     m_onBeginUpdateCallback = callback;
+}
+
+// TODO: particles is unused variable.
+void ParticleEmitter2::OnSetTarget(const ParticleSystemData2Ptr& particles)
+{
+    UNUSED_VARIABLE(particles);
 }
 }  // namespace CubbyFlow

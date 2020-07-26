@@ -52,7 +52,7 @@ void VolumeParticleEmitter2::OnUpdate(double currentTimeInSeconds,
         return;
     }
 
-    if (m_numberOfEmittedParticles > 0 && m_isOneShot)
+    if (!GetIsEnabled())
     {
         return;
     }
@@ -63,6 +63,11 @@ void VolumeParticleEmitter2::OnUpdate(double currentTimeInSeconds,
     Emit(particles, &newPositions, &newVelocities);
 
     particles->AddParticles(newPositions, newVelocities);
+
+    if (m_isOneShot)
+    {
+        SetIsEnabled(false);
+    }
 }
 
 void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
@@ -87,6 +92,7 @@ void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
     // Reserving more space for jittering
     const double j = GetJitter();
     const double maxJitterDist = 0.5 * j * m_spacing;
+    size_t numNewParticles = 0;
 
     if (m_allowOverlapping || m_isOneShot)
     {
@@ -105,6 +111,7 @@ void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
                     {
                         newPositions->Append(candidate);
                         ++m_numberOfEmittedParticles;
+                        ++numNewParticles;
                     }
                     else
                     {
@@ -127,7 +134,6 @@ void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
             neighborSearcher.Build(particles->GetPositions());
         }
 
-        size_t numNewParticles = 0;
         m_pointsGen->ForEachPoint(
             region, m_spacing, [&](const Vector2D& point) {
                 double newAngleInRadian = (Random() - 0.5) * (2 * PI_DOUBLE);
@@ -156,12 +162,12 @@ void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
 
                 return true;
             });
-
-        CUBBYFLOW_INFO << "Number of newly generated particles: "
-                       << numNewParticles;
-        CUBBYFLOW_INFO << "Number of total generated particles: "
-                       << m_numberOfEmittedParticles;
     }
+
+    CUBBYFLOW_INFO << "Number of newly generated particles: "
+                   << numNewParticles;
+    CUBBYFLOW_INFO << "Number of total generated particles: "
+                   << m_numberOfEmittedParticles;
 
     newVelocities->Resize(newPositions->size());
     newVelocities->ParallelForEachIndex([&](size_t i) {

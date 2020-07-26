@@ -41,8 +41,8 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3
     //! \param[in]  maxNumberOfParticles    The max number of particles to be
     //!                                     emitted.
     //! \param[in]  jitter                  The jitter amount between 0 and 1.
-    //! \param[in]  isOneShot               Set true if particles are emitted
-    //!                                     just once.
+    //! \param[in]  isOneShot               True if emitter gets disabled after
+    //!                                     one shot.
     //! \param[in]  allowOverlapping        True if particles can be overlapped.
     //! \param[in]  seed                    The random seed.
     //!

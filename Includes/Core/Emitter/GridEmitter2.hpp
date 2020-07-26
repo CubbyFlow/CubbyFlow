@@ -41,6 +41,12 @@ class GridEmitter2
     //! time-step.
     void Update(double currentTimeInSeconds, double timeIntervalInSeconds);
 
+    //! Returns true if the emitter is enabled.
+    bool GetIsEnabled() const;
+
+    //! Sets true/false to enable/disable the emitter.
+    void SetIsEnabled(bool enabled);
+
     //!
     //! \brief      Sets the callback function to be called when
     //!             GridEmitter2::Update function is invoked.
@@ -62,6 +68,7 @@ class GridEmitter2
 
  private:
     OnBeginUpdateCallback m_onBeginUpdateCallback;
+    bool m_isEnabled = true;
 };
 
 //! Shared pointer type for the GridEmitter2.

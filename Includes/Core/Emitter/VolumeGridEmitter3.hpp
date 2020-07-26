@@ -36,7 +36,13 @@ class VolumeGridEmitter3 final : public GridEmitter3
     using VectorMapper =
         std::function<Vector3D(double, const Vector3D&, const Vector3D&)>;
 
-    //! Constructs an emitter with a source and is-one-shot flag.
+    //!
+    //! \brief      Constructs an emitter with a source and is-one-shot flag.
+    //!
+    //! \param[in]  sourceRegion    Emitting region given by the SDF.
+    //! \param[in]  isOneShot       True if emitter gets disabled after one
+    //!                             shot.
+    //!
     explicit VolumeGridEmitter3(const ImplicitSurface3Ptr& sourceRegion,
                                 bool isOneShot = true);
 

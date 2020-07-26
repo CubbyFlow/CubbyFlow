@@ -23,18 +23,6 @@ ParticleEmitter3::~ParticleEmitter3()
     // Do nothing
 }
 
-const ParticleSystemData3Ptr& ParticleEmitter3::GetTarget() const
-{
-    return m_particles;
-}
-
-void ParticleEmitter3::SetTarget(const ParticleSystemData3Ptr& particles)
-{
-    m_particles = particles;
-
-    OnSetTarget(particles);
-}
-
 void ParticleEmitter3::Update(double currentTimeInSeconds,
                               double timeIntervalInSeconds)
 {
@@ -47,14 +35,36 @@ void ParticleEmitter3::Update(double currentTimeInSeconds,
     OnUpdate(currentTimeInSeconds, timeIntervalInSeconds);
 }
 
-void ParticleEmitter3::OnSetTarget(const ParticleSystemData3Ptr& particles)
+const ParticleSystemData3Ptr& ParticleEmitter3::GetTarget() const
 {
-    UNUSED_VARIABLE(particles);
+    return m_particles;
+}
+
+void ParticleEmitter3::SetTarget(const ParticleSystemData3Ptr& particles)
+{
+    m_particles = particles;
+
+    OnSetTarget(particles);
+}
+
+bool ParticleEmitter3::GetIsEnabled() const
+{
+    return m_isEnabled;
+}
+
+void ParticleEmitter3::SetIsEnabled(bool enabled)
+{
+    m_isEnabled = enabled;
 }
 
 void ParticleEmitter3::SetOnBeginUpdateCallback(
     const OnBeginUpdateCallback& callback)
 {
     m_onBeginUpdateCallback = callback;
+}
+
+void ParticleEmitter3::OnSetTarget(const ParticleSystemData3Ptr& particles)
+{
+    UNUSED_VARIABLE(particles);
 }
 }  // namespace CubbyFlow

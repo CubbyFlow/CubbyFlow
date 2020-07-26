@@ -34,6 +34,10 @@ void AddGridEmitter2(pybind11::module& m)
 		)pbdoc",
              pybind11::arg("currentTimeInSeconds"),
              pybind11::arg("timeIntervalInSeconds"))
+        .def_property(
+            "isEnabled", &GridEmitter2::GetIsEnabled,
+            &GridEmitter2::SetIsEnabled,
+            R"pbdoc(True/false if the emitter is enabled/disabled.)pbdoc")
         .def(
             "SetOnBeginUpdateCallback",
             [](GridEmitter2& instance, pybind11::function callback) {
@@ -71,6 +75,10 @@ void AddGridEmitter3(pybind11::module& m)
 			)pbdoc",
              pybind11::arg("currentTimeInSeconds"),
              pybind11::arg("timeIntervalInSeconds"))
+        .def_property(
+            "isEnabled", &GridEmitter3::GetIsEnabled,
+            &GridEmitter3::SetIsEnabled,
+            R"pbdoc(True/false if the emitter is enabled/disabled.)pbdoc")
         .def(
             "SetOnBeginUpdateCallback",
             [](GridEmitter3& instance, pybind11::function callback) {

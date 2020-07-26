@@ -46,6 +46,12 @@ class ParticleEmitter2
     //! Sets the target particle system to emit.
     void SetTarget(const ParticleSystemData2Ptr& particles);
 
+    //! Returns true if the emitter is enabled.
+    bool GetIsEnabled() const;
+
+    //! Sets true/false to enable/disable the emitter.
+    void SetIsEnabled(bool enabled);
+
     //!
     //! \brief      Sets the callback function to be called when
     //!             ParticleEmitter2::Update function is invoked.
@@ -69,6 +75,7 @@ class ParticleEmitter2
  private:
     ParticleSystemData2Ptr m_particles;
     OnBeginUpdateCallback m_onBeginUpdateCallback;
+    bool m_isEnabled = true;
 };
 
 //! Shared pointer for the ParticleEmitter2 type.

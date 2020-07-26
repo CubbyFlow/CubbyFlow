@@ -36,7 +36,13 @@ class VolumeGridEmitter2 final : public GridEmitter2
     using VectorMapper =
         std::function<Vector2D(double, const Vector2D&, const Vector2D&)>;
 
-    //! Constructs an emitter with a source and is-one-shot flag.
+    //!
+    //! \brief      Constructs an emitter with a source and is-one-shot flag.
+    //!
+    //! \param[in]  sourceRegion    Emitting region given by the SDF.
+    //! \param[in]  isOneShot       True if emitter gets disabled after one
+    //!                             shot.
+    //!
     explicit VolumeGridEmitter2(const ImplicitSurface2Ptr& sourceRegion,
                                 bool isOneShot = true);
 

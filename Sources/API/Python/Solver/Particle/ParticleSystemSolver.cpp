@@ -18,9 +18,9 @@ using namespace CubbyFlow;
 
 void AddParticleSystemSolver2(pybind11::module& m)
 {
-    pybind11::class_<ParticleSystemSolver2, ParticleSystemSolver2Ptr>(
-        m, "ParticleSystemSolver2",
-        R"pbdoc(
+    pybind11::class_<ParticleSystemSolver2, ParticleSystemSolver2Ptr,
+                     PhysicsAnimation>(m, "ParticleSystemSolver2",
+                                       R"pbdoc(
 			Basic 2-D particle system solver.
 
 			This class implements basic particle system solver. It includes gravity,
@@ -94,9 +94,9 @@ void AddParticleSystemSolver2(pybind11::module& m)
 
 void AddParticleSystemSolver3(pybind11::module& m)
 {
-    pybind11::class_<ParticleSystemSolver3, ParticleSystemSolver3Ptr>(
-        m, "ParticleSystemSolver3",
-        R"pbdoc(
+    pybind11::class_<ParticleSystemSolver3, ParticleSystemSolver3Ptr,
+                     PhysicsAnimation>(m, "ParticleSystemSolver3",
+                                       R"pbdoc(
 			Basic 3-D particle system solver.
 
 			This class implements basic particle system solver. It includes gravity,

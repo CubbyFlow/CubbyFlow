@@ -34,6 +34,16 @@ void GridEmitter3::Update(double currentTimeInSeconds,
     OnUpdate(currentTimeInSeconds, timeIntervalInSeconds);
 }
 
+bool GridEmitter3::GetIsEnabled() const
+{
+    return m_isEnabled;
+}
+
+void GridEmitter3::SetIsEnabled(bool enabled)
+{
+    m_isEnabled = enabled;
+}
+
 void GridEmitter3::SetOnBeginUpdateCallback(
     const OnBeginUpdateCallback& callback)
 {

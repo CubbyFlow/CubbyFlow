@@ -30,6 +30,7 @@ TEST(VolumeParticleEmitter3, Constructors)
     EXPECT_EQ(2.5, emitter.GetInitialVelocity().z);
     EXPECT_EQ(Vector3D(), emitter.GetLinearVelocity());
     EXPECT_EQ(Vector3D(), emitter.GetAngularVelocity());
+    EXPECT_TRUE(emitter.GetIsEnabled());
 }
 
 TEST(VolumeParticleEmitter3, Emit)
@@ -63,8 +64,15 @@ TEST(VolumeParticleEmitter3, Emit)
         EXPECT_VECTOR3_NEAR(Vector3D(2.0, 4.5, 7.5) + w, vel[i], 1e-9);
     }
 
+    emitter.SetIsEnabled(false);
     ++frame;
     emitter.SetMaxNumberOfParticles(80);
+    emitter.Update(frame.TimeInSeconds(), frame.timeIntervalInSeconds);
+
+    EXPECT_EQ(30u, particles->GetNumberOfParticles());
+    emitter.SetIsEnabled(true);
+
+    ++frame;
     emitter.Update(frame.TimeInSeconds(), frame.timeIntervalInSeconds);
 
     EXPECT_EQ(79u, particles->GetNumberOfParticles());

@@ -35,6 +35,10 @@ void AddParticleEmitter2(pybind11::module& m)
                       R"pbdoc(
 			The target particle system to emit.
 		)pbdoc")
+        .def_property(
+            "isEnabled", &ParticleEmitter2::GetIsEnabled,
+            &ParticleEmitter2::SetIsEnabled,
+            R"pbdoc(True/false if the emitter is enabled/disabled.)pbdoc")
         .def("SetOnBeginUpdateCallback",
              &ParticleEmitter2::SetOnBeginUpdateCallback,
              R"pbdoc(
@@ -65,6 +69,10 @@ void AddParticleEmitter3(pybind11::module& m)
                       R"pbdoc(
 			The target particle system to emit.
 		)pbdoc")
+        .def_property(
+            "isEnabled", &ParticleEmitter3::GetIsEnabled,
+            &ParticleEmitter3::SetIsEnabled,
+            R"pbdoc(True/false if the emitter is enabled/disabled.)pbdoc")
         .def("SetOnBeginUpdateCallback",
              &ParticleEmitter3::SetOnBeginUpdateCallback,
              R"pbdoc(
