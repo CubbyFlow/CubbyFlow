@@ -55,9 +55,9 @@ matrix:
       services: docker
       script:
         - sh Scripts/travis_build_docker.sh Scripts/Dockerfile.focal.clang-latest focal-clang-latest
-    - name: Test OS X 10.14 + Xcode 10.2 + clang
+    - name: Test OS X 10.14 + Xcode 11.3 + clang
       os: osx
-      osx_image: xcode10.2
+      osx_image: xcode11.3
       compiler: clang
       script:
         - sh Scripts/travis_build.sh
