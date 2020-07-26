@@ -542,4 +542,12 @@ TEST(SurfaceSet3, UpdateQueryEngine)
     const auto bbox3 = surfaceSet->BoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(
         BoundingBox3D({ -4.5, 5.5, 10.5 }, { -3.5, 6.5, 11.5 }), bbox3);
+
+    // Plane is unbounded. Total bbox should ignore it.
+    auto plane = Plane3::Builder{}.WithNormal({ 1.0, 0.0, 0.0 }).MakeShared();
+    surfaceSet->AddSurface(plane);
+    surfaceSet->UpdateQueryEngine();
+    auto bbox4 = surfaceSet->BoundingBox();
+    EXPECT_BOUNDING_BOX2_EQ(
+        BoundingBox3D({ -4.5, 5.5, 10.5 }, { -3.5, 6.5, 11.5 }), bbox4);
 }

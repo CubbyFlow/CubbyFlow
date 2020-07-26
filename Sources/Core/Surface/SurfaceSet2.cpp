@@ -277,16 +277,19 @@ void SurfaceSet2::BuildBVH() const
 {
     if (m_bvhInvalidated)
     {
+        std::vector<Surface2Ptr> surfs;
         std::vector<BoundingBox2D> bounds;
+
         for (const auto& surface : m_surfaces)
         {
             if (surface->IsBounded())
             {
+                surfs.push_back(surface);
                 bounds.push_back(surface->BoundingBox());
             }
         }
 
-        m_bvh.Build(m_surfaces, bounds);
+        m_bvh.Build(surfs, bounds);
         m_bvhInvalidated = false;
     }
 }
