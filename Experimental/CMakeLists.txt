@@ -158,7 +158,8 @@ endif()
 if (APPLE)
     # add_subdirectory(src/examples/metal_examples)
 endif()
-#add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Tests/RenderTests)
+
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Tests/RenderTests)
 
 if(CMAKE_BUILD_TYPE MATCHES Debug AND CMAKE_COMPILER_IS_GNUCXX)
     include(CodeCoverage)
