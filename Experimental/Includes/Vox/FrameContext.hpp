@@ -15,7 +15,6 @@
 #include <memory>
 
 namespace Vox {
-    class ParticleLoader;
 
     /**
      * OpenGL Context wrapper which will be used for rendering one frame.
@@ -23,13 +22,9 @@ namespace Vox {
     class FrameContext 
     {
     public:
-        void SetLoader(const std::shared_ptr<ParticleLoader>& loader);
-        const std::shared_ptr<ParticleLoader>& GetLoader();
-        
         static void DebugLog(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const GLvoid* userParam);
     protected:
     private:
-        std::shared_ptr<ParticleLoader> _loader;
     };
 
 };
