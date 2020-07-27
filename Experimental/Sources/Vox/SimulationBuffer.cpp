@@ -9,7 +9,7 @@
 *************************************************************************/
 #include <Vox/SimulationBuffer.hpp>
 #include <Vox/ParticleLoader.hpp>
-#include <Vox/FrameContext.hpp>
+#include <Vox/Scene.hpp>
 #include <Core/Utils/Logging.h>
 #include <glad/glad.h>
 
@@ -18,8 +18,8 @@ using namespace CubbyFlow;
 namespace Vox {
 
     SimulationBuffer::SimulationBuffer()
+        : SimulationBuffer(SimulationBuffer::kDefaultNumBuffer)
     {
-
     }
 
     SimulationBuffer::SimulationBuffer(const size_t numBuffer)
@@ -44,7 +44,7 @@ namespace Vox {
         _fences.clear();
     }
 
-    void SimulationBuffer::DrawFrame(const std::shared_ptr<FrameContext>& ctx)
+    void SimulationBuffer::DrawFrame(const std::shared_ptr<Scene>& scn)
     {
         const size_t bufferNum = _frameIndex % _buffers.size();
         const GLuint buffer = _buffers[bufferNum];
@@ -61,9 +61,10 @@ namespace Vox {
         }
 
         glBindBuffer(GL_ARRAY_BUFFER, buffer);
-        const size_t size = ctx->GetLoader()->GetNumberOfBytes(_frameIndex);
+        const size_t index = _frameIndex % scn->GetLoader()->GetNumberOfFrame();
+        const size_t size = scn->GetLoader()->GetNumberOfBytes(index);
         void* ptr = glMapBufferRange(GL_ARRAY_BUFFER, 0, size, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
-        ctx->GetLoader()->CopyParticleData(ptr, _frameIndex);
+        scn->GetLoader()->CopyParticleData(ptr, index);
         glUnmapBuffer(GL_ARRAY_BUFFER);
 
         glDrawArraysInstanced(GL_POINTS, 0, size / (sizeof(float) * 3), 0);

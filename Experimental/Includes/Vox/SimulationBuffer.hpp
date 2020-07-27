@@ -17,7 +17,7 @@
 typedef struct __GLsync *GLsync;
 
 namespace Vox {
-    class FrameContext;
+    class Scene;
     /**
      * Buffer for simulating fluid particles which need huge effort for optimizing data transfer performance.
      * Implemented with multiple buffer technique (round-robin)
@@ -33,11 +33,12 @@ namespace Vox {
         ~SimulationBuffer();
     
         //! Draw one frame of the particles data.
-        void DrawFrame(const std::shared_ptr<FrameContext>& ctx);
+        void DrawFrame(const std::shared_ptr<Scene>& scn);
         //! advance frame index by one.
         void AdvanceFrame();
 
         static const size_t kMaxBufferSize = 0x400000; //! == 4194304
+        static const size_t kDefaultNumBuffer = 3;
     protected:
     private:
         std::vector<GLuint> _buffers;
