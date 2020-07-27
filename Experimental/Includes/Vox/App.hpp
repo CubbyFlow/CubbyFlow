@@ -30,6 +30,8 @@ namespace Vox {
         //! Return the window screen size.
         CubbyFlow::Size2 GetWindowSize();
 
+        //! Initialize the base application.
+        virtual bool Initialize();
         //! OpenGL Commands or other tasks collection for 
         //! preparing call DrawFrame.
         void BeginFrame(std::shared_ptr<FrameContext>& ctx);
@@ -44,7 +46,11 @@ namespace Vox {
         void SetWindowSize(CubbyFlow::Size2 size);
         //! Set screen background color
         void SetBackgroundColor(CubbyFlow::Vector4F color);
+
+        const std::shared_ptr<FrameContext>& GetCurrentContext();
     protected:
+        std::shared_ptr<FrameContext> _ctx;
+
         CubbyFlow::Size2 _wndSize    { 1200, 900 }; //! window size
         CubbyFlow::Vector4F _bgColor { 0.2f, 0.6f, 0.2f, 1.0f}; //! background color
     private:
