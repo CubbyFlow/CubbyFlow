@@ -45,6 +45,11 @@ void ParticleEmitterSet2::OnSetTarget(const ParticleSystemData2Ptr& particles)
 void ParticleEmitterSet2::OnUpdate(double currentTimeInSeconds,
                                    double timeIntervalInSeconds)
 {
+    if (!GetIsEnabled())
+    {
+        return;
+    }
+
     for (auto& emitter : m_emitters)
     {
         emitter->Update(currentTimeInSeconds, timeIntervalInSeconds);

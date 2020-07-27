@@ -1,6 +1,7 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
+#include <Core/Geometry/Plane3.hpp>
 #include <Core/Geometry/Sphere3.hpp>
 #include <Core/Surface/SurfaceSet3.hpp>
 
@@ -35,6 +36,17 @@ TEST(SurfaceSet3, Constructors)
         Transform3(Vector3D(1, 2, 3), QuaternionD({ 1, 0, 0 }, 0.5)), false);
     EXPECT_EQ(Vector3D(1, 2, 3), sset3.transform.GetTranslation());
     EXPECT_EQ(QuaternionD({ 1, 0, 0 }, 0.5), sset3.transform.GetOrientation());
+
+    SurfaceSet3 sset4(sset3);
+    EXPECT_EQ(3u, sset4.NumberOfSurfaces());
+    EXPECT_EQ(sph1->radius,
+              std::dynamic_pointer_cast<Sphere3>(sset4.SurfaceAt(0))->radius);
+    EXPECT_EQ(sph2->radius,
+              std::dynamic_pointer_cast<Sphere3>(sset4.SurfaceAt(1))->radius);
+    EXPECT_EQ(sph3->radius,
+              std::dynamic_pointer_cast<Sphere3>(sset4.SurfaceAt(2))->radius);
+    EXPECT_EQ(Vector3D(1, 2, 3), sset4.transform.GetTranslation());
+    EXPECT_EQ(QuaternionD({ 1, 0, 0 }, 0.5), sset4.transform.GetOrientation());
 }
 
 TEST(SurfaceSet3, AddSurface)
@@ -421,4 +433,121 @@ TEST(SurfaceSet3, BoundingBox)
 
     EXPECT_BOUNDING_BOX3_NEAR(answer, debug, 1e-9);
     EXPECT_BOUNDING_BOX3_NEAR(answer, sset2.BoundingBox(), 1e-9);
+}
+
+TEST(SurfaceSet3, MixedBoundTypes)
+{
+    const BoundingBox3D domain{ Vector3D{}, Vector3D{ 1, 2, 1 } };
+
+    const auto plane = Plane3::Builder()
+                           .WithNormal({ 0, 1, 0 })
+                           .WithPoint({ 0, 0.25 * domain.GetHeight(), 0 })
+                           .MakeShared();
+
+    const auto sphere = Sphere3::Builder()
+                            .WithCenter(domain.MidPoint())
+                            .WithRadius(0.15 * domain.GetWidth())
+                            .MakeShared();
+
+    const auto surfaceSet =
+        SurfaceSet3::Builder().WithSurfaces({ plane, sphere }).MakeShared();
+
+    EXPECT_FALSE(surfaceSet->IsBounded());
+
+    const auto cp = surfaceSet->ClosestPoint(Vector3D{ 0.5, 0.4, 0.5 });
+    const Vector3D answer{ 0.5, 0.5, 0.5 };
+
+    EXPECT_VECTOR3_NEAR(answer, cp, 1e-9);
+}
+
+TEST(SurfaceSet3, IsValidGeometry)
+{
+    const auto surfaceSet{ SurfaceSet3::Builder().MakeShared() };
+
+    EXPECT_FALSE(surfaceSet->IsValidGeometry());
+
+    const BoundingBox3D domain{ Vector3D{}, Vector3D{ 1, 2, 1 } };
+
+    const auto plane = Plane3::Builder()
+                           .WithNormal({ 0, 1, 0 })
+                           .WithPoint({ 0, 0.25 * domain.GetHeight(), 0 })
+                           .MakeShared();
+
+    const auto sphere = Sphere3::Builder()
+                            .WithCenter(domain.MidPoint())
+                            .WithRadius(0.15 * domain.GetWidth())
+                            .MakeShared();
+
+    auto surfaceSet2 =
+        SurfaceSet3::Builder().WithSurfaces({ plane, sphere }).MakeShared();
+
+    EXPECT_TRUE(surfaceSet2->IsValidGeometry());
+
+    surfaceSet2->AddSurface(surfaceSet);
+
+    EXPECT_FALSE(surfaceSet2->IsValidGeometry());
+}
+
+TEST(SurfaceSet3, IsInside)
+{
+    const BoundingBox3D domain(Vector3D{}, Vector3D{ 1, 2, 1 });
+    const Vector3D offset{ 1, 2, 3 };
+
+    const auto plane = Plane3::Builder{}
+                           .WithNormal({ 0, 1, 0 })
+                           .WithPoint({ 0, 0.25 * domain.GetHeight(), 0 })
+                           .MakeShared();
+
+    const auto sphere = Sphere3::Builder{}
+                            .WithCenter(domain.MidPoint())
+                            .WithRadius(0.15 * domain.GetWidth())
+                            .MakeShared();
+
+    const auto surfaceSet =
+        SurfaceSet3::Builder{}
+            .WithSurfaces({ plane, sphere })
+            .WithTransform(Transform3{ offset, QuaternionD{} })
+            .MakeShared();
+
+    EXPECT_TRUE(surfaceSet->IsInside(Vector3D{ 0.5, 0.25, 0.5 } + offset));
+    EXPECT_TRUE(surfaceSet->IsInside(Vector3D{ 0.5, 1.0, 0.5 } + offset));
+    EXPECT_FALSE(surfaceSet->IsInside(Vector3D{ 0.5, 1.5, 0.5 } + offset));
+}
+
+TEST(SurfaceSet3, UpdateQueryEngine)
+{
+    auto sphere = Sphere3::Builder{}
+                      .WithCenter({ -1.0, 1.0, 2.0 })
+                      .WithRadius(0.5)
+                      .MakeShared();
+
+    auto surfaceSet =
+        SurfaceSet3::Builder{}
+            .WithSurfaces({ sphere })
+            .WithTransform(Transform3{ { 1.0, 2.0, -1.0 }, QuaternionD{} })
+            .MakeShared();
+
+    const auto bbox1 = surfaceSet->BoundingBox();
+    EXPECT_BOUNDING_BOX2_EQ(
+        BoundingBox3D({ -0.5, 2.5, 0.5 }, { 0.5, 3.5, 1.5 }), bbox1);
+
+    surfaceSet->transform = Transform3{ { 3.0, -4.0, 7.0 }, QuaternionD{} };
+    surfaceSet->UpdateQueryEngine();
+    const auto bbox2 = surfaceSet->BoundingBox();
+    EXPECT_BOUNDING_BOX2_EQ(
+        BoundingBox3D({ 1.5, -3.5, 4.5 }, { 2.5, -2.5, 5.5 }), bbox2);
+
+    sphere->transform = Transform3{ { -6.0, 9.0, 2.0 }, QuaternionD{} };
+    surfaceSet->UpdateQueryEngine();
+    const auto bbox3 = surfaceSet->BoundingBox();
+    EXPECT_BOUNDING_BOX2_EQ(
+        BoundingBox3D({ -4.5, 5.5, 10.5 }, { -3.5, 6.5, 11.5 }), bbox3);
+
+    // Plane is unbounded. Total bbox should ignore it.
+    auto plane = Plane3::Builder{}.WithNormal({ 1.0, 0.0, 0.0 }).MakeShared();
+    surfaceSet->AddSurface(plane);
+    surfaceSet->UpdateQueryEngine();
+    auto bbox4 = surfaceSet->BoundingBox();
+    EXPECT_BOUNDING_BOX2_EQ(
+        BoundingBox3D({ -4.5, 5.5, 10.5 }, { -3.5, 6.5, 11.5 }), bbox4);
 }

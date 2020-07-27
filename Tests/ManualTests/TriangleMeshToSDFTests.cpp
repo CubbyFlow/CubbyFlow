@@ -3,9 +3,9 @@
 #include <ManualTests.hpp>
 
 #include <Core/Array/Array2.hpp>
+#include <Core/Geometry/MarchingCubes.hpp>
 #include <Core/Geometry/TriangleMeshToSDF.hpp>
 #include <Core/Grid/VertexCenteredScalarGrid3.hpp>
-#include <Core/MarchingCubes/MarchingCubes.hpp>
 
 using namespace CubbyFlow;
 
@@ -76,7 +76,7 @@ CUBBYFLOW_BEGIN_TEST_F(TriangleMeshToSDF, Bunny)
 {
     TriangleMesh3 triMesh;
 
-    std::ifstream file("resources/bunny.obj");
+    std::ifstream file(RESOURCES_DIR "/bunny.obj");
     if (file)
     {
         triMesh.ReadObj(&file);
@@ -107,7 +107,7 @@ CUBBYFLOW_BEGIN_TEST_F(TriangleMeshToSDF, Dragon)
 {
     TriangleMesh3 triMesh;
 
-    std::ifstream file("resources/dragon.obj");
+    std::ifstream file(RESOURCES_DIR "/dragon.obj");
     if (file)
     {
         triMesh.ReadObj(&file);

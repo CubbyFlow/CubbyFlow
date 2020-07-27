@@ -14,6 +14,7 @@
 #include <API/Python/Array/ArrayAccessor.hpp>
 #include <API/Python/BoundingBox/BoundingBox.hpp>
 #include <API/Python/Collider/Collider.hpp>
+#include <API/Python/Collider/ColliderSet.hpp>
 #include <API/Python/Collider/RigidbodyCollider.hpp>
 #include <API/Python/Emitter/GridEmitter.hpp>
 #include <API/Python/Emitter/ParticleEmitter.hpp>
@@ -30,6 +31,8 @@
 #include <API/Python/Field/VectorField.hpp>
 #include <API/Python/Geometry/Box.hpp>
 #include <API/Python/Geometry/Cylinder.hpp>
+#include <API/Python/Geometry/ImplicitTriangleMesh.hpp>
+#include <API/Python/Geometry/MarchingCubes.hpp>
 #include <API/Python/Geometry/Plane.hpp>
 #include <API/Python/Geometry/Sphere.hpp>
 #include <API/Python/Geometry/Triangle.hpp>
@@ -200,7 +203,7 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddSurfaceSet2(m);
     AddSurfaceSet3(m);
 
-    // Geometries
+    // Geometries, part 1
     AddBox2(m);
     AddBox3(m);
     AddCylinder3(m);
@@ -216,6 +219,10 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddImplicitSurface3(m);
     AddSurfaceToImplicit2(m);
     AddSurfaceToImplicit3(m);
+
+    // Geometries, part 2
+    AddImplicitTriangleMesh3(m);
+    AddMarchingCubes(m);
 
     // Data models
     AddGridSystemData2(m);
@@ -242,6 +249,8 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     // Colliders
     AddCollider2(m);
     AddCollider3(m);
+    AddColliderSet2(m);
+    AddColliderSet3(m);
     AddRigidBodyCollider2(m);
     AddRigidBodyCollider3(m);
 

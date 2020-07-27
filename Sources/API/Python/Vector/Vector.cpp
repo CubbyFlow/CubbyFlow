@@ -172,6 +172,16 @@ void AddVector2F(pybind11::module& m)
                      return instance.RDiv(ObjectToVector2F(object));
                  }
              })
+        .def("__len__", [](const Vector2F&) { return 2; })
+        .def("__iter__",
+             [](const Vector2F& instance) {
+                 return pybind11::make_iterator(&instance.x, &instance.y + 1);
+             })
+        .def("__str__",
+             [](const Vector2F& instance) {
+                 return std::string(std::to_string(instance.x) + ", " +
+                                    std::to_string(instance.y));
+             })
         .def("__eq__", [](const Vector2F& instance, pybind11::object obj) {
             Vector2F other = ObjectToVector2F(obj);
             return instance == other;
@@ -333,6 +343,16 @@ void AddVector2D(pybind11::module& m)
                  {
                      return instance.RDiv(ObjectToVector2D(object));
                  }
+             })
+        .def("__len__", [](const Vector2D&) { return 2; })
+        .def("__iter__",
+             [](const Vector2D& instance) {
+                 return pybind11::make_iterator(&instance.x, &instance.y + 1);
+             })
+        .def("__str__",
+             [](const Vector2D& instance) {
+                 return std::string(std::to_string(instance.x) + ", " +
+                                    std::to_string(instance.y));
              })
         .def("__eq__", [](const Vector2D& instance, pybind11::object obj) {
             Vector2D other = ObjectToVector2D(obj);
@@ -498,6 +518,17 @@ void AddVector3F(pybind11::module& m)
                      return instance.RDiv(ObjectToVector3F(object));
                  }
              })
+        .def("__len__", [](const Vector3F&) { return 3; })
+        .def("__iter__",
+             [](const Vector3F& instance) {
+                 return pybind11::make_iterator(&instance.x, &instance.z + 1);
+             })
+        .def("__str__",
+             [](const Vector3F& instance) {
+                 return std::string(std::to_string(instance.x) + ", " +
+                                    std::to_string(instance.y) + ", " +
+                                    std::to_string(instance.z));
+             })
         .def("__eq__", [](const Vector3F& instance, pybind11::object obj) {
             Vector3F other = ObjectToVector3F(obj);
             return instance == other;
@@ -661,6 +692,17 @@ void AddVector3D(pybind11::module& m)
                  {
                      return instance.RDiv(ObjectToVector3D(object));
                  }
+             })
+        .def("__len__", [](const Vector3D&) { return 3; })
+        .def("__iter__",
+             [](const Vector3D& instance) {
+                 return pybind11::make_iterator(&instance.x, &instance.z + 1);
+             })
+        .def("__str__",
+             [](const Vector3D& instance) {
+                 return std::string(std::to_string(instance.x) + ", " +
+                                    std::to_string(instance.y) + ", " +
+                                    std::to_string(instance.z));
              })
         .def("__eq__", [](const Vector3D& instance, pybind11::object obj) {
             Vector3D other = ObjectToVector3D(obj);

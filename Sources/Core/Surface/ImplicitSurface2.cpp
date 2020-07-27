@@ -8,6 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
+#include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Surface/ImplicitSurface2.hpp>
 
 namespace CubbyFlow
@@ -32,11 +33,17 @@ ImplicitSurface2::~ImplicitSurface2()
 
 double ImplicitSurface2::SignedDistance(const Vector2D& otherPoint) const
 {
-    return SignedDistanceLocal(transform.ToLocal(otherPoint));
+    const double sd = SignedDistanceLocal(transform.ToLocal(otherPoint));
+    return isNormalFlipped ? -sd : sd;
 }
 
 double ImplicitSurface2::ClosestDistanceLocal(const Vector2D& otherPoint) const
 {
     return std::fabs(SignedDistanceLocal(otherPoint));
+}
+
+bool ImplicitSurface2::IsInsideLocal(const Vector2D& otherPoint) const
+{
+    return IsInsideSDF(SignedDistanceLocal(otherPoint));
 }
 }  // namespace CubbyFlow

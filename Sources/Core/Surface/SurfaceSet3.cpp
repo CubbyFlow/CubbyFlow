@@ -21,18 +21,59 @@ SurfaceSet3::SurfaceSet3(const std::vector<Surface3Ptr>& others,
                          const Transform3& transform, bool isNormalFlipped)
     : Surface3(transform, isNormalFlipped), m_surfaces(others)
 {
+    for (const auto& surface : m_surfaces)
+    {
+        if (!surface->IsBounded())
+        {
+            m_unboundedSurfaces.push_back(surface);
+        }
+    }
+
     InvalidateBVH();
 }
 
 SurfaceSet3::SurfaceSet3(const SurfaceSet3& other)
-    : Surface3(other), m_surfaces(other.m_surfaces)
+    : Surface3(other),
+      m_surfaces(other.m_surfaces),
+      m_unboundedSurfaces(other.m_unboundedSurfaces)
 {
     InvalidateBVH();
 }
 
 void SurfaceSet3::UpdateQueryEngine()
 {
+    InvalidateBVH();
     BuildBVH();
+}
+
+bool SurfaceSet3::IsBounded() const
+{
+    // All surfaces should be bounded
+    for (const auto& surface : m_surfaces)
+    {
+        if (!surface->IsBounded())
+        {
+            return false;
+        }
+    }
+
+    // Empty set is not bounded
+    return !m_surfaces.empty();
+}
+
+bool SurfaceSet3::IsValidGeometry() const
+{
+    // All surfaces should be valid.
+    for (const auto& surface : m_surfaces)
+    {
+        if (!surface->IsValidGeometry())
+        {
+            return false;
+        }
+    }
+
+    // Empty set is not valid.
+    return !m_surfaces.empty();
 }
 
 size_t SurfaceSet3::NumberOfSurfaces() const
@@ -48,7 +89,18 @@ const Surface3Ptr& SurfaceSet3::SurfaceAt(size_t i) const
 void SurfaceSet3::AddSurface(const Surface3Ptr& surface)
 {
     m_surfaces.push_back(surface);
+
+    if (!surface->IsBounded())
+    {
+        m_unboundedSurfaces.push_back(surface);
+    }
+
     InvalidateBVH();
+}
+
+SurfaceSet3::Builder SurfaceSet3::GetBuilder()
+{
+    return Builder();
 }
 
 Vector3D SurfaceSet3::ClosestPointLocal(const Vector3D& otherPoint) const
@@ -60,15 +112,30 @@ Vector3D SurfaceSet3::ClosestPointLocal(const Vector3D& otherPoint) const
         return surface->ClosestDistance(pt);
     };
 
+    Vector3D result{ std::numeric_limits<double>::max(),
+                     std::numeric_limits<double>::max(),
+                     std::numeric_limits<double>::max() };
+
     const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
     if (queryResult.item != nullptr)
     {
-        return (*queryResult.item)->ClosestPoint(otherPoint);
+        result = (*queryResult.item)->ClosestPoint(otherPoint);
     }
 
-    return Vector3D{ std::numeric_limits<double>::max(),
-                     std::numeric_limits<double>::max(),
-                     std::numeric_limits<double>::max() };
+    double minDist = queryResult.distance;
+    for (const auto& surface : m_unboundedSurfaces)
+    {
+        auto pt = surface->ClosestPoint(otherPoint);
+        const double dist = pt.DistanceTo(otherPoint);
+
+        if (dist < minDist)
+        {
+            minDist = dist;
+            result = surface->ClosestPoint(otherPoint);
+        }
+    }
+
+    return result;
 }
 
 Vector3D SurfaceSet3::ClosestNormalLocal(const Vector3D& otherPoint) const
@@ -80,13 +147,28 @@ Vector3D SurfaceSet3::ClosestNormalLocal(const Vector3D& otherPoint) const
         return surface->ClosestDistance(pt);
     };
 
+    Vector3D result{ 1.0, 0.0, 0.0 };
+
     const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
     if (queryResult.item != nullptr)
     {
-        return (*queryResult.item)->ClosestNormal(otherPoint);
+        result = (*queryResult.item)->ClosestNormal(otherPoint);
     }
 
-    return Vector3D{ 1.0, 0.0, 0.0 };
+    double minDist = queryResult.distance;
+    for (const auto& surface : m_unboundedSurfaces)
+    {
+        auto pt = surface->ClosestPoint(otherPoint);
+        const double dist = pt.DistanceTo(otherPoint);
+
+        if (dist < minDist)
+        {
+            minDist = dist;
+            result = surface->ClosestNormal(otherPoint);
+        }
+    }
+
+    return result;
 }
 
 double SurfaceSet3::ClosestDistanceLocal(const Vector3D& otherPoint) const
@@ -99,7 +181,20 @@ double SurfaceSet3::ClosestDistanceLocal(const Vector3D& otherPoint) const
     };
 
     const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
-    return queryResult.distance;
+
+    double minDist = queryResult.distance;
+    for (const auto& surface : m_unboundedSurfaces)
+    {
+        auto pt = surface->ClosestPoint(otherPoint);
+        const double dist = pt.DistanceTo(otherPoint);
+
+        if (dist < minDist)
+        {
+            minDist = dist;
+        }
+    }
+
+    return minDist;
 }
 
 bool SurfaceSet3::IntersectsLocal(const Ray3D& ray) const
@@ -110,7 +205,13 @@ bool SurfaceSet3::IntersectsLocal(const Ray3D& ray) const
         return surface->Intersects(ray);
     };
 
-    return m_bvh.IsIntersects(ray, testFunc);
+    bool result = m_bvh.IsIntersects(ray, testFunc);
+    for (const auto& surface : m_unboundedSurfaces)
+    {
+        result |= surface->Intersects(ray);
+    }
+
+    return result;
 }
 
 SurfaceRayIntersection3 SurfaceSet3::ClosestIntersectionLocal(
@@ -135,6 +236,16 @@ SurfaceRayIntersection3 SurfaceSet3::ClosestIntersectionLocal(
         result.normal = (*queryResult.item)->ClosestNormal(result.point);
     }
 
+    for (const auto& surface : m_unboundedSurfaces)
+    {
+        const SurfaceRayIntersection3 localResult =
+            surface->ClosestIntersection(ray);
+        if (localResult.distance < result.distance)
+        {
+            result = localResult;
+        }
+    }
+
     return result;
 }
 
@@ -143,6 +254,19 @@ BoundingBox3D SurfaceSet3::BoundingBoxLocal() const
     BuildBVH();
 
     return m_bvh.GetBoundingBox();
+}
+
+bool SurfaceSet3::IsInsideLocal(const Vector3D& otherPoint) const
+{
+    for (const auto& surface : m_surfaces)
+    {
+        if (surface->IsInside(otherPoint))
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void SurfaceSet3::InvalidateBVH() const
@@ -154,20 +278,21 @@ void SurfaceSet3::BuildBVH() const
 {
     if (m_bvhInvalidated)
     {
-        std::vector<BoundingBox3D> bounds(m_surfaces.size());
-        for (size_t i = 0; i < m_surfaces.size(); ++i)
+        std::vector<Surface3Ptr> surfs;
+        std::vector<BoundingBox3D> bounds;
+
+        for (const auto& surface : m_surfaces)
         {
-            bounds[i] = m_surfaces[i]->BoundingBox();
+            if (surface->IsBounded())
+            {
+                surfs.push_back(surface);
+                bounds.push_back(surface->BoundingBox());
+            }
         }
 
-        m_bvh.Build(m_surfaces, bounds);
+        m_bvh.Build(surfs, bounds);
         m_bvhInvalidated = false;
     }
-}
-
-SurfaceSet3::Builder SurfaceSet3::GetBuilder()
-{
-    return Builder();
 }
 
 SurfaceSet3::Builder& SurfaceSet3::Builder::WithSurfaces(

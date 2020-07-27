@@ -40,7 +40,7 @@
 */
 size_t GetPeakRSS()
 {
-#if defined(_WIN32)
+#if defined(_MSC_VER)
 	/* Windows -------------------------------------------------- */
 	PROCESS_MEMORY_COUNTERS info;
 	GetProcessMemoryInfo(GetCurrentProcess(), &info, sizeof(info));
@@ -56,18 +56,18 @@ size_t GetPeakRSS()
 	{
 		close(fd);
 		return (size_t)0L;      /* Can't read? */
-	}
-	close(fd);
-	return (size_t)(psinfo.pr_rssize * 1024L);
+    }
+    close(fd);
+    return (size_t)(psinfo.pr_rssize * 1024L);
 
-#elif defined(__unix__) || defined(__unix) || defined(unix) || (defined(__APPLE__) && defined(__MACH__))
-	/* BSD, Linux, and OSX -------------------------------------- */
-	struct rusage rusage;
-	getrusage(RUSAGE_SELF, &rusage);
+#elif defined(__unix__) || defined(__unix) || defined(unix) ||(defined(__APPLE__) && defined(__MACH__)) || (defined(_WIN32) && defined(__GCC__))
+    /* BSD, Linux, OSX, and MinGW ------------------------------- */
+    struct rusage rusage;
+    getrusage(RUSAGE_SELF, &rusage);
 #if defined(__APPLE__) && defined(__MACH__)
-	return (size_t)rusage.ru_maxrss;
+    return (size_t)rusage.ru_maxrss;
 #else
-	return (size_t)(rusage.ru_maxrss * 1024L);
+    return (size_t)(rusage.ru_maxrss * 1024L);
 #endif
 
 #else
@@ -86,7 +86,7 @@ size_t GetPeakRSS()
 */
 size_t GetCurrentRSS()
 {
-#if defined(_WIN32)
+#if defined(_MSC_VER)
 	/* Windows -------------------------------------------------- */
 	PROCESS_MEMORY_COUNTERS info;
 	GetProcessMemoryInfo(GetCurrentProcess(), &info, sizeof(info));
@@ -101,8 +101,8 @@ size_t GetCurrentRSS()
 		return (size_t)0L;      /* Can't access? */
 	return (size_t)info.resident_size;
 
-#elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__)
-	/* Linux ---------------------------------------------------- */
+#elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__) || (defined(_WIN32) && defined(__GCC__))
+	/* Linux and MinGW------------------------------------------- */
 	long rss = 0L;
 	FILE* fp = NULL;
 	if ((fp = fopen("/proc/self/statm", "r")) == NULL)

@@ -17,7 +17,7 @@ class TriangleMesh3 : public ::benchmark::Fixture
 
     void SetUp(const ::benchmark::State&)
     {
-        std::ifstream file(RESOURCES_DIR "bunny.obj");
+        std::ifstream file(RESOURCES_DIR "/bunny.obj");
 
         if (file)
         {
@@ -41,3 +41,13 @@ BENCHMARK_DEFINE_F(TriangleMesh3, ClosestPoint)(benchmark::State& state)
 }
 
 BENCHMARK_REGISTER_F(TriangleMesh3, ClosestPoint);
+
+BENCHMARK_DEFINE_F(TriangleMesh3, IsInside)(benchmark::State& state)
+{
+    while (state.KeepRunning())
+    {
+        benchmark::DoNotOptimize(triMesh.IsInside(MakeVec()));
+    }
+}
+
+BENCHMARK_REGISTER_F(TriangleMesh3, IsInside);

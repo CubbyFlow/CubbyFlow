@@ -62,6 +62,7 @@ void BVH3<T>::Build(const std::vector<T>& items,
     }
 
     m_nodes.clear();
+    m_bound = BoundingBox3D{};
 
     for (size_t i = 0; i < m_items.size(); ++i)
     {
@@ -597,6 +598,64 @@ template <typename T>
 const T& BVH3<T>::GetItem(size_t i) const
 {
     return m_items[i];
+}
+
+template <typename T>
+size_t BVH3<T>::GetNumberOfNodes() const
+{
+    return m_nodes.size();
+}
+
+template <typename T>
+std::pair<size_t, size_t> BVH3<T>::GetChildren(size_t i) const
+{
+    if (IsLeaf(i))
+    {
+        return std::make_pair(std::numeric_limits<size_t>::max(),
+                              std::numeric_limits<size_t>::max());
+    }
+    else
+    {
+        return std::make_pair(i + 1, m_nodes[i].child);
+    }
+}
+
+template <typename T>
+bool BVH3<T>::IsLeaf(size_t i) const
+{
+    return m_nodes[i].IsLeaf();
+}
+
+template <typename T>
+const BoundingBox3D& BVH3<T>::GetNodeBound(size_t i) const
+{
+    return m_nodes[i].bound;
+}
+
+template <typename T>
+typename BVH3<T>::Iterator BVH3<T>::GetItemOfNode(size_t i)
+{
+    if (IsLeaf(i))
+    {
+        return m_nodes[i].item + begin();
+    }
+    else
+    {
+        return end();
+    }
+}
+
+template <typename T>
+typename BVH3<T>::ConstIterator BVH3<T>::GetItemOfNode(size_t i) const
+{
+    if (IsLeaf(i))
+    {
+        return m_nodes[i].item + begin();
+    }
+    else
+    {
+        return end();
+    }
 }
 
 template <typename T>

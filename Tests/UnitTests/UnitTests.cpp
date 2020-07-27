@@ -6,6 +6,7 @@
 
 int main(int argc, char* argv[])
 {
+    ::testing::InitGoogleMock(&argc, argv);
     ::testing::InitGoogleTest(&argc, argv);
 
     std::ofstream logFile("UnitTests.log");

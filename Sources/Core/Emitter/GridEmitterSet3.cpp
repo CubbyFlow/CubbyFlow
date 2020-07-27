@@ -38,6 +38,11 @@ void GridEmitterSet3::AddEmitter(const GridEmitter3Ptr& emitter)
 void GridEmitterSet3::OnUpdate(double currentTimeInSeconds,
                                double timeIntervalInSeconds)
 {
+    if (!GetIsEnabled())
+    {
+        return;
+    }
+
     for (auto& emitter : m_emitters)
     {
         emitter->Update(currentTimeInSeconds, timeIntervalInSeconds);

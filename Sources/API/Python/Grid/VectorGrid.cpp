@@ -12,6 +12,7 @@
 #include <Core/Grid/VectorGrid2.hpp>
 #include <Core/Grid/VectorGrid3.hpp>
 
+#include <pybind11/functional.h>
 #include <pybind11/pybind11.h>
 
 using namespace CubbyFlow;

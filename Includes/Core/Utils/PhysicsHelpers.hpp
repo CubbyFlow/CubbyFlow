@@ -51,8 +51,8 @@ inline double ComputePressureFromEos(double density, double targetDensity,
                                      double eosScale, double eosExponent,
                                      double negativePressureScale)
 {
-    // Equation of state
-    // (http://www.ifi.uzh.ch/vmml/publications/pcisph/pcisph.pdf)
+    // See Murnaghan-Tait equation of state from
+    // https://en.wikipedia.org/wiki/Tait_equation
     double p = eosScale / eosExponent *
                (std::pow((density / targetDensity), eosExponent) - 1.0);
 

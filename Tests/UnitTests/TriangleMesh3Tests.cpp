@@ -208,6 +208,25 @@ TEST(TriangleMesh3, ClosestIntersection)
     }
 }
 
+TEST(TriangleMesh3, IsInside)
+{
+    const std::string objStr = GetCubeTriMesh3x3x3Obj();
+    std::istringstream objStream(objStr);
+
+    TriangleMesh3 mesh;
+    mesh.ReadObj(&objStream);
+
+    const size_t numSamples = GetNumberOfSamplePoints3();
+
+    for (size_t i = 0; i < numSamples; ++i)
+    {
+        Vector3D p = GetSamplePoints3()[i];
+        auto actual = mesh.IsInside(p);
+        auto expected = mesh.BoundingBox().Contains(p);
+        EXPECT_EQ(expected, actual);
+    }
+}
+
 TEST(TriangleMesh3, BoundingBox)
 {
     std::string objStr = GetCubeTriMesh3x3x3Obj();

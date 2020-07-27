@@ -39,6 +39,15 @@ class SurfaceToImplicit3 final : public ImplicitSurface3
     //! Copy constructor.
     SurfaceToImplicit3(const SurfaceToImplicit3& other);
 
+    //! Updates internal spatial query engine.
+    void UpdateQueryEngine() override;
+
+    //! Returns true if bounding box can be defined.
+    bool IsBounded() const override;
+
+    //! Returns true if the surface is a valid geometry.
+    bool IsValidGeometry() const override;
+
     //! Returns the raw surface instance.
     Surface3Ptr GetSurface() const;
 
@@ -54,12 +63,14 @@ class SurfaceToImplicit3 final : public ImplicitSurface3
 
     BoundingBox3D BoundingBoxLocal() const override;
 
-    Vector3D ClosestNormalLocal(const Vector3D& ohterPoint) const override;
+    Vector3D ClosestNormalLocal(const Vector3D& otherPoint) const override;
 
     double SignedDistanceLocal(const Vector3D& otherPoint) const override;
 
     SurfaceRayIntersection3 ClosestIntersectionLocal(
         const Ray3D& ray) const override;
+
+    bool IsInsideLocal(const Vector3D& otherPoint) const override;
 
  private:
     Surface3Ptr m_surface;

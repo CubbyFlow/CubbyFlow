@@ -80,12 +80,17 @@ void VolumeGridEmitter2::OnUpdate(double currentTimeInSeconds,
     UNUSED_VARIABLE(currentTimeInSeconds);
     UNUSED_VARIABLE(timeIntervalInSeconds);
 
-    if (m_hasEmitted && m_isOneShot)
+    if (!GetIsEnabled())
     {
         return;
     }
 
     Emit();
+
+    if (m_isOneShot)
+    {
+        SetIsEnabled(false);
+    }
 
     m_hasEmitted = true;
 }

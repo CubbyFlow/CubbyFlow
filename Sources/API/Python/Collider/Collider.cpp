@@ -9,6 +9,7 @@
 // property of any third parties.
 
 #include <API/Python/Collider/Collider.hpp>
+#include <API/Python/Utils/pybind11Utils.hpp>
 #include <Core/Collider/Collider2.hpp>
 #include <Core/Collider/Collider3.hpp>
 
@@ -39,7 +40,14 @@ void AddCollider2(pybind11::module& m)
         .def_property_readonly("surface", &Collider2::GetSurface,
                                R"pbdoc(
 			The surface instance.
-		)pbdoc");
+		)pbdoc")
+        .def(
+            "VelocityAt",
+            [](const Collider2& instance, pybind11::object obj) {
+                return instance.VelocityAt(ObjectToVector2D(obj));
+            },
+            R"pbdoc(Returns the velocity of the collider at given point.)pbdoc",
+            pybind11::arg("point"));
 }
 
 void AddCollider3(pybind11::module& m)
@@ -65,5 +73,12 @@ void AddCollider3(pybind11::module& m)
         .def_property_readonly("surface", &Collider3::GetSurface,
                                R"pbdoc(
 			The surface instance.
-		)pbdoc");
+		)pbdoc")
+        .def(
+            "VelocityAt",
+            [](const Collider3& instance, pybind11::object obj) {
+                return instance.VelocityAt(ObjectToVector3D(obj));
+            },
+            R"pbdoc(Returns the velocity of the collider at given point.)pbdoc",
+            pybind11::arg("point"));
 }

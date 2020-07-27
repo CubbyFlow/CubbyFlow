@@ -10,10 +10,10 @@
 
 #include <../ClaraUtils.hpp>
 
+#include <Core/Geometry/MarchingCubes.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Geometry/TriangleMeshToSDF.hpp>
 #include <Core/Grid/VertexCenteredScalarGrid3.hpp>
-#include <Core/MarchingCubes/MarchingCubes.hpp>
 
 #include <Clara/include/clara.hpp>
 

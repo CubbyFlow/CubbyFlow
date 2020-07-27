@@ -2,6 +2,7 @@
 
 #include <Core/Collider/RigidBodyCollider3.hpp>
 #include <Core/Geometry/Plane3.hpp>
+#include <Core/Surface/ImplicitSurfaceSet3.hpp>
 
 using namespace CubbyFlow;
 
@@ -127,4 +128,24 @@ TEST(RigidBodyCollider3, VelocityAt)
     EXPECT_DOUBLE_EQ(-35.0, result.x);
     EXPECT_DOUBLE_EQ(27.0, result.y);
     EXPECT_DOUBLE_EQ(-2.0, result.z);
+}
+
+TEST(RigidBodyCollider3, Empty)
+{
+    RigidBodyCollider3 collider{ ImplicitSurfaceSet3::Builder().MakeShared() };
+
+    Vector3D newPosition{ 1, 0.1, 0 };
+    Vector3D newVelocity{ 1, 0, 0 };
+    const double radius = 0.05;
+    const double restitutionCoefficient = 0.5;
+
+    collider.ResolveCollision(radius, restitutionCoefficient, &newPosition,
+                              &newVelocity);
+
+    EXPECT_DOUBLE_EQ(1.0, newPosition.x);
+    EXPECT_DOUBLE_EQ(0.1, newPosition.y);
+    EXPECT_DOUBLE_EQ(0.0, newPosition.z);
+    EXPECT_DOUBLE_EQ(1.0, newVelocity.x);
+    EXPECT_DOUBLE_EQ(0.0, newVelocity.y);
+    EXPECT_DOUBLE_EQ(0.0, newVelocity.z);
 }

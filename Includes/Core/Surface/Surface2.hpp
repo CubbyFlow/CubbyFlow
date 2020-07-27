@@ -74,6 +74,16 @@ class Surface2
     //! Updates internal spatial query engine.
     virtual void UpdateQueryEngine();
 
+    //! Returns true if bounding box can be defined.
+    virtual bool IsBounded() const;
+
+    //! Returns true if the surface is a valid geometry.
+    virtual bool IsValidGeometry() const;
+
+    //! Returns true if \p otherPoint is inside the volume defined by the
+    //! surface.
+    bool IsInside(const Vector2D& otherPoint) const;
+
  protected:
     //! Returns the closest point from the given point \p otherPoint to the
     //! surface in local frame.
@@ -97,6 +107,10 @@ class Surface2
     //! Returns the closest distance from the given point \p otherPoint to the
     //! point on the surface in local frame.
     virtual double ClosestDistanceLocal(const Vector2D& otherPoint) const;
+
+    //! Returns true if \p otherPoint is inside by given \p depth the volume
+    //! defined by the surface in local frame.
+    virtual bool IsInsideLocal(const Vector2D& otherPoint) const;
 };
 
 //! Shared pointer for the Surface2 type.

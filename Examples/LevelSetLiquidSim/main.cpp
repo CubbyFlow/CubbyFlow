@@ -16,11 +16,11 @@
 #include <Core/Geometry/Box3.hpp>
 #include <Core/Geometry/Cylinder3.hpp>
 #include <Core/Geometry/ImplicitTriangleMesh3.hpp>
+#include <Core/Geometry/MarchingCubes.hpp>
 #include <Core/Geometry/Plane3.hpp>
 #include <Core/Geometry/Sphere3.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>
-#include <Core/MarchingCubes/MarchingCubes.hpp>
 #include <Core/Math/MathUtils.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver3.hpp>
 #include <Core/Surface/ImplicitSurfaceSet3.hpp>
@@ -231,7 +231,7 @@ void RunExample3(const std::string& rootDir, size_t resX, int numberOfFrames,
 
     // Build emitters
     auto bunnyMesh = TriangleMesh3::Builder().MakeShared();
-    std::ifstream objFile("Resources/bunny.obj");
+    std::ifstream objFile(RESOURCES_DIR "/bunny.obj");
     if (objFile)
     {
         bunnyMesh->ReadObj(&objFile);
@@ -279,7 +279,7 @@ void RunExample4(const std::string& rootDir, size_t resX, int numberOfFrames,
 
     // Build emitters
     auto bunnyMesh = TriangleMesh3::Builder().MakeShared();
-    std::ifstream objFile("Resources/bunny.obj");
+    std::ifstream objFile(RESOURCES_DIR "/bunny.obj");
     if (objFile)
     {
         bunnyMesh->ReadObj(&objFile);

@@ -13,6 +13,7 @@
 #include <Core/Grid/ScalarGrid2.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>
 
+#include <pybind11/functional.h>
 #include <pybind11/pybind11.h>
 
 using namespace CubbyFlow;
@@ -24,6 +25,23 @@ void AddScalarGrid2(pybind11::module& m)
         R"pbdoc(
 			Abstract base class for 2-D scalar grid structure.
 		)pbdoc")
+        .def_property_readonly("dataSize", &ScalarGrid2::GetDataSize,
+                               R"pbdoc(
+                               Returns the size of the grid data.
+                               This function returns the size of the grid data which is not necessarily
+                               equal to the grid resolution if the data is not stored at cell-center.
+                               )pbdoc")
+        .def_property_readonly("dataOrigin", &ScalarGrid2::GetDataOrigin,
+                               R"pbdoc(
+                               Returns the origin of the grid data.
+                               This function returns data position for the grid point at (0, 0).
+                               Note that this is different from `origin()` since `origin()` returns
+                               the lower corner point of the bounding box.
+                               )pbdoc")
+        .def("Clone", &ScalarGrid2::Clone,
+             R"pbdoc(Returns the copy of the grid instance.)pbdoc")
+        .def("Clear", &ScalarGrid2::Clear,
+             R"pbdoc(Clears the contents of the grid.)pbdoc")
         .def(
             "Resize",
             [](ScalarGrid2& instance, pybind11::args args,
@@ -164,23 +182,19 @@ void AddScalarGrid2(pybind11::module& m)
 		)pbdoc",
              pybind11::arg("i"), pybind11::arg("j"))
         .def("GetDataAccessor", &ScalarGrid2::GetDataAccessor,
-             R"pbdoc(
-			Returns the data array accessor.
-		)pbdoc")
+             R"pbdoc(The data array accessor.)pbdoc")
         .def("GetDataPosition", &ScalarGrid2::GetDataPosition,
-             R"pbdoc(
-			Returns the function that maps data point to its position.
-		)pbdoc")
+             R"pbdoc(The function that maps data point to its position.)pbdoc")
+        .def(
+            "Fill",
+            [](ScalarGrid2& instance, double value) {
+                instance.Fill(value, ExecutionPolicy::Serial);
+            },
+            R"pbdoc(Fills the grid with given value.)pbdoc")
         .def(
             "Fill",
             [](ScalarGrid2& instance, pybind11::object obj) {
-                if (pybind11::isinstance<double>(
-                        static_cast<pybind11::handle>(obj)))
-                {
-                    instance.Fill(obj.cast<double>());
-                }
-                else if (pybind11::isinstance<pybind11::function>(
-                             static_cast<pybind11::handle>(obj)))
+                if (pybind11::isinstance<pybind11::function>(obj))
                 {
                     auto func = obj.cast<pybind11::function>();
                     instance.Fill(
@@ -192,12 +206,12 @@ void AddScalarGrid2(pybind11::module& m)
                 else
                 {
                     throw std::invalid_argument(
-                        "Input type must be Vector2D or function object -> "
+                        "Input type must be double or function object -> "
                         "double");
                 }
             },
             R"pbdoc(
-			Fills the grid with given value or function.
+			Fills the grid with given function.
 		)pbdoc")
         .def(
             "ForEachDataPointIndex",
@@ -248,6 +262,23 @@ void AddScalarGrid3(pybind11::module& m)
         R"pbdoc(
 			Abstract base class for 3-D scalar grid structure.
 		)pbdoc")
+        .def_property_readonly("dataSize", &ScalarGrid3::GetDataSize,
+                               R"pbdoc(
+                               Returns the size of the grid data.
+                               This function returns the size of the grid data which is not necessarily
+                               equal to the grid resolution if the data is not stored at cell-center.
+                               )pbdoc")
+        .def_property_readonly("dataOrigin", &ScalarGrid3::GetDataOrigin,
+                               R"pbdoc(
+                               Returns the origin of the grid data.
+                               This function returns data position for the grid point at (0, 0).
+                               Note that this is different from `origin()` since `origin()` returns
+                               the lower corner point of the bounding box.
+                               )pbdoc")
+        .def("Clone", &ScalarGrid3::Clone,
+             R"pbdoc(Returns the copy of the grid instance.)pbdoc")
+        .def("Clear", &ScalarGrid3::Clear,
+             R"pbdoc(Clears the contents of the grid.)pbdoc")
         .def(
             "Resize",
             [](ScalarGrid3& instance, pybind11::args args,
@@ -392,23 +423,19 @@ void AddScalarGrid3(pybind11::module& m)
 		)pbdoc",
              pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("k"))
         .def("GetDataAccessor", &ScalarGrid3::GetDataAccessor,
-             R"pbdoc(
-			Returns the data array accessor.
-		)pbdoc")
+             R"pbdoc(The data array accessor.)pbdoc")
         .def("GetDataPosition", &ScalarGrid3::GetDataPosition,
-             R"pbdoc(
-			Returns the function that maps data point to its position.
-		)pbdoc")
+             R"pbdoc(The function that maps data point to its position.)pbdoc")
+        .def(
+            "Fill",
+            [](ScalarGrid3& instance, double value) {
+                instance.Fill(value, ExecutionPolicy::Serial);
+            },
+            R"pbdoc(Fills the grid with given value.)pbdoc")
         .def(
             "Fill",
             [](ScalarGrid3& instance, pybind11::object obj) {
-                if (pybind11::isinstance<double>(
-                        static_cast<pybind11::handle>(obj)))
-                {
-                    instance.Fill(obj.cast<double>());
-                }
-                else if (pybind11::isinstance<pybind11::function>(
-                             static_cast<pybind11::handle>(obj)))
+                if (pybind11::isinstance<pybind11::function>(obj))
                 {
                     auto func = obj.cast<pybind11::function>();
                     instance.Fill(
@@ -420,12 +447,12 @@ void AddScalarGrid3(pybind11::module& m)
                 else
                 {
                     throw std::invalid_argument(
-                        "Input type must be Vector3D or function object -> "
+                        "Input type must be double or function object -> "
                         "double");
                 }
             },
             R"pbdoc(
-			Fills the grid with given value or function.
+			Fills the grid with given function.
 		)pbdoc")
         .def(
             "ForEachDataPointIndex",

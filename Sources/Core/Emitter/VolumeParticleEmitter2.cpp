@@ -13,20 +13,24 @@
 #include <Core/PointGenerator/TrianglePointGenerator.hpp>
 #include <Core/Searcher/PointHashGridSearcher2.hpp>
 #include <Core/Surface/SurfaceToImplicit2.hpp>
+#include <Core/Utils/Logging.hpp>
 
 namespace CubbyFlow
 {
 static const size_t DEFAULT_HASH_GRID_RESOLUTION = 64;
 
 VolumeParticleEmitter2::VolumeParticleEmitter2(
-    const ImplicitSurface2Ptr& implicitSurface, const BoundingBox2D& bounds,
-    double spacing, const Vector2D& initialVel, size_t maxNumberOfParticles,
-    double jitter, bool isOneShot, bool allowOverlapping, uint32_t seed)
+    const ImplicitSurface2Ptr& implicitSurface, const BoundingBox2D& maxRegion,
+    double spacing, const Vector2D& initialVel, const Vector2D& linearVel,
+    double angularVel, size_t maxNumberOfParticles, double jitter,
+    bool isOneShot, bool allowOverlapping, uint32_t seed)
     : m_rng(seed),
       m_implicitSurface(implicitSurface),
-      m_bounds(bounds),
+      m_maxRegion(maxRegion),
       m_spacing(spacing),
       m_initialVel(initialVel),
+      m_linearVel(linearVel),
+      m_angularVel(angularVel),
       m_maxNumberOfParticles(maxNumberOfParticles),
       m_jitter(jitter),
       m_isOneShot(isOneShot),
@@ -48,7 +52,7 @@ void VolumeParticleEmitter2::OnUpdate(double currentTimeInSeconds,
         return;
     }
 
-    if (m_numberOfEmittedParticles > 0 && m_isOneShot)
+    if (!GetIsEnabled())
     {
         return;
     }
@@ -59,6 +63,11 @@ void VolumeParticleEmitter2::OnUpdate(double currentTimeInSeconds,
     Emit(particles, &newPositions, &newVelocities);
 
     particles->AddParticles(newPositions, newVelocities);
+
+    if (m_isOneShot)
+    {
+        SetIsEnabled(false);
+    }
 }
 
 void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
@@ -72,14 +81,23 @@ void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
 
     m_implicitSurface->UpdateQueryEngine();
 
+    BoundingBox2D region = m_maxRegion;
+    if (m_implicitSurface->IsBounded())
+    {
+        const BoundingBox2D surfaceBBox = m_implicitSurface->BoundingBox();
+        region.lowerCorner = Max(region.lowerCorner, surfaceBBox.lowerCorner);
+        region.upperCorner = Min(region.upperCorner, surfaceBBox.upperCorner);
+    }
+
     // Reserving more space for jittering
     const double j = GetJitter();
     const double maxJitterDist = 0.5 * j * m_spacing;
+    size_t numNewParticles = 0;
 
     if (m_allowOverlapping || m_isOneShot)
     {
         m_pointsGen->ForEachPoint(
-            m_bounds, m_spacing, [&](const Vector2D& point) {
+            region, m_spacing, [&](const Vector2D& point) {
                 double newAngleInRadian = (Random() - 0.5) * (2 * PI_DOUBLE);
                 Matrix2x2D rotationMatrix =
                     Matrix2x2D::MakeRotationMatrix(newAngleInRadian);
@@ -93,6 +111,7 @@ void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
                     {
                         newPositions->Append(candidate);
                         ++m_numberOfEmittedParticles;
+                        ++numNewParticles;
                     }
                     else
                     {
@@ -116,7 +135,7 @@ void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
         }
 
         m_pointsGen->ForEachPoint(
-            m_bounds, m_spacing, [&](const Vector2D& point) {
+            region, m_spacing, [&](const Vector2D& point) {
                 double newAngleInRadian = (Random() - 0.5) * (2 * PI_DOUBLE);
                 Matrix2x2D rotationMatrix =
                     Matrix2x2D::MakeRotationMatrix(newAngleInRadian);
@@ -124,7 +143,7 @@ void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
                 Vector2D offset = maxJitterDist * randomDir;
                 Vector2D candidate = point + offset;
 
-                if (m_implicitSurface->SignedDistance(candidate) <= 0.0 &&
+                if (m_implicitSurface->IsInside(candidate) &&
                     (!m_allowOverlapping &&
                      !neighborSearcher.HasNearbyPoint(candidate, m_spacing)))
                 {
@@ -133,6 +152,7 @@ void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
                         newPositions->Append(candidate);
                         neighborSearcher.Add(candidate);
                         ++m_numberOfEmittedParticles;
+                        ++numNewParticles;
                     }
                     else
                     {
@@ -144,14 +164,41 @@ void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
             });
     }
 
+    CUBBYFLOW_INFO << "Number of newly generated particles: "
+                   << numNewParticles;
+    CUBBYFLOW_INFO << "Number of total generated particles: "
+                   << m_numberOfEmittedParticles;
+
     newVelocities->Resize(newPositions->size());
-    newVelocities->Set(m_initialVel);
+    newVelocities->ParallelForEachIndex([&](size_t i) {
+        (*newVelocities)[i] = VelocityAt((*newPositions)[i]);
+    });
 }
 
 void VolumeParticleEmitter2::SetPointGenerator(
     const PointGenerator2Ptr& newPointsGen)
 {
     m_pointsGen = newPointsGen;
+}
+
+const ImplicitSurface2Ptr& VolumeParticleEmitter2::GetSurface() const
+{
+    return m_implicitSurface;
+}
+
+void VolumeParticleEmitter2::SetSurface(const ImplicitSurface2Ptr& newSurface)
+{
+    m_implicitSurface = newSurface;
+}
+
+const BoundingBox2D& VolumeParticleEmitter2::GetMaxRegion() const
+{
+    return m_maxRegion;
+}
+
+void VolumeParticleEmitter2::SetMaxRegion(const BoundingBox2D& newMaxRegion)
+{
+    m_maxRegion = newMaxRegion;
 }
 
 double VolumeParticleEmitter2::GetJitter() const
@@ -215,10 +262,36 @@ void VolumeParticleEmitter2::SetInitialVelocity(const Vector2D& newInitialVel)
     m_initialVel = newInitialVel;
 }
 
+Vector2D VolumeParticleEmitter2::GetLinearVelocity() const
+{
+    return m_linearVel;
+}
+
+void VolumeParticleEmitter2::SetLinearVelocity(const Vector2D& newLinearVel)
+{
+    m_linearVel = newLinearVel;
+}
+
+double VolumeParticleEmitter2::GetAngularVelocity() const
+{
+    return m_angularVel;
+}
+
+void VolumeParticleEmitter2::SetAngularVelocity(double newAngularVel)
+{
+    m_angularVel = newAngularVel;
+}
+
 double VolumeParticleEmitter2::Random()
 {
     std::uniform_real_distribution<> d(0.0, 1.0);
     return d(m_rng);
+}
+
+Vector2D VolumeParticleEmitter2::VelocityAt(const Vector2D& point) const
+{
+    const Vector2D r = point - m_implicitSurface->transform.GetTranslation();
+    return m_linearVel + m_angularVel * Vector2D(-r.y, r.x) + m_initialVel;
 }
 
 VolumeParticleEmitter2::Builder VolumeParticleEmitter2::GetBuilder()
@@ -234,7 +307,7 @@ VolumeParticleEmitter2::Builder::WithImplicitSurface(
 
     if (!m_isBoundSet)
     {
-        m_bounds = m_implicitSurface->BoundingBox();
+        m_maxRegion = m_implicitSurface->BoundingBox();
     }
 
     return *this;
@@ -247,16 +320,16 @@ VolumeParticleEmitter2::Builder& VolumeParticleEmitter2::Builder::WithSurface(
 
     if (!m_isBoundSet)
     {
-        m_bounds = surface->BoundingBox();
+        m_maxRegion = surface->BoundingBox();
     }
 
     return *this;
 }
 
 VolumeParticleEmitter2::Builder& VolumeParticleEmitter2::Builder::WithMaxRegion(
-    const BoundingBox2D& bounds)
+    const BoundingBox2D& maxRegion)
 {
-    m_bounds = bounds;
+    m_maxRegion = maxRegion;
     m_isBoundSet = true;
     return *this;
 }
@@ -272,6 +345,20 @@ VolumeParticleEmitter2::Builder&
 VolumeParticleEmitter2::Builder::WithInitialVelocity(const Vector2D& initialVel)
 {
     m_initialVel = initialVel;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::WithLinearVelocity(const Vector2D& linearVel)
+{
+    m_linearVel = linearVel;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::WithAngularVelocity(double angularVel)
+{
+    m_angularVel = angularVel;
     return *this;
 }
 
@@ -313,18 +400,19 @@ VolumeParticleEmitter2::Builder::WithRandomSeed(uint32_t seed)
 
 VolumeParticleEmitter2 VolumeParticleEmitter2::Builder::Build() const
 {
-    return VolumeParticleEmitter2(m_implicitSurface, m_bounds, m_spacing,
-                                  m_initialVel, m_maxNumberOfParticles,
-                                  m_jitter, m_isOneShot, m_allowOverlapping,
-                                  m_seed);
+    return VolumeParticleEmitter2(m_implicitSurface, m_maxRegion, m_spacing,
+                                  m_initialVel, m_linearVel, m_angularVel,
+                                  m_maxNumberOfParticles, m_jitter, m_isOneShot,
+                                  m_allowOverlapping, m_seed);
 }
 
 VolumeParticleEmitter2Ptr VolumeParticleEmitter2::Builder::MakeShared() const
 {
     return std::shared_ptr<VolumeParticleEmitter2>(
-        new VolumeParticleEmitter2(m_implicitSurface, m_bounds, m_spacing,
-                                   m_initialVel, m_maxNumberOfParticles,
-                                   m_jitter, m_isOneShot, m_allowOverlapping),
+        new VolumeParticleEmitter2(m_implicitSurface, m_maxRegion, m_spacing,
+                                   m_initialVel, m_linearVel, m_angularVel,
+                                   m_maxNumberOfParticles, m_jitter,
+                                   m_isOneShot, m_allowOverlapping),
         [](VolumeParticleEmitter2* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

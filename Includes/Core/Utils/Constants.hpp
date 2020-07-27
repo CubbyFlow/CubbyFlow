@@ -153,6 +153,146 @@ constexpr double QuarterPI<double>()
     return QUARTER_PI_DOUBLE;
 }
 
+// MARK: 2*PI
+//! Float-type 2*PI.
+constexpr float TWO_PI_FLOAT = static_cast<float>(2.0 * PI_DOUBLE);
+
+//! Double-type 2*PI.
+constexpr double TWO_PI_DOUBLE = 2.0 * PI_DOUBLE;
+
+//! 2*PI for type T.
+template <typename T>
+constexpr T TwoPI()
+{
+    return static_cast<T>(TWO_PI_DOUBLE);
+}
+
+//! 2*PI for float.
+template <>
+constexpr float TwoPI<float>()
+{
+    return TWO_PI_FLOAT;
+}
+
+//! 2*PI for double.
+template <>
+constexpr double TwoPI<double>()
+{
+    return TWO_PI_DOUBLE;
+}
+
+// MARK: 4*PI
+//! Float-type 4*PI.
+constexpr float FOUR_PI_FLOAT = static_cast<float>(4.0 * PI_DOUBLE);
+
+//! Double-type 4*pi.
+constexpr double FOUR_PI_DOUBLE = 4.0 * PI_DOUBLE;
+
+//! 4*PI for type T.
+template <typename T>
+constexpr T FourPI()
+{
+    return static_cast<T>(FOUR_PI_DOUBLE);
+}
+
+//! 4*PI for float.
+template <>
+constexpr float FourPI<float>()
+{
+    return FOUR_PI_FLOAT;
+}
+
+//! 4*PI for double.
+template <>
+constexpr double FourPI<double>()
+{
+    return FOUR_PI_DOUBLE;
+}
+
+// MARK: 1/PI
+//! Float-type 1/PI.
+constexpr float INV_PI_FLOAT = static_cast<float>(1.0 / PI_DOUBLE);
+
+//! Double-type 1/PI.
+constexpr double INV_PI_DOUBLE = 1.0 / PI_DOUBLE;
+
+//! 1/PI for type T.
+template <typename T>
+constexpr T InvPI()
+{
+    return static_cast<T>(INV_PI_DOUBLE);
+}
+
+//! 1/PI for float.
+template <>
+constexpr float InvPI<float>()
+{
+    return INV_PI_FLOAT;
+}
+
+//! 1/PI for double.
+template <>
+constexpr double InvPI<double>()
+{
+    return INV_PI_DOUBLE;
+}
+
+// MARK: 1/2*PI
+//! Float-type 1/2*PI.
+constexpr float INV_TWO_PI_FLOAT = static_cast<float>(0.5 / PI_DOUBLE);
+
+//! Double-type 1/2*PI.
+constexpr double INV_TWO_PI_DOUBLE = 0.5 / PI_DOUBLE;
+
+//! 1/2*PI for type T.
+template <typename T>
+constexpr T InvTwoPI()
+{
+    return static_cast<T>(INV_TWO_PI_DOUBLE);
+}
+
+//! 1/2*PI for float.
+template <>
+constexpr float InvTwoPI<float>()
+{
+    return INV_TWO_PI_FLOAT;
+}
+
+//! 1/2*PI for double.
+template <>
+constexpr double InvTwoPI<double>()
+{
+    return INV_TWO_PI_DOUBLE;
+}
+
+// MARK: 1/4*PI
+//! Float-type 1/4*PI.
+constexpr float INV_FOUR_PI_FLOAT = static_cast<float>(0.25 / PI_DOUBLE);
+
+//! Double-type 1/4*PI.
+constexpr double INV_FOUR_PI_DOUBLE = 0.25 / PI_DOUBLE;
+
+//! 1/4*PI for type T.
+template <typename T>
+constexpr T InvFourPI()
+{
+    return static_cast<T>(INV_FOUR_PI_DOUBLE);
+}
+
+//! 1/4*PI for float.
+template <>
+constexpr float InvFourPI<float>()
+{
+    return INV_FOUR_PI_FLOAT;
+}
+
+//! 1/4*PI for double.
+template <>
+constexpr double InvFourPI<double>()
+{
+    return INV_FOUR_PI_DOUBLE;
+}
+
 // MARK: Physics
 //! Gravity.
 constexpr double GRAVITY = -9.8;

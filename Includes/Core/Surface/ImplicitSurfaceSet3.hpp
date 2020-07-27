@@ -49,6 +49,12 @@ class ImplicitSurfaceSet3 final : public ImplicitSurface3
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;
 
+    //! Returns true if bounding box can be defined.
+    bool IsBounded() const override;
+
+    //! Returns true if the surface is a valid geometry.
+    bool IsValidGeometry() const override;
+
     //! Returns the number of implicit surfaces.
     size_t NumberOfSurfaces() const;
 
@@ -66,6 +72,7 @@ class ImplicitSurfaceSet3 final : public ImplicitSurface3
 
  private:
     std::vector<ImplicitSurface3Ptr> m_surfaces;
+    std::vector<ImplicitSurface3Ptr> m_unboundedSurfaces;
     mutable BVH3<ImplicitSurface3Ptr> m_bvh;
     mutable bool m_bvhInvalidated = true;
 
@@ -82,6 +89,8 @@ class ImplicitSurfaceSet3 final : public ImplicitSurface3
 
     SurfaceRayIntersection3 ClosestIntersectionLocal(
         const Ray3D& ray) const override;
+
+    bool IsInsideLocal(const Vector3D& otherPoint) const override;
 
     // ImplicitSurface3 implementations.
     double SignedDistanceLocal(const Vector3D& otherPoint) const override;

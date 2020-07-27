@@ -11,6 +11,44 @@ TEST(BVH3, Constructors)
     EXPECT_EQ(bvh.begin(), bvh.end());
 }
 
+TEST(BVH3, BasicGetters)
+{
+    BVH3<Vector3D> bvh;
+
+    std::vector<Vector3D> points{ Vector3D{ 0, 0, 0 }, Vector3D{ 1, 1, 1 } };
+    std::vector<BoundingBox3D> bounds{ points.size() };
+    size_t i = 0;
+    BoundingBox3D rootBounds;
+
+    std::generate(bounds.begin(), bounds.end(), [&]() {
+        const auto c = points[i++];
+        BoundingBox3D box{ c, c };
+
+        box.Expand(0.1);
+        rootBounds.Merge(box);
+
+        return box;
+    });
+
+    bvh.Build(points, bounds);
+
+    EXPECT_EQ(2u, bvh.GetNumberOfItems());
+    EXPECT_VECTOR3_EQ(points[0], bvh.GetItem(0));
+    EXPECT_VECTOR3_EQ(points[1], bvh.GetItem(1));
+    EXPECT_EQ(3u, bvh.GetNumberOfNodes());
+    EXPECT_EQ(1u, bvh.GetChildren(0).first);
+    EXPECT_EQ(2u, bvh.GetChildren(0).second);
+    EXPECT_FALSE(bvh.IsLeaf(0));
+    EXPECT_TRUE(bvh.IsLeaf(1));
+    EXPECT_TRUE(bvh.IsLeaf(2));
+    EXPECT_BOUNDING_BOX3_EQ(rootBounds, bvh.GetNodeBound(0));
+    EXPECT_BOUNDING_BOX3_EQ(bounds[0], bvh.GetNodeBound(1));
+    EXPECT_BOUNDING_BOX3_EQ(bounds[1], bvh.GetNodeBound(2));
+    EXPECT_EQ(bvh.end(), bvh.GetItemOfNode(0));
+    EXPECT_EQ(bvh.begin(), bvh.GetItemOfNode(1));
+    EXPECT_EQ(bvh.begin() + 1, bvh.GetItemOfNode(2));
+}
+
 TEST(BVH3, Nearest)
 {
     BVH3<Vector3D> bvh;

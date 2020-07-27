@@ -44,6 +44,12 @@ class SurfaceSet2 final : public Surface2
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;
 
+    //! Returns true if bounding box can be defined.
+    bool IsBounded() const override;
+
+    //! Returns true if the surface is a valid geometry.
+    bool IsValidGeometry() const override;
+
     //! Returns the number of surfaces.
     size_t NumberOfSurfaces() const;
 
@@ -58,6 +64,7 @@ class SurfaceSet2 final : public Surface2
 
  private:
     std::vector<Surface2Ptr> m_surfaces;
+    std::vector<Surface2Ptr> m_unboundedSurfaces;
     mutable BVH2<Surface2Ptr> m_bvh;
     mutable bool m_bvhInvalidated = true;
 
@@ -75,6 +82,8 @@ class SurfaceSet2 final : public Surface2
     SurfaceRayIntersection2 ClosestIntersectionLocal(
         const Ray2D& ray) const override;
 
+    bool IsInsideLocal(const Vector2D& otherPoint) const override;
+
     void InvalidateBVH() const;
 
     void BuildBVH() const;
@@ -86,7 +95,8 @@ using SurfaceSet2Ptr = std::shared_ptr<SurfaceSet2>;
 //!
 //! \brief Front-end to create SurfaceSet2 objects step by step.
 //!
-class SurfaceSet2::Builder final : public SurfaceBuilderBase2<SurfaceSet2>
+class SurfaceSet2::Builder final
+    : public SurfaceBuilderBase2<SurfaceSet2::Builder>
 {
  public:
     //! Returns builder with other surfaces.

@@ -206,11 +206,10 @@ void SPHSolver2::ComputePressure()
     auto d = particles->GetDensities();
     auto p = particles->GetPressures();
 
-    // See Equation 9 from
-    // http://cg.informatik.uni-freiburg.de/publications/2007_SCA_SPH.pdf
+    // See Murnaghan-Tait equation of state from
+    // https://en.wikipedia.org/wiki/Tait_equation
     const double targetDensity = particles->GetTargetDensity();
-    const double eosScale =
-        targetDensity * Square(m_speedOfSound) / m_eosExponent;
+    const double eosScale = targetDensity * Square(m_speedOfSound);
 
     ParallelFor(ZERO_SIZE, numberOfParticles, [&](size_t i) {
         p[i] = ComputePressureFromEos(d[i], targetDensity, eosScale,

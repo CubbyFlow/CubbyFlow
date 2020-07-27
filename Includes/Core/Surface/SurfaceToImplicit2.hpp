@@ -37,6 +37,15 @@ class SurfaceToImplicit2 final : public ImplicitSurface2
     //! Copy constructor.
     SurfaceToImplicit2(const SurfaceToImplicit2& other);
 
+    //! Updates internal spatial query engine.
+    void UpdateQueryEngine() override;
+
+    //! Returns true if bounding box can be defined.
+    bool IsBounded() const override;
+
+    //! Returns true if the surface is a valid geometry.
+    bool IsValidGeometry() const override;
+
     //! Returns the raw surface instance.
     Surface2Ptr GetSurface() const;
 
@@ -58,6 +67,8 @@ class SurfaceToImplicit2 final : public ImplicitSurface2
 
     SurfaceRayIntersection2 ClosestIntersectionLocal(
         const Ray2D& ray) const override;
+
+    bool IsInsideLocal(const Vector2D& otherPoint) const override;
 
  private:
     Surface2Ptr m_surface;

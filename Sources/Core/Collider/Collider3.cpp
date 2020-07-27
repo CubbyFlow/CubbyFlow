@@ -25,6 +25,13 @@ Collider3::~Collider3()
 void Collider3::ResolveCollision(double radius, double restitutionCoefficient,
                                  Vector3D* newPosition, Vector3D* newVelocity)
 {
+    assert(m_surface != nullptr);
+
+    if (!m_surface->IsValidGeometry())
+    {
+        return;
+    }
+
     ColliderQueryResult colliderPoint;
 
     GetClosestPoint(m_surface, *newPosition, &colliderPoint);
@@ -110,16 +117,22 @@ void Collider3::GetClosestPoint(const Surface3Ptr& surface,
 bool Collider3::IsPenetrating(const ColliderQueryResult& colliderPoint,
                               const Vector3D& position, double radius)
 {
-    // If the new candidate position of the particle is on the other side of
-    // the surface OR the new distance to the surface is less than the
-    // particle's radius, this particle is in colliding state.
-    return (position - colliderPoint.point).Dot(colliderPoint.normal) < 0.0 ||
-           colliderPoint.distance < radius;
+    // If the new candidate position of the particle is inside
+    // the volume defined by the surface OR the new distance to the surface is
+    // less than the particle's radius, this particle is in colliding state.
+    return m_surface->IsInside(position) || colliderPoint.distance < radius;
 }
 
 void Collider3::Update(double currentTimeInSeconds,
                        double timeIntervalInSeconds)
 {
+    assert(m_surface != nullptr);
+
+    if (!m_surface->IsValidGeometry())
+    {
+        return;
+    }
+
     m_surface->UpdateQueryEngine();
 
     if (m_onUpdateCallback)

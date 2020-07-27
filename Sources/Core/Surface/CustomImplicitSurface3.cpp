@@ -148,6 +148,7 @@ SurfaceRayIntersection3 CustomImplicitSurface3::ClosestIntersectionLocal(
         }
 
         double t = start;
+        double tPrev = t;
         Vector3D pt = ray.PointAt(t);
         double prevPhi = m_func(pt);
 
@@ -160,7 +161,7 @@ SurfaceRayIntersection3 CustomImplicitSurface3::ClosestIntersectionLocal(
             if (newPhi * prevPhi < 0.0)
             {
                 const double frac = prevPhi / (prevPhi - newPhi);
-                const double tSub = t + m_rayMarchingResolution * frac;
+                const double tSub = tPrev + m_rayMarchingResolution * frac;
 
                 result.isIntersecting = true;
                 result.distance = tSub;
@@ -175,6 +176,7 @@ SurfaceRayIntersection3 CustomImplicitSurface3::ClosestIntersectionLocal(
                 return result;
             }
 
+            tPrev = t;
             t += std::max(newPhiAbs, m_rayMarchingResolution);
             prevPhi = newPhi;
         }

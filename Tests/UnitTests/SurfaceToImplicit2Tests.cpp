@@ -1,9 +1,31 @@
 #include "pch.hpp"
 
 #include <Core/Geometry/Box2.hpp>
+#include <Core/Geometry/Plane2.hpp>
+#include <Core/Surface/SurfaceSet2.hpp>
 #include <Core/Surface/SurfaceToImplicit2.hpp>
 
 using namespace CubbyFlow;
+
+namespace
+{
+class MockSurface2 final : public Surface2
+{
+ public:
+    MockSurface2() = default;
+
+    ~MockSurface2() = default;
+
+    MOCK_METHOD0(UpdateQueryEngine, void());
+
+ protected:
+    MOCK_CONST_METHOD1(ClosestPointLocal, Vector2D(const Vector2D&));
+    MOCK_CONST_METHOD0(BoundingBoxLocal, BoundingBox2D());
+    MOCK_CONST_METHOD1(ClosestIntersectionLocal,
+                       SurfaceRayIntersection2(const Ray2D&));
+    MOCK_CONST_METHOD1(ClosestNormalLocal, Vector2D(const Vector2D&));
+};
+}  // namespace
 
 TEST(SurfaceToImplicit2, Constructor)
 {
@@ -16,6 +38,16 @@ TEST(SurfaceToImplicit2, Constructor)
     SurfaceToImplicit2 s2i2(s2i);
     EXPECT_EQ(box, s2i2.GetSurface());
     EXPECT_TRUE(s2i2.isNormalFlipped);
+}
+
+TEST(SurfaceToImplicit2, UpdateQueryEngine)
+{
+    const auto mockSurface2 = std::make_shared<MockSurface2>();
+    SurfaceToImplicit2 s2i(mockSurface2);
+
+    EXPECT_CALL(*mockSurface2, UpdateQueryEngine()).Times(1);
+
+    s2i.UpdateQueryEngine();
 }
 
 TEST(SurfaceToImplicit2, ClosestPoint)
@@ -130,4 +162,34 @@ TEST(SurfaceToImplicit2, ClosestNormal)
     Vector2D s2iNormal = s2i.ClosestNormal(pt);
     EXPECT_DOUBLE_EQ(boxNormal.x, s2iNormal.x);
     EXPECT_DOUBLE_EQ(boxNormal.y, s2iNormal.y);
+}
+
+TEST(SurfaceToImplicit2, IsBounded)
+{
+    const Plane2Ptr plane =
+        Plane2::Builder{}.WithPoint({ 0, 0 }).WithNormal({ 0, 1 }).MakeShared();
+    const SurfaceToImplicit2Ptr s2i =
+        SurfaceToImplicit2::Builder{}.WithSurface(plane).MakeShared();
+    EXPECT_FALSE(s2i->IsBounded());
+}
+
+TEST(SurfaceToImplicit2, IsValidGeometry)
+{
+    const SurfaceSet2Ptr sset = SurfaceSet2::Builder{}.MakeShared();
+    const SurfaceToImplicit2Ptr s2i =
+        SurfaceToImplicit2::Builder{}.WithSurface(sset).MakeShared();
+    EXPECT_FALSE(s2i->IsValidGeometry());
+}
+
+TEST(SurfaceToImplicit2, IsInside)
+{
+    const Plane2Ptr plane = Plane2::Builder{}
+                                .WithPoint({ 0, 0 })
+                                .WithNormal({ 0, 1 })
+                                .WithTranslation({ 0, -1 })
+                                .MakeShared();
+    const SurfaceToImplicit2Ptr s2i =
+        SurfaceToImplicit2::Builder{}.WithSurface(plane).MakeShared();
+    EXPECT_FALSE(s2i->IsInside({ 0, -0.5 }));
+    EXPECT_TRUE(s2i->IsInside({ 0, -1.5 }));
 }

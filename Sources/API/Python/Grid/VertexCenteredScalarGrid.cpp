@@ -19,9 +19,9 @@ using namespace CubbyFlow;
 
 void AddVertexCenteredScalarGrid2(pybind11::module& m)
 {
-    pybind11::class_<VertexCenteredScalarGrid2, VertexCenteredScalarGrid2Ptr>(
-        m, "VertexCenteredScalarGrid2",
-        R"pbdoc(
+    pybind11::class_<VertexCenteredScalarGrid2, VertexCenteredScalarGrid2Ptr,
+                     ScalarGrid2>(m, "VertexCenteredScalarGrid2",
+                                  R"pbdoc(
 			2-D Cell-centered scalar grid structure.
 
 			This class represents 2-D cell-centered scalar grid which extends
@@ -80,9 +80,9 @@ void AddVertexCenteredScalarGrid2(pybind11::module& m)
 
 void AddVertexCenteredScalarGrid3(pybind11::module& m)
 {
-    pybind11::class_<VertexCenteredScalarGrid3, VertexCenteredScalarGrid3Ptr>(
-        m, "VertexCenteredScalarGrid3",
-        R"pbdoc(
+    pybind11::class_<VertexCenteredScalarGrid3, VertexCenteredScalarGrid3Ptr,
+                     ScalarGrid3>(m, "VertexCenteredScalarGrid3",
+                                  R"pbdoc(
 			3-D Cell-centered scalar grid structure.
 
 			This class represents 3-D cell-centered scalar grid which extends

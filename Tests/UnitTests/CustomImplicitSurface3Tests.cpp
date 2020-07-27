@@ -89,14 +89,15 @@ TEST(CustomImplicitSurface3, Intersects)
 
 TEST(CustomImplicitSurface3, ClosestIntersection)
 {
-    auto sphere = Sphere3::Builder()
+    auto sphere = Sphere3::Builder{}
                       .WithCenter({ 0.5, 0.45, 0.55 })
                       .WithRadius(0.3)
                       .MakeShared();
-    SurfaceToImplicit3 refSurf(sphere);
-    CustomImplicitSurface3 cis1(
+    SurfaceToImplicit3 refSurf{ sphere };
+    CustomImplicitSurface3 cis1{
         [&](const Vector3D& pt) { return refSurf.SignedDistance(pt); },
-        BoundingBox3D({ 0, 0, 0 }, { 1, 1, 1 }), 1e-3, 1e-6);
+        BoundingBox3D{ { 0, 0, 0 }, { 1, 1, 1 } }, 1e-3, 1e-3
+    };
 
     for (size_t i = 0; i < GetNumberOfSamplePoints3(); ++i)
     {

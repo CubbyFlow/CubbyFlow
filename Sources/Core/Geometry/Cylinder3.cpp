@@ -131,7 +131,7 @@ bool Cylinder3::IntersectsLocal(const Ray3D& ray) const
 
     Vector3D pointOnCylinder = ray.PointAt(tCylinder);
 
-    if (pointOnCylinder.y >= center.y - 0.5 * height ||
+    if (pointOnCylinder.y >= center.y - 0.5 * height &&
         pointOnCylinder.y <= center.y + 0.5 * height)
     {
         return true;
@@ -177,7 +177,7 @@ SurfaceRayIntersection3 Cylinder3::ClosestIntersectionLocal(
     double B = d.Dot(o);
     double C = o.LengthSquared() - Square(radius);
 
-    BoundingBox3D bbox = BoundingBox();
+    BoundingBox3D bbox = BoundingBoxLocal();
     Plane3 upperPlane(Vector3D(0, 1, 0), bbox.upperCorner);
     Plane3 lowerPlane(Vector3D(0, -1, 0), bbox.lowerCorner);
 
@@ -223,7 +223,7 @@ SurfaceRayIntersection3 Cylinder3::ClosestIntersectionLocal(
 
     Vector3D pointOnCylinder = ray.PointAt(tCylinder);
 
-    if (pointOnCylinder.y >= center.y - 0.5 * height ||
+    if (pointOnCylinder.y >= center.y - 0.5 * height &&
         pointOnCylinder.y <= center.y + 0.5 * height)
     {
         intersection.isIntersecting = true;

@@ -31,6 +31,11 @@ Plane2::Plane2(const Plane2& other)
     // Do nothing
 }
 
+bool Plane2::IsBounded() const
+{
+    return false;
+}
+
 Vector2D Plane2::ClosestPointLocal(const Vector2D& otherPoint) const
 {
     Vector2D r = otherPoint - point;

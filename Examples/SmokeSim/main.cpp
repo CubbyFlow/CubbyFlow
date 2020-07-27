@@ -337,7 +337,7 @@ void RunExample3(const std::string& rootDir, size_t resolutionX,
 
     // Build emitter
     auto dragonMesh = TriangleMesh3::Builder().MakeShared();
-    std::ifstream objFile("Resources/dragon.obj");
+    std::ifstream objFile(RESOURCES_DIR "/dragon.obj");
     if (objFile)
     {
         dragonMesh->ReadObj(&objFile);
@@ -493,7 +493,7 @@ int main(int argc, char* argv[])
         clara::Opt(outputDir, "outputDir")["-o"]["--output"](
             "output directory name (default is " APP_NAME "_output)") |
         clara::Opt(format, "format")["-m"]["--format"](
-            "particle output format (xyz or pos. default is xyz)");
+            "particle output format (tag or vol. default is tag)");
 
     auto result = parser.parse(clara::Args(argc, argv));
     if (!result)

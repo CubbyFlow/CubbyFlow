@@ -17,5 +17,5 @@ else
     cd ..
     pip3 install --user -r requirements.txt
     pip3 install --user .
-    python3 Tests/PythonTests/main.py
+    pytest Tests/PythonTests
 fi

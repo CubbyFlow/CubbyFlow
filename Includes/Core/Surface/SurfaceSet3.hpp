@@ -44,6 +44,12 @@ class SurfaceSet3 final : public Surface3
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;
 
+    //! Returns true if bounding box can be defined.
+    bool IsBounded() const override;
+
+    //! Returns true if the surface is a valid geometry.
+    bool IsValidGeometry() const override;
+
     //! Returns the number of surfaces.
     size_t NumberOfSurfaces() const;
 
@@ -58,6 +64,7 @@ class SurfaceSet3 final : public Surface3
 
  private:
     std::vector<Surface3Ptr> m_surfaces;
+    std::vector<Surface3Ptr> m_unboundedSurfaces;
     mutable BVH3<Surface3Ptr> m_bvh;
     mutable bool m_bvhInvalidated = true;
 
@@ -75,6 +82,8 @@ class SurfaceSet3 final : public Surface3
     SurfaceRayIntersection3 ClosestIntersectionLocal(
         const Ray3D& ray) const override;
 
+    bool IsInsideLocal(const Vector3D& otherPoint) const override;
+
     void InvalidateBVH() const;
 
     void BuildBVH() const;
@@ -86,7 +95,8 @@ using SurfaceSet3Ptr = std::shared_ptr<SurfaceSet3>;
 //!
 //! \brief Front-end to create SurfaceSet3 objects step by step.
 //!
-class SurfaceSet3::Builder final : public SurfaceBuilderBase3<SurfaceSet3>
+class SurfaceSet3::Builder final
+    : public SurfaceBuilderBase3<SurfaceSet3::Builder>
 {
  public:
     //! Returns builder with other surfaces.
