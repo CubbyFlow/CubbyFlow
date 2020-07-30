@@ -28,15 +28,16 @@ namespace Vox {
         operator bool() const;
         bool operator==(const Path& path);
     protected:
-    private:
         const char* _path = nullptr;
+    private:
     };
 
     class SourcePath : public Path
     {
     public:
         SourcePath(const char* function, const char* file, const int line);
-
+        //! Return combination of member strings ( file::function(line) )
+        std::string ToVerboseString() const;
     private:
         const char* _function = nullptr;
         const int _line = 0;
@@ -79,7 +80,7 @@ namespace Vox {
     };
 
 #define CURRENT_SRC_PATH (SourcePath(__FUNCTION__, __FILE__, __LINE__))
-#define CURRENT_SRC_PATH_TO_STR (SourcePath(__FUNCTION__, __FILE__, __LINE__).ToString().c_str())
+#define CURRENT_SRC_PATH_TO_STR (SourcePath(__FUNCTION__, __FILE__, __LINE__).ToVerboseString().c_str())
 };
 
 #endif

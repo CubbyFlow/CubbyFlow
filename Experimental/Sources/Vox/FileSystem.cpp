@@ -55,6 +55,11 @@ namespace Vox {
     {
     }
 
+    std::string SourcePath::ToVerboseString() const
+    {
+        return std::string(_path) + "::" + std::string(_function) + "(" + std::to_string(3) + ")";
+    }
+
     void FileSystem::AddDirectory(const Path& path)
     {
         kTargetRange.push_back(path);
