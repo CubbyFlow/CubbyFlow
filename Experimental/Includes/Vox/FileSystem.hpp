@@ -79,7 +79,7 @@ namespace Vox {
     };
 
 #define CURRENT_SRC_PATH (SourcePath(__FUNCTION__, __FILE__, __LINE__))
-#define CURRENT_SRC_PATH_TO_STR (SourcePath(__FUNCTION__, __FILE__, __LINE__).ToString())
+#define CURRENT_SRC_PATH_TO_STR (SourcePath(__FUNCTION__, __FILE__, __LINE__).ToString().c_str())
 };
 
 #endif
