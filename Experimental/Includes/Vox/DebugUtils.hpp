@@ -12,8 +12,9 @@
 #define CUBBYFLOW_VOX_DEBUG_UTILS_HPP
 
 #include <Core/Utils/Macros.h>
-#include<Vox/GLTypes.hpp>
-#include<string>
+#include <Vox/GLTypes.hpp>
+#include <string>
+#include <cassert>
 
 #if defined(CUBBYFLOW_LINUX)
 	extern const char *__progname;
@@ -31,6 +32,15 @@ namespace Vox {
         #endif
     };
     
+    #define VoxAssert(expression, loc, msg) \
+    {\
+        if (!(expression))\
+        {\
+            fprintf(stderr, "[%s] %s\n", loc, msg);\
+            StackTrace::PrintStack(); \
+            std::abort();\
+        }\
+    }
 };
 
 #endif
