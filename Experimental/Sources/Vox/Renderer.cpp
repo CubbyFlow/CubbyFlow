@@ -15,6 +15,7 @@
 #include <Core/Utils/Logging.h>
 #include <Core/Size/Size2.h>
 #include <cassert>
+#include <cstdio>
 #include <cstring>
 #include <list>
 #include <iostream>
@@ -52,14 +53,14 @@ namespace Vox {
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-        Size2 wndSize = app->GetWindowSize();
-        GLFWwindow* window = glfwCreateWindow(int(wndSize.x), int(wndSize.y), app->GetWindowTitle(), nullptr, nullptr);
+        Vector2I wndSize = app->GetWindowSize();
+        GLFWwindow* window = glfwCreateWindow(wndSize.x, wndSize.y, app->GetWindowTitle(), nullptr, nullptr);
         glfwMakeContextCurrent(window);
-
 
         VoxAssert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), CURRENT_SRC_PATH_TO_STR, "Failed to initialize OpenGL");
 
-        glDebugMessageCallbackARB(FrameContext::DebugLog, nullptr);
+		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
+        glDebugMessageCallbackARB(GLDebug::DebugLog, nullptr);
         glDebugMessageControlARB(GL_DEBUG_SOURCE_APPLICATION_ARB, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, true);
 	    glDebugMessageControlARB(GL_DEBUG_SOURCE_THIRD_PARTY_ARB, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, true);
         glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_LOW_ARB, 0, NULL, true);  
@@ -67,37 +68,34 @@ namespace Vox {
 		auto extensions = {"GL_ARB_debug_output"};
 		VoxAssert(Renderer::CheckExtensionsSupported(extensions), CURRENT_SRC_PATH_TO_STR, "UnSupported OpenGL Extension");                      
 
-		VoxAssert(app->Initialize(), CURRENT_SRC_PATH_TO_STR, "Application initialize failed");                      
+		VoxAssert(app->Initialize(), CURRENT_SRC_PATH_TO_STR, "Application initialize failed");             
+
+		auto ctx = std::make_shared<FrameContext>(window);         
+		app->PushFrameContextToStack(ctx);
 
         HostTimer hostTimer;
-        DeviceTimer deviceTimer;
 
-        double hostStartTime = hostTimer.DurationInSeconds(), deviceStartTime = deviceTimer.DurationInSeconds();
-        size_t hostFrameCnt = 0, deviceFrameCnt = 0;
+        double startTime = hostTimer.DurationInSeconds();
+        size_t frameCnt = 0;
+        //! main loop
         for(;;) 
         {
-            //! main loop
-            //! Process Input
+			if (glfwWindowShouldClose(window))
+				break;
+
+            //! app->ProcessInput();
             app->DrawFrame();
-            ++hostFrameCnt; ++deviceFrameCnt;
+            ++frameCnt;
 
             glfwPollEvents();
             glfwSwapBuffers(window);
 
-            double hostNowTime = hostTimer.DurationInSeconds();
-            if (hostNowTime - hostStartTime > 1.0)
+            double nowTime = hostTimer.DurationInSeconds();
+            if (nowTime - startTime > 1.0)
             {
-                printf("HostTimer : %.6f ms/frame, %.3f fps\n", (hostNowTime - hostStartTime) * 1000.0 / hostFrameCnt, hostFrameCnt / (hostNowTime - hostStartTime));
-                hostStartTime = hostNowTime;
-                hostFrameCnt = 0;
-            }
-
-            double deviceNowTime = deviceTimer.DurationInSeconds();
-            if (deviceNowTime - deviceStartTime > 1.0)
-            {
-                printf("DeviceTimer : %.6f ms/frame, %.3f fps\n", (deviceNowTime - deviceStartTime) * 1000.0 / deviceFrameCnt, deviceFrameCnt / (deviceNowTime - deviceStartTime));
-                deviceStartTime = deviceNowTime;
-                deviceFrameCnt = 0;
+                printf("HostTimer : %.6f ms/frame, %.3f fps\n", (nowTime - startTime) * 1000.0 / frameCnt, frameCnt / (nowTime - startTime));
+                startTime = nowTime;
+                frameCnt = 0;
             }
         }
     }
@@ -136,9 +134,26 @@ namespace Vox {
         return true;
     }
 
+	GLuint Renderer::CreateTexture(GLsizei width, GLsizei height, const PixelFmt pf, const void* data)
+	{
+		const PixelFmtDesc* pfd = GetPixelFmtDesc(pf);
+
+		GLuint texture;
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY, 1.0f);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, pfd->internal, width, height, 0, pfd->format, pfd->type, data);
+		
+		return texture;
+	}
+
     GLuint Renderer::CreateTextureFromFile(const Path& path, bool srgb)
     {
-        GLuint texture;
 		int width, height, numChannels;
 		//! Because of differences on way to interpret image y-axis coordinate between opengl and stb.
 		//! OpenGL expect 0.0 at the bottom of the y-axis, but vice-versa in stb 
@@ -148,53 +163,40 @@ namespace Vox {
 		//! If (width != 0 && height != 0 && numChannels != 0 && data != nullptr) is true, it means loading image is failed.
 		VoxAssert((width != 0 && height != 0 && numChannels != 0 && data != nullptr), CURRENT_SRC_PATH_TO_STR, "Failed to load image");
 
-		//! Create texture as GL_TEXTURE_2D
-		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_2D, texture);
-
-		//! Set Anisotropy filter on texture (https://paroj.github.io/gltut/Texturing/Tut15%20Anisotropy.html)
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY, 1.0f);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		GLenum internalformat = 0, format = 0;
+		PixelFmt pf;
 		switch(numChannels)
 		{
 		case 1: 
-			internalformat = GL_R8;
-			format = GL_RED;
+			pf = PixelFmt::PF_R8;
 			break;
 		case 2:
-			internalformat = GL_RG8;
-			format = GL_RG;
+			pf = PixelFmt::PF_RG8;
 			break;
 		case 3:
-			internalformat = (srgb) ? GL_SRGB8 : GL_RGB8;
-			format = GL_RGB;
+			pf = (srgb) ? PixelFmt::PF_SRGB8 : PixelFmt::PF_RGB8;
 			break;
 		case 4:
-			internalformat = (srgb) ? GL_SRGB8_ALPHA8 : GL_RGBA8;
-			format = GL_RGBA;
+			pf = (srgb) ? PixelFmt::PF_SRGB8_ALPHA8 : PixelFmt::PF_RGBA8;
 			break;
 		default:
+			VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Unknown Pixel Format");
 			break;
 		}
 
-		glTexImage2D(GL_TEXTURE_2D, 0, internalformat, width, height, 0, format, GL_UNSIGNED_BYTE, static_cast<const void*>(data));
-
+		GLuint texture = CreateTexture(static_cast<GLsizei>(width), static_cast<GLsizei>(height), pf, data);
 		//! Deallocate data after using it.
 		stbi_image_free(data);
 		return texture;
     }
 
-    GLuint Renderer::CreateRenderBuffer(GLenum internalFormat, GLsizei width, GLsizei height)
+    GLuint Renderer::CreateRenderBuffer(GLsizei width, GLsizei height, const PixelFmt pf)
     {
+		const PixelFmtDesc* pfd = GetPixelFmtDesc(pf);
+
 		GLuint rbo;
 		glGenRenderbuffers(1, &rbo);
 		glBindRenderbuffer(GL_RENDERBUFFER, rbo);
-		glRenderbufferStorage(GL_RENDERBUFFER, internalFormat, width, height);
+		glRenderbufferStorage(GL_RENDERBUFFER, pfd->internal, width, height);
 		glBindRenderbuffer(GL_RENDERBUFFER, 0);
 		return rbo;
     }
@@ -269,4 +271,17 @@ namespace Vox {
 		return program;
     }
 
+    void Renderer::SaveTextureToRGBA(const char* path, int width, int height)
+	{
+		static unsigned char* cache = nullptr;
+		static size_t size = width * height;
+		if (!cache || (size != static_cast<size_t>(width * height)))
+		{
+			size = static_cast<size_t>(width * height);
+			cache = reinterpret_cast<unsigned char*>(::realloc(cache, size * 4 * sizeof(unsigned char)));
+		}
+		
+		glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, static_cast<void*>(cache));
+		stbi_write_png(path, width, height, 4, static_cast<const void*>(cache), 0);
+	}
 };
