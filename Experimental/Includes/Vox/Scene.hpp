@@ -10,10 +10,13 @@
 #ifndef CUBBYFLOW_VOX_SCENE_HPP
 #define CUBBYFLOW_VOX_SCENE_HPP
 
+#include <Vox/GLTypes.hpp>
 #include <memory>
+#include <vector>
 
 namespace Vox {
     class ParticleLoader;
+    class FrameBuffer;
 
     /**
      * Represent one scene consituting rendering scenario.
@@ -21,11 +24,21 @@ namespace Vox {
     class Scene 
     {
     public:
+        Scene();
+        ~Scene();
         void SetLoader(const std::shared_ptr<ParticleLoader>& loader);
         const std::shared_ptr<ParticleLoader>& GetLoader();
+
+        //! Push Frame Buffer to the vector
+        //! Binding will be occurred sequentially.
+        void AddFrameBuffer(std::shared_ptr<FrameBuffer> fbo);
+        //! Bind framebuffers sequentially.
+        void BindNextFrameBuffer(GLenum target);
     protected:
     private:
         std::shared_ptr<ParticleLoader> _loader;
+        std::vector<std::shared_ptr<FrameBuffer>> _fbos;
+        std::vector<std::shared_ptr<FrameBuffer>>::iterator _fboIterator;
     };
 
 };
