@@ -13,15 +13,25 @@
 
 #include <Core/Utils/Macros.h>
 #include <Vox/GLTypes.hpp>
+#include <iostream>
 #include <string>
 #include <cassert>
+
+#if defined(CUBBYFLOW_WINDOWS)
+#include <windows.h>
+#include <DbgHelp.h>
+#pragma comment(lib,"Dbghelp")
+#define APIENTRY __stdcall
+#else
+#define APIENTRY
+#endif
 
 #if defined(CUBBYFLOW_LINUX)
 	extern const char *__progname;
 #endif
 
 namespace Vox {
-    //! The function to print the call stack
+    //! The function collection for printing the call stack
     class StackTrace
     {
     public:
@@ -31,16 +41,29 @@ namespace Vox {
         static void PrintStack() {};
         #endif
     };
-    
-    #define VoxAssert(expression, loc, msg) \
-    {\
-        if (!(expression))\
-        {\
-            fprintf(stderr, "[%s] %s\n", loc, msg);\
-            StackTrace::PrintStack(); \
-            std::abort();\
-        }\
-    }
+
+    //! The function collection related to opengl.
+    class GLDebug
+    {
+    public:
+        //! Debug logging for opengl context with GL_ARB_debug_output extension.
+        static void APIENTRY DebugLog(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const GLvoid* userParam);
+    };
 };
+
+/**
+ * brief simple assertion macro for vox application.
+ * param expression 
+ * param loc - 
+ */
+#define VoxAssert(expression, loc, msg)\
+{\
+    if (!(expression))\
+    {\
+        std::cerr << "[" << loc << "] " << msg << std::endl;\
+        Vox::StackTrace::PrintStack(); \
+        std::abort();\
+    }\
+}
 
 #endif

@@ -79,8 +79,9 @@ namespace Vox {
         static Path LoopDirectory(const Path& dir, const Path& path);
     };
 
-#define CURRENT_SRC_PATH (SourcePath(__FUNCTION__, __FILE__, __LINE__))
-#define CURRENT_SRC_PATH_TO_STR (SourcePath(__FUNCTION__, __FILE__, __LINE__).ToVerboseString().c_str())
 };
+
+#define CURRENT_SRC_PATH (Vox::SourcePath(__FUNCTION__, __FILE__, __LINE__))
+#define CURRENT_SRC_PATH_TO_STR (Vox::SourcePath(__FUNCTION__, __FILE__, __LINE__).ToVerboseString().c_str())
 
 #endif
