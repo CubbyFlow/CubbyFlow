@@ -11,20 +11,29 @@
 #define CUBBYFLOW_VOX_FRAME_CONTEXT_HPP
 
 #include <Vox/GLTypes.hpp>
-#include <Core/Size/Size2.h>
 #include <memory>
 
-namespace Vox {
+struct GLFWwindow;
 
+namespace Vox {
     /**
      * OpenGL Context wrapper which will be used for rendering one frame.
      */
     class FrameContext 
     {
     public:
-        static void DebugLog(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const GLvoid* userParam);
+        FrameContext(GLFWwindow* windowCtx);
+        ~FrameContext();
+
+        //! Make this instance as opengl current context
+        void MakeContextCurrent() const;
+
+        //! Get Render Mode Primitive
+        GLenum GetRenderMode() const;
     protected:
     private:
+        GLFWwindow* _windowCtx;
+        GLenum _renderMode;
     };
 
 };

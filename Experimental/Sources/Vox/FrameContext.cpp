@@ -9,84 +9,36 @@
 *************************************************************************/
 #include <Vox/FrameContext.hpp>
 #include <Vox/DebugUtils.hpp>
-#include <Core/Size/Size2.h>
-#include <Core/Utils/Logging.h>
+#include <Vox/FrameBuffer.hpp>
+#include <Vox/FileSystem.hpp>
 #include <glad/glad.h>
-
-using namespace CubbyFlow;
+#include <GLFW/glfw3.h>
 
 namespace Vox {
 
-    namespace Detail
-    {
-        // aux function to translate source to string
-        std::string GetStringForSource(GLenum source) {
-        
-        	switch(source) {
-        		case GL_DEBUG_SOURCE_API_ARB: 
-        			return("API");
-        		case GL_DEBUG_SOURCE_WINDOW_SYSTEM_ARB:
-        			return("Window System");
-        		case GL_DEBUG_SOURCE_SHADER_COMPILER_ARB:
-        			return("Shader Compiler");
-        		case GL_DEBUG_SOURCE_THIRD_PARTY_ARB:
-        			return("Third Party");
-        		case GL_DEBUG_SOURCE_APPLICATION_ARB:
-        			return("Application");
-        		case GL_DEBUG_SOURCE_OTHER_ARB:
-        			return("Other");
-        		default:
-        			return("");
-        	}
-        }
+	FrameContext::FrameContext(GLFWwindow* windowCtx)
+		: _windowCtx(windowCtx), _renderMode(GL_POINTS)
+	{
 
-        // aux function to translate severity to string
-        std::string GetStringForSeverity(GLenum severity) {
-        
-        	switch(severity) {
-        		case GL_DEBUG_SEVERITY_HIGH_ARB: 
-        			return("High");
-        		case GL_DEBUG_SEVERITY_MEDIUM_ARB:
-        			return("Medium");
-        		case GL_DEBUG_SEVERITY_LOW_ARB:
-        			return("Low");
-        		default:
-        			return("");
-        	}
-        }
+	}
 
-        // aux function to translate type to string
-        std::string GetStringForType(GLenum type) {
-        
-        	switch(type) {
-        		case GL_DEBUG_TYPE_ERROR_ARB: 
-        			return("Error");
-        		case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR_ARB:
-        			return("Deprecated Behaviour");
-        		case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR_ARB:
-        			return("Undefined Behaviour");
-        		case GL_DEBUG_TYPE_PORTABILITY_ARB:
-        			return("Portability Issue");
-        		case GL_DEBUG_TYPE_PERFORMANCE_ARB:
-        			return("Performance Issue");
-        		case GL_DEBUG_TYPE_OTHER_ARB:
-        			return("Other");
-        		default:
-        			return("");
-        	}
-        }
-    }
+    FrameContext::~FrameContext()
+	{
+		if (_windowCtx)
+		{
+			glfwDestroyWindow(_windowCtx);
+		}
+		glfwTerminate();
+	}
 
-    void FrameContext::DebugLog(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const GLvoid* userParam)
-    {
-        CUBBYFLOW_INFO << "[Type] : "       << Detail::GetStringForType(type)           << 
-                          "[Source] : "     << Detail::GetStringForSource(source)       <<
-                          "[ID] : "         <<              id                          <<
-                          "[Serverity] : "  << Detail::GetStringForSeverity(severity);
-                          
-        CUBBYFLOW_INFO << "[Message] : "    << message;
-        
-        StackTrace::PrintStack();
-    }
+    void FrameContext::MakeContextCurrent() const
+	{
+		glfwMakeContextCurrent(_windowCtx);
+	}
+
+    GLenum FrameContext::GetRenderMode() const
+	{
+		return _renderMode;
+	}
 
 };
