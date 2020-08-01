@@ -8,6 +8,7 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 #include <Vox/ParticleLoader.hpp>
+#include <Vox/DebugUtils.hpp>
 #include <Core/Utils/Logging.h>
 #include <Core/Utils/Serialization.h>
 #include <Core/Vector/Vector3.h>
@@ -41,7 +42,8 @@ namespace Vox {
 		else if (extension == "pos") loadMethod = std::bind(&ParticleLoader::LoadPosFile, this, std::placeholders::_1);
 		else
 		{
-			CUBBYFLOW_ERROR << "Unknown Particle File extension [" << extension << "]";
+			std::cerr << "Unknown Particle File extension [" << extension << "]" << std::endl;
+			StackTrace::PrintStack();
 			std::abort();
 		}
 
@@ -75,8 +77,9 @@ namespace Vox {
 		std::ifstream file(path, std::ifstream::binary);
 		if (file.is_open() == false)
 	    {
-			CUBBYFLOW_ERROR << "Failed to load file [" << path << "]";
-			return;
+			std::cerr << "Failed to load file [" << path << "]" << std::endl;
+			StackTrace::PrintStack();
+			std::abort();
 	    }
 		Array1<Vector3D> tempParticles;
 	    const std::vector<uint8_t> buffer((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
@@ -99,8 +102,9 @@ namespace Vox {
 		std::ifstream file(path);
 		if (file.is_open() == false)
 		{
-			CUBBYFLOW_ERROR << "Failed to load file [" << path << "]";
-			return;
+			std::cerr << "Failed to load file [" << path << "]" << std::endl;
+			StackTrace::PrintStack();
+			std::abort();
 		}
 
 		Array1<float> particles;
