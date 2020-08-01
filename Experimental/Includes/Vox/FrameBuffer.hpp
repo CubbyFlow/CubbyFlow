@@ -25,10 +25,13 @@ namespace Vox {
         //! Default Destructor
         ~FrameBuffer();
 
+        //! Bind Framebuffer to current opengl context.
         void BindFrameBuffer(GLenum target);
-
+        //! Set color texture attachment to framebuffer 
         void SetColorAttachment(GLenum index, GLuint texture);
+        //! Set Render buffer attachment to framebuffer.
         void SetRenderBufferAttachment(GLuint rbo);
+        //! Assertion for framebuffer completeness.
         bool AssertFramebufferStatus() const;
     protected:
     private:

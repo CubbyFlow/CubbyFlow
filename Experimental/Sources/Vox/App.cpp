@@ -23,14 +23,13 @@ namespace Vox {
     {
     }
 
-    CubbyFlow::Size2 App::GetWindowSize()
+    CubbyFlow::Vector2I App::GetWindowSize()
     {
-        return _wndSize;
+        return _windowSize;
     }
     
     bool App::Initialize()
     {
-        _ctx = std::make_shared<FrameContext>();
         return true;
     }
 
@@ -46,18 +45,13 @@ namespace Vox {
         //! On screen draw stuffs like GUI
     }
 
-    void App::SetWindowSize(Size2 size)
+    void App::SetWindowSize(Vector2I size)
     {
-        _wndSize = size;
+        _windowSize = size;
     }
 
     void App::SetBackgroundColor(Vector4F color)  
     {
         _bgColor = color;
-    }
-
-    const std::shared_ptr<FrameContext>& App::GetCurrentContext()
-    {
-        return _ctx;
     }
 };

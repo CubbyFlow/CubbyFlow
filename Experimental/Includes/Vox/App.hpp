@@ -10,9 +10,10 @@
 #ifndef CUBBYFLOW_VOX_APP_HPP
 #define CUBBYFLOW_VOX_APP_HPP
 
-#include <Core/Size/Size2.h>
+#include <Core/Vector/Vector2.h>
 #include <Core/Vector/Vector4.h>
 #include <memory>
+#include <stack>
 
 namespace Vox {
 
@@ -28,7 +29,7 @@ namespace Vox {
         virtual ~App();
 
         //! Return the window screen size.
-        CubbyFlow::Size2 GetWindowSize();
+        CubbyFlow::Vector2I GetWindowSize();
 
         //! Initialize the base application.
         virtual bool Initialize();
@@ -36,24 +37,41 @@ namespace Vox {
         //! preparing call DrawFrame.
         void BeginFrame(std::shared_ptr<FrameContext>& ctx);
         //! Actual Drawing Call
-        virtual void DrawFrame() = 0;
+        virtual void DrawFrame() {};
         //! End tasks after drawing call.
         void EndFrame(std::shared_ptr<FrameContext>& ctx);
 
-        virtual const char* GetWindowTitle() = 0;
+        //! Return window title.
+        virtual const char* GetWindowTitle() { return nullptr; };
 
+        //! Pop frame context from top of the stack.
+        std::shared_ptr<Vox::FrameContext> PopFrameContextFromStack()
+        {
+            if (_ctxStack.empty())
+            {
+                return nullptr;
+            }
+            else
+            {
+                const auto& ctx = _ctxStack.top();
+                _ctxStack.pop();
+                return ctx;
+            }
+        }
+        //! Push frame context to the stack.
+        void PushFrameContextToStack(std::shared_ptr<Vox::FrameContext> ctx)
+        {
+            _ctxStack.push(ctx);
+        }
         //! Set Window screen size.
-        void SetWindowSize(CubbyFlow::Size2 size);
+        void SetWindowSize(CubbyFlow::Vector2I size);
         //! Set screen background color
         void SetBackgroundColor(CubbyFlow::Vector4F color);
-
-        const std::shared_ptr<FrameContext>& GetCurrentContext();
     protected:
-        std::shared_ptr<FrameContext> _ctx;
-
-        CubbyFlow::Size2 _wndSize    { 1200, 900 }; //! window size
+        CubbyFlow::Vector2I _windowSize { 1200, 900 }; //! window size
         CubbyFlow::Vector4F _bgColor { 0.2f, 0.6f, 0.2f, 1.0f}; //! background color
     private:
+        std::stack<std::shared_ptr<Vox::FrameContext>> _ctxStack;
     };
 
 };

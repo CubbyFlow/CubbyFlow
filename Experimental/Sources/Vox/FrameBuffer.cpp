@@ -44,5 +44,4 @@ namespace Vox {
     {
         return glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
     }
-
 };
