@@ -30,6 +30,10 @@ namespace Vox {
     
     bool App::Initialize()
     {
+        _camera.SetPerspectiveElements(45.0f, static_cast<float>(_windowSize.x) / _windowSize.y, 0.01f, 10000.0f);
+        _camera.SetViewElements(CubbyFlow::Vector3F(0.0f, 0.0f, 0.0f), CubbyFlow::Vector3F(0.0f, 0.0f, 1.0f));
+        _camera.UpdateMatrix();
+
         return true;
     }
 
@@ -48,6 +52,9 @@ namespace Vox {
     void App::SetWindowSize(Vector2I size)
     {
         _windowSize = size;
+        _camera.SetPerspectiveElements(45.0f, static_cast<float>(_windowSize.x) / _windowSize.y, 0.01f, 10000.0f);
+        _camera.SetViewElements(CubbyFlow::Vector3F(0.0f, 0.0f, 0.0f), CubbyFlow::Vector3F(0.0f, 0.0f, 1.0f));
+        _camera.UpdateMatrix();
     }
 
     void App::SetBackgroundColor(Vector4F color)  

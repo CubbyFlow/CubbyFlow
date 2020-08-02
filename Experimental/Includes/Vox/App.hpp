@@ -10,10 +10,11 @@
 #ifndef CUBBYFLOW_VOX_APP_HPP
 #define CUBBYFLOW_VOX_APP_HPP
 
+#include <Vox/PerspectiveCamera.hpp>
 #include <Core/Vector/Vector2.h>
 #include <Core/Vector/Vector4.h>
 #include <memory>
-#include <stack>
+#include <queue>
 
 namespace Vox {
 
@@ -45,23 +46,23 @@ namespace Vox {
         virtual const char* GetWindowTitle() { return nullptr; };
 
         //! Pop frame context from top of the stack.
-        std::shared_ptr<Vox::FrameContext> PopFrameContextFromStack()
+        std::shared_ptr<Vox::FrameContext> PopFrameContextFromQueue()
         {
-            if (_ctxStack.empty())
+            if (_ctxQueue.empty())
             {
                 return nullptr;
             }
             else
             {
-                const auto& ctx = _ctxStack.top();
-                _ctxStack.pop();
+                const auto& ctx = _ctxQueue.front();
+                _ctxQueue.pop();
                 return ctx;
             }
         }
         //! Push frame context to the stack.
-        void PushFrameContextToStack(std::shared_ptr<Vox::FrameContext> ctx)
+        void PushFrameContextToQueue(std::shared_ptr<Vox::FrameContext> ctx)
         {
-            _ctxStack.push(ctx);
+            _ctxQueue.push(ctx);
         }
         //! Set Window screen size.
         void SetWindowSize(CubbyFlow::Vector2I size);
@@ -70,8 +71,9 @@ namespace Vox {
     protected:
         CubbyFlow::Vector2I _windowSize { 1200, 900 }; //! window size
         CubbyFlow::Vector4F _bgColor { 0.2f, 0.6f, 0.2f, 1.0f}; //! background color
+        PerspectiveCamera _camera; //! camera with perspective projection.
     private:
-        std::stack<std::shared_ptr<Vox::FrameContext>> _ctxStack;
+        std::queue<std::shared_ptr<FrameContext>> _ctxQueue;
     };
 
 };
