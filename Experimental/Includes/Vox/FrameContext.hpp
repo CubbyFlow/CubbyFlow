@@ -11,6 +11,8 @@
 #define CUBBYFLOW_VOX_FRAME_CONTEXT_HPP
 
 #include <Vox/GLTypes.hpp>
+#include <Vox/PerspectiveCamera.hpp>
+#include <Core/Matrix/Matrix4x4.h>
 #include <memory>
 
 struct GLFWwindow;
@@ -30,10 +32,17 @@ namespace Vox {
 
         //! Get Render Mode Primitive
         GLenum GetRenderMode() const;
+
+        //! Set current program of the context.
+        void MakeProgramCurrent(GLuint program);
+
+        //! Send view projection matrix to uniform variable inthe current bounded program.
+        void UpdateProgramCamera(const PerspectiveCamera& camera);
     protected:
     private:
         GLFWwindow* _windowCtx;
         GLenum _renderMode;
+        GLuint _currentProgram;
     };
 
 };

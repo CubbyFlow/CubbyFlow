@@ -41,4 +41,18 @@ namespace Vox {
 		return _renderMode;
 	}
 
+	void FrameContext::MakeProgramCurrent(GLuint program)
+	{
+		_currentProgram = program;
+		glUseProgram(_currentProgram);
+	}
+
+	void FrameContext::UpdateProgramCamera(const PerspectiveCamera& camera)
+	{
+		GLint loc = glGetUniformLocation(_currentProgram, "ViewProjection");
+		VoxAssert(loc != -1, CURRENT_SRC_PATH_TO_STR, "No Uniform Variable with name 'ViewProjection'");
+
+		glUniformMatrix4fv(loc, 1, false, camera.GetViewProjectionMatrix().data());
+	}
+
 };
