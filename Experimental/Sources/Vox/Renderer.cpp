@@ -69,13 +69,12 @@ namespace Vox {
 		auto extensions = {"GL_ARB_debug_output"};
 		VoxAssert(Renderer::CheckExtensionsSupported(extensions), CURRENT_SRC_PATH_TO_STR, "UnSupported OpenGL Extension");                      
 
-		VoxAssert(app->Initialize(), CURRENT_SRC_PATH_TO_STR, "Application initialize failed");             
-
 		auto ctx = std::make_shared<FrameContext>(window);         
 		app->PushFrameContextToQueue(ctx);
 
-        HostTimer hostTimer;
+		VoxAssert(app->Initialize(), CURRENT_SRC_PATH_TO_STR, "Application initialize failed");             
 
+        HostTimer hostTimer;
         double startTime = hostTimer.DurationInSeconds();
         size_t frameCnt = 0;
         //! main loop
