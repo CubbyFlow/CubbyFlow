@@ -49,6 +49,7 @@ namespace Vox {
 	    glfwWindowHint(GLFW_SAMPLES, 4);
 	    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
         glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+		glfwSwapInterval(1); //! Turn on the VSync.
 #ifdef CUBBYFLOW_MACOSX
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
@@ -71,7 +72,7 @@ namespace Vox {
 		VoxAssert(app->Initialize(), CURRENT_SRC_PATH_TO_STR, "Application initialize failed");             
 
 		auto ctx = std::make_shared<FrameContext>(window);         
-		app->PushFrameContextToStack(ctx);
+		app->PushFrameContextToQueue(ctx);
 
         HostTimer hostTimer;
 
@@ -218,7 +219,7 @@ namespace Vox {
 			glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
 			std::vector<GLchar> info(length);
 			glGetShaderInfoLog(shader, static_cast<GLsizei>(length), nullptr, info.data());
-			VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Compile shader failed");
+			VoxAssert(false, CURRENT_SRC_PATH_TO_STR, info.data());
 		}
 
 		return shader;
@@ -260,7 +261,7 @@ namespace Vox {
 			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
 			std::vector<GLchar> info(length);
 			glGetProgramInfoLog(program, static_cast<GLsizei>(length), nullptr, info.data());
-			VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Link program failed");
+			VoxAssert(false, CURRENT_SRC_PATH_TO_STR, info.data());
 		}
 		
 		//! Detach shaders from program because they are already linked.
@@ -274,11 +275,13 @@ namespace Vox {
     void Renderer::SaveTextureToRGBA(const char* path, int width, int height)
 	{
 		static unsigned char* cache = nullptr;
-		static size_t size = width * height;
-		if (!cache || (size != static_cast<size_t>(width * height)))
+		static int prevWidth = width;
+		static int prevHeight = height;
+
+		if (!cache || ((prevWidth != width) || (prevHeight != height)))
 		{
-			size = static_cast<size_t>(width * height);
-			cache = reinterpret_cast<unsigned char*>(::realloc(cache, size * 4 * sizeof(unsigned char)));
+			prevWidth = width; prevHeight = height; 
+			cache = reinterpret_cast<unsigned char*>(::realloc(cache, width * height * 4 * sizeof(unsigned char)));
 		}
 		
 		glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, static_cast<void*>(cache));
