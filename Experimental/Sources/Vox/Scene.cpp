@@ -12,7 +12,6 @@
 #include <Vox/DebugUtils.hpp>
 #include <Vox/FrameBuffer.hpp>
 #include <Vox/ParticleLoader.hpp>
-#include <glad/glad.h>
 
 namespace Vox {
 
@@ -35,23 +34,4 @@ namespace Vox {
     {
         return _loader;
     }
-
-	void Scene::AddFrameBuffer(std::shared_ptr<FrameBuffer> fbo)
-	{
-		_fbos.push_back(fbo);
-        _fboIterator = _fbos.begin();
-	}
-
-	void Scene::BindNextFrameBuffer(GLenum target)
-	{
-		VoxAssert(_fbos.size() != 0, CURRENT_SRC_PATH_TO_STR, "At least one frame buffer object must exist");
-
-		auto& fbo = *_fboIterator;
-		fbo->BindFrameBuffer(target);
-
-		if (_fboIterator + 1 == _fbos.end())
-		{
-			_fboIterator = _fbos.begin();
-		}
-	}
 };

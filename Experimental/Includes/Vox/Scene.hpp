@@ -12,7 +12,6 @@
 
 #include <Vox/GLTypes.hpp>
 #include <memory>
-#include <vector>
 
 namespace Vox {
     class ParticleLoader;
@@ -29,16 +28,9 @@ namespace Vox {
         void SetLoader(const std::shared_ptr<ParticleLoader>& loader);
         const std::shared_ptr<ParticleLoader>& GetLoader();
 
-        //! Push Frame Buffer to the vector
-        //! Binding will be occurred sequentially.
-        void AddFrameBuffer(std::shared_ptr<FrameBuffer> fbo);
-        //! Bind framebuffers sequentially.
-        void BindNextFrameBuffer(GLenum target);
     protected:
     private:
         std::shared_ptr<ParticleLoader> _loader;
-        std::vector<std::shared_ptr<FrameBuffer>> _fbos;
-        std::vector<std::shared_ptr<FrameBuffer>>::iterator _fboIterator;
     };
 
 };
