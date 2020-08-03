@@ -177,9 +177,9 @@ namespace Vox {
         std::cerr << "[Type] : "       << Detail::GetStringForType(type)           << 
                 	 "[Source] : "     << Detail::GetStringForSource(source)       <<
                 	 "[ID] : "         <<              id                          <<
-                	 "[Serverity] : "  << Detail::GetStringForSeverity(severity);
+                	 "[Serverity] : "  << Detail::GetStringForSeverity(severity)   << std::endl;
                           
-        std::cerr << "[Message] : "    << message;
+        std::cerr << "[Message] : "    << message << std::endl;
         
         StackTrace::PrintStack();
     }
