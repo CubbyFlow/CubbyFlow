@@ -21,6 +21,12 @@ namespace Vox {
 
     App::~App()
     {
+        while (!_ctxQueue.empty())
+        {
+            auto& ctx = _ctxQueue.front();
+            ctx.reset();
+            _ctxQueue.pop();
+        }
     }
 
     CubbyFlow::Vector2I App::GetWindowSize()
