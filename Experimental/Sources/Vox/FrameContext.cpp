@@ -37,6 +37,7 @@ namespace Vox {
 			iter.second.reset();
 		_programMap.clear();
 
+		//! glfw destroy
 		if (_windowCtx)
 		{
 			glfwDestroyWindow(_windowCtx);
@@ -56,14 +57,17 @@ namespace Vox {
 
 	void FrameContext::AddShaderProgram(const std::string& name, GLuint program)
 	{
-		_programMap.emplace(name, program);
+		_programMap.emplace(name, std::make_shared<Program>(program));
 	}
 
 	void FrameContext::MakeProgramCurrent(const std::string& name)
 	{
+		//! Find given program name in the program map.
 		auto iter = _programMap.find(name);
+		//! If given name does not exist, print call stack and error message.
 		VoxAssert(iter != _programMap.end(), CURRENT_SRC_PATH_TO_STR, std::string("No Shader Program ") + name);
 		_currentProgram = iter->second;
+		//! Check whether if dependent shared_ptr expired or not.
 		if (!_currentProgram.expired())
 			_currentProgram.lock()->UseProgram();
 	}
@@ -75,7 +79,9 @@ namespace Vox {
 
     void FrameContext::BindTextureToSlot(const std::string& name, GLenum target, GLenum slot)
 	{
+		//! Find given program name in the program map.
 		auto iter = _textureMap.find(name);
+		//! If given name does not exist, print call stack and error message.
 		VoxAssert(iter != _textureMap.end(), CURRENT_SRC_PATH_TO_STR, std::string("No Shader Program ") + name);
 		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(target, iter->second);
@@ -83,8 +89,9 @@ namespace Vox {
 
 	void FrameContext::UpdateProgramCamera(const PerspectiveCamera& camera)
 	{
+		//! Check whether if dependent shared_ptr expired or not.
 		if (!_currentProgram.expired())
-			_currentProgram.lock()->SendUniformVariable("ViewProjection", camera.GetViewProjectionMatrix().data());
+			_currentProgram.lock()->SendUniformVariable("ViewProjection", camera.GetViewProjectionMatrix());
 	}
 
 	void FrameContext::AddFrameBuffer(std::shared_ptr<FrameBuffer> fbo)
@@ -95,6 +102,7 @@ namespace Vox {
 
 	void FrameContext::BindNextFrameBuffer(GLenum target)
 	{
+		//! If there is no frame buffer objects registered, log debug message.
 		VoxAssert(_fbos.size() != 0, CURRENT_SRC_PATH_TO_STR, "At least one frame buffer object must exist");
 
 		auto& fbo = *_fboIterator;
@@ -105,5 +113,4 @@ namespace Vox {
 			_fboIterator = _fbos.begin();
 		}
 	}
-
 };
