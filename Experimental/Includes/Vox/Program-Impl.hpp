@@ -10,6 +10,7 @@
 #ifndef CUBBYFLOW_VOX_PROGRAM_IMPL_HPP
 #define CUBBYFLOW_VOX_PROGRAM_IMPL_HPP
 
+#include <Vox/Program.hpp>
 #include <Vox/GLTypes.hpp>
 #include <Core/Vector/Vector3.h>
 #include <Core/Vector/Vector4.h>
@@ -20,6 +21,7 @@ namespace Vox {
     namespace Detail
     {
         GLuint GetUniformVariable(GLuint program, const std::string& name);
+        void SendUniformVariable__Impl(GLint loc, float f);
         void SendUniformVariable__Impl(GLint loc, CubbyFlow::Vector3F&& vec3);
         void SendUniformVariable__Impl(GLint loc, CubbyFlow::Vector4F&& vec4);
         void SendUniformVariable__Impl(GLint loc, CubbyFlow::Matrix4x4F&& mat4);
@@ -31,7 +33,7 @@ namespace Vox {
         auto iter = _uniformCache.find(name);
         if (iter == _uniformCache.end())
         {
-            GLint loc = Detail::GetUniformVariable(_currentProgram, name);
+            GLint loc = Detail::GetUniformVariable(_program, name);
             _uniformCache.emplace(name, loc);
             Detail::SendUniformVariable__Impl(loc, std::forward<UniformType>(var));
         }
