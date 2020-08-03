@@ -21,6 +21,7 @@ struct GLFWwindow;
 
 namespace Vox {
     class FrameBuffer;
+    class Program;
     /**
      * OpenGL Context wrapper which will be used for rendering one frame.
      */
@@ -61,11 +62,11 @@ namespace Vox {
     private:
         std::vector<std::shared_ptr<FrameBuffer>> _fbos;
         std::vector<std::shared_ptr<FrameBuffer>>::iterator _fboIterator;
-        std::unordered_map<std::string, GLuint> _programMap;
-        std::unordered_map<std::string, GLuint> _textures;
+        std::unordered_map<std::string, std::shared_ptr<Program>> _programMap;
+        std::unordered_map<std::string, GLuint> _textureMap;
         GLFWwindow* _windowCtx;
         GLenum _renderMode;
-        GLuint _currentProgram;
+        std::weak_ptr<Program> _currentProgram;
     };
 
 };

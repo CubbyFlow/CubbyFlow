@@ -10,6 +10,7 @@
 #include <Vox/FrameContext.hpp>
 #include <Vox/DebugUtils.hpp>
 #include <Vox/FrameBuffer.hpp>
+#include <Vox/Program.hpp>
 #include <Vox/FileSystem.hpp>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -19,11 +20,23 @@ namespace Vox {
 	FrameContext::FrameContext(GLFWwindow* windowCtx)
 		: _windowCtx(windowCtx), _renderMode(GL_POINTS)
 	{
-
+		//! Do nothing.
 	}
 
     FrameContext::~FrameContext()
 	{
+		for (auto& fbo : _fbos)
+			fbo.reset();
+		_fbos.clear();
+
+		for (auto iter : _textureMap)
+			glDeleteTextures(1, &(iter.second));
+		_textureMap.clear();
+
+		for (auto iter : _programMap)
+			iter.second.reset();
+		_programMap.clear();
+
 		if (_windowCtx)
 		{
 			glfwDestroyWindow(_windowCtx);
@@ -50,32 +63,28 @@ namespace Vox {
 	{
 		auto iter = _programMap.find(name);
 		VoxAssert(iter != _programMap.end(), CURRENT_SRC_PATH_TO_STR, std::string("No Shader Program ") + name);
-
 		_currentProgram = iter->second;
-		glUseProgram(_currentProgram);
+		if (!_currentProgram.expired())
+			_currentProgram.lock()->UseProgram();
 	}
 
 	void FrameContext::AddTexture(const std::string& name, GLuint texture)
 	{
-		_textures.emplace(name, texture);
+		_textureMap.emplace(name, texture);
 	}
 
     void FrameContext::BindTextureToSlot(const std::string& name, GLenum target, GLenum slot)
 	{
-		auto iter = _textures.find(name);
-		VoxAssert(iter != _textures.end(), CURRENT_SRC_PATH_TO_STR, std::string("No Shader Program ") + name);
-
+		auto iter = _textureMap.find(name);
+		VoxAssert(iter != _textureMap.end(), CURRENT_SRC_PATH_TO_STR, std::string("No Shader Program ") + name);
 		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(target, iter->second);
 	}
 
-
 	void FrameContext::UpdateProgramCamera(const PerspectiveCamera& camera)
 	{
-		GLint loc = glGetUniformLocation(_currentProgram, "ViewProjection");
-		VoxAssert(loc != -1, CURRENT_SRC_PATH_TO_STR, "No Uniform Variable with name 'ViewProjection'");
-
-		glUniformMatrix4fv(loc, 1, false, camera.GetViewProjectionMatrix().data());
+		if (!_currentProgram.expired())
+			_currentProgram.lock()->SendUniformVariable("ViewProjection", camera.GetViewProjectionMatrix().data());
 	}
 
 	void FrameContext::AddFrameBuffer(std::shared_ptr<FrameBuffer> fbo)
