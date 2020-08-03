@@ -102,26 +102,25 @@ namespace Vox {
 
     bool Renderer::CheckExtensionsSupported(const std::initializer_list<const char*>& exts)
     {
+		//! Get the number of extensions currently running physical device.
         int max;
         glGetIntegerv(GL_NUM_EXTENSIONS, &max);
         std::list<const char*> extensionList (exts);
 
+		//! Get extension name and compare with given arguments.
         for (int i = 0; i < max; ++i)
         {
             const GLchar* temp = reinterpret_cast<const GLchar*>(glGetStringi(GL_EXTENSIONS, i));
-            for (auto iter = extensionList.begin(); iter != extensionList.end();)
+            for (auto iter = begin(extensionList); iter != end(extensionList);)
             {
-                if (strcmp(temp, *iter) == 0)
-                {
+				//! If current queried extension name mathced with extension argument, pop.
+                if (strcmp(temp, *iter) == 0) 
                     iter = extensionList.erase(iter);
-                }
-                else
-                {
+                else 
                     ++iter;
-                }
             }
         }
-
+		//! If list is still not empty after looping over extension name list, exit the program.
         if (!extensionList.empty())
         {
             for (const auto& ext : extensionList)
@@ -141,7 +140,10 @@ namespace Vox {
 		GLuint texture;
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY, 1.0f);
+		//! https://paroj.github.io/gltut/Texturing/Tut15%20Anisotropy.html
+		//! ARB_texture_filter_anisotropic extension.
+		//! Apply anisotropic filter to the texture.
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY, 1.0f);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -224,7 +226,6 @@ namespace Vox {
 		return shader;
 	}
 
-
     GLuint Renderer::CreateShaderFromFile(const Path& path, GLenum shaderType)
     {
 		//! Load shader source file.
@@ -277,13 +278,16 @@ namespace Vox {
 		static int prevWidth = width;
 		static int prevHeight = height;
 
+		//! There is no need to re-allocate heap memory if width and height are unchanged.
 		if (!cache || ((prevWidth != width) || (prevHeight != height)))
 		{
 			prevWidth = width; prevHeight = height; 
 			cache = reinterpret_cast<unsigned char*>(::realloc(cache, width * height * 4 * sizeof(unsigned char)));
 		}
 		
+		//! Read pixels to client memory(heap-pre-allocated data).
 		glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, static_cast<void*>(cache));
+		//! Save read image data into rgba png.
 		stbi_write_png(path, width, height, 4, static_cast<const void*>(cache), 0);
 	}
 };
