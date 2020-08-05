@@ -1,4 +1,4 @@
-from pyCubbyFlow import *
+from pyCubbyFlow import * # lgtm [py/polluting-import]
 import math
 import numpy as np
 import matplotlib.pyplot as plt
