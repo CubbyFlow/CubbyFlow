@@ -45,6 +45,9 @@ class BoundingBox
     //! Constructs a box with other box instance.
     BoundingBox(const BoundingBox& other);
 
+    //! Copy assignment operator.
+    BoundingBox& operator=(const BoundingBox& other);
+
     //! Returns true of this box and other box overlaps.
     bool Overlaps(const BoundingBox& other) const;
 

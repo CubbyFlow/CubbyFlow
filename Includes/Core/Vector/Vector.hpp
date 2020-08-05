@@ -60,6 +60,9 @@ class Vector final : public VectorExpression<T, Vector<T, N>>
     //! Copy constructor.
     Vector(const Vector& other);
 
+    //! Copy assignment operator.
+    Vector& operator=(const Vector& other);
+
     // MARK: Basic setters
     //! Sets all elements to \p s.
     void Set(const T& s);

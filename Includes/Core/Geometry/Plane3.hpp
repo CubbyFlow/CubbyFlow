@@ -50,6 +50,9 @@ class Plane3 final : public Surface3
     //! Copy constructor.
     Plane3(const Plane3& other);
 
+    //! Default copy assignment operator.
+    Plane3& operator=(const Plane3& other) = default;
+
     //! Returns true if bounding box can be defined.
     bool IsBounded() const override;
 

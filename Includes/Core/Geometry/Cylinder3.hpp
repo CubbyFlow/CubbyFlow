@@ -47,6 +47,9 @@ class Cylinder3 final : public Surface3
     //! Copy constructor.
     Cylinder3(const Cylinder3& other);
 
+    //! Default copy assignment operator.
+    Cylinder3& operator=(const Cylinder3& other) = default;
+
     //! Returns builder fox Cylinder3.
     static Builder GetBuilder();
 

@@ -448,6 +448,16 @@ const T& ConstArrayAccessor<T, 3>::operator()(const Point3UI& pt) const
 {
     return m_data[Index(pt)];
 }
+
+template <typename T>
+ConstArrayAccessor<T, 3>& ConstArrayAccessor<T, 3>::operator=(
+    const ConstArrayAccessor& other)
+{
+    m_size = other.m_size;
+    m_data = other.m_data;
+
+    return *this;
+}
 }  // namespace CubbyFlow
 
 #endif

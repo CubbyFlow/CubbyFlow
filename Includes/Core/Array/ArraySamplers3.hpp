@@ -100,6 +100,9 @@ class LinearArraySampler<T, R, 3> final
     //! Copy constructor.
     LinearArraySampler(const LinearArraySampler& other);
 
+    //! Copy assignment operator.
+    LinearArraySampler& operator=(const LinearArraySampler& other);
+
     //! Returns sampled value at point \p pt.
     T operator()(const Vector3<R>& pt) const;
 
@@ -158,6 +161,9 @@ class CubicArraySampler<T, R, 3> final
 
     //! Copy constructor.
     CubicArraySampler(const CubicArraySampler& other);
+
+    //! Copy assignment operator.
+    CubicArraySampler& operator=(const CubicArraySampler& other);
 
     //! Returns sampled value at point \p pt.
     T operator()(const Vector3<R>& pt) const;

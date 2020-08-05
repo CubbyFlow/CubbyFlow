@@ -47,6 +47,9 @@ class Box2 final : public Surface2
     //! Copy constructor.
     Box2(const Box2& other);
 
+    //! Copy assignment operator.
+    Box2& operator=(const Box2& other);
+
     //! Returns builder fox Box2.
     static Builder GetBuilder();
 

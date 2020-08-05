@@ -47,6 +47,9 @@ class Box3 final : public Surface3
     //! Copy constructor.
     Box3(const Box3& other);
 
+    //! Copy assignment operator.
+    Box3& operator=(const Box3& other);
+
     //! Returns builder fox Box3.
     static Builder GetBuilder();
 

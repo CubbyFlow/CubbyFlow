@@ -26,6 +26,9 @@ class ImplicitSurface3 : public Surface3
     //! Copy constructor.
     ImplicitSurface3(const ImplicitSurface3& other);
 
+    //! Default copy assignment operator.
+    ImplicitSurface3& operator=(const ImplicitSurface3& other) = default;
+
     //! Default destructor.
     virtual ~ImplicitSurface3();
 

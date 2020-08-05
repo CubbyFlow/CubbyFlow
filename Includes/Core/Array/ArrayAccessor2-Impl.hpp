@@ -417,6 +417,16 @@ const T& ConstArrayAccessor<T, 2>::operator()(size_t i, size_t j) const
 {
     return m_data[Index(i, j)];
 }
+
+template <typename T>
+ConstArrayAccessor<T, 2>& ConstArrayAccessor<T, 2>::operator=(
+    const ConstArrayAccessor& other)
+{
+    m_size = other.m_size;
+    m_data = other.m_data;
+
+    return *this;
+}
 }  // namespace CubbyFlow
 
 #endif

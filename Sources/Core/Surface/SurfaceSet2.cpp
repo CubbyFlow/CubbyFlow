@@ -40,6 +40,18 @@ SurfaceSet2::SurfaceSet2(const SurfaceSet2& other)
     InvalidateBVH();
 }
 
+SurfaceSet2& SurfaceSet2::operator=(const SurfaceSet2& other)
+{
+    Surface2::operator=(other);
+
+    m_surfaces = other.m_surfaces;
+    m_unboundedSurfaces = other.m_unboundedSurfaces;
+
+    InvalidateBVH();
+
+    return *this;
+}
+
 void SurfaceSet2::UpdateQueryEngine()
 {
     InvalidateBVH();

@@ -43,6 +43,9 @@ class Ray<T, 3> final
     //! Copy constructor.
     Ray(const Ray& other);
 
+    //! Copy assignment operator.
+    Ray& operator=(const Ray& other);
+
     //! Returns a point on the ray at distance \p t.
     Vector3<T> PointAt(T t) const;
 };

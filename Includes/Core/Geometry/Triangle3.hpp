@@ -46,8 +46,11 @@ class Triangle3 final : public Surface3
               const Transform3& transform = Transform3(),
               bool isNormalFlipped = false);
 
-    //! Copy constructor
+    //! Copy constructor.
     Triangle3(const Triangle3& other);
+
+    //! Default copy assignment operator.
+    Triangle3& operator=(const Triangle3& other) = default;
 
     //! Returns the area of this triangle.
     double Area() const;

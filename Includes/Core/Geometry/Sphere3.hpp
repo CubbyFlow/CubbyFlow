@@ -44,6 +44,9 @@ class Sphere3 final : public Surface3
     //! Copy constructor.
     Sphere3(const Sphere3& other);
 
+    //! Default copy assignment operator.
+    Sphere3& operator=(const Sphere3& other) = default;
+
     //! Returns builder fox Sphere3.
     static Builder GetBuilder();
 

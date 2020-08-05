@@ -54,6 +54,14 @@ Vector<T, N>::Vector(const Vector& other) : m_elements(other.m_elements)
 }
 
 template <typename T, size_t N>
+Vector<T, N>& Vector<T, N>::operator=(const Vector& other)
+{
+    m_elements = other.m_elements;
+
+    return *this;
+}
+
+template <typename T, size_t N>
 void Vector<T, N>::Set(const T& s)
 {
     m_elements.fill(s);

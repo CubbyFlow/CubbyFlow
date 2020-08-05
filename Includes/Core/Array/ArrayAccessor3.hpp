@@ -426,6 +426,9 @@ class ConstArrayAccessor<T, 3>
     //! Returns the reference to the element at (i, j, k).
     const T& operator()(size_t i, size_t j, size_t k) const;
 
+    //! Copies given read-only array accessor \p other.
+    ConstArrayAccessor& operator=(const ConstArrayAccessor& other);
+
  private:
     Size3 m_size;
     const T* m_data;

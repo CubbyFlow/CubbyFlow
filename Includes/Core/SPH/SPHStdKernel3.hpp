@@ -48,8 +48,11 @@ struct SPHStdKernel3
     //! Constructs a kernel object with given radius.
     explicit SPHStdKernel3(double kernelRadius);
 
-    //! Copy constructor
+    //! Copy constructor.
     SPHStdKernel3(const SPHStdKernel3& other);
+
+    //! Default copy assignment operator.
+    SPHStdKernel3& operator=(const SPHStdKernel3& other) = default;
 
     //! Returns kernel function value at given distance.
     double operator()(double distance) const;
@@ -98,8 +101,11 @@ struct SPHSpikyKernel3
     //! Constructs a kernel object with given radius.
     explicit SPHSpikyKernel3(double kernelRadius);
 
-    //! Copy constructor
+    //! Copy constructor.
     SPHSpikyKernel3(const SPHSpikyKernel3& other);
+
+    //! Default copy assignment operator.
+    SPHSpikyKernel3& operator=(const SPHSpikyKernel3& other) = default;
 
     //! Returns kernel function value at given distance.
     double operator()(double distance) const;

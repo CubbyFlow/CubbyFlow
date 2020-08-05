@@ -47,6 +47,9 @@ class Surface2
     //! Copy constructor.
     Surface2(const Surface2& other);
 
+    //! Default copy assignment operator.
+    Surface2& operator=(const Surface2& other) = default;
+
     //! Default destructor.
     virtual ~Surface2();
 
