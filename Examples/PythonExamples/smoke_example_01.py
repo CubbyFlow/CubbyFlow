@@ -55,8 +55,8 @@ def main():
                                            interval=ANIM_FPS, blit=True)
             anim.Save('SmokeExample1.mp4', fps=ANIM_FPS, writer='ffmpeg')
     else:
-        anim = animation.FuncAnimation(fig, updateFig, frames=ANIM_NUM_FRAMES,
-                                       interval=1, blit=True)
+        animation.FuncAnimation(fig, updateFig, frames=ANIM_NUM_FRAMES,
+                                interval=1, blit=True)
         plt.show()
 
 

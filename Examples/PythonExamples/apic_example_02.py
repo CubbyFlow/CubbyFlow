@@ -50,8 +50,8 @@ def main():
         scat.set_offsets(np.vstack((pos[:, 0], pos[:, 1])).transpose())
         return scat,
 
-    anim = animation.FuncAnimation(fig, updateFig, frames=ANIM_NUM_FRAMES,
-                                   interval=1, blit=True)
+    animation.FuncAnimation(fig, updateFig, frames=ANIM_NUM_FRAMES,
+                            interval=1, blit=True)
     plt.show()
 
 
