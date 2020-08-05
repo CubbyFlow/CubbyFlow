@@ -212,7 +212,7 @@ T* Array<T, 3>::data()
 }
 
 template <typename T>
-const T* const Array<T, 3>::data() const
+const T* Array<T, 3>::data() const
 {
     return m_data.data();
 }

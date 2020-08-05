@@ -105,13 +105,13 @@ const T& ArrayAccessor<T, 3>::At(size_t i, size_t j, size_t k) const
 }
 
 template <typename T>
-T* const ArrayAccessor<T, 3>::begin() const
+T* ArrayAccessor<T, 3>::begin() const
 {
     return m_data;
 }
 
 template <typename T>
-T* const ArrayAccessor<T, 3>::end() const
+T* ArrayAccessor<T, 3>::end() const
 {
     return m_data + Width() * Height() * Depth();
 }
@@ -153,7 +153,7 @@ size_t ArrayAccessor<T, 3>::Depth() const
 }
 
 template <typename T>
-T* const ArrayAccessor<T, 3>::data() const
+T* ArrayAccessor<T, 3>::data() const
 {
     return m_data;
 }
@@ -335,13 +335,13 @@ const T& ConstArrayAccessor<T, 3>::At(size_t i, size_t j, size_t k) const
 }
 
 template <typename T>
-const T* const ConstArrayAccessor<T, 3>::begin() const
+const T* ConstArrayAccessor<T, 3>::begin() const
 {
     return m_data;
 }
 
 template <typename T>
-const T* const ConstArrayAccessor<T, 3>::end() const
+const T* ConstArrayAccessor<T, 3>::end() const
 {
     return m_data + Width() * Height() * Depth();
 }
@@ -371,7 +371,7 @@ size_t ConstArrayAccessor<T, 3>::Depth() const
 }
 
 template <typename T>
-const T* const ConstArrayAccessor<T, 3>::data() const
+const T* ConstArrayAccessor<T, 3>::data() const
 {
     return m_data;
 }

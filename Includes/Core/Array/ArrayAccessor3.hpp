@@ -79,10 +79,10 @@ class ArrayAccessor<T, 3> final
     const T& At(size_t i, size_t j, size_t k) const;
 
     //! Returns the begin iterator of the array.
-    T* const begin() const;
+    T* begin() const;
 
     //! Returns the end iterator of the array.
-    T* const end() const;
+    T* end() const;
 
     //! Returns the begin iterator of the array.
     T* begin();
@@ -103,7 +103,7 @@ class ArrayAccessor<T, 3> final
     size_t Depth() const;
 
     //! Returns the raw pointer to the array data.
-    T* const data() const;
+    T* data() const;
 
     //! Swaps the content of with \p other array accessor.
     void Swap(ArrayAccessor& other);
@@ -304,10 +304,10 @@ class ConstArrayAccessor<T, 3>
     const T& At(size_t i, size_t j, size_t k) const;
 
     //! Returns the begin iterator of the array.
-    const T* const begin() const;
+    const T* begin() const;
 
     //! Returns the end iterator of the array.
-    const T* const end() const;
+    const T* end() const;
 
     //! Returns the size of the array.
     Size3 size() const;
@@ -322,7 +322,7 @@ class ConstArrayAccessor<T, 3>
     size_t Depth() const;
 
     //! Returns the raw pointer to the array data.
-    const T* const data() const;
+    const T* data() const;
 
     //!
     //! \brief Iterates the array and invoke given \p func for each index.
