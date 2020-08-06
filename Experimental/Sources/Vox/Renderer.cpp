@@ -288,6 +288,7 @@ namespace Vox {
 		//! Read pixels to client memory(heap-pre-allocated data).
 		glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, static_cast<void*>(cache));
 		//! Save read image data into rgba png.
+		stbi_flip_vertically_on_write(true);
 		stbi_write_png(path, width, height, 4, static_cast<const void*>(cache), 0);
 	}
 };
