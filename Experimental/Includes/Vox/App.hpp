@@ -70,7 +70,7 @@ namespace Vox {
         void SetBackgroundColor(CubbyFlow::Vector4F color);
     protected:
         CubbyFlow::Vector2I _windowSize { 1200, 900 }; //! window size
-        CubbyFlow::Vector4F _bgColor { 0.2f, 0.6f, 0.2f, 1.0f}; //! background color
+        CubbyFlow::Vector4F _bgColor { 0.344f, 0.388f, 0.388f, 1.0f}; //! background color
         PerspectiveCamera _camera; //! camera with perspective projection.
     private:
         std::queue<std::shared_ptr<FrameContext>> _ctxQueue;
