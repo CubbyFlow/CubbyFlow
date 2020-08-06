@@ -63,6 +63,12 @@ namespace Vox {
         PF_DEPTH_COMPONENT32F,
         PF_DEPTH_COMPONENT32F_STENCIL8,
         PF_RGB565,
+        PF_DXT1,
+        PF_DXT3,
+        PF_DXT5,
+        PF_DXT1_SRGB,
+        PF_DXT3_SRGB,
+        PF_DXT5_SRGB,
         PF_END,
     };
 
