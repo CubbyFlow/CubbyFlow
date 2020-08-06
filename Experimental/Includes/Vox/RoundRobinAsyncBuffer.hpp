@@ -35,14 +35,18 @@ namespace Vox {
     
         //! Draw one frame of the particles data.
         bool CheckFence(GLuint64 timeout);
+        //! Asynchronously transfer scene data to vertex buffer.
         void AsyncBufferTransfer(const std::shared_ptr<Scene>& scn);
+        //! Draw the frmae with the transferred vertex buffer.
         void DrawFrame(const std::shared_ptr<FrameContext>& ctx);
+        //! Advance the frame index.
         void AdvanceFrame();
 
         static const size_t kMaxBufferSize = 0x400000; //! 0x400000 == 4,194,304
-        static const size_t kDefaultNumBuffer = 3;
+        static const size_t kDefaultNumBuffer = 5;
     protected:
     private:
+        std::vector<GLuint> _vaos;
         std::vector<GLuint> _buffers;
         std::vector<GLsync> _fences; 
         size_t _frameIndex { 0 } ;

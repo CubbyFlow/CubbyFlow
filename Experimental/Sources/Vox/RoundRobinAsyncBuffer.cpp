@@ -25,23 +25,28 @@ namespace Vox {
 
     RoundRobinAsyncBuffer::RoundRobinAsyncBuffer(const size_t numBuffer)
     {
+        _vaos.resize(numBuffer);
         _buffers.resize(numBuffer);
         _fences.resize(numBuffer);
 
+        glGenVertexArrays(numBuffer, _vaos.data());
         glGenBuffers(numBuffer, _buffers.data());
-        for (GLuint id : _buffers)
+        for (size_t i = 0; i < numBuffer; ++i)
         {
-            glBindBuffer(GL_ARRAY_BUFFER, id);
+            glBindVertexArray(_vaos[i]);
+            glBindBuffer(GL_ARRAY_BUFFER, _buffers[i]);
             glBufferData(GL_ARRAY_BUFFER, RoundRobinAsyncBuffer::kMaxBufferSize, nullptr, GL_STREAM_DRAW);
+            glEnableVertexAttribArray(0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glBindVertexArray(0);
         }
     }
 
     RoundRobinAsyncBuffer::~RoundRobinAsyncBuffer()
     {
-        for (GLuint& id : _buffers)
-            glDeleteBuffers(1, &id);
-        _buffers.clear();
+        glDeleteVertexArrays(static_cast<GLsizei>(_vaos.size()), _vaos.data());
+        glDeleteBuffers(static_cast<GLsizei>(_buffers.size()), _buffers.data());
         _fences.clear();
     }
 
@@ -53,14 +58,7 @@ namespace Vox {
         if (fence)
         {
             GLenum result = glClientWaitSync(fence, 0, timeout); //! CPU side synchronization
-            if (result == GL_ALREADY_SIGNALED || result == GL_CONDITION_SATISFIED)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return result == GL_ALREADY_SIGNALED || result == GL_CONDITION_SATISFIED;
         }
         return true;
     }
@@ -69,13 +67,23 @@ namespace Vox {
     {
         const size_t bufferNum = _frameIndex % _buffers.size();
         const GLuint buffer = _buffers[bufferNum];
-
+        const GLsync& fence = _fences[bufferNum];
+        
+        //! If fence exists, delete.
+        if (fence) glDeleteSync(fence);
+        //! Bind the vertex buffer.
         glBindBuffer(GL_ARRAY_BUFFER, buffer);
+        //! Take modulo for repeating buffer transfer.
         const size_t index = _frameIndex % scn->GetLoader()->GetNumberOfFrame();
-        _numVertices = scn->GetLoader()->GetNumberOfBytes(index);
-        void* ptr = glMapBufferRange(GL_ARRAY_BUFFER, 0, _numVertices, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+        size_t numBytes = scn->GetLoader()->GetNumberOfBytes(index);
+        //! Map gpu pointer to cpu.
+        void* ptr = glMapBufferRange(GL_ARRAY_BUFFER, 0, numBytes, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+        //! Pass pointer for the memcpy
         scn->GetLoader()->CopyParticleData(ptr, index);
+        //! Unmap the pointer after transfer finished.
         glUnmapBuffer(GL_ARRAY_BUFFER);
+        
+        _numVertices  = numBytes / (sizeof(float) * 3);
     }
 
     void RoundRobinAsyncBuffer::DrawFrame(const std::shared_ptr<FrameContext>& ctx)
@@ -84,9 +92,12 @@ namespace Vox {
         GLsync& fence = _fences[bufferNum];
 
         GLenum primitive = ctx->GetRenderMode();
-        glDrawArraysInstanced(primitive, 0, _numVertices / (sizeof(float) * 3), 0);
+        glBindVertexArray(_vaos[bufferNum]);
+        glDrawArrays(primitive, 0, _numVertices);
+        glBindVertexArray(0);
+        //glDrawArraysInstanced(primitive, 0, _numVertices / (sizeof(float) * 3), 0);
         
-        if (fence) glDeleteSync(fence);
+        //! Make fence to draw call.
         fence = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0); 
     }
 
