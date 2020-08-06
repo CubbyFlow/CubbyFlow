@@ -61,6 +61,9 @@ class BoundingBox<T, 2>
     //! Constructs a box with other box instance.
     BoundingBox(const BoundingBox& other);
 
+    //! Copy assignment operator.
+    BoundingBox& operator=(const BoundingBox& other);
+
     //! Returns width of the box.
     T GetWidth() const;
 

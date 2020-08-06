@@ -40,6 +40,15 @@ BoundingBox<T, N>::BoundingBox(const BoundingBox& other)
 }
 
 template <typename T, size_t N>
+BoundingBox<T, N>& BoundingBox<T, N>::operator=(const BoundingBox& other)
+{
+    lowerCorner = other.lowerCorner;
+    upperCorner = other.upperCorner;
+
+    return *this;
+}
+
+template <typename T, size_t N>
 bool BoundingBox<T, N>::Overlaps(const BoundingBox& other) const
 {
     for (size_t i = 0; i < N; ++i)

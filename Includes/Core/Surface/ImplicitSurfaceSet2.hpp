@@ -46,6 +46,9 @@ class ImplicitSurfaceSet2 final : public ImplicitSurface2
     //! Copy constructor.
     ImplicitSurfaceSet2(const ImplicitSurfaceSet2& other);
 
+    //! Copy assignment operator.
+    ImplicitSurfaceSet2& operator=(const ImplicitSurfaceSet2& other);
+
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;
 

@@ -78,10 +78,10 @@ class ArrayAccessor<T, 2> final
     const T& At(size_t i, size_t j) const;
 
     //! Returns the begin iterator of the array.
-    T* const begin() const;
+    T* begin() const;
 
     //! Returns the end iterator of the array.
-    T* const end() const;
+    T* end() const;
 
     //! Returns the begin iterator of the array.
     T* begin();
@@ -99,7 +99,7 @@ class ArrayAccessor<T, 2> final
     size_t Height() const;
 
     //! Returns the raw pointer to the array data.
-    T* const data() const;
+    T* data() const;
 
     //! Swaps the content of with \p other array accessor.
     void Swap(ArrayAccessor& other);
@@ -272,7 +272,7 @@ class ConstArrayAccessor<T, 2>
     //! \param data Raw array pointer.
     ConstArrayAccessor(const Size2& size, const T* const data);
 
-    //! Constructs an array accessor that wraps given array.
+    //! Constructs a read-only array accessor that wraps given array.
     //! \param width Width of the 2-D array.
     //! \param height Height of the 2-D array.
     //! \param data Raw array pointer.
@@ -294,10 +294,10 @@ class ConstArrayAccessor<T, 2>
     const T& At(size_t i, size_t j) const;
 
     //! Returns the begin iterator of the array.
-    const T* const begin() const;
+    const T* begin() const;
 
     //! Returns the end iterator of the array.
-    const T* const end() const;
+    const T* end() const;
 
     //! Returns the size of the array.
     Size2 size() const;
@@ -309,7 +309,7 @@ class ConstArrayAccessor<T, 2>
     size_t Height() const;
 
     //! Returns the raw pointer to the array data.
-    const T* const data() const;
+    const T* data() const;
 
     //!
     //! \brief Iterates the array and invoke given \p func for each index.
@@ -408,6 +408,9 @@ class ConstArrayAccessor<T, 2>
 
     //! Returns the const reference to the element at (i, j).
     const T& operator()(size_t i, size_t j) const;
+
+    //! Copies given read-only array accessor \p other.
+    ConstArrayAccessor& operator=(const ConstArrayAccessor& other);
 
  private:
     Size2 m_size;

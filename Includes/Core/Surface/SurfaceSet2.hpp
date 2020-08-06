@@ -41,6 +41,9 @@ class SurfaceSet2 final : public Surface2
     //! Copy constructor.
     SurfaceSet2(const SurfaceSet2& other);
 
+    //! Copy assignment operator.
+    SurfaceSet2& operator=(const SurfaceSet2& other);
+
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;
 

@@ -37,6 +37,9 @@ class SurfaceToImplicit2 final : public ImplicitSurface2
     //! Copy constructor.
     SurfaceToImplicit2(const SurfaceToImplicit2& other);
 
+    //! Default copy assignment operator.
+    SurfaceToImplicit2& operator=(const SurfaceToImplicit2& other) = default;
+
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;
 

@@ -41,6 +41,9 @@ class SurfaceSet3 final : public Surface3
     //! Copy constructor.
     SurfaceSet3(const SurfaceSet3& other);
 
+    //! Copy assignment operator.
+    SurfaceSet3& operator=(const SurfaceSet3& other);
+
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;
 

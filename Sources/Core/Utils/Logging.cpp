@@ -127,7 +127,9 @@ std::string Logging::GetHeader(LogLevel level)
     strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M:%S", &time);
 #endif
 #else
-    strftime(timeStr, sizeof(timeStr), "%F %T", std::localtime(&now));
+    tm time;
+    localtime_r(&now, &time);
+    strftime(timeStr, sizeof(timeStr), "%F %T", &time);
 #endif
     char header[256];
     snprintf(header, sizeof(header), "[%s] %s ", LevelToString(level).c_str(),

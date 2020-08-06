@@ -117,6 +117,18 @@ LinearArraySampler<T, R, 3>::LinearArraySampler(const LinearArraySampler& other)
 }
 
 template <typename T, typename R>
+LinearArraySampler<T, R, 3>& LinearArraySampler<T, R, 3>::operator=(
+    const LinearArraySampler& other)
+{
+    m_gridSpacing = other.m_gridSpacing;
+    m_invGridSpacing = other.m_invGridSpacing;
+    m_origin = other.m_origin;
+    m_accessor = other.m_accessor;
+
+    return *this;
+}
+
+template <typename T, typename R>
 T LinearArraySampler<T, R, 3>::operator()(const Vector3<R>& pt) const
 {
     ssize_t i, j, k;
@@ -276,6 +288,17 @@ CubicArraySampler<T, R, 3>::CubicArraySampler(const CubicArraySampler& other)
     m_gridSpacing = other.m_gridSpacing;
     m_origin = other.m_origin;
     m_accessor = other.m_accessor;
+}
+
+template <typename T, typename R>
+CubicArraySampler<T, R, 3>& CubicArraySampler<T, R, 3>::operator=(
+    const CubicArraySampler& other)
+{
+    m_gridSpacing = other.m_gridSpacing;
+    m_origin = other.m_origin;
+    m_accessor = other.m_accessor;
+
+    return *this;
 }
 
 template <typename T, typename R>

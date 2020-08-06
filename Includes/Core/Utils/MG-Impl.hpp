@@ -16,7 +16,7 @@ namespace CubbyFlow
 namespace Internal
 {
 template <typename BlasType>
-MGResult MGVCycle(const MGMatrix<BlasType>& A, MGParameters<BlasType> params,
+MGResult MGVCycle(const MGMatrix<BlasType>& A, MGParameters<BlasType>& params,
                   unsigned int currentLevel, MGVector<BlasType>* x,
                   MGVector<BlasType>* b, MGVector<BlasType>* buffer)
 {

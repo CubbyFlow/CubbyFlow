@@ -12,13 +12,15 @@
 #include <Core/Solver/FDM/FDMMGPCGSolver2.hpp>
 #include <Core/Utils/Logging.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
 void FDMMGPCGSolver2::Preconditioner::Build(FDMMGLinearSystem2* _system,
                                             MGParameters<FDMBLAS2> _mgParams)
 {
     system = _system;
-    mgParams = _mgParams;
+    mgParams = std::move(_mgParams);
 }
 
 void FDMMGPCGSolver2::Preconditioner::Solve(const FDMVector2& b,

@@ -53,6 +53,17 @@ ImplicitSurfaceSet3::ImplicitSurfaceSet3(const ImplicitSurfaceSet3& other)
     // Do nothing
 }
 
+ImplicitSurfaceSet3& ImplicitSurfaceSet3::operator=(
+    const ImplicitSurfaceSet3& other)
+{
+    ImplicitSurface3::operator=(other);
+
+    m_surfaces = other.m_surfaces;
+    m_unboundedSurfaces = other.m_unboundedSurfaces;
+
+    return *this;
+}
+
 void ImplicitSurfaceSet3::UpdateQueryEngine()
 {
     InvalidateBVH();

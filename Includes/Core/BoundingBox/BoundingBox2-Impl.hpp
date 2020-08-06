@@ -37,6 +37,15 @@ BoundingBox<T, 2>::BoundingBox(const BoundingBox& other)
 }
 
 template <typename T>
+BoundingBox<T, 2>& BoundingBox<T, 2>::operator=(const BoundingBox& other)
+{
+    lowerCorner = other.lowerCorner;
+    upperCorner = other.upperCorner;
+
+    return *this;
+}
+
+template <typename T>
 T BoundingBox<T, 2>::GetWidth() const
 {
     return upperCorner.x - lowerCorner.x;

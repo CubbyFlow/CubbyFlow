@@ -38,6 +38,13 @@ Box3::Box3(const Box3& other) : Surface3(other), bound(other.bound)
     // Do nothing
 }
 
+Box3& Box3::operator=(const Box3& other)
+{
+    bound = other.bound;
+
+    return *this;
+}
+
 Vector3D Box3::ClosestPointLocal(const Vector3D& otherPoint) const
 {
     if (bound.Contains(otherPoint))

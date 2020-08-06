@@ -52,6 +52,9 @@ class GridSystemData2 : public Serializable
     //! Copy constructor.
     GridSystemData2(const GridSystemData2& other);
 
+    //! Copy assignment operator.
+    GridSystemData2& operator=(const GridSystemData2& other);
+
     //! Destructor.
     virtual ~GridSystemData2();
 

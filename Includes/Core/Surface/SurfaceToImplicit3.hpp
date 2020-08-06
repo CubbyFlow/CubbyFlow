@@ -39,6 +39,9 @@ class SurfaceToImplicit3 final : public ImplicitSurface3
     //! Copy constructor.
     SurfaceToImplicit3(const SurfaceToImplicit3& other);
 
+    //! Default copy assignment operator.
+    SurfaceToImplicit3& operator=(const SurfaceToImplicit3& other) = default;
+
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;
 

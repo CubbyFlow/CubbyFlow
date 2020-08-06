@@ -44,6 +44,9 @@ class Sphere2 final : public Surface2
     //! Copy constructor.
     Sphere2(const Sphere2& other);
 
+    //! Default copy assignment operator.
+    Sphere2& operator=(const Sphere2& other) = default;
+
     //! Returns builder fox Sphere2.
     static Builder GetBuilder();
 

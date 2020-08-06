@@ -103,13 +103,13 @@ const T& ArrayAccessor<T, 2>::At(size_t i, size_t j) const
 }
 
 template <typename T>
-T* const ArrayAccessor<T, 2>::begin() const
+T* ArrayAccessor<T, 2>::begin() const
 {
     return m_data;
 }
 
 template <typename T>
-T* const ArrayAccessor<T, 2>::end() const
+T* ArrayAccessor<T, 2>::end() const
 {
     return m_data + Width() * Height();
 }
@@ -145,7 +145,7 @@ size_t ArrayAccessor<T, 2>::Height() const
 }
 
 template <typename T>
-T* const ArrayAccessor<T, 2>::data() const
+T* ArrayAccessor<T, 2>::data() const
 {
     return m_data;
 }
@@ -318,13 +318,13 @@ const T& ConstArrayAccessor<T, 2>::At(size_t i, size_t j) const
 }
 
 template <typename T>
-const T* const ConstArrayAccessor<T, 2>::begin() const
+const T* ConstArrayAccessor<T, 2>::begin() const
 {
     return m_data;
 }
 
 template <typename T>
-const T* const ConstArrayAccessor<T, 2>::end() const
+const T* ConstArrayAccessor<T, 2>::end() const
 {
     return m_data + Width() * Height();
 }
@@ -348,7 +348,7 @@ size_t ConstArrayAccessor<T, 2>::Height() const
 }
 
 template <typename T>
-const T* const ConstArrayAccessor<T, 2>::data() const
+const T* ConstArrayAccessor<T, 2>::data() const
 {
     return m_data;
 }
@@ -416,6 +416,16 @@ template <typename T>
 const T& ConstArrayAccessor<T, 2>::operator()(size_t i, size_t j) const
 {
     return m_data[Index(i, j)];
+}
+
+template <typename T>
+ConstArrayAccessor<T, 2>& ConstArrayAccessor<T, 2>::operator=(
+    const ConstArrayAccessor& other)
+{
+    m_size = other.m_size;
+    m_data = other.m_data;
+
+    return *this;
 }
 }  // namespace CubbyFlow
 

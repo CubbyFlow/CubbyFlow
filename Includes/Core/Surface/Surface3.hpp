@@ -47,6 +47,9 @@ class Surface3
     //! Copy constructor.
     Surface3(const Surface3& other);
 
+    //! Default copy assignment operator.
+    Surface3& operator=(const Surface3& other) = default;
+
     //! Default destructor.
     virtual ~Surface3();
 
