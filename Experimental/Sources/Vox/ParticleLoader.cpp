@@ -17,13 +17,17 @@
 #include <cassert>
 #include <cstdio>
 #include <functional>
+#include <limits>
 
 using namespace CubbyFlow;
 
 namespace Vox {
 	ParticleLoader::ParticleLoader()
 	{
-		//! Do nothing.
+		constexpr float min = std::numeric_limits<float>::min();
+		constexpr float max = std::numeric_limits<float>::max();
+		_bbMin = Vector3F(max, max, max);
+		_bbMax = Vector3F(min, min, min);
 	}
 
 	ParticleLoader::~ParticleLoader()
@@ -92,6 +96,8 @@ namespace Vox {
 			particles[  baseIndex  ] = static_cast<float>(tempParticles[index].x);
 			particles[baseIndex + 1] = static_cast<float>(tempParticles[index].y);
 			particles[baseIndex + 2] = static_cast<float>(tempParticles[index].z);
+
+			RenewBoundingBox(tempParticles[index].x, tempParticles[index].y, tempParticles[index].z);
 		});
 		_frames.push_back(particles);
 	    file.close();
@@ -117,10 +123,28 @@ namespace Vox {
 			particles.Append(x);
 			particles.Append(y);
 			particles.Append(z);
+
+			RenewBoundingBox(x, y, z);
 		}
 		_frames.push_back(particles);
 	    file.close();
 	}
+
+	void ParticleLoader::RenewBoundingBox(float x, float y, float z)
+	{	
+		_bbMin.x = std::min(_bbMin.x, x);
+		_bbMin.y = std::min(_bbMin.y, y);
+		_bbMin.z = std::min(_bbMin.z, z);
+		_bbMax.x = std::max(_bbMax.x, x);
+		_bbMax.y = std::max(_bbMax.y, y);
+		_bbMax.z = std::max(_bbMax.z, z);
+	}
+
+	std::tuple<CubbyFlow::Vector3F, CubbyFlow::Vector3F> ParticleLoader::GetBoundingBox() const
+	{
+		return std::make_tuple(_bbMin, _bbMax);
+	}
+
 };
 
 
