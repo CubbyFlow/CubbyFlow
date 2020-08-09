@@ -29,10 +29,11 @@ namespace Vox {
         glBindFramebuffer(target, _fbo);
     }
 
-    void FrameBuffer::SetColorAttachment(GLenum index, GLuint texture)
+    void FrameBuffer::SetColorAttachment(GLenum index, GLuint texture, bool multisample)
     {
         VoxAssert(index < 32, CURRENT_SRC_PATH_TO_STR ,"ColorAttachment index should be less than 32");
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_TEXTURE_2D, texture, 0);
+        const GLenum target = multisample ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D;
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, target, texture, 0);
     }
 
     void FrameBuffer::SetRenderBufferAttachment(GLuint rbo)

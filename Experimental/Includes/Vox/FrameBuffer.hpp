@@ -28,7 +28,7 @@ namespace Vox {
         //! Bind Framebuffer to current opengl context.
         void BindFrameBuffer(GLenum target);
         //! Set color texture attachment to framebuffer 
-        void SetColorAttachment(GLenum index, GLuint texture);
+        void SetColorAttachment(GLenum index, GLuint texture, bool multisample=false);
         //! Set Render buffer attachment to framebuffer.
         void SetRenderBufferAttachment(GLuint rbo);
         //! Assertion for framebuffer completeness.
