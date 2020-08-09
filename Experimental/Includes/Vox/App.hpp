@@ -10,7 +10,6 @@
 #ifndef CUBBYFLOW_VOX_APP_HPP
 #define CUBBYFLOW_VOX_APP_HPP
 
-#include <Vox/PerspectiveCamera.hpp>
 #include <Core/Vector/Vector2.h>
 #include <Core/Vector/Vector4.h>
 #include <memory>
@@ -26,14 +25,17 @@ namespace Vox {
     class App
     {
     public:
+        //! Default Constructor.
         App();
+        //! Default Destructor.
         virtual ~App();
 
         //! Return the window screen size.
         CubbyFlow::Vector2I GetWindowSize();
-
         //! Initialize the base application.
         virtual bool Initialize();
+        //! Update the physical step of the frame.
+        virtual void UpdateFrame() {};
         //! OpenGL Commands or other tasks collection for 
         //! preparing call DrawFrame.
         void BeginFrame(std::shared_ptr<FrameContext>& ctx);
@@ -69,9 +71,10 @@ namespace Vox {
         //! Set screen background color
         void SetBackgroundColor(CubbyFlow::Vector4F color);
     protected:
+        virtual void OnSetWindowSize() {};
+
         CubbyFlow::Vector2I _windowSize { 1200, 900 }; //! window size
         CubbyFlow::Vector4F _bgColor { 0.344f, 0.388f, 0.388f, 1.0f}; //! background color
-        PerspectiveCamera _camera; //! camera with perspective projection.
     private:
         std::queue<std::shared_ptr<FrameContext>> _ctxQueue;
     };
