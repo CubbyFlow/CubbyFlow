@@ -19,6 +19,7 @@ namespace Vox {
     {
     public:
         //! Declare constructor as non-explicit.
+        Path(const std::string& path);
         Path(const char* path);
         //! Return string of the path;
         std::string ToString() const;
@@ -28,7 +29,7 @@ namespace Vox {
         operator bool() const;
         bool operator==(const Path& path);
     protected:
-        const char* _path = nullptr;
+        const std::string _path = nullptr;
     private:
     };
 

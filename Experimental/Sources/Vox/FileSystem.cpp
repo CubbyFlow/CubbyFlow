@@ -22,9 +22,16 @@ std::vector<Vox::Path> Vox::FileSystem::kTargetRange;
 
 namespace Vox {
 
+    Path::Path(const std::string& path)
+        : _path(path)
+    {
+        //! Do nothing
+    }
+
     Path::Path(const char* path)
         : _path(path)
     {
+        //! Do nothing
     }
 
     std::string Path::ToString() const
@@ -34,7 +41,7 @@ namespace Vox {
 
     bool Path::IsNullPath() const
     {
-        return _path == nullptr;
+        return _path.empty();
     }
     
     Path::operator bool() const
@@ -44,20 +51,18 @@ namespace Vox {
 
     bool Path::operator==(const Path& path)
     {
-        if (strcmp(_path, path._path) == 0)
-            return true;
-        else
-            return false;
+        return _path == path._path;
     }
 
     SourcePath::SourcePath(const char* function, const char* file, const int line)
         : Path(file), _function(function), _line(line)
     {
+        //! Do nothing
     }
 
     std::string SourcePath::ToVerboseString() const
     {
-        return std::string(_path) + "::" + std::string(_function) + "(" + std::to_string(3) + ")";
+        return _path + "::" + std::string(_function) + "(" + std::to_string(3) + ")";
     }
 
     void FileSystem::AddDirectory(const Path& path)
@@ -90,7 +95,7 @@ namespace Vox {
         if (hFind == INVALID_HANDLE_VALUE)
         {
             std::cerr << "Cannot read directory [" << dir << "]" << std::endl;
-            return Path(nullptr);
+            return Path(std::string());
         }
 
         do 
@@ -105,7 +110,7 @@ namespace Vox {
             if ((ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
             {
                 //! if the file is directory and recursive flag set, call loopDirectory again.
-                Path result = LoopDirectory(Path(filename.c_str()), path);
+                Path result = LoopDirectory(Path(filename), path);
                 if (!result.IsNullPath())
                     return result;
             }
@@ -113,14 +118,14 @@ namespace Vox {
             {
                 //! If two relative path matches, return.
                 if (Path(ffd.cFileName) == path)
-                    return Path(filename.c_str());
+                    return Path(filename);
             }
         } while(FindNextFileA(hFind, &ffd) != 0);
         //! After looping over the directory, close the handle.
         FindClose(hFind);
         hFind = INVALID_HANDLE_VALUE;
         //! If branch flow reaches here, there is no path in the list of directory.
-        return Path(nullptr);
+        return Path(std::string());
     }
     #else
     Path FileSystem::LoopDirectory(const Path& dir, const Path& path)
@@ -133,7 +138,7 @@ namespace Vox {
     	if ((dirHandle = opendir(dir.ToString().c_str())) == NULL)
     	{
     		std::cerr << "Cannot read directory [" << dir.ToString() << "]" << std::endl;
-    		return Path(nullptr);
+    		return Path(std::string());
     	}
         //! Loop over directory.
     	while((file = readdir(dirHandle)) != NULL)
@@ -145,7 +150,6 @@ namespace Vox {
     		}
             //! Insert full path to the filename variable.
             filename = dir.ToString() + "/" + file->d_name;
-            std::cout << "FIleanme :: " << filename << std::endl;
             //! Reading file status to a buf.
     		if (stat(filename.c_str(), &buf) == -1)
     		{
@@ -155,7 +159,7 @@ namespace Vox {
             //! If the given file is directory and recursive variable is true, recursively call function again.
     		if (S_ISDIR(buf.st_mode))
     		{
-                Path result = LoopDirectory(Path(filename.c_str()), path);
+                Path result = LoopDirectory(Path(filename), path);
                 if (!result.IsNullPath())
                     return result;
     		}
@@ -163,13 +167,13 @@ namespace Vox {
     		{
                 //! If two relative path matches, return.
                 if (Path(file->d_name) == path)
-                    return Path(filename.c_str());
+                    return Path(filename);
     		}
     	}
         //! After looping over directory, close the directory.
     	closedir(dirHandle);
         //! If branch flow reaches here, there is no path in the list of directory.
-        return Path(nullptr);
+        return Path(std::string());
     }
     #endif
 };
