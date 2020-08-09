@@ -12,7 +12,7 @@
 
 #include <Vox/Renderer.hpp>
 #include <Vox/App.hpp>
-#include <Vox/DebugUtils.hpp>
+#include <Vox/FileSystem.hpp>
 
 #include <Core/Utils/Macros.h>
 #include <Core/Utils/Logging.h>
@@ -70,8 +70,9 @@ int main(int argc, const char** argv)
         CubbyFlow::Logging::SetAllStream(&logFile);
     }
 
-    if (!Vox::Renderer::RunApp(std::make_shared<ParticleViewer>()))
-        return EXIT_FAILURE;
+    Vox::FileSystem::AddDirectory("./Resources");
+    Vox::FileSystem::AddDirectory(outputDir);
+    Vox::Renderer::RunApp(std::make_shared<ParticleViewer>());
 
     return EXIT_SUCCESS;
 }
