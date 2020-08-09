@@ -34,8 +34,19 @@ using namespace CubbyFlow;
 
 namespace Vox {
 
+	namespace {
+		std::weak_ptr<App> gApplication;
+	};
+	void OnWindowResized(GLFWwindow* window, int width, int height);
+    void OnKey(GLFWwindow* window, int key, int scancode, int action, int mods);
+    void OnMouseButton(GLFWwindow* window, int button, int action, int mods);
+    void OnMouseCursorPos(GLFWwindow* window, double x, double y);
+    void OnMouseScroll(GLFWwindow* window, double deltaX, double deltaY);
+
     void Renderer::RunApp(const std::shared_ptr<App>& app)
     {   
+		gApplication = app;
+
 		VoxAssert(glfwInit(), CURRENT_SRC_PATH_TO_STR, "GLFW initialization failed");
 
         int major, minor, revision;
@@ -69,7 +80,8 @@ namespace Vox {
 		auto extensions = {"GL_ARB_debug_output"};
 		VoxAssert(Renderer::CheckExtensionsSupported(extensions), CURRENT_SRC_PATH_TO_STR, "UnSupported OpenGL Extension");                      
 
-		auto ctx = std::make_shared<FrameContext>(window);         
+		auto ctx = std::make_shared<FrameContext>(window);        
+		RegisterCallbacks(ctx); 
 		app->PushFrameContextToQueue(ctx);
 
 		VoxAssert(app->Initialize(), CURRENT_SRC_PATH_TO_STR, "Application initialize failed");             
@@ -84,11 +96,12 @@ namespace Vox {
 				break;
 
             //! app->ProcessInput();
+			app->UpdateFrame();
             app->DrawFrame();
             ++frameCnt;
 
-            glfwPollEvents();
             glfwSwapBuffers(window);
+            glfwPollEvents();
 
             double nowTime = hostTimer.DurationInSeconds();
             if (nowTime - startTime > 1.0)
@@ -98,6 +111,8 @@ namespace Vox {
                 frameCnt = 0;
             }
         }
+		
+		glfwTerminate();
     }
 
     bool Renderer::CheckExtensionsSupported(const std::initializer_list<const char*>& exts)
@@ -133,24 +148,35 @@ namespace Vox {
         return true;
     }
 
-	GLuint Renderer::CreateTexture(GLsizei width, GLsizei height, const PixelFmt pf, const void* data)
+	GLuint Renderer::CreateTexture(GLsizei width, GLsizei height, const PixelFmt pf, const void* data, bool multisample)
 	{
 		const PixelFmtDesc* pfd = GetPixelFmtDesc(pf);
 
+		const GLenum target = multisample ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D;
 		GLuint texture;
 		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_2D, texture);
+		glBindTexture(target, texture);
 		//! https://paroj.github.io/gltut/Texturing/Tut15%20Anisotropy.html
 		//! ARB_texture_filter_anisotropic extension.
 		//! Apply anisotropic filter to the texture.
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY, 1.0f);
+		// glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY, 1.0f);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, pfd->internal, width, height, 0, pfd->format, pfd->type, data);
+		if (multisample)
+		{
+			GLsizei maxSamples;
+			glGetIntegerv(GL_MAX_COLOR_TEXTURE_SAMPLES, &maxSamples);
+			glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, std::min(maxSamples, 4), pfd->internal, width, height, GL_TRUE);
+		}
+			
+		else
+			glTexImage2D(GL_TEXTURE_2D, 0, pfd->internal, width, height, 0, pfd->format, pfd->type, data);
 		
+		glBindTexture(target, 0);
+
 		return texture;
 	}
 
@@ -191,14 +217,21 @@ namespace Vox {
 		return texture;
     }
 
-    GLuint Renderer::CreateRenderBuffer(GLsizei width, GLsizei height, const PixelFmt pf)
+    GLuint Renderer::CreateRenderBuffer(GLsizei width, GLsizei height, const PixelFmt pf, bool multisample)
     {
 		const PixelFmtDesc* pfd = GetPixelFmtDesc(pf);
 
 		GLuint rbo;
 		glGenRenderbuffers(1, &rbo);
 		glBindRenderbuffer(GL_RENDERBUFFER, rbo);
-		glRenderbufferStorage(GL_RENDERBUFFER, pfd->internal, width, height);
+		if (multisample)
+		{
+			GLsizei maxSamples;
+			glGetIntegerv(GL_MAX_INTEGER_SAMPLES, &maxSamples);
+			glRenderbufferStorageMultisample(GL_RENDERBUFFER, std::min(maxSamples, 4), pfd->internal, width, height);
+		}
+		else
+			glRenderbufferStorage(GL_RENDERBUFFER, pfd->internal, width, height);
 		glBindRenderbuffer(GL_RENDERBUFFER, 0);
 		return rbo;
     }
@@ -272,23 +305,65 @@ namespace Vox {
 		return program;
     }
 
-    void Renderer::SaveTextureToRGBA(const char* path, int width, int height)
+    void Renderer::SaveTextureToRGB(const char* path, int width, int height)
 	{
 		static unsigned char* cache = nullptr;
 		static int prevWidth = width;
 		static int prevHeight = height;
+		constexpr int numChannels = 3;
 
 		//! There is no need to re-allocate heap memory if width and height are unchanged.
 		if (!cache || ((prevWidth != width) || (prevHeight != height)))
 		{
 			prevWidth = width; prevHeight = height; 
-			cache = reinterpret_cast<unsigned char*>(::realloc(cache, width * height * 4 * sizeof(unsigned char)));
+			cache = reinterpret_cast<unsigned char*>(::realloc(cache, width * height * numChannels * sizeof(unsigned char)));
 		}
 		
 		//! Read pixels to client memory(heap-pre-allocated data).
-		glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, static_cast<void*>(cache));
+		glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, static_cast<void*>(cache));
 		//! Save read image data into rgba png.
 		stbi_flip_vertically_on_write(true);
-		stbi_write_png(path, width, height, 4, static_cast<const void*>(cache), 0);
+		stbi_write_png(path, width, height, numChannels, static_cast<const void*>(cache), 0);
 	}
+  
+  	void Renderer::RegisterCallbacks(const std::shared_ptr<FrameContext>& ctx)
+	{
+		GLFWwindow* window = ctx->GetWindowContext();
+		glfwSetFramebufferSizeCallback(window, OnWindowResized);
+		glfwSetKeyCallback(window, OnKey);
+		glfwSetMouseButtonCallback(window, OnMouseButton);
+		glfwSetCursorPosCallback(window, OnMouseCursorPos);
+		glfwSetScrollCallback(window, OnMouseScroll);
+	}
+
+    void OnWindowResized(GLFWwindow* window, int width, int height)
+	{
+		VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
+		(void)width;(void)window;(void)height;
+	}
+
+    void OnKey(GLFWwindow* window, int key, int scancode, int action, int mods)
+	{
+		VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
+		(void)window;(void)key;(void)scancode;(void)action;(void)mods;
+	}
+
+    void OnMouseButton(GLFWwindow* window, int button, int action, int mods)
+	{
+		VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
+		(void)window;(void)button;(void)action;(void)mods;
+	}
+
+    void OnMouseCursorPos(GLFWwindow* window, double x, double y)
+	{
+		VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
+		(void)window;(void)x;(void)y;
+	}
+
+    void OnMouseScroll(GLFWwindow* window, double deltaX, double deltaY)
+	{
+		VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
+		(void)window;(void)deltaX;(void)deltaY;
+	}
+
 };

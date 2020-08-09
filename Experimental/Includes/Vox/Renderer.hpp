@@ -20,6 +20,7 @@
 namespace Vox {
 
     class App;
+    class FrameContext;
 
     namespace Renderer {
         //! Init GLFW window with information from the given app and OpenGL.
@@ -30,13 +31,13 @@ namespace Vox {
         bool CheckExtensionsSupported(const std::initializer_list<const char*>& exts);
 
         //! Create Texture with pixel format
-        GLuint CreateTexture(GLsizei width, GLsizei height, const PixelFmt pf, const void* data);
+        GLuint CreateTexture(GLsizei width, GLsizei height, const PixelFmt pf, const void* data, bool multisample=false);
 
         //! Create Texture from given image path.
         GLuint CreateTextureFromFile(const Path& path, bool srgb = false);
 
         //! Create Render Buffer
-        GLuint CreateRenderBuffer(GLsizei width, GLsizei height, const PixelFmt pf);
+        GLuint CreateRenderBuffer(GLsizei width, GLsizei height, const PixelFmt pf, bool multisample=false);
 
         //! Create Shader from glsl source data.
         GLuint CreateShaderFromSource(const char* source, GLenum shaderType);
@@ -48,8 +49,12 @@ namespace Vox {
         GLuint CreateProgram(GLuint vs, GLuint gs, GLuint fs);
 
         //! Save the texture to the image file.
-        void SaveTextureToRGBA(const char* path, int width, int height);
+        void SaveTextureToRGB(const char* path, int width, int height);
+        
+        //! Register callback functions to given context.
+        void RegisterCallbacks(const std::shared_ptr<FrameContext>& ctx);
     };
+
 
     //! Reference from OpenGL Insights code.
     struct PixelFmtDesc {
