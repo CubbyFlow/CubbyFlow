@@ -10,17 +10,21 @@
 #ifndef CUBBYFLOW_VOX_PARTICLE_LOADER_HPP
 #define CUBBYFLOW_VOX_PARTICLE_LOADER_HPP
 
+#include <Vox/VoxSceneObject.hpp>
 #include <Core/Array/Array1.h>
 #include <Core/Vector/Vector3.h>
 #include <string>
 #include <vector>
 
 namespace Vox {
-    class ParticleLoader
+    class ParticleLoader : public VoxSceneObject
     {
     public:
         //! Default Constructor.
         ParticleLoader();
+
+        //! Constructor with format and count.
+        ParticleLoader(const std::string& format, size_t count);
 
         //! Default Destructor.
         ~ParticleLoader();

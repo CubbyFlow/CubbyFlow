@@ -8,6 +8,7 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 #include <Vox/ParticleLoader.hpp>
+#include <Vox/FileSystem.hpp>
 #include <Vox/DebugUtils.hpp>
 #include <Core/Utils/Logging.h>
 #include <Core/Utils/Serialization.h>
@@ -28,6 +29,11 @@ namespace Vox {
 		constexpr float max = std::numeric_limits<float>::max();
 		_bbMin = Vector3F(max, max, max);
 		_bbMax = Vector3F(min, min, min);
+	}
+
+	ParticleLoader::ParticleLoader(const std::string& format, size_t count)
+	{
+		LoadParticles(format, count);
 	}
 
 	ParticleLoader::~ParticleLoader()
@@ -66,12 +72,13 @@ namespace Vox {
 
     size_t ParticleLoader::GetNumberOfBytes(size_t frameIndex) const
 	{
+		VoxAssert(frameIndex < _frames.size(), CURRENT_SRC_PATH_TO_STR, "Out of Range Error");
 		assert(frameIndex < _frames.size());
 		return _frames[frameIndex].size() * sizeof(float);
 	}
     void ParticleLoader::CopyParticleData(void* dst, size_t frameIndex) const
 	{
-		assert(frameIndex < _frames.size());
+		VoxAssert(frameIndex < _frames.size(), CURRENT_SRC_PATH_TO_STR, "Out of Range Error");
 		const void* src = static_cast<const void*>(_frames[frameIndex].data());
 		std::memcpy(dst, src, GetNumberOfBytes(frameIndex));
 	}
@@ -79,15 +86,12 @@ namespace Vox {
 	void ParticleLoader::LoadPosFile(const std::string& path)
 	{
 		std::ifstream file(path, std::ifstream::binary);
-		if (file.is_open() == false)
-	    {
-			std::cerr << "Failed to load file [" << path << "]" << std::endl;
-			StackTrace::PrintStack();
-			std::abort();
-	    }
+		VoxAssert(file.is_open(), CURRENT_SRC_PATH_TO_STR, "Failed to load file [" + path + "]");
+
 		Array1<Vector3D> tempParticles;
 	    const std::vector<uint8_t> buffer((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
 	    Deserialize(buffer, &tempParticles);
+	    file.close();
 		
 		const size_t numElements = tempParticles.size() * 3;
 		Array1<float> particles(numElements);
@@ -100,25 +104,19 @@ namespace Vox {
 			RenewBoundingBox(tempParticles[index].x, tempParticles[index].y, tempParticles[index].z);
 		});
 		_frames.push_back(particles);
-	    file.close();
 	}
 
 	void ParticleLoader::LoadXyzFile(const std::string& path)
 	{
 		std::ifstream file(path);
-		if (file.is_open() == false)
-		{
-			std::cerr << "Failed to load file [" << path << "]" << std::endl;
-			StackTrace::PrintStack();
-			std::abort();
-		}
+		VoxAssert(file.is_open(), CURRENT_SRC_PATH_TO_STR, "Failed to load file [" + path + "]");
 
 		Array1<float> particles;
 		std::string line;
+		register float x, y, z;
 		while (std::getline(file, line))
 		{
 			std::istringstream isstr(line);
-			float x, y, z;
 			isstr >> x >> y >> z;
 			particles.Append(x);
 			particles.Append(y);
