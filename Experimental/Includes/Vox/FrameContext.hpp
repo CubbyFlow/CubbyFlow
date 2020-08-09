@@ -22,14 +22,20 @@ struct GLFWwindow;
 namespace Vox {
     class FrameBuffer;
     class Program;
+    class VoxScene;
     /**
      * OpenGL Context wrapper which will be used for rendering one frame.
      */
     class FrameContext 
     {
     public:
+        //! Default Constructor
         FrameContext(GLFWwindow* windowCtx);
+        //! Default Destructor
         ~FrameContext();
+
+        //! Set glfw window should close
+        void SetWindowContextShouldClose(bool bShutdown);
 
         //! Make this instance as opengl current context
         void MakeContextCurrent() const;
@@ -39,6 +45,9 @@ namespace Vox {
 
         //! Add Shader Program to frame context with human-readable text.
         void AddShaderProgram(const std::string& name, GLuint program);
+
+        //! Returns the current program.
+	    const std::weak_ptr<Program>& GetCurrentProgram() const;
 
         //! Set current program of the context.
         void MakeProgramCurrent(const std::string& name);
@@ -50,18 +59,21 @@ namespace Vox {
         void BindTextureToSlot(const std::string& name, GLenum target, GLuint slot);
 
         //! Send view projection matrix to uniform variable inthe current bounded program.
-        void UpdateProgramCamera(const PerspectiveCamera& camera);
+        void UpdateProgramCamera(const std::shared_ptr<PerspectiveCamera>& camera);
 
         //! Push Frame Buffer to the vector
         //! Binding will be occurred sequentially.
-        void AddFrameBuffer(std::shared_ptr<FrameBuffer> fbo);
+        void AddFrameBuffer(const std::string& name);
 
         //! Bind framebuffers sequentially.
-        void BindNextFrameBuffer(GLenum target);
+        const std::shared_ptr<FrameBuffer>& BindFrameBuffer(const std::string& name, GLenum target);
+
+        //! Return the GLFWwindow context instance.
+        GLFWwindow* GetWindowContext();
+
     protected:
     private:
-        std::vector<std::shared_ptr<FrameBuffer>> _fbos;
-        std::vector<std::shared_ptr<FrameBuffer>>::iterator _fboIterator;
+        std::unordered_map<std::string, std::shared_ptr<FrameBuffer>> _fboMap;
         std::unordered_map<std::string, std::shared_ptr<Program>> _programMap;
         std::unordered_map<std::string, GLuint> _textureMap;
         GLFWwindow* _windowCtx;
