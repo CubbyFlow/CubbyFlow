@@ -10,7 +10,7 @@
 #include <Vox/RoundRobinAsyncBuffer.hpp>
 #include <Vox/FrameContext.hpp>
 #include <Vox/ParticleLoader.hpp>
-#include <Vox/Scene.hpp>
+#include <Vox/VoxScene.hpp>
 #include <Core/Utils/Logging.h>
 #include <glad/glad.h>
 
@@ -63,7 +63,7 @@ namespace Vox {
         return true;
     }
 
-    void RoundRobinAsyncBuffer::AsyncBufferTransfer(const std::shared_ptr<Scene>& scn)
+    void RoundRobinAsyncBuffer::AsyncBufferTransfer(const std::shared_ptr<VoxScene>& scene)
     {
         const size_t bufferNum = _frameIndex % _buffers.size();
         const GLuint buffer = _buffers[bufferNum];
@@ -73,13 +73,15 @@ namespace Vox {
         if (fence) glDeleteSync(fence);
         //! Bind the vertex buffer.
         glBindBuffer(GL_ARRAY_BUFFER, buffer);
+        //! Get particle loader instance from the vox scene object.
+        const auto& loader = scene->GetSceneObject<ParticleLoader>("ParticleLoader");
         //! Take modulo for repeating buffer transfer.
-        const size_t index = _frameIndex % scn->GetLoader()->GetNumberOfFrame();
-        size_t numBytes = scn->GetLoader()->GetNumberOfBytes(index);
+        const size_t index = _frameIndex % loader->GetNumberOfFrame();
+        size_t numBytes = loader->GetNumberOfBytes(index);
         //! Map gpu pointer to cpu.
         void* ptr = glMapBufferRange(GL_ARRAY_BUFFER, 0, numBytes, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
         //! Pass pointer for the memcpy
-        scn->GetLoader()->CopyParticleData(ptr, index);
+        loader->CopyParticleData(ptr, index);
         //! Unmap the pointer after transfer finished.
         glUnmapBuffer(GL_ARRAY_BUFFER);
         
