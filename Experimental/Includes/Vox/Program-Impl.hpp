@@ -20,11 +20,13 @@ namespace Vox {
     
     namespace Detail
     {
-        GLuint GetUniformVariable(GLuint program, const std::string& name);
-        void SendUniformVariable__Impl(GLint loc, float f);
-        void SendUniformVariable__Impl(GLint loc, CubbyFlow::Vector3F&& vec3);
-        void SendUniformVariable__Impl(GLint loc, CubbyFlow::Vector4F&& vec4);
-        void SendUniformVariable__Impl(GLint loc, CubbyFlow::Matrix4x4F&& mat4);
+        GLuint GetUniformVariable(const GLuint program, const std::string& name);
+        void SendUniformVariable__Impl(const GLint loc, const int i);
+        void SendUniformVariable__Impl(const GLint loc, const float f);
+        void SendUniformVariable__Impl(const GLint loc, const CubbyFlow::Vector3F vec3);
+        void SendUniformVariable__Impl(const GLint loc, const CubbyFlow::Vector4F vec4);
+        void SendUniformVariable__Impl(const GLint loc, const CubbyFlow::Matrix4x4F& mat4);
+        void SendUniformVariable__Impl(const GLint loc, CubbyFlow::Matrix4x4F&& mat4);
     }
 
     template <typename UniformType>

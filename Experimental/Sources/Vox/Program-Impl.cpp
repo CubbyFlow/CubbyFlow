@@ -18,7 +18,7 @@ namespace Vox {
     
     namespace Detail
     {
-        GLuint GetUniformVariable(GLuint program, const std::string& name)
+        GLuint GetUniformVariable(const GLuint program, const std::string& name)
         {
             GLint loc = glGetUniformLocation(program, name.c_str());
             //! If return value of glGetUniformLocation is -1, it means there is no uniform variable with given name arg.
@@ -26,22 +26,32 @@ namespace Vox {
             return loc;
         }
 
-        void SendUniformVariable__Impl(GLint loc, float f)
+        void SendUniformVariable__Impl(const GLint loc, const int i)
+        {
+            glUniform1i(loc, i);
+        }
+
+        void SendUniformVariable__Impl(const GLint loc, const float f)
         {
             glUniform1f(loc, f);
         }
         
-        void SendUniformVariable__Impl(GLint loc, CubbyFlow::Vector3F&& vec3)
+        void SendUniformVariable__Impl(const GLint loc, const CubbyFlow::Vector3F vec3)
         {
             glUniform3fv(loc, 1, &(vec3.x));
         }
 
-        void SendUniformVariable__Impl(GLint loc, CubbyFlow::Vector4F&& vec4)
+        void SendUniformVariable__Impl(const GLint loc, const CubbyFlow::Vector4F vec4)
         {
             glUniform4fv(loc, 1, &(vec4.x));
         }
 
-        void SendUniformVariable__Impl(GLint loc, CubbyFlow::Matrix4x4F&& mat4)
+        void SendUniformVariable__Impl(const GLint loc, const CubbyFlow::Matrix4x4F& mat4)
+        {
+            glUniformMatrix4fv(loc, 1, false, mat4.data());
+        }  
+
+        void SendUniformVariable__Impl(const GLint loc, CubbyFlow::Matrix4x4F&& mat4)
         {
             auto uniformData = std::move(mat4);
             glUniformMatrix4fv(loc, 1, false, uniformData.data());
