@@ -9,22 +9,44 @@
 *************************************************************************/
 #include <Vox/PerspectiveCamera.hpp>
 #include <Vox/FrameContext.hpp>
+#include <Vox/Program.hpp>
+#include <Core/Math/Quaternion.h>
 
 using namespace CubbyFlow;
 namespace Vox {
     
-    void PerspectiveCamera::SetViewElements(const CubbyFlow::Vector3F& origin, const CubbyFlow::Vector3F& point)
+    void PerspectiveCamera::SetViewTransform(const CubbyFlow::Vector3F& origin, const CubbyFlow::Vector3F& point)
     {
         _origin = origin;
         _dir = (_origin - point).Normalized();
     }
 
-    void PerspectiveCamera::SetPerspectiveElements(const float fov, const float aspectRatio, const float near, const float far)
+    void PerspectiveCamera::SetViewFrustum(const float fov, const float near, const float far)
     {
         _fov = fov;
-        _aspectRatio = aspectRatio;
         _near = near;
         _far = far;
+    }
+
+    void PerspectiveCamera::SetAspectRatio(const float aspectRatio)
+    {
+        _aspectRatio = aspectRatio;
+    }
+
+    void PerspectiveCamera::OrbitRotation(const CubbyFlow::Vector3F& focusPoint, float yaw, float pitch, float distance)
+    {
+        constexpr CubbyFlow::Vector3F kLookUp = CubbyFlow::Vector3F(0.0f, 1.0f, 0.0f);
+        CubbyFlow::Vector3F camFocus = (_origin - focusPoint).Normalized();
+        //! create quaternion matrix with up vector and yaw angle.
+        CubbyFlow::QuaternionF yawRotation(kLookUp, yaw); 
+        //! create quaternion matrix with right vector and pitch angle.
+        CubbyFlow::QuaternionF pitchRotation(_dir.Cross(kLookUp).Normalized(), pitch); 
+
+        camFocus = (yawRotation * pitchRotation * camFocus);
+        _origin = focusPoint + camFocus * distance;
+        _dir = (focusPoint - _origin).Normalized();
+
+        UpdateMatrix();
     }
 
     void PerspectiveCamera::UpdateMatrix()
@@ -32,24 +54,31 @@ namespace Vox {
         constexpr Vector3F up = Vector3F(0.0f, 1.0f, 0.0f);
         const Vector3F right    = (up.Cross(_dir)).Normalized();
         const Vector3F cameraUp = (_dir.Cross(right)).Normalized(); 
-        const float tanHalfFovInv = 1.0f / std::tan(_fov * 0.5f); //! inverse of tangent half fov.
-        const float aspectRatioInv = 1.0f / _aspectRatio; //! inverse of aspect ratio
-        const float nfDiffInv = 1.0f / (_far - _near); //! inverse of difference between near and far
 
-        Matrix4x4F projection   = {{tanHalfFovInv * aspectRatioInv, 0.0f, 0.0f, 0.0f},
-                                   {0.0f, tanHalfFovInv, 0.0f, 0.0f},
-                                   {0.0f, 0.0f, -(_far + _near) * nfDiffInv, -(2 * _far * _near) * nfDiffInv},
-                                   {0.0f, 0.0f, -1.0f, 0.0f}};
+        Matrix4x4F projection(0.0f);
+        projection(0, 0) = 1.0f / (std::tan(PI_FLOAT * _fov / 360.0f) * _aspectRatio);
+        projection(1, 1) = 1.0f / (std::tan(PI_FLOAT * _fov / 360.0f));
+        projection(2, 2) = (_far + _near) / (_near - _far);
+        projection(2, 3) = (2 * _far * _near) / (_near - _far);
+        projection(3, 2) = -1.0f;
+
         Matrix4x4F view         = {{right.x,        right.y,        right.z,        0.0f},
                                    {cameraUp.x,     cameraUp.y,     cameraUp.z,     0.0f},
                                    {_dir.x,         _dir.y,         _dir.z,         0.0f},
                                    {0.0f,           0.0f,           0.0f,           1.0f}};
+
         Matrix4x4F translation  = {{1.0f, 0.0f, 0.0f, -_origin.x},
                                    {0.0f, 1.0f, 0.0f, -_origin.y},
                                    {0.0f, 0.0f, 1.0f, -_origin.z},
                                    {0.0f, 0.0f, 0.0f,   1.0f  }};
-
+                                   
         _viewProjection = projection * view * translation;
+    }
+
+    void PerspectiveCamera::SendViewProjection(const std::shared_ptr<Program>& program)
+    {
+        program->UseProgram();
+        program->SendUniformVariable("ViewProjection", _viewProjection);
     }
 
     CubbyFlow::Matrix4x4F PerspectiveCamera::GetViewProjectionMatrix() const
