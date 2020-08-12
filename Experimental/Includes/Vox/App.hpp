@@ -10,6 +10,7 @@
 #ifndef CUBBYFLOW_VOX_APP_HPP
 #define CUBBYFLOW_VOX_APP_HPP
 
+#include <Vox/FileSystem.hpp>
 #include <Core/Vector/Vector2.h>
 #include <Core/Vector/Vector4.h>
 #include <memory>
@@ -18,7 +19,9 @@
 namespace Vox {
 
     class FrameContext;
-
+    class VoxScene;
+    class PerspectiveCamera;
+    
     /**
      *  CPU side tasks collection wrapper class. 
      */
@@ -33,7 +36,7 @@ namespace Vox {
         //! Return the window screen size.
         CubbyFlow::Vector2I GetWindowSize();
         //! Initialize the base application.
-        virtual bool Initialize();
+        virtual bool Initialize(const Vox::Path& scenePath);
         //! Update the physical step of the frame.
         virtual void UpdateFrame() {};
         //! OpenGL Commands or other tasks collection for 
@@ -73,6 +76,8 @@ namespace Vox {
     protected:
         virtual void OnSetWindowSize() {};
 
+        std::shared_ptr<Vox::VoxScene> _scene;
+        std::shared_ptr<Vox::PerspectiveCamera> _camera;
         CubbyFlow::Vector2I _windowSize { 1200, 900 }; //! window size
         CubbyFlow::Vector4F _bgColor { 0.344f, 0.388f, 0.388f, 1.0f}; //! background color
     private:

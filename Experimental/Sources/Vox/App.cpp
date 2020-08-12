@@ -9,6 +9,8 @@
 *************************************************************************/
 #include <Vox/App.hpp>
 #include <Vox/FrameContext.hpp>
+#include <Vox/PerspectiveCamera.hpp>
+#include <Vox/VoxScene.hpp>
 #include <glad/glad.h>
 
 using namespace CubbyFlow;
@@ -17,10 +19,12 @@ namespace Vox {
 
     App::App()
     {
+        //! Do nothing
     }
 
     App::~App()
     {
+        //! Remove All Contained Contexts 
         while (!_ctxQueue.empty())
         {
             auto& ctx = _ctxQueue.front();
@@ -34,8 +38,12 @@ namespace Vox {
         return _windowSize;
     }
     
-    bool App::Initialize()
+    bool App::Initialize(const Vox::Path& scenePath)
     {
+        _scene = Vox::VoxScene::CreateScene(scenePath);
+        _camera = _scene->GetSceneObject<Vox::PerspectiveCamera>("Camera");
+        _camera->UpdateMatrix();
+
         return true;
     }
 
