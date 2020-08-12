@@ -10,7 +10,8 @@
 #include <Vox/VoxScene.hpp>
 #include <Vox/DebugUtils.hpp>
 #include <Vox/PerspectiveCamera.hpp>
-#include <Vox/ParticleLoader.hpp>
+#include <Vox/GeometryCacheManager.hpp>
+#include <Vox/GeometryCache.hpp>
 #include <Core/Array/Array1.h>
 #include <Core/Vector/Vector3.h>
 #include <Core/Matrix/Matrix4x4.h>
@@ -73,13 +74,13 @@ namespace Vox {
     }
 
     template <>
-    void VoxScene::OnLoadSceneObject<ParticleLoader>(const nlohmann::json& json)
+    void VoxScene::OnLoadSceneObject<GeometryCacheManager>(const nlohmann::json& json)
     {
+        const std::string name = json["name"].get<std::string>();
         const std::string format = json["format"].get<std::string>();
         const size_t count = json["count"].get<size_t>();
-        const std::string name = json["name"].get<std::string>();
 
-        _metadata.emplace(name, std::make_shared<ParticleLoader>(format, count));
+        _metadata.emplace(name, std::make_shared<GeometryCacheManager>(format, count));
     }
 
     void VoxScene::OnLoadScene(const nlohmann::json& json)
@@ -89,7 +90,7 @@ namespace Vox {
             const std::string objectType = data["type"].get<std::string>();
 
             if (objectType == "camera") OnLoadSceneObject<PerspectiveCamera>(data);
-            else if (objectType == "particleloader") OnLoadSceneObject<ParticleLoader>(data);
+            else if (objectType == "geometry_cache") OnLoadSceneObject<GeometryCacheManager>(data);
             else VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Unknown Scene Object Type [" + objectType + "]");
         };
     }
