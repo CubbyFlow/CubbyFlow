@@ -23,9 +23,16 @@ namespace Vox {
     class FrameContext;
 
     namespace Renderer {
+
+        //! Initialize GLFW window configuration.
+        void Initialize();
+
+        //! Destroy GLFW window configuration.
+        void Terminate();
+
         //! Init GLFW window with information from the given app and OpenGL.
         //! Run loop to advance frame of the app.
-        void RunApp(const std::shared_ptr<App>& app);
+        void RunApp(const std::shared_ptr<App>& app, const Vox::Path& scenePath);
 
         //! Check whether if given extensions are supported or not.
         bool CheckExtensionsSupported(const std::initializer_list<const char*>& exts);
