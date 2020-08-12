@@ -1,5 +1,5 @@
 /*************************************************************************
-> File Name: SimulationBuffer.hpp
+> File Name: RoundRobinAsyncBuffer.hpp
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
@@ -17,10 +17,10 @@
 typedef struct __GLsync *GLsync;
 
 namespace Vox {
-    class VoxScene;
     class FrameContext;
+    class GeometryCacheManager;
     /**
-     * Buffer for simulating fluid particles which need huge effort for optimizing data transfer performance.
+     * Buffer for simulating which need huge effort for optimizing data transfer performance.
      * Implemented with multiple buffer technique (round-robin)
      **/
     class RoundRobinAsyncBuffer
@@ -31,12 +31,12 @@ namespace Vox {
         //! Constructor with number of the buffers.
         RoundRobinAsyncBuffer(const size_t numBuffer);
         //! Default destructor.
-        ~RoundRobinAsyncBuffer();
+        virtual ~RoundRobinAsyncBuffer();
     
         //! Draw one frame of the particles data.
         bool CheckFence(GLuint64 timeout);
         //! Asynchronously transfer scene data to vertex buffer.
-        void AsyncBufferTransfer(const std::shared_ptr<VoxScene>& scn);
+        void AsyncBufferTransfer(const std::shared_ptr<GeometryCacheManager>& cacheManager);
         //! Draw the frmae with the transferred vertex buffer.
         void DrawFrame(const std::shared_ptr<FrameContext>& ctx);
         //! Advance the frame index.
@@ -45,12 +45,14 @@ namespace Vox {
         static const size_t kMaxBufferSize = 0x1000000; //! 2097 kB - This is GPU memory
         static const size_t kDefaultNumBuffer = 3;
     protected:
-    private:
+        virtual void OnAsyncBufferTransfer(const std::shared_ptr<GeometryCacheManager>& cacheManager) = 0;
+        virtual void OnDrawFrame(const std::shared_ptr<FrameContext>& ctx) = 0;
+
         std::vector<GLuint> _vaos;
-        std::vector<GLuint> _buffers;
-        std::vector<GLsync> _fences; 
+        size_t _numBuffer { 0 };
         size_t _frameIndex { 0 } ;
-        size_t _numVertices;
+    private:
+        std::vector<GLsync> _fences; 
     };
 };
 
