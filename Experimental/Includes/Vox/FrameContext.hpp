@@ -40,6 +40,9 @@ namespace Vox {
         //! Make this instance as opengl current context
         void MakeContextCurrent() const;
 
+        //! Set Render Mode Primitive
+	    void SetRenderMode(GLenum mode);
+        
         //! Get Render Mode Primitive
         GLenum GetRenderMode() const;
 

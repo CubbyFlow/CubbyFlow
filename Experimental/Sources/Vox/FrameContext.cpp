@@ -56,6 +56,11 @@ namespace Vox {
 		glfwMakeContextCurrent(_windowCtx);
 	}
 
+	void FrameContext::SetRenderMode(GLenum mode)
+	{
+		_renderMode = mode;
+	}
+
     GLenum FrameContext::GetRenderMode() const
 	{
 		return _renderMode;
