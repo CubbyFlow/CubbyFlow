@@ -1,5 +1,5 @@
-#include "pch.h"
-#include "RenderTestsUtils.h"
+#include "gtest/gtest.h"
+#include "RenderTestsUtils.hpp"
 
 #include <Core/Vector/Vector2.h>
 #include <Core/Vector/Vector3.h>
