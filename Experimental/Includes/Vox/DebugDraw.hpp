@@ -13,6 +13,7 @@
 #include <Vox/GLTypes.hpp>
 #include <Core/Vector/Vector2.h>
 #include <Core/Vector/Vector3.h>
+#include <Core/BoundingBox/BoundingBox3.h>
 #include <vector>
 
 namespace Vox {
@@ -42,7 +43,7 @@ namespace Vox {
 
         //! Add bounding box.
         //! With bounding box min corner vertex and bounding box max corner vertex,
-        void AddBoundingBox(const CubbyFlow::Vector3F bbMin, const CubbyFlow::Vector3F bbMax, const CubbyFlow::Vector3F color);
+        void AddBoundingBox(const CubbyFlow::BoundingBox3F& boundingBox, const CubbyFlow::Vector3F color);
 
         //! Clear the bound static data and re-send new data to GPU.
         void ClearVAO();

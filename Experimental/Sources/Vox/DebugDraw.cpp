@@ -100,8 +100,9 @@ namespace Vox {
         _renderables.push_back({ Detail::GenerateVAO(static_cast<const void*>(axisZ), sizeof(axisZ)), size_t(2), CubbyFlow::Vector3F(0.0f, 0.0f, 1.0f)});
     }
 
-    void DebugDraw::AddBoundingBox(const CubbyFlow::Vector3F bbMin, const CubbyFlow::Vector3F bbMax, const CubbyFlow::Vector3F color)
+    void DebugDraw::AddBoundingBox(const CubbyFlow::BoundingBox3F& boundingBox, const CubbyFlow::Vector3F color)
     {
+        const auto& bbMin = boundingBox.lowerCorner, bbMax = boundingBox.upperCorner;
         const float positions[] = {
             bbMin.x, bbMin.y, bbMin.z, bbMax.x, bbMin.y, bbMin.z,
             bbMin.x, bbMin.y, bbMax.z, bbMax.x, bbMin.y, bbMax.z,
