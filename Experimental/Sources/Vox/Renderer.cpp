@@ -43,16 +43,13 @@ namespace Vox {
     void OnMouseCursorPos(GLFWwindow* window, double x, double y);
     void OnMouseScroll(GLFWwindow* window, double deltaX, double deltaY);
 
-    void Renderer::RunApp(const std::shared_ptr<App>& app)
-    {   
-		gApplication = app;
-
+	void Renderer::Initialize()
+	{
 		VoxAssert(glfwInit(), CURRENT_SRC_PATH_TO_STR, "GLFW initialization failed");
 
         int major, minor, revision;
         glfwGetVersion(&major, &minor, &revision);
         CUBBYFLOW_INFO << "GLFW version : " << major << "." << minor << "." << revision;
-
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -64,6 +61,16 @@ namespace Vox {
 #ifdef CUBBYFLOW_MACOSX
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
+	}
+
+	void Renderer::Terminate()
+	{
+		glfwTerminate();
+	}
+
+    void Renderer::RunApp(const std::shared_ptr<App>& app, const Vox::Path& scenePath)
+    {   
+		gApplication = app;
 
         Vector2I wndSize = app->GetWindowSize();
         GLFWwindow* window = glfwCreateWindow(wndSize.x, wndSize.y, app->GetWindowTitle(), nullptr, nullptr);
@@ -84,7 +91,7 @@ namespace Vox {
 		RegisterCallbacks(ctx); 
 		app->PushFrameContextToQueue(ctx);
 
-		VoxAssert(app->Initialize(), CURRENT_SRC_PATH_TO_STR, "Application initialize failed");             
+		VoxAssert(app->Initialize(scenePath), CURRENT_SRC_PATH_TO_STR, "Application initialize failed");             
 
         HostTimer hostTimer;
         double startTime = hostTimer.DurationInSeconds();
@@ -111,8 +118,6 @@ namespace Vox {
                 frameCnt = 0;
             }
         }
-		
-		glfwTerminate();
     }
 
     bool Renderer::CheckExtensionsSupported(const std::initializer_list<const char*>& exts)
