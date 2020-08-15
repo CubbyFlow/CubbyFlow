@@ -13,6 +13,7 @@
 #include <Vox/FileSystem.hpp>
 #include <Vox/Vertex.hpp>
 #include <Core/BoundingBox/BoundingBox3.h>
+#include <Core/Vector/Vector2.h>
 #include <Core/Vector/Vector3.h>
 #include <Core/Array/Array1.h>
 #include <Core/Array/ArrayAccessor1.h>
@@ -25,8 +26,10 @@ namespace Vox {
         class Shape 
         {
         public:
-            //! Interleaving Vertex Buffer
-            CubbyFlow::Array1<float> vertices;
+            CubbyFlow::Array1<float> interleaved;
+            CubbyFlow::Array1<CubbyFlow::Vector3F> positions;
+            CubbyFlow::Array1<CubbyFlow::Vector2F> texCoords;
+            CubbyFlow::Array1<CubbyFlow::Vector3F> normals;
             CubbyFlow::Array1<unsigned int> indices;
             CubbyFlow::BoundingBox3F boundingBox;
             VertexFormat format { VertexFormat::None };
@@ -36,13 +39,20 @@ namespace Vox {
         GeometryCache();
 
         //! Constructor with path format and index.
-        GeometryCache(const Vox::Path& format, size_t index);
+        GeometryCache(const Vox::Path& format, size_t index = 0);
 
         //! Default destructor
         ~GeometryCache();
 
         //! Load obj file from given path and indexing for opengl specification.
-        void LoadCache(const Vox::Path& format, size_t index);
+        void LoadCache(const Vox::Path& format, size_t index = 0);
+
+        //! Take Translation on the stored vertices.
+        void TranslateCache(const CubbyFlow::Vector3F t);
+
+        //! Take Scaling on the stored vertices
+        //! Scaling must be a rigid-body transformation
+        void ScaleCache(const float s);
 
         //! Returns the number of shapes
         size_t GetNumberOfShape() const;
@@ -52,6 +62,9 @@ namespace Vox {
 
         //! Return the bounding box of the geometry cache
         const CubbyFlow::BoundingBox3F& GetBoundingBox() const;
+
+        //! Interleaving Vertex Buffer with given format.
+        void InterleaveData(VertexFormat format);
 
     private:
         //! Load particle geometry cache from pos file.

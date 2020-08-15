@@ -12,6 +12,7 @@
 #include <Vox/DebugUtils.hpp>
 #include <Vox/VectorUtils.hpp>
 #include <Core/Utils/Serialization.h>
+#include <Core/Matrix/Matrix4x4.h>
 #include <fstream>
 #include <sstream>
 #include <map>
@@ -107,14 +108,14 @@ namespace Vox {
         //! lexicographically sorting vector.
         inline bool operator<(const PackedVertex& v1, const PackedVertex& v2)
         {
-            if (std::fabs(v1.position.x - v2.position.x) < EPSILON) return v1.position.x < v2.position.x;
-            if (std::fabs(v1.position.y - v2.position.y) < EPSILON) return v1.position.y < v2.position.y;
-            if (std::fabs(v1.position.z - v2.position.z) < EPSILON) return v1.position.z < v2.position.z;
-            if (std::fabs(v1.texCoord.x - v2.texCoord.x) < EPSILON) return v1.texCoord.x < v2.texCoord.x;
-            if (std::fabs(v1.texCoord.y - v2.texCoord.y) < EPSILON) return v1.texCoord.y < v2.texCoord.y;
-            if (std::fabs( v1.normal.x  -  v2.normal.x ) < EPSILON) return v1.normal.x < v2.normal.x;
-            if (std::fabs( v1.normal.y  -  v2.normal.y ) < EPSILON) return v1.normal.y < v2.normal.y;
-            if (std::fabs( v1.normal.z  -  v2.normal.z ) < EPSILON) return v1.normal.z < v2.normal.z;
+            if (std::fabs(v1.position.x - v2.position.x) >= 0.001f) return v1.position.x < v2.position.x;
+            if (std::fabs(v1.position.y - v2.position.y) >= 0.001f) return v1.position.y < v2.position.y;
+            if (std::fabs(v1.position.z - v2.position.z) >= 0.001f) return v1.position.z < v2.position.z;
+            if (std::fabs(v1.texCoord.x - v2.texCoord.x) >= 0.1f) return v1.texCoord.x < v2.texCoord.x;
+            if (std::fabs(v1.texCoord.y - v2.texCoord.y) >= 0.1f) return v1.texCoord.y < v2.texCoord.y;
+            if (std::fabs( v1.normal.x  -  v2.normal.x ) >= 0.3f) return v1.normal.x < v2.normal.x;
+            if (std::fabs( v1.normal.y  -  v2.normal.y ) >= 0.3f) return v1.normal.y < v2.normal.y;
+            if (std::fabs( v1.normal.z  -  v2.normal.z ) >= 0.3f) return v1.normal.z < v2.normal.z;
             return false;
         }
     };
@@ -150,6 +151,34 @@ namespace Vox {
 		else VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Unknown Particle File Extension [" + extension + "]");
     }
 
+    void GeometryCache::TranslateCache(const CubbyFlow::Vector3F t)
+    {
+        const CubbyFlow::Matrix4x4F transform = CubbyFlow::Matrix4x4F::MakeTranslationMatrix(t);
+
+        for (auto& shape : _shapes)
+        {
+            shape.positions.ParallelForEach([&](CubbyFlow::Vector3F& pos){
+                CubbyFlow::Vector4F hPos(pos.x, pos.y, pos.z, 1.0f);
+                hPos = transform * hPos;
+                pos = CubbyFlow::Vector3F(hPos.x, hPos.y, hPos.z);
+            });
+        }
+    }
+
+    void GeometryCache::ScaleCache(const float s)
+    {
+        const CubbyFlow::Matrix4x4F scale = CubbyFlow::Matrix4x4F::MakeScaleMatrix(CubbyFlow::Vector3F(s, s, s));
+
+        for (auto& shape : _shapes)
+        {
+            shape.positions.ParallelForEach([&](CubbyFlow::Vector3F& pos){
+                CubbyFlow::Vector4F hPos(pos.x, pos.y, pos.z, 1.0f);
+                hPos = scale * hPos;
+                pos = CubbyFlow::Vector3F(hPos.x, hPos.y, hPos.z);
+            });
+        }
+    }
+
     size_t GeometryCache::GetNumberOfShape() const
     {
         return _shapes.size();
@@ -173,14 +202,10 @@ namespace Vox {
 		
         Vox::GeometryCache::Shape newShape;
         newShape.format = VertexFormat::Position3;
-		newShape.vertices.Resize(tempParticles.size() * 3);
+		newShape.positions.Resize(tempParticles.size() * 3);
 		tempParticles.ParallelForEachIndex([&](size_t index){
-			const size_t baseIndex = index * 3;
             const auto& particle = tempParticles[index].CastTo<float>();
-			newShape.vertices[  baseIndex  ] = particle.x;
-			newShape.vertices[baseIndex + 1] = particle.y;
-			newShape.vertices[baseIndex + 2] = particle.z;
-			
+			newShape.positions[index] = particle;
             newShape.boundingBox.Merge(particle);
 		});
         _shapes.Append(newShape);
@@ -194,15 +219,13 @@ namespace Vox {
         Vox::GeometryCache::Shape newShape;
         newShape.format = VertexFormat::Position3;
 		std::string line;
-		register float x, y, z;
+		register CubbyFlow::Vector3F pos;
 		while (std::getline(file, line))
 		{
 			std::istringstream isstr(line);
-			isstr >> x >> y >> z;
-			newShape.vertices.Append(x);
-			newShape.vertices.Append(y);
-			newShape.vertices.Append(z);
-			newShape.boundingBox.Merge(CubbyFlow::Vector3F(x, y, z));
+			isstr >> pos.x >> pos.y >> pos.z;
+			newShape.positions.Append(pos);
+			newShape.boundingBox.Merge(pos);
 		}
 	    file.close();
         _shapes.Append(newShape);
@@ -218,8 +241,6 @@ namespace Vox {
 
         //! Load obj file with tinyobjloader 
         bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, path.ToString().c_str());
-        VoxAssert(warn.empty(), CURRENT_SRC_PATH_TO_STR, warn);
-        VoxAssert(err.empty(), CURRENT_SRC_PATH_TO_STR, warn);
         VoxAssert(ret, CURRENT_SRC_PATH_TO_STR, "LoadObj [" + path.ToString() + "] Failed");
         VoxAssert(shapes.size() >= 1, CURRENT_SRC_PATH_TO_STR, "Loaded Obj have no shape");
         
@@ -237,7 +258,9 @@ namespace Vox {
             if (!attrib.normals.empty())    newShape.format |= VertexFormat::Normal3;
             if (!attrib.texcoords.empty())  newShape.format |= VertexFormat::TexCoord2;
             newShape.boundingBox.Reset();
-            newShape.vertices.Reserve(shape.mesh.indices.size() * VertexHelper::GetNumberOfFloats(newShape.format));
+            newShape.positions.Reserve(shape.mesh.indices.size());
+            newShape.texCoords.Reserve(shape.mesh.indices.size());
+            newShape.normals.Reserve(shape.mesh.indices.size());
             newShape.indices.Reserve(shape.mesh.indices.size());
 
             std::map<Detail::PackedVertex, unsigned int> packedVerticesMap;
@@ -361,37 +384,22 @@ namespace Vox {
                 //! From now on, vertices in one face allocated.
                 for (unsigned int k = 0; k < 3; ++k)
                 {
-                    const unsigned int index = 3 * static_cast<unsigned int>(faceIndex) + k;
                     Detail::PackedVertex vertex(position[k], texCoord[k], normal[k]);
-                    
+
                     auto iter = packedVerticesMap.find(vertex);
 
                     if (iter == packedVerticesMap.end())
                     {
-                        if (static_cast<int>(newShape.format & VertexFormat::Position3))
-                        {
-                            newShape.vertices.Append(position[k].x);
-                            newShape.vertices.Append(position[k].y);
-                            newShape.vertices.Append(position[k].z);
-                        }
-                        if (static_cast<int>(newShape.format & VertexFormat::Normal3))
-                        {
-                            newShape.vertices.Append(normal[k].x);
-                            newShape.vertices.Append(normal[k].y);
-                            newShape.vertices.Append(normal[k].z);
-                        }
-                        if (static_cast<int>(newShape.format & VertexFormat::TexCoord2))
-                        {
-                            newShape.vertices.Append(texCoord[k].x);
-                            newShape.vertices.Append(texCoord[k].y);
-                        }
-                        unsigned int newIndex = static_cast<unsigned int>(newShape.vertices.size() - 1);
-                        packedVerticesMap.emplace(vertex, newIndex);
+                        newShape.positions.Append(position[k]);
+                        newShape.texCoords.Append(texCoord[k]);
+                        newShape.normals.Append(normal[k]);
+                        unsigned int newIndex = static_cast<unsigned int>(newShape.positions.size() - 1);
                         newShape.indices.Append(newIndex);
+                        packedVerticesMap[vertex] = newIndex;
                     }
                     else
                     {
-                        newShape.indices.Append(index);
+                        newShape.indices.Append(iter->second);
                     }
                 }
             }
@@ -404,5 +412,42 @@ namespace Vox {
     const CubbyFlow::BoundingBox3F& GeometryCache::GetBoundingBox() const
     {
         return _boundingBox;
+    }
+
+    void GeometryCache::InterleaveData(VertexFormat format)
+    {
+        for (auto& shape : _shapes)
+        {
+            const unsigned int shapeFormat = ~(static_cast<unsigned int>(shape.format)); 
+            const unsigned int givenFormat = static_cast<unsigned int>(format);
+            VoxAssert((shapeFormat & givenFormat), CURRENT_SRC_PATH_TO_STR, "Given Vertex Format Have attribute what original format doesn't have");
+    
+            const size_t numVertices = shape.positions.size();
+            const size_t totalSize = numVertices * VertexHelper::GetNumberOfFloats(format);
+            shape.interleaved.Resize(totalSize);
+            
+            CubbyFlow::ParallelFor(CubbyFlow::ZERO_SIZE, numVertices, [&](size_t index){
+                size_t offset = 0, baseindex = index * VertexHelper::GetNumberOfFloats(format);
+                if (static_cast<int>(format & VertexFormat::Position3)) 
+                {
+                    shape.interleaved[  baseindex  ] = shape.positions[index].x;
+                    shape.interleaved[baseindex + 1] = shape.positions[index].y;
+                    shape.interleaved[baseindex + 2] = shape.positions[index].z;
+                    offset += 3;
+                }
+                if (static_cast<int>(format & VertexFormat::Normal3)) 
+                {
+                    shape.interleaved[  baseindex + offset  ] = shape.normals[index].x;
+                    shape.interleaved[baseindex + offset + 1] = shape.normals[index].y;
+                    shape.interleaved[baseindex + offset + 2] = shape.normals[index].z;
+                    offset += 3;
+                }
+                if (static_cast<int>(format & VertexFormat::TexCoord2)) 
+                {
+                    shape.interleaved[  baseindex + offset  ] = shape.texCoords[index].x;
+                    shape.interleaved[baseindex + offset + 1] = shape.texCoords[index].y;
+                }
+            });
+        }
     }
 }
