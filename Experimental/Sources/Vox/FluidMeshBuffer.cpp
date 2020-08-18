@@ -40,8 +40,8 @@ namespace Vox {
             glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)(sizeof(float) * 3));
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebos[i]);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, RoundRobinAsyncBuffer::kMaxBufferSize, nullptr, GL_STREAM_DRAW);
-            glBindVertexArray(0);
         }
+        glBindVertexArray(0);
     }
 
     FluidMeshBuffer::~FluidMeshBuffer()
@@ -64,10 +64,10 @@ namespace Vox {
         //! Bind the vertex buffer.
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
         //! Map gpu pointer to cpu.
-        numBytes = shape.vertices.size() * sizeof(float);
+        numBytes = shape.interleaved.size() * sizeof(float);
         void* verticesPtr = glMapBufferRange(GL_ARRAY_BUFFER, 0, numBytes, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
         //! Pass pointer for the memcpy
-        std::memcpy(verticesPtr, static_cast<const void*>(shape.vertices.data()), numBytes);
+        std::memcpy(verticesPtr, static_cast<const void*>(shape.interleaved.data()), numBytes);
         //! Unmap the pointer after transfer finished.
         glUnmapBuffer(GL_ARRAY_BUFFER);
 
@@ -80,6 +80,8 @@ namespace Vox {
         std::memcpy(elementsPtr, static_cast<const void*>(shape.indices.data()), numBytes);
         //! Unmap the pointer after transfer finished.
         glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
+
+        _numIndices = shape.indices.size();
     }
 
     void FluidMeshBuffer::OnDrawFrame(const std::shared_ptr<FrameContext>& ctx)
