@@ -27,8 +27,6 @@ namespace Vox {
         //! Remove All Contained Contexts 
         while (!_ctxQueue.empty())
         {
-            auto& ctx = _ctxQueue.front();
-            ctx.reset();
             _ctxQueue.pop();
         }
     }
@@ -42,6 +40,7 @@ namespace Vox {
     {
         _scene = Vox::VoxScene::CreateScene(scenePath);
         _camera = _scene->GetSceneObject<Vox::PerspectiveCamera>("Camera");
+        _camera->SetAspectRatio(static_cast<float>(_windowSize.x) / _windowSize.y);
         _camera->UpdateMatrix();
 
         return true;
@@ -68,5 +67,10 @@ namespace Vox {
     void App::SetBackgroundColor(Vector4F color)  
     {
         _bgColor = color;
+    }
+    
+    void App::OnSetWindowSize()
+    {
+        _camera->SetAspectRatio(static_cast<float>(_windowSize.x) / _windowSize.y);
     }
 };

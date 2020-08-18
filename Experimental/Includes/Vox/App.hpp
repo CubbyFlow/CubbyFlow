@@ -74,7 +74,7 @@ namespace Vox {
         //! Set screen background color
         void SetBackgroundColor(CubbyFlow::Vector4F color);
     protected:
-        virtual void OnSetWindowSize() {};
+        virtual void OnSetWindowSize();
 
         std::shared_ptr<Vox::VoxScene> _scene;
         std::shared_ptr<Vox::PerspectiveCamera> _camera;
