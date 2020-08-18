@@ -11,6 +11,7 @@
 #define CUBBYFLOW_VOX_GEOMETRY_CACHE_HPP
 
 #include <Vox/FileSystem.hpp>
+#include <Vox/VoxSceneObject.hpp>
 #include <Vox/Vertex.hpp>
 #include <Core/BoundingBox/BoundingBox3.h>
 #include <Core/Vector/Vector2.h>
@@ -20,7 +21,7 @@
 
 namespace Vox {
 
-    class GeometryCache
+    class GeometryCache : public VoxSceneObject
     {
     public:
         class Shape 
