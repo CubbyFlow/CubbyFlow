@@ -29,18 +29,19 @@ namespace Vox {
         //! Default Destructor
         ~S3TextureCompression();
 
-        //! Compress given texture argument with S3TC_DXT5 and return.
-        GLuint DXT5Compress(const std::shared_ptr<FrameContext>& ctx, const std::string& textureName);
+        //! Initialize buffers, textures and framebuffers.
+        //! After initializing resources, add them to frame context.
+        //! initialized textures : DX5Texture, EncodingTexture, CompressedTexture
+        //! initialzied frame buffer : S3TCPass, YCoCgDecodingPass
+        void Initialize(const std::shared_ptr<FrameContext>& ctx);
+
+        //! Compress given texture argument with S3TC_DXT5.
+        void DXT5Compress(const std::shared_ptr<FrameContext>& ctx, const std::string& textureName);
         
     protected:
     private:
-        std::unique_ptr<FrameBuffer> _s3tcFramebuffer;
         GLuint _vao;
         GLuint _vboDXT;
-        GLuint _texIm;
-        GLuint _texDXT;
-        GLuint _texFinal;
-        GLuint _s3tcProgram;
         GLsizei _width, _height;
     };
 

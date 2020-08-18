@@ -11,6 +11,7 @@
 #include <Vox/S3TextureCompression.hpp>
 #include <Vox/FrameBuffer.hpp>
 #include <Vox/ShaderPreset.hpp>
+#include <Vox/Program.hpp>
 #include <Vox/Renderer.hpp>
 #include <Vox/FrameContext.hpp>
 
@@ -21,47 +22,75 @@ namespace Vox {
     S3TextureCompression::S3TextureCompression(GLsizei width, GLsizei height)
         : _width(width), _height(height)
     {
-        _texIm = Renderer::CreateTexture((width + 3)/4, (height + 3)/4, PixelFmt::PF_RGBA32UI, nullptr);
-        _texDXT = Renderer::CreateTexture(width, height, PixelFmt::PF_DXT5, nullptr);
-        _texFinal = Renderer::CreateTexture(width, height, PixelFmt::PF_RGBA8, nullptr);
-        
-        glGenVertexArrays(1, &_vao);
-
-        glGenBuffers(1, &_vboDXT);
-        glBindBuffer(GL_ARRAY_BUFFER, _vboDXT);
-        glBufferData(GL_ARRAY_BUFFER, width * height, nullptr, GL_STREAM_COPY);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-        GLuint vs = Renderer::CreateShaderFromSource(kS3TCShaders[0], GL_VERTEX_SHADER);
-        GLuint fs = Renderer::CreateShaderFromSource(kS3TCShaders[1], GL_FRAGMENT_SHADER);
-        _s3tcProgram = Renderer::CreateProgram(vs, 0, fs);
-        glDeleteShader(vs);
-        glDeleteShader(fs);
-
-        _s3tcFramebuffer.reset(new FrameBuffer());
-        _s3tcFramebuffer->BindFrameBuffer(GL_FRAMEBUFFER);
-        _s3tcFramebuffer->SetColorAttachment(0, _texIm);
     }
 
     S3TextureCompression::~S3TextureCompression()
     {
         if (_vao) glDeleteVertexArrays(1, &_vao);
-        if (_texIm) glDeleteTextures(1, &_texIm);
-        if (_texDXT) glDeleteTextures(1, &_texDXT);
-        if (_texFinal) glDeleteTextures(1, &_texFinal);
         if (_vboDXT) glDeleteBuffers(1, &_vboDXT);
-        if (_s3tcProgram) glDeleteProgram(_s3tcProgram);
-        if (_s3tcFramebuffer) _s3tcFramebuffer.reset();
     }
 
-    GLuint S3TextureCompression::DXT5Compress(const std::shared_ptr<FrameContext>& ctx, const std::string& textureName)
+    void S3TextureCompression::Initialize(const std::shared_ptr<FrameContext>& ctx)
     {
-        _s3tcFramebuffer->BindFrameBuffer(GL_FRAMEBUFFER);
+        GLuint texIm = Renderer::CreateTexture((_width + 3)/4, (_height + 3)/4, PixelFmt::PF_RGBA32UI, nullptr);
+        GLuint texDXT = Renderer::CreateTexture(_width, _height, PixelFmt::PF_DXT5, nullptr);
+        GLuint texFinal = Renderer::CreateTexture(_width, _height, PixelFmt::PF_RGBA8, nullptr);
+		
+        glBindTexture(GL_TEXTURE_2D, texFinal);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        
+        ctx->AddTexture("EncodingTexture", texIm);
+        ctx->AddTexture("DXT5Texture", texDXT);
+        ctx->AddTexture("CompressedTexture", texFinal);
+
+        glGenVertexArrays(1, &_vao);
+
+        glGenBuffers(1, &_vboDXT);
+        glBindBuffer(GL_ARRAY_BUFFER, _vboDXT);
+        glBufferData(GL_ARRAY_BUFFER, _width * _height, nullptr, GL_STREAM_COPY);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        GLuint vs = Renderer::CreateShaderFromSource(kS3TCShaders[0], GL_VERTEX_SHADER);
+        GLuint fs = Renderer::CreateShaderFromSource(kS3TCShaders[1], GL_FRAGMENT_SHADER);
+        ctx->AddShaderProgram("S3TC", Renderer::CreateProgram(vs, 0, fs));
+        glDeleteShader(fs);
+        ctx->MakeProgramCurrent("S3TC");
+        const auto& s3tc = ctx->GetCurrentProgram();
+        if(!s3tc.expired())
+            s3tc.lock()->SendUniformVariable("ScreenTexture", 0);
+
+        fs = Renderer::CreateShaderFromSource(kYCoCgDecodingShaders[1], GL_FRAGMENT_SHADER);
+        ctx->AddShaderProgram("YCoCgDecoding", Renderer::CreateProgram(vs, 0, fs));
+        glDeleteShader(vs);
+        glDeleteShader(fs);
+        ctx->MakeProgramCurrent("YCoCgDecoding");
+        const auto& ycocg = ctx->GetCurrentProgram();
+        if(!ycocg.expired())
+            ycocg.lock()->SendUniformVariable("ScreenTexture", 0);
+
+        ctx->AddFrameBuffer("S3TCPass");
+        ctx->BindFrameBuffer("S3TCPass", GL_FRAMEBUFFER);
+        const auto& s3tcFBO = ctx->GetCurrentFrameBuffer().lock();
+        s3tcFBO->SetColorAttachment(0, texIm, false);   
+        VoxAssert(s3tcFBO->AssertFramebufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
+
+        ctx->AddFrameBuffer("YCoCgDecodingPass");
+        ctx->BindFrameBuffer("YCoCgDecodingPass", GL_FRAMEBUFFER);
+        const auto& ycocgFBO = ctx->GetCurrentFrameBuffer().lock();
+        ycocgFBO->SetColorAttachment(0, texFinal, false);   
+        VoxAssert(ycocgFBO->AssertFramebufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
+    }
+
+    void S3TextureCompression::DXT5Compress(const std::shared_ptr<FrameContext>& ctx, const std::string& textureName)
+    {
+        ctx->BindFrameBuffer("S3TCPass", GL_FRAMEBUFFER);
         {
             ctx->BindTextureToSlot(textureName, GL_TEXTURE_2D, 0);
 
             glViewport(0, 0, _width / 4, _height / 4);
-            glUseProgram(_s3tcProgram);
+            ctx->MakeProgramCurrent("S3TC");
             
             glBindVertexArray(_vao);
             glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
@@ -71,9 +100,11 @@ namespace Vox {
             glBindBuffer(GL_PIXEL_PACK_BUFFER, _vboDXT);
             glReadPixels(0, 0, _width / 4, _height / 4, GL_RGBA_INTEGER, GL_UNSIGNED_INT, nullptr);
             glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
+        }
 
-            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-            glBindTexture(GL_TEXTURE_2D, _texDXT);
+        ctx->BindFrameBuffer("DefaultPass", GL_DRAW_FRAMEBUFFER);
+        {
+            ctx->BindTextureToSlot("DXT5Texture", GL_TEXTURE_2D, 0);
             glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _vboDXT);
             
             glCompressedTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _width, _height, 
@@ -84,7 +115,16 @@ namespace Vox {
             glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
         }
 
-        return _texDXT;
+        ctx->BindFrameBuffer("YCoCgDecodingPass", GL_FRAMEBUFFER);
+        {
+            ctx->BindTextureToSlot("DXT5Texture", GL_TEXTURE_2D, 0);
+            ctx->MakeProgramCurrent("YCoCgDecoding");
+            glViewport(0, 0, _width, _height);
+
+            glBindVertexArray(_vao);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+            glBindVertexArray(0);
+        }
     }
 
 };
