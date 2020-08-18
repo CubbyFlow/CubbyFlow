@@ -84,7 +84,7 @@ namespace Vox {
 	    glDebugMessageControlARB(GL_DEBUG_SOURCE_THIRD_PARTY_ARB, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, true);
         glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_LOW_ARB, 0, NULL, true);  
 
-		auto extensions = {"GL_ARB_debug_output"};
+		auto extensions = {"GL_ARB_debug_output", "GL_EXT_texture_compression_s3tc", "GL_EXT_texture_sRGB"};
 		VoxAssert(Renderer::CheckExtensionsSupported(extensions), CURRENT_SRC_PATH_TO_STR, "UnSupported OpenGL Extension");                      
 
 		auto ctx = std::make_shared<FrameContext>(window);        
