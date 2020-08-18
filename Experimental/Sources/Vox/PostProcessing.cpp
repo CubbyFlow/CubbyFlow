@@ -42,6 +42,7 @@ namespace Vox {
 
     void PostProcessing::DrawFrame(const std::shared_ptr<FrameContext>& ctx, const std::string& screenTextureName) const
     {
+        ctx->MakeProgramCurrent("PostProcessing");
         glBindVertexArray(_screenQuad);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         ctx->BindTextureToSlot(screenTextureName, GL_TEXTURE_2D, 0);
