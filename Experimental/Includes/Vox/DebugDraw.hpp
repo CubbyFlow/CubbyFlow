@@ -55,9 +55,9 @@ namespace Vox {
     private:
         struct Renderable
         {
-            GLuint vao;
-            size_t numVertices;
             CubbyFlow::Vector3F color; 
+            size_t numVertices;
+            GLuint vao;
         };
 
         std::vector<Renderable> _renderables;

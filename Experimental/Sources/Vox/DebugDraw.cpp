@@ -80,7 +80,7 @@ namespace Vox {
 
         const size_t numBytes = positions.size() * sizeof(CubbyFlow::Vector3F);
         const size_t numVertices = numBytes / (sizeof(float) * 3);
-        _renderables.push_back({Detail::GenerateVAO(static_cast<void*>(positions.data()), numBytes), numVertices, color});
+        _renderables.push_back({ color, numVertices, Detail::GenerateVAO(static_cast<void*>(positions.data()), numBytes) });
     }
 
     void DebugDraw::AddCartesianCoordinateAxis(const float axisXLength, const float axisYLength, const float axisZLength)
@@ -95,9 +95,9 @@ namespace Vox {
             0.0f, 0.0f, 0.0f, 0.0f, 0.0f, axisZLength
         };
 
-        _renderables.push_back({ Detail::GenerateVAO(static_cast<const void*>(axisX), sizeof(axisX)), size_t(2), CubbyFlow::Vector3F(1.0f, 0.0f, 0.0f)});
-        _renderables.push_back({ Detail::GenerateVAO(static_cast<const void*>(axisY), sizeof(axisY)), size_t(2), CubbyFlow::Vector3F(0.0f, 1.0f, 0.0f)});
-        _renderables.push_back({ Detail::GenerateVAO(static_cast<const void*>(axisZ), sizeof(axisZ)), size_t(2), CubbyFlow::Vector3F(0.0f, 0.0f, 1.0f)});
+        _renderables.push_back({ CubbyFlow::Vector3F(1.0f, 0.0f, 0.0f), size_t(2), Detail::GenerateVAO(static_cast<const void*>(axisX), sizeof(axisX)) });
+        _renderables.push_back({ CubbyFlow::Vector3F(0.0f, 1.0f, 0.0f), size_t(2), Detail::GenerateVAO(static_cast<const void*>(axisY), sizeof(axisY)) });
+        _renderables.push_back({ CubbyFlow::Vector3F(0.0f, 0.0f, 1.0f), size_t(2), Detail::GenerateVAO(static_cast<const void*>(axisZ), sizeof(axisZ)) });
     }
 
     void DebugDraw::AddBoundingBox(const CubbyFlow::BoundingBox3F& boundingBox, const CubbyFlow::Vector3F color)
@@ -120,7 +120,7 @@ namespace Vox {
 
          const size_t numBytes = sizeof(positions);
          const size_t numVertices = numBytes / (sizeof(float) * 3);
-        _renderables.push_back({ Detail::GenerateVAO(static_cast<const void*>(positions), numBytes), numVertices, color });
+        _renderables.push_back({ color, numVertices, Detail::GenerateVAO(static_cast<const void*>(positions), numBytes) });
     }
 
     void DebugDraw::ClearVAO()
