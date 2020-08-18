@@ -69,7 +69,10 @@ namespace Vox {
         void AddFrameBuffer(const std::string& name);
 
         //! Bind framebuffers sequentially.
-        const std::shared_ptr<FrameBuffer>& BindFrameBuffer(const std::string& name, GLenum target);
+        void BindFrameBuffer(const std::string& name, GLenum target);
+
+        //! Returns currently bound frame buffer instance.
+        const std::weak_ptr<FrameBuffer>& GetCurrentFrameBuffer() const;
 
         //! Return the GLFWwindow context instance.
         GLFWwindow* GetWindowContext();
@@ -82,6 +85,7 @@ namespace Vox {
         GLFWwindow* _windowCtx;
         GLenum _renderMode;
         std::weak_ptr<Program> _currentProgram;
+        std::weak_ptr<FrameBuffer> _currentFrameBuffer;
     };
 
 };

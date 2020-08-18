@@ -27,23 +27,11 @@ namespace Vox {
 
     FrameContext::~FrameContext()
 	{
-		for (auto& fbo : _fboMap)
-			fbo.second.reset();
-		_fboMap.clear();
-
 		for (auto iter : _textureMap)
 			glDeleteTextures(1, &(iter.second));
-		_textureMap.clear();
 
-		for (auto iter : _programMap)
-			iter.second.reset();
-		_programMap.clear();
-
-		//! glfw destroy
 		if (_windowCtx)
-		{
 			glfwDestroyWindow(_windowCtx);
-		}
 	}
 
     void FrameContext::SetWindowContextShouldClose(bool bShutdown)
@@ -116,15 +104,27 @@ namespace Vox {
 		_fboMap.emplace(name, std::make_shared<FrameBuffer>());
 	}
 
-    const std::shared_ptr<FrameBuffer>& FrameContext::BindFrameBuffer(const std::string& name, GLenum target)
+    void FrameContext::BindFrameBuffer(const std::string& name, GLenum target)
 	{
-		//! Find given program name in the program map.
-		auto iter = _fboMap.find(name);
-		//! If given name does not exist, print call stack and error message.
-		VoxAssert(iter != _fboMap.end(), CURRENT_SRC_PATH_TO_STR, std::string("No Frame Buffer Object ") + name);
-		const auto& fbo = iter->second;
-		fbo->BindFrameBuffer(target);
-		return fbo;
+		if (name == "DefaultPass")
+		{
+			glBindFramebuffer(target, 0);
+		}
+		else
+		{
+			//! Find given program name in the program map.
+			auto iter = _fboMap.find(name);
+			//! If given name does not exist, print call stack and error message.
+			VoxAssert(iter != _fboMap.end(), CURRENT_SRC_PATH_TO_STR, std::string("No Frame Buffer Object ") + name);
+			_currentFrameBuffer = iter->second;
+			if (!_currentFrameBuffer.expired())
+				_currentFrameBuffer.lock()->BindFrameBuffer(target);
+		}
+	}
+    
+	const std::weak_ptr<FrameBuffer>& FrameContext::GetCurrentFrameBuffer() const
+	{
+		return _currentFrameBuffer;
 	}
   	
 	GLFWwindow* FrameContext::GetWindowContext()
