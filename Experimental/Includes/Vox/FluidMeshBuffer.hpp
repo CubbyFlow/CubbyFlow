@@ -3,7 +3,7 @@
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: The buffer class which store buffer desc and own raw pointer optionally.
+> Purpose: Buffer wrapper class for fluid mesh inherited by RoundRobinAsyncBuffer.
 > Created Time: 2020/07/26
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
@@ -16,6 +16,11 @@
 
 namespace Vox {
 
+    /**
+     * Buffer wrapper class for fluid mesh inherited by RoundRobinAsyncBuffer.
+     * Each vertex array have vertex buffer object and element buffer object.
+     * vertex buffer have two attributes for position and normal.
+     **/
     class FluidMeshBuffer : public RoundRobinAsyncBuffer
     {
     public:
