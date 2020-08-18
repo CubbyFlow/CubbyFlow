@@ -202,7 +202,7 @@ namespace Vox {
 		
         Vox::GeometryCache::Shape newShape;
         newShape.format = VertexFormat::Position3;
-		newShape.positions.Resize(tempParticles.size() * 3);
+		newShape.positions.Resize(tempParticles.size());
 		tempParticles.ParallelForEachIndex([&](size_t index){
             const auto& particle = tempParticles[index].CastTo<float>();
 			newShape.positions[index] = particle;
@@ -420,7 +420,7 @@ namespace Vox {
         {
             const unsigned int shapeFormat = ~(static_cast<unsigned int>(shape.format)); 
             const unsigned int givenFormat = static_cast<unsigned int>(format);
-            VoxAssert((shapeFormat & givenFormat), CURRENT_SRC_PATH_TO_STR, "Given Vertex Format Have attribute what original format doesn't have");
+            VoxAssert(!(shapeFormat & givenFormat), CURRENT_SRC_PATH_TO_STR, "Given Vertex Format Have attribute what original format doesn't have");
     
             const size_t numVertices = shape.positions.size();
             const size_t totalSize = numVertices * VertexHelper::GetNumberOfFloats(format);
