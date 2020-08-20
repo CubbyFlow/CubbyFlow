@@ -10,7 +10,7 @@ class TestApp : public Vox::App
 {
 public:
     //! Default Constructor
-    TestApp();
+    TestApp(size_t shutdownTimer);
     //! Default Destructor
     ~TestApp();
     
@@ -21,4 +21,5 @@ public:
 
 protected:
 private:
+    size_t _shutdownTimer { 0 };
 };

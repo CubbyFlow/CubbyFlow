@@ -3,7 +3,8 @@
 #include <Vox/FrameContext.hpp>
 #include <glad/glad.h>
 
-TestApp::TestApp()
+TestApp::TestApp(size_t shutdownTimer)
+    : _shutdownTimer(shutdownTimer)
 {
     //! Do nothing.
 }
@@ -26,8 +27,13 @@ bool TestApp::Initialize(const Vox::Path& scenePath)
 
 void TestApp::DrawFrame() 
 {
+    static size_t count = 0;
+
     std::shared_ptr<Vox::FrameContext> ctx = Vox::App::PopFrameContextFromQueue();
     ctx->MakeContextCurrent();
+
+    if (count++ == _shutdownTimer)
+        ctx->SetWindowContextShouldClose(true);
 
     Vox::App::PushFrameContextToQueue(ctx);
 }

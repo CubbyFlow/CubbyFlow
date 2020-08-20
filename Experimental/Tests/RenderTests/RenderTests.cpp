@@ -1,4 +1,5 @@
 #include "gtest/gtest.h"
+#include <Vox/FileSystem.hpp>
 #include <Core/Utils/Logging.h>
 #include <fstream>
 
@@ -12,6 +13,7 @@ int main(int argc, char* argv[])
 		CubbyFlow::Logging::SetAllStream(&logFile);
 	}
 
+    Vox::FileSystem::AddDirectory(RESOURCES_DIR);
 	int ret = RUN_ALL_TESTS();
 
 	return ret;
