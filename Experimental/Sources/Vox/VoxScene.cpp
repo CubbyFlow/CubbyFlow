@@ -79,8 +79,32 @@ namespace Vox {
         const std::string name = json["name"].get<std::string>();
         const std::string format = json["format"].get<std::string>();
         const size_t count = json["count"].get<size_t>();
+        const CubbyFlow::Vector3F translate = {json["translate"][0].get<float>(), json["translate"][1].get<float>(), json["translate"][2].get<float>() };
+        const float scale = json["scale"].get<float>();
 
-        _metadata.emplace(name, std::make_shared<GeometryCacheManager>(format, count));
+        auto manager = std::make_shared<GeometryCacheManager>(format, count);
+        CubbyFlow::ParallelFor(CubbyFlow::ZERO_SIZE, manager->GetNumberOfCache(), [&](size_t index){
+            const auto& cache = manager->GetGeometryCache(index);
+            cache->TranslateCache(translate);
+            cache->ScaleCache(scale);
+        });
+
+        _metadata.emplace(name, manager);
+    }
+
+    template <>
+    void VoxScene::OnLoadSceneObject<GeometryCache>(const nlohmann::json& json)
+    {
+        const std::string name = json["name"].get<std::string>();
+        const std::string format = json["format"].get<std::string>();
+        const CubbyFlow::Vector3F translate = {json["translate"][0].get<float>(), json["translate"][1].get<float>(), json["translate"][2].get<float>() };
+        const float scale = json["scale"].get<float>();
+
+        auto object = std::make_shared<GeometryCache>(format);
+        object->TranslateCache(translate);
+        object->ScaleCache(scale);
+
+        _metadata.emplace(name, object);
     }
 
     void VoxScene::OnLoadScene(const nlohmann::json& json)
@@ -91,6 +115,7 @@ namespace Vox {
 
             if (objectType == "camera") OnLoadSceneObject<PerspectiveCamera>(data);
             else if (objectType == "geometry_cache") OnLoadSceneObject<GeometryCacheManager>(data);
+            else if (objectType == "static_object") OnLoadSceneObject<GeometryCache>(data);
             else VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Unknown Scene Object Type [" + objectType + "]");
         };
     }
