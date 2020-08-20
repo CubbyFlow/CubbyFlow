@@ -72,26 +72,6 @@ bool FluidMeshViewer::Initialize(const Vox::Path& scenePath)
 
     ctx->SetRenderMode(GL_TRIANGLES);
 
-    //! const auto& sphere = _scene->GetSceneObject<Vox::GeometryCache>("SphereObject");
-    //! sphere->InterleaveData(Vox::VertexFormat::Position3Normal3);
-    //! const auto& shape = sphere->GetShape(0);
-    //! 
-    //! glGenVertexArrays(1, &_vao);
-    //! glBindVertexArray(_vao);
-    //! GLuint vbo, ebo;
-    //! glGenBuffers(1, &vbo);
-    //! glGenBuffers(1, &ebo);
-    //! glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    //! glBufferData(GL_ARRAY_BUFFER, shape.interleaved.size() * sizeof(float), shape.interleaved.data(), GL_STATIC_DRAW);
-    //! glEnableVertexAttribArray(0);
-    //! glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)0);
-    //! glEnableVertexAttribArray(1);
-    //! glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)(sizeof(float) * 3));
-    //! glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    //! glBufferData(GL_ELEMENT_ARRAY_BUFFER, shape.indices.size() * sizeof(unsigned int), shape.indices.data(), GL_STATIC_DRAW);
-    //! glBindVertexArray(0);
-    //! _numIndices = shape.indices.size();
-
     Vox::App::PushFrameContextToQueue(ctx);
     return true;
 }
@@ -112,14 +92,14 @@ void FluidMeshViewer::DrawFrame()
         glDepthFunc(GL_LESS);
         glEnable(GL_CULL_FACE);
 
-        if (!_buffer->CheckFence(50000))
-            return;
-
-        ctx->MakeProgramCurrent("FluidMesh");
-        ctx->UpdateProgramCamera(_camera);
-        _buffer->AsyncBufferTransfer(_cacheMgr);
-        _buffer->DrawFrame(ctx);
-        _buffer->AdvanceFrame();
+        if (_buffer->CheckFence(50000))
+        {
+            ctx->MakeProgramCurrent("FluidMesh");
+            ctx->UpdateProgramCamera(_camera);
+            _buffer->AsyncBufferTransfer(_cacheMgr);
+            _buffer->DrawFrame(ctx);
+            _buffer->AdvanceFrame();
+        }
         
         Vox::App::EndFrame(ctx);
     }
