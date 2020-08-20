@@ -11,6 +11,7 @@
 #include <Vox/FrameContext.hpp>
 #include <Vox/Program.hpp>
 #include <Core/Math/Quaternion.h>
+#include <iostream>
 
 using namespace CubbyFlow;
 namespace Vox {
@@ -71,7 +72,7 @@ namespace Vox {
                                    {0.0f, 1.0f, 0.0f, -_origin.y},
                                    {0.0f, 0.0f, 1.0f, -_origin.z},
                                    {0.0f, 0.0f, 0.0f,   1.0f  }};
-                                   
+
         _viewProjection = projection * view * translation;
     }
 
