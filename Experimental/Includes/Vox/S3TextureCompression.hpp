@@ -31,7 +31,7 @@ namespace Vox {
 
         //! Initialize buffers, textures and framebuffers.
         //! After initializing resources, add them to frame context.
-        //! initialized textures : DX5Texture, EncodingTexture, CompressedTexture
+        //! initialized textures : DXTexture5, EncodingTexture, CompressedTexture
         //! initialzied frame buffer : S3TCPass, YCoCgDecodingPass
         void Initialize(const std::shared_ptr<FrameContext>& ctx);
 

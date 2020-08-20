@@ -42,7 +42,7 @@ namespace Vox {
         glBindTexture(GL_TEXTURE_2D, 0);
         
         ctx->AddTexture("EncodingTexture", texIm);
-        ctx->AddTexture("DXT5Texture", texDXT);
+        ctx->AddTexture("DXTexture5", texDXT);
         ctx->AddTexture("CompressedTexture", texFinal);
 
         glGenVertexArrays(1, &_vao);
@@ -104,7 +104,7 @@ namespace Vox {
 
         ctx->BindFrameBuffer("DefaultPass", GL_DRAW_FRAMEBUFFER);
         {
-            ctx->BindTextureToSlot("DXT5Texture", GL_TEXTURE_2D, 0);
+            ctx->BindTextureToSlot("DXTexture5", GL_TEXTURE_2D, 0);
             glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _vboDXT);
             
             glCompressedTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _width, _height, 
@@ -117,7 +117,7 @@ namespace Vox {
 
         ctx->BindFrameBuffer("YCoCgDecodingPass", GL_FRAMEBUFFER);
         {
-            ctx->BindTextureToSlot("DXT5Texture", GL_TEXTURE_2D, 0);
+            ctx->BindTextureToSlot("DXTexture5", GL_TEXTURE_2D, 0);
             ctx->MakeProgramCurrent("YCoCgDecoding");
             glViewport(0, 0, _width, _height);
 
