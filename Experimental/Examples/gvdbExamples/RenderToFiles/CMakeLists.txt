@@ -11,7 +11,6 @@ set ( REQUIRE_MAIN "0" )
 set ( REQUIRE_NVGUI "0" )
 set ( REQUIRE_OPTIX "0" )
 find_package(Utils REQUIRED)
-find_package(Optix REQUIRED)
 
 # Includes
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
