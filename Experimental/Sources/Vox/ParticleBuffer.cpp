@@ -52,14 +52,14 @@ namespace Vox {
         //! Take Modulo with geometry cache size for repeating transfer.
         const size_t index = _frameIndex % cacheManager->GetNumberOfCache();
         const auto& shape = cacheManager->GetGeometryCache(index)->GetShape(0);
-        const size_t numBytes = shape.vertices.size() * sizeof(float);
+        const size_t numBytes = shape.positions.size() * sizeof(CubbyFlow::Vector3F);
         //! Map gpu pointer to cpu.
         void* ptr = glMapBufferRange(GL_ARRAY_BUFFER, 0, numBytes, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
         //! Pass pointer for the memcpy
-        std::memcpy(ptr, static_cast<const void*>(shape.vertices.data()), numBytes);
+        std::memcpy(ptr, static_cast<const void*>(shape.positions.data()), numBytes);
         //! Unmap the pointer after transfer finished.
         glUnmapBuffer(GL_ARRAY_BUFFER);
-        _numVertices  = numBytes / (sizeof(float) * 3);
+        _numVertices  = shape.positions.size();
     }
 
     void ParticleBuffer::OnDrawFrame(const std::shared_ptr<FrameContext>& ctx)
