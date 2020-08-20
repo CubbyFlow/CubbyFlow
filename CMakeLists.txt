@@ -67,8 +67,9 @@ set(RESOURCES_TEXTURES  textures/bricks2_disp.jpg
                         textures/metal.png
                         textures/wood.png)                    
 
-set(RESOURCES_SCENES    testscene.json 
-                        particle_scene.json)
+set(RESOURCES_SCENES    ParticleViewer.json
+                        FluidMeshViewer.json
+                        TestScene.json)
 
 # we don't want to copy if we're building in the source dir
 if (NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
