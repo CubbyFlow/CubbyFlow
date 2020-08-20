@@ -10,6 +10,11 @@ else()
     set(COREFOUNDATION_LIB "")
 endif()
 
+# Find TBB
+include(../Builds/CMake/FindLibunwind.cmake)
+find_package(Libunwind REQUIRED)
+include_directories(LIBUNWIND_INCLUDE_DIR)
+
 # Recording On
 option(RECORDING "Use libpng for recording simulation result" OFF)
 if (RECORDING)
@@ -37,9 +42,6 @@ if (USE_GL)
     find_package(OpenGL REQUIRED)
     
     if (OPENGL_FOUND)
-        # Define macro CUBBYRENDER_USE_GL. 
-        add_definitions(-DCUBBYFLOW_USE_GL)
-
         # Ignore warning 4152 ( nonstandard extension, function/data pointer conversion in expression ) for building gl3w library.
         if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
             set(DEFAULT_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}
@@ -90,7 +92,7 @@ if (USE_GL)
             ${COREFOUNDATION_LIB})
 
         # Include the other directories
-        include_directories(${CMAKE_CURRENT_LIST_DIR}/Includes/CubbyRender)
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/Includes/Vox)
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Includes)
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/gli)
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/glad)
@@ -144,12 +146,10 @@ else()
 endif()
 
 # Project modules
-#add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Sources/CubbyRender)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Sources/Vox)
 if (USE_GL)
     add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/Vox/ParticleViewer)
-    #add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/GL3Examples/ParticleRenderer)
-    #add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/GL3Examples/FluidMeshRenderer)
+    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/Vox/FluidMeshViewer)
     if (USE_CUDA)
         add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/gvdbExamples/InteractiveFluid)
         add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/gvdbExamples/RenderToFiles)
