@@ -3,7 +3,7 @@
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: amera class with perspective projection
+> Purpose: camera class with perspective projection
 > Created Time: 2020/08/02
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
@@ -46,6 +46,18 @@ namespace Vox {
 
         //! Returns View Projection Matrix.
         CubbyFlow::Matrix4x4F GetViewProjectionMatrix() const;
+
+        //! Returns the camera origin position.
+        inline CubbyFlow::Vector3F GetCameraOrigin() const
+        {
+            return _origin;
+        }
+
+        //! Returns the camera normalized. direction vector.
+        inline CubbyFlow::Vector3F GetCameraDirection() const
+        {
+            return _dir;
+        }
 
     protected:
     private:
