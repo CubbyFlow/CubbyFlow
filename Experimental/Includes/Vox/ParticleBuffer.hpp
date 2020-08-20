@@ -16,6 +16,11 @@
 
 namespace Vox {
 
+    /**
+     * Buffer wrapper class for particles inherited by RoundRobinAsyncBuffer.
+     * Each vertex array have only one vertex buffer object.
+     * vertex buffer have one position attribute.
+     **/
     class ParticleBuffer : public RoundRobinAsyncBuffer
     {
     public:
