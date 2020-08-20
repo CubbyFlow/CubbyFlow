@@ -72,7 +72,10 @@ int main(int argc, const char** argv)
 
     Vox::FileSystem::AddDirectory("./Resources");
     Vox::FileSystem::AddDirectory(outputDir);
-    Vox::Renderer::RunApp(std::make_shared<ParticleViewer>());
+
+    Vox::Renderer::Initialize();
+    Vox::Renderer::RunApp(std::make_shared<ParticleViewer>(), "ParticleViewer.json");
+    Vox::Renderer::Terminate();
 
     return EXIT_SUCCESS;
 }
