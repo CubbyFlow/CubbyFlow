@@ -75,16 +75,6 @@ bool ParticleViewer::Initialize(const Vox::Path& scenePath)
     intermediateFBO->SetColorAttachment(0, screenTexture, false);   
     VoxAssert(intermediateFBO->AssertFramebufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
 
-    GLuint screenVS = Vox::Renderer::CreateShaderFromSource(Vox::kScreenShaders[0], GL_VERTEX_SHADER);
-    GLuint screenFS = Vox::Renderer::CreateShaderFromSource(Vox::kScreenShaders[1], GL_FRAGMENT_SHADER);
-    ctx->AddShaderProgram("ScreenQuad", Vox::Renderer::CreateProgram(screenVS, 0, screenFS));
-    ctx->MakeProgramCurrent("ScreenQuad");
-    const auto& screenQuad = ctx->GetCurrentProgram();
-    if(!screenQuad.expired())
-        screenQuad.lock()->SendUniformVariable("ScreenTexture", 0);
-    glDeleteShader(screenVS);
-    glDeleteShader(screenFS);
-
     _postProcessing.reset(new Vox::PostProcessing());
     _postProcessing->Initialize(ctx);
 
@@ -139,7 +129,6 @@ void ParticleViewer::DrawFrame()
     {
         Vox::App::BeginFrame(ctx);
         glViewport(0, 0, _windowSize.x, _windowSize.y);
-        ctx->MakeProgramCurrent("ScreenQuad");
         _postProcessing->DrawFrame(ctx, "ScreenTexture");
         //! ReadPixels must be implemented with Asynchronous features.
         //! Note this reference : http://http.download.nvidia.com/developer/Papers/2005/Fast_Texture_Transfers/Fast_Texture_Transfers.pdf
