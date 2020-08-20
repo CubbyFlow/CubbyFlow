@@ -11,6 +11,7 @@
 #include <Vox/FrameContext.hpp>
 #include <Vox/PerspectiveCamera.hpp>
 #include <Vox/VoxScene.hpp>
+#include <Core/Utils/Macros.h>
 #include <glad/glad.h>
 
 using namespace CubbyFlow;
@@ -48,6 +49,7 @@ namespace Vox {
 
     void App::BeginFrame(std::shared_ptr<FrameContext>& ctx)
     {
+        UNUSED_VARIABLE(ctx);
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(_bgColor.x, _bgColor.y, _bgColor.z, _bgColor.w);
@@ -55,6 +57,7 @@ namespace Vox {
 
     void App::EndFrame(std::shared_ptr<FrameContext>& ctx)
     {
+        UNUSED_VARIABLE(ctx);
         //! On screen draw stuffs like GUI
     }
 
