@@ -1,15 +1,16 @@
-/*************************************************************************
-> File Name: TriangleMesh3.cpp
-> Project Name: CubbyFlow
-> This code is based on Jet Framework that was created by Doyub Kim.
-> References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: 3-D triangle mesh geometry.
-> Created Time: 2017/04/15
-> Copyright (c) 2018, Chan-Ho Chris Ohk
-*************************************************************************/
-#include <Core/Geometry/TriangleMesh3.h>
-#include <Core/Math/MathUtils.h>
-#include <Core/Utils/Parallel.h>
+// This code is based on Jet framework.
+// Copyright (c) 2018 Doyub Kim
+// CubbyFlow is voxel-based fluid simulation engine for computer games.
+// Copyright (c) 2020 CubbyFlow Team
+// Core Part: Chris Ohk, Junwoo Hwang, Jihong Sin, Seungwoo Yoo
+// AI Part: Dongheon Cho, Minseo Kim
+// We are making my contributions/submissions to this project solely in our
+// personal capacity and are not conveying any rights to any intellectual
+// property of any third parties.
+
+#include <Core/Geometry/TriangleMesh3.hpp>
+#include <Core/Math/MathUtils.hpp>
+#include <Core/Utils/Parallel.hpp>
 
 #define TINYOBJLOADER_IMPLEMENTATION
 #define TINYOBJLOADER_USE_DOUBLE
@@ -20,17 +21,68 @@
 
 namespace CubbyFlow
 {
-inline std::ostream& operator<<(std::ostream& stream, const Vector2D& v)
+namespace
+{
+constexpr double DEFAULT_FAST_WINDING_NUMBER_ACCURACY = 2.0;
+
+struct WindingNumberGatherData
+{
+    WindingNumberGatherData operator+(
+        const WindingNumberGatherData& other) const
+    {
+        WindingNumberGatherData sum;
+        sum.areaSums = areaSums + other.areaSums;
+        sum.areaWeightedNormalSums =
+            areaWeightedNormalSums + other.areaWeightedNormalSums;
+        sum.areaWeightedPositionSums =
+            areaWeightedPositionSums + other.areaWeightedPositionSums;
+
+        return sum;
+    }
+
+    double areaSums = 0.0;
+    Vector3D areaWeightedNormalSums;
+    Vector3D areaWeightedPositionSums;
+};
+
+template <typename GatherFunc, typename LeafGatherFunc>
+WindingNumberGatherData PostOrderTraversal(
+    const BVH3<size_t>& bvh, size_t nodeIndex, const GatherFunc& visitorFunc,
+    const LeafGatherFunc& leafFunc,
+    const WindingNumberGatherData& initGatherData)
+{
+    WindingNumberGatherData data = initGatherData;
+
+    if (bvh.IsLeaf(nodeIndex))
+    {
+        data = leafFunc(nodeIndex);
+    }
+    else
+    {
+        const auto children = bvh.GetChildren(nodeIndex);
+        data = data + PostOrderTraversal(bvh, children.first, visitorFunc,
+                                         leafFunc, initGatherData);
+        data = data + PostOrderTraversal(bvh, children.second, visitorFunc,
+                                         leafFunc, initGatherData);
+    }
+
+    visitorFunc(nodeIndex, data);
+
+    return data;
+}
+
+std::ostream& operator<<(std::ostream& stream, const Vector2D& v)
 {
     stream << v.x << ' ' << v.y;
     return stream;
 }
 
-inline std::ostream& operator<<(std::ostream& stream, const Vector3D& v)
+std::ostream& operator<<(std::ostream& stream, const Vector3D& v)
 {
     stream << v.x << ' ' << v.y << ' ' << v.z;
     return stream;
 }
+}  // namespace
 
 TriangleMesh3::TriangleMesh3(const Transform3& transform_,
                              bool isNormalFlipped_)
@@ -65,91 +117,13 @@ TriangleMesh3::TriangleMesh3(const TriangleMesh3& other) : Surface3(other)
 void TriangleMesh3::UpdateQueryEngine()
 {
     BuildBVH();
+    BuildWindingNumbers();
 }
 
-Vector3D TriangleMesh3::ClosestPointLocal(const Vector3D& otherPoint) const
+void TriangleMesh3::UpdateQueryEngine() const
 {
     BuildBVH();
-
-    const auto distanceFunc = [this](const size_t& triIdx, const Vector3D& pt) {
-        Triangle3 tri = Triangle(triIdx);
-        return tri.ClosestDistance(pt);
-    };
-
-    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
-    return Triangle(*queryResult.item).ClosestPoint(otherPoint);
-}
-
-Vector3D TriangleMesh3::ClosestNormalLocal(const Vector3D& otherPoint) const
-{
-    BuildBVH();
-
-    const auto distanceFunc = [this](const size_t& triIdx, const Vector3D& pt) {
-        Triangle3 tri = Triangle(triIdx);
-        return tri.ClosestDistance(pt);
-    };
-
-    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
-    return Triangle(*queryResult.item).ClosestNormal(otherPoint);
-}
-
-SurfaceRayIntersection3 TriangleMesh3::ClosestIntersectionLocal(
-    const Ray3D& ray) const
-{
-    BuildBVH();
-
-    const auto testFunc = [this](const size_t& triIdx, const Ray3D& ray) {
-        Triangle3 tri = Triangle(triIdx);
-        SurfaceRayIntersection3 result = tri.ClosestIntersection(ray);
-
-        return result.distance;
-    };
-
-    const auto queryResult = m_bvh.GetClosestIntersection(ray, testFunc);
-
-    SurfaceRayIntersection3 result;
-    result.distance = queryResult.distance;
-    result.isIntersecting = queryResult.item != nullptr;
-
-    if (queryResult.item != nullptr)
-    {
-        result.point = ray.PointAt(queryResult.distance);
-        result.normal = Triangle(*queryResult.item).ClosestNormal(result.point);
-    }
-
-    return result;
-}
-
-BoundingBox3D TriangleMesh3::BoundingBoxLocal() const
-{
-    BuildBVH();
-
-    return m_bvh.GetBoundingBox();
-}
-
-bool TriangleMesh3::IntersectsLocal(const Ray3D& ray) const
-{
-    BuildBVH();
-
-    const auto testFunc = [this](const size_t& triIdx, const Ray3D& ray) {
-        Triangle3 tri = Triangle(triIdx);
-        return tri.Intersects(ray);
-    };
-
-    return m_bvh.IsIntersects(ray, testFunc);
-}
-
-double TriangleMesh3::ClosestDistanceLocal(const Vector3D& otherPoint) const
-{
-    BuildBVH();
-
-    const auto distanceFunc = [this](const size_t& triIdx, const Vector3D& pt) {
-        Triangle3 tri = Triangle(triIdx);
-        return tri.ClosestDistance(pt);
-    };
-
-    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
-    return queryResult.distance;
+    BuildWindingNumbers();
 }
 
 void TriangleMesh3::Clear()
@@ -161,7 +135,7 @@ void TriangleMesh3::Clear()
     m_normalIndices.Clear();
     m_uvIndices.Clear();
 
-    InvalidateBVH();
+    InvalidateCache();
 }
 
 void TriangleMesh3::Set(const TriangleMesh3& other)
@@ -173,7 +147,7 @@ void TriangleMesh3::Set(const TriangleMesh3& other)
     m_normalIndices.Set(other.m_normalIndices);
     m_uvIndices.Set(other.m_uvIndices);
 
-    InvalidateBVH();
+    InvalidateCache();
 }
 
 void TriangleMesh3::Swap(TriangleMesh3& other)
@@ -219,7 +193,7 @@ const Vector3D& TriangleMesh3::Point(size_t i) const
 
 Vector3D& TriangleMesh3::Point(size_t i)
 {
-    InvalidateBVH();
+    InvalidateCache();
     return m_points[i];
 }
 
@@ -352,28 +326,19 @@ void TriangleMesh3::AddUV(const Vector2D& t)
 void TriangleMesh3::AddPointTriangle(const Point3UI& newPointIndices)
 {
     m_pointIndices.Append(newPointIndices);
-    InvalidateBVH();
+    InvalidateCache();
 }
 
 void TriangleMesh3::AddNormalTriangle(const Point3UI& newNormalIndices)
 {
     m_normalIndices.Append(newNormalIndices);
-    InvalidateBVH();
-
-    // Number of normal indices must match with number of point indices once
-    // you decided to add normal indices. Same for the uvs as well.
-    assert(m_pointIndices.size() == m_normalIndices.size());
+    InvalidateCache();
 }
 
 void TriangleMesh3::AddUVTriangle(const Point3UI& newUVIndices)
 {
     m_uvIndices.Append(newUVIndices);
-    InvalidateBVH();
-
-    // Number of normal indices must match with number of point indices once
-    // you decided to add normal indices. Same for the uvs as well.
-    assert(m_pointIndices.size() == m_normalIndices.size());
-    assert(m_pointIndices.size() == m_uvIndices.size());
+    InvalidateCache();
 }
 
 void TriangleMesh3::AddTriangle(const Triangle3& tri)
@@ -400,7 +365,7 @@ void TriangleMesh3::AddTriangle(const Triangle3& tri)
     m_normalIndices.Append(newNormalIndices);
     m_uvIndices.Append(newUvIndices);
 
-    InvalidateBVH();
+    InvalidateCache();
 }
 
 void TriangleMesh3::SetFaceNormal()
@@ -500,7 +465,7 @@ void TriangleMesh3::Scale(double factor)
     ParallelFor(ZERO_SIZE, NumberOfPoints(),
                 [this, factor](size_t i) { m_points[i] *= factor; });
 
-    InvalidateBVH();
+    InvalidateCache();
 }
 
 void TriangleMesh3::Translate(const Vector3D& t)
@@ -508,7 +473,7 @@ void TriangleMesh3::Translate(const Vector3D& t)
     ParallelFor(ZERO_SIZE, NumberOfPoints(),
                 [this, t](size_t i) { m_points[i] += t; });
 
-    InvalidateBVH();
+    InvalidateCache();
 }
 
 void TriangleMesh3::Rotate(const QuaternionD& q)
@@ -519,7 +484,7 @@ void TriangleMesh3::Rotate(const QuaternionD& q)
     ParallelFor(ZERO_SIZE, NumberOfNormals(),
                 [this, q](size_t i) { m_normals[i] = q * m_normals[i]; });
 
-    InvalidateBVH();
+    InvalidateCache();
 }
 
 void TriangleMesh3::WriteObj(std::ostream* stream) const
@@ -612,7 +577,7 @@ bool TriangleMesh3::ReadObj(std::istream* stream)
         return false;
     }
 
-    InvalidateBVH();
+    InvalidateCache();
 
     // Read vertices
     for (size_t idx = 0; idx < attrib.vertices.size() / 3; ++idx)
@@ -622,7 +587,7 @@ bool TriangleMesh3::ReadObj(std::istream* stream)
         tinyobj::real_t vy = attrib.vertices[3 * idx + 1];
         tinyobj::real_t vz = attrib.vertices[3 * idx + 2];
 
-        AddPoint({vx, vy, vz});
+        AddPoint({ vx, vy, vz });
     }
 
     // Read normals
@@ -633,7 +598,7 @@ bool TriangleMesh3::ReadObj(std::istream* stream)
         tinyobj::real_t vy = attrib.normals[3 * idx + 1];
         tinyobj::real_t vz = attrib.normals[3 * idx + 2];
 
-        AddNormal({vx, vy, vz});
+        AddNormal({ vx, vy, vz });
     }
 
     // Read UVs
@@ -643,7 +608,7 @@ bool TriangleMesh3::ReadObj(std::istream* stream)
         tinyobj::real_t tu = attrib.texcoords[2 * idx + 0];
         tinyobj::real_t tv = attrib.texcoords[2 * idx + 1];
 
-        AddUV({tu, tv});
+        AddUV({ tu, tv });
     }
 
     // Read faces
@@ -660,24 +625,25 @@ bool TriangleMesh3::ReadObj(std::istream* stream)
                 if (!attrib.vertices.empty())
                 {
                     AddPointTriangle(
-                        {shape.mesh.indices[idx].vertex_index,
-                         shape.mesh.indices[idx + 1].vertex_index,
-                         shape.mesh.indices[idx + 2].vertex_index});
+                        { shape.mesh.indices[idx].vertex_index,
+                          shape.mesh.indices[idx + 1].vertex_index,
+                          shape.mesh.indices[idx + 2].vertex_index });
                 }
 
                 if (!attrib.normals.empty())
                 {
                     AddNormalTriangle(
-                        {shape.mesh.indices[idx].normal_index,
-                         shape.mesh.indices[idx + 1].normal_index,
-                         shape.mesh.indices[idx + 2].normal_index});
+                        { shape.mesh.indices[idx].normal_index,
+                          shape.mesh.indices[idx + 1].normal_index,
+                          shape.mesh.indices[idx + 2].normal_index });
                 }
 
                 if (!attrib.texcoords.empty())
                 {
-                    AddUVTriangle({shape.mesh.indices[idx].texcoord_index,
-                                   shape.mesh.indices[idx + 1].texcoord_index,
-                                   shape.mesh.indices[idx + 2].texcoord_index});
+                    AddUVTriangle(
+                        { shape.mesh.indices[idx].texcoord_index,
+                          shape.mesh.indices[idx + 1].texcoord_index,
+                          shape.mesh.indices[idx + 2].texcoord_index });
                 }
             }
 
@@ -714,6 +680,103 @@ TriangleMesh3::Builder TriangleMesh3::GetBuilder()
     return Builder();
 }
 
+Vector3D TriangleMesh3::ClosestPointLocal(const Vector3D& otherPoint) const
+{
+    BuildBVH();
+
+    const auto distanceFunc = [this](const size_t& triIdx, const Vector3D& pt) {
+        Triangle3 tri = Triangle(triIdx);
+        return tri.ClosestDistance(pt);
+    };
+
+    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
+    return Triangle(*queryResult.item).ClosestPoint(otherPoint);
+}
+
+double TriangleMesh3::ClosestDistanceLocal(const Vector3D& otherPoint) const
+{
+    BuildBVH();
+
+    const auto distanceFunc = [this](const size_t& triIdx, const Vector3D& pt) {
+        Triangle3 tri = Triangle(triIdx);
+        return tri.ClosestDistance(pt);
+    };
+
+    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
+    return queryResult.distance;
+}
+
+bool TriangleMesh3::IntersectsLocal(const Ray3D& ray) const
+{
+    BuildBVH();
+
+    const auto testFunc = [this](const size_t& triIdx, const Ray3D& ray) {
+        Triangle3 tri = Triangle(triIdx);
+        return tri.Intersects(ray);
+    };
+
+    return m_bvh.IsIntersects(ray, testFunc);
+}
+
+BoundingBox3D TriangleMesh3::BoundingBoxLocal() const
+{
+    BuildBVH();
+
+    return m_bvh.GetBoundingBox();
+}
+
+Vector3D TriangleMesh3::ClosestNormalLocal(const Vector3D& otherPoint) const
+{
+    BuildBVH();
+
+    const auto distanceFunc = [this](const size_t& triIdx, const Vector3D& pt) {
+        Triangle3 tri = Triangle(triIdx);
+        return tri.ClosestDistance(pt);
+    };
+
+    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
+    return Triangle(*queryResult.item).ClosestNormal(otherPoint);
+}
+
+SurfaceRayIntersection3 TriangleMesh3::ClosestIntersectionLocal(
+    const Ray3D& ray) const
+{
+    BuildBVH();
+
+    const auto testFunc = [this](const size_t& triIdx, const Ray3D& ray) {
+        Triangle3 tri = Triangle(triIdx);
+        SurfaceRayIntersection3 result = tri.ClosestIntersection(ray);
+
+        return result.distance;
+    };
+
+    const auto queryResult = m_bvh.GetClosestIntersection(ray, testFunc);
+
+    SurfaceRayIntersection3 result;
+    result.distance = queryResult.distance;
+    result.isIntersecting = queryResult.item != nullptr;
+
+    if (queryResult.item != nullptr)
+    {
+        result.point = ray.PointAt(queryResult.distance);
+        result.normal = Triangle(*queryResult.item).ClosestNormal(result.point);
+    }
+
+    return result;
+}
+
+bool TriangleMesh3::IsInsideLocal(const Vector3D& otherPoint) const
+{
+    return GetFastWindingNumber(otherPoint,
+                                DEFAULT_FAST_WINDING_NUMBER_ACCURACY) > 0.5;
+}
+
+void TriangleMesh3::InvalidateCache() const
+{
+    m_bvhInvalidated = true;
+    m_wnInvalidated = true;
+}
+
 void TriangleMesh3::InvalidateBVH() const
 {
     m_bvhInvalidated = true;
@@ -735,6 +798,125 @@ void TriangleMesh3::BuildBVH() const
 
         m_bvh.Build(ids, bounds);
         m_bvhInvalidated = false;
+    }
+}
+
+void TriangleMesh3::BuildWindingNumbers() const
+{
+    // Barill et al., Fast Winding Numbers for Soups and Clouds,
+    // ACM SIGGRAPH 2018
+    if (m_wnInvalidated)
+    {
+        BuildBVH();
+
+        const size_t numNodes = m_bvh.GetNumberOfNodes();
+        m_wnAreaWeightedNormalSums.Resize(numNodes);
+        m_wnAreaWeightedAvgPositions.Resize(numNodes);
+
+        const auto visitorFunc = [&](size_t nodeIndex,
+                                     const WindingNumberGatherData& data) {
+            m_wnAreaWeightedNormalSums[nodeIndex] = data.areaWeightedNormalSums;
+            m_wnAreaWeightedAvgPositions[nodeIndex] =
+                data.areaWeightedPositionSums / data.areaSums;
+        };
+
+        const auto leafFunc = [&](size_t nodeIndex) -> WindingNumberGatherData {
+            WindingNumberGatherData result;
+
+            const auto iter = m_bvh.GetItemOfNode(nodeIndex);
+            assert(iter != m_bvh.end());
+
+            Triangle3 tri = Triangle(*iter);
+            const double area = tri.Area();
+            result.areaSums = area;
+            result.areaWeightedNormalSums = area * tri.FaceNormal();
+            result.areaWeightedPositionSums =
+                area * (tri.points[0] + tri.points[1] + tri.points[2]) / 3.0;
+
+            return result;
+        };
+
+        PostOrderTraversal(m_bvh, 0, visitorFunc, leafFunc,
+                           WindingNumberGatherData{});
+
+        m_wnInvalidated = false;
+    }
+}
+
+double TriangleMesh3::GetWindingNumber(const Vector3D& queryPoint,
+                                       size_t triIndex) const
+{
+    // Jacobson et al., Robust Inside-Outside Segmentation using Generalized
+    // Winding Numbers, ACM SIGGRAPH 2013.
+    const Vector3D& vi = m_points[m_pointIndices[triIndex][0]];
+    const Vector3D& vj = m_points[m_pointIndices[triIndex][1]];
+    const Vector3D& vk = m_points[m_pointIndices[triIndex][2]];
+    const Vector3D va = vi - queryPoint;
+    const Vector3D vb = vj - queryPoint;
+    const Vector3D vc = vk - queryPoint;
+    const double a = va.Length();
+    const double b = vb.Length();
+    const double c = vc.Length();
+
+    const Matrix3x3D mat(va.x, vb.x, vc.x, va.y, vb.y, vc.y, va.z, vb.z, vc.z);
+    const double det = mat.Determinant();
+    const double denom =
+        a * b * c + va.Dot(vb) * c + vb.Dot(vc) * a + vc.Dot(va) * b;
+
+    const double solidAngle = 2.0 * std::atan2(det, denom);
+
+    return solidAngle;
+}
+
+double TriangleMesh3::GetFastWindingNumber(const Vector3D& queryPoint,
+                                           double accuracy) const
+{
+    BuildWindingNumbers();
+
+    return GetFastWindingNumber(queryPoint, 0, accuracy);
+}
+
+double TriangleMesh3::GetFastWindingNumber(const Vector3D& q,
+                                           size_t rootNodeIndex,
+                                           double accuracy) const
+{
+    // Barill et al., Fast Winding Numbers for Soups and Clouds, ACM SIGGRAPH
+    // 2018.
+    const Vector3D& treeP = m_wnAreaWeightedAvgPositions[rootNodeIndex];
+    const double qToP2 = q.DistanceSquaredTo(treeP);
+
+    const Vector3D& treeN = m_wnAreaWeightedNormalSums[rootNodeIndex];
+    const BoundingBox3D& treeBound = m_bvh.GetNodeBound(rootNodeIndex);
+    const Vector3D treeRVec =
+        Max(treeP - treeBound.lowerCorner, treeBound.upperCorner - treeP);
+    const double treeR = treeRVec.Length();
+
+    if (qToP2 > Square(accuracy * treeR))
+    {
+        // Case: q is sufficiently far from all elements in tree
+        // TODO: This is zero-th order approximation. Higher-order approximation
+        // from Section 3.2.1 could be implemented for better accuracy in the
+        // future.
+        return (treeP - q).Dot(treeN) /
+               (FOUR_PI_DOUBLE * Cubic(std::sqrt(qToP2)));
+    }
+    else
+    {
+        if (m_bvh.IsLeaf(rootNodeIndex))
+        {
+            // Case: q is nearby; use direct sum for tree¡¯s elements
+            const auto iter = m_bvh.GetItemOfNode(rootNodeIndex);
+            return GetWindingNumber(q, *iter) * INV_FOUR_PI_DOUBLE;
+        }
+        else
+        {
+            // Case: Recursive call
+            const auto children = m_bvh.GetChildren(rootNodeIndex);
+            double wn = 0.0;
+            wn += GetFastWindingNumber(q, children.first, accuracy);
+            wn += GetFastWindingNumber(q, children.second, accuracy);
+            return wn;
+        }
     }
 }
 
@@ -794,4 +976,4 @@ TriangleMesh3Ptr TriangleMesh3::Builder::MakeShared() const
                           m_isNormalFlipped),
         [](TriangleMesh3* obj) { delete obj; });
 }
-}
+}  // namespace CubbyFlow

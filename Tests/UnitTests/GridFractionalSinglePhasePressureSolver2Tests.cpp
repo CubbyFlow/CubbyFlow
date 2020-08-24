@@ -1,7 +1,7 @@
-#include "pch.h"
+#include "pch.hpp"
 
-#include <Core/Grid/CellCenteredScalarGrid2.h>
-#include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver2.h>
+#include <Core/Grid/CellCenteredScalarGrid2.hpp>
+#include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver2.hpp>
 
 using namespace CubbyFlow;
 
@@ -33,16 +33,12 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurface)
         }
     }
 
-    fluidSDF.Fill([&](const Vector2D& x)
-    {
-        return x.y - 2.0;
-    });
+    fluidSDF.Fill([&](const Vector2D& x) { return x.y - 2.0; });
 
     GridFractionalSinglePhasePressureSolver2 solver;
     solver.Solve(vel, 1.0, &vel,
-        ConstantScalarField2(std::numeric_limits<double>::max()),
-        ConstantVectorField2({ 0, 0 }),
-        fluidSDF);
+                 ConstantScalarField2(std::numeric_limits<double>::max()),
+                 ConstantVectorField2({ 0, 0 }), fluidSDF);
 
     for (size_t j = 0; j < 3; ++j)
     {
@@ -97,16 +93,12 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurfaceCompressed)
         }
     }
 
-    fluidSDF.Fill([&](const Vector2D& x)
-    {
-        return x.y - 2.0;
-    });
+    fluidSDF.Fill([&](const Vector2D& x) { return x.y - 2.0; });
 
     GridFractionalSinglePhasePressureSolver2 solver;
     solver.Solve(vel, 1.0, &vel,
-        ConstantScalarField2(std::numeric_limits<double>::max()),
-        ConstantVectorField2({ 0, 0 }),
-        fluidSDF, true);
+                 ConstantScalarField2(std::numeric_limits<double>::max()),
+                 ConstantVectorField2({ 0, 0 }), fluidSDF, true);
 
     for (size_t j = 0; j < 3; ++j)
     {
@@ -161,17 +153,14 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurfaceMG)
         }
     }
 
-    fluidSDF.Fill([&](const Vector2D& x)
-    {
-        return x.y - 16.0;
-    });
+    fluidSDF.Fill([&](const Vector2D& x) { return x.y - 16.0; });
 
     GridFractionalSinglePhasePressureSolver2 solver;
-    solver.SetLinearSystemSolver(std::make_shared<FDMMGSolver2>(5, 50, 50, 50, 50));
+    solver.SetLinearSystemSolver(
+        std::make_shared<FDMMGSolver2>(5, 50, 50, 50, 50));
     solver.Solve(vel, 1.0, &vel,
-        ConstantScalarField2(std::numeric_limits<double>::max()),
-        ConstantVectorField2({ 0, 0 }),
-        fluidSDF, true);
+                 ConstantScalarField2(std::numeric_limits<double>::max()),
+                 ConstantVectorField2({ 0, 0 }), fluidSDF, true);
 
     for (size_t j = 0; j < 32; ++j)
     {

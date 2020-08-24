@@ -1,17 +1,18 @@
-/*************************************************************************
-> File Name: main.cpp
-> Project Name: CubbyFlow
-> This code is based on Jet Framework that was created by Doyub Kim.
-> References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: Convert particles to XML file.
-> Created Time: 2017/09/09
-> Copyright (c) 2018, Chan-Ho Chris Ohk
-*************************************************************************/
-#include <../ClaraUtils.h>
+// This code is based on Jet framework.
+// Copyright (c) 2018 Doyub Kim
+// CubbyFlow is voxel-based fluid simulation engine for computer games.
+// Copyright (c) 2020 CubbyFlow Team
+// Core Part: Chris Ohk, Junwoo Hwang, Jihong Sin, Seungwoo Yoo
+// AI Part: Dongheon Cho, Minseo Kim
+// We are making my contributions/submissions to this project solely in our
+// personal capacity and are not conveying any rights to any intellectual
+// property of any third parties.
 
-#include <Core/Array/Array1.h>
-#include <Core/Vector/Vector3.h>
-#include <Core/Utils/Serialization.h>
+#include <../ClaraUtils.hpp>
+
+#include <Core/Array/Array1.hpp>
+#include <Core/Utils/Serialization.hpp>
+#include <Core/Vector/Vector3.hpp>
 
 #include <Clara/include/clara.hpp>
 
@@ -27,9 +28,8 @@ void PrintInfo(size_t numberOfParticles)
     printf("Number of particles: %zu\n", numberOfParticles);
 }
 
-void ParticlesToXML(
-    const Array1<Vector3D>& positions,
-    const std::string& xmlFileName)
+void ParticlesToXML(const Array1<Vector3D>& positions,
+                    const std::string& xmlFileName)
 {
     PrintInfo(positions.size());
 
@@ -47,13 +47,9 @@ void ParticlesToXML(
             file << "<transform name=\"toWorld\">";
 
             char buffer[64];
-            snprintf(
-                buffer,
-                sizeof(buffer),
-                "<translate x=\"%f\" y=\"%f\" z=\"%f\"/>",
-                pos.x,
-                pos.y,
-                pos.z);
+            snprintf(buffer, sizeof(buffer),
+                     "<translate x=\"%f\" y=\"%f\" z=\"%f\"/>", pos.x, pos.y,
+                     pos.z);
             file << buffer;
 
             file << "</transform>";
@@ -81,12 +77,10 @@ int main(int argc, char* argv[])
     // Parsing
     auto parser =
         clara::Help(showHelp) |
-        clara::Opt(inputFileName, "inputFileName")
-        ["-i"]["--input"]
-        ("input particle position file name") |
-        clara::Opt(outputFileName, "outputFileName")
-        ["-o"]["--output"]
-        ("output xml file name");
+        clara::Opt(inputFileName, "inputFileName")["-i"]["--input"](
+            "input particle position file name") |
+        clara::Opt(outputFileName,
+                   "outputFileName")["-o"]["--output"]("output xml file name");
 
     auto result = parser.parse(clara::Args(argc, argv));
     if (!result)

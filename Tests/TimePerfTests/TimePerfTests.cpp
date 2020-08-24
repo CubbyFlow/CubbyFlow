@@ -1,6 +1,6 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/Utils/Logging.h>
+#include <Core/Utils/Logging.hpp>
 
 #include <fstream>
 

@@ -1,40 +1,49 @@
-/*************************************************************************
-> File Name: ImplicitSurface2.cpp
-> Project Name: CubbyFlow
-> This code is based on Jet Framework that was created by Doyub Kim.
-> References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: Abstract base class for 2-D implicit surface.
-> Created Time: 2017/04/16
-> Copyright (c) 2018, Chan-Ho Chris Ohk
-*************************************************************************/
-#include <Core/Surface/ImplicitSurface2.h>
+// This code is based on Jet framework.
+// Copyright (c) 2018 Doyub Kim
+// CubbyFlow is voxel-based fluid simulation engine for computer games.
+// Copyright (c) 2020 CubbyFlow Team
+// Core Part: Chris Ohk, Junwoo Hwang, Jihong Sin, Seungwoo Yoo
+// AI Part: Dongheon Cho, Minseo Kim
+// We are making my contributions/submissions to this project solely in our
+// personal capacity and are not conveying any rights to any intellectual
+// property of any third parties.
+
+#include <Core/LevelSet/LevelSetUtils.hpp>
+#include <Core/Surface/ImplicitSurface2.hpp>
 
 namespace CubbyFlow
 {
-	ImplicitSurface2::ImplicitSurface2(const Transform2& transform, bool isNormalFlipped) :
-		Surface2(transform, isNormalFlipped)
-	{
-		// Do nothing
-	}
-
-	ImplicitSurface2::ImplicitSurface2(const ImplicitSurface2& other) :
-		Surface2(other)
-	{
-		// Do nothing
-	}
-
-	ImplicitSurface2::~ImplicitSurface2()
-	{
-		// Do nothing
-	}
-
-	double ImplicitSurface2::SignedDistance(const Vector2D& otherPoint) const
-	{
-		return SignedDistanceLocal(transform.ToLocal(otherPoint));
-	}
-
-	double ImplicitSurface2::ClosestDistanceLocal(const Vector2D& otherPoint) const
-	{
-		return std::fabs(SignedDistanceLocal(otherPoint));
-	}
+ImplicitSurface2::ImplicitSurface2(const Transform2& transform,
+                                   bool isNormalFlipped)
+    : Surface2(transform, isNormalFlipped)
+{
+    // Do nothing
 }
+
+ImplicitSurface2::ImplicitSurface2(const ImplicitSurface2& other)
+    : Surface2(other)
+{
+    // Do nothing
+}
+
+ImplicitSurface2::~ImplicitSurface2()
+{
+    // Do nothing
+}
+
+double ImplicitSurface2::SignedDistance(const Vector2D& otherPoint) const
+{
+    const double sd = SignedDistanceLocal(transform.ToLocal(otherPoint));
+    return isNormalFlipped ? -sd : sd;
+}
+
+double ImplicitSurface2::ClosestDistanceLocal(const Vector2D& otherPoint) const
+{
+    return std::fabs(SignedDistanceLocal(otherPoint));
+}
+
+bool ImplicitSurface2::IsInsideLocal(const Vector2D& otherPoint) const
+{
+    return IsInsideSDF(SignedDistanceLocal(otherPoint));
+}
+}  // namespace CubbyFlow

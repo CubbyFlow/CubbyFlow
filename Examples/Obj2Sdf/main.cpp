@@ -1,18 +1,19 @@
-/*************************************************************************
-> File Name: main.cpp
-> Project Name: CubbyFlow
-> This code is based on Jet Framework that was created by Doyub Kim.
-> References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: Convert object file to spatial data format file.
-> Created Time: 2017/09/08
-> Copyright (c) 2018, Chan-Ho Chris Ohk
-*************************************************************************/
-#include <../ClaraUtils.h>
+// This code is based on Jet framework.
+// Copyright (c) 2018 Doyub Kim
+// CubbyFlow is voxel-based fluid simulation engine for computer games.
+// Copyright (c) 2020 CubbyFlow Team
+// Core Part: Chris Ohk, Junwoo Hwang, Jihong Sin, Seungwoo Yoo
+// AI Part: Dongheon Cho, Minseo Kim
+// We are making my contributions/submissions to this project solely in our
+// personal capacity and are not conveying any rights to any intellectual
+// property of any third parties.
 
-#include <Core/Geometry/TriangleMesh3.h>
-#include <Core/Geometry/TriangleMeshToSDF.h>
-#include <Core/Grid/VertexCenteredScalarGrid3.h>
-#include <Core/MarchingCubes/MarchingCubes.h>
+#include <../ClaraUtils.hpp>
+
+#include <Core/Geometry/MarchingCubes.hpp>
+#include <Core/Geometry/TriangleMesh3.hpp>
+#include <Core/Geometry/TriangleMeshToSDF.hpp>
+#include <Core/Grid/VertexCenteredScalarGrid3.hpp>
 
 #include <Clara/include/clara.hpp>
 
@@ -24,7 +25,8 @@
 
 using namespace CubbyFlow;
 
-void SaveTriangleMeshData(const TriangleMesh3& data, const std::string& fileName)
+void SaveTriangleMeshData(const TriangleMesh3& data,
+                          const std::string& fileName)
 {
     std::ofstream file(fileName.c_str());
     if (file)
@@ -46,18 +48,14 @@ int main(int argc, char* argv[])
     // Parsing
     auto parser =
         clara::Help(showHelp) |
-        clara::Opt(inputFileName, "inputFileName")
-        ["-i"]["--input"]
-        ("input obj file name") |
-        clara::Opt(outputFileName, "outputFileName")
-        ["-o"]["--output"]
-        ("output sdf file name") |
-        clara::Opt(resX, "resX")
-        ["-r"]["--resx"]
-        ("grid resolution in x-axis (default is 100)") |
-        clara::Opt(marginScale, "marginScale")
-        ["-m"]["--margin"]
-        ("margin scale around the sdf (default is 0.2)");
+        clara::Opt(inputFileName,
+                   "inputFileName")["-i"]["--input"]("input obj file name") |
+        clara::Opt(outputFileName,
+                   "outputFileName")["-o"]["--output"]("output sdf file name") |
+        clara::Opt(resX, "resX")["-r"]["--resx"](
+            "grid resolution in x-axis (default is 100)") |
+        clara::Opt(marginScale, "marginScale")["-m"]["--margin"](
+            "margin scale around the sdf (default is 0.2)");
 
     auto result = parser.parse(clara::Args(argc, argv));
     if (!result)
@@ -98,25 +96,24 @@ int main(int argc, char* argv[])
     box.lowerCorner -= marginScale * scale;
     box.upperCorner += marginScale * scale;
 
-    const size_t resolutionY = static_cast<size_t>(std::ceil(resX * box.GetHeight() / box.GetWidth()));
-    const size_t resolutionZ = static_cast<size_t>(std::ceil(resX * box.GetDepth() / box.GetWidth()));
+    const size_t resolutionY =
+        static_cast<size_t>(std::ceil(resX * box.GetHeight() / box.GetWidth()));
+    const size_t resolutionZ =
+        static_cast<size_t>(std::ceil(resX * box.GetDepth() / box.GetWidth()));
 
-    printf(
-        "Vertex-centered grid size: %zu x %zu x %zu\n",
-        resX, resolutionY, resolutionZ);
+    printf("Vertex-centered grid size: %zu x %zu x %zu\n", resX, resolutionY,
+           resolutionZ);
 
     const double dx = box.GetWidth() / resX;
 
-    VertexCenteredScalarGrid3 grid(
-        resX, resolutionY, resolutionZ,
-        dx, dx, dx,
-        box.lowerCorner.x, box.lowerCorner.y, box.lowerCorner.z);
+    VertexCenteredScalarGrid3 grid(resX, resolutionY, resolutionZ, dx, dx, dx,
+                                   box.lowerCorner.x, box.lowerCorner.y,
+                                   box.lowerCorner.z);
 
     const BoundingBox3D domain = grid.BoundingBox();
-    printf(
-        "Domain size: [%f, %f, %f] x [%f, %f, %f]\n",
-        domain.lowerCorner.x, domain.lowerCorner.y, domain.lowerCorner.z,
-        domain.upperCorner.x, domain.upperCorner.y, domain.upperCorner.z);
+    printf("Domain size: [%f, %f, %f] x [%f, %f, %f]\n", domain.lowerCorner.x,
+           domain.lowerCorner.y, domain.lowerCorner.z, domain.upperCorner.x,
+           domain.upperCorner.y, domain.upperCorner.z);
     printf("Generating SDF...");
 
     TriangleMeshToSDF(triMesh, &grid);
@@ -140,7 +137,8 @@ int main(int argc, char* argv[])
     }
 
     TriangleMesh3 triMesh2;
-    MarchingCubes(grid.GetConstDataAccessor(), grid.GridSpacing(), grid.Origin(), &triMesh2, 0, DIRECTION_ALL);
+    MarchingCubes(grid.GetConstDataAccessor(), grid.GridSpacing(),
+                  grid.Origin(), &triMesh2, 0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh2, outputFileName + "_previz.obj");
 

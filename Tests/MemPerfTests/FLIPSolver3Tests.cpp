@@ -1,9 +1,9 @@
-#include "MemPerfTestsUtils.h"
+#include "MemPerfTestsUtils.hpp"
 
 #include "gtest/gtest.h"
 
-#include <Core/Animation/Frame.h>
-#include <Core/Solver/Hybrid/FLIP/FLIPSolver3.h>
+#include <Core/Animation/Frame.hpp>
+#include <Core/Solver/Hybrid/FLIP/FLIPSolver3.hpp>
 
 using namespace CubbyFlow;
 
@@ -13,9 +13,8 @@ TEST(FLIPSolver3, Memory)
 
     const size_t mem0 = GetCurrentRSS();
 
-    auto solver = FLIPSolver3::Builder()
-        .WithResolution({ n, n, n })
-        .MakeShared();
+    auto solver =
+        FLIPSolver3::Builder().WithResolution({ n, n, n }).MakeShared();
 
     const size_t mem1 = GetCurrentRSS();
 

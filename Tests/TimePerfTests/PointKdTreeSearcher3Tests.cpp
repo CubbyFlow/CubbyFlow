@@ -1,8 +1,8 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/Array/Array1.h>
-#include <Core/Searcher/PointKdTreeSearcher3.h>
-#include <Core/Vector/Vector3.h>
+#include <Core/Array/Array1.hpp>
+#include <Core/Searcher/PointKdTreeSearcher3.hpp>
+#include <Core/Vector/Vector3.hpp>
 
 #include <random>
 
@@ -11,7 +11,7 @@ using CubbyFlow::Vector3D;
 
 class PointKdTreeSearcher3 : public ::benchmark::Fixture
 {
-protected:
+ protected:
     std::mt19937 rng{ 0 };
     std::uniform_real_distribution<> dist{ 0.0, 1.0 };
     Array1<Vector3D> points;
@@ -47,7 +47,8 @@ BENCHMARK_REGISTER_F(PointKdTreeSearcher3, Build)
     ->Arg(1 << 10)
     ->Arg(1 << 20);
 
-BENCHMARK_DEFINE_F(PointKdTreeSearcher3, ForEachNearbyPoints)(benchmark::State& state)
+BENCHMARK_DEFINE_F(PointKdTreeSearcher3, ForEachNearbyPoints)
+(benchmark::State& state)
 {
     CubbyFlow::PointKdTreeSearcher3 tree;
     tree.Build(points);
@@ -56,10 +57,7 @@ BENCHMARK_DEFINE_F(PointKdTreeSearcher3, ForEachNearbyPoints)(benchmark::State& 
     while (state.KeepRunning())
     {
         tree.ForEachNearbyPoint(MakeVec(), 1.0 / 64.0,
-            [&](size_t, const Vector3D&)
-        {
-            ++cnt;
-        });
+                                [&](size_t, const Vector3D&) { ++cnt; });
     }
 }
 

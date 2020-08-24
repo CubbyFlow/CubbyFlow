@@ -7,6 +7,9 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/Builds/CMake")
 # Declare project
 project(CubbyFlow)
 
+# Useful paths
+set(LIBRARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Libraries)
+
 # Set output directories
 set(DEFAULT_CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
@@ -17,7 +20,6 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 include_directories(Includes)
 include_directories(Libraries)
 include_directories(Libraries/pybind11/include)
-include_directories(Libraries/googletest/googletest/include)
 include_directories(Libraries/Clara/include)
 include_directories(Libraries/tinyobj)
 
@@ -25,8 +27,11 @@ include_directories(Libraries/tinyobj)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Build type - Release by default
+message("CMake build type: " ${CMAKE_BUILD_TYPE})
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
+elseif(CMAKE_BUILD_TYPE MATCHES "Debug")
+    add_definitions(-DDEBUG)
 endif()
 
 # Find TBB
@@ -40,7 +45,8 @@ include(Builds/CMake/CompileOptions.cmake)
 
 # Code coverage - Debug only
 # NOTE: Code coverage results with an optimized (non-Debug) build may be misleading
-if(CMAKE_BUILD_TYPE MATCHES Debug AND CMAKE_COMPILER_IS_GNUCXX)
+option(BUILD_COVERAGE "Build code coverage" OFF)
+if (CMAKE_BUILD_TYPE MATCHES Debug AND CMAKE_COMPILER_IS_GNUCXX AND BUILD_COVERAGE)
     include(CodeCoverage)
     setup_target_for_coverage(${PROJECT_NAME}_coverage UnitTests coverage)
 endif()
@@ -91,7 +97,7 @@ endif()
 
 # Project modules
 set(BUILD_GTEST ON CACHE BOOL "" FORCE)
-set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
+set(BUILD_GMOCK ON CACHE BOOL "" FORCE)
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 add_subdirectory(Libraries/googletest EXCLUDE_FROM_ALL)
 cmake_policy(SET CMP0063 NEW)

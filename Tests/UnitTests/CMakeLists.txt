@@ -2,7 +2,10 @@
 set(target UnitTests)
 
 # Includes
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${EXTERNAL_DIR}/googletest/googlemock/include
+    ${EXTERNAL_DIR}/googletest/googletest/include)
 
 # Sources
 file(GLOB sources
@@ -32,7 +35,7 @@ target_compile_options(${target}
 )
 target_compile_definitions(${target}
     PRIVATE
-    RESOURCES_DIR="${CMAKE_CURRENT_SOURCE_DIR}/../../Resources/"
+    RESOURCES_DIR="${RESOURCES_DIR}"
 )
 
 # Link libraries
@@ -40,4 +43,5 @@ target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LINKER_OPTIONS}
     CubbyFlow
+    gmock
     gtest)

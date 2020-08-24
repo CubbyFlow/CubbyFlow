@@ -1,7 +1,7 @@
-#include "pch.h"
+#include "pch.hpp"
 
-#include <Core/Grid/CellCenteredScalarGrid3.h>
-#include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.h>
+#include <Core/Grid/CellCenteredScalarGrid3.hpp>
+#include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.hpp>
 
 using namespace CubbyFlow;
 
@@ -30,16 +30,12 @@ TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurface)
         }
     }
 
-    fluidSDF.Fill([&](const Vector3D& x)
-    {
-        return x.y - 2.0;
-    });
+    fluidSDF.Fill([&](const Vector3D& x) { return x.y - 2.0; });
 
     GridFractionalSinglePhasePressureSolver3 solver;
     solver.Solve(vel, 1.0, &vel,
-        ConstantScalarField3(std::numeric_limits<double>::max()),
-        ConstantVectorField3({ 0, 0, 0 }),
-        fluidSDF);
+                 ConstantScalarField3(std::numeric_limits<double>::max()),
+                 ConstantVectorField3({ 0, 0, 0 }), fluidSDF);
 
     for (size_t k = 0; k < 3; ++k)
     {
@@ -105,23 +101,20 @@ TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurfaceCompressed)
                 {
                     vel.GetV(i, j, k) = 0.0;
                 }
-                else {
+                else
+                {
                     vel.GetV(i, j, k) = 1.0;
                 }
             }
         }
     }
 
-    fluidSDF.Fill([&](const Vector3D& x)
-    {
-        return x.y - 2.0;
-    });
+    fluidSDF.Fill([&](const Vector3D& x) { return x.y - 2.0; });
 
     GridFractionalSinglePhasePressureSolver3 solver;
     solver.Solve(vel, 1.0, &vel,
-        ConstantScalarField3(std::numeric_limits<double>::max()),
-        ConstantVectorField3({ 0, 0, 0 }),
-        fluidSDF, true);
+                 ConstantScalarField3(std::numeric_limits<double>::max()),
+                 ConstantVectorField3({ 0, 0, 0 }), fluidSDF, true);
 
     for (size_t k = 0; k < 3; ++k)
     {
