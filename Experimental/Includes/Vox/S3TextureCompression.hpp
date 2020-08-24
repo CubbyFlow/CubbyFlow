@@ -36,7 +36,10 @@ namespace Vox {
         void Initialize(const std::shared_ptr<FrameContext>& ctx);
 
         //! Compress given texture argument with S3TC_DXT5.
-        void DXT5Compress(const std::shared_ptr<FrameContext>& ctx, const std::string& textureName);
+        void CompressionPass(const std::shared_ptr<FrameContext>& ctx, const std::string& textureName);
+
+        //! Decompress the dxt5 texture and decode ycocg color space into rgb color space.
+        void DecodingPass(const std::shared_ptr<FrameContext>& ctx);
         
     protected:
     private:
