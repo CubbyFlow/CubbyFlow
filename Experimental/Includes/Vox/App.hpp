@@ -11,8 +11,8 @@
 #define CUBBYFLOW_VOX_APP_HPP
 
 #include <Vox/FileSystem.hpp>
-#include <Core/Vector/Vector2.h>
-#include <Core/Vector/Vector4.h>
+#include <Core/Point/Point2.hpp>
+#include <Core/Vector/Vector4.hpp>
 #include <memory>
 #include <queue>
 
@@ -21,6 +21,7 @@ namespace Vox {
     class FrameContext;
     class VoxScene;
     class PerspectiveCamera;
+    class SequentialFrameCapture;
     
     /**
      *  CPU side tasks collection wrapper class. 
@@ -34,7 +35,7 @@ namespace Vox {
         virtual ~App();
 
         //! Return the window screen size.
-        CubbyFlow::Vector2I GetWindowSize();
+        CubbyFlow::Point2I GetWindowSize();
         //! Initialize the base application.
         virtual bool Initialize(const Vox::Path& scenePath);
         //! Update the physical step of the frame.
@@ -70,7 +71,7 @@ namespace Vox {
             _ctxQueue.push(ctx);
         }
         //! Set Window screen size.
-        void SetWindowSize(CubbyFlow::Vector2I size);
+        void SetWindowSize(CubbyFlow::Point2I size);
         //! Set screen background color
         void SetBackgroundColor(CubbyFlow::Vector4F color);
     protected:
@@ -78,7 +79,8 @@ namespace Vox {
 
         std::shared_ptr<Vox::VoxScene> _scene;
         std::shared_ptr<Vox::PerspectiveCamera> _camera;
-        CubbyFlow::Vector2I _windowSize { 1200, 900 }; //! window size
+        std::unique_ptr<SequentialFrameCapture> _frameCapture;
+        CubbyFlow::Point2I _windowSize { 1200, 900 }; //! window size
         CubbyFlow::Vector4F _bgColor { 0.344f, 0.388f, 0.388f, 1.0f}; //! background color
     private:
         std::queue<std::shared_ptr<FrameContext>> _ctxQueue;
