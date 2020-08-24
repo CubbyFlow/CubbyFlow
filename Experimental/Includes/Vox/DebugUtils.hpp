@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_VOX_DEBUG_UTILS_HPP
 #define CUBBYFLOW_VOX_DEBUG_UTILS_HPP
 
-#include <Core/Utils/Macros.h>
+#include <Core/Utils/Macros.hpp>
 #include <Vox/GLTypes.hpp>
 #include <iostream>
 #include <string>
@@ -55,12 +55,31 @@ namespace Vox {
  * brief simple assertion macro for vox application.
  * param expression 
  * param loc - 
+ * param msg -
  */
 #define VoxAssert(expression, loc, msg)\
 {\
     if (!(expression))\
     {\
         std::cerr << "[" << loc << "] " << msg << std::endl;\
+        Vox::StackTrace::PrintStack(); \
+        std::abort();\
+    }\
+}
+
+/**
+ * brief simple assertion macro for vox application.
+ * param expression 
+ * param loc - 
+ * param msg -
+ * param callback - callback function when assertion failed.
+ */
+#define VoxAssertFailCallback(expression, loc, msg, callback)\
+{\
+    if (!(expression))\
+    {\
+        std::cerr << "[" << loc << "] " << msg << std::endl;\
+        callback();\
         Vox::StackTrace::PrintStack(); \
         std::abort();\
     }\
