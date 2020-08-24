@@ -15,23 +15,8 @@ include(../Builds/CMake/FindLibunwind.cmake)
 find_package(Libunwind REQUIRED)
 include_directories(LIBUNWIND_INCLUDE_DIR)
 
-# Recording On
-option(RECORDING "Use libpng for recording simulation result" OFF)
-if (RECORDING)
-    message("-- Using libpng for recording simulation result")
-    add_definitions(-DCUBBYFLOW_RECORDING)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Libraries/libpng/scripts/pnglibconf.h.prebuilt  ${CMAKE_CURRENT_SOURCE_DIR}/Libraries/libpng/pnglibconf.h COPYONLY)
-    add_subdirectory(Libraries/libpng)
-    include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/libpng)
-    set(PNG_LIBRARIES 
-        png)
-else()
-    set(PNG_LIBRARIES )
-endif()
-
 # include header-only stb library for image read & write
 include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries)
-include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/stb)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/nlohmann)
 
 set(OPENGL_LIBRARIES "")
@@ -80,21 +65,14 @@ if (USE_GL)
                 
             endif()
         endif()
-
-        # Add Imgui
-        add_subdirectory(Libraries/imgui)
-        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/imgui)
-        set(IMGUI_LIBRARY imgui)
-
+        
         set(OPENGL_LIBRARIES 
             ${GLFW_LIBRARY}
-            ${IMGUI_LIBRARY}
             ${COREFOUNDATION_LIB})
 
         # Include the other directories
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Includes/Vox)
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Includes)
-        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/gli)
         include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/glad)
 
     else()
@@ -150,6 +128,7 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Sources/Vox)
 if (USE_GL)
     add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/Vox/ParticleViewer)
     add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/Vox/FluidMeshViewer)
+    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Tests/RenderTests)
     if (USE_CUDA)
         add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/gvdbExamples/InteractiveFluid)
         add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/gvdbExamples/RenderToFiles)
@@ -159,7 +138,6 @@ if (APPLE)
     # add_subdirectory(src/examples/metal_examples)
 endif()
 
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Tests/RenderTests)
 
 if(CMAKE_BUILD_TYPE MATCHES Debug AND CMAKE_COMPILER_IS_GNUCXX)
     include(CodeCoverage)
