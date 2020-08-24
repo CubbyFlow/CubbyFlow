@@ -40,9 +40,6 @@ namespace Vox {
         //! Create Texture with pixel format
         GLuint CreateTexture(GLsizei width, GLsizei height, const PixelFmt pf, const void* data, bool multisample=false);
 
-        //! Create Texture from given image path.
-        GLuint CreateTextureFromFile(const Path& path, bool srgb = false);
-
         //! Create Render Buffer
         GLuint CreateRenderBuffer(GLsizei width, GLsizei height, const PixelFmt pf, bool multisample=false);
 
@@ -55,8 +52,8 @@ namespace Vox {
         //! Create Program with pre-compiled shaders.
         GLuint CreateProgram(GLuint vs, GLuint gs, GLuint fs);
 
-        //! Save the texture to the image file.
-        void SaveTextureToRGB(const char* path, int width, int height);
+        //! Read the pixel data from the current framebuffer and return by pointer.
+        void ReadFrameBuffer(int width, int height, int mips, const PixelFmt pf, void* data);
         
         //! Register callback functions to given context.
         void RegisterCallbacks(const std::shared_ptr<FrameContext>& ctx);
