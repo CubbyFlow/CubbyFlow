@@ -10,6 +10,7 @@
 #ifndef CUBBYFLOW_VOX_FILESYSTEM_HPP
 #define CUBBYFLOW_VOX_FILESYSTEM_HPP
 
+#include <Core/Array/Array1.hpp>
 #include <vector>
 #include <string>
 
@@ -73,6 +74,11 @@ namespace Vox {
         //! If File exists, return absolute file path.
         //! Otherwise, return NullPath.
         static Path FindPath(const Path& path);
+
+        //! Read file with given path with READONLY || BINARY.
+        //! Resize given array to a given file size.
+        //! Read data to given unsigned char array.
+        static void ReadFile(const Path& path, CubbyFlow::Array1<unsigned char>& data);
     protected:
     private:
         static std::vector<Path> kTargetRange; //! Represents search target range
