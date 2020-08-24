@@ -14,8 +14,8 @@
 #include <Vox/App.hpp>
 #include <Vox/FileSystem.hpp>
 
-#include <Core/Utils/Macros.h>
-#include <Core/Utils/Logging.h>
+#include <Core/Utils/Macros.hpp>
+#include <Core/Utils/Logging.hpp>
 
 #ifdef CUBBYFLOW_WINDOWS
 #include <direct.h>

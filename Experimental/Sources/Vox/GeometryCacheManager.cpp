@@ -10,7 +10,7 @@
 #include <Vox/GeometryCacheManager.hpp>
 #include <Vox/DebugUtils.hpp>
 #include <Vox/GeometryCache.hpp>
-#include <Core/Utils/Parallel.h>
+#include <Core/Utils/Parallel.hpp>
 
 namespace Vox {
 

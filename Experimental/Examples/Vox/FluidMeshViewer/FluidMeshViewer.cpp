@@ -18,6 +18,7 @@
 #include <Vox/PostProcessing.hpp>
 #include <Vox/FrameBuffer.hpp>
 #include <Vox/S3TextureCompression.hpp>
+#include <Vox/SequentialFrameCapture.hpp>
 #include <Vox/GeometryCache.hpp>
 #include <Vox/GeometryCacheManager.hpp>
 #include <glad/glad.h>
@@ -78,8 +79,6 @@ bool FluidMeshViewer::Initialize(const Vox::Path& scenePath)
 
 void FluidMeshViewer::DrawFrame() 
 {
-    static int count = 0;
-
     std::shared_ptr<Vox::FrameContext> ctx = Vox::App::PopFrameContextFromQueue();
     ctx->MakeContextCurrent();
 
@@ -105,7 +104,10 @@ void FluidMeshViewer::DrawFrame()
     }
 
     //! DXT5 Compressing Pass
-    _compressor->DXT5Compress(ctx, "MainPassColorTexture");
+    _compressor->CompressionPass(ctx, "MainPassColorTexture");
+
+    //! DXT5 Decoding Pass
+    _compressor->DecodingPass(ctx);
 
     //! Screen Pass
     ctx->BindFrameBuffer("DefaultPass", GL_FRAMEBUFFER);
@@ -113,15 +115,12 @@ void FluidMeshViewer::DrawFrame()
         Vox::App::BeginFrame(ctx);
         glViewport(0, 0, _windowSize.x, _windowSize.y);
         _postProcessing->DrawFrame(ctx, "CompressedTexture");
-        //! ReadPixels must be implemented with Asynchronous features.
-        //! Note this reference : http://http.download.nvidia.com/developer/Papers/2005/Fast_Texture_Transfers/Fast_Texture_Transfers.pdf
-        char baseName[256];
-        snprintf(baseName, sizeof(baseName), "./FluidMeshViewer_output/result%06d.png", count++);
-        Vox::Renderer::SaveTextureToRGB(baseName, _windowSize.x, _windowSize.y);
+        _frameCapture->CaptureFrameBuffer(_windowSize.x, _windowSize.y, 1, Vox::PixelFmt::PF_BGRA8);
+        _frameCapture->WriteCurrentCaptureToDDS("./FluidMeshViewer_output/result%06d.dds");
         Vox::App::EndFrame(ctx);
     }
 
-    if (static_cast<unsigned int>(count) == _cacheMgr->GetNumberOfCache()) ctx->SetWindowContextShouldClose(true);
+    if (_frameCapture->GetCurrentFrameIndex() == _cacheMgr->GetNumberOfCache()) ctx->SetWindowContextShouldClose(true);
 
     Vox::App::PushFrameContextToQueue(ctx);
 }

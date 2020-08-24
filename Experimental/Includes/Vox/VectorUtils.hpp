@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_VOX_VECTOR_UTILS_HPP
 #define CUBBYFLOW_VOX_VECTOR_UTILS_HPP
 
-#include <Core/Vector/Vector.h>
+#include <Core/Vector/Vector.hpp>
 
 namespace Vox {
 

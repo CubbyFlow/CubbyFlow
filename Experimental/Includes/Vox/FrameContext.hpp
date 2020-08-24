@@ -12,7 +12,7 @@
 
 #include <Vox/GLTypes.hpp>
 #include <Vox/PerspectiveCamera.hpp>
-#include <Core/Matrix/Matrix4x4.h>
+#include <Core/Matrix/Matrix4x4.hpp>
 #include <memory>
 #include <vector>
 #include <unordered_map>

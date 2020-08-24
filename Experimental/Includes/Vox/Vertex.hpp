@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_VOX_VERTEX_HPP
 #define CUBBYFLOW_VOX_VERTEX_HPP
 
-#include <Core/Matrix/Matrix.h>
+#include <Core/Matrix/Matrix.hpp>
 #include <vector>
 #include <cstdint>
 

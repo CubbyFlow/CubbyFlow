@@ -11,7 +11,8 @@
 #include <Vox/FrameContext.hpp>
 #include <Vox/PerspectiveCamera.hpp>
 #include <Vox/VoxScene.hpp>
-#include <Core/Utils/Macros.h>
+#include <Vox/SequentialFrameCapture.hpp>
+#include <Core/Utils/Macros.hpp>
 #include <glad/glad.h>
 
 using namespace CubbyFlow;
@@ -32,7 +33,7 @@ namespace Vox {
         }
     }
 
-    CubbyFlow::Vector2I App::GetWindowSize()
+    CubbyFlow::Point2I App::GetWindowSize()
     {
         return _windowSize;
     }
@@ -43,6 +44,8 @@ namespace Vox {
         _camera = _scene->GetSceneObject<Vox::PerspectiveCamera>("Camera");
         _camera->SetAspectRatio(static_cast<float>(_windowSize.x) / _windowSize.y);
         _camera->UpdateMatrix();
+
+        _frameCapture.reset(new SequentialFrameCapture());
 
         return true;
     }
@@ -61,7 +64,7 @@ namespace Vox {
         //! On screen draw stuffs like GUI
     }
 
-    void App::SetWindowSize(Vector2I size)
+    void App::SetWindowSize(Point2I size)
     {
         _windowSize = size;
         OnSetWindowSize();

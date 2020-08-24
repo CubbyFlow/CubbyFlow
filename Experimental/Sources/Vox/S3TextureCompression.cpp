@@ -83,7 +83,7 @@ namespace Vox {
         VoxAssert(ycocgFBO->AssertFramebufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
     }
 
-    void S3TextureCompression::DXT5Compress(const std::shared_ptr<FrameContext>& ctx, const std::string& textureName)
+    void S3TextureCompression::CompressionPass(const std::shared_ptr<FrameContext>& ctx, const std::string& textureName)
     {
         ctx->BindFrameBuffer("S3TCPass", GL_FRAMEBUFFER);
         {
@@ -101,7 +101,10 @@ namespace Vox {
             glReadPixels(0, 0, _width / 4, _height / 4, GL_RGBA_INTEGER, GL_UNSIGNED_INT, nullptr);
             glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
         }
+    }
 
+    void S3TextureCompression::DecodingPass(const std::shared_ptr<FrameContext>& ctx)
+    {
         ctx->BindFrameBuffer("DefaultPass", GL_DRAW_FRAMEBUFFER);
         {
             ctx->BindTextureToSlot("DXTexture5", GL_TEXTURE_2D, 0);
@@ -126,5 +129,4 @@ namespace Vox {
             glBindVertexArray(0);
         }
     }
-
 };

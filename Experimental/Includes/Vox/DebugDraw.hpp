@@ -11,9 +11,9 @@
 #define CUBBYFLOW_VOX_DEBUG_DRAW_HPP
 
 #include <Vox/GLTypes.hpp>
-#include <Core/Vector/Vector2.h>
-#include <Core/Vector/Vector3.h>
-#include <Core/BoundingBox/BoundingBox3.h>
+#include <Core/Vector/Vector2.hpp>
+#include <Core/Vector/Vector3.hpp>
+#include <Core/BoundingBox/BoundingBox3.hpp>
 #include <vector>
 
 namespace Vox {

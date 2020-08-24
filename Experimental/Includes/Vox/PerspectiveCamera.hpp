@@ -11,8 +11,8 @@
 #define CUBBYFLOW_VOX_PERSPECTIVE_CAMERA_HPP
 
 #include <Vox/VoxSceneObject.hpp>
-#include <Core/Matrix/Matrix4x4.h>
-#include <Core/Vector/Vector3.h>
+#include <Core/Matrix/Matrix4x4.hpp>
+#include <Core/Vector/Vector3.hpp>
 
 namespace Vox {
 

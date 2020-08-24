@@ -12,10 +12,10 @@
 #include <Vox/PerspectiveCamera.hpp>
 #include <Vox/GeometryCacheManager.hpp>
 #include <Vox/GeometryCache.hpp>
-#include <Core/Array/Array1.h>
-#include <Core/Vector/Vector3.h>
-#include <Core/Matrix/Matrix4x4.h>
-#include <Core/Utils/Timer.h>
+#include <Core/Array/Array1.hpp>
+#include <Core/Vector/Vector3.hpp>
+#include <Core/Matrix/Matrix4x4.hpp>
+#include <Core/Utils/Timer.hpp>
 #include <pystring/pystring.h>
 #include <fstream>
 #include <cassert>

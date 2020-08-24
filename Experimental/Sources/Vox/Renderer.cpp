@@ -12,8 +12,8 @@
 #include <Vox/DebugUtils.hpp>
 #include <Vox/App.hpp>
 #include <Vox/Timer.hpp>
-#include <Core/Utils/Logging.h>
-#include <Core/Size/Size2.h>
+#include <Core/Utils/Logging.hpp>
+#include <Core/Size/Size2.hpp>
 #include <cassert>
 #include <cstdio>
 #include <cstring>
@@ -24,6 +24,7 @@
 #include <vector>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <Vox/TextureIO.hpp>
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
@@ -176,51 +177,24 @@ namespace Vox {
 			glGetIntegerv(GL_MAX_COLOR_TEXTURE_SAMPLES, &maxSamples);
 			glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, std::min(maxSamples, 4), pfd->internal, width, height, GL_TRUE);
 		}
-			
 		else
-			glTexImage2D(GL_TEXTURE_2D, 0, pfd->internal, width, height, 0, pfd->format, pfd->type, data);
-		
+		{
+			if (pfd->compressed)
+			{
+				const int pitch = (width >> 2) * pfd->size;
+				const int rows = height >> 2;
+				glCompressedTexImage2D(GL_TEXTURE_2D, 0, pfd->internal, width, height, 0, pitch * rows, data);
+			}
+			else
+			{
+				glTexImage2D(GL_TEXTURE_2D, 0, pfd->internal, width, height, 0, pfd->format, pfd->type, data);
+			}
+		}
+
 		glBindTexture(target, 0);
 
 		return texture;
 	}
-
-    GLuint Renderer::CreateTextureFromFile(const Path& path, bool srgb)
-    {
-		int width, height, numChannels;
-		//! Because of differences on way to interpret image y-axis coordinate between opengl and stb.
-		//! OpenGL expect 0.0 at the bottom of the y-axis, but vice-versa in stb 
-		stbi_flip_vertically_on_write(true);
-		unsigned char* data = stbi_load(path.ToString().c_str(), &width, &height, &numChannels, 0);
-
-		//! If (width != 0 && height != 0 && numChannels != 0 && data != nullptr) is true, it means loading image is failed.
-		VoxAssert((width != 0 && height != 0 && numChannels != 0 && data != nullptr), CURRENT_SRC_PATH_TO_STR, "Failed to load image");
-
-		PixelFmt pf;
-		switch(numChannels)
-		{
-		case 1: 
-			pf = PixelFmt::PF_R8;
-			break;
-		case 2:
-			pf = PixelFmt::PF_RG8;
-			break;
-		case 3:
-			pf = (srgb) ? PixelFmt::PF_SRGB8 : PixelFmt::PF_RGB8;
-			break;
-		case 4:
-			pf = (srgb) ? PixelFmt::PF_SRGB8_ALPHA8 : PixelFmt::PF_RGBA8;
-			break;
-		default:
-			VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Unknown Pixel Format");
-			break;
-		}
-
-		GLuint texture = CreateTexture(static_cast<GLsizei>(width), static_cast<GLsizei>(height), pf, data);
-		//! Deallocate data after using it.
-		stbi_image_free(data);
-		return texture;
-    }
 
     GLuint Renderer::CreateRenderBuffer(GLsizei width, GLsizei height, const PixelFmt pf, bool multisample)
     {
@@ -310,27 +284,12 @@ namespace Vox {
 		return program;
     }
 
-    void Renderer::SaveTextureToRGB(const char* path, int width, int height)
+	void Renderer::ReadFrameBuffer(int width, int height, int mips, const PixelFmt pf, void* data)
 	{
-		static unsigned char* cache = nullptr;
-		static int prevWidth = width;
-		static int prevHeight = height;
-		constexpr int numChannels = 3;
-
-		//! There is no need to re-allocate heap memory if width and height are unchanged.
-		if (!cache || ((prevWidth != width) || (prevHeight != height)))
-		{
-			prevWidth = width; prevHeight = height; 
-			cache = reinterpret_cast<unsigned char*>(::realloc(cache, width * height * numChannels * sizeof(unsigned char)));
-		}
-		
-		//! Read pixels to client memory(heap-pre-allocated data).
-		glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, static_cast<void*>(cache));
-		//! Save read image data into rgba png.
-		stbi_flip_vertically_on_write(true);
-		stbi_write_png(path, width, height, numChannels, static_cast<const void*>(cache), 0);
+		const PixelFmtDesc* desc = GetPixelFmtDesc(pf);
+		glReadPixels(0, 0, width, height, desc->format, desc->type, data);
 	}
-  
+
   	void Renderer::RegisterCallbacks(const std::shared_ptr<FrameContext>& ctx)
 	{
 		GLFWwindow* window = ctx->GetWindowContext();

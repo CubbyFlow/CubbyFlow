@@ -11,8 +11,8 @@
 #include <Vox/GeometryCache.hpp>
 #include <Vox/DebugUtils.hpp>
 #include <Vox/VectorUtils.hpp>
-#include <Core/Utils/Serialization.h>
-#include <Core/Matrix/Matrix4x4.h>
+#include <Core/Utils/Serialization.hpp>
+#include <Core/Matrix/Matrix4x4.hpp>
 #include <fstream>
 #include <sstream>
 #include <map>

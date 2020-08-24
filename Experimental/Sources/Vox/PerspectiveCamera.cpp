@@ -10,7 +10,7 @@
 #include <Vox/PerspectiveCamera.hpp>
 #include <Vox/FrameContext.hpp>
 #include <Vox/Program.hpp>
-#include <Core/Math/Quaternion.h>
+#include <Core/Math/Quaternion.hpp>
 #include <iostream>
 
 using namespace CubbyFlow;

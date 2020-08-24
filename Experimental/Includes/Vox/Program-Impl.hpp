@@ -12,9 +12,9 @@
 
 #include <Vox/Program.hpp>
 #include <Vox/GLTypes.hpp>
-#include <Core/Vector/Vector3.h>
-#include <Core/Vector/Vector4.h>
-#include <Core/Matrix/Matrix4x4.h>
+#include <Core/Vector/Vector3.hpp>
+#include <Core/Vector/Vector4.hpp>
+#include <Core/Matrix/Matrix4x4.hpp>
 
 namespace Vox {
     

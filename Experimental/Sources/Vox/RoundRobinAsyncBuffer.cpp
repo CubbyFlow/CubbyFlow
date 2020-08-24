@@ -12,7 +12,7 @@
 #include <Vox/GeometryCacheManager.hpp>
 #include <Vox/Vertex.hpp>
 #include <Vox/VoxScene.hpp>
-#include <Core/Utils/Logging.h>
+#include <Core/Utils/Logging.hpp>
 #include <glad/glad.h>
 
 using namespace CubbyFlow;

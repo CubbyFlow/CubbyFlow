@@ -18,6 +18,7 @@
 #include <Vox/ShaderPreset.hpp>
 #include <Vox/FrameBuffer.hpp>
 #include <Vox/PostProcessing.hpp>
+#include <Vox/SequentialFrameCapture.hpp>
 #include <Vox/RoundRobinAsyncBuffer.hpp>
 #include <Vox/DebugDraw.hpp>
 #include <glad/glad.h>
@@ -87,8 +88,6 @@ bool ParticleViewer::Initialize(const Vox::Path& scenePath)
 
 void ParticleViewer::DrawFrame() 
 {
-    static int count = 0;
-    
     std::shared_ptr<Vox::FrameContext> ctx = Vox::App::PopFrameContextFromQueue();
     ctx->MakeContextCurrent();
 
@@ -130,15 +129,12 @@ void ParticleViewer::DrawFrame()
         Vox::App::BeginFrame(ctx);
         glViewport(0, 0, _windowSize.x, _windowSize.y);
         _postProcessing->DrawFrame(ctx, "ScreenTexture");
-        //! ReadPixels must be implemented with Asynchronous features.
-        //! Note this reference : http://http.download.nvidia.com/developer/Papers/2005/Fast_Texture_Transfers/Fast_Texture_Transfers.pdf
-        char baseName[256];
-        snprintf(baseName, sizeof(baseName), "./ParticleViewer_output/result%06d.png", count++);
-        Vox::Renderer::SaveTextureToRGB(baseName, _windowSize.x, _windowSize.y);
+        _frameCapture->CaptureFrameBuffer(_windowSize.x, _windowSize.y, 1, Vox::PixelFmt::PF_BGRA8);
+        _frameCapture->WriteCurrentCaptureToDDS("./ParticleViewer_output/result%06d.dds");
         Vox::App::EndFrame(ctx);
     }
 
-    if (static_cast<unsigned int>(count) == _cacheMgr->GetNumberOfCache()) ctx->SetWindowContextShouldClose(true);
+    if (_frameCapture->GetCurrentFrameIndex() == _cacheMgr->GetNumberOfCache()) ctx->SetWindowContextShouldClose(true);
 
     Vox::App::PushFrameContextToQueue(ctx);
 }

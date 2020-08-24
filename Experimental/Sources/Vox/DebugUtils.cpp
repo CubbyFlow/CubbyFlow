@@ -9,7 +9,7 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 #include <Vox/DebugUtils.hpp>
-#include <Core/Utils/Logging.h>
+#include <Core/Utils/Logging.hpp>
 #include <glad/glad.h>
 #include <iostream>
 #include <cstdio>

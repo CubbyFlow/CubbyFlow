@@ -13,11 +13,11 @@
 #include <Vox/FileSystem.hpp>
 #include <Vox/VoxSceneObject.hpp>
 #include <Vox/Vertex.hpp>
-#include <Core/BoundingBox/BoundingBox3.h>
-#include <Core/Vector/Vector2.h>
-#include <Core/Vector/Vector3.h>
-#include <Core/Array/Array1.h>
-#include <Core/Array/ArrayAccessor1.h>
+#include <Core/BoundingBox/BoundingBox3.hpp>
+#include <Core/Vector/Vector2.hpp>
+#include <Core/Vector/Vector3.hpp>
+#include <Core/Array/Array1.hpp>
+#include <Core/Array/ArrayAccessor1.hpp>
 
 namespace Vox {
 

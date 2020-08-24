@@ -19,9 +19,9 @@
 #include <vector>
 #include <limits>
 
-#include <Core/Vector/Vector3.h>
-#include <Core/Array/Array1.h>
-#include <Core/Utils/Serialization.h>
+#include <Core/Vector/Vector3.hpp>
+#include <Core/Array/Array1.hpp>
+#include <Core/Utils/Serialization.hpp>
 
 #include <gvdb.h>
 #include <file_png.h>

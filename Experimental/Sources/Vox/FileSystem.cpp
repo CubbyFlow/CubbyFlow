@@ -8,12 +8,15 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 #include <Vox/FileSystem.hpp>
+#include <Vox/DebugUtils.hpp>
 #include <iostream>
 #ifdef CUBBYFLOW_WINDOWS
 #include <windows.h>
+#include <fileapi.h>
 #else
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <unistd.h>
 #include <dirent.h>
 #include <string.h>
 #endif
@@ -127,6 +130,36 @@ namespace Vox {
         //! If branch flow reaches here, there is no path in the list of directory.
         return Path(std::string());
     }
+
+    void FileSystem::ReadFile(const Path& path, CubbyFlow::Array1<unsigned char>& data)
+    {
+        HANDLE hFind = INVALID_HANDLE_VALUE;
+        DWORD dwBytesRead = 0;
+        const std::string& filename = path.ToString();
+
+        hFind = CreateFile(filename.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+        //! File open assertion.
+        VoxAssert(hFind != INVALID_HANDLE_VALUE, CURRENT_SRC_PATH_TO_STR, "Cannot open file [" + filename + "]");
+
+        //! Query file size without opening
+        LARGE_INTEGER size;
+        VoxAssertFailCallback(GetFileSize(hFind, &size), CURRENT_SRC_PATH_TO_STR, "Cannot Query File Size [" + filename + "]", [&hFind](){ 
+            CloseHandle(hFind); 
+        }); 
+
+        //! resize the buffer according to file size.
+        data.Resize(static_cast<size_t>(size.QuadPart));
+
+        //! Read the buffer to the data argument.
+        VoxAssertFailCallback(ReadFile(hFind, data.data(), data.size() - 1, &dwBytesRead, NULL), 
+                  CURRENT_SRC_PATH_TO_STR, 
+                  "Cannot Read File [" + filename + "]", 
+                  [&hFind](){ CloseHandle(hFind); }
+        );
+
+        data[dwBytesRead + 1] = '\0';
+        CloseHandle(hFind);
+    }
     #else
     Path FileSystem::LoopDirectory(const Path& dir, const Path& path)
     {
@@ -175,5 +208,28 @@ namespace Vox {
         //! If branch flow reaches here, there is no path in the list of directory.
         return Path(std::string());
     }
+
+    void FileSystem::ReadFile(const Path& path, CubbyFlow::Array1<unsigned char>& data)
+    {
+        struct stat st;
+        const std::string& filename = path.ToString();
+        
+        //! check stat of the file.
+        VoxAssert(stat(filename.c_str(), &st) == 0, CURRENT_SRC_PATH_TO_STR, "Cannot call stat function to [" + filename + "]");
+
+        //! resize the given buffer to the stat size.
+        data.Resize(st.st_size);
+
+        FILE* fp = fopen(filename.c_str(), "rb");
+        VoxAssert(fp, CURRENT_SRC_PATH_TO_STR, "Cannot open file [" + filename + "]");
+
+        int numRead = fread(data.data(), data.size(), 1, fp);
+        VoxAssertFailCallback(numRead == 1, CURRENT_SRC_PATH_TO_STR, "An error occurred while reading file [" + filename + "]", [&fp](){
+            fclose(fp);
+        });
+
+        fclose(fp);
+    }
+
     #endif
 };

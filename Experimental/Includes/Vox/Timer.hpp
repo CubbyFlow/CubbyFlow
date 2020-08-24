@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_VOX_TIMER_HPP
 #define CUBBYFLOW_VOX_TIMER_HPP
 
-#include <Core/Utils/Timer.h>
+#include <Core/Utils/Timer.hpp>
 
 namespace Vox {
 

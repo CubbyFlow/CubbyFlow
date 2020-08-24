@@ -12,8 +12,8 @@
 
 #include <Vox/VoxSceneObject.hpp>
 #include <Vox/FileSystem.hpp>
-#include <Core/Array/Array1.h>
-#include <Core/BoundingBox/BoundingBox3.h>
+#include <Core/Array/Array1.hpp>
+#include <Core/BoundingBox/BoundingBox3.hpp>
 #include <string>
 
 namespace Vox {
