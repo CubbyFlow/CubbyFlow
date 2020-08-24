@@ -55,7 +55,7 @@ namespace Vox {
         ctx->AddShaderProgram("DebugDraw", program);
     }
 
-    void DebugDraw::AddFloorGrid(const CubbyFlow::Vector2I numCell, float cellSize, const CubbyFlow::Vector3F color)
+    void DebugDraw::AddFloorGrid(const CubbyFlow::Point2I numCell, float cellSize, const CubbyFlow::Vector3F color)
     {
         std::vector<CubbyFlow::Vector3F> positions((numCell.x + numCell.y + 2) * 2);
 

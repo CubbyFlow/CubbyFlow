@@ -11,7 +11,7 @@
 #define CUBBYFLOW_VOX_RENDERABLE_OBJECT_HPP
 
 #include <Vox/VoxSceneObject.hpp>
-#include <Core/Array/Array1.h>
+#include <Core/Array/Array1.hpp>
 #include <string>
 #include <memory>
 

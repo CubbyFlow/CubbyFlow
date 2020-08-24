@@ -13,6 +13,7 @@
 #include <Vox/App.hpp>
 #include <Vox/Timer.hpp>
 #include <Core/Utils/Logging.hpp>
+#include <Core/Point/Point2.hpp>
 #include <Core/Size/Size2.hpp>
 #include <cassert>
 #include <cstdio>
@@ -25,13 +26,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <Vox/TextureIO.hpp>
-
-#define STB_IMAGE_IMPLEMENTATION
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include <stb_image.h>
-#include <stb_image_write.h>
-
-using namespace CubbyFlow;
 
 namespace Vox {
 
@@ -47,10 +41,6 @@ namespace Vox {
 	void Renderer::Initialize()
 	{
 		VoxAssert(glfwInit(), CURRENT_SRC_PATH_TO_STR, "GLFW initialization failed");
-
-        int major, minor, revision;
-        glfwGetVersion(&major, &minor, &revision);
-        CUBBYFLOW_INFO << "GLFW version : " << major << "." << minor << "." << revision;
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -73,7 +63,7 @@ namespace Vox {
     {   
 		gApplication = app;
 
-        Vector2I wndSize = app->GetWindowSize();
+        CubbyFlow::Point2I wndSize = app->GetWindowSize();
         GLFWwindow* window = glfwCreateWindow(wndSize.x, wndSize.y, app->GetWindowTitle(), nullptr, nullptr);
         glfwMakeContextCurrent(window);
 

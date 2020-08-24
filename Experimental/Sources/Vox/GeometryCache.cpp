@@ -244,7 +244,7 @@ namespace Vox {
         VoxAssert(ret, CURRENT_SRC_PATH_TO_STR, "LoadObj [" + path.ToString() + "] Failed");
         VoxAssert(shapes.size() >= 1, CURRENT_SRC_PATH_TO_STR, "Loaded Obj have no shape");
         
-        _shapes.Reserve(shapes.size());
+        //_shapes.Reserve(shapes.size());
         for (auto& shape : shapes)
         {
             std::map<int, Vector3F> smoothVertexNormals;
@@ -258,10 +258,10 @@ namespace Vox {
             if (!attrib.normals.empty())    newShape.format |= VertexFormat::Normal3;
             if (!attrib.texcoords.empty())  newShape.format |= VertexFormat::TexCoord2;
             newShape.boundingBox.Reset();
-            newShape.positions.Reserve(shape.mesh.indices.size());
-            newShape.texCoords.Reserve(shape.mesh.indices.size());
-            newShape.normals.Reserve(shape.mesh.indices.size());
-            newShape.indices.Reserve(shape.mesh.indices.size());
+            //newShape.positions.Reserve(shape.mesh.indices.size());
+            //newShape.texCoords.Reserve(shape.mesh.indices.size());
+            //newShape.normals.Reserve(shape.mesh.indices.size());
+            //newShape.indices.Reserve(shape.mesh.indices.size());
 
             std::map<Detail::PackedVertex, unsigned int> packedVerticesMap;
             for (size_t faceIndex = 0; faceIndex < shape.mesh.indices.size() / 3; ++faceIndex)

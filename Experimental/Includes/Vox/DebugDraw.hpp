@@ -11,7 +11,7 @@
 #define CUBBYFLOW_VOX_DEBUG_DRAW_HPP
 
 #include <Vox/GLTypes.hpp>
-#include <Core/Vector/Vector2.hpp>
+#include <Core/Point/Point2.hpp>
 #include <Core/Vector/Vector3.hpp>
 #include <Core/BoundingBox/BoundingBox3.hpp>
 #include <vector>
@@ -35,7 +35,7 @@ namespace Vox {
         //! Add horizontal grid for debug drawing.
         //! /param numCell number of cells on on x direction and z direction.
         //! /param cellSize each cell size (assume width and height is equal to cell size).
-        void AddFloorGrid(const CubbyFlow::Vector2I numCell, float cellSize, const CubbyFlow::Vector3F color);
+        void AddFloorGrid(const CubbyFlow::Point2I numCell, float cellSize, const CubbyFlow::Vector3F color);
 
         //! Add X, Y, Z Axis
         //! Assume each value of axisX, axisY, axisZ is overall it's axis length, not half length.
