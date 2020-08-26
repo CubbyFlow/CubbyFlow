@@ -10,6 +10,7 @@
 #include "../Utils/ClaraUtils.h"
 #include "ParticleViewer.hpp"
 
+#include <Vox/Device.hpp>
 #include <Vox/Renderer.hpp>
 #include <Vox/App.hpp>
 #include <Vox/FileSystem.hpp>
@@ -73,9 +74,9 @@ int main(int argc, const char** argv)
     Vox::FileSystem::AddDirectory("./Resources");
     Vox::FileSystem::AddDirectory(outputDir);
 
-    Vox::Renderer::Initialize();
-    Vox::Renderer::RunApp(std::make_shared<ParticleViewer>(), "ParticleViewer.json");
-    Vox::Renderer::Terminate();
+    Vox::Device::Initialize();
+    Vox::Device::RunApp(std::make_shared<ParticleViewer>(), "ParticleViewer.json");
+    Vox::Device::Terminate();
 
     return EXIT_SUCCESS;
 }
