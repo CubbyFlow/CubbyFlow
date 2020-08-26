@@ -427,25 +427,20 @@ namespace Vox {
             shape.interleaved.Resize(totalSize);
             
             CubbyFlow::ParallelFor(CubbyFlow::ZERO_SIZE, numVertices, [&](size_t index){
-                size_t offset = 0, baseindex = index * VertexHelper::GetNumberOfFloats(format);
+                float* basePtr = &(shape.interleaved[index * VertexHelper::GetNumberOfFloats(format)]);
                 if (static_cast<int>(format & VertexFormat::Position3)) 
                 {
-                    shape.interleaved[  baseindex  ] = shape.positions[index].x;
-                    shape.interleaved[baseindex + 1] = shape.positions[index].y;
-                    shape.interleaved[baseindex + 2] = shape.positions[index].z;
-                    offset += 3;
+                    std::memcpy(basePtr, &(shape.positions[index].x), sizeof(Vector3F));
+                    basePtr = basePtr + 3;
                 }
                 if (static_cast<int>(format & VertexFormat::Normal3)) 
                 {
-                    shape.interleaved[  baseindex + offset  ] = shape.normals[index].x;
-                    shape.interleaved[baseindex + offset + 1] = shape.normals[index].y;
-                    shape.interleaved[baseindex + offset + 2] = shape.normals[index].z;
-                    offset += 3;
+                    std::memcpy(basePtr, &(shape.normals[index].x), sizeof(Vector3F));
+                    basePtr = basePtr + 3;
                 }
                 if (static_cast<int>(format & VertexFormat::TexCoord2)) 
                 {
-                    shape.interleaved[  baseindex + offset  ] = shape.texCoords[index].x;
-                    shape.interleaved[baseindex + offset + 1] = shape.texCoords[index].y;
+                    std::memcpy(basePtr, &(shape.texCoords[index].x), sizeof(Vector2F));
                 }
             });
         }
