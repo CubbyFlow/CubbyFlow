@@ -19,20 +19,7 @@
 
 namespace Vox {
 
-    class App;
-    class FrameContext;
-
     namespace Renderer {
-
-        //! Initialize GLFW window configuration.
-        void Initialize();
-
-        //! Destroy GLFW window configuration.
-        void Terminate();
-
-        //! Init GLFW window with information from the given app and OpenGL.
-        //! Run loop to advance frame of the app.
-        void RunApp(const std::shared_ptr<App>& app, const Vox::Path& scenePath);
 
         //! Check whether if given extensions are supported or not.
         bool CheckExtensionsSupported(const std::initializer_list<const char*>& exts);
@@ -54,9 +41,6 @@ namespace Vox {
 
         //! Read the pixel data from the current framebuffer and return by pointer.
         void ReadFrameBuffer(int width, int height, int mips, const PixelFmt pf, void* data);
-        
-        //! Register callback functions to given context.
-        void RegisterCallbacks(const std::shared_ptr<FrameContext>& ctx);
     };
 
 
