@@ -35,14 +35,12 @@ namespace Vox {
         const std::shared_ptr<Mesh> GetGeometryMesh(size_t index) const;
         //! Returns the number of the contained geometry mesh.
         size_t GetNumberOfGeometryMesh() const;
-        //! Set the program shader name.
-        void AttachProgram(const std::string& programName);
         //! Set the texture name to slot
         void AttachTextureToSlot(const std::string& textureName, unsigned int slot);
         //! Draw this renderable object with configured settings.
         void DrawRenderableObject(const std::shared_ptr<FrameContext>& ctx);
     protected:
-        virtual void ConfigureRenderSettings(const std::shared_ptr<FrameContext>& ctx) = 0;
+        virtual void ConfigureRenderSettings(const std::shared_ptr<FrameContext>& ctx) {};
         CubbyFlow::Array1<std::shared_ptr<Mesh>> _meshes;
         CubbyFlow::Array1<std::pair<std::string, unsigned int>> _texturePairs;
         std::string _programName;

@@ -42,11 +42,6 @@ namespace Vox {
         return _meshes.size();
     }
 
-    void RenderableObject::AttachProgram(const std::string& programName)
-    {
-        _programName = programName;
-    }
-
     void RenderableObject::AttachTextureToSlot(const std::string& textureName, unsigned int slot)
     {
         _texturePairs.Append(std::make_pair(textureName, slot));
@@ -54,17 +49,21 @@ namespace Vox {
 
     void RenderableObject::DrawRenderableObject(const std::shared_ptr<FrameContext>& ctx)
     {
-        ctx->MakeProgramCurrent(_programName);
-        _texturePairs.ForEach([&](const auto& p){
-            ctx->BindTextureToSlot(p.first, GL_TEXTURE_2D, p.second);
-        });
+        if (!ctx->GetCurrentProgram().expired())
+        {
+            const auto& program = ctx->GetCurrentProgram().lock();
 
-        //! Configure rendering settings such as uniform variables.
-        ConfigureRenderSettings(ctx);
-        
-        _meshes.ForEach([&](const auto& mesh){
-            mesh->DrawMesh(ctx);
-        });
+            _texturePairs.ForEach([&](const auto& p){
+                ctx->BindTextureToSlot(p.first, GL_TEXTURE_2D, p.second);
+            });
+
+            //! Configure rendering settings such as uniform variables.
+            ConfigureRenderSettings(ctx);
+
+            _meshes.ForEach([&](const auto& mesh){
+                mesh->DrawMesh(ctx);
+            });
+        }
     }
 
 }
