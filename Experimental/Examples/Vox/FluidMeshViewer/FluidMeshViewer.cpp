@@ -16,7 +16,6 @@
 #include <Vox/ShaderPreset.hpp>
 #include <Vox/FluidMeshBuffer.hpp>
 #include <Vox/PostProcessing.hpp>
-#include <Vox/FrameBuffer.hpp>
 #include <Vox/S3TextureCompression.hpp>
 #include <Vox/SequentialFrameCapture.hpp>
 #include <Vox/GeometryCache.hpp>
@@ -58,12 +57,11 @@ bool FluidMeshViewer::Initialize(const Vox::Path& scenePath)
     ctx->AddTexture("MainPassColorTexture", mainPassColorTexture);
     GLuint mainPassRBO = Vox::Renderer::CreateRenderBuffer(_windowSize.x, _windowSize.y, Vox::PixelFmt::PF_DEPTH_COMPONENT24_STENCIL8, false);
 
-    ctx->AddFrameBuffer("MainRenderPass");
-    ctx->BindFrameBuffer("MainRenderPass", GL_FRAMEBUFFER);
-    const auto& mainFBO = ctx->GetCurrentFrameBuffer().lock();
-    mainFBO->SetColorAttachment(0, mainPassColorTexture, false);   
-    mainFBO->SetRenderBufferAttachment(mainPassRBO);
-    VoxAssert(mainFBO->AssertFramebufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
+    GLuint mainPass = Vox::Renderer::CreateFrameBuffer();
+    ctx->AddFrameBuffer("MainRenderPass", mainPass);
+    Vox::Renderer::AttachTextureToFrameBuffer(mainPass, 0, mainPassColorTexture, false);
+    Vox::Renderer::AttachRenderBufferToFrameBuffer(mainPass, mainPassRBO);
+    VoxAssert(Vox::Renderer::ValidateFrameBufferStatus(mainPass), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
 
     _compressor.reset(new Vox::S3TextureCompression(_windowSize.x, _windowSize.y));
     _compressor->Initialize(ctx);

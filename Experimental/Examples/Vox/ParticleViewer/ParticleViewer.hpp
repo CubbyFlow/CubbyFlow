@@ -16,7 +16,6 @@
 
 namespace Vox {
     class RoundRobinAsyncBuffer;
-    class FrameBuffer;
     class DebugDraw;
     class PostProcessing;
     class GeometryCacheManager;

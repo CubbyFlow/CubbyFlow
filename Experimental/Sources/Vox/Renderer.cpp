@@ -71,6 +71,24 @@ namespace Vox {
 		return texture;
 	}
 
+	GLuint Renderer::CreateVolumeTexture(GLsizei width, GLsizei height, GLsizei depth, const PixelFmt pf, const void* data)
+	{
+		const PixelFmtDesc* pfd = GetPixelFmtDesc(pf);
+		
+		GLuint texture;
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_3D, texture);
+		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexImage3D(GL_TEXTURE_3D, 0, pfd->internal, width, height, depth, 0, pfd->format, pfd->type, data);
+		glBindTexture(GL_TEXTURE_3D, 0);
+		
+		return texture;
+	}
+
     GLuint Renderer::CreateRenderBuffer(GLsizei width, GLsizei height, const PixelFmt pf, bool multisample)
     {
 		const PixelFmtDesc* pfd = GetPixelFmtDesc(pf);
@@ -158,6 +176,31 @@ namespace Vox {
 
 		return program;
     }
+
+	GLuint Renderer::CreateFrameBuffer()
+	{
+		GLuint fbo;
+		glGenFramebuffers(1, &fbo);
+		return fbo;
+	}
+
+    void Renderer::AttachTextureToFrameBuffer(GLuint fbo, GLsizei index, GLuint texture, bool bMultisample)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+        const GLenum target = bMultisample ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D;
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, target, texture, 0);
+	}
+
+    void Renderer::AttachRenderBufferToFrameBuffer(GLuint fbo, GLuint rbo)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
+	}
+
+    bool Renderer::ValidateFrameBufferStatus(GLuint fbo)
+	{
+        return glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
+	}
 
 	void Renderer::ReadFrameBuffer(int width, int height, int mips, const PixelFmt pf, void* data)
 	{

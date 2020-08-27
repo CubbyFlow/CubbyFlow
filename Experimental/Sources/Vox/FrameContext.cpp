@@ -9,7 +9,6 @@
 *************************************************************************/
 #include <Vox/FrameContext.hpp>
 #include <Vox/DebugUtils.hpp>
-#include <Vox/FrameBuffer.hpp>
 #include <Vox/PerspectiveCamera.hpp>
 #include <Vox/Program.hpp>
 #include <Vox/FileSystem.hpp>
@@ -22,7 +21,7 @@ namespace Vox {
 	FrameContext::FrameContext(GLFWwindow* windowCtx)
 		: _windowCtx(windowCtx), _renderMode(GL_POINTS)
 	{
-		//! Do nothing.
+		_fboMap.emplace("DefaultPass", 0);
 	}
 
     FrameContext::~FrameContext()
@@ -99,30 +98,22 @@ namespace Vox {
 			_currentProgram.lock()->SendUniformVariable("ViewProjection", camera->GetViewProjectionMatrix());
 	}
 
-    void FrameContext::AddFrameBuffer(const std::string& name)
+    void FrameContext::AddFrameBuffer(const std::string& name, GLuint fbo)
 	{
-		_fboMap.emplace(name, std::make_shared<FrameBuffer>());
+		_fboMap.emplace(name, fbo);
 	}
 
     void FrameContext::BindFrameBuffer(const std::string& name, GLenum target)
 	{
-		if (name == "DefaultPass")
-		{
-			glBindFramebuffer(target, 0);
-		}
-		else
-		{
-			//! Find given program name in the program map.
-			auto iter = _fboMap.find(name);
-			//! If given name does not exist, print call stack and error message.
-			VoxAssert(iter != _fboMap.end(), CURRENT_SRC_PATH_TO_STR, std::string("No Frame Buffer Object ") + name);
-			_currentFrameBuffer = iter->second;
-			if (!_currentFrameBuffer.expired())
-				_currentFrameBuffer.lock()->BindFrameBuffer(target);
-		}
+		//! Find given program name in the program map.
+		auto iter = _fboMap.find(name);
+		//! If given name does not exist, print call stack and error message.
+		VoxAssert(iter != _fboMap.end(), CURRENT_SRC_PATH_TO_STR, std::string("No Frame Buffer Object ") + name);
+		_currentFrameBuffer = iter->second;
+		glBindFramebuffer(target, _currentFrameBuffer);
 	}
     
-	const std::weak_ptr<FrameBuffer>& FrameContext::GetCurrentFrameBuffer() const
+	GLuint FrameContext::GetCurrentFrameBuffer() const
 	{
 		return _currentFrameBuffer;
 	}

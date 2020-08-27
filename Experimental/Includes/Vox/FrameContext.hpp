@@ -20,7 +20,6 @@
 struct GLFWwindow;
 
 namespace Vox {
-    class FrameBuffer;
     class Program;
     class VoxScene;
     /**
@@ -55,37 +54,37 @@ namespace Vox {
         //! Set current program of the context.
         void MakeProgramCurrent(const std::string& name);
 
+        //! Send view projection matrix to uniform variable inthe current bounded program.
+        void UpdateProgramCamera(const std::shared_ptr<PerspectiveCamera>& camera);
+
         //! Add Shader Program to frame context with human-readable text.
         void AddTexture(const std::string& name, GLenum texture);
 
         //! Set current program of the context.
         void BindTextureToSlot(const std::string& name, GLenum target, GLuint slot);
 
-        //! Send view projection matrix to uniform variable inthe current bounded program.
-        void UpdateProgramCamera(const std::shared_ptr<PerspectiveCamera>& camera);
-
         //! Push Frame Buffer to the vector
         //! Binding will be occurred sequentially.
-        void AddFrameBuffer(const std::string& name);
+        void AddFrameBuffer(const std::string& name, GLuint fbo);
 
         //! Bind framebuffers sequentially.
         void BindFrameBuffer(const std::string& name, GLenum target);
 
         //! Returns currently bound frame buffer instance.
-        const std::weak_ptr<FrameBuffer>& GetCurrentFrameBuffer() const;
+        GLuint GetCurrentFrameBuffer() const;
 
         //! Return the GLFWwindow context instance.
         GLFWwindow* GetWindowContext();
 
     protected:
     private:
-        std::unordered_map<std::string, std::shared_ptr<FrameBuffer>> _fboMap;
         std::unordered_map<std::string, std::shared_ptr<Program>> _programMap;
+        std::unordered_map<std::string, GLuint> _fboMap;
         std::unordered_map<std::string, GLuint> _textureMap;
+        std::weak_ptr<Program> _currentProgram;
         GLFWwindow* _windowCtx;
         GLenum _renderMode;
-        std::weak_ptr<Program> _currentProgram;
-        std::weak_ptr<FrameBuffer> _currentFrameBuffer;
+        GLuint _currentFrameBuffer;
     };
 
 };

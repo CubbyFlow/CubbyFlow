@@ -15,7 +15,6 @@
 #include <memory>
 
 namespace Vox {
-    class FrameBuffer;
     class FrameContext;
 
     /**

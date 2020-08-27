@@ -16,7 +16,6 @@
 #include <Vox/ParticleBuffer.hpp>
 #include <Vox/GeometryCacheManager.hpp>
 #include <Vox/ShaderPreset.hpp>
-#include <Vox/FrameBuffer.hpp>
 #include <Vox/PostProcessing.hpp>
 #include <Vox/SequentialFrameCapture.hpp>
 #include <Vox/RoundRobinAsyncBuffer.hpp>
@@ -60,21 +59,19 @@ bool ParticleViewer::Initialize(const Vox::Path& scenePath)
     ctx->AddTexture("MainPassColorTexture", multisampleTexture);
     GLuint multisampleRBO = Vox::Renderer::CreateRenderBuffer(_windowSize.x, _windowSize.y, Vox::PixelFmt::PF_DEPTH_COMPONENT24_STENCIL8, true);
     
-    ctx->AddFrameBuffer("MainRenderPass");
-    ctx->BindFrameBuffer("MainRenderPass", GL_FRAMEBUFFER);
-    const auto& multisampleFBO = ctx->GetCurrentFrameBuffer().lock();
-    multisampleFBO->SetColorAttachment(0, multisampleTexture, true);   
-    multisampleFBO->SetRenderBufferAttachment(multisampleRBO);
-    VoxAssert(multisampleFBO->AssertFramebufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
+    GLuint mainPass = Vox::Renderer::CreateFrameBuffer();
+    ctx->AddFrameBuffer("MainRenderPass", mainPass);
+    Vox::Renderer::AttachTextureToFrameBuffer(mainPass, 0, multisampleTexture, true);
+    Vox::Renderer::AttachRenderBufferToFrameBuffer(mainPass, multisampleRBO);
+    VoxAssert(Vox::Renderer::ValidateFrameBufferStatus(mainPass), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
     
     GLuint screenTexture = Vox::Renderer::CreateTexture(_windowSize.x, _windowSize.y, Vox::PixelFmt::PF_RGB8, nullptr, false);
     ctx->AddTexture("ScreenTexture", screenTexture);
 
-    ctx->AddFrameBuffer("IntermediatePass");
-    ctx->BindFrameBuffer("IntermediatePass", GL_FRAMEBUFFER);
-    const auto& intermediateFBO = ctx->GetCurrentFrameBuffer().lock();
-    intermediateFBO->SetColorAttachment(0, screenTexture, false);   
-    VoxAssert(intermediateFBO->AssertFramebufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
+    GLuint intermediatePass = Vox::Renderer::CreateFrameBuffer();
+    ctx->AddFrameBuffer("IntermediatePass", intermediatePass);
+    Vox::Renderer::AttachTextureToFrameBuffer(intermediatePass, 0, screenTexture, false);
+    VoxAssert(Vox::Renderer::ValidateFrameBufferStatus(intermediatePass), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
 
     _postProcessing.reset(new Vox::PostProcessing());
     _postProcessing->Initialize(ctx);

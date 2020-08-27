@@ -27,6 +27,9 @@ namespace Vox {
         //! Create Texture with pixel format
         GLuint CreateTexture(GLsizei width, GLsizei height, const PixelFmt pf, const void* data, bool multisample=false);
 
+        //! Create Volume Texture (3D Texture)
+        GLuint CreateVolumeTexture(GLsizei width, GLsizei height, GLsizei depth, const PixelFmt pf, const void* data);
+
         //! Create Render Buffer
         GLuint CreateRenderBuffer(GLsizei width, GLsizei height, const PixelFmt pf, bool multisample=false);
 
@@ -38,6 +41,18 @@ namespace Vox {
 
         //! Create Program with pre-compiled shaders.
         GLuint CreateProgram(GLuint vs, GLuint gs, GLuint fs);
+
+        //! Create Frame Buffer resource.
+        GLuint CreateFrameBuffer();
+
+        //! Attach Color Texture to the framebuffer.
+        void AttachTextureToFrameBuffer(GLuint fbo, GLsizei index, GLuint texture, bool bMultisample);
+
+        //! Attach Render Buffer Object to the framebuffer.
+        void AttachRenderBufferToFrameBuffer(GLuint fbo, GLuint rbo);
+
+        //! Validate framebuffer status
+        bool ValidateFrameBufferStatus(GLuint fbo);
 
         //! Read the pixel data from the current framebuffer and return by pointer.
         void ReadFrameBuffer(int width, int height, int mips, const PixelFmt pf, void* data);

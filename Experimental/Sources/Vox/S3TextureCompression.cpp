@@ -9,7 +9,6 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 #include <Vox/S3TextureCompression.hpp>
-#include <Vox/FrameBuffer.hpp>
 #include <Vox/ShaderPreset.hpp>
 #include <Vox/Program.hpp>
 #include <Vox/Renderer.hpp>
@@ -70,17 +69,15 @@ namespace Vox {
         if(!ycocg.expired())
             ycocg.lock()->SendUniformVariable("ScreenTexture", 0);
 
-        ctx->AddFrameBuffer("S3TCPass");
-        ctx->BindFrameBuffer("S3TCPass", GL_FRAMEBUFFER);
-        const auto& s3tcFBO = ctx->GetCurrentFrameBuffer().lock();
-        s3tcFBO->SetColorAttachment(0, texIm, false);   
-        VoxAssert(s3tcFBO->AssertFramebufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
+        GLuint s3tcPass = Renderer::CreateFrameBuffer();
+        Renderer::AttachTextureToFrameBuffer(s3tcPass, 0, texIm, false);
+        VoxAssert(Renderer::ValidateFrameBufferStatus(s3tcPass), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
+        ctx->AddFrameBuffer("S3TCPass", s3tcPass);
 
-        ctx->AddFrameBuffer("YCoCgDecodingPass");
-        ctx->BindFrameBuffer("YCoCgDecodingPass", GL_FRAMEBUFFER);
-        const auto& ycocgFBO = ctx->GetCurrentFrameBuffer().lock();
-        ycocgFBO->SetColorAttachment(0, texFinal, false);   
-        VoxAssert(ycocgFBO->AssertFramebufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
+        GLuint ycocgDecodingPass = Renderer::CreateFrameBuffer();
+        Renderer::AttachTextureToFrameBuffer(ycocgDecodingPass, 0, texFinal, false);
+        VoxAssert(Renderer::ValidateFrameBufferStatus(ycocgDecodingPass), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
+        ctx->AddFrameBuffer("YCoCgDecodingPass", ycocgDecodingPass);
     }
 
     void S3TextureCompression::CompressionPass(const std::shared_ptr<FrameContext>& ctx, const std::string& textureName)
