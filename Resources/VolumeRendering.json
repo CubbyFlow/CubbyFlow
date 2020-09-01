@@ -10,17 +10,9 @@
         "target" : [0, 0, -1]
     },
     {
-        "type" : "geometry_cache",
-        "name" : "FluidMeshCache",
-        "format" : "./LevelSetLiquidSim_output_ex3/frame_%06d.obj",
-        "translate" : [0, 0, 0],
-        "scale" : 8.0,
-        "count" : 100
-    },
-    {
         "type" : "static_object",
-        "name" : "SphereObject",
-        "format" : "./Resources/sphere.obj",
+        "name" : "VolumeCube",
+        "format" : "./Resources/cube.obj",
         "translate" : [0, 0.5, 0],
         "scale" : 0.5
     }

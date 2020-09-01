@@ -13,14 +13,9 @@
 
 namespace Vox {
 
-    Mesh::Mesh()
+    Mesh::Mesh(const MeshShape& shape, VertexFormat format, bool bInterleaved)
     {
-        //! Do nothing.
-    }
-
-    Mesh::Mesh(const GeometryCache::Shape& geometryShape, VertexFormat format, bool bInterleaved)
-    {
-        GenerateMeshObject(geometryShape, format, bInterleaved);
+        GenerateMeshObject(shape, format, bInterleaved);
     }
 
     Mesh::~Mesh()
@@ -28,7 +23,7 @@ namespace Vox {
         ClearMeshObject();
     }
 
-    void Mesh::GenerateMeshObject(const GeometryCache::Shape& geometryShape, VertexFormat format, bool bInterleaved)
+    void Mesh::GenerateMeshObject(const MeshShape& shape, VertexFormat format, bool bInterleaved)
     {
         //! Genetry opengl resources.
         glGenVertexArrays(1, &_vao);
@@ -42,7 +37,7 @@ namespace Vox {
         //! Pass Buffer data and set attributes according to whether if it is interleaved or not. 
         if (bInterleaved)
         {
-            glBufferData(GL_ARRAY_BUFFER, geometryShape.interleaved.size() * sizeof(float), geometryShape.interleaved.data(), GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, shape.interleaved.size() * sizeof(float), shape.interleaved.data(), GL_STATIC_DRAW);
             if (static_cast<int>(format & VertexFormat::Position3))
             {
                 glEnableVertexAttribArray(index);
@@ -63,35 +58,35 @@ namespace Vox {
         }
         else
         {
-            const size_t totalNum = geometryShape.positions.size() * 3 + geometryShape.normals.size() * 3 + geometryShape.texCoords.size() * 2;
+            const size_t totalNum = shape.positions.size() * 3 + shape.normals.size() * 3 + shape.texCoords.size() * 2;
             glBufferData(GL_ARRAY_BUFFER, totalNum * sizeof(float), nullptr, GL_STATIC_DRAW);
             if (static_cast<int>(format & VertexFormat::Position3))
             {
-                glBufferSubData(GL_ARRAY_BUFFER, 0, geometryShape.positions.size() * sizeof(CubbyFlow::Vector3F), geometryShape.positions.data());
+                glBufferSubData(GL_ARRAY_BUFFER, 0, shape.positions.size() * sizeof(CubbyFlow::Vector3F), shape.positions.data());
                 glEnableVertexAttribArray(index);
                 glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, VertexHelper::GetSizeInBytes(VertexFormat::Position3), (void*)0);
-                offset += geometryShape.positions.size() * sizeof(CubbyFlow::Vector3F); index += 1;
+                offset += shape.positions.size() * sizeof(CubbyFlow::Vector3F); index += 1;
             }
             if (static_cast<int>(format & VertexFormat::Normal3))
             {
-                glBufferSubData(GL_ARRAY_BUFFER, offset, geometryShape.normals.size() * sizeof(CubbyFlow::Vector3F), geometryShape.normals.data());
+                glBufferSubData(GL_ARRAY_BUFFER, offset, shape.normals.size() * sizeof(CubbyFlow::Vector3F), shape.normals.data());
                 glEnableVertexAttribArray(index);
                 glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, VertexHelper::GetSizeInBytes(VertexFormat::Normal3), (void*)(offset));
-                offset += geometryShape.positions.size() * sizeof(CubbyFlow::Vector3F); index += 1;
+                offset += shape.positions.size() * sizeof(CubbyFlow::Vector3F); index += 1;
             }
             if (static_cast<int>(format & VertexFormat::TexCoord2))
             {
-                glBufferSubData(GL_ARRAY_BUFFER, offset, geometryShape.texCoords.size() * sizeof(CubbyFlow::Vector3F), geometryShape.texCoords.data());
+                glBufferSubData(GL_ARRAY_BUFFER, offset, shape.texCoords.size() * sizeof(CubbyFlow::Vector3F), shape.texCoords.data());
                 glEnableVertexAttribArray(index);
                 glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, VertexHelper::GetSizeInBytes(VertexFormat::TexCoord2), (void*)(offset));
             }
         }
         //! Bind index buffer and pass data.
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, geometryShape.indices.size() * sizeof(unsigned int), geometryShape.indices.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, shape.indices.size() * sizeof(unsigned int), shape.indices.data(), GL_STATIC_DRAW);
         glBindVertexArray(0);
         //! Set the number of indices of given geometry shape.
-        _numVertices = geometryShape.indices.size();
+        _numVertices = shape.indices.size();
     }
 
     void Mesh::ClearMeshObject()
@@ -104,7 +99,7 @@ namespace Vox {
     void Mesh::DrawMesh(const std::shared_ptr<FrameContext>& ctx)
     {
         glBindVertexArray(_vao);
-        glDrawElements(ctx->GetRenderMode(), _numVertices, GL_UNSIGNED_INT, 0);
+        glDrawElements(ctx->GetRenderStatus().primitive, _numVertices, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
     }
 

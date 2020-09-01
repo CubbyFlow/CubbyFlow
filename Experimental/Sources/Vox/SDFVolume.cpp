@@ -18,12 +18,6 @@
 namespace Vox {
 
     SDFVolume::SDFVolume()
-        : SDFVolume(RoundRobinAsyncBuffer::kDefaultNumBuffer)
-    {
-        //! Do nothing.
-    }
-
-    SDFVolume::SDFVolume(const size_t numBuffer)
     {
         //! Do nothing.
     }

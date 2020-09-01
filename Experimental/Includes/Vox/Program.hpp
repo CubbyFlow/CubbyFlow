@@ -10,16 +10,20 @@
 #ifndef CUBBYFLOW_VOX_PROGRAM_HPP
 #define CUBBYFLOW_VOX_PROGRAM_HPP
 
+#include <Vox/NonCopyable.hpp>
 #include <Vox/GLTypes.hpp>
+#include <Vox/ShaderParameters.hpp>
 #include <string>
 #include <unordered_map>
 
 namespace Vox {
 
+    class VoxScene;
+
     /**
      * OpenGL Program wrapper class 
      */
-    class Program 
+    class Program : public NonCopyable
     {
     public:
         //! Default Constructor
@@ -28,18 +32,35 @@ namespace Vox {
         ~Program();
 
         //! Use this program in current context.
-        void UseProgram() const;
+        void BindProgram(const std::shared_ptr<VoxScene>& scene);
 
-        template <typename UniformType>
-        void SendUniformVariable(const std::string& name, UniformType&& var);
+        //! get immutable shader parameters which will be sent to program.
+        const ShaderParameters& GetParameters() const;
 
-    protected:
+        //! get mutable shader parameters which will be send to program.
+        ShaderParameters& GetParameters();
+
+        //! Returns whether if this object have uniform variable with name.
+        bool HasUniformVariable(const std::string& name);
+
     private:
-        std::unordered_map<std::string, GLint> _uniformCache;
+        //! return shader uniform location id.
+        //!
+        //! if given parameter does not exist in _locationCache, cache it.
+        //! because of communication between cpu and gpu cause bottleneck,
+        //! use unordered_map for caching.
+        //!
+        //! \param name of the shader uniform want to know
+        //! \return shader uniform location.
+        GLint GetUniformLocation(const std::string& name);
+
+        void SendParametersToGPU();
+
+        std::unordered_map<std::string, GLuint> _locationCache;
+        ShaderParameters _parameters;
         GLuint _program { 0 };
     };
 
 };
 
-#include <Vox/Program-Impl.hpp>
 #endif

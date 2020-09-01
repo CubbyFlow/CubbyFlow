@@ -19,6 +19,8 @@ namespace Vox {
     class DebugDraw;
     class PostProcessing;
     class GeometryCacheManager;
+    class FrameBuffer;
+    class Texture;
 };
 
 class ParticleViewer : public Vox::App
@@ -40,6 +42,9 @@ private:
     std::unique_ptr<Vox::DebugDraw> _debugDraw;
     std::unique_ptr<Vox::PostProcessing> _postProcessing;
     std::shared_ptr<Vox::GeometryCacheManager> _cacheMgr;
+    std::shared_ptr<Vox::Texture> _screenTexture;
+    std::shared_ptr<Vox::FrameBuffer> _mainPass;
+    std::shared_ptr<Vox::FrameBuffer> _intermediatePass;
 };
 
 #endif

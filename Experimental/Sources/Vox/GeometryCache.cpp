@@ -184,7 +184,7 @@ namespace Vox {
         return _shapes.size();
     }
 
-    const Vox::GeometryCache::Shape& GeometryCache::GetShape(size_t index) const
+    const MeshShape& GeometryCache::GetShape(size_t index) const
     {
         VoxAssert((index < _shapes.size()), CURRENT_SRC_PATH_TO_STR,"Out Of Range Error");
         return _shapes[index];
@@ -200,7 +200,7 @@ namespace Vox {
 	    Deserialize(buffer, &tempParticles);
 	    file.close();
 		
-        Vox::GeometryCache::Shape newShape;
+        MeshShape newShape;
         newShape.format = VertexFormat::Position3;
 		newShape.positions.Resize(tempParticles.size());
 		tempParticles.ParallelForEachIndex([&](size_t index){
@@ -216,7 +216,7 @@ namespace Vox {
 		std::ifstream file(path.ToString());
 		VoxAssert(file.is_open(), CURRENT_SRC_PATH_TO_STR, "Failed to load file [" + path.ToString() + "]");
 
-        Vox::GeometryCache::Shape newShape;
+        MeshShape newShape;
         newShape.format = VertexFormat::Position3;
 		std::string line;
 		register CubbyFlow::Vector3F pos;
@@ -253,7 +253,7 @@ namespace Vox {
                 Detail::ComputeSmoothingNormals(attrib, shape, smoothVertexNormals);
             }
 
-            Vox::GeometryCache::Shape newShape;
+            MeshShape newShape;
             if (!attrib.vertices.empty())   newShape.format |= VertexFormat::Position3;
             if (!attrib.normals.empty())    newShape.format |= VertexFormat::Normal3;
             if (!attrib.texcoords.empty())  newShape.format |= VertexFormat::TexCoord2;

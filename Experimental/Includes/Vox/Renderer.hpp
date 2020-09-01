@@ -43,43 +43,11 @@ namespace Vox {
         GLuint CreateProgram(GLuint vs, GLuint gs, GLuint fs);
 
         //! Create Frame Buffer resource.
-        GLuint CreateFrameBuffer();
-
-        //! Attach Color Texture to the framebuffer.
-        void AttachTextureToFrameBuffer(GLuint fbo, GLsizei index, GLuint texture, bool bMultisample);
-
-        //! Attach Render Buffer Object to the framebuffer.
-        void AttachRenderBufferToFrameBuffer(GLuint fbo, GLuint rbo);
-
-        //! Validate framebuffer status
-        bool ValidateFrameBufferStatus(GLuint fbo);
+        GLuint CreateFrameBuffer(); 
 
         //! Read the pixel data from the current framebuffer and return by pointer.
         void ReadFrameBuffer(int width, int height, int mips, const PixelFmt pf, void* data);
     };
-
-
-    //! Reference from OpenGL Insights code.
-    struct PixelFmtDesc {
-        int internal;			//< OpenGL internal format (GL_RGBA8)
-        int format;			    //< OpenGL format (GL_RGBA)
-        int type;				//< OpenGL component type (GL_UNSIGNED_BYTE)
-        unsigned int size;		//< byte size of one pixel (4)
-        int components;		    //< number of components (4)
-        bool rt;				//< true if it can be used as render target
-        PixelFmt sRGB;				//< sRGB pixel format alternative
-        const char *txt;		//< readable description
-        bool compressed;		//< true if it is compressed format
-    };
-
-    //! Must be inmodifiable.
-    extern const PixelFmtDesc __pfds[];
-
-    inline const PixelFmtDesc* GetPixelFmtDesc(const PixelFmt pf) 
-    {
-        VoxAssert(PixelFmt::PF_UNKNOWN < pf && pf < PixelFmt::PF_END, CURRENT_SRC_PATH_TO_STR, "Unknown Pixel Format");
-        return __pfds + static_cast<unsigned int>(pf);
-    }
 
 };
 

@@ -25,7 +25,9 @@ namespace Vox {
     ParticleBuffer::ParticleBuffer(const size_t numBuffer)
         : RoundRobinAsyncBuffer(numBuffer)
     {
+        _vaos.resize(numBuffer);
         _vbos.resize(numBuffer);
+        glGenVertexArrays(numBuffer, _vaos.data());
         glGenBuffers(numBuffer, _vbos.data());
         for (size_t i = 0; i < numBuffer; ++i)
         {
@@ -40,6 +42,7 @@ namespace Vox {
 
     ParticleBuffer::~ParticleBuffer()
     {
+        glDeleteVertexArrays(static_cast<GLsizei>(_numBuffer), _vaos.data());
         glDeleteBuffers(static_cast<GLsizei>(_numBuffer), _vbos.data());
     }
 
@@ -66,9 +69,8 @@ namespace Vox {
     {
         const size_t bufferNum = _frameIndex % _numBuffer;
 
-        GLenum primitive = ctx->GetRenderMode();
         glBindVertexArray(_vaos[bufferNum]);
-        glDrawArrays(primitive, 0, _numVertices);
+        glDrawArrays(ctx->GetRenderStatus().primitive, 0, _numVertices);
         glBindVertexArray(0);
     }
 

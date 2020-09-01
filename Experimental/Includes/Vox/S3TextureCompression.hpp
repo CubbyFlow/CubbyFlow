@@ -16,6 +16,9 @@
 
 namespace Vox {
     class FrameContext;
+    class Texture;
+    class FrameBuffer;
+    class Program;
 
     /**
      * OpenGL Context wrapper which will be used for rendering one frame.
@@ -35,13 +38,20 @@ namespace Vox {
         void Initialize(const std::shared_ptr<FrameContext>& ctx);
 
         //! Compress given texture argument with S3TC_DXT5.
-        void CompressionPass(const std::shared_ptr<FrameContext>& ctx, const std::string& textureName);
+        void CompressionPass(const std::shared_ptr<FrameContext>& ctx, const std::shared_ptr<Texture>& compressTarget);
 
         //! Decompress the dxt5 texture and decode ycocg color space into rgb color space.
-        void DecodingPass(const std::shared_ptr<FrameContext>& ctx);
+        std::shared_ptr<Texture> DecodingPass(const std::shared_ptr<FrameContext>& ctx);
         
     protected:
     private:
+        std::shared_ptr<Texture> _texIm;
+        std::shared_ptr<Texture> _texDXT;
+        std::shared_ptr<Texture> _texFinal;
+        std::shared_ptr<Program> _s3tcProgram;
+        std::shared_ptr<Program> _decodingProgram;
+        std::shared_ptr<FrameBuffer> _s3tcPass;
+        std::shared_ptr<FrameBuffer> _decodingPass;
         GLuint _vao;
         GLuint _vboDXT;
         GLsizei _width, _height;

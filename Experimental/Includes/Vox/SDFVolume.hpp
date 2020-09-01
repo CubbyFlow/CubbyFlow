@@ -12,7 +12,6 @@
 #define CUBBYFLOW_VOX_SDF_VOLUME_HPP
 
 #include <Vox/GLTypes.hpp>
-#include <Vox/RoundRobinAsyncBuffer.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>
 #include <memory>
 
@@ -35,14 +34,10 @@ namespace Vox {
     public:
         //! Default Constructor.
         SDFVolume();
-        //! Constructor with number of the buffers.
-        SDFVolume(const size_t numBuffer);
         //! Default destructor.
         ~SDFVolume();
-    
         //! Build volume 
         void BuildVolume(const std::shared_ptr<FrameContext>& ctx, CubbyFlow::ScalarGrid3Ptr sdf);
-
         //! Set bounding box cube
         void AttachBoundingBox(const std::shared_ptr<Mesh>& mesh);
 

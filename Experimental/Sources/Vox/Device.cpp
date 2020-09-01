@@ -155,6 +155,43 @@ namespace Vox {
 		glfwSetScrollCallback(window, OnMouseScroll);
 	}
 
+    void Device::ApplyRenderStatus(const FrameContext::RenderStatus& prevStat, const FrameContext::RenderStatus& newStat)
+    {
+        if (prevStat.isBlendEnabled != newStat.isBlendEnabled)
+        {
+            if (newStat.isBlendEnabled)
+                glEnable(GL_BLEND);
+            else
+                glDisable(GL_BLEND);
+        }
+
+        if (prevStat.isDepthTestEnabled != newStat.isDepthTestEnabled)
+        {
+            if (newStat.isDepthTestEnabled)
+                glEnable(GL_DEPTH_TEST);
+            else
+                glDisable(GL_DEPTH_TEST);
+        }
+
+        if (prevStat.isFrontFaceClockWise != newStat.isFrontFaceClockWise)
+        {
+            if (newStat.isFrontFaceClockWise)
+                glFrontFace(GL_CW);
+            else
+                glFrontFace(GL_CCW);
+        }
+
+        if (prevStat.cullMode != newStat.cullMode)
+        {
+            glCullFace(newStat.cullMode);
+        }
+
+        if ((prevStat.sourceBlendFactor != newStat.sourceBlendFactor) || (prevStat.destinationBlendFactor != newStat.isBlendEnabled))
+        {
+            glBlendFunc(newStat.sourceBlendFactor, newStat.destinationBlendFactor);
+        }
+    }
+
     void OnWindowResized(GLFWwindow* window, int width, int height)
 	{
 		VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");

@@ -10,6 +10,9 @@
 #ifndef CUBBYFLOW_VOX_PIXEL_FMT_HPP
 #define CUBBYFLOW_VOX_PIXEL_FMT_HPP
 
+#include <Vox/DebugUtils.hpp>
+#include <Vox/FileSystem.hpp>
+
 namespace Vox {
     
     enum class PixelFmt : unsigned int
@@ -82,6 +85,28 @@ namespace Vox {
     inline bool operator>(const PixelFmt pf1, const PixelFmt pf2)
     {
         return static_cast<unsigned int>(pf1) > static_cast<unsigned int>(pf2);
+    }
+
+    //! Reference from OpenGL Insights code.
+    struct PixelFmtDesc {
+        int internal;			//< OpenGL internal format (GL_RGBA8)
+        int format;			    //< OpenGL format (GL_RGBA)
+        int type;				//< OpenGL component type (GL_UNSIGNED_BYTE)
+        unsigned int size;		//< byte size of one pixel (4)
+        int components;		    //< number of components (4)
+        bool rt;				//< true if it can be used as render target
+        PixelFmt sRGB;				//< sRGB pixel format alternative
+        const char *txt;		//< readable description
+        bool compressed;		//< true if it is compressed format
+    };
+
+    //! Must be inmodifiable.
+    extern const PixelFmtDesc __pfds[];
+
+    inline const PixelFmtDesc* GetPixelFmtDesc(const PixelFmt pf) 
+    {
+        VoxAssert(PixelFmt::PF_UNKNOWN < pf && pf < PixelFmt::PF_END, CURRENT_SRC_PATH_TO_STR, "Unknown Pixel Format");
+        return __pfds + static_cast<unsigned int>(pf);
     }
 };
 

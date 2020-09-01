@@ -41,9 +41,6 @@ namespace Vox {
         //! Rotate camera with orbit
         void OrbitRotation(const CubbyFlow::Vector3F& focusPoint, float yaw, float pitch, float distance);
 
-        //! Send modified view projection matrix 
-        void SendViewProjection(const std::shared_ptr<Program>& program);
-
         //! Returns View Projection Matrix.
         CubbyFlow::Matrix4x4F GetViewProjectionMatrix() const;
 

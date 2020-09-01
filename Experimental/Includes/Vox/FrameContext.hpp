@@ -11,17 +11,24 @@
 #define CUBBYFLOW_VOX_FRAME_CONTEXT_HPP
 
 #include <Vox/GLTypes.hpp>
-#include <Vox/PerspectiveCamera.hpp>
-#include <Core/Matrix/Matrix4x4.hpp>
+#include <Vox/Vertex.hpp>
 #include <memory>
 #include <vector>
 #include <unordered_map>
+#include <mutex>
 
 struct GLFWwindow;
 
 namespace Vox {
+
     class Program;
+    class FrameBuffer;
+    class Texture;
     class VoxScene;
+    class VoxResource;
+    class Mesh;
+    struct MeshShape;
+
     /**
      * OpenGL Context wrapper which will be used for rendering one frame.
      */
@@ -30,6 +37,7 @@ namespace Vox {
     public:
         //! Default Constructor
         FrameContext(GLFWwindow* windowCtx);
+
         //! Default Destructor
         ~FrameContext();
 
@@ -39,54 +47,65 @@ namespace Vox {
         //! Make this instance as opengl current context
         void MakeContextCurrent() const;
 
-        //! Set Render Mode Primitive
-	    void SetRenderMode(GLenum mode);
-        
-        //! Get Render Mode Primitive
-        GLenum GetRenderMode() const;
-
-        //! Add Shader Program to frame context with human-readable text.
-        void AddShaderProgram(const std::string& name, GLuint program);
-
-        //! Returns the current program.
-	    const std::weak_ptr<Program>& GetCurrentProgram() const;
-
-        //! Set current program of the context.
-        void MakeProgramCurrent(const std::string& name);
-
-        //! Send view projection matrix to uniform variable inthe current bounded program.
-        void UpdateProgramCamera(const std::shared_ptr<PerspectiveCamera>& camera);
-
-        //! Add Shader Program to frame context with human-readable text.
-        void AddTexture(const std::string& name, GLenum texture);
-
-        //! Set current program of the context.
-        void BindTextureToSlot(const std::string& name, GLenum target, GLuint slot);
-
-        //! Push Frame Buffer to the vector
-        //! Binding will be occurred sequentially.
-        void AddFrameBuffer(const std::string& name, GLuint fbo);
-
-        //! Bind framebuffers sequentially.
-        void BindFrameBuffer(const std::string& name, GLenum target);
-
-        //! Returns currently bound frame buffer instance.
-        GLuint GetCurrentFrameBuffer() const;
-
         //! Return the GLFWwindow context instance.
         GLFWwindow* GetWindowContext();
 
+        //! Creates Resources and Returns
+        std::shared_ptr<FrameBuffer> CreateFrameBuffer(const std::string& name, GLuint id);
+        std::shared_ptr<Mesh> CreateMesh(const std::string& name, const MeshShape& shape, VertexFormat format, bool bInterleaved=false);
+        std::shared_ptr<Texture> CreateTexture(const std::string& name, GLuint target, GLuint id);
+        std::shared_ptr<Program> CreateProgram(const std::string& name, GLuint program);
+
+        //! Returns Resources which have matched name argument.
+        std::shared_ptr<FrameBuffer> GetFrameBuffer(const std::string& name);
+        std::shared_ptr<Mesh> GetMesh(const std::string& name);
+        std::shared_ptr<Texture> GetTexture(const std::string& name);
+        std::shared_ptr<Program> GetProgram(const std::string& name);
+
+        //! Bind Scene instance to the frame context.
+        void BindSceneToContext(const std::shared_ptr<VoxScene>& scene);
+
+        //! Returns shared_pointer of the scene.
+        std::shared_ptr<VoxScene> GetContextScene();
+
+        struct RenderStatus 
+        {
+            //! True if front face is defined as clock-wise order.
+            bool isFrontFaceClockWise;
+            //! True if blending is enabled.
+            bool isBlendEnabled;
+            //! True if depth test is enabled.
+            bool isDepthTestEnabled;
+            //! The cull mode.
+            GLuint cullMode;
+            //! The blend factor for the source.
+            GLuint sourceBlendFactor;
+            //! The blend factor for the destination.
+            GLuint destinationBlendFactor;
+            //! The render primitive
+            GLuint primitive;
+
+            RenderStatus();
+        };
+
+        //! Get rvalue render status structure.
+        RenderStatus GetRenderStatus() const;
+
+        //! Set new render status to the framecontext.
+        void SetRenderStatus(RenderStatus newRenderStatus);
+
     protected:
     private:
-        std::unordered_map<std::string, std::shared_ptr<Program>> _programMap;
-        std::unordered_map<std::string, GLuint> _fboMap;
-        std::unordered_map<std::string, GLuint> _textureMap;
-        std::weak_ptr<Program> _currentProgram;
+        std::unordered_map<unsigned int, std::weak_ptr<FrameBuffer>> _frameBufferMap;
+        std::unordered_map<unsigned int, std::weak_ptr<Mesh>> _meshMap;
+        std::unordered_map<unsigned int, std::weak_ptr<Texture>> _textureMap;
+        std::unordered_map<unsigned int, std::weak_ptr<Program>> _programMap;
+        std::shared_ptr<FrameBuffer> _defaultPass;
+        std::weak_ptr<VoxScene> _scene;
         GLFWwindow* _windowCtx;
-        GLenum _renderMode;
-        GLuint _currentFrameBuffer;
+        RenderStatus _renderStatus;
+        std::mutex _m;
     };
-
 };
 
 #endif

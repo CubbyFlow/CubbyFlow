@@ -10,6 +10,8 @@
 #include <Vox/RenderableObject.hpp>
 #include <Vox/DebugUtils.hpp>
 #include <Vox/FileSystem.hpp>
+#include <Vox/Texture.hpp>
+#include <Vox/Program.hpp>
 #include <Vox/FrameContext.hpp>
 #include <Vox/Mesh.hpp>
 #include <glad/glad.h>
@@ -42,28 +44,30 @@ namespace Vox {
         return _meshes.size();
     }
 
-    void RenderableObject::AttachTextureToSlot(const std::string& textureName, unsigned int slot)
+    void RenderableObject::AttachProgramShader(const std::shared_ptr<Program>& program)
     {
-        _texturePairs.Append(std::make_pair(textureName, slot));
+        _program = program;
+    }
+
+    void RenderableObject::AttachTextureToSlot(const std::shared_ptr<Texture>& texture, unsigned int slot)
+    {
+        _texturePairs.Append(std::make_pair(texture, slot));
     }
 
     void RenderableObject::DrawRenderableObject(const std::shared_ptr<FrameContext>& ctx)
     {
-        if (!ctx->GetCurrentProgram().expired())
-        {
-            const auto& program = ctx->GetCurrentProgram().lock();
+        _program->BindProgram(ctx->GetContextScene());
 
-            _texturePairs.ForEach([&](const auto& p){
-                ctx->BindTextureToSlot(p.first, GL_TEXTURE_2D, p.second);
-            });
+        _texturePairs.ForEach([&](const auto& p){
+            p.first->BindTexture(p.second);
+        });
 
-            //! Configure rendering settings such as uniform variables.
-            ConfigureRenderSettings(ctx);
+        //! Configure rendering settings such as uniform variables.
+        ConfigureRenderSettings(ctx);
 
-            _meshes.ForEach([&](const auto& mesh){
-                mesh->DrawMesh(ctx);
-            });
-        }
+        _meshes.ForEach([&](const auto& mesh){
+            mesh->DrawMesh(ctx);
+        });
     }
 
 }

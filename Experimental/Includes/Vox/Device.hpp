@@ -11,6 +11,7 @@
 #define CUBBYFLOW_VOX_DEVICE_HPP
 
 #include <Vox/FileSystem.hpp>
+#include <Vox/FrameContext.hpp>
 #include <memory>
 #include <string>
 
@@ -36,6 +37,9 @@ namespace Vox {
 
         //! Register callback functions to given context.
         void RegisterCallbacks(const std::shared_ptr<FrameContext>& ctx);
+
+        //! Apply modified render status compared two render status structure.
+        void ApplyRenderStatus(const FrameContext::RenderStatus& prevStat, const FrameContext::RenderStatus& newStat);
     };
 };
 

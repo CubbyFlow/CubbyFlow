@@ -35,6 +35,7 @@ namespace Vox {
         void OnAsyncBufferTransfer(const std::shared_ptr<GeometryCacheManager>& cacheManager) override;
         void OnDrawFrame(const std::shared_ptr<FrameContext>& ctx) override;
     private:
+        std::vector<GLuint> _vaos;
         std::vector<GLuint> _vbos;
         std::vector<GLuint> _ebos;
         size_t _numIndices { 0 };

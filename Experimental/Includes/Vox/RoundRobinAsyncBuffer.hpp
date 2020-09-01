@@ -48,7 +48,6 @@ namespace Vox {
         virtual void OnAsyncBufferTransfer(const std::shared_ptr<GeometryCacheManager>& cacheManager) = 0;
         virtual void OnDrawFrame(const std::shared_ptr<FrameContext>& ctx) = 0;
 
-        std::vector<GLuint> _vaos;
         size_t _numBuffer { 0 };
         size_t _frameIndex { 0 } ;
     private:

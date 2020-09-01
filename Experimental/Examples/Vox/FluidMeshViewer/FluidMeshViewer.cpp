@@ -13,6 +13,8 @@
 #include <Vox/VoxScene.hpp>
 #include <Vox/Renderer.hpp>
 #include <Vox/Program.hpp>
+#include <Vox/FrameBuffer.hpp>
+#include <Vox/Texture.hpp>
 #include <Vox/ShaderPreset.hpp>
 #include <Vox/FluidMeshBuffer.hpp>
 #include <Vox/PostProcessing.hpp>
@@ -38,8 +40,9 @@ bool FluidMeshViewer::Initialize(const Vox::Path& scenePath)
         return false;
     
     std::shared_ptr<Vox::FrameContext> ctx = Vox::App::PopFrameContextFromQueue();
-    _cacheMgr = _scene->GetSceneObject<Vox::GeometryCacheManager>("FluidMeshCache");
+    ctx->BindSceneToContext(_scene);
 
+    _cacheMgr = _scene->GetSceneObject<Vox::GeometryCacheManager>("FluidMeshCache");
     for (size_t i = 0; i < _cacheMgr->GetNumberOfCache(); ++i)
     {
         auto& cache = _cacheMgr->GetGeometryCache(i);
@@ -49,19 +52,18 @@ bool FluidMeshViewer::Initialize(const Vox::Path& scenePath)
     _buffer.reset(new Vox::FluidMeshBuffer());
     GLuint vs = Vox::Renderer::CreateShaderFromSource(Vox::kFluidMeshShaders[0], GL_VERTEX_SHADER);
     GLuint fs = Vox::Renderer::CreateShaderFromSource(Vox::kFluidMeshShaders[1], GL_FRAGMENT_SHADER);
-    ctx->AddShaderProgram("FluidMesh", Vox::Renderer::CreateProgram(vs, 0, fs));
+    _meshShader = ctx->CreateProgram("FluidMesh", Vox::Renderer::CreateProgram(vs, 0, fs));
     glDeleteShader(vs);
     glDeleteShader(fs);
 
     GLuint mainPassColorTexture = Vox::Renderer::CreateTexture(_windowSize.x, _windowSize.y, Vox::PixelFmt::PF_RGBA8, nullptr, false);
-    ctx->AddTexture("MainPassColorTexture", mainPassColorTexture);
+    _screenTexture = ctx->CreateTexture("MainPassColorTexture", GL_TEXTURE_2D, mainPassColorTexture);
     GLuint mainPassRBO = Vox::Renderer::CreateRenderBuffer(_windowSize.x, _windowSize.y, Vox::PixelFmt::PF_DEPTH_COMPONENT24_STENCIL8, false);
 
-    GLuint mainPass = Vox::Renderer::CreateFrameBuffer();
-    ctx->AddFrameBuffer("MainRenderPass", mainPass);
-    Vox::Renderer::AttachTextureToFrameBuffer(mainPass, 0, mainPassColorTexture, false);
-    Vox::Renderer::AttachRenderBufferToFrameBuffer(mainPass, mainPassRBO);
-    VoxAssert(Vox::Renderer::ValidateFrameBufferStatus(mainPass), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
+    _mainPass = ctx->CreateFrameBuffer("MainRenderPass", Vox::Renderer::CreateFrameBuffer());
+    _mainPass->AttachTexture(0, mainPassColorTexture, false);
+    _mainPass->AttachRenderBuffer(mainPassRBO);
+    VoxAssert(_mainPass->ValidateFrameBufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
 
     _compressor.reset(new Vox::S3TextureCompression(_windowSize.x, _windowSize.y));
     _compressor->Initialize(ctx);
@@ -69,8 +71,10 @@ bool FluidMeshViewer::Initialize(const Vox::Path& scenePath)
     _postProcessing.reset(new Vox::PostProcessing());
     _postProcessing->Initialize(ctx);
 
-    ctx->SetRenderMode(GL_TRIANGLES);
-
+    auto status = ctx->GetRenderStatus();
+    status.primitive = GL_TRIANGLES;
+    ctx->SetRenderStatus(status);
+    
     Vox::App::PushFrameContextToQueue(ctx);
     return true;
 }
@@ -81,7 +85,7 @@ void FluidMeshViewer::DrawFrame()
     ctx->MakeContextCurrent();
 
     //! Main RenderPass
-    ctx->BindFrameBuffer("MainRenderPass" ,GL_FRAMEBUFFER);
+    _mainPass->BindFrameBuffer(GL_FRAMEBUFFER);
     {
         Vox::App::BeginFrame(ctx);
         glViewport(0, 0, _windowSize.x, _windowSize.y);
@@ -91,8 +95,7 @@ void FluidMeshViewer::DrawFrame()
 
         if (_buffer->CheckFence(50000))
         {
-            ctx->MakeProgramCurrent("FluidMesh");
-            ctx->UpdateProgramCamera(_camera);
+            _meshShader->BindProgram(_scene);
             _buffer->AsyncBufferTransfer(_cacheMgr);
             _buffer->DrawFrame(ctx);
             _buffer->AdvanceFrame();
@@ -102,17 +105,16 @@ void FluidMeshViewer::DrawFrame()
     }
 
     //! DXT5 Compressing Pass
-    _compressor->CompressionPass(ctx, "MainPassColorTexture");
-
+    _compressor->CompressionPass(ctx, _screenTexture);
     //! DXT5 Decoding Pass
     _compressor->DecodingPass(ctx);
 
     //! Screen Pass
-    ctx->BindFrameBuffer("DefaultPass", GL_FRAMEBUFFER);
+    ctx->GetFrameBuffer("DefaultPass")->BindFrameBuffer(GL_FRAMEBUFFER);
     {
         Vox::App::BeginFrame(ctx);
         glViewport(0, 0, _windowSize.x, _windowSize.y);
-        _postProcessing->DrawFrame(ctx, "CompressedTexture");
+        _postProcessing->DrawFrame(ctx, _screenTexture);
         _frameCapture->CaptureFrameBuffer(_windowSize.x, _windowSize.y, 1, Vox::PixelFmt::PF_BGRA8);
         _frameCapture->WriteCurrentCaptureToDDS("./FluidMeshViewer_output/result%06d.dds");
         Vox::App::EndFrame(ctx);

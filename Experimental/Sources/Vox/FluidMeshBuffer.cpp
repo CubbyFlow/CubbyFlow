@@ -25,8 +25,10 @@ namespace Vox {
     FluidMeshBuffer::FluidMeshBuffer(const size_t numBuffer)
         : RoundRobinAsyncBuffer(numBuffer)
     {
+        _vaos.resize(numBuffer);
         _vbos.resize(numBuffer);
         _ebos.resize(numBuffer);
+        glGenVertexArrays(numBuffer, _vaos.data());
         glGenBuffers(numBuffer, _vbos.data());
         glGenBuffers(numBuffer, _ebos.data());
         for (size_t i = 0; i < numBuffer; ++i)
@@ -46,6 +48,7 @@ namespace Vox {
 
     FluidMeshBuffer::~FluidMeshBuffer()
     {
+        glDeleteVertexArrays(static_cast<GLsizei>(_numBuffer), _vaos.data());
         glDeleteBuffers(static_cast<GLsizei>(_numBuffer), _vbos.data());
         glDeleteBuffers(static_cast<GLsizei>(_numBuffer), _ebos.data());
     }
@@ -88,9 +91,8 @@ namespace Vox {
     {
         const size_t bufferNum = _frameIndex % _numBuffer;
         
-        GLenum primitive = ctx->GetRenderMode();
         glBindVertexArray(_vaos[bufferNum]);
-        glDrawElements(primitive, _numIndices, GL_UNSIGNED_INT, 0);
+        glDrawElements(ctx->GetRenderStatus().primitive, _numIndices, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
     }
 

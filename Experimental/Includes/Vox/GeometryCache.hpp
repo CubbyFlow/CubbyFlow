@@ -13,29 +13,16 @@
 #include <Vox/FileSystem.hpp>
 #include <Vox/VoxSceneObject.hpp>
 #include <Vox/Vertex.hpp>
+#include <Vox/Mesh.hpp>
 #include <Core/BoundingBox/BoundingBox3.hpp>
-#include <Core/Vector/Vector2.hpp>
 #include <Core/Vector/Vector3.hpp>
 #include <Core/Array/Array1.hpp>
-#include <Core/Array/ArrayAccessor1.hpp>
 
 namespace Vox {
 
     class GeometryCache : public VoxSceneObject
     {
     public:
-        class Shape 
-        {
-        public:
-            CubbyFlow::Array1<float> interleaved;
-            CubbyFlow::Array1<CubbyFlow::Vector3F> positions;
-            CubbyFlow::Array1<CubbyFlow::Vector2F> texCoords;
-            CubbyFlow::Array1<CubbyFlow::Vector3F> normals;
-            CubbyFlow::Array1<unsigned int> indices;
-            CubbyFlow::BoundingBox3F boundingBox;
-            VertexFormat format { VertexFormat::None };
-        };
-
         //! Default constructor
         GeometryCache();
 
@@ -59,7 +46,7 @@ namespace Vox {
         size_t GetNumberOfShape() const;
 
         //! Return the shape struct of the loaded data.
-        const Vox::GeometryCache::Shape& GetShape(size_t index) const;
+        const MeshShape& GetShape(size_t index) const;
 
         //! Return the bounding box of the geometry cache
         const CubbyFlow::BoundingBox3F& GetBoundingBox() const;
@@ -75,7 +62,7 @@ namespace Vox {
         //! Load Obj geometry cache from obj file.
         void LoadObjCache(const Vox::Path& format);
 
-        CubbyFlow::Array1<GeometryCache::Shape> _shapes;
+        CubbyFlow::Array1<MeshShape> _shapes;
         CubbyFlow::BoundingBox3F _boundingBox;
     };
 }

@@ -10,25 +10,36 @@
 #include <Vox/FrameContext.hpp>
 #include <Vox/DebugUtils.hpp>
 #include <Vox/PerspectiveCamera.hpp>
+#include <Vox/FrameBuffer.hpp>
+#include <Vox/Texture.hpp>
 #include <Vox/Program.hpp>
 #include <Vox/FileSystem.hpp>
+#include <Vox/Mesh.hpp>
 #include <Vox/VoxScene.hpp>
+#include <Vox/Device.hpp>
+#include <Vox/StringID.hpp>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace Vox {
 
+	FrameContext::RenderStatus::RenderStatus()
+		: isFrontFaceClockWise(true),
+		  isBlendEnabled(true),
+		  isDepthTestEnabled(true),
+		  cullMode(GL_BACK),
+		  sourceBlendFactor(GL_SRC_ALPHA),
+		  destinationBlendFactor(GL_ONE_MINUS_SRC_ALPHA),
+		  primitive(GL_TRIANGLE_STRIP) {};
+
 	FrameContext::FrameContext(GLFWwindow* windowCtx)
-		: _windowCtx(windowCtx), _renderMode(GL_POINTS)
+		: _windowCtx(windowCtx)
 	{
-		_fboMap.emplace("DefaultPass", 0);
+		_defaultPass = CreateFrameBuffer("DefaultPass", 0);
 	}
 
     FrameContext::~FrameContext()
 	{
-		for (auto iter : _textureMap)
-			glDeleteTextures(1, &(iter.second));
-
 		if (_windowCtx)
 			glfwDestroyWindow(_windowCtx);
 	}
@@ -42,84 +53,112 @@ namespace Vox {
 	{
 		glfwMakeContextCurrent(_windowCtx);
 	}
-
-	void FrameContext::SetRenderMode(GLenum mode)
-	{
-		_renderMode = mode;
-	}
-
-    GLenum FrameContext::GetRenderMode() const
-	{
-		return _renderMode;
-	}
-
-	void FrameContext::AddShaderProgram(const std::string& name, GLuint program)
-	{
-		_programMap.emplace(name, std::make_shared<Program>(program));
-	}
-
-	const std::weak_ptr<Program>& FrameContext::GetCurrentProgram() const
-	{
-		return _currentProgram;
-	}
-
-	void FrameContext::MakeProgramCurrent(const std::string& name)
-	{
-		auto iter = _programMap.find(name);
-		//! If given name does not exist, print call stack and error message.
-		VoxAssert(iter != _programMap.end(), CURRENT_SRC_PATH_TO_STR, std::string("No Shader Program ") + name);
-		_currentProgram = iter->second;
-		//! Check whether if dependent shared_ptr expired or not.
-		if (!_currentProgram.expired())
-		{
-			_currentProgram.lock()->UseProgram();
-		}
-	}
-
-	void FrameContext::AddTexture(const std::string& name, GLuint texture)
-	{
-		_textureMap.emplace(name, texture);
-	}
-
-    void FrameContext::BindTextureToSlot(const std::string& name, GLenum target, GLenum slot)
-	{
-		//! Find given program name in the program map.
-		auto iter = _textureMap.find(name);
-		//! If given name does not exist, print call stack and error message.
-		VoxAssert(iter != _textureMap.end(), CURRENT_SRC_PATH_TO_STR, std::string("No Shader Program ") + name);
-		glActiveTexture(GL_TEXTURE0 + slot);
-		glBindTexture(target, iter->second);
-	}
-
-	void FrameContext::UpdateProgramCamera(const std::shared_ptr<PerspectiveCamera>& camera)
-	{
-		//! Check whether if dependent shared_ptr expired or not.
-		if (!_currentProgram.expired())
-			_currentProgram.lock()->SendUniformVariable("ViewProjection", camera->GetViewProjectionMatrix());
-	}
-
-    void FrameContext::AddFrameBuffer(const std::string& name, GLuint fbo)
-	{
-		_fboMap.emplace(name, fbo);
-	}
-
-    void FrameContext::BindFrameBuffer(const std::string& name, GLenum target)
-	{
-		//! Find given program name in the program map.
-		auto iter = _fboMap.find(name);
-		//! If given name does not exist, print call stack and error message.
-		VoxAssert(iter != _fboMap.end(), CURRENT_SRC_PATH_TO_STR, std::string("No Frame Buffer Object ") + name);
-		_currentFrameBuffer = iter->second;
-		glBindFramebuffer(target, _currentFrameBuffer);
-	}
-    
-	GLuint FrameContext::GetCurrentFrameBuffer() const
-	{
-		return _currentFrameBuffer;
-	}
   	
 	GLFWwindow* FrameContext::GetWindowContext()
 	{
 		return _windowCtx;
+	}
+	
+	std::shared_ptr<FrameBuffer> FrameContext::CreateFrameBuffer(const std::string& name, GLuint id)
+	{
+		const unsigned int sid = VoxStringID(name);
+		std::lock_guard<std::mutex> guard(_m);
+
+		auto instance = _frameBufferMap[sid].lock();
+		if (!instance) _frameBufferMap[sid] = instance = std::make_shared<FrameBuffer>(id);
+		return instance;
+	}
+
+    std::shared_ptr<Mesh> FrameContext::CreateMesh(const std::string& name, const MeshShape& shape, VertexFormat format, bool bInterleaved)
+	{
+		const unsigned int sid = VoxStringID(name);
+		std::lock_guard<std::mutex> guard(_m);
+
+		auto instance = _meshMap[sid].lock();
+		if (!instance) _meshMap[sid] = instance = std::make_shared<Mesh>(shape, format, bInterleaved);
+		return instance;
+	}
+
+    std::shared_ptr<Texture> FrameContext::CreateTexture(const std::string& name, GLuint target, GLuint id)
+	{
+		const unsigned int sid = VoxStringID(name);
+		std::lock_guard<std::mutex> guard(_m);
+
+		auto instance = _textureMap[sid].lock();
+		if (!instance) _textureMap[sid] = instance = std::make_shared<Texture>(target, id);
+		return instance;
+	}
+
+    std::shared_ptr<Program> FrameContext::CreateProgram(const std::string& name, GLuint program)
+	{
+		const unsigned int sid = VoxStringID(name);
+		std::lock_guard<std::mutex> guard(_m);
+
+		auto instance = _programMap[sid].lock();
+		if (!instance) _programMap[sid] = instance = std::make_shared<Program>(program);
+		return instance;
+	}
+	
+    std::shared_ptr<FrameBuffer> FrameContext::GetFrameBuffer(const std::string& name)
+	{
+		const unsigned int sid = VoxStringID(name);
+		std::lock_guard<std::mutex> guard(_m);
+	
+		std::shared_ptr<FrameBuffer> instance = _frameBufferMap[sid].lock();
+		VoxAssert(instance, CURRENT_SRC_PATH_TO_STR, "Unregistered Frame Buffer [" + name + "]");
+		return instance;
+	}
+
+    std::shared_ptr<Mesh> FrameContext::GetMesh(const std::string& name)
+	{
+		const unsigned int sid = VoxStringID(name);
+		std::lock_guard<std::mutex> guard(_m);
+
+		std::shared_ptr<Mesh> instance = _meshMap[sid].lock();
+		VoxAssert(instance, CURRENT_SRC_PATH_TO_STR, "Unregistered Mesh [" + name + "]");
+		return instance;
+	}
+    std::shared_ptr<Texture> FrameContext::GetTexture(const std::string& name)
+	{
+		const unsigned int sid = VoxStringID(name);
+		std::lock_guard<std::mutex> guard(_m);
+
+		std::shared_ptr<Texture> instance = _textureMap[sid].lock();
+		VoxAssert(instance, CURRENT_SRC_PATH_TO_STR, "Unregistered Texture [" + name + "]");
+		return instance;
+	}
+
+    std::shared_ptr<Program> FrameContext::GetProgram(const std::string& name)
+	{
+		const unsigned int sid = VoxStringID(name);
+		std::lock_guard<std::mutex> guard(_m);
+
+		std::shared_ptr<Program> instance = _programMap[sid].lock();
+		VoxAssert(instance, CURRENT_SRC_PATH_TO_STR, "Unregistered Program [" + name + "]");
+		return instance;
+	}
+
+	void FrameContext::BindSceneToContext(const std::shared_ptr<VoxScene>& scene)
+	{
+		_scene = scene;
+	}
+
+    std::shared_ptr<VoxScene> FrameContext::GetContextScene()
+	{
+		std::lock_guard<std::mutex> guard(_m);
+		auto instance = _scene.lock();
+		VoxAssert(instance != nullptr, CURRENT_SRC_PATH_TO_STR, "Vox Scene expired");
+		return instance;
+	}
+	
+    FrameContext::RenderStatus FrameContext::GetRenderStatus() const
+	{
+		return _renderStatus;
+	}
+
+    void FrameContext::SetRenderStatus(RenderStatus newRenderStatus)
+	{	
+		Device::ApplyRenderStatus(_renderStatus, newRenderStatus);
+		_renderStatus = newRenderStatus;
 	}
 };

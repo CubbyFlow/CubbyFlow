@@ -46,7 +46,7 @@ namespace Vox {
         int _width { 0 };
         int _height { 0 };
         int _mips { 0 };
-        PixelFmt _pf;
+        PixelFmt _pf { PixelFmt::PF_RGB8 };
     };
 
 };

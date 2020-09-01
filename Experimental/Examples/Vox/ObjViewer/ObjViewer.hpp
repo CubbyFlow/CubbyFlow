@@ -16,6 +16,9 @@
 
 namespace Vox {
     class PostProcessing;
+    class FrameBuffer;
+    class Texture;
+    class Program;
     class RenderableObject;
 };
 
@@ -36,6 +39,9 @@ protected:
 private:
     std::shared_ptr<Vox::RenderableObject> _renderable;
     std::unique_ptr<Vox::PostProcessing> _postProcessing;
+    std::shared_ptr<Vox::FrameBuffer> _mainPass;
+    std::shared_ptr<Vox::Texture> _screenTexture;
+    std::shared_ptr<Vox::Program> _meshShader;
 };
 
 #endif

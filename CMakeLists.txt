@@ -74,6 +74,8 @@ set(RESOURCES_TEXTURES  textures/bricks2_disp.jpg
                         textures/wood.png)                    
 
 set(RESOURCES_SCENES    ParticleViewer.json
+                        VolumeRendering.json
+                        ObjViewer.json
                         FluidMeshViewer.json
                         TestScene.json)
 

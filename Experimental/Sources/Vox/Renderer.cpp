@@ -183,25 +183,7 @@ namespace Vox {
 		glGenFramebuffers(1, &fbo);
 		return fbo;
 	}
-
-    void Renderer::AttachTextureToFrameBuffer(GLuint fbo, GLsizei index, GLuint texture, bool bMultisample)
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-        const GLenum target = bMultisample ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D;
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, target, texture, 0);
-	}
-
-    void Renderer::AttachRenderBufferToFrameBuffer(GLuint fbo, GLuint rbo)
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
-	}
-
-    bool Renderer::ValidateFrameBufferStatus(GLuint fbo)
-	{
-        return glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
-	}
-
+	
 	void Renderer::ReadFrameBuffer(int width, int height, int mips, const PixelFmt pf, void* data)
 	{
 		const PixelFmtDesc* desc = GetPixelFmtDesc(pf);

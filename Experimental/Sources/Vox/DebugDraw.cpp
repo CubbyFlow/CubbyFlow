@@ -49,10 +49,9 @@ namespace Vox {
     {
         GLuint vs = Renderer::CreateShaderFromSource(kDebugDrawShaders[0], GL_VERTEX_SHADER);
         GLuint fs = Renderer::CreateShaderFromSource(kDebugDrawShaders[1], GL_FRAGMENT_SHADER);
-        GLuint program = Renderer::CreateProgram(vs, 0, fs);
+        ctx->CreateProgram("DebugDraw", Renderer::CreateProgram(vs, 0, fs));
         glDeleteShader(vs);
         glDeleteShader(fs);
-        ctx->AddShaderProgram("DebugDraw", program);
     }
 
     void DebugDraw::AddFloorGrid(const CubbyFlow::Point2I numCell, float cellSize, const CubbyFlow::Vector3F color)
@@ -132,11 +131,13 @@ namespace Vox {
 
     void DebugDraw::DrawFrame(const std::shared_ptr<FrameContext>& ctx) const
     {
-        std::weak_ptr<Program> program = ctx->GetCurrentProgram();
+        auto program = ctx->GetProgram("DebugDraw");
+        program->BindProgram(ctx->GetContextScene());
         for (const auto& renderable : _renderables)
         {
-            if (!program.expired())
-                program.lock()->SendUniformVariable("Color", renderable.color);
+            auto& params = program->GetParameters();
+            params.SetParameter("Color", renderable.color);
+
             glBindVertexArray(renderable.vao);
             glDrawArrays(GL_LINES, 0, static_cast<GLsizei>(renderable.numVertices));
         }

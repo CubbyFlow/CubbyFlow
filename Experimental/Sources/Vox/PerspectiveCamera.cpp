@@ -76,12 +76,6 @@ namespace Vox {
         _viewProjection = projection * view * translation;
     }
 
-    void PerspectiveCamera::SendViewProjection(const std::shared_ptr<Program>& program)
-    {
-        program->UseProgram();
-        program->SendUniformVariable("ViewProjection", _viewProjection);
-    }
-
     CubbyFlow::Matrix4x4F PerspectiveCamera::GetViewProjectionMatrix() const
     {
         return _viewProjection;

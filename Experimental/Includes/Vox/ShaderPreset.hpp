@@ -369,7 +369,87 @@ namespace Vox {
             }
         )glsl"
     };
+
+    const char* const kRayDataShaders[2] = 
+    {
+        // Vertex shader
+        R"glsl(
+            #version 330 core
+            in vec3 position;
+            precision highp float;
+            precision highp int;
+            uniform mat4 ViewProjection;
+            out VSOUT {
+                vec3 position;
+            } vs_out;
+            void main() {
+                vs_out.position = (ViewProjection * vec4(position, 1.0)).xyz;
+                gl_Position = vec4(vs_out.position, 1.0);
+            }
+        )glsl",
     
+        // Fragment shader
+        R"glsl(
+            #version 330 core
+            precision highp float;
+            precision highp int;
+            in VSOUT {
+                vec3 position;
+            } fs_in;
+            out vec4 fragColor;
+            void main() {
+                fragColor = vec4(fs_in.position, 1.0);
+            }
+        )glsl"
+    };
+    
+    const char* const kVolumeRayCastingShaders[2] = 
+    {
+        // Vertex shader
+        R"glsl(
+            #version 330 core
+            precision highp float;
+            precision highp int;
+            void main() {
+                gl_Position = vec4(vec2(gl_VertexID & 1, (gl_VertexID & 2) >> 1) * 2 - 1, 0, 1);
+            }
+        )glsl",
+    
+        // Fragment shader
+        R"glsl(
+            #version 330 core
+            precision highp float;
+            precision highp int;
+            uniform sampler3D VolumeTexture;
+            uniform sampler2D VolumeFrontFace;
+            uniform sampler2D VolumeBackFace;
+            uniform float StepInc;
+            out vec4 fragColor;
+            #define maxSamples 10
+            void main() {
+                vec3 startPos = texture2D(VolumeFrontFace, gl_FragCoord.xy).rgb;
+                vec3 endPos = texture2D(VolumeBackFace, gl_FragCoord.xy).rgb;
+                vec3 ray = endPos - startPos;
+                float rayLength = length(ray);
+                vec3 step = StepInc*normalize(ray);
+                vec4 dest = vec4(0.0);
+                vec3 curSamplePos = startPos;
+                for (int i=0; i<maxSamples; i++) {//back to front
+                    vec4 src = texture3D(VolumeTexture, endPos - curSamplePos).rgba;
+                    dest.rgb = mix(dest.rgb, src.rgb, src.a); //(1- src_alpha)*dest_col + src_alpha*src_col
+                    dest.a = mix(dest.a, 1.0, src.a); //(1-src_alpha)*dest_alpha + src_slpha
+                    if ((length(curSamplePos)>=rayLength)) //out of volume
+                        break;
+                    if (dest.a>0.99) {
+                        dest.a = 1.0;
+                        break;
+                    }
+                    curSamplePos += step;
+                } //end of for
+                fragColor = dest; 
+            }
+        )glsl"
+    };
 } 
 
 #endif 

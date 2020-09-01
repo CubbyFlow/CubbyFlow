@@ -17,6 +17,9 @@
 namespace Vox {
     class PostProcessing;
     class RenderableObject;
+    class Texture;
+    class FrameBuffer;
+    class Program;
 };
 
 class VolumeRendering : public Vox::App
@@ -36,6 +39,13 @@ protected:
 private:
     std::unique_ptr<Vox::PostProcessing> _postProcessing;
     std::shared_ptr<Vox::RenderableObject> _cubeRenderable;
+    std::shared_ptr<Vox::Program> _rayCastingShader;
+    std::shared_ptr<Vox::Program> _rayDataShader;
+    std::shared_ptr<Vox::FrameBuffer> _rayDataPass;
+    std::shared_ptr<Vox::FrameBuffer> _mainPass;
+    std::shared_ptr<Vox::Texture> _volumeSDF;
+    std::shared_ptr<Vox::Texture> _volumeFrontFace;
+    std::shared_ptr<Vox::Texture> _volumeBackFace;
     GLuint _frontface, _backface;
 };
 

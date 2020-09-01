@@ -22,20 +22,17 @@ namespace Vox {
     RoundRobinAsyncBuffer::RoundRobinAsyncBuffer()
         : RoundRobinAsyncBuffer(RoundRobinAsyncBuffer::kDefaultNumBuffer)
     {
+        //! Do nothing.
     }
 
     RoundRobinAsyncBuffer::RoundRobinAsyncBuffer(const size_t numBuffer)
         : _numBuffer(numBuffer)
     {
-        _vaos.resize(numBuffer);
         _fences.resize(numBuffer);
-
-        glGenVertexArrays(numBuffer, _vaos.data());
     }
 
     RoundRobinAsyncBuffer::~RoundRobinAsyncBuffer()
     {
-        glDeleteVertexArrays(static_cast<GLsizei>(_vaos.size()), _vaos.data());
         _fences.clear();
     }
 

@@ -15,6 +15,8 @@
 
 namespace Vox {
     
+    class Program;
+    class Texture;
     class FrameContext;
 
     /**
@@ -32,9 +34,10 @@ namespace Vox {
         void Initialize(const std::shared_ptr<FrameContext>& ctx);
 
         //! Draw the Debug wire frame.
-        void DrawFrame(const std::shared_ptr<FrameContext>& ctx, const std::string& screenTextureName) const;
+        void DrawFrame(const std::shared_ptr<FrameContext>& ctx, const std::shared_ptr<Texture>& screenTexture) const;
     protected:
     private:
+        std::shared_ptr<Program> _postProcessingProgram;
         GLuint _screenQuad { 0 };
     };
 

@@ -9,6 +9,7 @@
 *************************************************************************/
 #include <Vox/PostProcessing.hpp>
 #include <Vox/Renderer.hpp>
+#include <Vox/Texture.hpp>
 #include <Vox/ShaderPreset.hpp>
 #include <Vox/FrameContext.hpp>
 #include <Vox/Program.hpp>
@@ -26,26 +27,22 @@ namespace Vox {
         if (_screenQuad) glDeleteVertexArrays(1, &_screenQuad);
     }
 
-    void PostProcessing::Initialize(const std::shared_ptr<FrameContext>& ctx)
+    void PostProcessing::Initialize(const std::shared_ptr<FrameContext>& ctx, const std::shared_ptr<Program>& program)
     {
         GLuint vs = Renderer::CreateShaderFromSource(kScreenShaders[0], GL_VERTEX_SHADER);
         GLuint fs = Renderer::CreateShaderFromSource(kScreenShaders[1], GL_FRAGMENT_SHADER);
-        ctx->AddShaderProgram("PostProcessing", Renderer::CreateProgram(vs, 0, fs));
-        ctx->MakeProgramCurrent("PostProcessing");
-        const auto& program = ctx->GetCurrentProgram();
-        if (!program.expired())
-            program.lock()->SendUniformVariable("ScreenTexture", 0);
+        _postProcessingProgram = ctx->CreateProgram("PostProcessing", Renderer::CreateProgram(vs, 0, fs));
 
         if (_screenQuad) glDeleteVertexArrays(1, &_screenQuad);
         glGenVertexArrays(1, &_screenQuad);
     }
 
-    void PostProcessing::DrawFrame(const std::shared_ptr<FrameContext>& ctx, const std::string& screenTextureName) const
+    void PostProcessing::DrawFrame(const std::shared_ptr<FrameContext>& ctx, const std::shared_ptr<Texture>& screenTexture) const
     {
-        ctx->MakeProgramCurrent("PostProcessing");
+        _postProcessingProgram->BindProgram(ctx->GetContextScene());
         glBindVertexArray(_screenQuad);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-        ctx->BindTextureToSlot(screenTextureName, GL_TEXTURE_2D, 0);
+        screenTexture->BindTexture(0);
         glBindVertexArray(0);
     }
 
