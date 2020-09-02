@@ -65,11 +65,7 @@ int main(int argc, const char** argv)
     mkdir(outputDir.c_str(), S_IRWXU | S_IRWXG | S_IRWXO);
 #endif
 
-    std::ofstream logFile(logFileName.c_str());
-    if (logFile)
-    {
-        CubbyFlow::Logging::SetAllStream(&logFile);
-    }
+    CubbyFlow::Logging::SetAllStream(&std::cout);
 
     Vox::FileSystem::AddDirectory("./Resources");
     Vox::FileSystem::AddDirectory(outputDir);
