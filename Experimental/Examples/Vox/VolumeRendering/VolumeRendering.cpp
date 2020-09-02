@@ -45,10 +45,10 @@ bool VolumeRendering::Initialize(const Vox::Path& scenePath)
 
     GLuint mainPassColorTexture = Vox::Renderer::CreateTexture(_windowSize.x, _windowSize.y, Vox::PixelFmt::PF_RGBA8, nullptr, false);
     GLuint mainPassRBO = Vox::Renderer::CreateRenderBuffer(_windowSize.x, _windowSize.y, Vox::PixelFmt::PF_DEPTH_COMPONENT24_STENCIL8, false);
-    ctx->CreateTexture("T_MainPassColor", GL_TEXTURE_2D, mainPassColorTexture);
+    _screenTexture = ctx->CreateTexture("T_MainPassColor", GL_TEXTURE_2D, mainPassColorTexture);
 
     _mainPass = ctx->CreateFrameBuffer("FB_MainPass", Vox::Renderer::CreateFrameBuffer());
-    _mainPass->AttachTexture(0, mainPassColorTexture, false);
+    _mainPass->AttachTexture(0, _screenTexture, false);
     _mainPass->AttachRenderBuffer(mainPassRBO);
     VoxAssert(_mainPass->ValidateFrameBufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
 
@@ -81,7 +81,7 @@ bool VolumeRendering::Initialize(const Vox::Path& scenePath)
     auto cubeMesh = std::make_shared<Vox::Mesh>(cubeCache->GetShape(0), Vox::VertexFormat::Position3, true);
     _cubeRenderable = std::make_shared<Vox::RenderableObject>();
     _cubeRenderable->AddGeometryMesh(cubeMesh);
-
+    _cubeRenderable->AttachProgramShader(_rayDataShader);
     std::ifstream file("./out.sdf");
     const std::vector<uint8_t> buffer(
         (std::istreambuf_iterator<char>(file)),
@@ -114,14 +114,14 @@ void VolumeRendering::DrawFrame()
     _rayDataPass->BindFrameBuffer(GL_FRAMEBUFFER);
     {
         _rayDataShader->BindProgram(_scene);
-        _rayDataPass->AttachTexture(0, _backface, false);
+        _rayDataPass->AttachTexture(0, _volumeBackFace, false);
         Vox::App::BeginFrame(ctx);
         glFrontFace(GL_CCW);
         _cubeRenderable->DrawRenderableObject(ctx);
         Vox::App::EndFrame(ctx);
         _frameCapture->CaptureFrameBuffer(_windowSize.x, _windowSize.y, 1, Vox::PixelFmt::PF_BGRA8);
         _frameCapture->WriteCurrentCaptureToDDS("./VolumeRendering_output/result%06d.dds");
-        _rayDataPass->AttachTexture(0, _frontface, false);
+        _rayDataPass->AttachTexture(0, _volumeFrontFace, false);
         Vox::App::BeginFrame(ctx);
         glFrontFace(GL_CW);
         _cubeRenderable->DrawRenderableObject(ctx);

@@ -19,7 +19,9 @@ namespace Vox {
     class DebugDraw;
     class PostProcessing;
     class GeometryCacheManager;
+    class S3TextureCompression;
     class FrameBuffer;
+    class Program;
     class Texture;
 };
 
@@ -42,8 +44,11 @@ private:
     std::unique_ptr<Vox::DebugDraw> _debugDraw;
     std::unique_ptr<Vox::PostProcessing> _postProcessing;
     std::shared_ptr<Vox::GeometryCacheManager> _cacheMgr;
+    std::shared_ptr<Vox::Program> _particleShader;
+    std::shared_ptr<Vox::Texture> _mainPassTexture;
     std::shared_ptr<Vox::Texture> _screenTexture;
     std::shared_ptr<Vox::FrameBuffer> _mainPass;
+    std::unique_ptr<Vox::S3TextureCompression> _compressor;
     std::shared_ptr<Vox::FrameBuffer> _intermediatePass;
 };
 

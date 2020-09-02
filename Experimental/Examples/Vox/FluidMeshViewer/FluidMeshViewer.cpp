@@ -61,7 +61,7 @@ bool FluidMeshViewer::Initialize(const Vox::Path& scenePath)
     GLuint mainPassRBO = Vox::Renderer::CreateRenderBuffer(_windowSize.x, _windowSize.y, Vox::PixelFmt::PF_DEPTH_COMPONENT24_STENCIL8, false);
 
     _mainPass = ctx->CreateFrameBuffer("FB_MainPass", Vox::Renderer::CreateFrameBuffer());
-    _mainPass->AttachTexture(0, mainPassColorTexture, false);
+    _mainPass->AttachTexture(0, _screenTexture, false);
     _mainPass->AttachRenderBuffer(mainPassRBO);
     VoxAssert(_mainPass->ValidateFrameBufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
 
@@ -107,14 +107,14 @@ void FluidMeshViewer::DrawFrame()
     //! DXT5 Compressing Pass
     _compressor->CompressionPass(ctx, _screenTexture);
     //! DXT5 Decoding Pass
-    _compressor->DecodingPass(ctx);
+    auto compressedTexture = _compressor->DecodingPass(ctx);
 
     //! Screen Pass
     ctx->GetFrameBuffer("FB_DefaultPass")->BindFrameBuffer(GL_FRAMEBUFFER);
     {
         Vox::App::BeginFrame(ctx);
         glViewport(0, 0, _windowSize.x, _windowSize.y);
-        _postProcessing->DrawFrame(ctx, _screenTexture);
+        _postProcessing->DrawFrame(ctx, compressedTexture);
         _frameCapture->CaptureFrameBuffer(_windowSize.x, _windowSize.y, 1, Vox::PixelFmt::PF_BGRA8);
         _frameCapture->WriteCurrentCaptureToDDS("./FluidMeshViewer_output/result%06d.dds");
         Vox::App::EndFrame(ctx);

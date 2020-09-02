@@ -43,6 +43,7 @@ private:
     std::shared_ptr<Vox::Program> _rayDataShader;
     std::shared_ptr<Vox::FrameBuffer> _rayDataPass;
     std::shared_ptr<Vox::FrameBuffer> _mainPass;
+    std::shared_ptr<Vox::Texture> _screenTexture;
     std::shared_ptr<Vox::Texture> _volumeSDF;
     std::shared_ptr<Vox::Texture> _volumeFrontFace;
     std::shared_ptr<Vox::Texture> _volumeBackFace;

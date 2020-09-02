@@ -46,7 +46,7 @@ bool ObjViewer::Initialize(const Vox::Path& scenePath)
     GLuint mainPassRBO = Vox::Renderer::CreateRenderBuffer(_windowSize.x, _windowSize.y, Vox::PixelFmt::PF_DEPTH_COMPONENT24_STENCIL8, false);
 
     _mainPass = ctx->CreateFrameBuffer("FB_MainPass", Vox::Renderer::CreateFrameBuffer());
-    _mainPass->AttachTexture(0, mainPassColorTexture, false);
+    _mainPass->AttachTexture(0, _screenTexture, false);
     _mainPass->AttachRenderBuffer(mainPassRBO);
     VoxAssert(_mainPass->ValidateFrameBufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
 
@@ -60,8 +60,10 @@ bool ObjViewer::Initialize(const Vox::Path& scenePath)
     const auto& sphereCache = _scene->GetSceneObject<Vox::GeometryCache>("Sphere");
     sphereCache->InterleaveData(Vox::VertexFormat::Position3Normal3);
     auto sphereMesh = std::make_shared<Vox::Mesh>(sphereCache->GetShape(0), Vox::VertexFormat::Position3Normal3, true);
+    
     _renderable = std::make_shared<Vox::RenderableObject>();
     _renderable->AddGeometryMesh(sphereMesh);
+    _renderable->AttachProgramShader(_meshShader);
 
     auto status = ctx->GetRenderStatus();
     status.primitive = GL_TRIANGLES;
@@ -81,7 +83,6 @@ void ObjViewer::DrawFrame()
         Vox::App::BeginFrame(ctx);
         glViewport(0, 0, _windowSize.x, _windowSize.y);
         
-        _meshShader->BindProgram(_scene);
         _renderable->DrawRenderableObject(ctx);
 
         Vox::App::EndFrame(ctx);
