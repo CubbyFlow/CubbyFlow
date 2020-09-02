@@ -45,27 +45,27 @@ bool VolumeRendering::Initialize(const Vox::Path& scenePath)
 
     GLuint mainPassColorTexture = Vox::Renderer::CreateTexture(_windowSize.x, _windowSize.y, Vox::PixelFmt::PF_RGBA8, nullptr, false);
     GLuint mainPassRBO = Vox::Renderer::CreateRenderBuffer(_windowSize.x, _windowSize.y, Vox::PixelFmt::PF_DEPTH_COMPONENT24_STENCIL8, false);
-    ctx->CreateTexture("MainPassColorTexture", GL_TEXTURE_2D, mainPassColorTexture);
+    ctx->CreateTexture("T_MainPassColor", GL_TEXTURE_2D, mainPassColorTexture);
 
-    _mainPass = ctx->CreateFrameBuffer("MainRenderPass", Vox::Renderer::CreateFrameBuffer());
+    _mainPass = ctx->CreateFrameBuffer("FB_MainPass", Vox::Renderer::CreateFrameBuffer());
     _mainPass->AttachTexture(0, mainPassColorTexture, false);
     _mainPass->AttachRenderBuffer(mainPassRBO);
     VoxAssert(_mainPass->ValidateFrameBufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
 
-    _rayDataPass = ctx->CreateFrameBuffer("RayDataPass", Vox::Renderer::CreateFrameBuffer());
+    _rayDataPass = ctx->CreateFrameBuffer("FB_RayDataPass", Vox::Renderer::CreateFrameBuffer());
 
     GLuint frontface = Vox::Renderer::CreateTexture(_windowSize.x, _windowSize.y, Vox::PixelFmt::PF_RGBA16F, nullptr);
     GLuint backface  = Vox::Renderer::CreateTexture(_windowSize.x, _windowSize.y, Vox::PixelFmt::PF_RGBA16F, nullptr);
-    _volumeFrontFace = ctx->CreateTexture("VolumeFrontFace", GL_TEXTURE_2D, frontface);
-    _volumeBackFace  = ctx->CreateTexture("VolumeBackFace", GL_TEXTURE_2D, backface);
+    _volumeFrontFace = ctx->CreateTexture("T_VolumeFrontFace", GL_TEXTURE_2D, frontface);
+    _volumeBackFace  = ctx->CreateTexture("T_VolumeBackFace", GL_TEXTURE_2D, backface);
 
     GLuint vs = Vox::Renderer::CreateShaderFromSource(Vox::kRayDataShaders[0], GL_VERTEX_SHADER);
     GLuint fs = Vox::Renderer::CreateShaderFromSource(Vox::kRayDataShaders[1], GL_FRAGMENT_SHADER);
-    _rayDataShader = ctx->CreateProgram("RayDataShader", Vox::Renderer::CreateProgram(vs, 0, fs));
+    _rayDataShader = ctx->CreateProgram("P_RayDataShader", Vox::Renderer::CreateProgram(vs, 0, fs));
 
     vs = Vox::Renderer::CreateShaderFromSource(Vox::kVolumeRayCastingShaders[0], GL_VERTEX_SHADER);
     fs = Vox::Renderer::CreateShaderFromSource(Vox::kVolumeRayCastingShaders[1], GL_FRAGMENT_SHADER);
-    _rayCastingShader = ctx->CreateProgram("VolumeRayCastingShader", Vox::Renderer::CreateProgram(vs, 0, fs));
+    _rayCastingShader = ctx->CreateProgram("P_VolumeRayCastingShader", Vox::Renderer::CreateProgram(vs, 0, fs));
 
     auto& volumeParams = _rayCastingShader->GetParameters();
     volumeParams.SetParameter("VolumeTexture", 0);
@@ -95,7 +95,7 @@ bool VolumeRendering::Initialize(const Vox::Path& scenePath)
     file.close();
 
     GLuint volume = Vox::Renderer::CreateVolumeTexture(sdf.size().x, sdf.size().y, sdf.size().z, Vox::PixelFmt::PF_R8, sdf.data());
-    _volumeSDF = ctx->CreateTexture("VolumeTexture", GL_TEXTURE_3D, volume);
+    _volumeSDF = ctx->CreateTexture("T_VolumeTexture", GL_TEXTURE_3D, volume);
 
     auto status = ctx->GetRenderStatus();
     status.primitive = GL_TRIANGLES;
@@ -149,7 +149,7 @@ void VolumeRendering::DrawFrame()
     }
 
     //! Screen Pass
-    ctx->GetFrameBuffer("DefaultPass")->BindFrameBuffer(GL_FRAMEBUFFER);
+    ctx->GetFrameBuffer("FB_DefaultPass")->BindFrameBuffer(GL_FRAMEBUFFER);
     {
         Vox::App::BeginFrame(ctx);
         glViewport(0, 0, _windowSize.x, _windowSize.y);

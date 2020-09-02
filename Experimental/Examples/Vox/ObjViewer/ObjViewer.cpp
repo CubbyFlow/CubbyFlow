@@ -42,17 +42,17 @@ bool ObjViewer::Initialize(const Vox::Path& scenePath)
     ctx->BindSceneToContext(_scene);
     
     GLuint mainPassColorTexture = Vox::Renderer::CreateTexture(_windowSize.x, _windowSize.y, Vox::PixelFmt::PF_RGBA8, nullptr, false);
-    _screenTexture = ctx->CreateTexture("MainPassColorTexture", GL_TEXTURE_2D, mainPassColorTexture);
+    _screenTexture = ctx->CreateTexture("T_MainPassColor", GL_TEXTURE_2D, mainPassColorTexture);
     GLuint mainPassRBO = Vox::Renderer::CreateRenderBuffer(_windowSize.x, _windowSize.y, Vox::PixelFmt::PF_DEPTH_COMPONENT24_STENCIL8, false);
 
-    _mainPass = ctx->CreateFrameBuffer("MainRenderPass", Vox::Renderer::CreateFrameBuffer());
+    _mainPass = ctx->CreateFrameBuffer("FB_MainPass", Vox::Renderer::CreateFrameBuffer());
     _mainPass->AttachTexture(0, mainPassColorTexture, false);
     _mainPass->AttachRenderBuffer(mainPassRBO);
     VoxAssert(_mainPass->ValidateFrameBufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
 
     GLuint vs = Vox::Renderer::CreateShaderFromSource(Vox::kFluidMeshShaders[0], GL_VERTEX_SHADER);
     GLuint fs = Vox::Renderer::CreateShaderFromSource(Vox::kFluidMeshShaders[1], GL_FRAGMENT_SHADER);
-    _meshShader = ctx->CreateProgram("MeshShader", Vox::Renderer::CreateProgram(vs, 0, fs));
+    _meshShader = ctx->CreateProgram("P_MeshShader", Vox::Renderer::CreateProgram(vs, 0, fs));
 
     _postProcessing.reset(new Vox::PostProcessing());
     _postProcessing->Initialize(ctx);
@@ -88,7 +88,7 @@ void ObjViewer::DrawFrame()
     }
 
     //! Screen Pass
-    ctx->GetFrameBuffer("DefaultPass")->BindFrameBuffer(GL_FRAMEBUFFER);
+    ctx->GetFrameBuffer("FB_DefaultPass")->BindFrameBuffer(GL_FRAMEBUFFER);
     {
         Vox::App::BeginFrame(ctx);
         glViewport(0, 0, _windowSize.x, _windowSize.y);

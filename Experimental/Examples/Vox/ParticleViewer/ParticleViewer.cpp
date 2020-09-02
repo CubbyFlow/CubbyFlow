@@ -54,23 +54,23 @@ bool ParticleViewer::Initialize(const Vox::Path& scenePath)
     _buffer.reset(new Vox::ParticleBuffer());
     GLuint vs = Vox::Renderer::CreateShaderFromSource(Vox::kPointsShaders[0], GL_VERTEX_SHADER);
     GLuint fs = Vox::Renderer::CreateShaderFromSource(Vox::kPointsShaders[1], GL_FRAGMENT_SHADER);
-    ctx->CreateProgram("FluidParticle", Vox::Renderer::CreateProgram(vs, 0, fs));
+    ctx->CreateProgram("P_FluidParticle", Vox::Renderer::CreateProgram(vs, 0, fs));
     glDeleteShader(vs);
     glDeleteShader(fs);
 
     GLuint multisampleTexture = Vox::Renderer::CreateTexture(_windowSize.x, _windowSize.y, Vox::PixelFmt::PF_RGBA8, nullptr, true);
-    ctx->CreateTexture("MainPassColorTexture", GL_TEXTURE_2D, multisampleTexture);
+    ctx->CreateTexture("T_MainPassColor", GL_TEXTURE_2D, multisampleTexture);
     GLuint multisampleRBO = Vox::Renderer::CreateRenderBuffer(_windowSize.x, _windowSize.y, Vox::PixelFmt::PF_DEPTH_COMPONENT24_STENCIL8, true);
     
-    _mainPass = ctx->CreateFrameBuffer("MainRenderPass", Vox::Renderer::CreateFrameBuffer());
+    _mainPass = ctx->CreateFrameBuffer("FB_MainPass", Vox::Renderer::CreateFrameBuffer());
     _mainPass->AttachTexture(0, multisampleTexture, true);
     _mainPass->AttachRenderBuffer(multisampleRBO);
     VoxAssert(_mainPass->ValidateFrameBufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
     
     GLuint screenTexture = Vox::Renderer::CreateTexture(_windowSize.x, _windowSize.y, Vox::PixelFmt::PF_RGB8, nullptr, false);
-    _screenTexture = ctx->CreateTexture("ScreenTexture", GL_TEXTURE_2D, screenTexture);
+    _screenTexture = ctx->CreateTexture("T_Screen", GL_TEXTURE_2D, screenTexture);
 
-    _intermediatePass = ctx->CreateFrameBuffer("IntermediatePass", Vox::Renderer::CreateFrameBuffer());
+    _intermediatePass = ctx->CreateFrameBuffer("FB_IntermediatePass", Vox::Renderer::CreateFrameBuffer());
     _intermediatePass->AttachTexture(0, screenTexture, false);
     VoxAssert(_intermediatePass->ValidateFrameBufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
 
@@ -105,13 +105,13 @@ void ParticleViewer::DrawFrame()
         if (!_buffer->CheckFence(50000))
             return;
 
-        auto particleShader = ctx->GetProgram("FluidParticle");
+        auto particleShader = ctx->GetProgram("P_FluidParticle");
         particleShader->BindProgram(_scene);
         _buffer->AsyncBufferTransfer(_cacheMgr);
         _buffer->DrawFrame(ctx);
         _buffer->AdvanceFrame();
         
-        auto debugShader = ctx->GetProgram("DebugDraw");
+        auto debugShader = ctx->GetProgram("P_DebugDraw");
         debugShader->BindProgram(_scene);
         _debugDraw->DrawFrame(ctx);
         
@@ -119,12 +119,12 @@ void ParticleViewer::DrawFrame()
     }
 
     //! Post Processing Pass
-    ctx->GetFrameBuffer("MainRenderPass")->BindFrameBuffer(GL_READ_FRAMEBUFFER);
-    ctx->GetFrameBuffer("IntermediatePass")->BindFrameBuffer(GL_DRAW_FRAMEBUFFER);
+    ctx->GetFrameBuffer("FB_MainPass")->BindFrameBuffer(GL_READ_FRAMEBUFFER);
+    ctx->GetFrameBuffer("FB_IntermediatePass")->BindFrameBuffer(GL_DRAW_FRAMEBUFFER);
     glBlitFramebuffer(0, 0, _windowSize.x, _windowSize.y, 0, 0, _windowSize.x, _windowSize.y, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 
     //! Screen Pass
-    ctx->GetFrameBuffer("DefaultPass")->BindFrameBuffer(GL_FRAMEBUFFER);
+    ctx->GetFrameBuffer("FB_DefaultPass")->BindFrameBuffer(GL_FRAMEBUFFER);
     {
         Vox::App::BeginFrame(ctx);
         glViewport(0, 0, _windowSize.x, _windowSize.y);

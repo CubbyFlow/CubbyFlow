@@ -35,7 +35,7 @@ namespace Vox {
 	FrameContext::FrameContext(GLFWwindow* windowCtx)
 		: _windowCtx(windowCtx)
 	{
-		_defaultPass = CreateFrameBuffer("DefaultPass", 0);
+		_defaultPass = CreateFrameBuffer("FB_DefaultPass", 0);
 	}
 
     FrameContext::~FrameContext()

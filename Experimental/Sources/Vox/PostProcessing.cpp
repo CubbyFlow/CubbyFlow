@@ -27,11 +27,11 @@ namespace Vox {
         if (_screenQuad) glDeleteVertexArrays(1, &_screenQuad);
     }
 
-    void PostProcessing::Initialize(const std::shared_ptr<FrameContext>& ctx, const std::shared_ptr<Program>& program)
+    void PostProcessing::Initialize(const std::shared_ptr<FrameContext>& ctx)
     {
         GLuint vs = Renderer::CreateShaderFromSource(kScreenShaders[0], GL_VERTEX_SHADER);
         GLuint fs = Renderer::CreateShaderFromSource(kScreenShaders[1], GL_FRAGMENT_SHADER);
-        _postProcessingProgram = ctx->CreateProgram("PostProcessing", Renderer::CreateProgram(vs, 0, fs));
+        _postProcessingProgram = ctx->CreateProgram("P_PostProcessing", Renderer::CreateProgram(vs, 0, fs));
 
         if (_screenQuad) glDeleteVertexArrays(1, &_screenQuad);
         glGenVertexArrays(1, &_screenQuad);

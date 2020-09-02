@@ -51,6 +51,11 @@ namespace Vox {
         GLFWwindow* GetWindowContext();
 
         //! Creates Resources and Returns
+        //! Resources name rule
+        //! FrameBuffer - "FB_foo"
+        //! Mesh - "M_foo"
+        //! Texture - "T_foo"
+        //! Program - "P_foo"
         std::shared_ptr<FrameBuffer> CreateFrameBuffer(const std::string& name, GLuint id);
         std::shared_ptr<Mesh> CreateMesh(const std::string& name, const MeshShape& shape, VertexFormat format, bool bInterleaved=false);
         std::shared_ptr<Texture> CreateTexture(const std::string& name, GLuint target, GLuint id);
@@ -97,9 +102,9 @@ namespace Vox {
     protected:
     private:
         std::unordered_map<unsigned int, std::weak_ptr<FrameBuffer>> _frameBufferMap;
-        std::unordered_map<unsigned int, std::weak_ptr<Mesh>> _meshMap;
-        std::unordered_map<unsigned int, std::weak_ptr<Texture>> _textureMap;
-        std::unordered_map<unsigned int, std::weak_ptr<Program>> _programMap;
+        std::unordered_map<unsigned int, std::weak_ptr<    Mesh   >> _meshMap;
+        std::unordered_map<unsigned int, std::weak_ptr<  Texture  >> _textureMap;
+        std::unordered_map<unsigned int, std::weak_ptr<  Program  >> _programMap;
         std::shared_ptr<FrameBuffer> _defaultPass;
         std::weak_ptr<VoxScene> _scene;
         GLFWwindow* _windowCtx;
