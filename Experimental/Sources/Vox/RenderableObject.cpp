@@ -44,6 +44,11 @@ namespace Vox {
         return _meshes.size();
     }
 
+    void RenderableObject::ClearGeometryMesh()
+    {
+        _meshes.Clear();
+    }
+
     void RenderableObject::AttachProgramShader(const std::shared_ptr<Program>& program)
     {
         _program = program;

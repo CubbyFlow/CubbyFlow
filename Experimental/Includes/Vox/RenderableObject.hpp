@@ -35,6 +35,8 @@ namespace Vox {
         void AddGeometryMesh(const std::shared_ptr<Mesh> mesh);
         //! Returns the geometry mesh of the object with given index.
         const std::shared_ptr<Mesh> GetGeometryMesh(size_t index) const;
+        //! Clear the geometry mesh list
+        void ClearGeometryMesh();
         //! Returns the number of the contained geometry mesh.
         size_t GetNumberOfGeometryMesh() const;
         //! Attach shader program to this renderable object
