@@ -17,7 +17,9 @@
 #include <vector>
 
 namespace Vox {
+    class RenderableObject;
     class FrameContext;
+    class Program;
     /**
      *  Debug drawing mode (visualize horizontal grid, x,y,z axis, bounding boxes).
      */
@@ -50,17 +52,9 @@ namespace Vox {
 
         //! Draw the Debug wire frame.
         void DrawFrame(const std::shared_ptr<FrameContext>& ctx) const;
-
-        static const size_t kMaxBufferSize = 0x10000; ////! 8 kB - This is CPU memory
     private:
-        struct Renderable
-        {
-            CubbyFlow::Vector3F color; 
-            size_t numVertices;
-            GLuint vao;
-        };
-
-        std::vector<Renderable> _renderables;
+        std::shared_ptr<Program> _debugShader;
+        std::unique_ptr<RenderableObject> _renderable;
     };
 
 };
