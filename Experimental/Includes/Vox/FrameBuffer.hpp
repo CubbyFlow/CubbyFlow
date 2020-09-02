@@ -13,8 +13,11 @@
 #include <Vox/NonCopyable.hpp>
 #include <Vox/PixelFmt.hpp>
 #include <Vox/GLTypes.hpp>
+#include <memory>
 
 namespace Vox {
+
+    class Texture;
 
     /**
      * OpenGL FrameBuffer wrapper class 
@@ -31,7 +34,7 @@ namespace Vox {
         void BindFrameBuffer(GLuint target);
 
         //! Attach Color Texture to the framebuffer.
-        void AttachTexture(GLsizei index, GLuint texture, bool bMultisample=false);
+        void AttachTexture(GLsizei index, const std::shared_ptr<Texture>& texture, bool bMultisample=false);
 
         //! Attach Render Buffer Object to the framebuffer.
         void AttachRenderBuffer(GLuint rbo);
@@ -41,6 +44,8 @@ namespace Vox {
 
     private:
         GLuint _id;
+        std::vector<std::shared_ptr<Texture>> _textures;
+        GLuint _rbo;
     };
 
 };

@@ -8,6 +8,7 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 #include <Vox/FrameBuffer.hpp>
+#include <Vox/Texture.hpp>
 #include <glad/glad.h>
 
 namespace Vox {
@@ -20,7 +21,8 @@ namespace Vox {
 
     FrameBuffer::~FrameBuffer()
     {
-        if(_id) glDeleteFramebuffers(1, &_id);
+        if (_id) glDeleteFramebuffers(1, &_id);
+        if (_rbo) glDeleteRenderbuffers(1, &_rbo);
     }
 
     void FrameBuffer::BindFrameBuffer(GLuint target)
@@ -28,17 +30,21 @@ namespace Vox {
         glBindFramebuffer(target, _id);
     }
 
-    void FrameBuffer::AttachTexture(GLsizei index, GLuint texture, bool bMultisample)
+    void FrameBuffer::AttachTexture(GLsizei index, const std::shared_ptr<Texture>& texture, bool bMultisample)
     {
 		glBindFramebuffer(GL_FRAMEBUFFER, _id);
         const GLenum target = bMultisample ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D;
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, target, texture, 0);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, target, texture->GetTextureID(), 0);
+
+        _textures.push_back(texture);
 	}
 
     void FrameBuffer::AttachRenderBuffer(GLuint rbo)
     {
 		glBindFramebuffer(GL_FRAMEBUFFER, _id);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
+
+        _rbo = rbo;
     }
 
     bool FrameBuffer::ValidateFrameBufferStatus()

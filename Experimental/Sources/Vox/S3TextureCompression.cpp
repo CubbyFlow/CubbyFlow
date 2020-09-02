@@ -65,11 +65,11 @@ namespace Vox {
         params.SetParameter("ScreenTexture", 0);
 
         _s3tcPass = ctx->CreateFrameBuffer("FB_S3TCPass", Renderer::CreateFrameBuffer());
-        _s3tcPass->AttachTexture(0, _texIm->GetTextureID(), false);
+        _s3tcPass->AttachTexture(0, _texIm, false);
         VoxAssert(_s3tcPass->ValidateFrameBufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
 
         _decodingPass = ctx->CreateFrameBuffer("FB_YCoCgDecodingPass", Renderer::CreateFrameBuffer());
-        _decodingPass->AttachTexture(0, _texFinal->GetTextureID(), false);
+        _decodingPass->AttachTexture(0, _texFinal, false);
         VoxAssert(_decodingPass->ValidateFrameBufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
     }
 
