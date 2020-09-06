@@ -38,8 +38,6 @@ namespace Vox {
         ~SDFVolume();
         //! Build volume 
         void BuildVolume(const std::shared_ptr<FrameContext>& ctx, CubbyFlow::ScalarGrid3Ptr sdf);
-        //! Set bounding box cube
-        void AttachBoundingBox(const std::shared_ptr<Mesh>& mesh);
 
     protected:
         

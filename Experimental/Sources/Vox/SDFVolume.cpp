@@ -34,10 +34,5 @@ namespace Vox {
         UNUSED_VARIABLE(texture);
         UNUSED_VARIABLE(ctx);
     }
-
-    void SDFVolume::AttachBoundingBox(const std::shared_ptr<Mesh>& mesh)
-    {
-        _boundingBox.reset(new RenderableObject());
-        _boundingBox->AddGeometryMesh(mesh);
-    }
+    
 };
