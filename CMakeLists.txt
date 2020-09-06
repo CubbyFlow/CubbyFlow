@@ -57,6 +57,9 @@ set(CMAKE_MACOSX_RPATH ON)
 # Set resources
 set(RESOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Resources)
 
+set(RESOURCES_SHADERS   shaders/vs_pbr_shader.glsl
+                        shaders/fs_pbr_shader.glsl)
+
 set(RESOURCES_OBJS  bunny.obj 
                     cube.obj 
                     dragon.obj 
@@ -82,6 +85,10 @@ set(RESOURCES_SCENES    ParticleViewer.json
 # we don't want to copy if we're building in the source dir
 if (NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
     # Copy all resoucre objs to binary directory.
+    foreach(item IN LISTS RESOURCES_SHADERS)
+        configure_file(${RESOURCES_DIR}/${item} ${CMAKE_CURRENT_BINARY_DIR}/bin/Resources/${item} COPYONLY)
+    endforeach()
+
     foreach(item IN LISTS RESOURCES_OBJS)
         configure_file(${RESOURCES_DIR}/${item} ${CMAKE_CURRENT_BINARY_DIR}/bin/Resources/${item} COPYONLY)
     endforeach()
