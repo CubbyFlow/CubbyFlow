@@ -67,6 +67,7 @@ namespace Vox {
         float _far { 10000.0f };
     };
 
+    using Light = PerspectiveCamera;
 };
 
 #endif
