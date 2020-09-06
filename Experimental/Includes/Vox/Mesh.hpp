@@ -53,7 +53,7 @@ namespace Vox {
         //! Draw mesh with configured opengl resources.
         void DrawMesh(const std::shared_ptr<FrameContext>& ctx);
 
-    private:
+    protected:
         GLuint _vao, _vbo, _ebo; 
         unsigned int _numVertices;
     };
