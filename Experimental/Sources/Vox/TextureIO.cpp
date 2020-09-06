@@ -13,8 +13,6 @@
 #include <Vox/DebugUtils.hpp>
 #include <Vox/PixelFmt.hpp>
 #include <Vox/Renderer.hpp>
-#include <Vox/DDSUtils.hpp>
-#include <Vox/TGAUtils.hpp>
 #include <cstdio>
 #include <cstring>
 
@@ -40,6 +38,174 @@ namespace Vox {
 
 	namespace DDS
 	{
+		#define DDS_MAGIC 0x20534444
+
+        typedef struct  {
+            unsigned int dwSize;
+            unsigned int dwFlags;
+            unsigned int dwFourCC;
+            unsigned int dwRGBBitCount;
+            unsigned int dwRBitMask;
+        	unsigned int dwGBitMask;
+        	unsigned int dwBBitMask;
+            unsigned int dwRGBAlphaBitMask;
+        } DDPIXELFORMAT;
+
+        typedef struct  {
+            unsigned int dwCaps1;
+            unsigned int dwCaps2;
+            unsigned int Reserved[2];
+        } DDSCAPS2;
+
+        typedef struct  {
+            unsigned int dwSize;
+            unsigned int dwFlags;
+            unsigned int dwHeight;
+            unsigned int dwWidth;
+            unsigned int dwPitchOrLinearSize;
+            unsigned int dwDepth;
+            unsigned int dwMipMapCount;
+            unsigned int dwReserved1[11];
+            DDPIXELFORMAT ddpfPixelFormat;
+            DDSCAPS2 ddsCaps;
+            unsigned int dwReserved2;
+        } DDSURFACEDESC2;
+
+        struct DDSHeader {
+        	unsigned int magic;
+        	DDSURFACEDESC2 ddsd;
+        };
+
+        typedef struct  {
+            unsigned int dxgiFormat;
+            unsigned int resourceDimension;
+            unsigned int miscFlag;
+            unsigned int arraySize;
+            unsigned int reserved;
+        } DDS_HEADER_DXT10;
+
+        struct dds_hdr_dx10 {
+        	unsigned int _magic;
+        	DDSURFACEDESC2 _ddsd;
+        	DDS_HEADER_DXT10 _dx10;
+        };
+
+        //  DDS_header.sPixelFormat.dwFlags
+        enum EDDSPFFlags {
+        	DDPF_ALPHAPIXELS=0x00000001,
+            DDPF_ALPHA      =0x00000002,
+        	DDPF_FOURCC		=0x00000004,
+        	DDPF_INDEXED	=0x00000020,
+        	DDPF_RGB		=0x00000040,
+            DDPF_YUV        =0x00000200,
+            DDPF_LUMINANCE  =0x00020000,
+        };
+
+        enum EDDSCaps {
+        	DDSCAPS_COMPLEX	=0x000008,
+        	DDSCAPS_MIPMAP	=0x400000,
+        	DDSCAPS_TEXTURE	=0x001000,
+        };
+
+        enum EDDSFlags {
+        	DDSD_CAPS		=0x000001,
+        	DDSD_HEIGHT		=0x000002,
+        	DDSD_WIDTH		=0x000004,
+        	DDSD_PITCH		=0x000008,
+        	DDSD_PIXELFORMAT=0x001000,
+        	DDSD_MIPMAPCOUNT=0x020000,
+        	DDSD_LINEARSIZE	=0x080000,
+        	DDSD_DEPTH		=0x800000,
+        };
+
+        #define MAKEFOURCC(ch0,ch1,ch2,ch3) \
+    		((unsigned int)(unsigned char)(ch0)|((unsigned int)(unsigned char)(ch1)<< 8)| \
+    		((unsigned int)(unsigned char)(ch2)<<16)|((unsigned int)(unsigned char)(ch3)<<24))
+
+    	#define ISBITMASK( r,g,b,a ) ( ddpf.dwRBitMask==r && ddpf.dwGBitMask==g && ddpf.dwBBitMask==b && ddpf.dwRGBAlphaBitMask==a )
+
+    	bool GetTexture2DDesc(const DDSHeader* dhdr, int* w, int* h, int* mips, Vox::PixelFmt* pixfmt)
+    	{
+    		VoxAssert((dhdr->magic == DDS_MAGIC), CURRENT_SRC_PATH_TO_STR, "Bad magic number in DDS file!");
+	
+    	    const DDSURFACEDESC2 *hdr = &dhdr->ddsd;
+    		const DDPIXELFORMAT &ddpf = hdr->ddpfPixelFormat;
+	
+    		// fill other stuff in desc
+    		*w = hdr->dwWidth;
+    		*h = hdr->dwHeight;
+    		*mips = hdr->dwMipMapCount>1 ? hdr->dwMipMapCount : 1U;
+	
+    		// find pixel format
+    		*pixfmt = Vox::PixelFmt::PF_UNKNOWN;
+    		if( ddpf.dwFlags & DDPF_RGB ) {
+    			if( 32==ddpf.dwRGBBitCount ) {
+    				if( ISBITMASK(0x00ff0000,0x0000ff00,0x000000ff,0xff000000) )
+    					*pixfmt = Vox::PixelFmt::PF_BGRA8;
+    				if( ISBITMASK(0x000000ff,0x0000ff00,0x00ff0000,0xff000000) )
+    					*pixfmt = Vox::PixelFmt::PF_RGBA8;
+    			}
+    		}
+    		else if( ddpf.dwFlags & DDPF_FOURCC ) {
+    			if( MAKEFOURCC('D','X','T','1')==ddpf.dwFourCC )
+    				*pixfmt = Vox::PixelFmt::PF_DXT1;
+    			else if( MAKEFOURCC('D','X','T','3')==ddpf.dwFourCC )
+    				*pixfmt = Vox::PixelFmt::PF_DXT3;
+    			else if( MAKEFOURCC('D','X','T','5')==ddpf.dwFourCC )
+    				*pixfmt = Vox::PixelFmt::PF_DXT5;
+    			else if( MAKEFOURCC(114,0,0,0)==ddpf.dwFourCC )
+    				*pixfmt = Vox::PixelFmt::PF_R32F;
+    			else if( MAKEFOURCC(115,0,0,0)==ddpf.dwFourCC )
+    				*pixfmt = Vox::PixelFmt::PF_RG32F;
+    			else if( MAKEFOURCC(116,0,0,0)==ddpf.dwFourCC )
+    				*pixfmt = Vox::PixelFmt::PF_RGBA32F;
+    			else if( MAKEFOURCC('D','X','1','0')==ddpf.dwFourCC )
+    				return false;
+    		}
+    		else if( ddpf.dwFlags & DDPF_LUMINANCE ) {
+    	        if( ddpf.dwRGBBitCount==8 ) {
+    	            *pixfmt = Vox::PixelFmt::PF_R8;
+    	        }
+    	    }
+    		else
+    			return false;
+	
+    		return true;
+    	}
+	
+    	struct ddsd2pf {
+    	    Vox::PixelFmt _pf;
+    		DDPIXELFORMAT _ddpf;
+    	};
+	
+    	const ddsd2pf __tbl[]={
+    		{ Vox::PixelFmt::PF_BGRA8,		{ 32,DDPF_RGB,0,32,0x00ff0000,0x0000ff00,0x000000ff,0xff000000 } },
+    		{ Vox::PixelFmt::PF_RGBA8,		{ 32,DDPF_RGB,0,32,0x000000ff,0x0000ff00,0x00ff0000,0xff000000 } },
+    		{ Vox::PixelFmt::PF_RGB8,		{ 32,DDPF_RGB,0,32,0x000000ff,0x0000ff00,0x00ff0000,0x00000000 } },
+    		{ Vox::PixelFmt::PF_BGR8,		{ 32,DDPF_RGB,0,32,0x00ff0000,0x0000ff00,0x000000ff,0x00000000 } },
+	
+    		{ Vox::PixelFmt::PF_DXT1,		{ 32,DDPF_FOURCC,MAKEFOURCC('D','X','T','1'),0,0,0,0,0 } },
+    		{ Vox::PixelFmt::PF_DXT3,		{ 32,DDPF_FOURCC,MAKEFOURCC('D','X','T','3'),0,0,0,0,0 } },
+    		{ Vox::PixelFmt::PF_DXT5,		{ 32,DDPF_FOURCC,MAKEFOURCC('D','X','T','5'),0,0,0,0,0 } },
+	
+    		{ Vox::PixelFmt::PF_R32F,		{ 32,DDPF_FOURCC,MAKEFOURCC(114,0,0,0),0,0,0,0,0 } },
+    		{ Vox::PixelFmt::PF_RG32F,		{ 32,DDPF_FOURCC,MAKEFOURCC(115,0,0,0),0,0,0,0,0 } },
+    		{ Vox::PixelFmt::PF_RGBA32F,	{ 32,DDPF_FOURCC,MAKEFOURCC(116,0,0,0),0,0,0,0,0 } },
+    	};
+	
+    	bool FillPixelFormat(DDPIXELFORMAT *ddpf, const Vox::PixelFmt pf)
+    	{
+    		const unsigned int n = sizeof(__tbl)/sizeof(ddsd2pf);
+	
+    		for(unsigned int i=0; i<n; ++i) {
+    			if( __tbl[i]._pf==pf ) {
+    				std::memcpy(ddpf, &__tbl[i]._ddpf, sizeof(*ddpf));
+    				return true;
+    			}
+    		}
+    		return false;
+    	}
+
 		void* LoadTextureData(const char* file, int* w, int* h, int* mips, Vox::PixelFmt* pixfmt)
 		{
     		FILE* fp = fopen(file, "rb");
@@ -102,6 +268,42 @@ namespace Vox {
 
 	namespace TGA
 	{
+		#pragma pack(push,1)
+		struct TGAHeader
+		{
+			char identsize;			//< size of ID field that follows 18 byte header (0 usually)
+			char colormaptype;		//< type of colour map 0=none, 1=has palette
+			char imagetype;			//< type of image 0=none,1=indexed,2=rgb,3=grey,+8=rle packed
+
+			short colormapstart;	//< first colour map entry in palette
+			short colormaplength;	//< number of colours in palette
+			char colormapbits;		//< number of bits per palette entry 15,16,24,32
+
+			short xstart;           //< image x origin
+			short ystart;           //< image y origin
+			short width;            //< image width in pixels
+			short height;           //< image height in pixels
+			char bits;              //< image bits per pixel 8,16,24,32
+			char descriptor;        //< image descriptor bits (vh flip bits)
+
+			TGAHeader() = default;
+			TGAHeader(const short width, const short height, const char bits)
+				: identsize(0)
+				, colormaptype(0)
+				, imagetype(2)
+				, colormapstart(0)
+		        , colormaplength(0)
+		        , colormapbits(0)
+		        , xstart(0)
+		        , ystart(0)
+		        , width(width)
+		        , height(height)
+		        , bits(bits)
+		        , descriptor(0)
+			{}
+		};
+		#pragma pack(pop)
+		
 		void* LoadTextureData(const char* file, int* w, int* h, int* mips, Vox::PixelFmt* pixfmt)
 		{
 			FILE* fp = fopen(file, "rb");
