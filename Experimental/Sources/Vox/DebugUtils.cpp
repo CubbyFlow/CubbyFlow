@@ -57,8 +57,7 @@ namespace Vox {
         symbol->MaxNameLen   = 255;
         symbol->SizeOfStruct = sizeof( SYMBOL_INFO );
 
-		using namespace CubbyFlow;
-		CUBBYFLOW_INFO << "---------------------Stack Trace---------------------";
+		printf("---------------------Stack Trace---------------------\n");
         for( i = 0; i < frames; i++ )
         {
         	SymFromAddr( process, ( DWORD64 )( stack[ i ] ), 0, symbol );
@@ -68,13 +67,13 @@ namespace Vox {
         	line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
         	if (!strstr(symbol->Name,"VSDebugLib::") && SymGetLineFromAddr64(process, ( DWORD64 )( stack[ i ] ), &dwDisplacement, &line)) 
 			{
-				CUBBYFLOW_INFO << "Function : " << symbol->Name << " - line : " << line.LineNumber;
+				printf("Function : %s - line : %lu", symbol->Name, line.LineNumber);
         	}
 
         	if (0 == strcmp(symbol->Name,"main"))
         		break;
         }
-		CUBBYFLOW_INFO << "-----------------------------------------------------";
+		printf("-----------------------------------------------------\n");
         free( symbol );
     }
     #elif defined(CUBBYFLOW_LINUX)
@@ -89,8 +88,7 @@ namespace Vox {
         unw_getcontext(&uc);
         unw_init_local(&cursor, &uc);
 
-		using namespace CubbyFlow;
-		CUBBYFLOW_INFO << "---------------------Stack Trace---------------------";
+		printf("---------------------Stack Trace---------------------\n");
         while (unw_step(&cursor) > 0) 
 		{
         	unw_get_reg(&cursor, UNW_REG_IP, &ip);
@@ -107,10 +105,10 @@ namespace Vox {
         	}
 			else
 			{
-				CUBBYFLOW_INFO << ip << "(" << name << "+" << off << ")";
+				printf("0x%lx (%s+0x%lx)\n", ip, name, off);
         	}
     	}
-		CUBBYFLOW_INFO << "-----------------------------------------------------";
+		printf("-----------------------------------------------------\n");
     }
     #endif
 
@@ -176,13 +174,12 @@ namespace Vox {
 
     void GLDebug::DebugLog(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const GLvoid* userParam)
     {
-		using namespace CubbyFlow;
-        CUBBYFLOW_INFO << "[Type] : "       << Detail::GetStringForType(type);
-		CUBBYFLOW_INFO << "[Source] : "     << Detail::GetStringForSource(source);
-		CUBBYFLOW_INFO << "[ID] : "         << id;
-		CUBBYFLOW_INFO << "[Serverity] : "  << Detail::GetStringForSeverity(severity);
+        std::cerr << "[Type] : "       << Detail::GetStringForType(type)           << 
+                	 "[Source] : "     << Detail::GetStringForSource(source)       <<
+                	 "[ID] : "         <<              id                          <<
+                	 "[Serverity] : "  << Detail::GetStringForSeverity(severity)   << std::endl;
                           
-		CUBBYFLOW_ERROR << "[Message] : "  << message;
+        std::cerr << "[Message] : "    << message << std::endl;
         
         StackTrace::PrintStack();
     }

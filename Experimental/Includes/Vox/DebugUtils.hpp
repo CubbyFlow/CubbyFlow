@@ -12,7 +12,6 @@
 #define CUBBYFLOW_VOX_DEBUG_UTILS_HPP
 
 #include <Core/Utils/Macros.hpp>
-#include <Core/Utils/Logging.hpp>
 #include <Vox/GLTypes.hpp>
 #include <iostream>
 #include <string>
@@ -52,7 +51,6 @@ namespace Vox {
     };
 };
 
-using namespace CubbyFlow;
 /**
  * brief simple assertion macro for vox application.
  * param expression 
@@ -63,7 +61,7 @@ using namespace CubbyFlow;
 {\
     if (!(expression))\
     {\
-        CUBBYFLOW_ERROR << "[" << loc << "]" << msg;\
+        std::cerr << "[" << loc << "] " << msg << std::endl;\
         Vox::StackTrace::PrintStack(); \
         std::abort();\
     }\
@@ -80,7 +78,7 @@ using namespace CubbyFlow;
 {\
     if (!(expression))\
     {\
-        CUBBYFLOW_ERROR << "[" << loc << "]" << msg;\
+        std::cerr << "[" << loc << "] " << msg << std::endl;\
         callback();\
         Vox::StackTrace::PrintStack(); \
         std::abort();\
