@@ -11,9 +11,11 @@ else()
 endif()
 
 # Find TBB
-include(../Builds/CMake/FindLibunwind.cmake)
-find_package(Libunwind REQUIRED)
-include_directories(LIBUNWIND_INCLUDE_DIR)
+if (UNIX)
+    include(../Builds/CMake/FindLibunwind.cmake)
+    find_package(Libunwind REQUIRED)
+    include_directories(LIBUNWIND_INCLUDE_DIR)
+endif()
 
 # include header-only stb library for image read & write
 include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries)
