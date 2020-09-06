@@ -38,23 +38,23 @@ namespace Vox {
             }
         }
 
-        //const auto& lights = renderer->getLights();
-        //if (lights.empty() == false)
-        //{
-        //    const size_t numLights = lights.size();
-        //    _parameters.SetParameter("NumLights", static_cast<int>(numLights));
-        //
-        //    for (size_t i = 0; i < numLights; ++i)
-        //    {
-        //        const auto& light = lights[i];
-        //        
-        //        const auto& pivot = light->getPivot();
-        //        const std::string& prefix = "directionalLights[" + std::to_string(i) + "]";
-        //        //_parameters.SetParameter(prefix + ".origin", pivot.origin);
-        //        _parameters.SetParameter(prefix + ".lookAt", pivot.lookAt);
-        //        //_parameters.SetParameter(prefix + ".color", light->getColor());
-        //    }
-        //}
+        if (HasUniformVariable("ViewPos"))
+        {
+            const auto& camera = scene->GetSceneObject<PerspectiveCamera>("Camera");
+            if (camera)
+            {
+                _parameters.SetParameter("ViewPos", camera->GetCameraOrigin());
+            }
+        }
+
+        if (HasUniformVariable("LightPosition"))
+        {
+            const auto& light = scene->GetSceneObject<Light>("DirectionalLight");
+            if (light)
+            {
+                _parameters.SetParameter("LightPosition", light->GetCameraOrigin());
+            }
+        }
 
         SendParametersToGPU();
     }

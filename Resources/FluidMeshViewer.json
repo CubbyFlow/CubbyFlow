@@ -10,6 +10,16 @@
         "target" : [0, 0, -1]
     },
     {
+        "type" : "light",
+        "name" : "DirectionalLight",
+        "controllable" : false,
+        "fov" : 45.0,
+        "near" : 0.01,
+        "far" : 10000,
+        "origin" : [0, 5, 5],
+        "target" : [0, 0, -1]
+    },
+    {
         "type" : "geometry_cache",
         "name" : "FluidMeshCache",
         "format" : "./LevelSetLiquidSim_output_ex3/frame_%06d.obj",
