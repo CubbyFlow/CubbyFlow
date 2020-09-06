@@ -19,6 +19,7 @@
 #include <Vox/GeometryCache.hpp>
 #include <Vox/Mesh.hpp>
 #include <Vox/RenderableObject.hpp>
+#include <Vox/Material.hpp>
 #include <Vox/PostProcessing.hpp>
 #include <Vox/SequentialFrameCapture.hpp>
 #include <glad/glad.h>
@@ -81,7 +82,10 @@ bool VolumeRendering::Initialize(const Vox::Path& scenePath)
     auto cubeMesh = std::make_shared<Vox::Mesh>(cubeCache->GetShape(0), Vox::VertexFormat::Position3, true);
     _cubeRenderable = std::make_shared<Vox::RenderableObject>();
     _cubeRenderable->AddGeometryMesh(cubeMesh);
-    _cubeRenderable->AttachProgramShader(_rayDataShader);
+    
+    auto material = std::make_shared<Vox::Material>();
+    material->AttachProgramShader(_rayDataShader);
+    _cubeRenderable->AttachMaterial(material);
     std::ifstream file("./out.sdf");
     const std::vector<uint8_t> buffer(
         (std::istreambuf_iterator<char>(file)),

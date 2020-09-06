@@ -13,6 +13,7 @@
 #include <Vox/Mesh.hpp>
 #include <Vox/RenderableObject.hpp>
 #include <Vox/FrameContext.hpp>
+#include <Vox/Material.hpp>
 #include <Vox/Program.hpp>
 #include <glad/glad.h>
 #include <cstring>
@@ -40,7 +41,10 @@ namespace Vox {
         glDeleteShader(fs);
 
         _renderable.reset(new RenderableObject());
-        _renderable->AttachProgramShader(_debugShader);
+
+        auto material = std::make_shared<Material>();
+        material->AttachProgramShader(_debugShader);
+        _renderable->AttachMaterial(material);
     }
 
     void DebugDraw::AddFloorGrid(const CubbyFlow::Point2I numCell, float cellSize, const CubbyFlow::Vector3F color)

@@ -65,9 +65,6 @@ bool FluidMeshViewer::Initialize(const Vox::Path& scenePath)
     _mainPass->AttachRenderBuffer(mainPassRBO);
     VoxAssert(_mainPass->ValidateFrameBufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
 
-    _compressor.reset(new Vox::S3TextureCompression(_windowSize.x, _windowSize.y));
-    _compressor->Initialize(ctx);
-
     _postProcessing.reset(new Vox::PostProcessing());
     _postProcessing->Initialize(ctx);
 
@@ -104,17 +101,12 @@ void FluidMeshViewer::DrawFrame()
         Vox::App::EndFrame(ctx);
     }
 
-    //! DXT5 Compressing Pass
-    _compressor->CompressionPass(ctx, _screenTexture);
-    //! DXT5 Decoding Pass
-    auto compressedTexture = _compressor->DecodingPass(ctx);
-
     //! Screen Pass
     ctx->GetFrameBuffer("FB_DefaultPass")->BindFrameBuffer(GL_FRAMEBUFFER);
     {
         Vox::App::BeginFrame(ctx);
         glViewport(0, 0, _windowSize.x, _windowSize.y);
-        _postProcessing->DrawFrame(ctx, compressedTexture);
+        _postProcessing->DrawFrame(ctx, _screenTexture);
         _frameCapture->CaptureFrameBuffer(_windowSize.x, _windowSize.y, 1, Vox::PixelFmt::PF_BGRA8);
         _frameCapture->WriteCurrentCaptureToDDS("./FluidMeshViewer_output/result%06d.dds");
         Vox::App::EndFrame(ctx);

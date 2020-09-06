@@ -19,9 +19,7 @@ namespace Vox {
 
     class Mesh;
     class FrameContext;
-    class VoxScene;
-    class Texture;
-    class Program;
+    class Material;
 
     class RenderableObject : public VoxSceneObject
     {
@@ -39,17 +37,17 @@ namespace Vox {
         void ClearGeometryMesh();
         //! Returns the number of the contained geometry mesh.
         size_t GetNumberOfGeometryMesh() const;
-        //! Attach shader program to this renderable object
-        void AttachProgramShader(const std::shared_ptr<Program>& program);
-        //! Set the texture name to slot
-        void AttachTextureToSlot(const std::shared_ptr<Texture>& texture, unsigned int slot);
+        //! Set the material of the renderable object.
+        void AttachMaterial(std::shared_ptr<Material> material);
+        //! Returns the material of the object.
+        const std::shared_ptr<Material> GetMaterial() const;
         //! Draw this renderable object with configured settings.
         void DrawRenderableObject(const std::shared_ptr<FrameContext>& ctx);
     protected:
         virtual void ConfigureRenderSettings(const std::shared_ptr<FrameContext>& ctx) {};
+        
         CubbyFlow::Array1<std::shared_ptr<Mesh>> _meshes;
-        CubbyFlow::Array1<std::pair<std::shared_ptr<Texture>, unsigned int>> _texturePairs;
-        std::shared_ptr<Program> _program;
+        std::shared_ptr<Material> _material;
     private:
     };
 }

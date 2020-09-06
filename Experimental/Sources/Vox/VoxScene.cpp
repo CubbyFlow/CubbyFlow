@@ -9,7 +9,11 @@
 *************************************************************************/
 #include <Vox/VoxScene.hpp>
 #include <Vox/DebugUtils.hpp>
+#include <Vox/Renderer.hpp>
+#include <Vox/Program.hpp>
+#include <Vox/FileSystem.hpp>
 #include <Vox/PerspectiveCamera.hpp>
+#include <Vox/Material.hpp>
 #include <Vox/GeometryCacheManager.hpp>
 #include <Vox/GeometryCache.hpp>
 #include <Core/Array/Array1.hpp>
@@ -17,6 +21,7 @@
 #include <Core/Matrix/Matrix4x4.hpp>
 #include <Core/Utils/Timer.hpp>
 #include <pystring/pystring.h>
+#include <glad/glad.h>
 #include <fstream>
 #include <cassert>
 #include <iostream>
@@ -74,6 +79,21 @@ namespace Vox {
     }
 
     template <>
+    void VoxScene::OnLoadSceneObject<Material>(const nlohmann::json& json)
+    {
+        GLuint vs = Renderer::CreateShaderFromFile(json["vs"].get<std::string>(), GL_VERTEX_SHADER);
+        GLuint fs = Renderer::CreateShaderFromFile(json["fs"].get<std::string>(), GL_FRAGMENT_SHADER);
+
+        auto program = std::make_shared<Program>(Renderer::CreateProgram(vs, 0, fs));
+
+        const std::string name = json["name"].get<std::string>();
+        auto material = std::make_shared<Material>();
+        material->AttachProgramShader(program);
+
+        _metadata.emplace(name, material);
+    }
+
+    template <>
     void VoxScene::OnLoadSceneObject<GeometryCacheManager>(const nlohmann::json& json)
     {
         const std::string name = json["name"].get<std::string>();
@@ -113,7 +133,8 @@ namespace Vox {
         {
             const std::string objectType = data["type"].get<std::string>();
 
-            if (objectType == "camera") OnLoadSceneObject<PerspectiveCamera>(data);
+            if (objectType == "camera" || objectType == "light") OnLoadSceneObject<PerspectiveCamera>(data);
+            else if (objectType == "material") OnLoadSceneObject<Material>(data);
             else if (objectType == "geometry_cache") OnLoadSceneObject<GeometryCacheManager>(data);
             else if (objectType == "static_object") OnLoadSceneObject<GeometryCache>(data);
             else VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Unknown Scene Object Type [" + objectType + "]");

@@ -70,8 +70,6 @@ int main(int argc, const char** argv)
     Vox::FileSystem::AddDirectory("./Resources");
     Vox::FileSystem::AddDirectory(outputDir);
 
-    
-
     Vox::Device::Initialize();
     Vox::Device::RunApp(std::make_shared<ObjViewer>(), "ObjViewer.json");
     Vox::Device::Terminate();

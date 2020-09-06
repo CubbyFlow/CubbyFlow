@@ -10,8 +10,7 @@
 #include <Vox/RenderableObject.hpp>
 #include <Vox/DebugUtils.hpp>
 #include <Vox/FileSystem.hpp>
-#include <Vox/Texture.hpp>
-#include <Vox/Program.hpp>
+#include <Vox/Material.hpp>
 #include <Vox/FrameContext.hpp>
 #include <Vox/Mesh.hpp>
 #include <glad/glad.h>
@@ -49,28 +48,24 @@ namespace Vox {
         _meshes.Clear();
     }
 
-    void RenderableObject::AttachProgramShader(const std::shared_ptr<Program>& program)
+    void RenderableObject::AttachMaterial(std::shared_ptr<Material> material)
     {
-        _program = program;
+        _material = material;
     }
 
-    void RenderableObject::AttachTextureToSlot(const std::shared_ptr<Texture>& texture, unsigned int slot)
+    const std::shared_ptr<Material> RenderableObject::GetMaterial() const
     {
-        _texturePairs.Append(std::make_pair(texture, slot));
+        return _material;
     }
 
     void RenderableObject::DrawRenderableObject(const std::shared_ptr<FrameContext>& ctx)
     {
-        _program->BindProgram(ctx->GetContextScene());
-
-        _texturePairs.ForEach([&](const auto& p){
-            p.first->BindTexture(p.second);
-        });
+        _material->BindMaterial(ctx);
 
         //! Configure rendering settings such as uniform variables.
         ConfigureRenderSettings(ctx);
 
-        _meshes.ForEach([&](const auto& mesh){
+        _meshes.ForEach([&](auto& mesh){
             mesh->DrawMesh(ctx);
         });
     }

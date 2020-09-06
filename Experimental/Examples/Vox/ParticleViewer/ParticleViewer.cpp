@@ -22,7 +22,6 @@
 #include <Vox/SequentialFrameCapture.hpp>
 #include <Vox/RoundRobinAsyncBuffer.hpp>
 #include <Vox/DebugDraw.hpp>
-#include <Vox/S3TextureCompression.hpp>
 #include <glad/glad.h>
 
 ParticleViewer::ParticleViewer()
@@ -81,9 +80,6 @@ bool ParticleViewer::Initialize(const Vox::Path& scenePath)
     //! Enable spehrical point sprite rendering.
     glEnable(GL_PROGRAM_POINT_SIZE);
 
-    _compressor.reset(new Vox::S3TextureCompression(_windowSize.x, _windowSize.y));
-    _compressor->Initialize(ctx);
-
     auto status = ctx->GetRenderStatus();
     status.primitive = GL_TRIANGLES;
     ctx->SetRenderStatus(status);
@@ -124,17 +120,12 @@ void ParticleViewer::DrawFrame()
     ctx->GetFrameBuffer("FB_IntermediatePass")->BindFrameBuffer(GL_DRAW_FRAMEBUFFER);
     glBlitFramebuffer(0, 0, _windowSize.x, _windowSize.y, 0, 0, _windowSize.x, _windowSize.y, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 
-    //! DXT5 Compressing Pass
-    _compressor->CompressionPass(ctx, _screenTexture);
-    //! DXT5 Decoding Pass
-    auto compressedTexture = _compressor->DecodingPass(ctx);
-
     //! Screen Pass
     ctx->GetFrameBuffer("FB_DefaultPass")->BindFrameBuffer(GL_FRAMEBUFFER);
     {
         Vox::App::BeginFrame(ctx);
         glViewport(0, 0, _windowSize.x, _windowSize.y);
-        _postProcessing->DrawFrame(ctx, compressedTexture);
+        _postProcessing->DrawFrame(ctx, _screenTexture);
         _frameCapture->CaptureFrameBuffer(_windowSize.x, _windowSize.y, 1, Vox::PixelFmt::PF_BGRA8);
         _frameCapture->WriteCurrentCaptureToDDS("./ParticleViewer_output/result%06d.dds");
         Vox::App::EndFrame(ctx);

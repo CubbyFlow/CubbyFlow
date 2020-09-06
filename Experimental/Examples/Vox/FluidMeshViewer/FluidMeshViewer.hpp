@@ -17,7 +17,6 @@
 namespace Vox {
     class GeometryCacheManager;
     class RoundRobinAsyncBuffer;
-    class S3TextureCompression;
     class PostProcessing;
     class Texture;
     class Program;
@@ -42,7 +41,6 @@ protected:
 private:
     std::unique_ptr<Vox::RoundRobinAsyncBuffer> _buffer;
     std::shared_ptr<Vox::GeometryCacheManager> _cacheMgr;
-    std::unique_ptr<Vox::S3TextureCompression> _compressor;
     std::unique_ptr<Vox::PostProcessing> _postProcessing;
     std::shared_ptr<Vox::FrameBuffer> _mainPass;
     std::shared_ptr<Vox::Program> _meshShader;

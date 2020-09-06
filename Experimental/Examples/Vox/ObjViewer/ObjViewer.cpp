@@ -19,6 +19,7 @@
 #include <Vox/GeometryCache.hpp>
 #include <Vox/PostProcessing.hpp>
 #include <Vox/Mesh.hpp>
+#include <Vox/Material.hpp>
 #include <Vox/RenderableObject.hpp>
 #include <Vox/SequentialFrameCapture.hpp>
 #include <glad/glad.h>
@@ -63,7 +64,10 @@ bool ObjViewer::Initialize(const Vox::Path& scenePath)
     
     _renderable = std::make_shared<Vox::RenderableObject>();
     _renderable->AddGeometryMesh(sphereMesh);
-    _renderable->AttachProgramShader(_meshShader);
+
+    auto material = std::make_shared<Vox::Material>();
+    material->AttachProgramShader(_meshShader);
+    _renderable->AttachMaterial(material);
 
     auto status = ctx->GetRenderStatus();
     status.primitive = GL_TRIANGLES;
