@@ -131,7 +131,7 @@ namespace Vox {
         return Path(std::string());
     }
 
-    void FileSystem::ReadFile(const Path& path, CubbyFlow::Array1<unsigned char>& data)
+    void FileSystem::ReadFile(const Path& path, CubbyFlow::Array1<char>& data)
     {
         HANDLE hFind = INVALID_HANDLE_VALUE;
         DWORD dwBytesRead = 0;
@@ -209,7 +209,7 @@ namespace Vox {
         return Path(std::string());
     }
 
-    void FileSystem::ReadFile(const Path& path, CubbyFlow::Array1<unsigned char>& data)
+    void FileSystem::ReadFile(const Path& path, CubbyFlow::Array1<char>& data)
     {
         struct stat st;
         const std::string& filename = path.ToString();

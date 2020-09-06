@@ -78,7 +78,7 @@ namespace Vox {
         //! Read file with given path with READONLY || BINARY.
         //! Resize given array to a given file size.
         //! Read data to given unsigned char array.
-        static void ReadFile(const Path& path, CubbyFlow::Array1<unsigned char>& data);
+        static void ReadFile(const Path& path, CubbyFlow::Array1<char>& data);
     protected:
     private:
         static std::vector<Path> kTargetRange; //! Represents search target range
