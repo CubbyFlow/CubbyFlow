@@ -47,9 +47,11 @@ namespace Vox {
             uniform mat4 ViewProjection;
             out VSOUT {
                 vec3 normal;
+                vec3 worldPos;
             } vs_out;
             void main() {
                 vs_out.normal = normal;
+                vs_out.worldPos = position;
                 gl_Position =  ViewProjection * vec4(position, 1.0);
             }
         )glsl", 
@@ -57,13 +59,54 @@ namespace Vox {
         // Fragment shader
         R"glsl(
             #version 330 core
+            #define PI 3.14159265359
+            float D_GGX(float NoH, float a) {
+                float a2 = a * a;
+                float f = (NoH * a2 - NoH) * NoH + 1.0;
+                return a2 / (PI * f * f);
+            }
+            vec3 F_Schlick(float u, vec3 f0) {
+                return f0 + (vec3(1.0) - f0) * pow(1.0 - u, 5.0);
+            }
+            float V_SmithGGXCorrelated(float NoV, float NoL, float a) {
+                float a2 = a * a;
+                float GGXL = NoV * sqrt((-NoL * a2 + NoL) * NoL + a2);
+                float GGXV = NoL * sqrt((-NoV * a2 + NoV) * NoV + a2);
+                return 0.5 / (GGXV + GGXL);
+            }
+            float Fd_Lambert() {
+                return 1.0 / PI;
+            }
             in VSOUT {
                 vec3 normal;
+                vec3 worldPos;
             } fs_in;
+            uniform vec3 ViewPos;
+            uniform vec3 LightPosition;
+            #define PerceptualRoughness 0.0
             out vec4 fragColor;
             void main() {
-                vec3 normal = normalize(fs_in.normal);
-                vec3 color = (normal + vec3(1.0)) / 2;
+                vec3 n = normalize(fs_in.normal);
+                vec3 v = normalize(ViewPos - fs_in.worldPos);
+                vec3 l = normalize(LightPosition - fs_in.worldPos);
+                vec3 h = normalize(v + l);
+
+                float NoV = abs(dot(n, v)) + 1e-5;
+                float NoL = clamp(dot(n, l), 0.0, 1.0);
+                float NoH = clamp(dot(n, h), 0.0, 1.0);
+                float LoH = clamp(dot(l, h), 0.0, 1.0);
+
+                float roughness = PerceptualRoughness * PerceptualRoughness;
+
+                float D = D_GGX(NoH, roughness);
+                const vec3 f0 = vec3(0.02); // water f0 reflectance.
+                vec3 F = F_Schlick(LoH, f0);
+                float V = V_SmithGGXCorrelated(NoV, NoL, roughness);
+                // specular BRDF
+                vec3 Fr = (D * V) * F;
+                vec3 Fd = Fd_Lambert() * (vec3(192, 191, 187) / 255);
+                
+                vec3 color = Fd + Fr * NoL;
                 fragColor = vec4(color, 1.0f);
             }
         )glsl"
