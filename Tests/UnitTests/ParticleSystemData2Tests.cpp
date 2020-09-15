@@ -125,39 +125,18 @@ TEST(ParticleSystemData2, AddParticlesException)
     ParticleSystemData2 particleSystem;
     particleSystem.Resize(12);
 
-    try
-    {
-        particleSystem.AddParticles(
-            Array1<Vector2D>({ Vector2D(1.0, 2.0), Vector2D(4.0, 5.0) })
-                .Accessor(),
-            Array1<Vector2D>({ Vector2D(7.0, 8.0) }).Accessor(),
-            Array1<Vector2D>({ Vector2D(5.0, 4.0), Vector2D(2.0, 1.0) })
-                .Accessor());
-
-        EXPECT_FALSE(true) << "Invalid argument should throw exception.";
-    }
-    catch (...)
-    {
-        // Do nothing -- expected exception
-    }
+    EXPECT_ANY_THROW(particleSystem.AddParticles(
+        Array1<Vector2D>({ Vector2D(1.0, 2.0), Vector2D(4.0, 5.0) }).Accessor(),
+        Array1<Vector2D>({ Vector2D(7.0, 8.0) }).Accessor(),
+        Array1<Vector2D>({ Vector2D(5.0, 4.0), Vector2D(2.0, 1.0) })
+            .Accessor()));
 
     EXPECT_EQ(12u, particleSystem.GetNumberOfParticles());
 
-    try
-    {
-        particleSystem.AddParticles(
-            Array1<Vector2D>({ Vector2D(1.0, 2.0), Vector2D(4.0, 5.0) })
-                .Accessor(),
-            Array1<Vector2D>({ Vector2D(7.0, 8.0), Vector2D(2.0, 1.0) })
-                .Accessor(),
-            Array1<Vector2D>({ Vector2D(5.0, 4.0) }).Accessor());
-
-        EXPECT_FALSE(true) << "Invalid argument should throw exception.";
-    }
-    catch (...)
-    {
-        // Do nothing -- expected exception
-    }
+    EXPECT_ANY_THROW(particleSystem.AddParticles(
+        Array1<Vector2D>({ Vector2D(1.0, 2.0), Vector2D(4.0, 5.0) }).Accessor(),
+        Array1<Vector2D>({ Vector2D(7.0, 8.0), Vector2D(2.0, 1.0) }).Accessor(),
+        Array1<Vector2D>({ Vector2D(5.0, 4.0) }).Accessor()));
 
     EXPECT_EQ(12u, particleSystem.GetNumberOfParticles());
 }
