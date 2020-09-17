@@ -26,14 +26,14 @@ ArrayAccessor<T, 3>::ArrayAccessor() : m_data(nullptr)
 }
 
 template <typename T>
-ArrayAccessor<T, 3>::ArrayAccessor(const Size3& size, T* const data)
+ArrayAccessor<T, 3>::ArrayAccessor(const Size3& size, T* data)
 {
     Reset(size, data);
 }
 
 template <typename T>
 ArrayAccessor<T, 3>::ArrayAccessor(size_t width, size_t height, size_t depth,
-                                   T* const data)
+                                   T* data)
 {
     Reset(width, height, depth, data);
 }
@@ -45,13 +45,19 @@ ArrayAccessor<T, 3>::ArrayAccessor(const ArrayAccessor& other)
 }
 
 template <typename T>
+ArrayAccessor<T, 3>::ArrayAccessor(ArrayAccessor&& other) noexcept
+{
+    Set(other);
+}
+
+template <typename T>
 void ArrayAccessor<T, 3>::Set(const ArrayAccessor& other)
 {
     Reset(other.m_size, other.m_data);
 }
 
 template <typename T>
-void ArrayAccessor<T, 3>::Reset(const Size3& size, T* const data)
+void ArrayAccessor<T, 3>::Reset(const Size3& size, T* data)
 {
     m_size = size;
     m_data = data;
@@ -59,7 +65,7 @@ void ArrayAccessor<T, 3>::Reset(const Size3& size, T* const data)
 
 template <typename T>
 void ArrayAccessor<T, 3>::Reset(size_t width, size_t height, size_t depth,
-                                T* const data)
+                                T* data)
 {
     Reset(Size3(width, height, depth), data);
 }
@@ -271,6 +277,14 @@ ArrayAccessor<T, 3>& ArrayAccessor<T, 3>::operator=(const ArrayAccessor& other)
 }
 
 template <typename T>
+ArrayAccessor<T, 3>& ArrayAccessor<T, 3>::operator=(
+    ArrayAccessor&& other) noexcept
+{
+    Set(other);
+    return *this;
+}
+
+template <typename T>
 ArrayAccessor<T, 3>::operator ConstArrayAccessor<T, 3>() const
 {
     return ConstArrayAccessor<T, 3>(*this);
@@ -283,8 +297,7 @@ ConstArrayAccessor<T, 3>::ConstArrayAccessor() : m_data(nullptr)
 }
 
 template <typename T>
-ConstArrayAccessor<T, 3>::ConstArrayAccessor(const Size3& size,
-                                             const T* const data)
+ConstArrayAccessor<T, 3>::ConstArrayAccessor(const Size3& size, const T* data)
 {
     m_size = size;
     m_data = data;
@@ -292,7 +305,7 @@ ConstArrayAccessor<T, 3>::ConstArrayAccessor(const Size3& size,
 
 template <typename T>
 ConstArrayAccessor<T, 3>::ConstArrayAccessor(size_t width, size_t height,
-                                             size_t depth, const T* const data)
+                                             size_t depth, const T* data)
 {
     m_size = Size3(width, height, depth);
     m_data = data;
@@ -307,6 +320,14 @@ ConstArrayAccessor<T, 3>::ConstArrayAccessor(const ArrayAccessor<T, 3>& other)
 
 template <typename T>
 ConstArrayAccessor<T, 3>::ConstArrayAccessor(const ConstArrayAccessor& other)
+{
+    m_size = other.m_size;
+    m_data = other.m_data;
+}
+
+template <typename T>
+ConstArrayAccessor<T, 3>::ConstArrayAccessor(
+    ConstArrayAccessor&& other) noexcept
 {
     m_size = other.m_size;
     m_data = other.m_data;
@@ -452,6 +473,16 @@ const T& ConstArrayAccessor<T, 3>::operator()(const Point3UI& pt) const
 template <typename T>
 ConstArrayAccessor<T, 3>& ConstArrayAccessor<T, 3>::operator=(
     const ConstArrayAccessor& other)
+{
+    m_size = other.m_size;
+    m_data = other.m_data;
+
+    return *this;
+}
+
+template <typename T>
+ConstArrayAccessor<T, 3>& ConstArrayAccessor<T, 3>::operator=(
+    ConstArrayAccessor&& other) noexcept
 {
     m_size = other.m_size;
     m_data = other.m_data;

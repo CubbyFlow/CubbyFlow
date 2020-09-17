@@ -26,7 +26,7 @@ ArrayAccessor<T, 1>::ArrayAccessor() : m_size(0), m_data(nullptr)
 }
 
 template <typename T>
-ArrayAccessor<T, 1>::ArrayAccessor(size_t size, T* const data)
+ArrayAccessor<T, 1>::ArrayAccessor(size_t size, T* data)
 {
     Reset(size, data);
 }
@@ -38,13 +38,19 @@ ArrayAccessor<T, 1>::ArrayAccessor(const ArrayAccessor& other)
 }
 
 template <typename T>
+ArrayAccessor<T, 1>::ArrayAccessor(ArrayAccessor&& other) noexcept
+{
+    Set(other);
+}
+
+template <typename T>
 void ArrayAccessor<T, 1>::Set(const ArrayAccessor& other)
 {
     Reset(other.m_size, other.m_data);
 }
 
 template <typename T>
-void ArrayAccessor<T, 1>::Reset(size_t size, T* const data)
+void ArrayAccessor<T, 1>::Reset(size_t size, T* data)
 {
     m_size = size;
     m_data = data;
@@ -161,6 +167,14 @@ ArrayAccessor<T, 1>& ArrayAccessor<T, 1>::operator=(const ArrayAccessor& other)
 }
 
 template <typename T>
+ArrayAccessor<T, 1>& ArrayAccessor<T, 1>::operator=(
+    ArrayAccessor&& other) noexcept
+{
+    Set(other);
+    return *this;
+}
+
+template <typename T>
 ArrayAccessor<T, 1>::operator ConstArrayAccessor<T, 1>() const
 {
     return ConstArrayAccessor<T, 1>(*this);
@@ -173,7 +187,7 @@ ConstArrayAccessor<T, 1>::ConstArrayAccessor() : m_size(0), m_data(nullptr)
 }
 
 template <typename T>
-ConstArrayAccessor<T, 1>::ConstArrayAccessor(size_t size, const T* const data)
+ConstArrayAccessor<T, 1>::ConstArrayAccessor(size_t size, const T* data)
 {
     m_size = size;
     m_data = data;
@@ -188,6 +202,14 @@ ConstArrayAccessor<T, 1>::ConstArrayAccessor(const ArrayAccessor<T, 1>& other)
 
 template <typename T>
 ConstArrayAccessor<T, 1>::ConstArrayAccessor(const ConstArrayAccessor& other)
+{
+    m_size = other.m_size;
+    m_data = other.m_data;
+}
+
+template <typename T>
+ConstArrayAccessor<T, 1>::ConstArrayAccessor(
+    ConstArrayAccessor&& other) noexcept
 {
     m_size = other.m_size;
     m_data = other.m_data;
@@ -255,6 +277,26 @@ template <typename T>
 const T& ConstArrayAccessor<T, 1>::operator[](size_t i) const
 {
     return m_data[i];
+}
+
+template <typename T>
+ConstArrayAccessor<T, 1>& ConstArrayAccessor<T, 1>::operator=(
+    const ConstArrayAccessor& other)
+{
+    m_size = other.m_size;
+    m_data = other.m_data;
+
+    return *this;
+}
+
+template <typename T>
+ConstArrayAccessor<T, 1>& ConstArrayAccessor<T, 1>::operator=(
+    ConstArrayAccessor&& other) noexcept
+{
+    m_size = other.m_size;
+    m_data = other.m_data;
+
+    return *this;
 }
 }  // namespace CubbyFlow
 
