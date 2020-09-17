@@ -35,8 +35,8 @@ class Array<T, 1> final
     using Iterator = typename ContainerType::iterator;
     using ConstIterator = typename ContainerType::const_iterator;
 
-    //! Constructs zero-sized 1-D array.
-    Array();
+    //! Default constructor.
+    Array() = default;
 
     //! Constructs 1-D array with given \p size and fill it with \p initVal.
     //! \param size Initial size of the array.
@@ -61,7 +61,10 @@ class Array<T, 1> final
     Array(const Array& other);
 
     //! Move constructor.
-    Array(Array&& other);
+    Array(Array&& other) noexcept;
+
+    //! Default destructor.
+    ~Array() = default;
 
     //! Sets entire array with given \p value.
     void Set(const T& value);
@@ -82,34 +85,34 @@ class Array<T, 1> final
     T& At(size_t i);
 
     //! Returns the const reference to the i-th element.
-    const T& At(size_t i) const;
+    [[nodiscard]] const T& At(size_t i) const;
 
     //! Returns size of the array.
-    size_t size() const;
+    [[nodiscard]] size_t size() const;
 
     //! Returns the raw pointer to the array data.
     T* data();
 
     //! Returns the const raw pointer to the array data.
-    const T* data() const;
+    [[nodiscard]] const T* data() const;
 
     //! Returns the begin iterator of the array.
     Iterator begin();
 
     //! Returns the begin const iterator of the array.
-    ConstIterator begin() const;
+    [[nodiscard]] ConstIterator begin() const;
 
     //! Returns the end iterator of the array.
     Iterator end();
 
     //! Returns the end const iterator of the array.
-    ConstIterator end() const;
+    [[nodiscard]] ConstIterator end() const;
 
     //! Returns the array accessor.
     ArrayAccessor1<T> Accessor();
 
     //! Returns the const array accessor.
-    ConstArrayAccessor1<T> ConstAccessor() const;
+    [[nodiscard]] ConstArrayAccessor1<T> ConstAccessor() const;
 
     //! Swaps the content of the array with \p other array.
     void Swap(Array& other);
@@ -209,14 +212,14 @@ class Array<T, 1> final
     //! Returns the const reference to i-th element.
     const T& operator[](size_t i) const;
 
-    //! Sets entire array with given \p value.
+    //! Sets entire array with given \p other.
     Array& operator=(const T& other);
 
     //! Copies given array \p other to this array.
     Array& operator=(const Array& other);
 
     //! Moves given array \p other to this array.
-    Array& operator=(Array&& other);
+    Array& operator=(Array&& other) noexcept;
 
     //! Copies given initializer list \p list to this array.
     Array& operator=(const std::initializer_list<T>& list);

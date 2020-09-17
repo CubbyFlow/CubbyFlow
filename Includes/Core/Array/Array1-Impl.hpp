@@ -16,12 +16,6 @@
 namespace CubbyFlow
 {
 template <typename T>
-Array<T, 1>::Array()
-{
-    // Do nothing
-}
-
-template <typename T>
 Array<T, 1>::Array(size_t size, const T& initVal)
 {
     Resize(size, initVal);
@@ -40,7 +34,7 @@ Array<T, 1>::Array(const Array& other)
 }
 
 template <typename T>
-Array<T, 1>::Array(Array&& other)
+Array<T, 1>::Array(Array&& other) noexcept
 {
     *this = std::move(other);
 }
@@ -64,7 +58,7 @@ void Array<T, 1>::Set(const Array& other)
 template <typename T>
 void Array<T, 1>::Set(const std::initializer_list<T>& list)
 {
-    size_t size = list.size();
+    const size_t size = list.size();
     Resize(size);
 
     auto colIter = list.begin();
@@ -214,9 +208,9 @@ const T& Array<T, 1>::operator[](size_t i) const
 }
 
 template <typename T>
-Array<T, 1>& Array<T, 1>::operator=(const T& value)
+Array<T, 1>& Array<T, 1>::operator=(const T& other)
 {
-    Set(value);
+    Set(other);
     return *this;
 }
 
@@ -228,7 +222,7 @@ Array<T, 1>& Array<T, 1>::operator=(const Array& other)
 }
 
 template <typename T>
-Array<T, 1>& Array<T, 1>::operator=(Array&& other)
+Array<T, 1>& Array<T, 1>::operator=(Array&& other) noexcept
 {
     m_data = std::move(other.m_data);
     return *this;
