@@ -28,9 +28,23 @@ namespace CubbyFlow
 class Animation
 {
  public:
-    Animation();
+    //! Default constructor.
+    Animation() = default;
 
-    virtual ~Animation();
+    //! Default copy constructor.
+    Animation(const Animation&) = default;
+
+    //! Default move constructor.
+    Animation(Animation&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~Animation() = default;
+
+    //! Default copy assignment operator.
+    Animation& operator=(const Animation&) = default;
+
+    //! Default move assignment operator.
+    Animation& operator=(Animation&&) noexcept = default;
 
     //!
     //! \brief Updates animation state for given \p frame.
