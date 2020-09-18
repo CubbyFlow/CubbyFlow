@@ -21,20 +21,14 @@ namespace CubbyFlow
 //!
 struct Frame final
 {
-    //! Frame index.
-    int index = 0;
-
-    //! Time interval in seconds between two adjacent frames.
-    double timeIntervalInSeconds = 1.0 / 60.0;
-
-    //! Constructs Frame instance with 1/60 seconds time interval.
-    Frame();
+    //! Default constructor: A Frame instance with 1/60 seconds time interval.
+    Frame() = default;
 
     //! Constructs Frame instance with given time interval.
     Frame(int newIndex, double newTimeIntervalInSeconds);
 
     //! Returns the elapsed time in seconds.
-    double TimeInSeconds() const;
+    [[nodiscard]] double TimeInSeconds() const;
 
     //! Advances single frame.
     void Advance();
@@ -48,6 +42,12 @@ struct Frame final
 
     //! Advances single frame (postfix).
     Frame operator++(int);
+
+    //! Frame index.
+    int index = 0;
+
+    //! Time interval in seconds between two adjacent frames.
+    double timeIntervalInSeconds = 1.0 / 60.0;
 };
 }  // namespace CubbyFlow
 

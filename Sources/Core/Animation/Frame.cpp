@@ -8,16 +8,11 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Utils/Macros.hpp>
 #include <Core/Animation/Frame.hpp>
+#include <Core/Utils/Macros.hpp>
 
 namespace CubbyFlow
 {
-Frame::Frame()
-{
-    // Do nothing
-}
-
 Frame::Frame(int newIndex, double newTimeIntervalInSeconds)
     : index(newIndex), timeIntervalInSeconds(newTimeIntervalInSeconds)
 {
@@ -49,7 +44,7 @@ Frame Frame::operator++(int i)
 {
     UNUSED_VARIABLE(i);
 
-    Frame result = *this;
+    const Frame result = *this;
     Advance();
     return result;
 }
