@@ -233,7 +233,7 @@ void ExtrapolateToRegion(const ConstArrayAccessor3<T>& input,
 template <typename ArrayType>
 void ConvertToCSV(const ArrayType& data, std::ostream* stream)
 {
-    Size2 size = data.size();
+    const Size2 size = data.size();
 
     for (size_t j = 0; j < size.y; ++j)
     {
