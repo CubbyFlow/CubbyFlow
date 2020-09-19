@@ -15,16 +15,13 @@
 #include <Core/Surface/SurfaceToImplicit2.hpp>
 #include <Core/Utils/Macros.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
-VolumeGridEmitter2::VolumeGridEmitter2(const ImplicitSurface2Ptr& sourceRegion,
+VolumeGridEmitter2::VolumeGridEmitter2(ImplicitSurface2Ptr sourceRegion,
                                        bool isOneShot)
-    : m_sourceRegion(sourceRegion), m_isOneShot(isOneShot)
-{
-    // Do nothing
-}
-
-VolumeGridEmitter2::~VolumeGridEmitter2()
+    : m_sourceRegion(std::move(sourceRegion)), m_isOneShot(isOneShot)
 {
     // Do nothing
 }
@@ -43,9 +40,9 @@ void VolumeGridEmitter2::AddStepFunctionTarget(
     const ScalarGrid2Ptr& scalarGridTarget, double minValue, double maxValue)
 {
     double smoothingWidth = scalarGridTarget->GridSpacing().Min();
-    auto mapper = [minValue, maxValue, smoothingWidth, scalarGridTarget](
+    auto mapper = [minValue, maxValue, smoothingWidth](
                       double sdf, const Vector2D&, double oldVal) {
-        double step = 1.0 - SmearedHeavisideSDF(sdf / smoothingWidth);
+        const double step = 1.0 - SmearedHeavisideSDF(sdf / smoothingWidth);
         return std::max(oldVal, (maxValue - minValue) * step + minValue);
     };
 
@@ -111,8 +108,8 @@ void VolumeGridEmitter2::Emit()
 
         auto pos = grid->GetDataPosition();
         grid->ParallelForEachDataPointIndex([&](size_t i, size_t j) {
-            Vector2D gx = pos(i, j);
-            double sdf = GetSourceRegion()->SignedDistance(gx);
+            const Vector2D gx = pos(i, j);
+            const double sdf = GetSourceRegion()->SignedDistance(gx);
 
             (*grid)(i, j) = mapper(sdf, gx, (*grid)(i, j));
         });
@@ -129,8 +126,8 @@ void VolumeGridEmitter2::Emit()
         {
             auto pos = collocated->GetDataPosition();
             collocated->ParallelForEachDataPointIndex([&](size_t i, size_t j) {
-                Vector2D gx = pos(i, j);
-                double sdf = GetSourceRegion()->SignedDistance(gx);
+                const Vector2D gx = pos(i, j);
+                const double sdf = GetSourceRegion()->SignedDistance(gx);
 
                 if (IsInsideSDF(sdf))
                 {
@@ -149,19 +146,19 @@ void VolumeGridEmitter2::Emit()
             auto vPos = faceCentered->GetVPosition();
 
             faceCentered->ParallelForEachUIndex([&](size_t i, size_t j) {
-                Vector2D gx = uPos(i, j);
-                double sdf = GetSourceRegion()->SignedDistance(gx);
-                Vector2D oldVal = faceCentered->Sample(gx);
-                Vector2D newVal = mapper(sdf, gx, oldVal);
+                const Vector2D gx = uPos(i, j);
+                const double sdf = GetSourceRegion()->SignedDistance(gx);
+                const Vector2D oldVal = faceCentered->Sample(gx);
+                const Vector2D newVal = mapper(sdf, gx, oldVal);
 
                 faceCentered->GetU(i, j) = newVal.x;
             });
 
             faceCentered->ParallelForEachVIndex([&](size_t i, size_t j) {
-                Vector2D gx = vPos(i, j);
-                double sdf = GetSourceRegion()->SignedDistance(gx);
-                Vector2D oldVal = faceCentered->Sample(gx);
-                Vector2D newVal = mapper(sdf, gx, oldVal);
+                const Vector2D gx = vPos(i, j);
+                const double sdf = GetSourceRegion()->SignedDistance(gx);
+                const Vector2D oldVal = faceCentered->Sample(gx);
+                const Vector2D newVal = mapper(sdf, gx, oldVal);
 
                 faceCentered->GetV(i, j) = newVal.y;
             });
@@ -177,7 +174,8 @@ VolumeGridEmitter2::Builder VolumeGridEmitter2::GetBuilder()
 VolumeGridEmitter2::Builder& VolumeGridEmitter2::Builder::WithSourceRegion(
     const Surface2Ptr& sourceRegion)
 {
-    auto implicit = std::dynamic_pointer_cast<ImplicitSurface2>(sourceRegion);
+    const auto implicit =
+        std::dynamic_pointer_cast<ImplicitSurface2>(sourceRegion);
     if (implicit != nullptr)
     {
         m_sourceRegion = implicit;

@@ -43,11 +43,23 @@ class VolumeGridEmitter2 final : public GridEmitter2
     //! \param[in]  isOneShot       True if emitter gets disabled after one
     //!                             shot.
     //!
-    explicit VolumeGridEmitter2(const ImplicitSurface2Ptr& sourceRegion,
+    explicit VolumeGridEmitter2(ImplicitSurface2Ptr sourceRegion,
                                 bool isOneShot = true);
 
-    //! Destructor.
-    virtual ~VolumeGridEmitter2();
+    //! Default copy constructor.
+    VolumeGridEmitter2(const VolumeGridEmitter2&) = default;
+
+    //! Default move constructor.
+    VolumeGridEmitter2(VolumeGridEmitter2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~VolumeGridEmitter2() override = default;
+
+    //! Default copy assignment operator.
+    VolumeGridEmitter2& operator=(const VolumeGridEmitter2&) = default;
+
+    //! Default move assignment operator.
+    VolumeGridEmitter2& operator=(VolumeGridEmitter2&&) noexcept = default;
 
     //! Adds signed-distance target to the scalar grid.
     void AddSignedDistanceTarget(const ScalarGrid2Ptr& scalarGridTarget);
@@ -97,28 +109,28 @@ class VolumeGridEmitter2 final : public GridEmitter2
                    const VectorMapper& customMapper);
 
     //! Returns implicit surface which defines the source region.
-    const ImplicitSurface2Ptr& GetSourceRegion() const;
+    [[nodiscard]] const ImplicitSurface2Ptr& GetSourceRegion() const;
 
     //! Returns true if this emits only once.
-    bool GetIsOneShot() const;
+    [[nodiscard]] bool GetIsOneShot() const;
 
     //! Returns builder fox VolumeGridEmitter2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
     using ScalarTarget = std::tuple<ScalarGrid2Ptr, ScalarMapper>;
     using VectorTarget = std::tuple<VectorGrid2Ptr, VectorMapper>;
 
-    ImplicitSurface2Ptr m_sourceRegion;
-    bool m_isOneShot = true;
-    bool m_hasEmitted = false;
-    std::vector<ScalarTarget> m_customScalarTargets;
-    std::vector<VectorTarget> m_customVectorTargets;
-
     void OnUpdate(double currentTimeInSeconds,
                   double timeIntervalInSeconds) override;
 
     void Emit();
+
+    ImplicitSurface2Ptr m_sourceRegion;
+    std::vector<ScalarTarget> m_customScalarTargets;
+    std::vector<VectorTarget> m_customVectorTargets;
+    bool m_isOneShot = true;
+    bool m_hasEmitted = false;
 };
 
 //! Shared pointer type for the VolumeGridEmitter2.
@@ -131,16 +143,16 @@ class VolumeGridEmitter2::Builder final
 {
  public:
     //! Returns builder with surface defining source region.
-    Builder& WithSourceRegion(const Surface2Ptr& sourceRegion);
+    [[nodiscard]] Builder& WithSourceRegion(const Surface2Ptr& sourceRegion);
 
     //! Returns builder with one-shot flag.
-    Builder& WithIsOneShot(bool isOneShot);
+    [[nodiscard]] Builder& WithIsOneShot(bool isOneShot);
 
     //! Builds VolumeGridEmitter2.
-    VolumeGridEmitter2 Build() const;
+    [[nodiscard]] VolumeGridEmitter2 Build() const;
 
     //! Builds shared pointer of VolumeGridEmitter2 instance.
-    VolumeGridEmitter2Ptr MakeShared() const;
+    [[nodiscard]] VolumeGridEmitter2Ptr MakeShared() const;
 
  private:
     ImplicitSurface2Ptr m_sourceRegion;
