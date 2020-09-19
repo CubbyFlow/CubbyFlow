@@ -12,22 +12,12 @@
 
 namespace CubbyFlow
 {
-GridEmitterSet2::GridEmitterSet2()
-{
-    // Do nothing
-}
-
 GridEmitterSet2::GridEmitterSet2(const std::vector<GridEmitter2Ptr>& emitters)
 {
     for (const auto& e : emitters)
     {
         AddEmitter(e);
     }
-}
-
-GridEmitterSet2::~GridEmitterSet2()
-{
-    // Do nothing
 }
 
 void GridEmitterSet2::AddEmitter(const GridEmitter2Ptr& emitter)
