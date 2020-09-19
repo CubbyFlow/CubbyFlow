@@ -18,16 +18,16 @@ RigidBodyCollider2::RigidBodyCollider2(const Surface2Ptr& surface)
 }
 
 RigidBodyCollider2::RigidBodyCollider2(const Surface2Ptr& surface,
-                                       const Vector2D& linearVelocity_,
-                                       double angularVelocity_)
-    : linearVelocity(linearVelocity_), angularVelocity(angularVelocity_)
+                                       const Vector2D& _linearVelocity,
+                                       double _angularVelocity)
+    : linearVelocity(_linearVelocity), angularVelocity(_angularVelocity)
 {
     SetSurface(surface);
 }
 
 Vector2D RigidBodyCollider2::VelocityAt(const Vector2D& point) const
 {
-    Vector2D r = point - GetSurface()->transform.GetTranslation();
+    const Vector2D r = point - GetSurface()->transform.GetTranslation();
     return linearVelocity + angularVelocity * Vector2D(-r.y, r.x);
 }
 
@@ -44,16 +44,16 @@ RigidBodyCollider2::Builder& RigidBodyCollider2::Builder::WithSurface(
 }
 
 RigidBodyCollider2::Builder& RigidBodyCollider2::Builder::WithLinearVelocity(
-    const Vector2D& linearVelocity)
+    const Vector2D& _linearVelocity)
 {
-    m_linearVelocity = linearVelocity;
+    m_linearVelocity = _linearVelocity;
     return *this;
 }
 
 RigidBodyCollider2::Builder& RigidBodyCollider2::Builder::WithAngularVelocity(
-    double angularVelocity)
+    double _angularVelocity)
 {
-    m_angularVelocity = angularVelocity;
+    m_angularVelocity = _angularVelocity;
     return *this;
 }
 

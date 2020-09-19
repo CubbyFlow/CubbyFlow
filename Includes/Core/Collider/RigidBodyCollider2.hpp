@@ -26,24 +26,25 @@ class RigidBodyCollider2 final : public Collider2
  public:
     class Builder;
 
-    //! Linear velocity of the rigid body.
-    Vector2D linearVelocity;
-
-    //! Angular velocity of the rigid body.
-    double angularVelocity = 0.0;
-
     //! Constructs a collider with a surface.
     explicit RigidBodyCollider2(const Surface2Ptr& surface);
 
     //! Constructs a collider with a surface and other parameters.
     RigidBodyCollider2(const Surface2Ptr& surface,
-                       const Vector2D& linearVelocity, double angularVelocity);
+                       const Vector2D& _linearVelocity,
+                       double _angularVelocity);
 
     //! Returns the velocity of the collider at given \p point.
-    Vector2D VelocityAt(const Vector2D& point) const override;
+    [[nodiscard]] Vector2D VelocityAt(const Vector2D& point) const override;
 
     //! Returns builder fox RigidBodyCollider2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
+
+    //! Linear velocity of the rigid body.
+    Vector2D linearVelocity;
+
+    //! Angular velocity of the rigid body.
+    double angularVelocity = 0.0;
 };
 
 //! Shared pointer for the RigidBodyCollider2 type.
@@ -56,19 +57,19 @@ class RigidBodyCollider2::Builder final
 {
  public:
     //! Returns builder with surface.
-    Builder& WithSurface(const Surface2Ptr& surface);
+    [[nodiscard]] Builder& WithSurface(const Surface2Ptr& surface);
 
     //! Returns builder with linear velocity.
-    Builder& WithLinearVelocity(const Vector2D& linearVelocity);
+    [[nodiscard]] Builder& WithLinearVelocity(const Vector2D& _linearVelocity);
 
     //! Returns builder with angular velocity.
-    Builder& WithAngularVelocity(double angularVelocity);
+    [[nodiscard]] Builder& WithAngularVelocity(double _angularVelocity);
 
     //! Builds RigidBodyCollider2.
-    RigidBodyCollider2 Build() const;
+    [[nodiscard]] RigidBodyCollider2 Build() const;
 
     //! Builds shared pointer of RigidBodyCollider2 instance.
-    RigidBodyCollider2Ptr MakeShared() const;
+    [[nodiscard]] RigidBodyCollider2Ptr MakeShared() const;
 
  private:
     Surface2Ptr m_surface;
