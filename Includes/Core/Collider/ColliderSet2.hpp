@@ -30,19 +30,19 @@ class ColliderSet2 final : public Collider2
     explicit ColliderSet2(const std::vector<Collider2Ptr>& others);
 
     //! Returns the velocity of the collider at given \p point.
-    Vector2D VelocityAt(const Vector2D& point) const override;
+    [[nodiscard]] Vector2D VelocityAt(const Vector2D& point) const override;
 
     //! Adds a collider to the set.
     void AddCollider(const Collider2Ptr& collider);
 
     //! Returns number of colliders.
-    size_t NumberOfColliders() const;
+    [[nodiscard]] size_t NumberOfColliders() const;
 
     //! Returns collider at index \p i.
-    Collider2Ptr Collider(size_t i) const;
+    [[nodiscard]] Collider2Ptr Collider(size_t i) const;
 
     //! Returns builder fox ColliderSet2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
     std::vector<Collider2Ptr> m_colliders;
@@ -58,13 +58,14 @@ class ColliderSet2::Builder final
 {
  public:
     //! Returns builder with other colliders.
-    Builder& WithColliders(const std::vector<Collider2Ptr>& others);
+    [[nodiscard]] Builder& WithColliders(
+        const std::vector<Collider2Ptr>& others);
 
     //! Builds ColliderSet2.
-    ColliderSet2 Build() const;
+    [[nodiscard]] ColliderSet2 Build() const;
 
     //! Builds shared pointer of ColliderSet2 instance.
-    ColliderSet2Ptr MakeShared() const;
+    [[nodiscard]] ColliderSet2Ptr MakeShared() const;
 
  private:
     std::vector<Collider2Ptr> m_colliders;
