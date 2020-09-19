@@ -10,21 +10,13 @@
 
 #include <Core/Emitter/ParticleEmitterSet3.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
-ParticleEmitterSet3::ParticleEmitterSet3()
-{
-    // Do nothing
-}
-
 ParticleEmitterSet3::ParticleEmitterSet3(
-    const std::vector<ParticleEmitter3Ptr>& emitters)
-    : m_emitters(emitters)
-{
-    // Do nothing
-}
-
-ParticleEmitterSet3::~ParticleEmitterSet3()
+    std::vector<ParticleEmitter3Ptr> emitters)
+    : m_emitters(std::move(emitters))
 {
     // Do nothing
 }
