@@ -283,7 +283,7 @@ void VolumeParticleEmitter3::SetAngularVelocity(const Vector3D& newAngularVel)
 
 double VolumeParticleEmitter3::Random()
 {
-    const std::uniform_real_distribution<> d(0.0, 1.0);
+    std::uniform_real_distribution<> d{ 0.0, 1.0 };
     return d(m_rng);
 }
 

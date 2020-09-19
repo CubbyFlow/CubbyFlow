@@ -110,7 +110,7 @@ void PointParticleEmitter2::Emit(Array1<Vector2D>* newPositions,
 
 double PointParticleEmitter2::Random()
 {
-    const std::uniform_real_distribution<> d(0.0, 1.0);
+    std::uniform_real_distribution<> d{ 0.0, 1.0 };
     return d(m_rng);
 }
 

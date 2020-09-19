@@ -110,7 +110,7 @@ void PointParticleEmitter3::Emit(Array1<Vector3D>* newPositions,
 
 double PointParticleEmitter3::Random()
 {
-    const std::uniform_real_distribution<> d(0.0, 1.0);
+    std::uniform_real_distribution<> d{ 0.0, 1.0 };
     return d(m_rng);
 }
 
