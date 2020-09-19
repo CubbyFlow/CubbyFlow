@@ -13,16 +13,6 @@
 
 namespace CubbyFlow
 {
-ParticleEmitter2::ParticleEmitter2()
-{
-    // Do nothing
-}
-
-ParticleEmitter2::~ParticleEmitter2()
-{
-    // Do nothing
-}
-
 void ParticleEmitter2::Update(double currentTimeInSeconds,
                               double timeIntervalInSeconds)
 {
@@ -63,7 +53,6 @@ void ParticleEmitter2::SetOnBeginUpdateCallback(
     m_onBeginUpdateCallback = callback;
 }
 
-// TODO: particles is unused variable.
 void ParticleEmitter2::OnSetTarget(const ParticleSystemData2Ptr& particles)
 {
     UNUSED_VARIABLE(particles);
