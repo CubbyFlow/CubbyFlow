@@ -50,13 +50,13 @@ class PointParticleEmitter2 final : public ParticleEmitter2
         uint32_t seed = 0);
 
     //! Returns max number of new particles per second.
-    size_t GetMaxNumberOfNewParticlesPerSecond() const;
+    [[nodiscard]] size_t GetMaxNumberOfNewParticlesPerSecond() const;
 
     //! Sets max number of new particles per second.
     void SetMaxNumberOfNewParticlesPerSecond(size_t rate);
 
     //! Returns max number of particles to be emitted.
-    size_t GetMaxNumberOfParticles() const;
+    [[nodiscard]] size_t GetMaxNumberOfParticles() const;
 
     //! Sets max number of particles to be emitted.
     void SetMaxNumberOfParticles(size_t maxNumberOfParticles);
@@ -65,19 +65,6 @@ class PointParticleEmitter2 final : public ParticleEmitter2
     static Builder GetBuilder();
 
  private:
-    std::mt19937 m_rng;
-
-    double m_firstFrameTimeInSeconds = 0.0;
-    size_t m_numberOfEmittedParticles = 0;
-
-    size_t m_maxNumberOfNewParticlesPerSecond;
-    size_t m_maxNumberOfParticles;
-
-    Vector2D m_origin;
-    Vector2D m_direction;
-    double m_speed;
-    double m_spreadAngleInRadians;
-
     //!
     //! \brief      Emits particles to the particle system data.
     //!
@@ -90,7 +77,20 @@ class PointParticleEmitter2 final : public ParticleEmitter2
     void Emit(Array1<Vector2D>* newPositions, Array1<Vector2D>* newVelocities,
               size_t maxNewNumberOfParticles);
 
-    double Random();
+    [[nodiscard]] double Random();
+
+    std::mt19937 m_rng;
+
+    double m_firstFrameTimeInSeconds = 0.0;
+    size_t m_numberOfEmittedParticles = 0;
+
+    size_t m_maxNumberOfNewParticlesPerSecond;
+    size_t m_maxNumberOfParticles;
+
+    Vector2D m_origin;
+    Vector2D m_direction;
+    double m_speed;
+    double m_spreadAngleInRadians;
 };
 
 //! Shared pointer for the PointParticleEmitter2 type.
@@ -103,31 +103,33 @@ class PointParticleEmitter2::Builder final
 {
  public:
     //! Returns builder with origin.
-    Builder& WithOrigin(const Vector2D& origin);
+    [[nodiscard]] Builder& WithOrigin(const Vector2D& origin);
 
     //! Returns builder with direction.
-    Builder& WithDirection(const Vector2D& direction);
+    [[nodiscard]] Builder& WithDirection(const Vector2D& direction);
 
     //! Returns builder with speed.
-    Builder& WithSpeed(double speed);
+    [[nodiscard]] Builder& WithSpeed(double speed);
 
     //! Returns builder with spread angle in degrees.
-    Builder& WithSpreadAngleInDegrees(double spreadAngleInDegrees);
+    [[nodiscard]] Builder& WithSpreadAngleInDegrees(
+        double spreadAngleInDegrees);
 
-    Builder& WithMaxNumberOfNewParticlesPerSecond(
+    [[nodiscard]] Builder& WithMaxNumberOfNewParticlesPerSecond(
         size_t maxNumOfNewParticlesPerSec);
 
     //! Returns builder with max number of particles.
-    Builder& WithMaxNumberOfParticles(size_t maxNumberOfParticles);
+    [[nodiscard]] Builder& WithMaxNumberOfParticles(
+        size_t maxNumberOfParticles);
 
     //! Returns builder with random seed.
-    Builder& WithRandomSeed(uint32_t seed);
+    [[nodiscard]] Builder& WithRandomSeed(uint32_t seed);
 
     //! Builds PointParticleEmitter2.
-    PointParticleEmitter2 Build() const;
+    [[nodiscard]] PointParticleEmitter2 Build() const;
 
     //! Builds shared pointer of PointParticleEmitter2 instance.
-    PointParticleEmitter2Ptr MakeShared() const;
+    [[nodiscard]] PointParticleEmitter2Ptr MakeShared() const;
 
  private:
     size_t m_maxNumberOfNewParticlesPerSecond = 1;
