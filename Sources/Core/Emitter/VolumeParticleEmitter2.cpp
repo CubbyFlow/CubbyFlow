@@ -15,18 +15,20 @@
 #include <Core/Surface/SurfaceToImplicit2.hpp>
 #include <Core/Utils/Logging.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
 static const size_t DEFAULT_HASH_GRID_RESOLUTION = 64;
 
 VolumeParticleEmitter2::VolumeParticleEmitter2(
-    const ImplicitSurface2Ptr& implicitSurface, const BoundingBox2D& maxRegion,
+    ImplicitSurface2Ptr implicitSurface, BoundingBox2D maxRegion,
     double spacing, const Vector2D& initialVel, const Vector2D& linearVel,
     double angularVel, size_t maxNumberOfParticles, double jitter,
     bool isOneShot, bool allowOverlapping, uint32_t seed)
     : m_rng(seed),
-      m_implicitSurface(implicitSurface),
-      m_maxRegion(maxRegion),
+      m_implicitSurface(std::move(implicitSurface)),
+      m_maxRegion(std::move(maxRegion)),
       m_spacing(spacing),
       m_initialVel(initialVel),
       m_linearVel(linearVel),
@@ -98,12 +100,13 @@ void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
     {
         m_pointsGen->ForEachPoint(
             region, m_spacing, [&](const Vector2D& point) {
-                double newAngleInRadian = (Random() - 0.5) * (2 * PI_DOUBLE);
-                Matrix2x2D rotationMatrix =
+                const double newAngleInRadian =
+                    (Random() - 0.5) * (2 * PI_DOUBLE);
+                const Matrix2x2D rotationMatrix =
                     Matrix2x2D::MakeRotationMatrix(newAngleInRadian);
-                Vector2D randomDir = rotationMatrix * Vector2D();
-                Vector2D offset = maxJitterDist * randomDir;
-                Vector2D candidate = point + offset;
+                const Vector2D randomDir = rotationMatrix * Vector2D();
+                const Vector2D offset = maxJitterDist * randomDir;
+                const Vector2D candidate = point + offset;
 
                 if (m_implicitSurface->SignedDistance(candidate) <= 0.0)
                 {
@@ -136,12 +139,13 @@ void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
 
         m_pointsGen->ForEachPoint(
             region, m_spacing, [&](const Vector2D& point) {
-                double newAngleInRadian = (Random() - 0.5) * (2 * PI_DOUBLE);
-                Matrix2x2D rotationMatrix =
+                const double newAngleInRadian =
+                    (Random() - 0.5) * (2 * PI_DOUBLE);
+                const Matrix2x2D rotationMatrix =
                     Matrix2x2D::MakeRotationMatrix(newAngleInRadian);
-                Vector2D randomDir = rotationMatrix * Vector2D();
-                Vector2D offset = maxJitterDist * randomDir;
-                Vector2D candidate = point + offset;
+                const Vector2D randomDir = rotationMatrix * Vector2D();
+                const Vector2D offset = maxJitterDist * randomDir;
+                const Vector2D candidate = point + offset;
 
                 if (m_implicitSurface->IsInside(candidate) &&
                     (!m_allowOverlapping &&
@@ -284,7 +288,7 @@ void VolumeParticleEmitter2::SetAngularVelocity(double newAngularVel)
 
 double VolumeParticleEmitter2::Random()
 {
-    std::uniform_real_distribution<> d(0.0, 1.0);
+    const std::uniform_real_distribution<> d(0.0, 1.0);
     return d(m_rng);
 }
 

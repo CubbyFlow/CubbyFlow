@@ -15,18 +15,20 @@
 #include <Core/Utils/Logging.hpp>
 #include <Core/Utils/Samplers.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
 static const size_t DEFAULT_HASH_GRID_RESOLUTION = 64;
 
 VolumeParticleEmitter3::VolumeParticleEmitter3(
-    const ImplicitSurface3Ptr& implicitSurface, const BoundingBox3D& maxRegion,
+    ImplicitSurface3Ptr implicitSurface, BoundingBox3D maxRegion,
     double spacing, const Vector3D& initialVel, const Vector3D& linearVel,
     const Vector3D& angularVel, size_t maxNumberOfParticles, double jitter,
     bool isOneShot, bool allowOverlapping, uint32_t seed)
     : m_rng(seed),
-      m_implicitSurface(implicitSurface),
-      m_maxRegion(maxRegion),
+      m_implicitSurface(std::move(implicitSurface)),
+      m_maxRegion(std::move(maxRegion)),
       m_spacing(spacing),
       m_initialVel(initialVel),
       m_linearVel(linearVel),
@@ -98,9 +100,10 @@ void VolumeParticleEmitter3::Emit(const ParticleSystemData3Ptr& particles,
     {
         m_pointsGen->ForEachPoint(
             region, m_spacing, [&](const Vector3D& point) {
-                Vector3D randomDir = UniformSampleSphere(Random(), Random());
-                Vector3D offset = maxJitterDist * randomDir;
-                Vector3D candidate = point + offset;
+                const Vector3D randomDir =
+                    UniformSampleSphere(Random(), Random());
+                const Vector3D offset = maxJitterDist * randomDir;
+                const Vector3D candidate = point + offset;
 
                 if (m_implicitSurface->SignedDistance(candidate) <= 0.0)
                 {
@@ -134,9 +137,10 @@ void VolumeParticleEmitter3::Emit(const ParticleSystemData3Ptr& particles,
 
         m_pointsGen->ForEachPoint(
             region, m_spacing, [&](const Vector3D& point) {
-                Vector3D randomDir = UniformSampleSphere(Random(), Random());
-                Vector3D offset = maxJitterDist * randomDir;
-                Vector3D candidate = point + offset;
+                const Vector3D randomDir =
+                    UniformSampleSphere(Random(), Random());
+                const Vector3D offset = maxJitterDist * randomDir;
+                const Vector3D candidate = point + offset;
 
                 if (m_implicitSurface->IsInside(candidate) &&
                     (!m_allowOverlapping &&
@@ -279,7 +283,7 @@ void VolumeParticleEmitter3::SetAngularVelocity(const Vector3D& newAngularVel)
 
 double VolumeParticleEmitter3::Random()
 {
-    std::uniform_real_distribution<> d(0.0, 1.0);
+    const std::uniform_real_distribution<> d(0.0, 1.0);
     return d(m_rng);
 }
 
