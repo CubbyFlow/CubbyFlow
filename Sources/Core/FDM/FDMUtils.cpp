@@ -19,12 +19,12 @@ Vector2D Gradient2(const ConstArrayAccessor2<double>& data,
 
     assert(i < ds.x && j < ds.y);
 
-    double left = data((i > 0) ? i - 1 : i, j);
-    double right = data((i + 1 < ds.x) ? i + 1 : i, j);
-    double down = data(i, (j > 0) ? j - 1 : j);
-    double up = data(i, (j + 1 < ds.y) ? j + 1 : j);
+    const double left = data((i > 0) ? i - 1 : i, j);
+    const double right = data((i + 1 < ds.x) ? i + 1 : i, j);
+    const double down = data(i, (j > 0) ? j - 1 : j);
+    const double up = data(i, (j + 1 < ds.y) ? j + 1 : j);
 
-    return 0.5 * Vector2D(right - left, up - down) / gridSpacing;
+    return 0.5 * Vector2D{ right - left, up - down } / gridSpacing;
 }
 
 std::array<Vector2D, 2> Gradient2(const ConstArrayAccessor2<Vector2D>& data,
@@ -35,14 +35,14 @@ std::array<Vector2D, 2> Gradient2(const ConstArrayAccessor2<Vector2D>& data,
 
     assert(i < ds.x && j < ds.y);
 
-    Vector2D left = data((i > 0) ? i - 1 : i, j);
-    Vector2D right = data((i + 1 < ds.x) ? i + 1 : i, j);
-    Vector2D down = data(i, (j > 0) ? j - 1 : j);
-    Vector2D up = data(i, (j + 1 < ds.y) ? j + 1 : j);
+    const Vector2D left = data((i > 0) ? i - 1 : i, j);
+    const Vector2D right = data((i + 1 < ds.x) ? i + 1 : i, j);
+    const Vector2D down = data(i, (j > 0) ? j - 1 : j);
+    const Vector2D up = data(i, (j + 1 < ds.y) ? j + 1 : j);
 
     std::array<Vector2D, 2> result;
-    result[0] = 0.5 * Vector2D(right.x - left.x, up.x - down.x) / gridSpacing;
-    result[1] = 0.5 * Vector2D(right.y - left.y, up.y - down.y) / gridSpacing;
+    result[0] = 0.5 * Vector2D{ right.x - left.x, up.x - down.x } / gridSpacing;
+    result[1] = 0.5 * Vector2D{ right.y - left.y, up.y - down.y } / gridSpacing;
 
     return result;
 }
@@ -54,14 +54,15 @@ Vector3D Gradient3(const ConstArrayAccessor3<double>& data,
 
     assert(i < ds.x && j < ds.y && k < ds.z);
 
-    double left = data((i > 0) ? i - 1 : i, j, k);
-    double right = data((i + 1 < ds.x) ? i + 1 : i, j, k);
-    double down = data(i, (j > 0) ? j - 1 : j, k);
-    double up = data(i, (j + 1 < ds.y) ? j + 1 : j, k);
-    double back = data(i, j, (k > 0) ? k - 1 : k);
-    double front = data(i, j, (k + 1 < ds.z) ? k + 1 : k);
+    const double left = data((i > 0) ? i - 1 : i, j, k);
+    const double right = data((i + 1 < ds.x) ? i + 1 : i, j, k);
+    const double down = data(i, (j > 0) ? j - 1 : j, k);
+    const double up = data(i, (j + 1 < ds.y) ? j + 1 : j, k);
+    const double back = data(i, j, (k > 0) ? k - 1 : k);
+    const double front = data(i, j, (k + 1 < ds.z) ? k + 1 : k);
 
-    return 0.5 * Vector3D(right - left, up - down, front - back) / gridSpacing;
+    return 0.5 * Vector3D{ right - left, up - down, front - back } /
+           gridSpacing;
 }
 
 std::array<Vector3D, 3> Gradient3(const ConstArrayAccessor3<Vector3D>& data,
@@ -72,22 +73,22 @@ std::array<Vector3D, 3> Gradient3(const ConstArrayAccessor3<Vector3D>& data,
 
     assert(i < ds.x && j < ds.y && k < ds.z);
 
-    Vector3D left = data((i > 0) ? i - 1 : i, j, k);
-    Vector3D right = data((i + 1 < ds.x) ? i + 1 : i, j, k);
-    Vector3D down = data(i, (j > 0) ? j - 1 : j, k);
-    Vector3D up = data(i, (j + 1 < ds.y) ? j + 1 : j, k);
-    Vector3D back = data(i, j, (k > 0) ? k - 1 : k);
-    Vector3D front = data(i, j, (k + 1 < ds.z) ? k + 1 : k);
+    const Vector3D left = data((i > 0) ? i - 1 : i, j, k);
+    const Vector3D right = data((i + 1 < ds.x) ? i + 1 : i, j, k);
+    const Vector3D down = data(i, (j > 0) ? j - 1 : j, k);
+    const Vector3D up = data(i, (j + 1 < ds.y) ? j + 1 : j, k);
+    const Vector3D back = data(i, j, (k > 0) ? k - 1 : k);
+    const Vector3D front = data(i, j, (k + 1 < ds.z) ? k + 1 : k);
 
     std::array<Vector3D, 3> result;
     result[0] = 0.5 *
-                Vector3D(right.x - left.x, up.x - down.x, front.x - back.x) /
+                Vector3D{ right.x - left.x, up.x - down.x, front.x - back.x } /
                 gridSpacing;
     result[1] = 0.5 *
-                Vector3D(right.y - left.y, up.y - down.y, front.y - back.y) /
+                Vector3D{ right.y - left.y, up.y - down.y, front.y - back.y } /
                 gridSpacing;
     result[2] = 0.5 *
-                Vector3D(right.z - left.z, up.z - down.z, front.z - back.z) /
+                Vector3D{ right.z - left.z, up.z - down.z, front.z - back.z } /
                 gridSpacing;
 
     return result;
