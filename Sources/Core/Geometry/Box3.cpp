@@ -11,50 +11,42 @@
 #include <Core/Geometry/Box3.hpp>
 #include <Core/Geometry/Plane3.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
-Box3::Box3(const Transform3& transform, bool isNormalFlipped)
-    : Surface3(transform, isNormalFlipped)
+Box3::Box3(const Transform3& _transform, bool _isNormalFlipped)
+    : Surface3(_transform, _isNormalFlipped)
 {
     // Do nothing
 }
 
 Box3::Box3(const Vector3D& lowerCorner, const Vector3D& upperCorner,
-           const Transform3& transform, bool isNormalFlipped)
-    : Box3(BoundingBox3D(lowerCorner, upperCorner), transform, isNormalFlipped)
+           const Transform3& _transform, bool _isNormalFlipped)
+    : Box3{ BoundingBox3D{ lowerCorner, upperCorner }, _transform,
+            _isNormalFlipped }
 {
     // Do nothing
 }
 
-Box3::Box3(const BoundingBox3D& boundingBox, const Transform3& transform,
-           bool isNormalFlipped)
-    : Surface3(transform, isNormalFlipped), bound(boundingBox)
+Box3::Box3(BoundingBox3D boundingBox, const Transform3& _transform,
+           bool _isNormalFlipped)
+    : Surface3{ _transform, _isNormalFlipped }, bound(std::move(boundingBox))
 {
     // Do nothing
-}
-
-Box3::Box3(const Box3& other) : Surface3(other), bound(other.bound)
-{
-    // Do nothing
-}
-
-Box3& Box3::operator=(const Box3& other)
-{
-    bound = other.bound;
-
-    return *this;
 }
 
 Vector3D Box3::ClosestPointLocal(const Vector3D& otherPoint) const
 {
     if (bound.Contains(otherPoint))
     {
-        Plane3 planes[6] = { Plane3(Vector3D(1, 0, 0), bound.upperCorner),
-                             Plane3(Vector3D(0, 1, 0), bound.upperCorner),
-                             Plane3(Vector3D(0, 0, 1), bound.upperCorner),
-                             Plane3(Vector3D(-1, 0, 0), bound.lowerCorner),
-                             Plane3(Vector3D(0, -1, 0), bound.lowerCorner),
-                             Plane3(Vector3D(0, 0, -1), bound.lowerCorner) };
+        Plane3 planes[6] = { Plane3{ Vector3D{ 1, 0, 0 }, bound.upperCorner },
+                             Plane3{ Vector3D{ 0, 1, 0 }, bound.upperCorner },
+                             Plane3{ Vector3D{ 0, 0, 1 }, bound.upperCorner },
+                             Plane3{ Vector3D{ -1, 0, 0 }, bound.lowerCorner },
+                             Plane3{ Vector3D{ 0, -1, 0 }, bound.lowerCorner },
+                             Plane3{ Vector3D{ 0, 0, -1 },
+                                     bound.lowerCorner } };
 
         Vector3D result = planes[0].ClosestPoint(otherPoint);
         double distanceSquared = result.DistanceSquaredTo(otherPoint);
@@ -62,7 +54,7 @@ Vector3D Box3::ClosestPointLocal(const Vector3D& otherPoint) const
         for (int i = 1; i < 6; ++i)
         {
             Vector3D localResult = planes[i].ClosestPoint(otherPoint);
-            double localDistanceSquared =
+            const double localDistanceSquared =
                 localResult.DistanceSquaredTo(otherPoint);
 
             if (localDistanceSquared < distanceSquared)
@@ -80,23 +72,23 @@ Vector3D Box3::ClosestPointLocal(const Vector3D& otherPoint) const
 
 Vector3D Box3::ClosestNormalLocal(const Vector3D& otherPoint) const
 {
-    Plane3 planes[6] = { Plane3(Vector3D(1, 0, 0), bound.upperCorner),
-                         Plane3(Vector3D(0, 1, 0), bound.upperCorner),
-                         Plane3(Vector3D(0, 0, 1), bound.upperCorner),
-                         Plane3(Vector3D(-1, 0, 0), bound.lowerCorner),
-                         Plane3(Vector3D(0, -1, 0), bound.lowerCorner),
-                         Plane3(Vector3D(0, 0, -1), bound.lowerCorner) };
+    Plane3 planes[6] = { Plane3{ Vector3D{ 1, 0, 0 }, bound.upperCorner },
+                         Plane3{ Vector3D{ 0, 1, 0 }, bound.upperCorner },
+                         Plane3{ Vector3D{ 0, 0, 1 }, bound.upperCorner },
+                         Plane3{ Vector3D{ -1, 0, 0 }, bound.lowerCorner },
+                         Plane3{ Vector3D{ 0, -1, 0 }, bound.lowerCorner },
+                         Plane3{ Vector3D{ 0, 0, -1 }, bound.lowerCorner } };
 
     if (bound.Contains(otherPoint))
     {
         Vector3D closestNormal = planes[0].normal;
-        Vector3D closestPoint = planes[0].ClosestPoint(otherPoint);
+        const Vector3D closestPoint = planes[0].ClosestPoint(otherPoint);
         double minDistanceSquared = (closestPoint - otherPoint).LengthSquared();
 
         for (int i = 1; i < 6; ++i)
         {
             Vector3D localClosestPoint = planes[i].ClosestPoint(otherPoint);
-            double localDistanceSquared =
+            const double localDistanceSquared =
                 (localClosestPoint - otherPoint).LengthSquared();
 
             if (localDistanceSquared < minDistanceSquared)
@@ -109,15 +101,16 @@ Vector3D Box3::ClosestNormalLocal(const Vector3D& otherPoint) const
         return closestNormal;
     }
 
-    Vector3D closestPoint =
+    const Vector3D closestPoint =
         Clamp(otherPoint, bound.lowerCorner, bound.upperCorner);
-    Vector3D closestPointToInputPoint = otherPoint - closestPoint;
+    const Vector3D closestPointToInputPoint = otherPoint - closestPoint;
     Vector3D closestNormal = planes[0].normal;
     double maxCosineAngle = closestNormal.Dot(closestPointToInputPoint);
 
     for (int i = 1; i < 6; ++i)
     {
-        double cosineAngle = planes[i].normal.Dot(closestPointToInputPoint);
+        const double cosineAngle =
+            planes[i].normal.Dot(closestPointToInputPoint);
 
         if (cosineAngle > maxCosineAngle)
         {
@@ -137,7 +130,7 @@ bool Box3::IntersectsLocal(const Ray3D& ray) const
 SurfaceRayIntersection3 Box3::ClosestIntersectionLocal(const Ray3D& ray) const
 {
     SurfaceRayIntersection3 intersection;
-    BoundingBoxRayIntersection3D bbRayIntersection =
+    const BoundingBoxRayIntersection3D bbRayIntersection =
         bound.ClosestIntersection(ray);
     intersection.isIntersecting = bbRayIntersection.isIntersecting;
 
@@ -158,7 +151,7 @@ BoundingBox3D Box3::BoundingBoxLocal() const
 
 Box3::Builder Box3::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 Box3::Builder& Box3::Builder::WithLowerCorner(const Vector3D& pt)
@@ -182,13 +175,13 @@ Box3::Builder& Box3::Builder::WithBoundingBox(const BoundingBox3D& bbox)
 
 Box3 Box3::Builder::Build() const
 {
-    return Box3(m_lowerCorner, m_upperCorner, m_transform, m_isNormalFlipped);
+    return Box3{ m_lowerCorner, m_upperCorner, m_transform, m_isNormalFlipped };
 }
 
 Box3Ptr Box3::Builder::MakeShared() const
 {
-    return std::shared_ptr<Box3>(
-        new Box3(m_lowerCorner, m_upperCorner, m_transform, m_isNormalFlipped),
-        [](Box3* obj) { delete obj; });
+    return std::shared_ptr<Box3>(new Box3{ m_lowerCorner, m_upperCorner,
+                                           m_transform, m_isNormalFlipped },
+                                 [](Box3* obj) { delete obj; });
 }
 }  // namespace CubbyFlow
