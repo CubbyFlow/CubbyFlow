@@ -25,13 +25,14 @@ class ConstantVectorField2 final : public VectorField2
     explicit ConstantVectorField2(const Vector2D& value);
 
     //! Returns the sampled value at given position \p x.
-    Vector2D Sample(const Vector2D& x) const override;
+    [[nodiscard]] Vector2D Sample(const Vector2D& x) const override;
 
     //! Returns the sampler function.
-    std::function<Vector2D(const Vector2D&)> Sampler() const override;
+    [[nodiscard]] std::function<Vector2D(const Vector2D&)> Sampler()
+        const override;
 
     //! Returns builder fox ConstantVectorField2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
     Vector2D m_value;
@@ -47,13 +48,13 @@ class ConstantVectorField2::Builder final
 {
  public:
     //! Returns builder with value.
-    Builder& WithValue(const Vector2D& value);
+    [[nodiscard]] Builder& WithValue(const Vector2D& value);
 
     //! Builds ConstantVectorField2.
-    ConstantVectorField2 Build() const;
+    [[nodiscard]] ConstantVectorField2 Build() const;
 
     //! Builds shared pointer of ConstantVectorField2 instance.
-    ConstantVectorField2Ptr MakeShared() const;
+    [[nodiscard]] ConstantVectorField2Ptr MakeShared() const;
 
  private:
     Vector2D m_value{ 0, 0 };
