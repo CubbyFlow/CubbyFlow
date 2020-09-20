@@ -29,9 +29,8 @@ class CustomVectorField3 final : public VectorField3
     //! differencing is used. Thus, the differencing resolution also can be
     //! provided as the last parameter.
     //!
-    CustomVectorField3(
-        const std::function<Vector3D(const Vector3D&)>& customFunction,
-        double derivativeResolution = 1e-3);
+    CustomVectorField3(std::function<Vector3D(const Vector3D&)> customFunction,
+                       double derivativeResolution = 1e-3);
 
     //!
     //! \brief Constructs a field with given field and gradient function.
@@ -42,30 +41,31 @@ class CustomVectorField3 final : public VectorField3
     //! parameter.
     //!
     CustomVectorField3(
-        const std::function<Vector3D(const Vector3D&)>& customFunction,
-        const std::function<double(const Vector3D&)>& customDivergenceFunction,
+        std::function<Vector3D(const Vector3D&)> customFunction,
+        std::function<double(const Vector3D&)> customDivergenceFunction,
         double derivativeResolution = 1e-3);
 
     //! Constructs a field with given field, gradient, and Laplacian function.
     CustomVectorField3(
-        const std::function<Vector3D(const Vector3D&)>& customFunction,
-        const std::function<double(const Vector3D&)>& customDivergenceFunction,
-        const std::function<Vector3D(const Vector3D&)>& customCurlFunction);
+        std::function<Vector3D(const Vector3D&)> customFunction,
+        std::function<double(const Vector3D&)> customDivergenceFunction,
+        std::function<Vector3D(const Vector3D&)> customCurlFunction);
 
     //! Returns the sampled value at given position \p x.
-    Vector3D Sample(const Vector3D& x) const override;
+    [[nodiscard]] Vector3D Sample(const Vector3D& x) const override;
 
     //! Returns the divergence at given position \p x.
-    double Divergence(const Vector3D& x) const override;
+    [[nodiscard]] double Divergence(const Vector3D& x) const override;
 
     //! Returns the curl at given position \p x.
-    Vector3D Curl(const Vector3D& x) const override;
+    [[nodiscard]] Vector3D Curl(const Vector3D& x) const override;
 
     //! Returns the sampler function.
-    std::function<Vector3D(const Vector3D&)> Sampler() const override;
+    [[nodiscard]] std::function<Vector3D(const Vector3D&)> Sampler()
+        const override;
 
     //! Returns builder fox CustomVectorField2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
     std::function<Vector3D(const Vector3D&)> m_customFunction;
@@ -84,24 +84,25 @@ class CustomVectorField3::Builder final
 {
  public:
     //! Returns builder with field function.
-    Builder& WithFunction(const std::function<Vector3D(const Vector3D&)>& func);
+    [[nodiscard]] Builder& WithFunction(
+        const std::function<Vector3D(const Vector3D&)>& func);
 
     //! Returns builder with divergence function.
-    Builder& WithDivergenceFunction(
+    [[nodiscard]] Builder& WithDivergenceFunction(
         const std::function<double(const Vector3D&)>& func);
 
     //! Returns builder with curl function.
-    Builder& WithCurlFunction(
+    [[nodiscard]] Builder& WithCurlFunction(
         const std::function<Vector3D(const Vector3D&)>& func);
 
     //! Returns builder with derivative resolution.
-    Builder& WithDerivativeResolution(double resolution);
+    [[nodiscard]] Builder& WithDerivativeResolution(double resolution);
 
     //! Builds CustomVectorField3.
-    CustomVectorField3 Build() const;
+    [[nodiscard]] CustomVectorField3 Build() const;
 
     //! Builds shared pointer of CustomVectorField3 instance.
-    CustomVectorField3Ptr MakeShared() const;
+    [[nodiscard]] CustomVectorField3Ptr MakeShared() const;
 
  private:
     double m_resolution = 1e-3;

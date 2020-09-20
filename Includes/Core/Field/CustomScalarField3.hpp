@@ -29,9 +29,8 @@ class CustomScalarField3 final : public ScalarField3
     //! differencing is used. Thus, the differencing resolution also can be
     //! provided as the last parameter.
     //!
-    CustomScalarField3(
-        const std::function<double(const Vector3D&)>& customFunction,
-        double derivativeResolution = 1e-3);
+    CustomScalarField3(std::function<double(const Vector3D&)> customFunction,
+                       double derivativeResolution = 1e-3);
 
     //!
     //! \brief Constructs a field with given field and gradient function.
@@ -42,30 +41,31 @@ class CustomScalarField3 final : public ScalarField3
     //! parameter.
     //!
     CustomScalarField3(
-        const std::function<double(const Vector3D&)>& customFunction,
-        const std::function<Vector3D(const Vector3D&)>& customGradientFunction,
+        std::function<double(const Vector3D&)> customFunction,
+        std::function<Vector3D(const Vector3D&)> customGradientFunction,
         double derivativeResolution = 1e-3);
 
     //! Constructs a field with given field, gradient, and Laplacian function.
     CustomScalarField3(
-        const std::function<double(const Vector3D&)>& customFunction,
-        const std::function<Vector3D(const Vector3D&)>& customGradientFunction,
-        const std::function<double(const Vector3D&)>& customLaplacianFunction);
+        std::function<double(const Vector3D&)> customFunction,
+        std::function<Vector3D(const Vector3D&)> customGradientFunction,
+        std::function<double(const Vector3D&)> customLaplacianFunction);
 
     //! Returns the sampled value at given position \p x.
-    double Sample(const Vector3D& x) const override;
+    [[nodiscard]] double Sample(const Vector3D& x) const override;
 
     //! Returns the sampler function.
-    std::function<double(const Vector3D&)> Sampler() const override;
+    [[nodiscard]] std::function<double(const Vector3D&)> Sampler()
+        const override;
 
     //! Returns the gradient vector at given position \p x.
-    Vector3D Gradient(const Vector3D& x) const override;
+    [[nodiscard]] Vector3D Gradient(const Vector3D& x) const override;
 
     //! Returns the Laplacian at given position \p x.
-    double Laplacian(const Vector3D& x) const override;
+    [[nodiscard]] double Laplacian(const Vector3D& x) const override;
 
     //! Returns builder fox CustomScalarField3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
     std::function<double(const Vector3D&)> m_customFunction;
@@ -84,24 +84,25 @@ class CustomScalarField3::Builder final
 {
  public:
     //! Returns builder with field function.
-    Builder& WithFunction(const std::function<double(const Vector3D&)>& func);
+    [[nodiscard]] Builder& WithFunction(
+        const std::function<double(const Vector3D&)>& func);
 
     //! Returns builder with divergence function.
-    Builder& WithGradientFunction(
+    [[nodiscard]] Builder& WithGradientFunction(
         const std::function<Vector3D(const Vector3D&)>& func);
 
     //! Returns builder with curl function.
-    Builder& WithLaplacianFunction(
+    [[nodiscard]] Builder& WithLaplacianFunction(
         const std::function<double(const Vector3D&)>& func);
 
     //! Returns builder with derivative resolution.
-    Builder& WithDerivativeResolution(double resolution);
+    [[nodiscard]] Builder& WithDerivativeResolution(double resolution);
 
     //! Builds CustomScalarField3.
-    CustomScalarField3 Build() const;
+    [[nodiscard]] CustomScalarField3 Build() const;
 
     //! Builds shared pointer of CustomScalarField3 instance.
-    CustomScalarField3Ptr MakeShared() const;
+    [[nodiscard]] CustomScalarField3Ptr MakeShared() const;
 
  private:
     double m_resolution = 1e-3;
