@@ -24,22 +24,35 @@ class VectorField2 : public Field2
 {
  public:
     //! Default constructor.
-    VectorField2();
+    VectorField2() = default;
 
-    //! Default destructor.
-    virtual ~VectorField2();
+    //! Copy constructor.
+    VectorField2(const VectorField2&) = default;
+
+    //! Move constructor.
+    VectorField2(VectorField2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~VectorField2() = default;
+
+    //! Default copy assignment operator.
+    VectorField2& operator=(const VectorField2&) = default;
+
+    //! Default move assignment operator.
+    VectorField2& operator=(VectorField2&&) noexcept = default;
 
     //! Returns sampled value at given position \p x.
-    virtual Vector2D Sample(const Vector2D& x) const = 0;
+    [[nodiscard]] virtual Vector2D Sample(const Vector2D& x) const = 0;
 
     //! Returns divergence at given position \p x.
-    virtual double Divergence(const Vector2D& x) const;
+    [[nodiscard]] virtual double Divergence(const Vector2D& x) const;
 
     //! Returns curl at given position \p x.
-    virtual double Curl(const Vector2D& x) const;
+    [[nodiscard]] virtual double Curl(const Vector2D& x) const;
 
     //! Returns sampler function object.
-    virtual std::function<Vector2D(const Vector2D&)> Sampler() const;
+    [[nodiscard]] virtual std::function<Vector2D(const Vector2D&)> Sampler()
+        const;
 };
 
 //! Shared pointer for the VectorField2 type.

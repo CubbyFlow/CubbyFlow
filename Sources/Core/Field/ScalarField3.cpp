@@ -12,19 +12,9 @@
 
 namespace CubbyFlow
 {
-ScalarField3::ScalarField3()
-{
-    // Do nothing
-}
-
-ScalarField3::~ScalarField3()
-{
-    // Do nothing
-}
-
 Vector3D ScalarField3::Gradient(const Vector3D&) const
 {
-    return Vector3D(0, 0, 0);
+    return Vector3D{ 0, 0, 0 };
 }
 
 double ScalarField3::Laplacian(const Vector3D&) const
