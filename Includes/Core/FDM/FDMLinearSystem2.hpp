@@ -40,6 +40,12 @@ using FDMMatrix2 = Array2<FDMMatrixRow2>;
 //! Linear system (Ax=b) for 2-D finite differencing.
 struct FDMLinearSystem2
 {
+    //! Clears all the data.
+    void Clear();
+
+    //! Resizes the arrays with given grid size.
+    void Resize(const Size2& size);
+
     //! System matrix.
     FDMMatrix2 A;
 
@@ -48,17 +54,14 @@ struct FDMLinearSystem2
 
     //! RHS vector.
     FDMVector2 b;
-
-    //! Clears all the data.
-    void Clear();
-
-    //! Resizes the arrays with given grid size.
-    void Resize(const Size2& size);
 };
 
 //! Compressed linear system (Ax=b) for 2-D finite differencing.
 struct FDMCompressedLinearSystem2
 {
+    //! Clears all the data.
+    void Clear();
+
     //! System matrix.
     MatrixCSRD A;
 
@@ -67,9 +70,6 @@ struct FDMCompressedLinearSystem2
 
     //! RHS vector.
     VectorND b;
-
-    //! Clears all the data.
-    void Clear();
 };
 
 //! BLAS operator wrapper for 2-D finite differencing.
@@ -108,10 +108,10 @@ struct FDMBLAS2
                          const VectorType& b, VectorType* result);
 
     //! Returns L2-norm of the given vector \p v.
-    static ScalarType L2Norm(const VectorType& v);
+    [[nodiscard]] static ScalarType L2Norm(const VectorType& v);
 
     //! Returns Linf-norm of the given vector \p v.
-    static ScalarType LInfNorm(const VectorType& v);
+    [[nodiscard]] static ScalarType LInfNorm(const VectorType& v);
 };
 
 //! BLAS operator wrapper for compressed 2-D finite differencing.
@@ -150,10 +150,10 @@ struct FDMCompressedBLAS2
                          const VectorType& b, VectorType* result);
 
     //! Returns L2-norm of the given vector \p v.
-    static ScalarType L2Norm(const VectorType& v);
+    [[nodiscard]] static ScalarType L2Norm(const VectorType& v);
 
     //! Returns Linf-norm of the given vector \p v.
-    static ScalarType LInfNorm(const VectorType& v);
+    [[nodiscard]] static ScalarType LInfNorm(const VectorType& v);
 };
 }  // namespace CubbyFlow
 

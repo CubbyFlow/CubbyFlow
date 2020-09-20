@@ -43,6 +43,12 @@ using FDMMatrix3 = Array3<FDMMatrixRow3>;
 //! Linear system (Ax=b) for 3-D finite differencing.
 struct FDMLinearSystem3
 {
+    //! Clears all the data.
+    void Clear();
+
+    //! Resizes the arrays with given grid size.
+    void Resize(const Size3& size);
+
     //! System matrix.
     FDMMatrix3 A;
 
@@ -51,17 +57,14 @@ struct FDMLinearSystem3
 
     //! RHS vector.
     FDMVector3 b;
-
-    //! Clears all the data.
-    void Clear();
-
-    //! Resizes the arrays with given grid size.
-    void Resize(const Size3& size);
 };
 
 //! Compressed linear system (Ax=b) for 3-D finite differencing.
 struct FDMCompressedLinearSystem3
 {
+    //! Clears all the data.
+    void Clear();
+
     //! System matrix.
     MatrixCSRD A;
 
@@ -70,9 +73,6 @@ struct FDMCompressedLinearSystem3
 
     //! RHS vector.
     VectorND b;
-
-    //! Clears all the data.
-    void Clear();
 };
 
 //! BLAS operator wrapper for 3-D finite differencing.
@@ -111,10 +111,10 @@ struct FDMBLAS3
                          const VectorType& b, VectorType* result);
 
     //! Returns L2-norm of the given vector \p v.
-    static ScalarType L2Norm(const VectorType& v);
+    [[nodiscard]] static ScalarType L2Norm(const VectorType& v);
 
     //! Returns Linf-norm of the given vector \p v.
-    static ScalarType LInfNorm(const VectorType& v);
+    [[nodiscard]] static ScalarType LInfNorm(const VectorType& v);
 };
 
 //! BLAS operator wrapper for compressed 3-D finite differencing.
@@ -153,10 +153,10 @@ struct FDMCompressedBLAS3
                          const VectorType& b, VectorType* result);
 
     //! Returns L2-norm of the given vector \p v.
-    static ScalarType L2Norm(const VectorType& v);
+    [[nodiscard]] static ScalarType L2Norm(const VectorType& v);
 
     //! Returns Linf-norm of the given vector \p v.
-    static ScalarType LInfNorm(const VectorType& v);
+    [[nodiscard]] static ScalarType LInfNorm(const VectorType& v);
 };
 }  // namespace CubbyFlow
 
