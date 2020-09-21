@@ -18,6 +18,7 @@
 
 #include <cassert>
 #include <iostream>
+#include <utility>
 
 namespace CubbyFlow
 {
@@ -84,34 +85,38 @@ std::ostream& operator<<(std::ostream& stream, const Vector3D& v)
 }
 }  // namespace
 
-TriangleMesh3::TriangleMesh3(const Transform3& transform_,
-                             bool isNormalFlipped_)
-    : Surface3(transform_, isNormalFlipped_)
+TriangleMesh3::TriangleMesh3(const Transform3& _transform,
+                             bool _isNormalFlipped)
+    : Surface3{ _transform, _isNormalFlipped }
 {
     // Do nothing
 }
 
-TriangleMesh3::TriangleMesh3(const PointArray& points,
-                             const NormalArray& normals, const UVArray& uvs,
-                             const IndexArray& pointIndices,
-                             const IndexArray& normalIndices,
-                             const IndexArray& uvIndices,
-                             const Transform3& transform_,
-                             bool isNormalFlipped_)
-    : Surface3(transform_, isNormalFlipped_),
-      m_points(points),
-      m_normals(normals),
-      m_uvs(uvs),
-      m_pointIndices(pointIndices),
-      m_normalIndices(normalIndices),
-      m_uvIndices(uvIndices)
+TriangleMesh3::TriangleMesh3(PointArray points, NormalArray normals,
+                             UVArray uvs, IndexArray pointIndices,
+                             IndexArray normalIndices, IndexArray uvIndices,
+                             const Transform3& _transform,
+                             bool _isNormalFlipped)
+    : Surface3(_transform, _isNormalFlipped),
+      m_points(std::move(points)),
+      m_normals(std::move(normals)),
+      m_uvs(std::move(uvs)),
+      m_pointIndices(std::move(pointIndices)),
+      m_normalIndices(std::move(normalIndices)),
+      m_uvIndices(std::move(uvIndices))
 {
     // Do nothing
 }
 
-TriangleMesh3::TriangleMesh3(const TriangleMesh3& other) : Surface3(other)
+TriangleMesh3::TriangleMesh3(const TriangleMesh3& other) : Surface3{ other }
 {
     Set(other);
+}
+
+TriangleMesh3& TriangleMesh3::operator=(const TriangleMesh3& other)
+{
+    Set(other);
+    return *this;
 }
 
 void TriangleMesh3::UpdateQueryEngine()
@@ -180,7 +185,7 @@ double TriangleMesh3::Volume() const
     for (size_t i = 0; i < NumberOfTriangles(); ++i)
     {
         Triangle3 tri = Triangle(i);
-        vol += tri.points[0].Dot(tri.points[1].Cross(tri.points[2])) / 6.f;
+        vol += tri.points[0].Dot(tri.points[1].Cross(tri.points[2])) / 6.0;
     }
 
     return vol;
@@ -261,7 +266,7 @@ Triangle3 TriangleMesh3::Triangle(size_t i) const
         }
     }
 
-    Vector3D n = tri.FaceNormal();
+    const Vector3D n = tri.FaceNormal();
 
     for (int j = 0; j < 3; ++j)
     {
@@ -343,9 +348,9 @@ void TriangleMesh3::AddUVTriangle(const Point3UI& newUVIndices)
 
 void TriangleMesh3::AddTriangle(const Triangle3& tri)
 {
-    size_t vStart = m_points.size();
-    size_t nStart = m_normals.size();
-    size_t tStart = m_uvs.size();
+    const size_t vStart = m_points.size();
+    const size_t nStart = m_normals.size();
+    const size_t tStart = m_uvs.size();
     Point3UI newPointIndices;
     Point3UI newNormalIndices;
     Point3UI newUvIndices;
@@ -376,8 +381,8 @@ void TriangleMesh3::SetFaceNormal()
     for (size_t i = 0; i < NumberOfTriangles(); ++i)
     {
         Triangle3 tri = Triangle(i);
-        Vector3D n = tri.FaceNormal();
-        Point3UI f = m_pointIndices[i];
+        const Vector3D n = tri.FaceNormal();
+        const Point3UI f = m_pointIndices[i];
 
         m_normals[f.x] = n;
         m_normals[f.y] = n;
@@ -396,7 +401,7 @@ void TriangleMesh3::SetAngleWeightedVertexNormal()
     for (size_t i = 0; i < m_points.size(); ++i)
     {
         angleWeights[i] = 0;
-        pseudoNormals[i] = Vector3D();
+        pseudoNormals[i] = Vector3D{};
     }
 
     for (size_t i = 0; i < NumberOfTriangles(); ++i)
@@ -508,8 +513,8 @@ void TriangleMesh3::WriteObj(std::ostream* stream) const
     }
 
     // faces
-    bool hasUVs = HasUVs();
-    bool hasNormals = HasNormals();
+    const bool hasUVs = HasUVs();
+    const bool hasNormals = HasNormals();
     for (size_t i = 0; i < NumberOfTriangles(); ++i)
     {
         *stream << "f ";
@@ -561,8 +566,7 @@ bool TriangleMesh3::ReadObj(std::istream* stream)
     std::vector<tinyobj::material_t> materials;
     std::string warn, err;
 
-    const bool ret =
-        tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, stream);
+    const bool ret = LoadObj(&attrib, &shapes, &materials, &warn, &err, stream);
 
     // `err` may contain warning message.
     if (!err.empty())
@@ -583,9 +587,9 @@ bool TriangleMesh3::ReadObj(std::istream* stream)
     for (size_t idx = 0; idx < attrib.vertices.size() / 3; ++idx)
     {
         // Access to vertex
-        tinyobj::real_t vx = attrib.vertices[3 * idx + 0];
-        tinyobj::real_t vy = attrib.vertices[3 * idx + 1];
-        tinyobj::real_t vz = attrib.vertices[3 * idx + 2];
+        const tinyobj::real_t vx = attrib.vertices[3 * idx + 0];
+        const tinyobj::real_t vy = attrib.vertices[3 * idx + 1];
+        const tinyobj::real_t vz = attrib.vertices[3 * idx + 2];
 
         AddPoint({ vx, vy, vz });
     }
@@ -594,9 +598,9 @@ bool TriangleMesh3::ReadObj(std::istream* stream)
     for (size_t idx = 0; idx < attrib.normals.size() / 3; ++idx)
     {
         // Access to normal
-        tinyobj::real_t vx = attrib.normals[3 * idx + 0];
-        tinyobj::real_t vy = attrib.normals[3 * idx + 1];
-        tinyobj::real_t vz = attrib.normals[3 * idx + 2];
+        const tinyobj::real_t vx = attrib.normals[3 * idx + 0];
+        const tinyobj::real_t vy = attrib.normals[3 * idx + 1];
+        const tinyobj::real_t vz = attrib.normals[3 * idx + 2];
 
         AddNormal({ vx, vy, vz });
     }
@@ -605,8 +609,8 @@ bool TriangleMesh3::ReadObj(std::istream* stream)
     for (size_t idx = 0; idx < attrib.texcoords.size() / 2; ++idx)
     {
         // Access to UV
-        tinyobj::real_t tu = attrib.texcoords[2 * idx + 0];
-        tinyobj::real_t tv = attrib.texcoords[2 * idx + 1];
+        const tinyobj::real_t tu = attrib.texcoords[2 * idx + 0];
+        const tinyobj::real_t tv = attrib.texcoords[2 * idx + 1];
 
         AddUV({ tu, tv });
     }
@@ -656,11 +660,11 @@ bool TriangleMesh3::ReadObj(std::istream* stream)
 
 bool TriangleMesh3::ReadObj(const std::string& fileName)
 {
-    std::ifstream file(fileName.c_str());
+    std::ifstream file{ fileName.c_str() };
 
     if (file)
     {
-        bool result = ReadObj(&file);
+        const bool result = ReadObj(&file);
         file.close();
 
         return result;
@@ -669,15 +673,9 @@ bool TriangleMesh3::ReadObj(const std::string& fileName)
     return false;
 }
 
-TriangleMesh3& TriangleMesh3::operator=(const TriangleMesh3& other)
-{
-    Set(other);
-    return *this;
-}
-
 TriangleMesh3::Builder TriangleMesh3::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 Vector3D TriangleMesh3::ClosestPointLocal(const Vector3D& otherPoint) const
@@ -685,7 +683,7 @@ Vector3D TriangleMesh3::ClosestPointLocal(const Vector3D& otherPoint) const
     BuildBVH();
 
     const auto distanceFunc = [this](const size_t& triIdx, const Vector3D& pt) {
-        Triangle3 tri = Triangle(triIdx);
+        const Triangle3 tri = Triangle(triIdx);
         return tri.ClosestDistance(pt);
     };
 
@@ -698,7 +696,7 @@ double TriangleMesh3::ClosestDistanceLocal(const Vector3D& otherPoint) const
     BuildBVH();
 
     const auto distanceFunc = [this](const size_t& triIdx, const Vector3D& pt) {
-        Triangle3 tri = Triangle(triIdx);
+        const Triangle3 tri = Triangle(triIdx);
         return tri.ClosestDistance(pt);
     };
 
@@ -710,9 +708,9 @@ bool TriangleMesh3::IntersectsLocal(const Ray3D& ray) const
 {
     BuildBVH();
 
-    const auto testFunc = [this](const size_t& triIdx, const Ray3D& ray) {
-        Triangle3 tri = Triangle(triIdx);
-        return tri.Intersects(ray);
+    const auto testFunc = [this](const size_t& triIdx, const Ray3D& _ray) {
+        const Triangle3 tri = Triangle(triIdx);
+        return tri.Intersects(_ray);
     };
 
     return m_bvh.IsIntersects(ray, testFunc);
@@ -730,7 +728,7 @@ Vector3D TriangleMesh3::ClosestNormalLocal(const Vector3D& otherPoint) const
     BuildBVH();
 
     const auto distanceFunc = [this](const size_t& triIdx, const Vector3D& pt) {
-        Triangle3 tri = Triangle(triIdx);
+        const Triangle3 tri = Triangle(triIdx);
         return tri.ClosestDistance(pt);
     };
 
@@ -743,9 +741,9 @@ SurfaceRayIntersection3 TriangleMesh3::ClosestIntersectionLocal(
 {
     BuildBVH();
 
-    const auto testFunc = [this](const size_t& triIdx, const Ray3D& ray) {
-        Triangle3 tri = Triangle(triIdx);
-        SurfaceRayIntersection3 result = tri.ClosestIntersection(ray);
+    const auto testFunc = [this](const size_t& triIdx, const Ray3D& _ray) {
+        const Triangle3 tri = Triangle(triIdx);
+        const SurfaceRayIntersection3 result = tri.ClosestIntersection(_ray);
 
         return result.distance;
     };
@@ -786,9 +784,9 @@ void TriangleMesh3::BuildBVH() const
 {
     if (m_bvhInvalidated)
     {
-        size_t nTris = NumberOfTriangles();
+        const size_t nTris = NumberOfTriangles();
 
-        std::vector<size_t> ids(nTris);
+        std::vector<size_t> ids{ nTris };
         std::vector<BoundingBox3D> bounds(nTris);
         for (size_t i = 0; i < nTris; ++i)
         {
@@ -880,8 +878,8 @@ double TriangleMesh3::GetFastWindingNumber(const Vector3D& q,
                                            size_t rootNodeIndex,
                                            double accuracy) const
 {
-    // Barill et al., Fast Winding Numbers for Soups and Clouds, ACM SIGGRAPH
-    // 2018.
+    // Barill et al., Fast Winding Numbers for Soups and Clouds,
+    // ACM SIGGRAPH 2018.
     const Vector3D& treeP = m_wnAreaWeightedAvgPositions[rootNodeIndex];
     const double qToP2 = q.DistanceSquaredTo(treeP);
 
@@ -963,17 +961,17 @@ TriangleMesh3::Builder& TriangleMesh3::Builder::WithUVIndices(
 
 TriangleMesh3 TriangleMesh3::Builder::Build() const
 {
-    return TriangleMesh3(m_points, m_normals, m_uvs, m_pointIndices,
-                         m_normalIndices, m_uvIndices, m_transform,
-                         m_isNormalFlipped);
+    return TriangleMesh3{ m_points,       m_normals,        m_uvs,
+                          m_pointIndices, m_normalIndices,  m_uvIndices,
+                          m_transform,    m_isNormalFlipped };
 }
 
 TriangleMesh3Ptr TriangleMesh3::Builder::MakeShared() const
 {
     return std::shared_ptr<TriangleMesh3>(
-        new TriangleMesh3(m_points, m_normals, m_uvs, m_pointIndices,
-                          m_normalIndices, m_uvIndices, m_transform,
-                          m_isNormalFlipped),
+        new TriangleMesh3{ m_points, m_normals, m_uvs, m_pointIndices,
+                           m_normalIndices, m_uvIndices, m_transform,
+                           m_isNormalFlipped },
         [](TriangleMesh3* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

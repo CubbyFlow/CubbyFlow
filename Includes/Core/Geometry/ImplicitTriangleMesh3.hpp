@@ -33,39 +33,56 @@ class ImplicitTriangleMesh3 final : public ImplicitSurface3
     class Builder;
 
     //! Constructs an ImplicitSurface3 with mesh and other grid parameters.
-    ImplicitTriangleMesh3(const TriangleMesh3Ptr& mesh, size_t resolutionX = 32,
+    ImplicitTriangleMesh3(TriangleMesh3Ptr mesh, size_t resolutionX = 32,
                           double margin = 0.2,
-                          const Transform3& transform = Transform3(),
-                          bool isNormalFlipped = false);
+                          const Transform3& _transform = Transform3{},
+                          bool _isNormalFlipped = false);
 
-    //! Virtual destructor.
-    virtual ~ImplicitTriangleMesh3();
+    //! Default copy constructor.
+    ImplicitTriangleMesh3(const ImplicitTriangleMesh3&) = default;
+
+    //! Default move constructor.
+    ImplicitTriangleMesh3(ImplicitTriangleMesh3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~ImplicitTriangleMesh3() override = default;
+
+    //! Default copy assignment operator.
+    ImplicitTriangleMesh3& operator=(const ImplicitTriangleMesh3&) = default;
+
+    //! Default move assignment operator.
+    ImplicitTriangleMesh3& operator=(ImplicitTriangleMesh3&&) noexcept =
+        default;
 
     //! Returns builder fox ImplicitTriangleMesh3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
     //! Returns grid data.
-    const VertexCenteredScalarGrid3Ptr& GetGrid() const;
+    [[nodiscard]] const VertexCenteredScalarGrid3Ptr& GetGrid() const;
 
  private:
+    [[nodiscard]] Vector3D ClosestPointLocal(
+        const Vector3D& otherPoint) const override;
+
+    [[nodiscard]] double ClosestDistanceLocal(
+        const Vector3D& otherPoint) const override;
+
+    [[nodiscard]] bool IntersectsLocal(const Ray3D& ray) const override;
+
+    [[nodiscard]] BoundingBox3D BoundingBoxLocal() const override;
+
+    [[nodiscard]] Vector3D ClosestNormalLocal(
+        const Vector3D& otherPoint) const override;
+
+    [[nodiscard]] double SignedDistanceLocal(
+        const Vector3D& otherPoint) const override;
+
+    [[nodiscard]] SurfaceRayIntersection3 ClosestIntersectionLocal(
+        const Ray3D& ray) const override;
+
     TriangleMesh3Ptr m_mesh;
     VertexCenteredScalarGrid3Ptr m_grid;
     CustomImplicitSurface3Ptr m_customImplicitSurface;
-
-    Vector3D ClosestPointLocal(const Vector3D& otherPoint) const override;
-
-    double ClosestDistanceLocal(const Vector3D& otherPoint) const override;
-
-    bool IntersectsLocal(const Ray3D& ray) const override;
-
-    BoundingBox3D BoundingBoxLocal() const override;
-
-    Vector3D ClosestNormalLocal(const Vector3D& otherPoint) const override;
-
-    double SignedDistanceLocal(const Vector3D& otherPoint) const override;
-
-    SurfaceRayIntersection3 ClosestIntersectionLocal(
-        const Ray3D& ray) const override;
 };
 
 //! Shared pointer for the ImplicitTriangleMesh3 type.
@@ -74,24 +91,23 @@ using ImplicitTriangleMesh3Ptr = std::shared_ptr<ImplicitTriangleMesh3>;
 //!
 //! \brief Front-end to create ImplicitTriangleMesh3 objects step by step.
 //!
-class ImplicitTriangleMesh3::Builder final
-    : public SurfaceBuilderBase3<ImplicitTriangleMesh3::Builder>
+class ImplicitTriangleMesh3::Builder final : public SurfaceBuilderBase3<Builder>
 {
  public:
     //! Returns builder with triangle mesh.
-    Builder& WithTriangleMesh(const TriangleMesh3Ptr& mesh);
+    [[nodiscard]] Builder& WithTriangleMesh(const TriangleMesh3Ptr& mesh);
 
     //! Returns builder with resolution in x axis.
-    Builder& WithResolutionX(size_t resolutionX);
+    [[nodiscard]] Builder& WithResolutionX(size_t resolutionX);
 
     //! Returns builder with margin around the mesh.
-    Builder& WithMargin(double margin);
+    [[nodiscard]] Builder& WithMargin(double margin);
 
     //! Builds ImplicitTriangleMesh3.
-    ImplicitTriangleMesh3 Build() const;
+    [[nodiscard]] ImplicitTriangleMesh3 Build() const;
 
     //! Builds shared pointer of ImplicitTriangleMesh3 instance.
-    ImplicitTriangleMesh3Ptr MakeShared() const;
+    [[nodiscard]] ImplicitTriangleMesh3Ptr MakeShared() const;
 
  private:
     TriangleMesh3Ptr m_mesh;

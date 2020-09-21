@@ -10,6 +10,8 @@
 
 #include <Core/Geometry/Triangle3.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
 inline Vector3D ClosestPointOnLine(const Vector3D& v0, const Vector3D& v1,
@@ -57,139 +59,130 @@ inline Vector3D ClosestNormalOnLine(const Vector3D& v0, const Vector3D& v1,
     return (n0 + t * (n1 - n0)).Normalized();
 }
 
-Triangle3::Triangle3(const Transform3& transform_, bool isNormalFlipped_)
-    : Surface3(transform_, isNormalFlipped_)
+Triangle3::Triangle3(const Transform3& _transform, bool _isNormalFlipped)
+    : Surface3{ _transform, _isNormalFlipped }
 {
     // Do nothing
 }
 
-Triangle3::Triangle3(const std::array<Vector3D, 3>& newPoints,
-                     const std::array<Vector3D, 3>& newNormals,
-                     const std::array<Vector2D, 3>& newUvs,
-                     const Transform3& transform_, bool isNormalFlipped_)
-    : Surface3(transform_, isNormalFlipped_),
-      points(newPoints),
-      normals(newNormals),
-      uvs(newUvs)
-{
-    // Do nothing
-}
-
-Triangle3::Triangle3(const Triangle3& other)
-    : Surface3(other),
-      points(other.points),
-      normals(other.normals),
-      uvs(other.uvs)
+Triangle3::Triangle3(std::array<Vector3D, 3> newPoints,
+                     std::array<Vector3D, 3> newNormals,
+                     std::array<Vector2D, 3> newUvs,
+                     const Transform3& _transform, bool _isNormalFlipped)
+    : Surface3{ _transform, _isNormalFlipped },
+      points(std::move(newPoints)),
+      normals(std::move(newNormals)),
+      uvs(std::move(newUvs))
 {
     // Do nothing
 }
 
 Vector3D Triangle3::ClosestPointLocal(const Vector3D& otherPoint) const
 {
-    Vector3D n = FaceNormal();
-    double nd = n.Dot(n);
-    double d = n.Dot(points[0]);
-    double t = (d - n.Dot(otherPoint)) / nd;
+    const Vector3D n = FaceNormal();
+    const double nd = n.Dot(n);
+    const double d = n.Dot(points[0]);
+    const double t = (d - n.Dot(otherPoint)) / nd;
 
-    Vector3D q = t * n + otherPoint;
+    const Vector3D q = t * n + otherPoint;
 
-    Vector3D q01 = (points[1] - points[0]).Cross(q - points[0]);
+    const Vector3D q01 = (points[1] - points[0]).Cross(q - points[0]);
     if (n.Dot(q01) < 0)
     {
         return ClosestPointOnLine(points[0], points[1], q);
     }
 
-    Vector3D q12 = (points[2] - points[1]).Cross(q - points[1]);
+    const Vector3D q12 = (points[2] - points[1]).Cross(q - points[1]);
     if (n.Dot(q12) < 0)
     {
         return ClosestPointOnLine(points[1], points[2], q);
     }
 
-    Vector3D q02 = (points[0] - points[2]).Cross(q - points[2]);
+    const Vector3D q02 = (points[0] - points[2]).Cross(q - points[2]);
     if (n.Dot(q02) < 0)
     {
         return ClosestPointOnLine(points[0], points[2], q);
     }
 
-    double a = Area();
-    double b0 = 0.5 * q12.Length() / a;
-    double b1 = 0.5 * q02.Length() / a;
-    double b2 = 0.5 * q01.Length() / a;
+    const double a = Area();
+    const double b0 = 0.5 * q12.Length() / a;
+    const double b1 = 0.5 * q02.Length() / a;
+    const double b2 = 0.5 * q01.Length() / a;
 
     return b0 * points[0] + b1 * points[1] + b2 * points[2];
 }
 
 Vector3D Triangle3::ClosestNormalLocal(const Vector3D& otherPoint) const
 {
-    Vector3D n = FaceNormal();
-    double nd = n.Dot(n);
-    double d = n.Dot(points[0]);
-    double t = (d - n.Dot(otherPoint)) / nd;
+    const Vector3D n = FaceNormal();
+    const double nd = n.Dot(n);
+    const double d = n.Dot(points[0]);
+    const double t = (d - n.Dot(otherPoint)) / nd;
 
-    Vector3D q = t * n + otherPoint;
+    const Vector3D q = t * n + otherPoint;
 
-    Vector3D q01 = (points[1] - points[0]).Cross(q - points[0]);
+    const Vector3D q01 = (points[1] - points[0]).Cross(q - points[0]);
     if (n.Dot(q01) < 0)
     {
         return ClosestNormalOnLine(points[0], points[1], normals[0], normals[1],
                                    q);
     }
 
-    Vector3D q12 = (points[2] - points[1]).Cross(q - points[1]);
+    const Vector3D q12 = (points[2] - points[1]).Cross(q - points[1]);
     if (n.Dot(q12) < 0)
     {
         return ClosestNormalOnLine(points[1], points[2], normals[1], normals[2],
                                    q);
     }
 
-    Vector3D q02 = (points[0] - points[2]).Cross(q - points[2]);
+    const Vector3D q02 = (points[0] - points[2]).Cross(q - points[2]);
     if (n.Dot(q02) < 0)
     {
         return ClosestNormalOnLine(points[0], points[2], normals[0], normals[2],
                                    q);
     }
 
-    double a = Area();
-    double b0 = 0.5 * q12.Length() / a;
-    double b1 = 0.5 * q02.Length() / a;
-    double b2 = 0.5 * q01.Length() / a;
+    const double a = Area();
+    const double b0 = 0.5 * q12.Length() / a;
+    const double b1 = 0.5 * q02.Length() / a;
+    const double b2 = 0.5 * q01.Length() / a;
 
     return (b0 * normals[0] + b1 * normals[1] + b2 * normals[2]).Normalized();
 }
 
 bool Triangle3::IntersectsLocal(const Ray3D& ray) const
 {
-    Vector3D n = FaceNormal();
-    double nd = n.Dot(ray.direction);
+    const Vector3D n = FaceNormal();
+    const double nd = n.Dot(ray.direction);
 
     if (nd < std::numeric_limits<double>::epsilon())
     {
         return false;
     }
 
-    double d = n.Dot(points[0]);
-    double t = (d - n.Dot(ray.origin)) / nd;
+    const double d = n.Dot(points[0]);
+    const double t = (d - n.Dot(ray.origin)) / nd;
 
     if (t < 0.0)
     {
         return false;
     }
 
-    Vector3D q = ray.PointAt(t);
+    const Vector3D q = ray.PointAt(t);
 
-    Vector3D q01 = (points[1] - points[0]).Cross(q - points[0]);
+    const Vector3D q01 = (points[1] - points[0]).Cross(q - points[0]);
     if (n.Dot(q01) <= 0.0)
     {
         return false;
     }
 
-    Vector3D q12 = (points[2] - points[1]).Cross(q - points[1]);
+    const Vector3D q12 = (points[2] - points[1]).Cross(q - points[1]);
     if (n.Dot(q12) <= 0.0)
     {
         return false;
     }
 
-    Vector3D q02 = (points[0] - points[2]).Cross(q - points[2]);
+    const Vector3D q02 = (points[0] - points[2]).Cross(q - points[2]);
     if (n.Dot(q02) <= 0.0)
     {
         return false;
@@ -202,8 +195,8 @@ SurfaceRayIntersection3 Triangle3::ClosestIntersectionLocal(
     const Ray3D& ray) const
 {
     SurfaceRayIntersection3 intersection;
-    Vector3D n = FaceNormal();
-    double nd = n.Dot(ray.direction);
+    const Vector3D n = FaceNormal();
+    const double nd = n.Dot(ray.direction);
 
     if (nd < std::numeric_limits<double>::epsilon())
     {
@@ -211,8 +204,8 @@ SurfaceRayIntersection3 Triangle3::ClosestIntersectionLocal(
         return intersection;
     }
 
-    double d = n.Dot(points[0]);
-    double t = (d - n.Dot(ray.origin)) / nd;
+    const double d = n.Dot(points[0]);
+    const double t = (d - n.Dot(ray.origin)) / nd;
 
     if (t < 0.0)
     {
@@ -220,35 +213,35 @@ SurfaceRayIntersection3 Triangle3::ClosestIntersectionLocal(
         return intersection;
     }
 
-    Vector3D q = ray.PointAt(t);
+    const Vector3D q = ray.PointAt(t);
 
-    Vector3D q01 = (points[1] - points[0]).Cross(q - points[0]);
+    const Vector3D q01 = (points[1] - points[0]).Cross(q - points[0]);
     if (n.Dot(q01) <= 0.0)
     {
         intersection.isIntersecting = false;
         return intersection;
     }
 
-    Vector3D q12 = (points[2] - points[1]).Cross(q - points[1]);
+    const Vector3D q12 = (points[2] - points[1]).Cross(q - points[1]);
     if (n.Dot(q12) <= 0.0)
     {
         intersection.isIntersecting = false;
         return intersection;
     }
 
-    Vector3D q02 = (points[0] - points[2]).Cross(q - points[2]);
+    const Vector3D q02 = (points[0] - points[2]).Cross(q - points[2]);
     if (n.Dot(q02) <= 0.0)
     {
         intersection.isIntersecting = false;
         return intersection;
     }
 
-    double a = Area();
-    double b0 = 0.5 * q12.Length() / a;
-    double b1 = 0.5 * q02.Length() / a;
-    double b2 = 0.5 * q01.Length() / a;
+    const double a = Area();
+    const double b0 = 0.5 * q12.Length() / a;
+    const double b1 = 0.5 * q02.Length() / a;
+    const double b2 = 0.5 * q01.Length() / a;
 
-    Vector3D normal = b0 * normals[0] + b1 * normals[1] + b2 * normals[2];
+    const Vector3D normal = b0 * normals[0] + b1 * normals[1] + b2 * normals[2];
 
     intersection.isIntersecting = true;
     intersection.distance = t;
@@ -260,7 +253,7 @@ SurfaceRayIntersection3 Triangle3::ClosestIntersectionLocal(
 
 BoundingBox3D Triangle3::BoundingBoxLocal() const
 {
-    BoundingBox3D box(points[0], points[1]);
+    BoundingBox3D box{ points[0], points[1] };
     box.Merge(points[2]);
     return box;
 }
@@ -273,11 +266,11 @@ double Triangle3::Area() const
 void Triangle3::GetBarycentricCoords(const Vector3D& pt, double* b0, double* b1,
                                      double* b2) const
 {
-    Vector3D q01 = (points[1] - points[0]).Cross(pt - points[0]);
-    Vector3D q12 = (points[2] - points[1]).Cross(pt - points[1]);
-    Vector3D q02 = (points[0] - points[2]).Cross(pt - points[2]);
+    const Vector3D q01 = (points[1] - points[0]).Cross(pt - points[0]);
+    const Vector3D q12 = (points[2] - points[1]).Cross(pt - points[1]);
+    const Vector3D q02 = (points[0] - points[2]).Cross(pt - points[2]);
 
-    double a = Area();
+    const double a = Area();
     *b0 = 0.5 * q12.Length() / a;
     *b1 = 0.5 * q02.Length() / a;
     *b2 = 0.5 * q01.Length() / a;
@@ -285,7 +278,7 @@ void Triangle3::GetBarycentricCoords(const Vector3D& pt, double* b0, double* b1,
 
 Vector3D Triangle3::FaceNormal() const
 {
-    Vector3D ret = (points[1] - points[0]).Cross(points[2] - points[0]);
+    const Vector3D ret = (points[1] - points[0]).Cross(points[2] - points[0]);
     return ret.Normalized();
 }
 
@@ -296,41 +289,41 @@ void Triangle3::SetNormalsToFaceNormal()
 
 Triangle3::Builder Triangle3::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 Triangle3::Builder& Triangle3::Builder::WithPoints(
-    const std::array<Vector3D, 3>& points)
+    const std::array<Vector3D, 3>& _points)
 {
-    m_points = points;
+    m_points = _points;
     return *this;
 }
 
 Triangle3::Builder& Triangle3::Builder::WithNormals(
-    const std::array<Vector3D, 3>& normals)
+    const std::array<Vector3D, 3>& _normals)
 {
-    m_normals = normals;
+    m_normals = _normals;
     return *this;
 }
 
 Triangle3::Builder& Triangle3::Builder::WithUVs(
-    const std::array<Vector2D, 3>& uvs)
+    const std::array<Vector2D, 3>& _uvs)
 {
-    m_uvs = uvs;
+    m_uvs = _uvs;
     return *this;
 }
 
 Triangle3 Triangle3::Builder::Build() const
 {
-    return Triangle3(m_points, m_normals, m_uvs, m_transform,
-                     m_isNormalFlipped);
+    return Triangle3{ m_points, m_normals, m_uvs, m_transform,
+                      m_isNormalFlipped };
 }
 
 Triangle3Ptr Triangle3::Builder::MakeShared() const
 {
     return std::shared_ptr<Triangle3>(
-        new Triangle3(m_points, m_normals, m_uvs, m_transform,
-                      m_isNormalFlipped),
+        new Triangle3{ m_points, m_normals, m_uvs, m_transform,
+                       m_isNormalFlipped },
         [](Triangle3* obj) { delete obj; });
 }
 }  // namespace CubbyFlow
