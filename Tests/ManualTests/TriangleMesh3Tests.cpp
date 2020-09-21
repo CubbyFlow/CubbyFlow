@@ -116,7 +116,7 @@ CUBBYFLOW_BEGIN_TEST_F(TriangleMesh3, BasicIO)
     std::ifstream file(RESOURCES_DIR "/bunny.obj");
     if (file)
     {
-        triMesh.ReadObj(&file);
+        [[maybe_unused]] bool isLoaded = triMesh.ReadObj(&file);
         file.close();
     }
 }

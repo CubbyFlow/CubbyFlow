@@ -340,7 +340,7 @@ void RunExample3(const std::string& rootDir, size_t resolutionX,
     std::ifstream objFile(RESOURCES_DIR "/dragon.obj");
     if (objFile)
     {
-        dragonMesh->ReadObj(&objFile);
+        [[maybe_unused]] bool isLoaded = dragonMesh->ReadObj(&objFile);
     }
     else
     {

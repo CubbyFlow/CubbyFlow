@@ -20,7 +20,7 @@ TEST(TriangleMesh3, ReadObj)
     std::istringstream objStream(objStr);
 
     TriangleMesh3 mesh;
-    mesh.ReadObj(&objStream);
+    [[maybe_unused]] bool isLoaded = mesh.ReadObj(&objStream);
 
     EXPECT_EQ(56u, mesh.NumberOfPoints());
     EXPECT_EQ(96u, mesh.NumberOfNormals());
@@ -34,7 +34,7 @@ TEST(TriangleMesh3, ClosestPoint)
     std::istringstream objStream(objStr);
 
     TriangleMesh3 mesh;
-    mesh.ReadObj(&objStream);
+    [[maybe_unused]] bool isLoaded = mesh.ReadObj(&objStream);
 
     const auto bruteForceSearch = [&](const Vector3D& pt) {
         double minDist2 = std::numeric_limits<double>::max();
@@ -71,7 +71,7 @@ TEST(TriangleMesh3, ClosestNormal)
     std::istringstream objStream(objStr);
 
     TriangleMesh3 mesh;
-    mesh.ReadObj(&objStream);
+    [[maybe_unused]] bool isLoaded = mesh.ReadObj(&objStream);
 
     const auto bruteForceSearch = [&](const Vector3D& pt) {
         double minDist2 = std::numeric_limits<double>::max();
@@ -109,7 +109,7 @@ TEST(TriangleMesh3, ClosestDistance)
     std::istringstream objStream(objStr);
 
     TriangleMesh3 mesh;
-    mesh.ReadObj(&objStream);
+    [[maybe_unused]] bool isLoaded = mesh.ReadObj(&objStream);
 
     const auto bruteForceSearch = [&](const Vector3D& pt) {
         double minDist = std::numeric_limits<double>::max();
@@ -143,7 +143,7 @@ TEST(TriangleMesh3, Intersects)
     std::istringstream objStream(objStr);
 
     TriangleMesh3 mesh;
-    mesh.ReadObj(&objStream);
+    [[maybe_unused]] bool isLoaded = mesh.ReadObj(&objStream);
 
     size_t numSamples = GetNumberOfSamplePoints3();
 
@@ -175,7 +175,7 @@ TEST(TriangleMesh3, ClosestIntersection)
     std::istringstream objStream(objStr);
 
     TriangleMesh3 mesh;
-    mesh.ReadObj(&objStream);
+    [[maybe_unused]] bool isLoaded = mesh.ReadObj(&objStream);
 
     size_t numSamples = GetNumberOfSamplePoints3();
 
@@ -214,7 +214,7 @@ TEST(TriangleMesh3, IsInside)
     std::istringstream objStream(objStr);
 
     TriangleMesh3 mesh;
-    mesh.ReadObj(&objStream);
+    [[maybe_unused]] bool isLoaded = mesh.ReadObj(&objStream);
 
     const size_t numSamples = GetNumberOfSamplePoints3();
 
@@ -233,7 +233,7 @@ TEST(TriangleMesh3, BoundingBox)
     std::istringstream objStream(objStr);
 
     TriangleMesh3 mesh;
-    mesh.ReadObj(&objStream);
+    [[maybe_unused]] bool isLoaded = mesh.ReadObj(&objStream);
 
     EXPECT_BOUNDING_BOX3_EQ(
         BoundingBox3D({ -0.5, -0.5, -0.5 }, { 0.5, 0.5, 0.5 }),

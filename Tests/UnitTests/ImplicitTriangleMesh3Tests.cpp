@@ -19,7 +19,7 @@ TEST(ImplicitTriangleMesh3, SignedDistance)
 
     std::ifstream objFile(RESOURCES_DIR "/cube.obj");
     auto mesh = TriangleMesh3::Builder().MakeShared();
-    mesh->ReadObj(&objFile);
+    [[maybe_unused]] bool isLoaded = mesh->ReadObj(&objFile);
 
     auto imesh = ImplicitTriangleMesh3::Builder()
                      .WithTriangleMesh(mesh)

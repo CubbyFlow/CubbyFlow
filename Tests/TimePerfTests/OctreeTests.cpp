@@ -30,7 +30,7 @@ class Octree : public ::benchmark::Fixture
 
         if (file)
         {
-            triMesh.ReadObj(&file);
+            [[maybe_unused]] bool isLoaded = triMesh.ReadObj(&file);
             file.close();
         }
 
