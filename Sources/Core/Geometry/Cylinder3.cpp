@@ -14,70 +14,64 @@
 
 namespace CubbyFlow
 {
-Cylinder3::Cylinder3(const Transform3& transform, bool isNormalFlipped)
-    : Surface3(transform, isNormalFlipped)
+Cylinder3::Cylinder3(const Transform3& _transform, bool _isNormalFlipped)
+    : Surface3{ _transform, _isNormalFlipped }
 {
     // Do nothing
 }
 
-Cylinder3::Cylinder3(const Vector3D& center_, double radius_, double height_,
-                     const Transform3& transform, bool isNormalFlipped)
-    : Surface3(transform, isNormalFlipped),
-      center(center_),
-      radius(radius_),
-      height(height_)
-{
-    // Do nothing
-}
-
-Cylinder3::Cylinder3(const Cylinder3& other)
-    : Surface3(other),
-      center(other.center),
-      radius(other.radius),
-      height(other.height)
+Cylinder3::Cylinder3(const Vector3D& _center, double _radius, double _height,
+                     const Transform3& _transform, bool _isNormalFlipped)
+    : Surface3{ _transform, _isNormalFlipped },
+      center(_center),
+      radius(_radius),
+      height(_height)
 {
     // Do nothing
 }
 
 Vector3D Cylinder3::ClosestPointLocal(const Vector3D& otherPoint) const
 {
-    Vector3D r = otherPoint - center;
-    Vector2D rr(std::sqrt(r.x * r.x + r.z * r.z), r.y);
-    Box2 box(Vector2D(-radius, -0.5 * height), Vector2D(radius, 0.5 * height));
+    const Vector3D r = otherPoint - center;
+    const Vector2D rr{ std::sqrt(r.x * r.x + r.z * r.z), r.y };
+    const Box2 box{ Vector2D{ -radius, -0.5 * height },
+                    Vector2D{ radius, 0.5 * height } };
 
-    Vector2D cp = box.ClosestPoint(rr);
-    double angle = std::atan2(r.z, r.x);
+    const Vector2D cp = box.ClosestPoint(rr);
+    const double angle = std::atan2(r.z, r.x);
 
-    return Vector3D(cp.x * std::cos(angle), cp.y, cp.x * std::sin(angle)) +
+    return Vector3D{ cp.x * std::cos(angle), cp.y, cp.x * std::sin(angle) } +
            center;
 }
 
 double Cylinder3::ClosestDistanceLocal(const Vector3D& otherPoint) const
 {
-    Vector3D r = otherPoint - center;
-    Vector2D rr(std::sqrt(r.x * r.x + r.z * r.z), r.y);
-    Box2 box(Vector2D(-radius, -0.5 * height), Vector2D(radius, 0.5 * height));
+    const Vector3D r = otherPoint - center;
+    const Vector2D rr{ std::sqrt(r.x * r.x + r.z * r.z), r.y };
+    const Box2 box{ Vector2D{ -radius, -0.5 * height },
+                    Vector2D{ radius, 0.5 * height } };
 
     return box.ClosestDistance(rr);
 }
 
 Vector3D Cylinder3::ClosestNormalLocal(const Vector3D& otherPoint) const
 {
-    Vector3D r = otherPoint - center;
-    Vector2D rr(std::sqrt(r.x * r.x + r.z * r.z), r.y);
-    Box2 box(Vector2D(-radius, -0.5 * height), Vector2D(radius, 0.5 * height));
+    const Vector3D r = otherPoint - center;
+    const Vector2D rr{ std::sqrt(r.x * r.x + r.z * r.z), r.y };
+    const Box2 box{ Vector2D{ -radius, -0.5 * height },
+                    Vector2D{ radius, 0.5 * height } };
 
-    Vector2D cn = box.ClosestNormal(rr);
+    const Vector2D cn = box.ClosestNormal(rr);
     if (cn.y > 0)
     {
-        return Vector3D(0, 1, 0);
+        return Vector3D{ 0, 1, 0 };
     }
     if (cn.y < 0)
     {
-        return Vector3D(0, -1, 0);
+        return Vector3D{ 0, -1, 0 };
     }
 
-    return Vector3D(r.x, 0, r.z).Normalized();
+    return Vector3D{ r.x, 0, r.z }.Normalized();
 }
 
 bool Cylinder3::IntersectsLocal(const Ray3D& ray) const
@@ -92,9 +86,9 @@ bool Cylinder3::IntersectsLocal(const Ray3D& ray) const
     double B = d.Dot(o);
     double C = o.LengthSquared() - Square(radius);
 
-    BoundingBox3D bbox = BoundingBox();
-    Plane3 upperPlane(Vector3D(0, 1, 0), bbox.upperCorner);
-    Plane3 lowerPlane(Vector3D(0, -1, 0), bbox.lowerCorner);
+    const BoundingBox3D bbox = BoundingBox();
+    Plane3 upperPlane{ Vector3D{ 0, 1, 0 }, bbox.upperCorner };
+    Plane3 lowerPlane{ Vector3D{ 0, -1, 0 }, bbox.lowerCorner };
 
     SurfaceRayIntersection3 upperIntersection =
         upperPlane.ClosestIntersection(ray);
@@ -106,7 +100,7 @@ bool Cylinder3::IntersectsLocal(const Ray3D& ray) const
     {
         // Check if the ray is inside the infinite cylinder
         Vector3D r = ray.origin - center;
-        Vector2D rr(r.x, r.z);
+        Vector2D rr{ r.x, r.z };
 
         if (rr.LengthSquared() <= Square(radius))
         {
@@ -178,8 +172,8 @@ SurfaceRayIntersection3 Cylinder3::ClosestIntersectionLocal(
     double C = o.LengthSquared() - Square(radius);
 
     BoundingBox3D bbox = BoundingBoxLocal();
-    Plane3 upperPlane(Vector3D(0, 1, 0), bbox.upperCorner);
-    Plane3 lowerPlane(Vector3D(0, -1, 0), bbox.lowerCorner);
+    Plane3 upperPlane{ Vector3D{ 0, 1, 0 }, bbox.upperCorner };
+    Plane3 lowerPlane{ Vector3D{ 0, -1, 0 }, bbox.lowerCorner };
 
     SurfaceRayIntersection3 upperIntersection =
         upperPlane.ClosestIntersection(ray);
@@ -194,7 +188,7 @@ SurfaceRayIntersection3 Cylinder3::ClosestIntersectionLocal(
     {
         // Check if the ray is inside the infinite cylinder
         Vector3D r = ray.origin - center;
-        Vector2D rr(r.x, r.z);
+        Vector2D rr{ r.x, r.z };
 
         if (rr.LengthSquared() <= Square(radius))
         {
@@ -269,44 +263,44 @@ SurfaceRayIntersection3 Cylinder3::ClosestIntersectionLocal(
 
 BoundingBox3D Cylinder3::BoundingBoxLocal() const
 {
-    return BoundingBox3D(center - Vector3D(radius, 0.5 * height, radius),
-                         center + Vector3D(radius, 0.5 * height, radius));
+    return BoundingBox3D{ center - Vector3D{ radius, 0.5 * height, radius },
+                          center + Vector3D{ radius, 0.5 * height, radius } };
 }
 
 Cylinder3::Builder Cylinder3::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
-Cylinder3::Builder& Cylinder3::Builder::WithCenter(const Vector3D& center)
+Cylinder3::Builder& Cylinder3::Builder::WithCenter(const Vector3D& _center)
 {
-    m_center = center;
+    m_center = _center;
     return *this;
 }
 
-Cylinder3::Builder& Cylinder3::Builder::WithRadius(double radius)
+Cylinder3::Builder& Cylinder3::Builder::WithRadius(double _radius)
 {
-    m_radius = radius;
+    m_radius = _radius;
     return *this;
 }
 
-Cylinder3::Builder& Cylinder3::Builder::WithHeight(double height)
+Cylinder3::Builder& Cylinder3::Builder::WithHeight(double _height)
 {
-    m_height = height;
+    m_height = _height;
     return *this;
 }
 
 Cylinder3 Cylinder3::Builder::Build() const
 {
-    return Cylinder3(m_center, m_radius, m_height, m_transform,
-                     m_isNormalFlipped);
+    return Cylinder3{ m_center, m_radius, m_height, m_transform,
+                      m_isNormalFlipped };
 }
 
 Cylinder3Ptr Cylinder3::Builder::MakeShared() const
 {
     return std::shared_ptr<Cylinder3>(
-        new Cylinder3(m_center, m_radius, m_height, m_transform,
-                      m_isNormalFlipped),
+        new Cylinder3{ m_center, m_radius, m_height, m_transform,
+                       m_isNormalFlipped },
         [](Cylinder3* obj) { delete obj; });
 }
 }  // namespace CubbyFlow
