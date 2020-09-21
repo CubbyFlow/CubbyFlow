@@ -786,7 +786,7 @@ void TriangleMesh3::BuildBVH() const
     {
         const size_t nTris = NumberOfTriangles();
 
-        std::vector<size_t> ids{ nTris };
+        std::vector<size_t> ids(nTris);
         std::vector<BoundingBox3D> bounds(nTris);
         for (size_t i = 0; i < nTris; ++i)
         {
