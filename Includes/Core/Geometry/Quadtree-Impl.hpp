@@ -23,12 +23,6 @@ bool Quadtree<T>::Node::IsLeaf() const
 }
 
 template <typename T>
-Quadtree<T>::Quadtree()
-{
-    // Do nothing
-}
-
-template <typename T>
 void Quadtree<T>::Build(const std::vector<T>& items, const BoundingBox2D& bound,
                         const BoxIntersectionTestFunc2<T>& testFunc,
                         size_t maxDepth)
@@ -40,8 +34,9 @@ void Quadtree<T>::Build(const std::vector<T>& items, const BoundingBox2D& bound,
 
     // Normalize bounding box
     m_bbox = bound;
-    double maxEdgeLen = std::max(m_bbox.GetWidth(), m_bbox.GetHeight());
-    m_bbox.upperCorner = m_bbox.lowerCorner + Vector2D(maxEdgeLen, maxEdgeLen);
+    const double maxEdgeLen = std::max(m_bbox.GetWidth(), m_bbox.GetHeight());
+    m_bbox.upperCorner =
+        m_bbox.lowerCorner + Vector2D{ maxEdgeLen, maxEdgeLen };
 
     // Build
     m_nodes.resize(1);
@@ -110,7 +105,7 @@ NearestNeighborQueryResult2<T> Quadtree<T>::GetNearestNeighbor(
             {
                 const Node* child = &m_nodes[node->firstChild + i];
                 const auto childBound =
-                    BoundingBox2D(bound.Corner(i), MidPoint);
+                    BoundingBox2D{ bound.Corner(i), MidPoint };
                 Vector2D cp = childBound.Clamp(pt);
                 double distMinSqr = cp.DistanceSquaredTo(pt);
 
@@ -260,14 +255,14 @@ void Quadtree<T>::Build(size_t nodeIdx, size_t depth,
 {
     if (depth < m_maxDepth && !m_nodes[nodeIdx].items.empty())
     {
-        size_t firstChild = m_nodes[nodeIdx].firstChild = m_nodes.size();
+        const size_t firstChild = m_nodes[nodeIdx].firstChild = m_nodes.size();
         m_nodes.resize(m_nodes[nodeIdx].firstChild + 4);
 
         BoundingBox2D bboxPerNode[4];
 
         for (int i = 0; i < 4; ++i)
         {
-            bboxPerNode[i] = BoundingBox2D(bound.Corner(i), bound.MidPoint());
+            bboxPerNode[i] = BoundingBox2D{ bound.Corner(i), bound.MidPoint() };
         }
 
         auto& currentItems = m_nodes[nodeIdx].items;
@@ -321,8 +316,9 @@ bool Quadtree<T>::IsIntersects(const BoundingBox2D& box,
     {
         for (int i = 0; i < 4; ++i)
         {
-            if (IsIntersects(box, testFunc, node.firstChild + i,
-                             BoundingBox2D(bound.Corner(i), bound.MidPoint())))
+            if (IsIntersects(
+                    box, testFunc, node.firstChild + i,
+                    BoundingBox2D{ bound.Corner(i), bound.MidPoint() }))
             {
                 return true;
             }
@@ -359,8 +355,9 @@ bool Quadtree<T>::IsIntersects(const Ray2D& ray,
     {
         for (int i = 0; i < 4; ++i)
         {
-            if (IsIntersects(ray, testFunc, node.firstChild + i,
-                             BoundingBox2D(bound.Corner(i), bound.MidPoint())))
+            if (IsIntersects(
+                    ray, testFunc, node.firstChild + i,
+                    BoundingBox2D{ bound.Corner(i), bound.MidPoint() }))
             {
                 return true;
             }
@@ -400,7 +397,7 @@ void Quadtree<T>::ForEachIntersectingItem(
         {
             ForEachIntersectingItem(
                 box, testFunc, visitorFunc, node.firstChild + i,
-                BoundingBox2D(bound.Corner(i), bound.MidPoint()));
+                BoundingBox2D{ bound.Corner(i), bound.MidPoint() });
         }
     }
 }
@@ -435,7 +432,7 @@ void Quadtree<T>::ForEachIntersectingItem(
         {
             ForEachIntersectingItem(
                 ray, testFunc, visitorFunc, node.firstChild + i,
-                BoundingBox2D(bound.Corner(i), bound.MidPoint()));
+                BoundingBox2D{ bound.Corner(i), bound.MidPoint() });
         }
     }
 }
@@ -472,7 +469,7 @@ ClosestIntersectionQueryResult2<T> Quadtree<T>::GetClosestIntersection(
         {
             best = GetClosestIntersection(
                 ray, testFunc, node.firstChild + i,
-                BoundingBox2D(bound.Corner(i), bound.MidPoint()), best);
+                BoundingBox2D{ bound.Corner(i), bound.MidPoint() }, best);
         }
     }
 
