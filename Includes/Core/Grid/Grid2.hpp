@@ -93,6 +93,12 @@ class Grid2 : public Serializable
     void ParallelForEachCellIndex(
         const std::function<void(size_t, size_t)>& func) const;
 
+    //! Serializes the grid instance to the output buffer.
+    void Serialize(std::vector<uint8_t>* buffer) const override = 0;
+
+    //! Deserializes the input buffer to the grid instance.
+    void Deserialize(const std::vector<uint8_t>& buffer) override = 0;
+
     //! Returns true if resolution, grid-spacing and origin are same.
     [[nodiscard]] bool HasSameShape(const Grid2& other) const;
 
