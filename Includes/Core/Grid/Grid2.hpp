@@ -35,29 +35,41 @@ class Grid2 : public Serializable
     //! Function type for mapping data index to actual position.
     using DataPositionFunc = std::function<Vector2D(size_t, size_t)>;
 
-    //! Constructs an empty grid.
-    Grid2();
+    //! Default constructor.
+    Grid2() = default;
 
-    //! Default destructor.
-    virtual ~Grid2();
+    //! Default copy constructor.
+    Grid2(const Grid2&) = default;
+
+    //! Default move constructor.
+    Grid2(Grid2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~Grid2() override = default;
+
+    //! Default copy assignment operator.
+    Grid2& operator=(const Grid2&) = default;
+
+    //! Default move assignment operator.
+    Grid2& operator=(Grid2&&) noexcept = default;
 
     //! Returns the type name of derived grid.
-    virtual std::string TypeName() const = 0;
+    [[nodiscard]] virtual std::string TypeName() const = 0;
 
     //! Returns the grid resolution.
-    const Size2& Resolution() const;
+    [[nodiscard]] const Size2& Resolution() const;
 
     //! Returns the grid origin.
-    const Vector2D& Origin() const;
+    [[nodiscard]] const Vector2D& Origin() const;
 
     //! Returns the grid spacing.
-    const Vector2D& GridSpacing() const;
+    [[nodiscard]] const Vector2D& GridSpacing() const;
 
     //! Returns the bounding box of the grid.
-    const BoundingBox2D& BoundingBox() const;
+    [[nodiscard]] const BoundingBox2D& BoundingBox() const;
 
     //! Returns the function that maps grid index to the cell-center position.
-    DataPositionFunc CellCenterPosition() const;
+    [[nodiscard]] DataPositionFunc CellCenterPosition() const;
 
     //!
     //! \brief Invokes the given function \p func for each grid cell.
@@ -82,7 +94,7 @@ class Grid2 : public Serializable
         const std::function<void(size_t, size_t)>& func) const;
 
     //! Returns true if resolution, grid-spacing and origin are same.
-    bool HasSameShape(const Grid2& other) const;
+    [[nodiscard]] bool HasSameShape(const Grid2& other) const;
 
     //! Swaps the data with other grid.
     virtual void Swap(Grid2* other) = 0;
