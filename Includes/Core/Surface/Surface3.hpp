@@ -34,86 +34,96 @@ struct SurfaceRayIntersection3
 class Surface3
 {
  public:
-    //! Local-to-world transform.
-    Transform3 transform;
-
-    //! Flips normal when calling Surface3::closestNormal(...).
-    bool isNormalFlipped = false;
-
     //! Constructs a surface with normal direction.
-    Surface3(const Transform3& transform = Transform3(),
-             bool isNormalFlipped = false);
+    Surface3(Transform3 _transform = Transform3{},
+             bool _isNormalFlipped = false);
 
-    //! Copy constructor.
-    Surface3(const Surface3& other);
+    //! Default copy constructor.
+    Surface3(const Surface3&) = default;
+
+    //! Default move constructor.
+    Surface3(Surface3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~Surface3() = default;
 
     //! Default copy assignment operator.
-    Surface3& operator=(const Surface3& other) = default;
+    Surface3& operator=(const Surface3&) = default;
 
-    //! Default destructor.
-    virtual ~Surface3();
+    //! Default move assignment operator.
+    Surface3& operator=(Surface3&&) noexcept = default;
 
     //! Returns the closest point from the given point \p otherPoint to the
     //! surface.
-    Vector3D ClosestPoint(const Vector3D& otherPoint) const;
+    [[nodiscard]] Vector3D ClosestPoint(const Vector3D& otherPoint) const;
 
     //! Returns the bounding box of this surface object.
-    BoundingBox3D BoundingBox() const;
+    [[nodiscard]] BoundingBox3D BoundingBox() const;
 
     //! Returns true if the given \p ray intersects with this surface object.
-    bool Intersects(const Ray3D& ray) const;
+    [[nodiscard]] bool Intersects(const Ray3D& ray) const;
 
     //! Returns the closest distance from the given point \p otherPoint to the
     //! point on the surface.
-    double ClosestDistance(const Vector3D& otherPoint) const;
+    [[nodiscard]] double ClosestDistance(const Vector3D& otherPoint) const;
 
     //! Returns the closest intersection point for given \p ray.
-    SurfaceRayIntersection3 ClosestIntersection(const Ray3D& ray) const;
+    [[nodiscard]] SurfaceRayIntersection3 ClosestIntersection(
+        const Ray3D& ray) const;
 
     //! Returns the normal to the closest point on the surface from the given
     //! point \p otherPoint.
-    Vector3D ClosestNormal(const Vector3D& otherPoint) const;
+    [[nodiscard]] Vector3D ClosestNormal(const Vector3D& otherPoint) const;
 
     //! Updates internal spatial query engine.
     virtual void UpdateQueryEngine();
 
     //! Returns true if bounding box can be defined.
-    virtual bool IsBounded() const;
+    [[nodiscard]] virtual bool IsBounded() const;
 
     //! Returns true if the surface is a valid geometry.
-    virtual bool IsValidGeometry() const;
+    [[nodiscard]] virtual bool IsValidGeometry() const;
 
     //! Returns true if \p otherPoint is inside the volume defined by the
     //! surface.
-    bool IsInside(const Vector3D& otherPoint) const;
+    [[nodiscard]] bool IsInside(const Vector3D& otherPoint) const;
+
+    //! Local-to-world transform.
+    Transform3 transform;
+
+    //! Flips normal.
+    bool isNormalFlipped = false;
 
  protected:
     //! Returns the closest point from the given point \p otherPoint to the
     //! surface in local frame.
-    virtual Vector3D ClosestPointLocal(const Vector3D& otherPoint) const = 0;
+    [[nodiscard]] virtual Vector3D ClosestPointLocal(
+        const Vector3D& otherPoint) const = 0;
 
     //! Returns the bounding box of this surface object in local frame.
-    virtual BoundingBox3D BoundingBoxLocal() const = 0;
+    [[nodiscard]] virtual BoundingBox3D BoundingBoxLocal() const = 0;
 
     //! Returns the closest intersection point for given \p ray in local frame.
-    virtual SurfaceRayIntersection3 ClosestIntersectionLocal(
+    [[nodiscard]] virtual SurfaceRayIntersection3 ClosestIntersectionLocal(
         const Ray3D& ray) const = 0;
 
     //! Returns the normal to the closest point on the surface from the given
     //! point \p otherPoint in local frame.
-    virtual Vector3D ClosestNormalLocal(const Vector3D& otherPoint) const = 0;
+    [[nodiscard]] virtual Vector3D ClosestNormalLocal(
+        const Vector3D& otherPoint) const = 0;
 
     //! Returns true if the given \p ray intersects with this surface object
     //! in local frame.
-    virtual bool IntersectsLocal(const Ray3D& ray) const;
+    [[nodiscard]] virtual bool IntersectsLocal(const Ray3D& ray) const;
 
     //! Returns the closest distance from the given point \p otherPoint to the
     //! point on the surface in local frame.
-    virtual double ClosestDistanceLocal(const Vector3D& otherPoint) const;
+    [[nodiscard]] virtual double ClosestDistanceLocal(
+        const Vector3D& otherPoint) const;
 
     //! Returns true if \p otherPoint is inside by given \p depth the volume
     //! defined by the surface in local frame.
-    virtual bool IsInsideLocal(const Vector3D& otherPoint) const;
+    [[nodiscard]] virtual bool IsInsideLocal(const Vector3D& otherPoint) const;
 };
 
 //! Shared pointer for the Surface3 type.
@@ -127,16 +137,17 @@ class SurfaceBuilderBase3
 {
  public:
     //! Returns builder with flipped normal flag.
-    DerivedBuilder& WithIsNormalFlipped(bool isNormalFlipped);
+    [[nodiscard]] DerivedBuilder& WithIsNormalFlipped(bool isNormalFlipped);
 
     //! Returns builder with translation.
-    DerivedBuilder& WithTranslation(const Vector3D& translation);
+    [[nodiscard]] DerivedBuilder& WithTranslation(const Vector3D& translation);
 
     //! Returns builder with orientation.
-    DerivedBuilder& WithOrientation(const QuaternionD& orientation);
+    [[nodiscard]] DerivedBuilder& WithOrientation(
+        const QuaternionD& orientation);
 
     //! Returns builder with transform.
-    DerivedBuilder& WithTransform(const Transform3& transform);
+    [[nodiscard]] DerivedBuilder& WithTransform(const Transform3& transform);
 
  protected:
     bool m_isNormalFlipped = false;
