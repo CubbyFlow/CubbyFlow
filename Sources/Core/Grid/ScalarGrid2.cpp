@@ -17,28 +17,23 @@
 namespace CubbyFlow
 {
 ScalarGrid2::ScalarGrid2()
-    : m_linearSampler(LinearArraySampler2<double, double>(
-          m_data.ConstAccessor(), Vector2D(1, 1), Vector2D()))
-{
-    // Do nothing
-}
-
-ScalarGrid2::~ScalarGrid2()
+    : m_linearSampler(LinearArraySampler2<double, double>{
+          m_data.ConstAccessor(), Vector2D{ 1, 1 }, Vector2D{} })
 {
     // Do nothing
 }
 
 void ScalarGrid2::Clear()
 {
-    Resize(Size2(), GridSpacing(), Origin(), 0.0);
+    Resize(Size2{}, GridSpacing(), Origin(), 0.0);
 }
 
 void ScalarGrid2::Resize(size_t resolutionX, size_t resolutionY,
                          double gridSpacingX, double gridSpacingY,
                          double originX, double originY, double initialValue)
 {
-    Resize(Size2(resolutionX, resolutionY),
-           Vector2D(gridSpacingX, gridSpacingY), Vector2D(originX, originY),
+    Resize(Size2{ resolutionX, resolutionY },
+           Vector2D{ gridSpacingX, gridSpacingY }, Vector2D{ originX, originY },
            initialValue);
 }
 
@@ -54,7 +49,8 @@ void ScalarGrid2::Resize(const Size2& resolution, const Vector2D& gridSpacing,
 void ScalarGrid2::Resize(double gridSpacingX, double gridSpacingY,
                          double originX, double originY)
 {
-    Resize(Vector2D(gridSpacingX, gridSpacingY), Vector2D(originX, originY));
+    Resize(Vector2D{ gridSpacingX, gridSpacingY },
+           Vector2D{ originX, originY });
 }
 
 void ScalarGrid2::Resize(const Vector2D& gridSpacing, const Vector2D& origin)
@@ -95,7 +91,7 @@ std::function<double(const Vector2D&)> ScalarGrid2::Sampler() const
 Vector2D ScalarGrid2::Gradient(const Vector2D& x) const
 {
     std::array<Point2UI, 4> indices;
-    std::array<double, 4> weights;
+    std::array<double, 4> weights{};
     m_linearSampler.GetCoordinatesAndWeights(x, &indices, &weights);
 
     Vector2D result;
@@ -111,7 +107,7 @@ Vector2D ScalarGrid2::Gradient(const Vector2D& x) const
 double ScalarGrid2::Laplacian(const Vector2D& x) const
 {
     std::array<Point2UI, 4> indices;
-    std::array<double, 4> weights;
+    std::array<double, 4> weights{};
     m_linearSampler.GetCoordinatesAndWeights(x, &indices, &weights);
 
     double result = 0.0;
@@ -138,8 +134,8 @@ ScalarGrid2::DataPositionFunc ScalarGrid2::GetDataPosition() const
 {
     Vector2D o = GetDataOrigin();
 
-    return [this, o](size_t i, size_t j) -> Vector2D {
-        return o + GridSpacing() * Vector2D({ i, j });
+    return [this, o](const size_t i, const size_t j) -> Vector2D {
+        return o + GridSpacing() * Vector2D{ { i, j } };
     };
 }
 
@@ -147,7 +143,8 @@ void ScalarGrid2::Fill(double value, ExecutionPolicy policy)
 {
     ParallelFor(
         ZERO_SIZE, m_data.Width(), ZERO_SIZE, m_data.Height(),
-        [this, value](size_t i, size_t j) { m_data(i, j) = value; }, policy);
+        [this, value](const size_t i, const size_t j) { m_data(i, j) = value; },
+        policy);
 }
 
 void ScalarGrid2::Fill(const std::function<double(const Vector2D&)>& func,
@@ -157,7 +154,7 @@ void ScalarGrid2::Fill(const std::function<double(const Vector2D&)>& func,
 
     ParallelFor(
         ZERO_SIZE, m_data.Width(), ZERO_SIZE, m_data.Height(),
-        [this, &func, &pos](size_t i, size_t j) {
+        [this, &func, &pos](const size_t i, const size_t j) {
             m_data(i, j) = func(pos(i, j));
         },
         policy);
@@ -177,23 +174,24 @@ void ScalarGrid2::ParallelForEachDataPointIndex(
 
 void ScalarGrid2::Serialize(std::vector<uint8_t>* buffer) const
 {
-    flatbuffers::FlatBufferBuilder builder(1024);
+    flatbuffers::FlatBufferBuilder builder{ 1024 };
 
-    auto fbsResolution = CubbyFlowToFlatbuffers(Resolution());
-    auto fbsGridSpacing = CubbyFlowToFlatbuffers(GridSpacing());
-    auto fbsOrigin = CubbyFlowToFlatbuffers(Origin());
+    fbs::Size2 fbsResolution = CubbyFlowToFlatbuffers(Resolution());
+    fbs::Vector2D fbsGridSpacing = CubbyFlowToFlatbuffers(GridSpacing());
+    fbs::Vector2D fbsOrigin = CubbyFlowToFlatbuffers(Origin());
 
     std::vector<double> gridData;
     GetData(&gridData);
-    auto data = builder.CreateVector(gridData.data(), gridData.size());
+    const flatbuffers::Offset<flatbuffers::Vector<double>> data =
+        builder.CreateVector(gridData.data(), gridData.size());
 
-    auto fbsGrid = fbs::CreateScalarGrid2(builder, &fbsResolution,
-                                          &fbsGridSpacing, &fbsOrigin, data);
+    const flatbuffers::Offset<fbs::ScalarGrid2> fbsGrid = CreateScalarGrid2(
+        builder, &fbsResolution, &fbsGridSpacing, &fbsOrigin, data);
 
     builder.Finish(fbsGrid);
 
     uint8_t* buf = builder.GetBufferPointer();
-    size_t size = builder.GetSize();
+    const size_t size = builder.GetSize();
 
     buffer->resize(size);
     memcpy(buffer->data(), buf, size);
@@ -201,13 +199,13 @@ void ScalarGrid2::Serialize(std::vector<uint8_t>* buffer) const
 
 void ScalarGrid2::Deserialize(const std::vector<uint8_t>& buffer)
 {
-    auto fbsGrid = fbs::GetScalarGrid2(buffer.data());
+    const fbs::ScalarGrid2* fbsGrid = fbs::GetScalarGrid2(buffer.data());
 
     Resize(FlatbuffersToCubbyFlow(*fbsGrid->resolution()),
            FlatbuffersToCubbyFlow(*fbsGrid->gridSpacing()),
            FlatbuffersToCubbyFlow(*fbsGrid->origin()));
 
-    auto data = fbsGrid->data();
+    const flatbuffers::Vector<double>* data = fbsGrid->data();
     std::vector<double> gridData(data->size());
     std::copy(data->begin(), data->end(), gridData.begin());
 
@@ -233,14 +231,15 @@ void ScalarGrid2::SetScalarGrid(const ScalarGrid2& other)
 
 void ScalarGrid2::ResetSampler()
 {
-    m_linearSampler = LinearArraySampler2<double, double>(
-        m_data.ConstAccessor(), GridSpacing(), GetDataOrigin());
+    m_linearSampler =
+        LinearArraySampler2<double, double>{ m_data.ConstAccessor(),
+                                             GridSpacing(), GetDataOrigin() };
     m_sampler = m_linearSampler.Functor();
 }
 
 void ScalarGrid2::GetData(std::vector<double>* data) const
 {
-    size_t size = GetDataSize().x * GetDataSize().y;
+    const size_t size = GetDataSize().x * GetDataSize().y;
     data->resize(size);
     std::copy(m_data.begin(), m_data.end(), data->begin());
 }
@@ -250,15 +249,5 @@ void ScalarGrid2::SetData(const std::vector<double>& data)
     assert(GetDataSize().x * GetDataSize().y == data.size());
 
     std::copy(data.begin(), data.end(), m_data.begin());
-}
-
-ScalarGridBuilder2::ScalarGridBuilder2()
-{
-    // Do nothing
-}
-
-ScalarGridBuilder2::~ScalarGridBuilder2()
-{
-    // Do nothing
 }
 }  // namespace CubbyFlow

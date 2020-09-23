@@ -32,8 +32,20 @@ class ScalarGrid2 : public ScalarField2, public Grid2
     //! Constructs an empty grid.
     ScalarGrid2();
 
-    //! Default destructor.
-    virtual ~ScalarGrid2();
+    //! Default copy constructor.
+    ScalarGrid2(const ScalarGrid2&) = default;
+
+    //! Default move constructor.
+    ScalarGrid2(ScalarGrid2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~ScalarGrid2() override = default;
+
+    //! Default copy assignment operator.
+    ScalarGrid2& operator=(const ScalarGrid2&) = default;
+
+    //! Default move assignment operator.
+    ScalarGrid2& operator=(ScalarGrid2&&) noexcept = default;
 
     //!
     //! \brief Returns the size of the grid data.
@@ -41,7 +53,7 @@ class ScalarGrid2 : public ScalarField2, public Grid2
     //! This function returns the size of the grid data which is not necessarily
     //! equal to the grid resolution if the data is not stored at cell-center.
     //!
-    virtual Size2 GetDataSize() const = 0;
+    [[nodiscard]] virtual Size2 GetDataSize() const = 0;
 
     //!
     //! \brief Returns the origin of the grid data.
@@ -50,10 +62,10 @@ class ScalarGrid2 : public ScalarField2, public Grid2
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
     //!
-    virtual Vector2D GetDataOrigin() const = 0;
+    [[nodiscard]] virtual Vector2D GetDataOrigin() const = 0;
 
     //! Returns the copy of the grid instance.
-    virtual std::shared_ptr<ScalarGrid2> Clone() const = 0;
+    [[nodiscard]] virtual std::shared_ptr<ScalarGrid2> Clone() const = 0;
 
     //! Clears the contents of the grid.
     void Clear();
@@ -83,19 +95,19 @@ class ScalarGrid2 : public ScalarField2, public Grid2
     double& operator()(size_t i, size_t j);
 
     //! Returns the gradient vector at given data point.
-    Vector2D GradientAtDataPoint(size_t i, size_t j) const;
+    [[nodiscard]] Vector2D GradientAtDataPoint(size_t i, size_t j) const;
 
     //! Returns the Laplacian at given data point.
-    double LaplacianAtDataPoint(size_t i, size_t j) const;
+    [[nodiscard]] double LaplacianAtDataPoint(size_t i, size_t j) const;
 
     //! Returns the read-write data array accessor.
-    ScalarDataAccessor GetDataAccessor();
+    [[nodiscard]] ScalarDataAccessor GetDataAccessor();
 
     //! Returns the read-only data array accessor.
-    ConstScalarDataAccessor GetConstDataAccessor() const;
+    [[nodiscard]] ConstScalarDataAccessor GetConstDataAccessor() const;
 
     //! Returns the function that maps data point to its position.
-    DataPositionFunc GetDataPosition() const;
+    [[nodiscard]] DataPositionFunc GetDataPosition() const;
 
     //! Fills the grid with given value.
     void Fill(double value, ExecutionPolicy policy = ExecutionPolicy::Parallel);
@@ -134,7 +146,7 @@ class ScalarGrid2 : public ScalarField2, public Grid2
     //! This function returns the data sampled at arbitrary position \p x.
     //! The sampling function is linear.
     //!
-    double Sample(const Vector2D& x) const override;
+    [[nodiscard]] double Sample(const Vector2D& x) const override;
 
     //!
     //! \brief Returns the sampler function.
@@ -142,13 +154,14 @@ class ScalarGrid2 : public ScalarField2, public Grid2
     //! This function returns the data sampler function object. The sampling
     //! function is linear.
     //!
-    std::function<double(const Vector2D&)> Sampler() const override;
+    [[nodiscard]] std::function<double(const Vector2D&)> Sampler()
+        const override;
 
     //! Returns the gradient vector at given position \p x.
-    Vector2D Gradient(const Vector2D& x) const override;
+    [[nodiscard]] Vector2D Gradient(const Vector2D& x) const override;
 
     //! Returns the Laplacian at given position \p x.
-    double Laplacian(const Vector2D& x) const override;
+    [[nodiscard]] double Laplacian(const Vector2D& x) const override;
 
     //! Serializes the grid instance to the output buffer.
     void Serialize(std::vector<uint8_t>* buffer) const override;
@@ -170,11 +183,11 @@ class ScalarGrid2 : public ScalarField2, public Grid2
     void SetData(const std::vector<double>& data) override;
 
  private:
+    void ResetSampler();
+
     Array2<double> m_data;
     LinearArraySampler2<double, double> m_linearSampler;
     std::function<double(const Vector2D&)> m_sampler;
-
-    void ResetSampler();
 };
 
 //! Shared pointer for the ScalarGrid2 type.
@@ -184,17 +197,29 @@ using ScalarGrid2Ptr = std::shared_ptr<ScalarGrid2>;
 class ScalarGridBuilder2
 {
  public:
-    //! Creates a builder.
-    ScalarGridBuilder2();
+    //! Default constructor.
+    ScalarGridBuilder2() = default;
 
-    //! Default destructor.
-    virtual ~ScalarGridBuilder2();
+    //! Default copy constructor.
+    ScalarGridBuilder2(const ScalarGridBuilder2&) = default;
+
+    //! Default move constructor.
+    ScalarGridBuilder2(ScalarGridBuilder2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~ScalarGridBuilder2() = default;
+
+    //! Default copy assignment operator.
+    ScalarGridBuilder2& operator=(const ScalarGridBuilder2&) = default;
+
+    //! Default move assignment operator.
+    ScalarGridBuilder2& operator=(ScalarGridBuilder2&&) noexcept = default;
 
     //! Returns 2-D scalar grid with given parameters.
-    virtual ScalarGrid2Ptr Build(const Size2& resolution,
-                                 const Vector2D& gridSpacing,
-                                 const Vector2D& gridOrigin,
-                                 double initialVal) const = 0;
+    [[nodiscard]] virtual ScalarGrid2Ptr Build(const Size2& resolution,
+                                               const Vector2D& gridSpacing,
+                                               const Vector2D& gridOrigin,
+                                               double initialVal) const = 0;
 };
 
 //! Shared pointer for the ScalarGridBuilder2 type.
