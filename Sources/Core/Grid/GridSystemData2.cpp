@@ -17,7 +17,7 @@
 namespace CubbyFlow
 {
 GridSystemData2::GridSystemData2()
-    : GridSystemData2({ 0, 0 }, { 1, 1 }, { 0, 0 })
+    : GridSystemData2{ { 0, 0 }, { 1, 1 }, { 0, 0 } }
 {
     // Do nothing
 }
@@ -37,19 +37,19 @@ GridSystemData2::GridSystemData2(const GridSystemData2& other)
 {
     Resize(other.m_resolution, other.m_gridSpacing, other.m_origin);
 
-    for (auto& data : other.m_scalarDataList)
+    for (const auto& data : other.m_scalarDataList)
     {
         m_scalarDataList.push_back(data->Clone());
     }
-    for (auto& data : other.m_vectorDataList)
+    for (const auto& data : other.m_vectorDataList)
     {
         m_vectorDataList.push_back(data->Clone());
     }
-    for (auto& data : other.m_advectableScalarDataList)
+    for (const auto& data : other.m_advectableScalarDataList)
     {
         m_advectableScalarDataList.push_back(data->Clone());
     }
-    for (auto& data : other.m_advectableVectorDataList)
+    for (const auto& data : other.m_advectableVectorDataList)
     {
         m_advectableVectorDataList.push_back(data->Clone());
     }
@@ -68,19 +68,19 @@ GridSystemData2& GridSystemData2::operator=(const GridSystemData2& other)
 {
     Resize(other.m_resolution, other.m_gridSpacing, other.m_origin);
 
-    for (auto& data : other.m_scalarDataList)
+    for (const auto& data : other.m_scalarDataList)
     {
         m_scalarDataList.push_back(data->Clone());
     }
-    for (auto& data : other.m_vectorDataList)
+    for (const auto& data : other.m_vectorDataList)
     {
         m_vectorDataList.push_back(data->Clone());
     }
-    for (auto& data : other.m_advectableScalarDataList)
+    for (const auto& data : other.m_advectableScalarDataList)
     {
         m_advectableScalarDataList.push_back(data->Clone());
     }
-    for (auto& data : other.m_advectableVectorDataList)
+    for (const auto& data : other.m_advectableVectorDataList)
     {
         m_advectableVectorDataList.push_back(data->Clone());
     }
@@ -97,11 +97,6 @@ GridSystemData2& GridSystemData2::operator=(const GridSystemData2& other)
     return *this;
 }
 
-GridSystemData2::~GridSystemData2()
-{
-    // Do nothing
-}
-
 void GridSystemData2::Resize(const Size2& resolution,
                              const Vector2D& gridSpacing,
                              const Vector2D& origin)
@@ -110,19 +105,19 @@ void GridSystemData2::Resize(const Size2& resolution,
     m_gridSpacing = gridSpacing;
     m_origin = origin;
 
-    for (auto& data : m_scalarDataList)
+    for (const auto& data : m_scalarDataList)
     {
         data->Resize(resolution, gridSpacing, origin);
     }
-    for (auto& data : m_vectorDataList)
+    for (const auto& data : m_vectorDataList)
     {
         data->Resize(resolution, gridSpacing, origin);
     }
-    for (auto& data : m_advectableScalarDataList)
+    for (const auto& data : m_advectableScalarDataList)
     {
         data->Resize(resolution, gridSpacing, origin);
     }
-    for (auto& data : m_advectableVectorDataList)
+    for (const auto& data : m_advectableVectorDataList)
     {
         data->Resize(resolution, gridSpacing, origin);
     }
@@ -151,7 +146,7 @@ BoundingBox2D GridSystemData2::GetBoundingBox() const
 size_t GridSystemData2::AddScalarData(const ScalarGridBuilder2Ptr& builder,
                                       double initialVal)
 {
-    size_t attrIdx = m_scalarDataList.size();
+    const size_t attrIdx = m_scalarDataList.size();
     m_scalarDataList.push_back(builder->Build(GetResolution(), GetGridSpacing(),
                                               GetOrigin(), initialVal));
     return attrIdx;
@@ -160,7 +155,7 @@ size_t GridSystemData2::AddScalarData(const ScalarGridBuilder2Ptr& builder,
 size_t GridSystemData2::AddVectorData(const VectorGridBuilder2Ptr& builder,
                                       const Vector2D& initialVal)
 {
-    size_t attrIdx = m_vectorDataList.size();
+    const size_t attrIdx = m_vectorDataList.size();
     m_vectorDataList.push_back(builder->Build(GetResolution(), GetGridSpacing(),
                                               GetOrigin(), initialVal));
     return attrIdx;
@@ -169,7 +164,7 @@ size_t GridSystemData2::AddVectorData(const VectorGridBuilder2Ptr& builder,
 size_t GridSystemData2::AddAdvectableScalarData(
     const ScalarGridBuilder2Ptr& builder, double initialVal)
 {
-    size_t attrIdx = m_advectableScalarDataList.size();
+    const size_t attrIdx = m_advectableScalarDataList.size();
     m_advectableScalarDataList.push_back(builder->Build(
         GetResolution(), GetGridSpacing(), GetOrigin(), initialVal));
     return attrIdx;
@@ -178,7 +173,7 @@ size_t GridSystemData2::AddAdvectableScalarData(
 size_t GridSystemData2::AddAdvectableVectorData(
     const VectorGridBuilder2Ptr& builder, const Vector2D& initialVal)
 {
-    size_t attrIdx = m_advectableVectorDataList.size();
+    const size_t attrIdx = m_advectableVectorDataList.size();
     m_advectableVectorDataList.push_back(builder->Build(
         GetResolution(), GetGridSpacing(), GetOrigin(), initialVal));
     return attrIdx;
@@ -240,9 +235,9 @@ void GridSystemData2::Serialize(std::vector<uint8_t>* buffer) const
 {
     flatbuffers::FlatBufferBuilder builder(1024);
 
-    auto resolution = CubbyFlowToFlatbuffers(m_resolution);
-    auto gridSpacing = CubbyFlowToFlatbuffers(m_gridSpacing);
-    auto origin = CubbyFlowToFlatbuffers(m_origin);
+    fbs::Size2 resolution = CubbyFlowToFlatbuffers(m_resolution);
+    fbs::Vector2D gridSpacing = CubbyFlowToFlatbuffers(m_gridSpacing);
+    fbs::Vector2D origin = CubbyFlowToFlatbuffers(m_origin);
 
     std::vector<flatbuffers::Offset<fbs::ScalarGridSerialized2>> scalarDataList;
     std::vector<flatbuffers::Offset<fbs::VectorGridSerialized2>> vectorDataList;
@@ -260,7 +255,7 @@ void GridSystemData2::Serialize(std::vector<uint8_t>* buffer) const
     SerializeGrid(&builder, m_advectableVectorDataList,
                   fbs::CreateVectorGridSerialized2, &advVectorDataList);
 
-    auto gsd = fbs::CreateGridSystemData2(
+    const flatbuffers::Offset<fbs::GridSystemData2> gsd = CreateGridSystemData2(
         builder, &resolution, &gridSpacing, &origin, m_velocityIdx,
         builder.CreateVector(scalarDataList),
         builder.CreateVector(vectorDataList),
@@ -270,7 +265,7 @@ void GridSystemData2::Serialize(std::vector<uint8_t>* buffer) const
     builder.Finish(gsd);
 
     uint8_t* buf = builder.GetBufferPointer();
-    size_t size = builder.GetSize();
+    const size_t size = builder.GetSize();
 
     buffer->resize(size);
     memcpy(buffer->data(), buf, size);
@@ -278,7 +273,7 @@ void GridSystemData2::Serialize(std::vector<uint8_t>* buffer) const
 
 void GridSystemData2::Deserialize(const std::vector<uint8_t>& buffer)
 {
-    auto gsd = fbs::GetGridSystemData2(buffer.data());
+    const fbs::GridSystemData2* gsd = fbs::GetGridSystemData2(buffer.data());
 
     Resize(FlatbuffersToCubbyFlow(*gsd->resolution()),
            FlatbuffersToCubbyFlow(*gsd->gridSpacing()),
