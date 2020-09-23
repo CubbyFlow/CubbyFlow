@@ -28,10 +28,22 @@ class VectorGrid3 : public VectorField3, public Grid3
     using ConstVectorDataAccessor = ConstArrayAccessor3<Vector3D>;
 
     //! Constructs an empty grid.
-    VectorGrid3();
+    VectorGrid3() = default;
 
-    //! Default destructor.
-    virtual ~VectorGrid3();
+    //! Default copy constructor.
+    VectorGrid3(const VectorGrid3&) = default;
+
+    //! Default move constructor.
+    VectorGrid3(VectorGrid3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~VectorGrid3() override = default;
+
+    //! Default copy assignment operator.
+    VectorGrid3& operator=(const VectorGrid3&) = default;
+
+    //! Default move assignment operator.
+    VectorGrid3& operator=(VectorGrid3&&) noexcept = default;
 
     //! Clears the contents of the grid.
     void Clear();
@@ -46,9 +58,9 @@ class VectorGrid3 : public VectorField3, public Grid3
 
     //! Resizes the grid using given parameters.
     void Resize(const Size3& resolution,
-                const Vector3D& gridSpacing = Vector3D(1, 1, 1),
-                const Vector3D& origin = Vector3D(),
-                const Vector3D& initialValue = Vector3D());
+                const Vector3D& gridSpacing = Vector3D{ 1, 1, 1 },
+                const Vector3D& origin = Vector3D{},
+                const Vector3D& initialValue = Vector3D{});
 
     //! Resizes the grid using given parameters.
     void Resize(double gridSpacingX, double gridSpacingY, double gridSpacingZ,
@@ -66,7 +78,7 @@ class VectorGrid3 : public VectorField3, public Grid3
                       ExecutionPolicy policy = ExecutionPolicy::Parallel) = 0;
 
     //! Returns the copy of the grid instance.
-    virtual std::shared_ptr<VectorGrid3> Clone() const = 0;
+    [[nodiscard]] virtual std::shared_ptr<VectorGrid3> Clone() const = 0;
 
     //! Serializes the grid instance to the output buffer.
     void Serialize(std::vector<uint8_t>* buffer) const override;
@@ -94,17 +106,28 @@ using VectorGrid3Ptr = std::shared_ptr<VectorGrid3>;
 class VectorGridBuilder3
 {
  public:
-    //! Creates a builder.
-    VectorGridBuilder3();
+    //! Default constructor.
+    VectorGridBuilder3() = default;
 
-    //! Default destructor.
-    virtual ~VectorGridBuilder3();
+    //! Default copy constructor.
+    VectorGridBuilder3(const VectorGridBuilder3&) = default;
+
+    //! Default move constructor.
+    VectorGridBuilder3(VectorGridBuilder3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~VectorGridBuilder3() = default;
+
+    //! Default copy assignment operator.
+    VectorGridBuilder3& operator=(const VectorGridBuilder3&) = default;
+
+    //! Default move assignment operator.
+    VectorGridBuilder3& operator=(VectorGridBuilder3&&) noexcept = default;
 
     //! Returns 3-D vector grid with given parameters.
-    virtual VectorGrid3Ptr Build(const Size3& resolution,
-                                 const Vector3D& gridSpacing,
-                                 const Vector3D& gridOrigin,
-                                 const Vector3D& initialVal) const = 0;
+    [[nodiscard]] virtual VectorGrid3Ptr Build(
+        const Size3& resolution, const Vector3D& gridSpacing,
+        const Vector3D& gridOrigin, const Vector3D& initialVal) const = 0;
 };
 
 //! Shared pointer for the VectorGridBuilder3 type.

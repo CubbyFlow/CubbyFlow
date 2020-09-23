@@ -28,10 +28,22 @@ class VectorGrid2 : public VectorField2, public Grid2
     using ConstVectorDataAccessor = ConstArrayAccessor2<Vector2D>;
 
     //! Constructs an empty grid.
-    VectorGrid2();
+    VectorGrid2() = default;
 
-    //! Default destructor.
-    virtual ~VectorGrid2();
+    //! Default copy constructor.
+    VectorGrid2(const VectorGrid2&) = default;
+
+    //! Default move constructor.
+    VectorGrid2(VectorGrid2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~VectorGrid2() override = default;
+
+    //! Default copy assignment operator.
+    VectorGrid2& operator=(const VectorGrid2&) = default;
+
+    //! Default move assignment operator.
+    VectorGrid2& operator=(VectorGrid2&&) noexcept = default;
 
     //! Clears the contents of the grid.
     void Clear();
@@ -44,9 +56,9 @@ class VectorGrid2 : public VectorField2, public Grid2
 
     //! Resizes the grid using given parameters.
     void Resize(const Size2& resolution,
-                const Vector2D& gridSpacing = Vector2D(1, 1),
-                const Vector2D& origin = Vector2D(),
-                const Vector2D& initialValue = Vector2D());
+                const Vector2D& gridSpacing = Vector2D{ 1, 1 },
+                const Vector2D& origin = Vector2D{},
+                const Vector2D& initialValue = Vector2D{});
 
     //! Resizes the grid using given parameters.
     void Resize(double gridSpacingX, double gridSpacingY, double originX,
@@ -64,7 +76,7 @@ class VectorGrid2 : public VectorField2, public Grid2
                       ExecutionPolicy policy = ExecutionPolicy::Parallel) = 0;
 
     //! Returns the copy of the grid instance.
-    virtual std::shared_ptr<VectorGrid2> Clone() const = 0;
+    [[nodiscard]] virtual std::shared_ptr<VectorGrid2> Clone() const = 0;
 
     //! Serializes the grid instance to the output buffer.
     void Serialize(std::vector<uint8_t>* buffer) const override;
@@ -92,17 +104,28 @@ using VectorGrid2Ptr = std::shared_ptr<VectorGrid2>;
 class VectorGridBuilder2
 {
  public:
-    //! Creates a builder.
-    VectorGridBuilder2();
+    //! Default constructor.
+    VectorGridBuilder2() = default;
 
-    //! Default destructor.
-    virtual ~VectorGridBuilder2();
+    //! Default copy constructor.
+    VectorGridBuilder2(const VectorGridBuilder2&) = default;
+
+    //! Default move constructor.
+    VectorGridBuilder2(VectorGridBuilder2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~VectorGridBuilder2() = default;
+
+    //! Default copy assignment operator.
+    VectorGridBuilder2& operator=(const VectorGridBuilder2&) = default;
+
+    //! Default move assignment operator.
+    VectorGridBuilder2& operator=(VectorGridBuilder2&&) noexcept = default;
 
     //! Returns 2-D vector grid with given parameters.
-    virtual VectorGrid2Ptr Build(const Size2& resolution,
-                                 const Vector2D& gridSpacing,
-                                 const Vector2D& gridOrigin,
-                                 const Vector2D& initialVal) const = 0;
+    [[nodiscard]] virtual VectorGrid2Ptr Build(
+        const Size2& resolution, const Vector2D& gridSpacing,
+        const Vector2D& gridOrigin, const Vector2D& initialVal) const = 0;
 };
 
 //! Shared pointer for the VectorGridBuilder2 type.
