@@ -12,11 +12,6 @@
 
 namespace CubbyFlow
 {
-VertexCenteredScalarGrid2::VertexCenteredScalarGrid2()
-{
-    // Do nothing
-}
-
 VertexCenteredScalarGrid2::VertexCenteredScalarGrid2(
     size_t resolutionX, size_t resolutionY, double gridSpacingX,
     double gridSpacingY, double originX, double originY, double initialValue)
@@ -34,18 +29,26 @@ VertexCenteredScalarGrid2::VertexCenteredScalarGrid2(
 
 VertexCenteredScalarGrid2::VertexCenteredScalarGrid2(
     const VertexCenteredScalarGrid2& other)
+    : ScalarGrid2{ other }
 {
     Set(other);
 }
 
+VertexCenteredScalarGrid2& VertexCenteredScalarGrid2::operator=(
+    const VertexCenteredScalarGrid2& other)
+{
+    Set(other);
+    return *this;
+}
+
 Size2 VertexCenteredScalarGrid2::GetDataSize() const
 {
-    if (Resolution() != Size2(0, 0))
+    if (Resolution() != Size2{ 0, 0 })
     {
-        return Resolution() + Size2(1, 1);
+        return Resolution() + Size2{ 1, 1 };
     }
 
-    return Size2(0, 0);
+    return Size2{ 0, 0 };
 }
 
 Vector2D VertexCenteredScalarGrid2::GetDataOrigin() const
@@ -56,14 +59,13 @@ Vector2D VertexCenteredScalarGrid2::GetDataOrigin() const
 std::shared_ptr<ScalarGrid2> VertexCenteredScalarGrid2::Clone() const
 {
     return std::shared_ptr<VertexCenteredScalarGrid2>(
-        new VertexCenteredScalarGrid2(*this),
+        new VertexCenteredScalarGrid2{ *this },
         [](VertexCenteredScalarGrid2* obj) { delete obj; });
 }
 
 void VertexCenteredScalarGrid2::Swap(Grid2* other)
 {
-    VertexCenteredScalarGrid2* sameType =
-        dynamic_cast<VertexCenteredScalarGrid2*>(other);
+    auto sameType = dynamic_cast<VertexCenteredScalarGrid2*>(other);
     if (sameType != nullptr)
     {
         SwapScalarGrid(sameType);
@@ -73,13 +75,6 @@ void VertexCenteredScalarGrid2::Swap(Grid2* other)
 void VertexCenteredScalarGrid2::Set(const VertexCenteredScalarGrid2& other)
 {
     SetScalarGrid(other);
-}
-
-VertexCenteredScalarGrid2& VertexCenteredScalarGrid2::operator=(
-    const VertexCenteredScalarGrid2& other)
-{
-    Set(other);
-    return *this;
 }
 
 VertexCenteredScalarGrid2::Builder VertexCenteredScalarGrid2::GetBuilder()
@@ -144,16 +139,16 @@ VertexCenteredScalarGrid2::Builder::WithInitialValue(double initialVal)
 
 VertexCenteredScalarGrid2 VertexCenteredScalarGrid2::Builder::Build() const
 {
-    return VertexCenteredScalarGrid2(m_resolution, m_gridSpacing, m_gridOrigin,
-                                     m_initialVal);
+    return VertexCenteredScalarGrid2{ m_resolution, m_gridSpacing, m_gridOrigin,
+                                      m_initialVal };
 }
 
 VertexCenteredScalarGrid2Ptr VertexCenteredScalarGrid2::Builder::MakeShared()
     const
 {
     return std::shared_ptr<VertexCenteredScalarGrid2>(
-        new VertexCenteredScalarGrid2(m_resolution, m_gridSpacing, m_gridOrigin,
-                                      m_initialVal),
+        new VertexCenteredScalarGrid2{ m_resolution, m_gridSpacing,
+                                       m_gridOrigin, m_initialVal },
         [](VertexCenteredScalarGrid2* obj) { delete obj; });
 }
 
@@ -162,8 +157,8 @@ ScalarGrid2Ptr VertexCenteredScalarGrid2::Builder::Build(
     const Vector2D& gridOrigin, double initialVal) const
 {
     return std::shared_ptr<VertexCenteredScalarGrid2>(
-        new VertexCenteredScalarGrid2(resolution, gridSpacing, gridOrigin,
-                                      initialVal),
+        new VertexCenteredScalarGrid2{ resolution, gridSpacing, gridOrigin,
+                                       initialVal },
         [](VertexCenteredScalarGrid2* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

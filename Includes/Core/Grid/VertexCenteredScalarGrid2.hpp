@@ -31,7 +31,7 @@ class VertexCenteredScalarGrid2 final : public ScalarGrid2
     class Builder;
 
     //! Constructs zero-sized grid.
-    VertexCenteredScalarGrid2();
+    VertexCenteredScalarGrid2() = default;
 
     //! Constructs a grid with given resolution, grid spacing, origin and
     //! initial value.
@@ -43,23 +43,38 @@ class VertexCenteredScalarGrid2 final : public ScalarGrid2
     //! Constructs a grid with given resolution, grid spacing, origin and
     //! initial value.
     VertexCenteredScalarGrid2(const Size2& resolution,
-                              const Vector2D& gridSpacing = Vector2D(1.0, 1.0),
-                              const Vector2D& origin = Vector2D(),
+                              const Vector2D& gridSpacing = Vector2D{ 1.0,
+                                                                      1.0 },
+                              const Vector2D& origin = Vector2D{},
                               double initialValue = 0.0);
 
     //! Copy constructor.
     VertexCenteredScalarGrid2(const VertexCenteredScalarGrid2& other);
 
+    //! Deleted move constructor.
+    VertexCenteredScalarGrid2(VertexCenteredScalarGrid2&&) noexcept = delete;
+
+    // Default virtual destructor.
+    ~VertexCenteredScalarGrid2() override = default;
+
+    //! Sets the contents with the given \p other grid.
+    VertexCenteredScalarGrid2& operator=(
+        const VertexCenteredScalarGrid2& other);
+
+    //! Deleted move assignment operator.
+    VertexCenteredScalarGrid2& operator=(VertexCenteredScalarGrid2&&) noexcept =
+        delete;
+
     //! Returns the actual data point size.
-    Size2 GetDataSize() const override;
+    [[nodiscard]] Size2 GetDataSize() const override;
 
     //! Returns data position for the grid point at (0, 0).
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
-    Vector2D GetDataOrigin() const override;
+    [[nodiscard]] Vector2D GetDataOrigin() const override;
 
     //! Returns the copy of the grid instance.
-    std::shared_ptr<ScalarGrid2> Clone() const override;
+    [[nodiscard]] std::shared_ptr<ScalarGrid2> Clone() const override;
 
     //!
     //! \brief Swaps the contents with the given \p other grid.
@@ -72,12 +87,8 @@ class VertexCenteredScalarGrid2 final : public ScalarGrid2
     //! Sets the contents with the given \p other grid.
     void Set(const VertexCenteredScalarGrid2& other);
 
-    //! Sets the contents with the given \p other grid.
-    VertexCenteredScalarGrid2& operator=(
-        const VertexCenteredScalarGrid2& other);
-
     //! Returns builder fox VertexCenteredScalarGrid2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 };
 
 //! Shared pointer for the VertexCenteredScalarGrid2 type.
@@ -88,40 +99,43 @@ class VertexCenteredScalarGrid2::Builder final : public ScalarGridBuilder2
 {
  public:
     //! Returns builder with resolution.
-    Builder& WithResolution(const Size2& resolution);
+    [[nodiscard]] Builder& WithResolution(const Size2& resolution);
 
     //! Returns builder with resolution.
-    Builder& WithResolution(size_t resolutionX, size_t resolutionY);
+    [[nodiscard]] Builder& WithResolution(size_t resolutionX,
+                                          size_t resolutionY);
 
     //! Returns builder with grid spacing.
-    Builder& WithGridSpacing(const Vector2D& gridSpacing);
+    [[nodiscard]] Builder& WithGridSpacing(const Vector2D& gridSpacing);
 
     //! Returns builder with grid spacing.
-    Builder& WithGridSpacing(double gridSpacingX, double gridSpacingY);
+    [[nodiscard]] Builder& WithGridSpacing(double gridSpacingX,
+                                           double gridSpacingY);
 
     //! Returns builder with grid origin.
-    Builder& WithOrigin(const Vector2D& gridOrigin);
+    [[nodiscard]] Builder& WithOrigin(const Vector2D& gridOrigin);
 
     //! Returns builder with grid origin.
-    Builder& WithOrigin(double gridOriginX, double gridOriginY);
+    [[nodiscard]] Builder& WithOrigin(double gridOriginX, double gridOriginY);
 
     //! Returns builder with initial value.
-    Builder& WithInitialValue(double initialVal);
+    [[nodiscard]] Builder& WithInitialValue(double initialVal);
 
     //! Builds VertexCenteredScalarGrid2 instance.
-    VertexCenteredScalarGrid2 Build() const;
+    [[nodiscard]] VertexCenteredScalarGrid2 Build() const;
 
     //! Builds shared pointer of VertexCenteredScalarGrid2 instance.
-    VertexCenteredScalarGrid2Ptr MakeShared() const;
+    [[nodiscard]] VertexCenteredScalarGrid2Ptr MakeShared() const;
 
     //!
     //! \brief Builds shared pointer of VertexCenteredScalarGrid2 instance.
     //!
     //! This is an overriding function that implements ScalarGridBuilder2.
     //!
-    ScalarGrid2Ptr Build(const Size2& resolution, const Vector2D& gridSpacing,
-                         const Vector2D& gridOrigin,
-                         double initialVal) const override;
+    [[nodiscard]] ScalarGrid2Ptr Build(const Size2& resolution,
+                                       const Vector2D& gridSpacing,
+                                       const Vector2D& gridOrigin,
+                                       double initialVal) const override;
 
  private:
     Size2 m_resolution{ 1, 1 };
