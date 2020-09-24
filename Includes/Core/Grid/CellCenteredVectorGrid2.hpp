@@ -31,7 +31,7 @@ class CellCenteredVectorGrid2 final : public CollocatedVectorGrid2
     class Builder;
 
     //! Constructs zero-sized grid.
-    CellCenteredVectorGrid2();
+    CellCenteredVectorGrid2() = default;
 
     //! Constructs a grid with given resolution, grid spacing, origin
     //! and initial value.
@@ -39,28 +39,41 @@ class CellCenteredVectorGrid2 final : public CollocatedVectorGrid2
                             double gridSpacingX = 1.0,
                             double gridSpacingY = 1.0, double originX = 0.0,
                             double originY = 0.0, double initialValueU = 0.0,
-                            double initalValueV = 0.0);
+                            double initialValueV = 0.0);
 
     //! Constructs a grid with given resolution, grid spacing, origin
     //! and initial value.
     CellCenteredVectorGrid2(const Size2& resolution,
-                            const Vector2D& gridSpacing = Vector2D(1.0, 1.0),
-                            const Vector2D& origin = Vector2D(),
-                            const Vector2D& initalValue = Vector2D());
+                            const Vector2D& gridSpacing = Vector2D{ 1.0, 1.0 },
+                            const Vector2D& origin = Vector2D{},
+                            const Vector2D& initialValue = Vector2D{});
 
     //! Copy constructor.
     CellCenteredVectorGrid2(const CellCenteredVectorGrid2& other);
 
+    //! Deleted move constructor.
+    CellCenteredVectorGrid2(CellCenteredVectorGrid2&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~CellCenteredVectorGrid2() override = default;
+
+    //! Copy assignment operator.
+    CellCenteredVectorGrid2& operator=(const CellCenteredVectorGrid2& other);
+
+    //! Deleted move assignment operator.
+    CellCenteredVectorGrid2& operator=(CellCenteredVectorGrid2&&) noexcept =
+        delete;
+
     //! Returns the actual data point size.
-    Size2 GetDataSize() const override;
+    [[nodiscard]] Size2 GetDataSize() const override;
 
     //! Returns data position for the grid point at (0, 0).
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
-    Vector2D GetDataOrigin() const override;
+    [[nodiscard]] Vector2D GetDataOrigin() const override;
 
     //! Returns the copy of the grid instance.
-    std::shared_ptr<VectorGrid2> Clone() const override;
+    [[nodiscard]] std::shared_ptr<VectorGrid2> Clone() const override;
 
     //!
     //! \brief Swaps the contents with the given \p other grid.
@@ -81,11 +94,8 @@ class CellCenteredVectorGrid2 final : public CollocatedVectorGrid2
     //! Sets the contents with the given \p other grid.
     void Set(const CellCenteredVectorGrid2& other);
 
-    //! Sets the contents with the given \p other gird.
-    CellCenteredVectorGrid2& operator=(const CellCenteredVectorGrid2& other);
-
     //! Returns the builder fox CellCenteredVectorGrid2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 };
 
 //! Shared pointer for the CellCenteredVectorGrid2 type.
@@ -98,43 +108,46 @@ class CellCenteredVectorGrid2::Builder final : public VectorGridBuilder2
 {
  public:
     //! Returns builder with resolution.
-    Builder& WithResolution(const Size2& resolution);
+    [[nodiscard]] Builder& WithResolution(const Size2& resolution);
 
     //! Returns builder with resolution.
-    Builder& WithResolution(size_t resolutionX, size_t resolutionY);
+    [[nodiscard]] Builder& WithResolution(size_t resolutionX,
+                                          size_t resolutionY);
 
     //! Returns builder with grid spacing.
-    Builder& WithGridSpacing(const Vector2D& gridSpacing);
+    [[nodiscard]] Builder& WithGridSpacing(const Vector2D& gridSpacing);
 
     //! Returns builder with grid spacing.
-    Builder& WithGridSpacing(double gridSpacingX, double gridSpacingY);
+    [[nodiscard]] Builder& WithGridSpacing(double gridSpacingX,
+                                           double gridSpacingY);
 
     //! Returns builder with grid origin.
-    Builder& WithOrigin(const Vector2D& gridOrigin);
+    [[nodiscard]] Builder& WithOrigin(const Vector2D& gridOrigin);
 
     //! Returns builder with grid origin.
-    Builder& WithOrigin(double gridOriginX, double gridOriginY);
+    [[nodiscard]] Builder& WithOrigin(double gridOriginX, double gridOriginY);
 
     //! Returns builder with initial value.
-    Builder& WithInitialValue(const Vector2D& initalVal);
+    [[nodiscard]] Builder& WithInitialValue(const Vector2D& initialVal);
 
     //! Returns builder with initial value.
-    Builder& WithInitialValue(double initialValX, double initialValY);
+    [[nodiscard]] Builder& WithInitialValue(double initialValX,
+                                            double initialValY);
 
     //! Builds CellCenteredVectorGrid2 instance.
-    CellCenteredVectorGrid2 Build() const;
+    [[nodiscard]] CellCenteredVectorGrid2 Build() const;
 
     //! Builds shared pointer of CellCenteredScalarGrid2 instance.
-    CellCenteredVectorGrid2Ptr MakeShared() const;
+    [[nodiscard]] CellCenteredVectorGrid2Ptr MakeShared() const;
 
     //!
     //! \brief Builds shared pointer of CellCenteredVectorGrid2 instance.
     //!
     //! This is an overriding function that implements VectorGridBuilder2.
     //!
-    VectorGrid2Ptr Build(const Size2& resolution, const Vector2D& gridSpacing,
-                         const Vector2D& gridOrigin,
-                         const Vector2D& initalVal) const override;
+    [[nodiscard]] VectorGrid2Ptr Build(
+        const Size2& resolution, const Vector2D& gridSpacing,
+        const Vector2D& gridOrigin, const Vector2D& initialVal) const override;
 
  private:
     Size2 m_resolution{ 1, 1 };

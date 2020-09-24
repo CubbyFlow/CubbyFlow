@@ -31,7 +31,7 @@ class CellCenteredVectorGrid3 final : public CollocatedVectorGrid3
     class Builder;
 
     //! Constructs zero-sized grid.
-    CellCenteredVectorGrid3();
+    CellCenteredVectorGrid3() = default;
 
     //! Constructs a grid with given resolution, grid spacing, origin
     //! and initial value.
@@ -41,30 +41,43 @@ class CellCenteredVectorGrid3 final : public CollocatedVectorGrid3
                             double gridSpacingZ = 1.0, double originX = 0.0,
                             double originY = 0.0, double originZ = 0.0,
                             double initialValueU = 0.0,
-                            double initalValueV = 0.0,
-                            double initalValueZ = 0.0);
+                            double initialValueV = 0.0,
+                            double initialValueZ = 0.0);
 
     //! Constructs a grid with given resolution, grid spacing, origin
     //! and initial value.
     CellCenteredVectorGrid3(const Size3& resolution,
-                            const Vector3D& gridSpacing = Vector3D(1.0, 1.0,
-                                                                   1.0),
-                            const Vector3D& origin = Vector3D(),
-                            const Vector3D& initalValue = Vector3D());
+                            const Vector3D& gridSpacing = Vector3D{ 1.0, 1.0,
+                                                                    1.0 },
+                            const Vector3D& origin = Vector3D{},
+                            const Vector3D& initialValue = Vector3D{});
 
     //! Copy constructor.
     CellCenteredVectorGrid3(const CellCenteredVectorGrid3& other);
 
+    //! Deleted move constructor.
+    CellCenteredVectorGrid3(CellCenteredVectorGrid3&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~CellCenteredVectorGrid3() override = default;
+
+    //! Copy assignment operator.
+    CellCenteredVectorGrid3& operator=(const CellCenteredVectorGrid3& other);
+
+    //! Deleted move assignment operator.
+    CellCenteredVectorGrid3& operator=(CellCenteredVectorGrid3&&) noexcept =
+        delete;
+
     //! Returns the actual data point size.
-    Size3 GetDataSize() const override;
+    [[nodiscard]] Size3 GetDataSize() const override;
 
     //! Returns data position for the grid point at (0, 0, 0).
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
-    Vector3D GetDataOrigin() const override;
+    [[nodiscard]] Vector3D GetDataOrigin() const override;
 
     //! Returns the copy of the grid instance.
-    std::shared_ptr<VectorGrid3> Clone() const override;
+    [[nodiscard]] std::shared_ptr<VectorGrid3> Clone() const override;
 
     //!
     //! \brief Swaps the contents with the given \p other grid.
@@ -85,11 +98,8 @@ class CellCenteredVectorGrid3 final : public CollocatedVectorGrid3
     //! Sets the contents with the given \p other grid.
     void Set(const CellCenteredVectorGrid3& other);
 
-    //! Sets the contents with the given \p other gird.
-    CellCenteredVectorGrid3& operator=(const CellCenteredVectorGrid3& other);
-
     //! Returns the builder fox CellCenteredVectorGrid3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 };
 
 //! Shared pointer for the CellCenteredVectorGrid3 type.
@@ -102,47 +112,50 @@ class CellCenteredVectorGrid3::Builder final : public VectorGridBuilder3
 {
  public:
     //! Returns builder with resolution.
-    Builder& WithResolution(const Size3& resolution);
+    [[nodiscard]] Builder& WithResolution(const Size3& resolution);
 
     //! Returns builder with resolution.
-    Builder& WithResolution(size_t resolutionX, size_t resolutionY,
-                            size_t resolutionZ);
+    [[nodiscard]] Builder& WithResolution(size_t resolutionX,
+                                          size_t resolutionY,
+                                          size_t resolutionZ);
 
     //! Returns builder with grid spacing.
-    Builder& WithGridSpacing(const Vector3D& gridSpacing);
+    [[nodiscard]] Builder& WithGridSpacing(const Vector3D& gridSpacing);
 
     //! Returns builder with grid spacing.
-    Builder& WithGridSpacing(double gridSpacingX, double gridSpacingY,
-                             double gridSpacingZ);
+    [[nodiscard]] Builder& WithGridSpacing(double gridSpacingX,
+                                           double gridSpacingY,
+                                           double gridSpacingZ);
 
     //! Returns builder with grid origin.
-    Builder& WithOrigin(const Vector3D& gridOrigin);
+    [[nodiscard]] Builder& WithOrigin(const Vector3D& gridOrigin);
 
     //! Returns builder with grid origin.
-    Builder& WithOrigin(double gridOriginX, double gridOriginY,
-                        double gridOriginZ);
+    [[nodiscard]] Builder& WithOrigin(double gridOriginX, double gridOriginY,
+                                      double gridOriginZ);
 
     //! Returns builder with initial value.
-    Builder& WithInitialValue(const Vector3D& initalVal);
+    [[nodiscard]] Builder& WithInitialValue(const Vector3D& initialVal);
 
     //! Returns builder with initial value.
-    Builder& WithInitialValue(double initialValX, double initalValY,
-                              double initalValZ);
+    [[nodiscard]] Builder& WithInitialValue(double initialValX,
+                                            double initialValY,
+                                            double initialValZ);
 
     //! Builds CellCenteredVectorGrid3 instance.
-    CellCenteredVectorGrid3 Build() const;
+    [[nodiscard]] CellCenteredVectorGrid3 Build() const;
 
     //! Builds shared pointer of CellCenteredScalarGrid3 instance.
-    CellCenteredVectorGrid3Ptr MakeShared() const;
+    [[nodiscard]] CellCenteredVectorGrid3Ptr MakeShared() const;
 
     //!
     //! \brief Builds shared pointer of CellCenteredVectorGrid3 instance.
     //!
     //! This is an overriding function that implements VectorGridBuilder3.
     //!
-    VectorGrid3Ptr Build(const Size3& resolution, const Vector3D& gridSpacing,
-                         const Vector3D& gridOrigin,
-                         const Vector3D& initalVal) const override;
+    [[nodiscard]] VectorGrid3Ptr Build(
+        const Size3& resolution, const Vector3D& gridSpacing,
+        const Vector3D& gridOrigin, const Vector3D& initialVal) const override;
 
  private:
     Size3 m_resolution{ 1, 1, 1 };
