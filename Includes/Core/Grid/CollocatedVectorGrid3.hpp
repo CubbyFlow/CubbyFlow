@@ -24,11 +24,24 @@ class CollocatedVectorGrid3 : public VectorGrid3
     //! Constructs an empty grid.
     CollocatedVectorGrid3();
 
-    //! Default destructor.
-    virtual ~CollocatedVectorGrid3();
+    //! Default copy constructor.
+    CollocatedVectorGrid3(const CollocatedVectorGrid3&) = default;
+
+    //! Default move constructor.
+    CollocatedVectorGrid3(CollocatedVectorGrid3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~CollocatedVectorGrid3() override = default;
+
+    //! Default copy assignment operator.
+    CollocatedVectorGrid3& operator=(const CollocatedVectorGrid3&) = default;
+
+    //! Default move assignment operator.
+    CollocatedVectorGrid3& operator=(CollocatedVectorGrid3&&) noexcept =
+        default;
 
     //! Returns the actual data point size.
-    virtual Size3 GetDataSize() const = 0;
+    [[nodiscard]] virtual Size3 GetDataSize() const = 0;
 
     //!
     //! \brief Returns data position for the grid point at (0, 0, 0).
@@ -36,7 +49,7 @@ class CollocatedVectorGrid3 : public VectorGrid3
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
     //!
-    virtual Vector3D GetDataOrigin() const = 0;
+    [[nodiscard]] virtual Vector3D GetDataOrigin() const = 0;
 
     //! Returns the grid data at given data point.
     const Vector3D& operator()(size_t i, size_t j, size_t k) const;
@@ -45,19 +58,20 @@ class CollocatedVectorGrid3 : public VectorGrid3
     Vector3D& operator()(size_t i, size_t j, size_t k);
 
     //! Returns divergence at data point location.
-    double DivergenceAtDataPoint(size_t i, size_t j, size_t k) const;
+    [[nodiscard]] double DivergenceAtDataPoint(size_t i, size_t j,
+                                               size_t k) const;
 
     //! Returns curl at data point location.
-    Vector3D CurlAtDataPoint(size_t i, size_t j, size_t k) const;
+    [[nodiscard]] Vector3D CurlAtDataPoint(size_t i, size_t j, size_t k) const;
 
     //! Returns the read-write data array accessor.
-    VectorDataAccessor GetDataAccessor();
+    [[nodiscard]] VectorDataAccessor GetDataAccessor();
 
     //! Returns the read-only data array accessor.
-    ConstVectorDataAccessor GetConstDataAccessor() const;
+    [[nodiscard]] ConstVectorDataAccessor GetConstDataAccessor() const;
 
     //! Returns the function that maps data point to its position.
-    DataPositionFunc GetDataPosition() const;
+    [[nodiscard]] DataPositionFunc GetDataPosition() const;
 
     //!
     //! \brief Invokes the given function \p func for each data point.
@@ -83,13 +97,13 @@ class CollocatedVectorGrid3 : public VectorGrid3
 
     // VectorField3 implementations
     //! Returns sampled value at given position \p x.
-    Vector3D Sample(const Vector3D& x) const override;
+    [[nodiscard]] Vector3D Sample(const Vector3D& x) const override;
 
     //! Returns divergence at given position \p x.
-    double Divergence(const Vector3D& x) const override;
+    [[nodiscard]] double Divergence(const Vector3D& x) const override;
 
     //! Returns curl at given position \p x.
-    Vector3D Curl(const Vector3D& x) const override;
+    [[nodiscard]] Vector3D Curl(const Vector3D& x) const override;
 
     //!
     //! \brief Returns the sampler function.
@@ -97,7 +111,8 @@ class CollocatedVectorGrid3 : public VectorGrid3
     //! This function returns the data sampler function object. The sampling
     //! function is linear.
     //!
-    std::function<Vector3D(const Vector3D&)> Sampler() const override;
+    [[nodiscard]] std::function<Vector3D(const Vector3D&)> Sampler()
+        const override;
 
  protected:
     //! Swaps the data storage and predefined samplers with given grid.
@@ -113,14 +128,14 @@ class CollocatedVectorGrid3 : public VectorGrid3
     void SetData(const std::vector<double>& data) override;
 
  private:
-    Array3<Vector3D> m_data;
-    LinearArraySampler3<Vector3D, double> m_linearSampler;
-    std::function<Vector3D(const Vector3D&)> m_sampler;
-
     void OnResize(const Size3& resolution, const Vector3D& gridSpacing,
                   const Vector3D& origin, const Vector3D& initialValue) final;
 
     void ResetSampler();
+
+    Array3<Vector3D> m_data;
+    LinearArraySampler3<Vector3D, double> m_linearSampler;
+    std::function<Vector3D(const Vector3D&)> m_sampler;
 };
 
 //! Shared pointer for the CollocatedVectorGrid3 type.
