@@ -12,11 +12,6 @@
 
 namespace CubbyFlow
 {
-CellCenteredScalarGrid2::CellCenteredScalarGrid2()
-{
-    // Do nothing
-}
-
 CellCenteredScalarGrid2::CellCenteredScalarGrid2(
     size_t resolutionX, size_t resolutionY, double gridSpacingX,
     double gridSpacingY, double originX, double originY, double initialValue)
@@ -35,8 +30,16 @@ CellCenteredScalarGrid2::CellCenteredScalarGrid2(const Size2& resolution,
 
 CellCenteredScalarGrid2::CellCenteredScalarGrid2(
     const CellCenteredScalarGrid2& other)
+    : ScalarGrid2{ other }
 {
     Set(other);
+}
+
+CellCenteredScalarGrid2& CellCenteredScalarGrid2::operator=(
+    const CellCenteredScalarGrid2& other)
+{
+    Set(other);
+    return *this;
 }
 
 Size2 CellCenteredScalarGrid2::GetDataSize() const
@@ -53,14 +56,13 @@ Vector2D CellCenteredScalarGrid2::GetDataOrigin() const
 std::shared_ptr<ScalarGrid2> CellCenteredScalarGrid2::Clone() const
 {
     return std::shared_ptr<CellCenteredScalarGrid2>(
-        new CellCenteredScalarGrid2(*this),
+        new CellCenteredScalarGrid2{ *this },
         [](CellCenteredScalarGrid2* obj) { delete obj; });
 }
 
 void CellCenteredScalarGrid2::Swap(Grid2* other)
 {
-    CellCenteredScalarGrid2* sameType =
-        dynamic_cast<CellCenteredScalarGrid2*>(other);
+    const auto sameType = dynamic_cast<CellCenteredScalarGrid2*>(other);
     if (sameType != nullptr)
     {
         SwapScalarGrid(sameType);
@@ -72,16 +74,9 @@ void CellCenteredScalarGrid2::Set(const CellCenteredScalarGrid2& other)
     SetScalarGrid(other);
 }
 
-CellCenteredScalarGrid2& CellCenteredScalarGrid2::operator=(
-    const CellCenteredScalarGrid2& other)
-{
-    Set(other);
-    return *this;
-}
-
 CellCenteredScalarGrid2::Builder CellCenteredScalarGrid2::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 CellCenteredScalarGrid2::Builder&
@@ -140,15 +135,15 @@ CellCenteredScalarGrid2::Builder::WithInitialValue(double initialVal)
 
 CellCenteredScalarGrid2 CellCenteredScalarGrid2::Builder::Build() const
 {
-    return CellCenteredScalarGrid2(m_resolution, m_gridSpacing, m_gridOrigin,
-                                   m_initialVal);
+    return CellCenteredScalarGrid2{ m_resolution, m_gridSpacing, m_gridOrigin,
+                                    m_initialVal };
 }
 
 CellCenteredScalarGrid2Ptr CellCenteredScalarGrid2::Builder::MakeShared() const
 {
     return std::shared_ptr<CellCenteredScalarGrid2>(
-        new CellCenteredScalarGrid2(m_resolution, m_gridSpacing, m_gridOrigin,
-                                    m_initialVal),
+        new CellCenteredScalarGrid2{ m_resolution, m_gridSpacing, m_gridOrigin,
+                                     m_initialVal },
         [](CellCenteredScalarGrid2* obj) { delete obj; });
 }
 
@@ -157,8 +152,8 @@ ScalarGrid2Ptr CellCenteredScalarGrid2::Builder::Build(
     const Vector2D& gridOrigin, double initialVal) const
 {
     return std::shared_ptr<CellCenteredScalarGrid2>(
-        new CellCenteredScalarGrid2(resolution, gridSpacing, gridOrigin,
-                                    initialVal),
+        new CellCenteredScalarGrid2{ resolution, gridSpacing, gridOrigin,
+                                     initialVal },
         [](CellCenteredScalarGrid2* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

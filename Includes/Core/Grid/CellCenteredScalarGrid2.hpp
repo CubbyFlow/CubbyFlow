@@ -31,7 +31,7 @@ class CellCenteredScalarGrid2 final : public ScalarGrid2
     class Builder;
 
     //! Constructs zero-sized grid.
-    CellCenteredScalarGrid2();
+    CellCenteredScalarGrid2() = default;
 
     //! Constructs a grid with given resolution, grid spacing, origin and
     //! initial value.
@@ -43,20 +43,33 @@ class CellCenteredScalarGrid2 final : public ScalarGrid2
     //! Constructs a grid with given resolution, grid spacing, origin and
     //! initial value.
     CellCenteredScalarGrid2(const Size2& resolution,
-                            const Vector2D& gridSpacing = Vector2D(1.0, 1.0),
-                            const Vector2D& origin = Vector2D(),
+                            const Vector2D& gridSpacing = Vector2D{ 1.0, 1.0 },
+                            const Vector2D& origin = Vector2D{},
                             double initialValue = 0.0);
 
     //! Copy constructor.
     CellCenteredScalarGrid2(const CellCenteredScalarGrid2& other);
 
+    //! Deleted move constructor.
+    CellCenteredScalarGrid2(CellCenteredScalarGrid2&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~CellCenteredScalarGrid2() override = default;
+
+    //! Copy assignment operator.
+    CellCenteredScalarGrid2& operator=(const CellCenteredScalarGrid2& other);
+
+    //! Deleted move assignment operator.
+    CellCenteredScalarGrid2& operator=(CellCenteredScalarGrid2&&) noexcept =
+        delete;
+
     //! Returns the actual data point size.
-    Size2 GetDataSize() const override;
+    [[nodiscard]] Size2 GetDataSize() const override;
 
     //! Returns data position for the grid point at (0, 0).
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
-    Vector2D GetDataOrigin() const override;
+    [[nodiscard]] Vector2D GetDataOrigin() const override;
 
     //!
     //! \brief Swaps the contents with the given \p other grid.
@@ -69,14 +82,11 @@ class CellCenteredScalarGrid2 final : public ScalarGrid2
     //! Sets the contents with the given \p other grid.
     void Set(const CellCenteredScalarGrid2& other);
 
-    //! Sets the contents with the given \p other grid.
-    CellCenteredScalarGrid2& operator=(const CellCenteredScalarGrid2& other);
-
     //! Returns the copy of the grid instance.
-    std::shared_ptr<ScalarGrid2> Clone() const override;
+    [[nodiscard]] std::shared_ptr<ScalarGrid2> Clone() const override;
 
     //! Returns builder fox CellCenteredScalarGrid2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 };
 
 //! Shared pointer for the CellCenteredScalarGrid2 type.
@@ -89,40 +99,43 @@ class CellCenteredScalarGrid2::Builder final : public ScalarGridBuilder2
 {
  public:
     //! Returns builder with resolution.
-    Builder& WithResolution(const Size2& resolution);
+    [[nodiscard]] Builder& WithResolution(const Size2& resolution);
 
     //! Returns builder with resolution.
-    Builder& WithResolution(size_t resolutionX, size_t resolutionY);
+    [[nodiscard]] Builder& WithResolution(size_t resolutionX,
+                                          size_t resolutionY);
 
     //! Returns builder with grid spacing.
-    Builder& WithGridSpacing(const Vector2D& gridSpacing);
+    [[nodiscard]] Builder& WithGridSpacing(const Vector2D& gridSpacing);
 
     //! Returns builder with grid spacing.
-    Builder& WithGridSpacing(double gridSpacingX, double gridSpacingY);
+    [[nodiscard]] Builder& WithGridSpacing(double gridSpacingX,
+                                           double gridSpacingY);
 
     //! Returns builder with grid origin.
-    Builder& WithOrigin(const Vector2D& gridOrigin);
+    [[nodiscard]] Builder& WithOrigin(const Vector2D& gridOrigin);
 
     //! Returns builder with grid origin.
-    Builder& WithOrigin(double gridOriginX, double gridOriginY);
+    [[nodiscard]] Builder& WithOrigin(double gridOriginX, double gridOriginY);
 
     //! Returns builder with initial value.
-    Builder& WithInitialValue(double initialVal);
+    [[nodiscard]] Builder& WithInitialValue(double initialVal);
 
     //! Builds CellCenteredScalarGrid2 instance.
-    CellCenteredScalarGrid2 Build() const;
+    [[nodiscard]] CellCenteredScalarGrid2 Build() const;
 
     //! Builds shared pointer of CellCenteredScalarGrid2 instance.
-    CellCenteredScalarGrid2Ptr MakeShared() const;
+    [[nodiscard]] CellCenteredScalarGrid2Ptr MakeShared() const;
 
     //!
     //! \brief Builds shared pointer of CellCenteredScalarGrid2 instance.
     //!
     //! This is an overriding function that implements ScalarGridBuilder2.
     //!
-    ScalarGrid2Ptr Build(const Size2& resolution, const Vector2D& gridSpacing,
-                         const Vector2D& gridOrigin,
-                         double initialVal) const override;
+    [[nodiscard]] ScalarGrid2Ptr Build(const Size2& resolution,
+                                       const Vector2D& gridSpacing,
+                                       const Vector2D& gridOrigin,
+                                       double initialVal) const override;
 
  private:
     Size2 m_resolution{ 1, 1 };
