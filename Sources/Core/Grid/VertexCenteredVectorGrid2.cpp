@@ -12,11 +12,6 @@
 
 namespace CubbyFlow
 {
-VertexCenteredVectorGrid2::VertexCenteredVectorGrid2()
-{
-    // Do nothing
-}
-
 VertexCenteredVectorGrid2::VertexCenteredVectorGrid2(
     size_t resolutionX, size_t resolutionY, double gridSpacingX,
     double gridSpacingY, double originX, double originY, double initialValueU,
@@ -35,72 +30,9 @@ VertexCenteredVectorGrid2::VertexCenteredVectorGrid2(
 
 VertexCenteredVectorGrid2::VertexCenteredVectorGrid2(
     const VertexCenteredVectorGrid2& other)
+    : CollocatedVectorGrid2{ other }
 {
     Set(other);
-}
-
-Size2 VertexCenteredVectorGrid2::GetDataSize() const
-{
-    if (Resolution() != Size2(0, 0))
-    {
-        return Resolution() + Size2(1, 1);
-    }
-
-    return Size2(0, 0);
-}
-
-Vector2D VertexCenteredVectorGrid2::GetDataOrigin() const
-{
-    return Origin();
-}
-
-void VertexCenteredVectorGrid2::Swap(Grid2* other)
-{
-    VertexCenteredVectorGrid2* sameType =
-        dynamic_cast<VertexCenteredVectorGrid2*>(other);
-    if (sameType != nullptr)
-    {
-        SwapCollocatedVectorGrid(sameType);
-    }
-}
-
-void VertexCenteredVectorGrid2::Fill(const Vector2D& value,
-                                     ExecutionPolicy policy)
-{
-    Size2 size = GetDataSize();
-    auto acc = GetDataAccessor();
-
-    ParallelFor(
-        ZERO_SIZE, size.x, ZERO_SIZE, size.y,
-        [value, &acc](size_t i, size_t j) { acc(i, j) = value; }, policy);
-}
-
-void VertexCenteredVectorGrid2::Fill(
-    const std::function<Vector2D(const Vector2D&)>& func,
-    ExecutionPolicy policy)
-{
-    Size2 size = GetDataSize();
-    auto acc = GetDataAccessor();
-    DataPositionFunc pos = GetDataPosition();
-
-    ParallelFor(
-        ZERO_SIZE, size.x, ZERO_SIZE, size.y,
-        [&func, &acc, &pos](size_t i, size_t j) {
-            acc(i, j) = func(pos(i, j));
-        },
-        policy);
-}
-
-std::shared_ptr<VectorGrid2> VertexCenteredVectorGrid2::Clone() const
-{
-    return std::shared_ptr<VertexCenteredVectorGrid2>(
-        new VertexCenteredVectorGrid2(*this),
-        [](VertexCenteredVectorGrid2* obj) { delete obj; });
-}
-
-void VertexCenteredVectorGrid2::Set(const VertexCenteredVectorGrid2& other)
-{
-    SetCollocatedVectorGrid(other);
 }
 
 VertexCenteredVectorGrid2& VertexCenteredVectorGrid2::operator=(
@@ -110,9 +42,73 @@ VertexCenteredVectorGrid2& VertexCenteredVectorGrid2::operator=(
     return *this;
 }
 
+Size2 VertexCenteredVectorGrid2::GetDataSize() const
+{
+    if (Resolution() != Size2{ 0, 0 })
+    {
+        return Resolution() + Size2{ 1, 1 };
+    }
+
+    return Size2{ 0, 0 };
+}
+
+Vector2D VertexCenteredVectorGrid2::GetDataOrigin() const
+{
+    return Origin();
+}
+
+void VertexCenteredVectorGrid2::Swap(Grid2* other)
+{
+    auto sameType = dynamic_cast<VertexCenteredVectorGrid2*>(other);
+    if (sameType != nullptr)
+    {
+        SwapCollocatedVectorGrid(sameType);
+    }
+}
+
+void VertexCenteredVectorGrid2::Fill(const Vector2D& value,
+                                     ExecutionPolicy policy)
+{
+    const Size2 size = GetDataSize();
+    ArrayAccessor<Vector<double, 2>, 2> acc = GetDataAccessor();
+
+    ParallelFor(
+        ZERO_SIZE, size.x, ZERO_SIZE, size.y,
+        [value, &acc](const size_t i, const size_t j) { acc(i, j) = value; },
+        policy);
+}
+
+void VertexCenteredVectorGrid2::Fill(
+    const std::function<Vector2D(const Vector2D&)>& func,
+    ExecutionPolicy policy)
+{
+    const Size2 size = GetDataSize();
+    ArrayAccessor<Vector<double, 2>, 2> acc = GetDataAccessor();
+    DataPositionFunc pos = GetDataPosition();
+
+    ParallelFor(
+        ZERO_SIZE, size.x, ZERO_SIZE, size.y,
+        [&func, &acc, &pos](const size_t i, const size_t j) {
+            acc(i, j) = func(pos(i, j));
+        },
+        policy);
+}
+
+std::shared_ptr<VectorGrid2> VertexCenteredVectorGrid2::Clone() const
+{
+    return std::shared_ptr<VertexCenteredVectorGrid2>(
+        new VertexCenteredVectorGrid2{ *this },
+        [](VertexCenteredVectorGrid2* obj) { delete obj; });
+}
+
+void VertexCenteredVectorGrid2::Set(const VertexCenteredVectorGrid2& other)
+{
+    SetCollocatedVectorGrid(other);
+}
+
 VertexCenteredVectorGrid2::Builder VertexCenteredVectorGrid2::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 VertexCenteredVectorGrid2::Builder&
@@ -174,16 +170,16 @@ VertexCenteredVectorGrid2::Builder::WithInitialValue(double initialValU,
 
 VertexCenteredVectorGrid2 VertexCenteredVectorGrid2::Builder::Build() const
 {
-    return VertexCenteredVectorGrid2(m_resolution, m_gridSpacing, m_gridOrigin,
-                                     m_initialVal);
+    return VertexCenteredVectorGrid2{ m_resolution, m_gridSpacing, m_gridOrigin,
+                                      m_initialVal };
 }
 
 VertexCenteredVectorGrid2Ptr VertexCenteredVectorGrid2::Builder::MakeShared()
     const
 {
     return std::shared_ptr<VertexCenteredVectorGrid2>(
-        new VertexCenteredVectorGrid2(m_resolution, m_gridSpacing, m_gridOrigin,
-                                      m_initialVal),
+        new VertexCenteredVectorGrid2{ m_resolution, m_gridSpacing,
+                                       m_gridOrigin, m_initialVal },
         [](VertexCenteredVectorGrid2* obj) { delete obj; });
 }
 
@@ -192,8 +188,8 @@ VectorGrid2Ptr VertexCenteredVectorGrid2::Builder::Build(
     const Vector2D& gridOrigin, const Vector2D& initialVal) const
 {
     return std::shared_ptr<VertexCenteredVectorGrid2>(
-        new VertexCenteredVectorGrid2(resolution, gridSpacing, gridOrigin,
-                                      initialVal),
+        new VertexCenteredVectorGrid2{ resolution, gridSpacing, gridOrigin,
+                                       initialVal },
         [](VertexCenteredVectorGrid2* obj) { delete obj; });
 }
 }  // namespace CubbyFlow
