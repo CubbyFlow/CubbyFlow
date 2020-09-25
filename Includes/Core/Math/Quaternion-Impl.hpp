@@ -438,13 +438,47 @@ Quaternion<T>& Quaternion<T>::operator*=(const Quaternion& other)
 template <typename T>
 T& Quaternion<T>::operator[](size_t i)
 {
-    return (&w)[i];
+    assert(i >= 0 && i < 4);
+
+    if (i == 0)
+    {
+        return w;
+    }
+
+    if (i == 1)
+    {
+        return x;
+    }
+
+    if (i == 2)
+    {
+        return y;
+    }
+
+    return z;
 }
 
 template <typename T>
 const T& Quaternion<T>::operator[](size_t i) const
 {
-    return (&w)[i];
+    assert(i >= 0 && i < 4);
+
+    if (i == 0)
+    {
+        return w;
+    }
+
+    if (i == 1)
+    {
+        return x;
+    }
+
+    if (i == 2)
+    {
+        return y;
+    }
+
+    return z;
 }
 
 template <typename T>
