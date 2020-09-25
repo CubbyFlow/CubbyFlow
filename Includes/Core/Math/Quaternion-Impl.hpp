@@ -63,6 +63,26 @@ Quaternion<T>::Quaternion(const Quaternion& other)
 }
 
 template <typename T>
+Quaternion<T>::Quaternion(Quaternion&& other) noexcept
+{
+    Set(other);
+}
+
+template <typename T>
+Quaternion<T>& Quaternion<T>::operator=(const Quaternion& other)
+{
+    Set(other);
+    return *this;
+}
+
+template <typename T>
+Quaternion<T>& Quaternion<T>::operator=(Quaternion&& other) noexcept
+{
+    Set(other);
+    return *this;
+}
+
+template <typename T>
 void Quaternion<T>::Set(const Quaternion& other)
 {
     Set(other.w, other.x, other.y, other.z);
@@ -204,14 +224,14 @@ template <typename T>
 template <typename U>
 Quaternion<U> Quaternion<T>::CastTo() const
 {
-    return Quaternion<U>(static_cast<U>(w), static_cast<U>(x),
-                         static_cast<U>(y), static_cast<U>(z));
+    return Quaternion<U>{ static_cast<U>(w), static_cast<U>(x),
+                          static_cast<U>(y), static_cast<U>(z) };
 }
 
 template <typename T>
 Quaternion<T> Quaternion<T>::Normalized() const
 {
-    Quaternion q(*this);
+    Quaternion q{ *this };
     q.Normalize();
     return q;
 }
@@ -229,19 +249,20 @@ Vector3<T> Quaternion<T>::Mul(const Vector3<T>& v) const
     T _2yw = 2 * y * w;
     T _2zw = 2 * z * w;
 
-    return Vector3<T>(
+    return Vector3<T>{
         (1 - _2yy - _2zz) * v.x + (_2xy - _2zw) * v.y + (_2xz + _2yw) * v.z,
         (_2xy + _2zw) * v.x + (1 - _2zz - _2xx) * v.y + (_2yz - _2xw) * v.z,
-        (_2xz - _2yw) * v.x + (_2yz + _2xw) * v.y + (1 - _2yy - _2xx) * v.z);
+        (_2xz - _2yw) * v.x + (_2yz + _2xw) * v.y + (1 - _2yy - _2xx) * v.z
+    };
 }
 
 template <typename T>
 Quaternion<T> Quaternion<T>::Mul(const Quaternion& other) const
 {
-    return Quaternion(w * other.w - x * other.x - y * other.y - z * other.z,
-                      w * other.x + x * other.w + y * other.z - z * other.y,
-                      w * other.y - x * other.z + y * other.w + z * other.x,
-                      w * other.z + x * other.y - y * other.x + z * other.w);
+    return Quaternion{ w * other.w - x * other.x - y * other.y - z * other.z,
+                       w * other.x + x * other.w + y * other.z - z * other.y,
+                       w * other.y - x * other.z + y * other.w + z * other.x,
+                       w * other.z + x * other.y - y * other.x + z * other.w };
 }
 
 template <typename T>
@@ -253,10 +274,10 @@ T Quaternion<T>::Dot(const Quaternion<T>& other)
 template <typename T>
 Quaternion<T> Quaternion<T>::RMul(const Quaternion& other) const
 {
-    return Quaternion(other.w * w - other.x * x - other.y * y - other.z * z,
-                      other.w * x + other.x * w + other.y * z - other.z * y,
-                      other.w * y - other.x * z + other.y * w + other.z * x,
-                      other.w * z + other.x * y - other.y * x + other.z * w);
+    return Quaternion{ other.w * w - other.x * x - other.y * y - other.z * z,
+                       other.w * x + other.x * w + other.y * z - other.z * y,
+                       other.w * y - other.x * z + other.y * w + other.z * x,
+                       other.w * z + other.x * y - other.y * x + other.z * w };
 }
 
 template <typename T>
@@ -301,7 +322,7 @@ void Quaternion<T>::Normalize()
 template <typename T>
 Vector3<T> Quaternion<T>::Axis() const
 {
-    Vector3<T> result(x, y, z);
+    Vector3<T> result{ x, y, z };
     result.Normalize();
 
     if (2 * std::acos(w) < PI<T>())
@@ -344,8 +365,8 @@ void Quaternion<T>::GetAxisAngle(Vector3<T>* axis, T* angle) const
 template <typename T>
 Quaternion<T> Quaternion<T>::Inverse() const
 {
-    T denom = w * w + x * x + y * y + z * z;
-    return Quaternion(w / denom, -x / denom, -y / denom, -z / denom);
+    const T denom = w * w + x * x + y * y + z * z;
+    return Quaternion{ w / denom, -x / denom, -y / denom, -z / denom };
 }
 
 template <typename T>
@@ -361,9 +382,9 @@ Matrix3x3<T> Quaternion<T>::Matrix3() const
     T _2yw = 2 * y * w;
     T _2zw = 2 * z * w;
 
-    Matrix3x3<T> m(1 - _2yy - _2zz, _2xy - _2zw, _2xz + _2yw, _2xy + _2zw,
-                   1 - _2zz - _2xx, _2yz - _2xw, _2xz - _2yw, _2yz + _2xw,
-                   1 - _2yy - _2xx);
+    Matrix3x3<T> m{ 1 - _2yy - _2zz, _2xy - _2zw,     _2xz + _2yw,
+                    _2xy + _2zw,     1 - _2zz - _2xx, _2yz - _2xw,
+                    _2xz - _2yw,     _2yz + _2xw,     1 - _2yy - _2xx };
 
     return m;
 }
@@ -381,9 +402,22 @@ Matrix4x4<T> Quaternion<T>::Matrix4() const
     T _2yw = 2 * y * w;
     T _2zw = 2 * z * w;
 
-    Matrix4x4<T> m(1 - _2yy - _2zz, _2xy - _2zw, _2xz + _2yw, 0, _2xy + _2zw,
-                   1 - _2zz - _2xx, _2yz - _2xw, 0, _2xz - _2yw, _2yz + _2xw,
-                   1 - _2yy - _2xx, 0, 0, 0, 0, 1);
+    Matrix4x4<T> m{ 1 - _2yy - _2zz,
+                    _2xy - _2zw,
+                    _2xz + _2yw,
+                    0,
+                    _2xy + _2zw,
+                    1 - _2zz - _2xx,
+                    _2yz - _2xw,
+                    0,
+                    _2xz - _2yw,
+                    _2yz + _2xw,
+                    1 - _2yy - _2xx,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1 };
 
     return m;
 }
@@ -392,13 +426,6 @@ template <typename T>
 T Quaternion<T>::L2Norm() const
 {
     return std::sqrt(w * w + x * x + y * y + z * z);
-}
-
-template <typename T>
-Quaternion<T>& Quaternion<T>::operator=(const Quaternion& other)
-{
-    Set(other);
-    return *this;
 }
 
 template <typename T>
@@ -435,7 +462,7 @@ bool Quaternion<T>::operator!=(const Quaternion& other) const
 template <typename T>
 Quaternion<T> Quaternion<T>::MakeIdentity()
 {
-    return Quaternion();
+    return Quaternion{};
 }
 
 template <typename T>
@@ -472,9 +499,10 @@ Quaternion<T> Slerp(const Quaternion<T>& a, const Quaternion<T>& b, T t)
         }
     }
 
-    return Quaternion<T>(
-        weightA * a.w + weightB * b.w, weightA * a.x + weightB * b.x,
-        weightA * a.y + weightB * b.y, weightA * a.z + weightB * b.z);
+    return Quaternion<T>{ weightA * a.w + weightB * b.w,
+                          weightA * a.x + weightB * b.x,
+                          weightA * a.y + weightB * b.y,
+                          weightA * a.z + weightB * b.z };
 }
 
 template <typename T>
