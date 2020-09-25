@@ -18,8 +18,8 @@ namespace CubbyFlow
 template <typename T>
 std::array<T, 2> Upwind1(T* d0, T dx)
 {
-    T invdx = 1 / dx;
-    std::array<T, 2> dfx;
+    const T invdx = 1 / dx;
+    std::array<T, 2> dfx{};
 
     dfx[0] = invdx * (d0[1] - d0[0]);
     dfx[1] = invdx * (d0[2] - d0[1]);
@@ -30,7 +30,7 @@ std::array<T, 2> Upwind1(T* d0, T dx)
 template <typename T>
 T Upwind1(T* d0, T dx, bool isDirectionPositive)
 {
-    T invdx = 1 / dx;
+    const T invdx = 1 / dx;
     return isDirectionPositive ? (invdx * (d0[1] - d0[0]))
                                : invdx * (d0[2] - d0[1]);
 }
@@ -38,20 +38,20 @@ T Upwind1(T* d0, T dx, bool isDirectionPositive)
 template <typename T>
 T CD2(T* d0, T dx)
 {
-    T hinvdx = 0.5f / dx;
+    const T hinvdx = 0.5f / dx;
     return hinvdx * (d0[2] - d0[0]);
 }
 
 template <typename T>
 std::array<T, 2> ENO3(T* d0, T dx)
 {
-    T invdx = 1 / dx;
-    T hinvdx = invdx / 2;
-    T tinvdx = invdx / 3;
+    const T invdx = 1 / dx;
+    const T hinvdx = invdx / 2;
+    const T tinvdx = invdx / 3;
     T d1[6], d2[5], d3[2];
     T c, cstar;
     int kstar;
-    std::array<T, 2> dfx;
+    std::array<T, 2> dfx{};
 
     d1[0] = invdx * (d0[1] - d0[0]);
     d1[1] = invdx * (d0[2] - d0[1]);
@@ -105,9 +105,9 @@ std::array<T, 2> ENO3(T* d0, T dx)
 template <typename T>
 T ENO3(T* d0, T dx, bool isDirectionPositive)
 {
-    T invdx = 1 / dx;
-    T hinvdx = invdx / 2;
-    T tinvdx = invdx / 3;
+    const T invdx = 1 / dx;
+    const T hinvdx = invdx / 2;
+    const T tinvdx = invdx / 3;
     T d1[6], d2[5], d3[2];
     T c, cstar;
     int kstar;
@@ -165,8 +165,8 @@ std::array<T, 2> WENO5(T* v, T h, T eps)
     static const T c56 = T(5.0 / 6.0), c76 = T(7.0 / 6.0), c116 = T(11.0 / 6.0);
     static const T c1312 = T(13.0 / 12.0);
 
-    T hinv = T(1) / h;
-    std::array<T, 2> dfx;
+    const T hinv = T(1) / h;
+    std::array<T, 2> dfx{};
     T vdev[5];
 
     for (int k = 0; k < 2; ++k)
@@ -186,9 +186,9 @@ std::array<T, 2> WENO5(T* v, T h, T eps)
             }
         }
 
-        T phix1 = vdev[0] * c13 - vdev[1] * c76 + vdev[2] * c116;
-        T phix2 = -vdev[1] * c16 + vdev[2] * c56 + vdev[3] * c13;
-        T phix3 = vdev[2] * c13 + vdev[3] * c56 - vdev[4] * c16;
+        const T phix1 = vdev[0] * c13 - vdev[1] * c76 + vdev[2] * c116;
+        const T phix2 = -vdev[1] * c16 + vdev[2] * c56 + vdev[3] * c13;
+        const T phix3 = vdev[2] * c13 + vdev[3] * c56 - vdev[4] * c16;
 
         T s1 = c1312 * Square(vdev[0] - 2 * vdev[1] + vdev[2]) +
                c14 * Square(vdev[0] - 4 * vdev[1] + 3 * vdev[2]);
@@ -216,7 +216,7 @@ T WENO5(T* v, T h, bool isDirectionPositive, T eps)
     static const T c56 = T(5.0 / 6.0), c76 = T(7.0 / 6.0), c116 = T(11.0 / 6.0);
     static const T c1312 = T(13.0 / 12.0);
 
-    T hinv = T(1) / h;
+    const T hinv = T(1) / h;
     T vdev[5];
 
     if (isDirectionPositive)
@@ -234,9 +234,9 @@ T WENO5(T* v, T h, bool isDirectionPositive, T eps)
         }
     }
 
-    T phix1 = vdev[0] * c13 - vdev[1] * c76 + vdev[2] * c116;
-    T phix2 = -vdev[1] * c16 + vdev[2] * c56 + vdev[3] * c13;
-    T phix3 = vdev[2] * c13 + vdev[3] * c56 - vdev[4] * c16;
+    const T phix1 = vdev[0] * c13 - vdev[1] * c76 + vdev[2] * c116;
+    const T phix2 = -vdev[1] * c16 + vdev[2] * c56 + vdev[3] * c13;
+    const T phix3 = vdev[2] * c13 + vdev[3] * c56 - vdev[4] * c16;
 
     T s1 = c1312 * Square(vdev[0] - 2 * vdev[1] + vdev[2]) +
            c14 * Square(vdev[0] - 4 * vdev[1] + 3 * vdev[2]);

@@ -16,13 +16,13 @@ namespace CubbyFlow
 namespace Internal
 {
 template <typename T>
-inline T Sign(T a, T b)
+T Sign(T a, T b)
 {
-    return (b >= 0.0) ? std::fabs(a) : -std::fabs(a);
+    return static_cast<double>(b) >= 0.0 ? std::fabs(a) : -std::fabs(a);
 }
 
 template <typename T>
-inline T Pythag(T a, T b)
+T Pythag(T a, T b)
 {
     T at = std::fabs(a);
     T bt = std::fabs(b);
@@ -71,7 +71,7 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
     w.Resize(n, 0);
     v.Resize(n, n, 0);
 
-    // Householder reduction to bidiagonal form
+    // Householder reduction to bi-diagonal form
     for (i = 0; i < n; i++)
     {
         // left-hand reduction
@@ -86,7 +86,8 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
                 scale += std::fabs(u(k, i));
             }
 
-            if (scale)
+            if (std::fabs(static_cast<double>(scale)) <
+                std::numeric_limits<double>::epsilon())
             {
                 for (k = i; k < m; k++)
                 {
@@ -136,7 +137,8 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
                 scale += std::fabs(u(i, k));
             }
 
-            if (scale)
+            if (std::fabs(static_cast<double>(scale)) <
+                std::numeric_limits<double>::epsilon())
             {
                 for (k = l; k < n; k++)
                 {
@@ -186,7 +188,8 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
     {
         if (i < n - 1)
         {
-            if (g)
+            if (std::fabs(static_cast<double>(g)) <
+                std::numeric_limits<double>::epsilon())
             {
                 for (j = l; j < n; j++)
                 {
@@ -233,7 +236,8 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
             }
         }
 
-        if (g)
+        if (std::fabs(static_cast<double>(g)) <
+            std::numeric_limits<double>::epsilon())
         {
             g = 1 / g;
 
@@ -271,7 +275,7 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
         ++u(i, i);
     }
 
-    // diagonalize the bidiagonal form
+    // diagonalize the bi-diagonal form
     for (k = n - 1; k >= 0; k--)
     {
         // loop over singular values
@@ -285,13 +289,15 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
                 // test for splitting
                 nm = l - 1;
 
-                if (std::fabs(rv1[l]) + anorm == anorm)
+                if (std::fabs(static_cast<double>(rv1[l])) <=
+                    std::numeric_limits<double>::epsilon())
                 {
                     flag = 0;
                     break;
                 }
 
-                if (std::fabs(static_cast<T>(w[nm])) + anorm == anorm)
+                if (std::fabs(static_cast<double>(w[nm])) <=
+                    std::numeric_limits<double>::epsilon())
                 {
                     break;
                 }
@@ -306,7 +312,8 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
                 {
                     f = s * rv1[i];
 
-                    if (std::fabs(f) + anorm != anorm)
+                    if (std::fabs(static_cast<double>(f)) <=
+                        std::numeric_limits<double>::epsilon())
                     {
                         g = w[i];
                         h = Internal::Pythag(f, g);
@@ -347,7 +354,7 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
 
             if (its >= 30)
             {
-                throw "No convergence after 30 iterations";
+                throw std::exception("No convergence after 30 iterations");
             }
 
             // shift from bottom 2 x 2 minor
@@ -392,7 +399,8 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
                 z = Internal::Pythag(f, h);
                 w[j] = z;
 
-                if (z)
+                if (std::fabs(static_cast<double>(z)) <
+                    std::numeric_limits<double>::epsilon())
                 {
                     z = 1 / z;
                     c = f * z;
@@ -436,10 +444,10 @@ void SVD(const Matrix<T, M, N>& a, Matrix<T, M, N>& u, Vector<T, N>& w,
     // Prepare workspace
     Vector<T, N> rv1;
     u = a;
-    w = Vector<T, N>();
-    v = Matrix<T, N, N>();
+    w = Vector<T, N>{};
+    v = Matrix<T, N, N>{};
 
-    // Householder reduction to bidiagonal form
+    // Householder reduction to bi-diagonal form
     for (i = 0; i < n; i++)
     {
         // left-hand reduction
@@ -638,7 +646,7 @@ void SVD(const Matrix<T, M, N>& a, Matrix<T, M, N>& u, Vector<T, N>& w,
         ++u(i, i);
     }
 
-    // diagonalize the bidiagonal form
+    // diagonalize the bi-diagonal form
     for (k = n - 1; k >= 0; k--)
     {
         // loop over singular values

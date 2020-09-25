@@ -87,7 +87,7 @@ void PCG(const typename BLASType::MatrixType& A,
         M->Solve(*r, s);
 
         // sigmaOld = sigmaNew
-        double sigmaOld = sigmaNew;
+        const double sigmaOld = sigmaNew;
 
         // sigmaNew = r.s
         sigmaNew = BLASType::Dot(*r, *s);

@@ -24,7 +24,7 @@ namespace CubbyFlow
 template <typename BLASType>
 struct NullCGPreconditioner final
 {
-    void Build(const typename BLASType::MatrixType&)
+    static void Build(const typename BLASType::MatrixType&)
     {
         // Do nothing
     }
