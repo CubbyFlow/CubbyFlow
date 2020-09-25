@@ -104,7 +104,9 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
                 {
                     for (j = l; j < n; j++)
                     {
-                        for (s = 0, k = i; k < m; k++)
+                        s = 0;
+
+                        for (k = i; k < m; k++)
                         {
                             s += u(k, i) * u(k, j);
                         }
@@ -160,7 +162,9 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
                 {
                     for (j = l; j < m; j++)
                     {
-                        for (s = 0, k = l; k < n; k++)
+                        s = 0;
+
+                        for (k = l; k < n; k++)
                         {
                             s += u(j, k) * u(i, k);
                         }
@@ -199,7 +203,9 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
                 // T division to avoid underflow
                 for (j = l; j < n; j++)
                 {
-                    for (s = 0, k = l; k < n; k++)
+                    s = 0;
+
+                    for (k = l; k < n; k++)
                     {
                         s += u(i, k) * v(k, j);
                     }
@@ -245,7 +251,9 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
             {
                 for (j = l; j < n; j++)
                 {
-                    for (s = 0, k = l; k < m; k++)
+                    s = 0;
+
+                    for (k = l; k < m; k++)
                     {
                         s += u(k, i) * u(k, j);
                     }
@@ -479,7 +487,9 @@ void SVD(const Matrix<T, M, N>& a, Matrix<T, M, N>& u, Vector<T, N>& w,
                 {
                     for (j = l; j < n; j++)
                     {
-                        for (s = 0, k = i; k < m; k++)
+                        s = 0;
+
+                        for (k = i; k < m; k++)
                         {
                             s += u(k, i) * u(k, j);
                         }
@@ -534,7 +544,9 @@ void SVD(const Matrix<T, M, N>& a, Matrix<T, M, N>& u, Vector<T, N>& w,
                 {
                     for (j = l; j < m; j++)
                     {
-                        for (s = 0, k = l; k < n; k++)
+                        s = 0;
+
+                        for (k = l; k < n; k++)
                         {
                             s += u(j, k) * u(i, k);
                         }
@@ -571,7 +583,9 @@ void SVD(const Matrix<T, M, N>& a, Matrix<T, M, N>& u, Vector<T, N>& w,
                 // T division to avoid underflow
                 for (j = l; j < n; j++)
                 {
-                    for (s = 0, k = l; k < n; k++)
+                    s = 0;
+
+                    for (k = l; k < n; k++)
                     {
                         s += u(i, k) * v(k, j);
                     }
@@ -616,7 +630,9 @@ void SVD(const Matrix<T, M, N>& a, Matrix<T, M, N>& u, Vector<T, N>& w,
             {
                 for (j = l; j < n; j++)
                 {
-                    for (s = 0, k = l; k < m; k++)
+                    s = 0;
+
+                    for (k = l; k < m; k++)
                     {
                         s += u(k, i) * u(k, j);
                     }
@@ -722,7 +738,7 @@ void SVD(const Matrix<T, M, N>& a, Matrix<T, M, N>& u, Vector<T, N>& w,
 
             if (its >= 30)
             {
-                throw "No convergence after 30 iterations";
+                throw std::exception("No convergence after 30 iterations");
             }
 
             // shift from bottom 2 x 2 minor
