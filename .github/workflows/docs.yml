@@ -1,0 +1,28 @@
+on:
+  push:
+    branch:
+    - master
+name: Document
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        recursive: "recursive"
+    - name: Installation
+      run: sudo apt-get -y install ps2eps texlive-latex-extra doxygen
+    - name: Build
+      run: |
+        pushd Documents/doxygen
+          doxygen Doxyfile
+        popd
+        mv ../../Doxygen/html ./build
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@3.6.2
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages # The branch the action should deploy to.
+        FOLDER: build # The folder the action should deploy.
+        CLEAN: true # Automatically remove deleted files from the deploy branch
