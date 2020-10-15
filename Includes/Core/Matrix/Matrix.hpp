@@ -136,13 +136,14 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>>
     void SetColumn(size_t j, const VectorExpression<T, E>& col);
 
     template <typename E>
-    bool IsEqual(const MatrixExpression<T, E>& other) const;
+    [[nodiscard]] bool IsEqual(const MatrixExpression<T, E>& other) const;
 
     //! Returns true if this matrix is similar to the input matrix within the
     //! given tolerance.
     template <typename E>
-    bool IsSimilar(const MatrixExpression<T, E>& other,
-                   double tol = std::numeric_limits<double>::epsilon()) const;
+    [[nodiscard]] bool IsSimilar(
+        const MatrixExpression<T, E>& other,
+        double tol = std::numeric_limits<double>::epsilon()) const;
 
     //! Returns true if this matrix is a square matrix.
     [[nodiscard]] static constexpr bool IsSquare();
@@ -157,74 +158,77 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>>
     [[nodiscard]] static constexpr size_t Cols();
 
     //! Returns data pointer of this matrix.
-    T* data();
+    [[nodiscard]] T* data();
 
     //! Returns constant pointer of this matrix.
-    const T* data() const;
+    [[nodiscard]] const T* data() const;
 
     //! Returns the begin iterator of the matrix.
-    Iterator begin();
+    [[nodiscard]] Iterator begin();
 
     //! Returns the begin const iterator of the matrix.
-    ConstIterator begin() const;
+    [[nodiscard]] ConstIterator begin() const;
 
     //! Returns the end iterator of the matrix.
-    Iterator end();
+    [[nodiscard]] Iterator end();
 
     //! Returns the end const iterator of the matrix.
-    ConstIterator end() const;
+    [[nodiscard]] ConstIterator end() const;
 
     //! Returns this matrix + input scalar.
-    MatrixScalarAdd<T, Matrix> Add(const T& s) const;
+    [[nodiscard]] MatrixScalarAdd<T, Matrix> Add(const T& s) const;
 
     //! Returns this matrix + input matrix (element-wise).
     template <typename E>
-    MatrixAdd<T, Matrix, E> Add(const E& m) const;
+    [[nodiscard]] MatrixAdd<T, Matrix, E> Add(const E& m) const;
 
     //! Returns this matrix - input scalar.
-    MatrixScalarSub<T, Matrix> Sub(const T& s) const;
+    [[nodiscard]] MatrixScalarSub<T, Matrix> Sub(const T& s) const;
 
     //! Returns this matrix - input matrix (element-wise).
     template <typename E>
-    MatrixSub<T, Matrix, E> Sub(const E& m) const;
+    [[nodiscard]] MatrixSub<T, Matrix, E> Sub(const E& m) const;
 
     //! Returns this matrix * input scalar.
-    MatrixScalarMul<T, Matrix> Mul(const T& s) const;
+    [[nodiscard]] MatrixScalarMul<T, Matrix> Mul(const T& s) const;
 
     //! Returns this matrix * input vector.
     template <typename VE>
-    MatrixVectorMul<T, Matrix, VE> Mul(const VectorExpression<T, VE>& v) const;
+    [[nodiscard]] MatrixVectorMul<T, Matrix, VE> Mul(
+        const VectorExpression<T, VE>& v) const;
 
     //! Returns this matrix * input matrix.
     template <size_t L>
-    MatrixMul<T, Matrix, Matrix<T, N, L>> Mul(const Matrix<T, N, L>& m) const;
+    [[nodiscard]] MatrixMul<T, Matrix, Matrix<T, N, L>> Mul(
+        const Matrix<T, N, L>& m) const;
 
     //! Returns this matrix / input scalar.
-    MatrixScalarDiv<T, Matrix> Div(const T& s) const;
+    [[nodiscard]] MatrixScalarDiv<T, Matrix> Div(const T& s) const;
 
     //! Returns input scalar + this matrix.
-    MatrixScalarAdd<T, Matrix> RAdd(const T& s) const;
+    [[nodiscard]] MatrixScalarAdd<T, Matrix> RAdd(const T& s) const;
 
     //! Returns input matrix + this matrix (element-wise).
     template <typename E>
-    MatrixAdd<T, Matrix, E> RAdd(const E& m) const;
+    [[nodiscard]] MatrixAdd<T, Matrix, E> RAdd(const E& m) const;
 
     //! Returns input scalar - this matrix.
-    MatrixScalarRSub<T, Matrix> RSub(const T& s) const;
+    [[nodiscard]] MatrixScalarRSub<T, Matrix> RSub(const T& s) const;
 
     //! Returns input matrix - this matrix (element-wise).
     template <typename E>
-    MatrixSub<T, Matrix, E> RSub(const E& m) const;
+    [[nodiscard]] MatrixSub<T, Matrix, E> RSub(const E& m) const;
 
     //! Returns input scalar * this matrix.
-    MatrixScalarMul<T, Matrix> RMul(const T& s) const;
+    [[nodiscard]] MatrixScalarMul<T, Matrix> RMul(const T& s) const;
 
     //! Returns input matrix * this matrix.
     template <size_t L>
-    MatrixMul<T, Matrix<T, N, L>, Matrix> RMul(const Matrix<T, N, L>& m) const;
+    [[nodiscard]] MatrixMul<T, Matrix<T, N, L>, Matrix> RMul(
+        const Matrix<T, N, L>& m) const;
 
     //! Returns input matrix / this scalar.
-    MatrixScalarRDiv<T, Matrix> RDiv(const T& s) const;
+    [[nodiscard]] MatrixScalarRDiv<T, Matrix> RDiv(const T& s) const;
 
     //! Adds input scalar to this matrix.
     void IAdd(const T& s);
@@ -261,56 +265,56 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>>
     void Invert();
 
     //! Returns sum of all elements.
-    T Sum() const;
+    [[nodiscard]] T Sum() const;
 
     //! Returns average of all elements.
-    T Avg() const;
+    [[nodiscard]] T Avg() const;
 
     //! Returns minimum among all elements.
-    T Min() const;
+    [[nodiscard]] T Min() const;
 
     //! Returns maximum among all elements.
-    T Max() const;
+    [[nodiscard]] T Max() const;
 
     //! Returns absolute minimum among all elements.
-    T AbsMin() const;
+    [[nodiscard]] T AbsMin() const;
 
     //! Returns absolute maximum among all elements.
-    T AbsMax() const;
+    [[nodiscard]] T AbsMax() const;
 
     //! Returns sum of all diagonal elements.
     //! \warning Should be a square matrix.
-    T Trace() const;
+    [[nodiscard]] T Trace() const;
 
     //! Returns determinant of this matrix.
-    T Determinant() const;
+    [[nodiscard]] T Determinant() const;
 
     //! Returns diagonal part of this matrix.
-    MatrixDiagonal<T, Matrix> Diagonal() const;
+    [[nodiscard]] MatrixDiagonal<T, Matrix> Diagonal() const;
 
     //! Returns off-diagonal part of this matrix.
-    MatrixDiagonal<T, Matrix> OffDiagonal() const;
+    [[nodiscard]] MatrixDiagonal<T, Matrix> OffDiagonal() const;
 
     //! Returns strictly lower triangle part of this matrix.
-    MatrixTriangular<T, Matrix> StrictLowerTri() const;
+    [[nodiscard]] MatrixTriangular<T, Matrix> StrictLowerTri() const;
 
     //! Returns strictly upper triangle part of this matrix.
-    MatrixTriangular<T, Matrix> StrictUpperTri() const;
+    [[nodiscard]] MatrixTriangular<T, Matrix> StrictUpperTri() const;
 
     //! Returns lower triangle part of this matrix (including the diagonal).
-    MatrixTriangular<T, Matrix> LowerTri() const;
+    [[nodiscard]] MatrixTriangular<T, Matrix> LowerTri() const;
 
     //! Returns upper triangle part of this matrix (including the diagonal).
-    MatrixTriangular<T, Matrix> UpperTri() const;
+    [[nodiscard]] MatrixTriangular<T, Matrix> UpperTri() const;
 
     //! Returns transposed matrix.
-    Matrix<T, N, M> Transposed() const;
+    [[nodiscard]] Matrix<T, N, M> Transposed() const;
 
     //! Returns inverse matrix.
-    Matrix Inverse() const;
+    [[nodiscard]] Matrix Inverse() const;
 
     template <typename U>
-    MatrixTypeCast<U, Matrix, T> CastTo() const;
+    [[nodiscard]] MatrixTypeCast<U, Matrix, T> CastTo() const;
 
     //! Assigns input matrix.
     template <typename E>
@@ -425,11 +429,11 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>>
     static void ForEachIndex(Callback func);
 
     //! Makes a M x N matrix with zeros.
-    static MatrixConstant<T> MakeZero();
+    [[nodiscard]] static MatrixConstant<T> MakeZero();
 
     //! Makes a M x N matrix with all diagonal elements to 1, and other elements
     //! to 0.
-    static MatrixIdentity<T> MakeIdentity();
+    [[nodiscard]] static MatrixIdentity<T> MakeIdentity();
 
  private:
     ContainerType m_elements;
