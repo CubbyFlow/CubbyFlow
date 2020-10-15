@@ -82,9 +82,17 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>>
     //! Copy constructor.
     Matrix(const Matrix& other);
 
-    // MARK: Basic setters
-    //! Resizes to m x n matrix with initial value \p s.
-    void Resize(size_t m, size_t n, const T& s = T(0));
+    //! Default move constructor.
+    Matrix(Matrix&&) noexcept = default;
+
+    //! Default destructor.
+    ~Matrix() = default;
+
+    //! Copy assignment operator.
+    Matrix& operator=(const Matrix& other);
+
+    //! Default move assignment operator.
+    Matrix& operator=(Matrix&&) noexcept = default;
 
     //! Sets whole matrix with input scalar.
     void Set(const T& s);
@@ -127,7 +135,6 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>>
     template <typename E>
     void SetColumn(size_t j, const VectorExpression<T, E>& col);
 
-    // MARK: Basic getters
     template <typename E>
     bool IsEqual(const MatrixExpression<T, E>& other) const;
 
@@ -138,16 +145,16 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>>
                    double tol = std::numeric_limits<double>::epsilon()) const;
 
     //! Returns true if this matrix is a square matrix.
-    constexpr bool IsSquare() const;
+    [[nodiscard]] static constexpr bool IsSquare();
 
     //! Returns the size of this matrix.
-    constexpr Size2 size() const;
+    [[nodiscard]] static constexpr Size2 size();
 
     //! Returns number of rows of this matrix.
-    constexpr size_t Rows() const;
+    [[nodiscard]] static constexpr size_t Rows();
 
     //! Returns number of columns of this matrix.
-    constexpr size_t Cols() const;
+    [[nodiscard]] static constexpr size_t Cols();
 
     //! Returns data pointer of this matrix.
     T* data();
@@ -167,7 +174,6 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>>
     //! Returns the end const iterator of the matrix.
     ConstIterator end() const;
 
-    // MARK: Binary operator methods - new instance = this instance (+) input
     //! Returns this matrix + input scalar.
     MatrixScalarAdd<T, Matrix> Add(const T& s) const;
 
@@ -196,7 +202,6 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>>
     //! Returns this matrix / input scalar.
     MatrixScalarDiv<T, Matrix> Div(const T& s) const;
 
-    // MARK: Binary operator methods - new instance = input (+) this instance
     //! Returns input scalar + this matrix.
     MatrixScalarAdd<T, Matrix> RAdd(const T& s) const;
 
@@ -221,7 +226,6 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>>
     //! Returns input matrix / this scalar.
     MatrixScalarRDiv<T, Matrix> RDiv(const T& s) const;
 
-    // MARK: Augmented operator methods - this instance (+)= input
     //! Adds input scalar to this matrix.
     void IAdd(const T& s);
 
@@ -246,7 +250,6 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>>
     //! Divides this matrix with input scalar.
     void IDiv(const T& s);
 
-    // MARK: Modifiers
     //! Transposes this matrix.
     void Transpose();
 
@@ -257,7 +260,6 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>>
     //!
     void Invert();
 
-    // MARK: Complex getters
     //! Returns sum of all elements.
     T Sum() const;
 
@@ -310,13 +312,9 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>>
     template <typename U>
     MatrixTypeCast<U, Matrix, T> CastTo() const;
 
-    // MARK: Setter operators
     //! Assigns input matrix.
     template <typename E>
     Matrix& operator=(const E& m);
-
-    //! Copies to this matrix.
-    Matrix& operator=(const Matrix& other);
 
     //! Addition assignment with input scalar.
     Matrix& operator+=(const T& s);
@@ -342,7 +340,6 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>>
     //! Division assignment with input scalar.
     Matrix& operator/=(const T& s);
 
-    // MARK: Getter operators
     //! Returns reference of i-th element.
     T& operator[](size_t i);
 
@@ -363,7 +360,6 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>>
     template <typename E>
     bool operator!=(const MatrixExpression<T, E>& m) const;
 
-    // MARK: Helpers
     //!
     //! \brief Iterates the matrix and invoke given \p func for each index.
     //!
@@ -426,9 +422,8 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>>
     //! \endcode
     //!
     template <typename Callback>
-    void ForEachIndex(Callback func) const;
+    static void ForEachIndex(Callback func);
 
-    // MARK: Builders
     //! Makes a M x N matrix with zeros.
     static MatrixConstant<T> MakeZero();
 
