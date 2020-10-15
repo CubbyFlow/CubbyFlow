@@ -34,7 +34,6 @@ class Matrix<T, 4, 4>
     static_assert(std::is_floating_point<T>::value,
                   "Matrix only can be instantiated with floating point types");
 
-    // MARK: Constructors
     //! Constructs identity matrix.
     Matrix();
 
@@ -80,14 +79,25 @@ class Matrix<T, 4, 4>
     //! except (3,3) which is set to 1.
     explicit Matrix(const Matrix3x3<T>& m33);
 
-    //! Constructs a matrix with input matrix.
-    Matrix(const Matrix& m);
-
     //! Constructs a matrix with input array.
     //! \warning Ordering of the input elements is row-major.
     explicit Matrix(const T* arr);
 
-    // MARK: Basic setters
+    //! Copy constructor.
+    Matrix(const Matrix& m);
+
+    //! Default move constructor.
+    Matrix(Matrix&&) noexcept = default;
+
+    //! Default destructor.
+    ~Matrix() = default;
+
+    //! Copy assignment operator.
+    Matrix& operator=(const Matrix& m);
+
+    //! Default move assignment operator.
+    Matrix& operator=(Matrix&&) noexcept = default;
+
     //! Sets whole matrix with input scalar.
     void Set(T s);
 
@@ -150,78 +160,75 @@ class Matrix<T, 4, 4>
     //! Sets i-th column with input vector.
     void SetColumn(size_t i, const Vector4<T>& col);
 
-    // MARK: Basic getters
     //! Returns true if this matrix is similar to the input matrix within the
     //! given tolerance.
-    bool IsSimilar(const Matrix& m,
-                   double tol = std::numeric_limits<double>::epsilon()) const;
+    [[nodiscard]] bool IsSimilar(
+        const Matrix& m,
+        double tol = std::numeric_limits<double>::epsilon()) const;
 
     //! Returns true if this matrix is a square matrix.
-    bool IsSquare() const;
+    [[nodiscard]] static bool IsSquare();
 
     //! Returns number of rows of this matrix.
-    size_t Rows() const;
+    [[nodiscard]] static size_t Rows();
 
     //! Returns number of columns of this matrix.
-    size_t Cols() const;
+    [[nodiscard]] static size_t Cols();
 
     //! Returns data pointer of this matrix.
-    T* data();
+    [[nodiscard]] T* data();
 
     //! Returns constant pointer of this matrix.
-    const T* data() const;
+    [[nodiscard]] const T* data() const;
 
     //! Returns 3x3 part of this matrix.
-    Matrix<T, 3, 3> Matrix3() const;
+    [[nodiscard]] Matrix<T, 3, 3> Matrix3() const;
 
-    // MARK: Binary operator methods - new instance = this instance (+) input
     //! Returns this matrix + input scalar.
-    Matrix Add(T s) const;
+    [[nodiscard]] Matrix Add(T s) const;
 
     //! Returns this matrix + input matrix (element-wise).
-    Matrix Add(const Matrix& m) const;
+    [[nodiscard]] Matrix Add(const Matrix& m) const;
 
     //! Returns this matrix - input scalar.
-    Matrix Sub(T s) const;
+    [[nodiscard]] Matrix Sub(T s) const;
 
     //! Returns this matrix - input matrix (element-wise).
-    Matrix Sub(const Matrix& m) const;
+    [[nodiscard]] Matrix Sub(const Matrix& m) const;
 
     //! Returns this matrix * input scalar.
-    Matrix Mul(T s) const;
+    [[nodiscard]] Matrix Mul(T s) const;
 
     //! Returns this matrix * input vector.
-    Vector4<T> Mul(const Vector4<T>& v) const;
+    [[nodiscard]] Vector4<T> Mul(const Vector4<T>& v) const;
 
     //! Returns this matrix * input matrix.
-    Matrix Mul(const Matrix& m) const;
+    [[nodiscard]] Matrix Mul(const Matrix& m) const;
 
     //! Returns this matrix / input scalar.
-    Matrix Div(T s) const;
+    [[nodiscard]] Matrix Div(T s) const;
 
-    // MARK: Binary operator methods - new instance = input (+) this instance
     //! Returns input scalar + this matrix.
-    Matrix RAdd(T s) const;
+    [[nodiscard]] Matrix RAdd(T s) const;
 
     //! Returns input matrix + this matrix (element-wise).
-    Matrix RAdd(const Matrix& m) const;
+    [[nodiscard]] Matrix RAdd(const Matrix& m) const;
 
     //! Returns input scalar - this matrix.
-    Matrix RSub(T s) const;
+    [[nodiscard]] Matrix RSub(T s) const;
 
     //! Returns input matrix - this matrix (element-wise).
-    Matrix RSub(const Matrix& m) const;
+    [[nodiscard]] Matrix RSub(const Matrix& m) const;
 
     //! Returns input scalar * this matrix.
-    Matrix RMul(T s) const;
+    [[nodiscard]] Matrix RMul(T s) const;
 
     //! Returns input matrix * this matrix.
-    Matrix RMul(const Matrix& m) const;
+    [[nodiscard]] Matrix RMul(const Matrix& m) const;
 
     //! Returns input matrix / this scalar.
-    Matrix RDiv(T s) const;
+    [[nodiscard]] Matrix RDiv(T s) const;
 
-    // MARK: Augmented operator methods - this instance (+)= input
     //! Adds input scalar to this matrix.
     void IAdd(T s);
 
@@ -243,68 +250,62 @@ class Matrix<T, 4, 4>
     //! Divides this matrix with input scalar.
     void IDiv(T s);
 
-    // MARK: Modifiers
     //! Transposes this matrix.
     void Transpose();
 
     //! Inverts this matrix.
     void Invert();
 
-    // MARK: Complex getters
     //! Returns sum of all elements.
-    T Sum() const;
+    [[nodiscard]] T Sum() const;
 
     //! Returns average of all elements.
-    T Avg() const;
+    [[nodiscard]] T Avg() const;
 
     //! Returns minimum among all elements.
-    T Min() const;
+    [[nodiscard]] T Min() const;
 
     //! Returns maximum among all elements.
-    T Max() const;
+    [[nodiscard]] T Max() const;
 
     //! Returns absolute minimum among all elements.
-    T AbsMin() const;
+    [[nodiscard]] T AbsMin() const;
 
     //! Returns absolute maximum among all elements.
-    T AbsMax() const;
+    [[nodiscard]] T AbsMax() const;
 
     //! Returns sum of all diagonal elements.
-    T Trace() const;
+    [[nodiscard]] T Trace() const;
 
     //! Returns determinant of this matrix.
-    T Determinant() const;
+    [[nodiscard]] T Determinant() const;
 
     //! Returns diagonal part of this matrix.
-    Matrix Diagonal() const;
+    [[nodiscard]] Matrix Diagonal() const;
 
     //! Returns off-diagonal part of this matrix.
-    Matrix OffDiagonal() const;
+    [[nodiscard]] Matrix OffDiagonal() const;
 
     //! Returns strictly lower triangle part of this matrix.
-    Matrix StrictLowerTriangle() const;
+    [[nodiscard]] Matrix StrictLowerTriangle() const;
 
     //! Returns strictly upper triangle part of this matrix.
-    Matrix StrictUpperTriangle() const;
+    [[nodiscard]] Matrix StrictUpperTriangle() const;
 
     //! Returns lower triangle part of this matrix (including the diagonal).
-    Matrix LowerTriangle() const;
+    [[nodiscard]] Matrix LowerTriangle() const;
 
     //! Returns upper triangle part of this matrix (including the diagonal).
-    Matrix UpperTriangle() const;
+    [[nodiscard]] Matrix UpperTriangle() const;
 
     //! Returns transposed matrix.
-    Matrix Transposed() const;
+    [[nodiscard]] Matrix Transposed() const;
 
     //! Returns inverse matrix.
-    Matrix Inverse() const;
+    [[nodiscard]] Matrix Inverse() const;
 
     template <typename U>
-    Matrix<U, 4, 4> CastTo() const;
-
-    // MARK: Setter operators
-    //! Assigns input matrix.
-    Matrix& operator=(const Matrix& m);
+    [[nodiscard]] Matrix<U, 4, 4> CastTo() const;
 
     //! Addition assignment with input scalar.
     Matrix& operator+=(T s);
@@ -327,7 +328,6 @@ class Matrix<T, 4, 4>
     //! Division assignment with input scalar.
     Matrix& operator/=(T s);
 
-    // MARK: Getter operators
     //! Returns reference of i-th element.
     T& operator[](size_t i);
 
@@ -346,25 +346,25 @@ class Matrix<T, 4, 4>
     //! Returns true if is not equal to m.
     bool operator!=(const Matrix& m) const;
 
-    // MARK: Helpers
     //! Sets all matrix entries to zero.
-    static Matrix MakeZero();
+    [[nodiscard]] static Matrix MakeZero();
 
     //! Makes all diagonal elements to 1, and other elements to 0.
-    static Matrix MakeIdentity();
+    [[nodiscard]] static Matrix MakeIdentity();
 
     //! Makes scale matrix.
-    static Matrix MakeScaleMatrix(T sx, T sy, T sz);
+    [[nodiscard]] static Matrix MakeScaleMatrix(T sx, T sy, T sz);
 
     //! Makes scale matrix.
-    static Matrix MakeScaleMatrix(const Vector3<T>& s);
+    [[nodiscard]] static Matrix MakeScaleMatrix(const Vector3<T>& s);
 
     //! Makes rotation matrix.
     //! \warning Input angle should be radian.
-    static Matrix MakeRotationMatrix(const Vector3<T>& axis, T rad);
+    [[nodiscard]] static Matrix MakeRotationMatrix(const Vector3<T>& axis,
+                                                   T rad);
 
     //! Makes translation matrix.
-    static Matrix MakeTranslationMatrix(const Vector3<T>& t);
+    [[nodiscard]] static Matrix MakeTranslationMatrix(const Vector3<T>& t);
 
  private:
     std::array<T, 16> m_elements;
