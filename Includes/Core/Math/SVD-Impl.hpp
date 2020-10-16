@@ -62,9 +62,10 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
 
     if (m < n)
     {
-        throw std::invalid_argument(
+        throw std::invalid_argument{
             "Number of rows of input matrix must greater than or equal to "
-            "columns.");
+            "columns."
+        };
     }
 
     // Prepare workspace
@@ -364,7 +365,7 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
 
             if (its >= 30)
             {
-                throw std::logic_error("No convergence after 30 iterations");
+                throw std::logic_error{ "No convergence after 30 iterations" };
             }
 
             // shift from bottom 2 x 2 minor
@@ -740,7 +741,7 @@ void SVD(const Matrix<T, M, N>& a, Matrix<T, M, N>& u, Vector<T, N>& w,
 
             if (its >= 30)
             {
-                throw std::logic_error("No convergence after 30 iterations");
+                throw std::logic_error{ "No convergence after 30 iterations" };
             }
 
             // shift from bottom 2 x 2 minor
