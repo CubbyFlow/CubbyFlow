@@ -65,8 +65,17 @@ class ParticleSystemData3 : public Serializable
     //! Copy constructor.
     ParticleSystemData3(const ParticleSystemData3& other);
 
-    //! Destructor.
-    virtual ~ParticleSystemData3();
+    //! Default move constructor.
+    ParticleSystemData3(ParticleSystemData3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~ParticleSystemData3() override = default;
+
+    //! Copy assignment operator.
+    ParticleSystemData3& operator=(const ParticleSystemData3& other);
+
+    //! Default move assignment operator.
+    ParticleSystemData3& operator=(ParticleSystemData3&&) noexcept = default;
 
     //!
     //! \brief      Resizes the number of particles of the container.
@@ -223,9 +232,6 @@ class ParticleSystemData3 : public Serializable
     //! Copies from other particle system data.
     void Set(const ParticleSystemData3& other);
 
-    //! Copies from other particle system data.
-    ParticleSystemData3& operator=(const ParticleSystemData3& other);
-
  protected:
     void SerializeParticleSystemData(
         flatbuffers::FlatBufferBuilder* builder,
@@ -239,9 +245,9 @@ class ParticleSystemData3 : public Serializable
     double m_radius = 1e-3;
     double m_mass = 1e-3;
     size_t m_numberOfParticles = 0;
-    size_t m_positionIdx;
-    size_t m_velocityIdx;
-    size_t m_forceIdx;
+    size_t m_positionIdx = 0;
+    size_t m_velocityIdx = 0;
+    size_t m_forceIdx = 0;
 
     std::vector<ScalarData> m_scalarDataList;
     std::vector<VectorData> m_vectorDataList;
