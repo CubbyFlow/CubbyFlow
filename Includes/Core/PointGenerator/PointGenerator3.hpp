@@ -28,6 +28,9 @@ namespace CubbyFlow
 class PointGenerator3
 {
  public:
+    //! Default constructor.
+    PointGenerator3() = default;
+
     //! Default copy constructor.
     PointGenerator3(const PointGenerator3&) = default;
 
