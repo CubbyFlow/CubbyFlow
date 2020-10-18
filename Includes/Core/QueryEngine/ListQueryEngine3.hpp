@@ -29,12 +29,12 @@ class ListQueryEngine3 final : public IntersectionQueryEngine3<T>,
     void Add(const std::vector<T>& items);
 
     //! Returns true if given \p box intersects with any of the stored items.
-    bool IsIntersects(
+    [[nodiscard]] bool IsIntersects(
         const BoundingBox3D& box,
         const BoxIntersectionTestFunc3<T>& testFunc) const override;
 
     //! Returns true if given \p ray intersects with any of the stored items.
-    bool IsIntersects(
+    [[nodiscard]] bool IsIntersects(
         const Ray3D& ray,
         const RayIntersectionTestFunc3<T>& testFunc) const override;
 
@@ -49,13 +49,13 @@ class ListQueryEngine3 final : public IntersectionQueryEngine3<T>,
         const IntersectionVisitorFunc3<T>& visitorFunc) const override;
 
     //! Returns the closest intersection for given \p ray.
-    ClosestIntersectionQueryResult3<T> GetClosestIntersection(
+    [[nodiscard]] ClosestIntersectionQueryResult3<T> GetClosestIntersection(
         const Ray3D& ray,
         const GetRayIntersectionFunc3<T>& testFunc) const override;
 
     //! Returns the nearest neighbor for given point and distance measure
     //! function.
-    NearestNeighborQueryResult3<T> GetNearestNeighbor(
+    [[nodiscard]] NearestNeighborQueryResult3<T> GetNearestNeighbor(
         const Vector3D& pt,
         const NearestNeighborDistanceFunc3<T>& distanceFunc) const override;
 
