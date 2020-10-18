@@ -19,14 +19,16 @@
 
 namespace CubbyFlow
 {
-PointKdTreeSearcher3::PointKdTreeSearcher3()
-{
-    // Do nothing
-}
-
 PointKdTreeSearcher3::PointKdTreeSearcher3(const PointKdTreeSearcher3& other)
 {
     Set(other);
+}
+
+PointKdTreeSearcher3& PointKdTreeSearcher3::operator=(
+    const PointKdTreeSearcher3& other)
+{
+    Set(other);
+    return *this;
 }
 
 void PointKdTreeSearcher3::Build(const ConstArrayAccessor1<Vector3D>& points)
@@ -50,15 +52,8 @@ bool PointKdTreeSearcher3::HasNearbyPoint(const Vector3D& origin,
 PointNeighborSearcher3Ptr PointKdTreeSearcher3::Clone() const
 {
     return std::shared_ptr<PointKdTreeSearcher3>(
-        new PointKdTreeSearcher3(*this),
+        new PointKdTreeSearcher3{ *this },
         [](PointKdTreeSearcher3* obj) { delete obj; });
-}
-
-PointKdTreeSearcher3& PointKdTreeSearcher3::operator=(
-    const PointKdTreeSearcher3& other)
-{
-    Set(other);
-    return *this;
 }
 
 void PointKdTreeSearcher3::Set(const PointKdTreeSearcher3& other)
@@ -68,7 +63,7 @@ void PointKdTreeSearcher3::Set(const PointKdTreeSearcher3& other)
 
 void PointKdTreeSearcher3::Serialize(std::vector<uint8_t>* buffer) const
 {
-    flatbuffers::FlatBufferBuilder builder(1024);
+    flatbuffers::FlatBufferBuilder builder{ 1024 };
 
     // Copy points
     std::vector<fbs::Vector3D> points;
@@ -77,8 +72,8 @@ void PointKdTreeSearcher3::Serialize(std::vector<uint8_t>* buffer) const
         points.push_back(CubbyFlowToFlatbuffers(iter));
     }
 
-    const auto fbsPoints =
-        builder.CreateVectorOfStructs(points.data(), points.size());
+    const flatbuffers::Offset<flatbuffers::Vector<const fbs::Vector3D*>>
+        fbsPoints = builder.CreateVectorOfStructs(points.data(), points.size());
 
     // Copy nodes
     std::vector<fbs::PointKdTreeSearcherNode3> nodes;
@@ -87,11 +82,13 @@ void PointKdTreeSearcher3::Serialize(std::vector<uint8_t>* buffer) const
         nodes.emplace_back(iter->flags, iter->child, iter->item);
     }
 
-    const auto fbsNodes = builder.CreateVectorOfStructs(nodes);
+    const flatbuffers::Offset<
+        flatbuffers::Vector<const fbs::PointKdTreeSearcherNode3*>>
+        fbsNodes = builder.CreateVectorOfStructs(nodes);
 
     // Copy the searcher
-    const auto fbsSearcher =
-        fbs::CreatePointKdTreeSearcher3(builder, fbsPoints, fbsNodes);
+    const flatbuffers::Offset<fbs::PointKdTreeSearcher3> fbsSearcher =
+        CreatePointKdTreeSearcher3(builder, fbsPoints, fbsNodes);
 
     // Finish
     builder.Finish(fbsSearcher);
@@ -105,10 +102,13 @@ void PointKdTreeSearcher3::Serialize(std::vector<uint8_t>* buffer) const
 
 void PointKdTreeSearcher3::Deserialize(const std::vector<uint8_t>& buffer)
 {
-    const auto fbsSearcher = fbs::GetPointKdTreeSearcher3(buffer.data());
+    const fbs::PointKdTreeSearcher3* fbsSearcher =
+        fbs::GetPointKdTreeSearcher3(buffer.data());
 
-    const auto fbsPoints = fbsSearcher->points();
-    const auto fbsNodes = fbsSearcher->nodes();
+    const flatbuffers::Vector<const fbs::Vector3D*>* fbsPoints =
+        fbsSearcher->points();
+    const flatbuffers::Vector<const fbs::PointKdTreeSearcherNode3*>* fbsNodes =
+        fbsSearcher->nodes();
 
     m_tree.Reserve(fbsPoints->size(), fbsNodes->size());
 
@@ -123,7 +123,9 @@ void PointKdTreeSearcher3::Deserialize(const std::vector<uint8_t>& buffer)
     const auto nodesIter = m_tree.BeginNode();
     for (uint32_t i = 0; i < fbsNodes->size(); ++i)
     {
-        const auto fbsNode = fbsNodes->Get(i);
+        const flatbuffers::Vector<
+            const fbs::PointKdTreeSearcherNode3*>::return_type fbsNode =
+            fbsNodes->Get(i);
 
         nodesIter[i].flags = fbsNode->flags();
         nodesIter[i].child = fbsNode->child();
@@ -137,12 +139,12 @@ PointKdTreeSearcher3::Builder PointKdTreeSearcher3::GetBuilder()
     return Builder{};
 }
 
-PointKdTreeSearcher3 PointKdTreeSearcher3::Builder::Build() const
+PointKdTreeSearcher3 PointKdTreeSearcher3::Builder::Build()
 {
     return PointKdTreeSearcher3{};
 }
 
-PointKdTreeSearcher3Ptr PointKdTreeSearcher3::Builder::MakeShared() const
+PointKdTreeSearcher3Ptr PointKdTreeSearcher3::Builder::MakeShared()
 {
     return std::shared_ptr<PointKdTreeSearcher3>(
         new PointKdTreeSearcher3,
