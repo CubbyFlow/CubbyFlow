@@ -18,8 +18,8 @@ void TrianglePointGenerator::ForEachPoint(
 {
     const double halfSpacing = spacing / 2.0;
     const double ySpacing = spacing * std::sqrt(3.0) / 2.0;
-    double boxWidth = boundingBox.GetWidth();
-    double boxHeight = boundingBox.GetHeight();
+    const double boxWidth = boundingBox.GetWidth();
+    const double boxHeight = boundingBox.GetHeight();
 
     Vector2D position;
     bool hasOffset = false;
@@ -28,7 +28,7 @@ void TrianglePointGenerator::ForEachPoint(
     {
         position.y = j * ySpacing + boundingBox.lowerCorner.y;
 
-        double offset = (hasOffset) ? halfSpacing : 0.0;
+        const double offset = (hasOffset) ? halfSpacing : 0.0;
 
         for (int i = 0; i * spacing + offset <= boxWidth && !shouldQuit; ++i)
         {

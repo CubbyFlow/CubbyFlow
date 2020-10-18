@@ -30,7 +30,7 @@ class GridPointGenerator2 final : public PointGenerator2
     //!
     void ForEachPoint(
         const BoundingBox2D& boundingBox, double spacing,
-        const std::function<bool(const Vector2D&)>& callback) const;
+        const std::function<bool(const Vector2D&)>& callback) const override;
 };
 
 //! Shared pointer type for the GridPointGenerator2.

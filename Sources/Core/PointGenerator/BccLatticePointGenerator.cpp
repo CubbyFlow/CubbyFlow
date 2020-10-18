@@ -16,10 +16,10 @@ void BccLatticePointGenerator::ForEachPoint(
     const BoundingBox3D& boundingBox, double spacing,
     const std::function<bool(const Vector3D&)>& callback) const
 {
-    double halfSpacing = spacing / 2.0;
-    double boxWidth = boundingBox.GetWidth();
-    double boxHeight = boundingBox.GetHeight();
-    double boxDepth = boundingBox.GetDepth();
+    const double halfSpacing = spacing / 2.0;
+    const double boxWidth = boundingBox.GetWidth();
+    const double boxHeight = boundingBox.GetHeight();
+    const double boxDepth = boundingBox.GetDepth();
 
     Vector3D position;
     bool hasOffset = false;
@@ -29,7 +29,7 @@ void BccLatticePointGenerator::ForEachPoint(
     {
         position.z = k * halfSpacing + boundingBox.lowerCorner.z;
 
-        double offset = (hasOffset) ? halfSpacing : 0.0;
+        const double offset = (hasOffset) ? halfSpacing : 0.0;
 
         for (int j = 0; j * spacing + offset <= boxHeight && !shouldQuit; ++j)
         {

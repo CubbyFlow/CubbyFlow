@@ -28,9 +28,20 @@ namespace CubbyFlow
 class PointGenerator3
 {
  public:
-    PointGenerator3();
+    //! Default copy constructor.
+    PointGenerator3(const PointGenerator3&) = default;
 
-    virtual ~PointGenerator3();
+    //! Default move constructor.
+    PointGenerator3(PointGenerator3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~PointGenerator3() = default;
+
+    //! Default copy assignment operator.
+    PointGenerator3& operator=(const PointGenerator3&) = default;
+
+    //! Default move assignment operator.
+    PointGenerator3& operator=(PointGenerator3&&) noexcept = default;
 
     //! Generates points to output array \p points inside given \p boundingBox
     //! with target point \p spacing.
