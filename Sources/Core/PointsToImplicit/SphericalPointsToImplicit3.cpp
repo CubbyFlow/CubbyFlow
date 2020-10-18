@@ -31,14 +31,14 @@ void SphericalPointsToImplicit3::Convert(
         return;
     }
 
-    const auto res = output->Resolution();
+    const Size3& res = output->Resolution();
     if (res.x * res.y * res.z == 0)
     {
         CUBBYFLOW_WARN << "Empty grid is provided.";
         return;
     }
 
-    const auto bbox = output->BoundingBox();
+    const BoundingBox3D& bbox = output->BoundingBox();
     if (bbox.IsEmpty())
     {
         CUBBYFLOW_WARN << "Empty domain is provided.";
@@ -49,9 +49,10 @@ void SphericalPointsToImplicit3::Convert(
     particles.AddParticles(points);
     particles.BuildNeighborSearcher(2.0 * m_radius);
 
-    const auto neighborSearcher = particles.GetNeighborSearcher();
+    const PointNeighborSearcher3Ptr neighborSearcher =
+        particles.GetNeighborSearcher();
 
-    auto temp = output->Clone();
+    std::shared_ptr<ScalarGrid3> temp = output->Clone();
     temp->Fill([&](const Vector3D& x) {
         double minDist = 2.0 * m_radius;
         neighborSearcher->ForEachNearbyPoint(

@@ -39,14 +39,14 @@ void ZhuBridsonPointsToImplicit3::Convert(
         return;
     }
 
-    const auto res = output->Resolution();
+    const Size3& res = output->Resolution();
     if (res.x * res.y * res.z == 0)
     {
         CUBBYFLOW_WARN << "Empty grid is provided.";
         return;
     }
 
-    const auto bbox = output->BoundingBox();
+    const BoundingBox3D& bbox = output->BoundingBox();
     if (bbox.IsEmpty())
     {
         CUBBYFLOW_WARN << "Empty domain is provided.";
@@ -57,7 +57,8 @@ void ZhuBridsonPointsToImplicit3::Convert(
     particles.AddParticles(points);
     particles.BuildNeighborSearcher(m_kernelRadius);
 
-    const auto neighborSearcher = particles.GetNeighborSearcher();
+    const PointNeighborSearcher3Ptr neighborSearcher =
+        particles.GetNeighborSearcher();
     const double isoContValue = m_cutOffThreshold * m_kernelRadius;
 
     auto temp = output->Clone();

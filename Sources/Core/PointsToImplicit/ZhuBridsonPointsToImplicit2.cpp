@@ -39,14 +39,14 @@ void ZhuBridsonPointsToImplicit2::Convert(
         return;
     }
 
-    const auto res = output->Resolution();
+    const Size2& res = output->Resolution();
     if (res.x * res.y == 0)
     {
         CUBBYFLOW_WARN << "Empty grid is provided.";
         return;
     }
 
-    const auto bbox = output->BoundingBox();
+    const BoundingBox2D& bbox = output->BoundingBox();
     if (bbox.IsEmpty())
     {
         CUBBYFLOW_WARN << "Empty domain is provided.";

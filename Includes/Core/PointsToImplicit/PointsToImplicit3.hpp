@@ -22,10 +22,22 @@ class PointsToImplicit3
 {
  public:
     //! Default constructor.
-    PointsToImplicit3();
+    PointsToImplicit3() = default;
 
-    //! Default destructor.
-    virtual ~PointsToImplicit3();
+    //! Default copy constructor.
+    PointsToImplicit3(const PointsToImplicit3&) = default;
+
+    //! Default move constructor.
+    PointsToImplicit3(PointsToImplicit3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~PointsToImplicit3() = default;
+
+    //! Default copy assignment operator.
+    PointsToImplicit3& operator=(const PointsToImplicit3&) = default;
+
+    //! Default move assignment operator.
+    PointsToImplicit3& operator=(PointsToImplicit3&&) noexcept = default;
 
     //! Converts the given points to implicit surface scalar field.
     virtual void Convert(const ConstArrayAccessor1<Vector3D>& points,

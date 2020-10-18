@@ -21,11 +21,23 @@ namespace CubbyFlow
 class PointsToImplicit2
 {
  public:
-    //! Default constructor.
-    PointsToImplicit2();
+     //! Default constructor.
+    PointsToImplicit2() = default;
 
-    //! Default destructor.
-    virtual ~PointsToImplicit2();
+    //! Default copy constructor.
+    PointsToImplicit2(const PointsToImplicit2&) = default;
+
+    //! Default move constructor.
+    PointsToImplicit2(PointsToImplicit2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~PointsToImplicit2() = default;
+
+    //! Default copy assignment operator.
+    PointsToImplicit2& operator=(const PointsToImplicit2&) = default;
+
+    //! Default move assignment operator.
+    PointsToImplicit2& operator=(PointsToImplicit2&&) noexcept = default;
 
     //! Converts the given points to implicit surface scalar field.
     virtual void Convert(const ConstArrayAccessor1<Vector2D>& points,

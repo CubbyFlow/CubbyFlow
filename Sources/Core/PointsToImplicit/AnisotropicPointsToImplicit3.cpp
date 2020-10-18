@@ -74,14 +74,14 @@ void AnisotropicPointsToImplicit3::Convert(
         return;
     }
 
-    const auto res = output->Resolution();
+    const Size3& res = output->Resolution();
     if (res.x * res.y * res.z == 0)
     {
         CUBBYFLOW_WARN << "Empty grid is provided.";
         return;
     }
 
-    const auto bbox = output->BoundingBox();
+    const BoundingBox3D& bbox = output->BoundingBox();
     if (bbox.IsEmpty())
     {
         CUBBYFLOW_WARN << "Empty domain is provided.";
@@ -93,8 +93,8 @@ void AnisotropicPointsToImplicit3::Convert(
     const double r = 2.0 * h;
 
     // Mean estimator for cov. mat.
-    const auto meanNeighborSearcher =
-        PointKdTreeSearcher3::Builder().MakeShared();
+    const PointKdTreeSearcher3Ptr meanNeighborSearcher =
+        PointKdTreeSearcher3::Builder{}.MakeShared();
     meanNeighborSearcher->Build(points);
 
     CUBBYFLOW_INFO << "Built neighbor searcher.";
@@ -106,10 +106,10 @@ void AnisotropicPointsToImplicit3::Convert(
 
     // Compute G and xMean
     std::vector<Matrix3x3D> gs(points.size());
-    Array1<Vector3D> xMeans(points.size());
+    Array1<Vector3D> xMeans{ points.size() };
 
     ParallelFor(ZERO_SIZE, points.size(), [&](size_t i) {
-        const auto& x = points[i];
+        const Vector3D& x = points[i];
 
         // Compute xMean
         Vector3D xMean;
@@ -130,7 +130,7 @@ void AnisotropicPointsToImplicit3::Convert(
 
         if (numNeighbors < m_minNumNeighbors)
         {
-            const auto g = Matrix3x3D::MakeScaleMatrix(invH, invH, invH);
+            const Matrix3x3D g = Matrix3x3D::MakeScaleMatrix(invH, invH, invH);
             gs[i] = g;
         }
         else
@@ -139,7 +139,7 @@ void AnisotropicPointsToImplicit3::Convert(
             // We start with small scale matrix (h*h) in order to
             // prevent zero covariance matrix when points are all
             // perfectly lined up.
-            auto cov = Matrix3x3D::MakeScaleMatrix(h * h, h * h, h * h);
+            Matrix3x3D cov = Matrix3x3D::MakeScaleMatrix(h * h, h * h, h * h);
             wSum = 0.0;
             const auto getCov = [&](size_t, const Vector3D& xj) {
                 const double wj = Wij((xMean - xj).Length(), r);
@@ -168,7 +168,7 @@ void AnisotropicPointsToImplicit3::Convert(
             v.y = std::max(v.y, maxSingularVal / kr);
             v.z = std::max(v.z, maxSingularVal / kr);
 
-            const auto invSigma = Matrix3x3D::MakeScaleMatrix(1.0 / v);
+            const Matrix3x3D invSigma = Matrix3x3D::MakeScaleMatrix(1.0 / v);
 
             // Compute G
             // Volume preservation
@@ -183,14 +183,14 @@ void AnisotropicPointsToImplicit3::Convert(
     // SPH estimator
     meanParticles.SetKernelRadius(h);
     meanParticles.UpdateDensities();
-    const auto d = meanParticles.GetDensities();
+    const ArrayAccessor<double, 1> d = meanParticles.GetDensities();
     const double m = meanParticles.GetMass();
 
     PointKdTreeSearcher3 meanNeighborSearcher3;
     meanNeighborSearcher3.Build(xMeans);
 
     // Compute SDF
-    auto temp = output->Clone();
+    std::shared_ptr<ScalarGrid3> temp = output->Clone();
     temp->Fill([&](const Vector3D& x) {
         double sum = 0.0;
         meanNeighborSearcher3.ForEachNearbyPoint(

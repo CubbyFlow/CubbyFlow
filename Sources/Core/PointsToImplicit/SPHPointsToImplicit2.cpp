@@ -34,14 +34,14 @@ void SPHPointsToImplicit2::Convert(const ConstArrayAccessor1<Vector2D>& points,
         return;
     }
 
-    const auto res = output->Resolution();
+    const Size2& res = output->Resolution();
     if (res.x * res.y == 0)
     {
         CUBBYFLOW_WARN << "Empty grid is provided.";
         return;
     }
 
-    const auto bbox = output->BoundingBox();
+    const BoundingBox2D& bbox = output->BoundingBox();
     if (bbox.IsEmpty())
     {
         CUBBYFLOW_WARN << "Empty domain is provided.";
@@ -55,9 +55,9 @@ void SPHPointsToImplicit2::Convert(const ConstArrayAccessor1<Vector2D>& points,
     sphParticles.UpdateDensities();
 
     Array1<double> constData(sphParticles.GetNumberOfParticles(), 1.0);
-    auto temp = output->Clone();
+    std::shared_ptr<ScalarGrid2> temp = output->Clone();
     temp->Fill([&](const Vector2D& x) {
-        double d = sphParticles.Interpolate(x, constData);
+        const double d = sphParticles.Interpolate(x, constData);
         return m_cutOffDensity - d;
     });
 
