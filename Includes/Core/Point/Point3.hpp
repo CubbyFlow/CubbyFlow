@@ -29,47 +29,36 @@ class Point<T, 3> final
 {
  public:
     static_assert(std::is_arithmetic<T>::value,
-                  "Point only can be instantiated with arithmatic types");
+                  "Point only can be instantiated with arithmetic types");
 
-    //! X (or the first) component of the point.
-    T x;
-
-    //! Y (or the second) component of the point.
-    T y;
-
-    //! Z (or the third) component of the point.
-    T z;
-
-    // MARK: Constructors
     //! Constructs default point (0, 0, 0).
-    constexpr Point() : x(0), y(0), z(0)
-    {
-        // Do nothing
-    }
+    Point();
 
     //! Constructs point with given parameters \p _x, \p _y, and \p _z.
-    constexpr Point(T _x, T _y, T _z) : x(_x), y(_y), z(_z)
-    {
-        // Do nothing
-    }
+    Point(T _x, T _y, T _z);
 
     //! Constructs point with a 2-D point and a scalar.
-    constexpr Point(const Point2<T>& pt, T _z) : x(pt.x), y(pt.y), z(_z)
-    {
-        // Do nothing
-    }
+    Point(const Point2<T>& pt, T _z);
 
     //! Constructs point with initializer list.
     template <typename U>
     Point(const std::initializer_list<U>& list);
 
     //! Copy constructor.
-    constexpr Point(const Point& pt) : x(pt.x), y(pt.y), z(pt.z)
-    {
-        // Do nothing
-    }
+    Point(const Point& pt);
 
-    // MARK: Basic setters
+    //! Move constructor.
+    Point(Point&& pt) noexcept;
+
+    //! Default destructor.
+    ~Point() = default;
+
+    //! Copy assignment operator.
+    Point& operator=(const Point& v);
+
+    //! Move assignment operator.
+    Point& operator=(Point&& v) noexcept;
+
     //! Set all x, y, and z components to \p s.
     void Set(T s);
 
@@ -89,57 +78,54 @@ class Point<T, 3> final
     //! Set both x, y, and z to zero.
     void SetZero();
 
-    // MARK: Binary operations: new instance = this (+) v
     //! Computes this + (v, v, v).
-    Point Add(T v) const;
+    [[nodiscard]] Point Add(T v) const;
 
     //! Computes this + (v.x, v.y, v.z).
-    Point Add(const Point& v) const;
+    [[nodiscard]] Point Add(const Point& v) const;
 
     //! Computes this - (v, v, v).
-    Point Sub(T v) const;
+    [[nodiscard]] Point Sub(T v) const;
 
     //! Computes this - (v.x, v.y, v.z).
-    Point Sub(const Point& v) const;
+    [[nodiscard]] Point Sub(const Point& v) const;
 
     //! Computes this * (v, v, v).
-    Point Mul(T v) const;
+    [[nodiscard]] Point Mul(T v) const;
 
     //! Computes this * (v.x, v.y, v.z).
-    Point Mul(const Point& v) const;
+    [[nodiscard]] Point Mul(const Point& v) const;
 
     //! Computes this / (v, v, v).
-    Point Div(T v) const;
+    [[nodiscard]] Point Div(T v) const;
 
     //! Computes this / (v.x, v.y, v.z).
-    Point Div(const Point& v) const;
+    [[nodiscard]] Point Div(const Point& v) const;
 
-    // MARK: Binary operations: new instance = v (+) this
     //! Computes (v, v, v) + this.
-    Point RAdd(T v) const;
+    [[nodiscard]] Point RAdd(T v) const;
 
     //! Computes (v.x, v.y, v.z) + this.
-    Point RAdd(const Point& v) const;
+    [[nodiscard]] Point RAdd(const Point& v) const;
 
     //! Computes (v, v, v) - this.
-    Point RSub(T v) const;
+    [[nodiscard]] Point RSub(T v) const;
 
     //! Computes (v.x, v.y, v.z) - this.
-    Point RSub(const Point& v) const;
+    [[nodiscard]] Point RSub(const Point& v) const;
 
     //! Computes (v, v, v) * this.
-    Point RMul(T v) const;
+    [[nodiscard]] Point RMul(T v) const;
 
     //! Computes (v.x, v.y, v.z) * this.
-    Point RMul(const Point& v) const;
+    [[nodiscard]] Point RMul(const Point& v) const;
 
     //! Computes (v, v, v) / this.
-    Point RDiv(T v) const;
+    [[nodiscard]] Point RDiv(T v) const;
 
     //! Computes (v.x, v.y, v.z) / this.
-    Point RDiv(const Point& v) const;
+    [[nodiscard]] Point RDiv(const Point& v) const;
 
-    // MARK: Augmented operations: this (+)= v
     //! Computes this += (v, v, v).
     void IAdd(T v);
 
@@ -164,42 +150,40 @@ class Point<T, 3> final
     //! Computes this /= (v.x, v.y, v.z).
     void IDiv(const Point& v);
 
-    // MARK: Basic getters
     //! Returns const reference to the \p i -th element of the point.
-    const T& At(size_t i) const;
+    [[nodiscard]] const T& At(size_t i) const;
 
     //! Returns reference to the \p i -th element of the point.
-    T& At(size_t i);
+    [[nodiscard]] T& At(size_t i);
 
     //! Returns the sum of all the components (i.e. x + y).
-    T Sum() const;
+    [[nodiscard]] T Sum() const;
 
     //! Returns the minimum value among x, y, and z.
-    T Min() const;
+    [[nodiscard]] T Min() const;
 
     //! Returns the maximum value among x, y, and z.
-    T Max() const;
+    [[nodiscard]] T Max() const;
 
     //! Returns the absolute minimum value among x, y, and z.
-    T AbsMin() const;
+    [[nodiscard]] T AbsMin() const;
 
     //! Returns the absolute maximum value among x, y, and z.
-    T AbsMax() const;
+    [[nodiscard]] T AbsMax() const;
 
     //! Returns the index of the dominant axis.
-    size_t DominantAxis() const;
+    [[nodiscard]] size_t DominantAxis() const;
 
     //! Returns the index of the subdominant axis.
-    size_t SubdominantAxis() const;
+    [[nodiscard]] size_t SubdominantAxis() const;
 
     //! Returns a point with different value type.
     template <typename U>
-    Point<U, 3> CastTo() const;
+    [[nodiscard]] Point<U, 3> CastTo() const;
 
     //! Returns true if \p other is the same as this point.
-    bool IsEqual(const Point& other) const;
+    [[nodiscard]] bool IsEqual(const Point& other) const;
 
-    // MARK: Operators
     //! Returns reference to the \p i -th element of the point.
     T& operator[](size_t i);
 
@@ -208,9 +192,6 @@ class Point<T, 3> final
 
     //! Set x, y, and z components with given initializer list.
     Point& operator=(const std::initializer_list<T>& list);
-
-    //! Set x, y, and z with other point \p pt.
-    Point& operator=(const Point& v);
 
     //! Computes this += (v, v, v)
     Point& operator+=(T v);
@@ -241,6 +222,15 @@ class Point<T, 3> final
 
     //! Returns true if \p other is the not same as this point.
     bool operator!=(const Point& v) const;
+
+    //! X (or the first) component of the point.
+    T x;
+
+    //! Y (or the second) component of the point.
+    T y;
+
+    //! Z (or the third) component of the point.
+    T z;
 };
 
 //! Positive sign operator.

@@ -46,6 +46,18 @@ class Point final
     //! Copy constructor.
     Point(const Point& other);
 
+    //! Move constructor.
+    Point(Point&& other) noexcept;
+
+    //! Default destructor.
+    ~Point() = default;
+
+    //! Copy assignment operator.
+    Point& operator=(const Point& other);
+
+    //! Move assignment operator.
+    Point& operator=(Point&& other) noexcept;
+
     //! Set point instance with initializer list.
     template <typename U>
     void Set(const std::initializer_list<U>& list);
@@ -56,9 +68,6 @@ class Point final
     //! Set point instance with initializer list.
     template <typename U>
     Point& operator=(const std::initializer_list<U>& list);
-
-    //! Set point instance with other point.
-    Point& operator=(const Point& other);
 
     //! Returns the const reference to the \p i -th element.
     const T& operator[](size_t i) const;
