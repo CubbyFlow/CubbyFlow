@@ -36,13 +36,26 @@ class PointNeighborSearcher2 : public Serializable
     using ForEachNearbyPointFunc = std::function<void(size_t, const Vector2D&)>;
 
     //! Default constructor.
-    PointNeighborSearcher2();
+    PointNeighborSearcher2() = default;
 
-    //! Destructor.
-    virtual ~PointNeighborSearcher2();
+    //! Default copy constructor.
+    PointNeighborSearcher2(const PointNeighborSearcher2&) = default;
+
+    //! Default move constructor.
+    PointNeighborSearcher2(PointNeighborSearcher2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~PointNeighborSearcher2() override = default;
+
+    //! Default copy assignment operator.
+    PointNeighborSearcher2& operator=(const PointNeighborSearcher2&) = default;
+
+    //! Default move assignment operator.
+    PointNeighborSearcher2& operator=(PointNeighborSearcher2&&) noexcept =
+        default;
 
     //! Returns the type name of the derived class.
-    virtual std::string TypeName() const = 0;
+    [[nodiscard]] virtual std::string TypeName() const = 0;
 
     //! Builds internal acceleration structure for given points list.
     virtual void Build(const ConstArrayAccessor1<Vector2D>& points) = 0;
@@ -68,8 +81,8 @@ class PointNeighborSearcher2 : public Serializable
     //!
     //! \return     True if has nearby point, false otherwise.
     //!
-    virtual bool HasNearbyPoint(const Vector2D& origin,
-                                double radius) const = 0;
+    [[nodiscard]] virtual bool HasNearbyPoint(const Vector2D& origin,
+                                              double radius) const = 0;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -77,7 +90,8 @@ class PointNeighborSearcher2 : public Serializable
     //!
     //! \return     Copy of this object.
     //!
-    virtual std::shared_ptr<PointNeighborSearcher2> Clone() const = 0;
+    [[nodiscard]] virtual std::shared_ptr<PointNeighborSearcher2> Clone()
+        const = 0;
 };
 
 //! Shared pointer for the PointNeighborSearcher2 type.
@@ -87,10 +101,31 @@ using PointNeighborSearcher2Ptr = std::shared_ptr<PointNeighborSearcher2>;
 class PointNeighborSearcherBuilder2
 {
  public:
-    virtual ~PointNeighborSearcherBuilder2();
+    //! Default constructor.
+    PointNeighborSearcherBuilder2() = default;
+
+    //! Default copy constructor.
+    PointNeighborSearcherBuilder2(const PointNeighborSearcherBuilder2&) =
+        default;
+
+    //! Default move constructor.
+    PointNeighborSearcherBuilder2(PointNeighborSearcherBuilder2&&) noexcept =
+        default;
+
+    //! Default virtual destructor.
+    virtual ~PointNeighborSearcherBuilder2() = default;
+
+    //! Default copy assignment operator.
+    PointNeighborSearcherBuilder2& operator=(
+        const PointNeighborSearcherBuilder2&) = default;
+
+    //! Default move assignment operator.
+    PointNeighborSearcherBuilder2& operator=(
+        PointNeighborSearcherBuilder2&&) noexcept = default;
 
     //! Returns shared pointer of PointNeighborSearcher2 type.
-    virtual PointNeighborSearcher2Ptr BuildPointNeighborSearcher() const = 0;
+    [[nodiscard]] virtual PointNeighborSearcher2Ptr BuildPointNeighborSearcher()
+        const = 0;
 };
 
 //! Shared pointer for the PointNeighborSearcherBuilder2 type.
