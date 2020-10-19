@@ -21,8 +21,8 @@ namespace CubbyFlow
 {
 PointParallelHashGridSearcher3::PointParallelHashGridSearcher3(
     const Size3& resolution, double gridSpacing)
-    : PointParallelHashGridSearcher3(resolution.x, resolution.y, resolution.z,
-                                     gridSpacing)
+    : PointParallelHashGridSearcher3{ resolution.x, resolution.y, resolution.z,
+                                      gridSpacing }
 {
     // Do nothing
 }
@@ -48,6 +48,13 @@ PointParallelHashGridSearcher3::PointParallelHashGridSearcher3(
     Set(other);
 }
 
+PointParallelHashGridSearcher3& PointParallelHashGridSearcher3::operator=(
+    const PointParallelHashGridSearcher3& other)
+{
+    Set(other);
+    return *this;
+}
+
 void PointParallelHashGridSearcher3::Build(
     const ConstArrayAccessor1<Vector3D>& points)
 {
@@ -58,7 +65,7 @@ void PointParallelHashGridSearcher3::Build(
     m_sortedIndices.clear();
 
     // Allocate memory chunks
-    size_t numberOfPoints = points.size();
+    const size_t numberOfPoints = points.size();
     std::vector<size_t> tempKeys(numberOfPoints);
     m_startIndexTable.resize(m_resolution.x * m_resolution.y * m_resolution.z);
     m_endIndexTable.resize(m_resolution.x * m_resolution.y * m_resolution.z);
@@ -150,11 +157,10 @@ void PointParallelHashGridSearcher3::ForEachNearbyPoint(
 
     const double queryRadiusSquared = radius * radius;
 
-    for (int i = 0; i < 8; ++i)
+    for (const auto& key : nearbyKeys)
     {
-        size_t nearbyKey = nearbyKeys[i];
-        size_t start = m_startIndexTable[nearbyKey];
-        size_t end = m_endIndexTable[nearbyKey];
+        const size_t start = m_startIndexTable[key];
+        const size_t end = m_endIndexTable[key];
 
         // Empty bucket -- continue to next bucket
         if (start == std::numeric_limits<size_t>::max())
@@ -165,7 +171,7 @@ void PointParallelHashGridSearcher3::ForEachNearbyPoint(
         for (size_t j = start; j < end; ++j)
         {
             Vector3D direction = m_points[j] - origin;
-            double distanceSquared = direction.LengthSquared();
+            const double distanceSquared = direction.LengthSquared();
             if (distanceSquared <= queryRadiusSquared)
             {
                 callback(m_sortedIndices[j], m_points[j]);
@@ -182,11 +188,10 @@ bool PointParallelHashGridSearcher3::HasNearbyPoint(const Vector3D& origin,
 
     const double queryRadiusSquared = radius * radius;
 
-    for (int i = 0; i < 8; ++i)
+    for (const auto& key : nearbyKeys)
     {
-        size_t nearbyKey = nearbyKeys[i];
-        size_t start = m_startIndexTable[nearbyKey];
-        size_t end = m_endIndexTable[nearbyKey];
+        const size_t start = m_startIndexTable[key];
+        const size_t end = m_endIndexTable[key];
 
         // Empty bucket -- continue to next bucket
         if (start == std::numeric_limits<size_t>::max())
@@ -197,7 +202,7 @@ bool PointParallelHashGridSearcher3::HasNearbyPoint(const Vector3D& origin,
         for (size_t j = start; j < end; ++j)
         {
             Vector3D direction = m_points[j] - origin;
-            double distanceSquared = direction.LengthSquared();
+            const double distanceSquared = direction.LengthSquared();
             if (distanceSquared <= queryRadiusSquared)
             {
                 return true;
@@ -247,7 +252,7 @@ Point3I PointParallelHashGridSearcher3::GetBucketIndex(
 size_t PointParallelHashGridSearcher3::GetHashKeyFromPosition(
     const Vector3D& position) const
 {
-    Point3I bucketIndex = GetBucketIndex(position);
+    const Point3I bucketIndex = GetBucketIndex(position);
     return GetHashKeyFromBucketIndex(bucketIndex);
 }
 
@@ -281,14 +286,16 @@ size_t PointParallelHashGridSearcher3::GetHashKeyFromBucketIndex(
 void PointParallelHashGridSearcher3::GetNearbyKeys(const Vector3D& position,
                                                    size_t* nearbyKeys) const
 {
-    Point3I originIndex = GetBucketIndex(position), nearbyBucketIndices[8];
+    const Point3I originIndex = GetBucketIndex(position);
+    Point3I nearbyBucketIndices[8];
 
-    for (int i = 0; i < 8; ++i)
+    for (auto& bucketIndex : nearbyBucketIndices)
     {
-        nearbyBucketIndices[i] = originIndex;
+        bucketIndex = originIndex;
     }
 
-    if ((originIndex.x + 0.5f) * m_gridSpacing <= position.x)
+    if ((static_cast<double>(originIndex.x) + 0.5) * m_gridSpacing <=
+        position.x)
     {
         nearbyBucketIndices[4].x += 1;
         nearbyBucketIndices[5].x += 1;
@@ -303,7 +310,8 @@ void PointParallelHashGridSearcher3::GetNearbyKeys(const Vector3D& position,
         nearbyBucketIndices[7].x -= 1;
     }
 
-    if ((originIndex.y + 0.5f) * m_gridSpacing <= position.y)
+    if ((static_cast<double>(originIndex.y) + 0.5) * m_gridSpacing <=
+        position.y)
     {
         nearbyBucketIndices[2].y += 1;
         nearbyBucketIndices[3].y += 1;
@@ -318,7 +326,8 @@ void PointParallelHashGridSearcher3::GetNearbyKeys(const Vector3D& position,
         nearbyBucketIndices[7].y -= 1;
     }
 
-    if ((originIndex.z + 0.5f) * m_gridSpacing <= position.z)
+    if ((static_cast<double>(originIndex.z) + 0.5) * m_gridSpacing <=
+        position.z)
     {
         nearbyBucketIndices[1].z += 1;
         nearbyBucketIndices[3].z += 1;
@@ -342,15 +351,8 @@ void PointParallelHashGridSearcher3::GetNearbyKeys(const Vector3D& position,
 PointNeighborSearcher3Ptr PointParallelHashGridSearcher3::Clone() const
 {
     return std::shared_ptr<PointParallelHashGridSearcher3>(
-        new PointParallelHashGridSearcher3(*this),
+        new PointParallelHashGridSearcher3{ *this },
         [](PointParallelHashGridSearcher3* obj) { delete obj; });
-}
-
-PointParallelHashGridSearcher3& PointParallelHashGridSearcher3::operator=(
-    const PointParallelHashGridSearcher3& other)
-{
-    Set(other);
-    return *this;
 }
 
 void PointParallelHashGridSearcher3::Set(
@@ -378,38 +380,41 @@ void PointParallelHashGridSearcher3::Serialize(
     std::vector<fbs::Vector3D> points;
     for (const auto& pt : m_points)
     {
-        points.push_back(CubbyFlowToFlatbuffers(pt));
+        points.emplace_back(CubbyFlowToFlatbuffers(pt));
     }
 
-    auto fbsPoints =
-        builder.CreateVectorOfStructs(points.data(), points.size());
+    const flatbuffers::Offset<flatbuffers::Vector<const fbs::Vector3D*>>
+        fbsPoints = builder.CreateVectorOfStructs(points.data(), points.size());
 
     // Copy key/tables
-    std::vector<uint64_t> keys(m_keys.begin(), m_keys.end());
-    std::vector<uint64_t> startIndexTable(m_startIndexTable.begin(),
-                                          m_startIndexTable.end());
-    std::vector<uint64_t> endIndexTable(m_endIndexTable.begin(),
-                                        m_endIndexTable.end());
-    std::vector<uint64_t> sortedIndices(m_sortedIndices.begin(),
-                                        m_sortedIndices.end());
+    std::vector<uint64_t> keys{ m_keys.begin(), m_keys.end() };
+    std::vector<uint64_t> startIndexTable{ m_startIndexTable.begin(),
+                                           m_startIndexTable.end() };
+    std::vector<uint64_t> endIndexTable{ m_endIndexTable.begin(),
+                                         m_endIndexTable.end() };
+    std::vector<uint64_t> sortedIndices{ m_sortedIndices.begin(),
+                                         m_sortedIndices.end() };
 
-    auto fbsKeys = builder.CreateVector(keys.data(), keys.size());
-    auto fbsStartIndexTable =
-        builder.CreateVector(startIndexTable.data(), startIndexTable.size());
-    auto fbsEndIndexTable =
+    const flatbuffers::Offset<flatbuffers::Vector<uint64_t>> fbsKeys =
+        builder.CreateVector(keys.data(), keys.size());
+    const flatbuffers::Offset<flatbuffers::Vector<uint64_t>>
+        fbsStartIndexTable = builder.CreateVector(startIndexTable.data(),
+                                                  startIndexTable.size());
+    const flatbuffers::Offset<flatbuffers::Vector<uint64_t>> fbsEndIndexTable =
         builder.CreateVector(endIndexTable.data(), endIndexTable.size());
-    auto fbsSortedIndices =
+    const flatbuffers::Offset<flatbuffers::Vector<uint64_t>> fbsSortedIndices =
         builder.CreateVector(sortedIndices.data(), sortedIndices.size());
 
     // Copy the searcher
-    auto fbsSearcher = fbs::CreatePointParallelHashGridSearcher3(
-        builder, m_gridSpacing, &fbsResolution, fbsPoints, fbsKeys,
-        fbsStartIndexTable, fbsEndIndexTable, fbsSortedIndices);
+    const flatbuffers::Offset<fbs::PointParallelHashGridSearcher3> fbsSearcher =
+        CreatePointParallelHashGridSearcher3(
+            builder, m_gridSpacing, &fbsResolution, fbsPoints, fbsKeys,
+            fbsStartIndexTable, fbsEndIndexTable, fbsSortedIndices);
 
     builder.Finish(fbsSearcher);
 
     uint8_t* buf = builder.GetBufferPointer();
-    size_t size = builder.GetSize();
+    const size_t size = builder.GetSize();
 
     buffer->resize(size);
     memcpy(buffer->data(), buf, size);
@@ -418,15 +423,17 @@ void PointParallelHashGridSearcher3::Serialize(
 void PointParallelHashGridSearcher3::Deserialize(
     const std::vector<uint8_t>& buffer)
 {
-    auto fbsSearcher = fbs::GetPointParallelHashGridSearcher3(buffer.data());
+    const fbs::PointParallelHashGridSearcher3* fbsSearcher =
+        fbs::GetPointParallelHashGridSearcher3(buffer.data());
 
     // Copy simple data
-    auto res = FlatbuffersToCubbyFlow(*fbsSearcher->resolution());
+    const Size3 res = FlatbuffersToCubbyFlow(*fbsSearcher->resolution());
     m_resolution.Set({ res.x, res.y, res.z });
     m_gridSpacing = fbsSearcher->gridSpacing();
 
     // Copy points
-    auto fbsPoints = fbsSearcher->points();
+    const flatbuffers::Vector<const fbs::Vector3D*>* fbsPoints =
+        fbsSearcher->points();
     m_points.resize(fbsPoints->size());
     for (uint32_t i = 0; i < fbsPoints->size(); ++i)
     {
@@ -434,28 +441,31 @@ void PointParallelHashGridSearcher3::Deserialize(
     }
 
     // Copy key/tables
-    auto fbsKeys = fbsSearcher->keys();
+    const flatbuffers::Vector<uint64_t>* fbsKeys = fbsSearcher->keys();
     m_keys.resize(fbsKeys->size());
     for (uint32_t i = 0; i < fbsKeys->size(); ++i)
     {
         m_keys[i] = static_cast<size_t>(fbsKeys->Get(i));
     }
 
-    auto fbsStartIndexTable = fbsSearcher->startIndexTable();
+    const flatbuffers::Vector<uint64_t>* fbsStartIndexTable =
+        fbsSearcher->startIndexTable();
     m_startIndexTable.resize(fbsStartIndexTable->size());
     for (uint32_t i = 0; i < fbsStartIndexTable->size(); ++i)
     {
         m_startIndexTable[i] = static_cast<size_t>(fbsStartIndexTable->Get(i));
     }
 
-    auto fbsEndIndexTable = fbsSearcher->endIndexTable();
+    const flatbuffers::Vector<uint64_t>* fbsEndIndexTable =
+        fbsSearcher->endIndexTable();
     m_endIndexTable.resize(fbsEndIndexTable->size());
     for (uint32_t i = 0; i < fbsEndIndexTable->size(); ++i)
     {
         m_endIndexTable[i] = static_cast<size_t>(fbsEndIndexTable->Get(i));
     }
 
-    auto fbsSortedIndices = fbsSearcher->sortedIndices();
+    const flatbuffers::Vector<uint64_t>* fbsSortedIndices =
+        fbsSearcher->sortedIndices();
     m_sortedIndices.resize(fbsSortedIndices->size());
     for (uint32_t i = 0; i < fbsSortedIndices->size(); ++i)
     {
@@ -493,7 +503,7 @@ PointParallelHashGridSearcher3Ptr
 PointParallelHashGridSearcher3::Builder::MakeShared() const
 {
     return std::shared_ptr<PointParallelHashGridSearcher3>(
-        new PointParallelHashGridSearcher3(m_resolution, m_gridSpacing),
+        new PointParallelHashGridSearcher3{ m_resolution, m_gridSpacing },
         [](PointParallelHashGridSearcher3* obj) { delete obj; });
 }
 

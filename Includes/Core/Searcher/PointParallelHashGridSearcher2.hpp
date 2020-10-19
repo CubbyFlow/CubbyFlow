@@ -59,6 +59,21 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2
     //! Copy constructor.
     PointParallelHashGridSearcher2(const PointParallelHashGridSearcher2& other);
 
+    //! Default move constructor.
+    PointParallelHashGridSearcher2(PointParallelHashGridSearcher2&&) noexcept =
+        default;
+
+    //! Default virtual destructor.
+    ~PointParallelHashGridSearcher2() override = default;
+
+    //! Copy assignment operator.
+    PointParallelHashGridSearcher2& operator=(
+        const PointParallelHashGridSearcher2& other);
+
+    //! Move assignment operator.
+    PointParallelHashGridSearcher2& operator=(
+        PointParallelHashGridSearcher2&&) noexcept = default;
+
     //!
     //! \brief Builds internal acceleration structure for given points list.
     //!
@@ -89,7 +104,8 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2
     //!
     //! \return     True if has nearby point, false otherwise.
     //!
-    bool HasNearbyPoint(const Vector2D& origin, double radius) const override;
+    [[nodiscard]] bool HasNearbyPoint(const Vector2D& origin,
+                                      double radius) const override;
 
     //!
     //! \brief      Returns the hash key list.
@@ -99,7 +115,7 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2
     //!
     //! \return     The hash key list.
     //!
-    const std::vector<size_t>& Keys() const;
+    [[nodiscard]] const std::vector<size_t>& Keys() const;
 
     //!
     //! \brief      Returns the start index table.
@@ -124,7 +140,7 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2
     //!
     //! \return     The start index table.
     //!
-    const std::vector<size_t>& StartIndexTable() const;
+    [[nodiscard]] const std::vector<size_t>& StartIndexTable() const;
 
     //!
     //! \brief      Returns the end index table.
@@ -149,7 +165,7 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2
     //!
     //! \return     The end index table.
     //!
-    const std::vector<size_t>& EndIndexTable() const;
+    [[nodiscard]] const std::vector<size_t>& EndIndexTable() const;
 
     //!
     //! \brief      Returns the sorted indices of the points.
@@ -161,7 +177,7 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2
     //!
     //! \return     The sorted indices of the points.
     //!
-    const std::vector<size_t>& SortedIndices() const;
+    [[nodiscard]] const std::vector<size_t>& SortedIndices() const;
 
     //!
     //! Returns the hash value for given 2-D bucket index.
@@ -170,7 +186,8 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2
     //!
     //! \return     The hash key from bucket index.
     //!
-    size_t GetHashKeyFromBucketIndex(const Point2I& bucketIndex) const;
+    [[nodiscard]] size_t GetHashKeyFromBucketIndex(
+        const Point2I& bucketIndex) const;
 
     //!
     //! Gets the bucket index from a point.
@@ -179,7 +196,7 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2
     //!
     //! \return     The bucket index.
     //!
-    Point2I GetBucketIndex(const Vector2D& position) const;
+    [[nodiscard]] Point2I GetBucketIndex(const Vector2D& position) const;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -187,11 +204,7 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2
     //!
     //! \return     Copy of this object.
     //!
-    PointNeighborSearcher2Ptr Clone() const override;
-
-    //! Assignment operator.
-    PointParallelHashGridSearcher2& operator=(
-        const PointParallelHashGridSearcher2& other);
+    [[nodiscard]] PointNeighborSearcher2Ptr Clone() const override;
 
     //! Copy from the other instance.
     void Set(const PointParallelHashGridSearcher2& other);
@@ -203,20 +216,20 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2
     void Deserialize(const std::vector<uint8_t>& buffer) override;
 
     //! Returns builder fox PointParallelHashGridSearcher2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
+    [[nodiscard]] size_t GetHashKeyFromPosition(const Vector2D& position) const;
+
+    void GetNearbyKeys(const Vector2D& position, size_t* nearbyKeys) const;
+
     double m_gridSpacing = 1.0;
-    Point2I m_resolution = Point2I(1, 1);
+    Point2I m_resolution = Point2I{ 1, 1 };
     std::vector<Vector2D> m_points;
     std::vector<size_t> m_keys;
     std::vector<size_t> m_startIndexTable;
     std::vector<size_t> m_endIndexTable;
     std::vector<size_t> m_sortedIndices;
-
-    size_t GetHashKeyFromPosition(const Vector2D& position) const;
-
-    void GetNearbyKeys(const Vector2D& position, size_t* bucketIndices) const;
 };
 
 //! Shared pointer for the PointParallelHashGridSearcher2 type.
@@ -232,19 +245,20 @@ class PointParallelHashGridSearcher2::Builder final
 {
  public:
     //! Returns builder with resolution.
-    Builder& WithResolution(const Size2& resolution);
+    [[nodiscard]] Builder& WithResolution(const Size2& resolution);
 
     //! Returns builder with grid spacing.
-    Builder& WithGridSpacing(double gridSpacing);
+    [[nodiscard]] Builder& WithGridSpacing(double gridSpacing);
 
     //! Builds PointParallelHashGridSearcher2 instance.
-    PointParallelHashGridSearcher2 Build() const;
+    [[nodiscard]] PointParallelHashGridSearcher2 Build() const;
 
     //! Builds shared pointer of PointParallelHashGridSearcher2 instance.
-    PointParallelHashGridSearcher2Ptr MakeShared() const;
+    [[nodiscard]] PointParallelHashGridSearcher2Ptr MakeShared() const;
 
     //! Returns shared pointer of PointNeighborSearcher3 type.
-    PointNeighborSearcher2Ptr BuildPointNeighborSearcher() const override;
+    [[nodiscard]] PointNeighborSearcher2Ptr BuildPointNeighborSearcher()
+        const override;
 
  private:
     Size2 m_resolution{ 64, 64 };
