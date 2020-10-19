@@ -17,13 +17,13 @@
 
 namespace CubbyFlow
 {
-SPHSystemData2::SPHSystemData2() : SPHSystemData2(0)
+SPHSystemData2::SPHSystemData2() : SPHSystemData2{ 0 }
 {
     // Do nothing
 }
 
 SPHSystemData2::SPHSystemData2(size_t numberOfParticles)
-    : ParticleSystemData2(numberOfParticles)
+    : ParticleSystemData2{ numberOfParticles }
 {
     m_densityIdx = AddScalarData();
     m_pressureIdx = AddScalarData();
@@ -32,13 +32,15 @@ SPHSystemData2::SPHSystemData2(size_t numberOfParticles)
 }
 
 SPHSystemData2::SPHSystemData2(const SPHSystemData2& other)
+    : ParticleSystemData2{ other }
 {
     Set(other);
 }
 
-SPHSystemData2::~SPHSystemData2()
+SPHSystemData2& SPHSystemData2::operator=(const SPHSystemData2& other)
 {
-    // Do nothing
+    Set(other);
+    return *this;
 }
 
 void SPHSystemData2::SetRadius(double newRadius)
@@ -49,7 +51,7 @@ void SPHSystemData2::SetRadius(double newRadius)
 
 void SPHSystemData2::SetMass(double newMass)
 {
-    double incRatio = newMass / GetMass();
+    const double incRatio = newMass / GetMass();
     m_targetDensity *= incRatio;
     ParticleSystemData2::SetMass(newMass);
 }
@@ -76,12 +78,12 @@ ArrayAccessor1<double> SPHSystemData2::GetPressures()
 
 void SPHSystemData2::UpdateDensities()
 {
-    auto p = GetPositions();
-    auto d = GetDensities();
+    ArrayAccessor<Vector2D, 1> p = GetPositions();
+    ArrayAccessor<double, 1> d = GetDensities();
     const double m = GetMass();
 
     ParallelFor(ZERO_SIZE, GetNumberOfParticles(), [&](size_t i) {
-        double sum = SumOfKernelNearby(p[i]);
+        const double sum = SumOfKernelNearby(p[i]);
         d[i] = m * sum;
     });
 }
@@ -142,11 +144,11 @@ double SPHSystemData2::GetKernelRadius() const
 double SPHSystemData2::SumOfKernelNearby(const Vector2D& origin) const
 {
     double sum = 0.0;
-    SPHStdKernel2 kernel(m_kernelRadius);
+    SPHStdKernel2 kernel{ m_kernelRadius };
 
     GetNeighborSearcher()->ForEachNearbyPoint(
         origin, m_kernelRadius, [&](size_t, const Vector2D& neighborPosition) {
-            double dist = origin.DistanceTo(neighborPosition);
+            const double dist = origin.DistanceTo(neighborPosition);
             sum += kernel(dist);
         });
 
@@ -157,15 +159,15 @@ double SPHSystemData2::Interpolate(
     const Vector2D& origin, const ConstArrayAccessor1<double>& values) const
 {
     double sum = 0.0;
-    auto d = GetDensities();
-    SPHStdKernel2 kernel(m_kernelRadius);
+    ConstArrayAccessor<double, 1> d = GetDensities();
+    SPHStdKernel2 kernel{ m_kernelRadius };
     const double m = GetMass();
 
     GetNeighborSearcher()->ForEachNearbyPoint(
         origin, m_kernelRadius,
         [&](size_t i, const Vector2D& neighborPosition) {
-            double dist = origin.DistanceTo(neighborPosition);
-            double weight = m / d[i] * kernel(dist);
+            const double dist = origin.DistanceTo(neighborPosition);
+            const double weight = m / d[i] * kernel(dist);
 
             sum += weight * values[i];
         });
@@ -177,15 +179,15 @@ Vector2D SPHSystemData2::Interpolate(
     const Vector2D& origin, const ConstArrayAccessor1<Vector2D>& values) const
 {
     Vector2D sum;
-    auto d = GetDensities();
-    SPHStdKernel2 kernel(m_kernelRadius);
+    ConstArrayAccessor<double, 1> d = GetDensities();
+    SPHStdKernel2 kernel{ m_kernelRadius };
     const double m = GetMass();
 
     GetNeighborSearcher()->ForEachNearbyPoint(
         origin, m_kernelRadius,
         [&](size_t i, const Vector2D& neighborPosition) {
-            double dist = origin.DistanceTo(neighborPosition);
-            double weight = m / d[i] * kernel(dist);
+            const double dist = origin.DistanceTo(neighborPosition);
+            const double weight = m / d[i] * kernel(dist);
 
             sum += weight * values[i];
         });
@@ -197,17 +199,17 @@ Vector2D SPHSystemData2::GradientAt(
     size_t i, const ConstArrayAccessor1<double>& values) const
 {
     Vector2D sum;
-    auto p = GetPositions();
-    auto d = GetDensities();
-    const auto& neighbors = GetNeighborLists()[i];
-    Vector2D origin = p[i];
-    SPHSpikyKernel2 kernel(m_kernelRadius);
+    const ConstArrayAccessor<Vector2D, 1> p = GetPositions();
+    const ConstArrayAccessor<double, 1> d = GetDensities();
+    const std::vector<size_t>& neighbors = GetNeighborLists()[i];
+    const Vector2D origin = p[i];
+    const SPHSpikyKernel2 kernel{ m_kernelRadius };
     const double m = GetMass();
 
     for (size_t j : neighbors)
     {
         Vector2D neighborPosition = p[j];
-        double dist = origin.DistanceTo(neighborPosition);
+        const double dist = origin.DistanceTo(neighborPosition);
 
         if (dist > 0.0)
         {
@@ -225,17 +227,17 @@ double SPHSystemData2::LaplacianAt(
     size_t i, const ConstArrayAccessor1<double>& values) const
 {
     double sum = 0.0;
-    auto p = GetPositions();
-    auto d = GetDensities();
-    const auto& neighbors = GetNeighborLists()[i];
-    Vector2D origin = p[i];
-    SPHSpikyKernel2 kernel(m_kernelRadius);
+    const ConstArrayAccessor<Vector2D, 1> p = GetPositions();
+    const ConstArrayAccessor<double, 1> d = GetDensities();
+    const std::vector<size_t>& neighbors = GetNeighborLists()[i];
+    const Vector2D origin = p[i];
+    const SPHSpikyKernel2 kernel{ m_kernelRadius };
     const double m = GetMass();
 
     for (size_t j : neighbors)
     {
         Vector2D neighborPosition = p[j];
-        double dist = origin.DistanceTo(neighborPosition);
+        const double dist = origin.DistanceTo(neighborPosition);
         sum +=
             m * (values[j] - values[i]) / d[j] * kernel.SecondDerivative(dist);
     }
@@ -247,17 +249,17 @@ Vector2D SPHSystemData2::LaplacianAt(
     size_t i, const ConstArrayAccessor1<Vector2D>& values) const
 {
     Vector2D sum;
-    auto p = GetPositions();
-    auto d = GetDensities();
-    const auto& neighbors = GetNeighborLists()[i];
-    Vector2D origin = p[i];
-    SPHSpikyKernel2 kernel(m_kernelRadius);
+    const ConstArrayAccessor<Vector2D, 1> p = GetPositions();
+    const ConstArrayAccessor<double, 1> d = GetDensities();
+    const std::vector<size_t>& neighbors = GetNeighborLists()[i];
+    const Vector2D origin = p[i];
+    const SPHSpikyKernel2 kernel{ m_kernelRadius };
     const double m = GetMass();
 
     for (size_t j : neighbors)
     {
         Vector2D neighborPosition = p[j];
-        double dist = origin.DistanceTo(neighborPosition);
+        const double dist = origin.DistanceTo(neighborPosition);
         sum +=
             m * (values[j] - values[i]) / d[j] * kernel.SecondDerivative(dist);
     }
@@ -278,25 +280,25 @@ void SPHSystemData2::BuildNeighborLists()
 void SPHSystemData2::ComputeMass()
 {
     Array1<Vector2D> points;
-    TrianglePointGenerator pointsGenerator;
-    BoundingBox2D sampleBound(
-        Vector2D(-1.5 * m_kernelRadius, -1.5 * m_kernelRadius),
-        Vector2D(1.5 * m_kernelRadius, 1.5 * m_kernelRadius));
+    const TrianglePointGenerator pointsGenerator;
+    const BoundingBox2D sampleBound{
+        Vector2D{ -1.5 * m_kernelRadius, -1.5 * m_kernelRadius },
+        Vector2D{ 1.5 * m_kernelRadius, 1.5 * m_kernelRadius }
+    };
 
     pointsGenerator.Generate(sampleBound, m_targetSpacing, &points);
 
     double maxNumberDensity = 0.0;
-    SPHStdKernel2 kernel(m_kernelRadius);
+    const SPHStdKernel2 kernel{ m_kernelRadius };
 
     for (size_t i = 0; i < points.size(); ++i)
     {
-        const Vector2D& point = points[i];
+        const Vector2D& point1 = points[i];
         double sum = 0.0;
 
-        for (size_t j = 0; j < points.size(); ++j)
+        for (const auto& point2 : points)
         {
-            const Vector2D& neighborPoint = points[j];
-            sum += kernel(neighborPoint.DistanceTo(point));
+            sum += kernel(point2.DistanceTo(point1));
         }
 
         maxNumberDensity = std::max(maxNumberDensity, sum);
@@ -304,27 +306,27 @@ void SPHSystemData2::ComputeMass()
 
     assert(maxNumberDensity > 0);
 
-    double newMass = m_targetDensity / maxNumberDensity;
+    const double newMass = m_targetDensity / maxNumberDensity;
 
     ParticleSystemData2::SetMass(newMass);
 }
 
 void SPHSystemData2::Serialize(std::vector<uint8_t>* buffer) const
 {
-    flatbuffers::FlatBufferBuilder builder(1024);
+    flatbuffers::FlatBufferBuilder builder{ 1024 };
     flatbuffers::Offset<fbs::ParticleSystemData2> fbsParticleSystemData;
 
     SerializeParticleSystemData(&builder, &fbsParticleSystemData);
 
-    auto fbsSPHSystemData = fbs::CreateSPHSystemData2(
-        builder, fbsParticleSystemData, m_targetDensity, m_targetSpacing,
-        m_kernelRadiusOverTargetSpacing, m_kernelRadius, m_pressureIdx,
-        m_densityIdx);
+    const flatbuffers::Offset<fbs::SPHSystemData2> fbsSPHSystemData =
+        CreateSPHSystemData2(builder, fbsParticleSystemData, m_targetDensity,
+                             m_targetSpacing, m_kernelRadiusOverTargetSpacing,
+                             m_kernelRadius, m_pressureIdx, m_densityIdx);
 
     builder.Finish(fbsSPHSystemData);
 
     uint8_t* buf = builder.GetBufferPointer();
-    size_t size = builder.GetSize();
+    const size_t size = builder.GetSize();
 
     buffer->resize(size);
     memcpy(buffer->data(), buf, size);
@@ -332,9 +334,10 @@ void SPHSystemData2::Serialize(std::vector<uint8_t>* buffer) const
 
 void SPHSystemData2::Deserialize(const std::vector<uint8_t>& buffer)
 {
-    auto fbsSPHSystemData = fbs::GetSPHSystemData2(buffer.data());
+    const fbs::SPHSystemData2* fbsSPHSystemData =
+        fbs::GetSPHSystemData2(buffer.data());
 
-    auto base = fbsSPHSystemData->base();
+    const fbs::ParticleSystemData2* base = fbsSPHSystemData->base();
     DeserializeParticleSystemData(base);
 
     // SPH specific
@@ -357,11 +360,5 @@ void SPHSystemData2::Set(const SPHSystemData2& other)
     m_kernelRadius = other.m_kernelRadius;
     m_densityIdx = other.m_densityIdx;
     m_pressureIdx = other.m_pressureIdx;
-}
-
-SPHSystemData2& SPHSystemData2::operator=(const SPHSystemData2& other)
-{
-    Set(other);
-    return *this;
 }
 }  // namespace CubbyFlow
