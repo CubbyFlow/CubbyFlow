@@ -22,9 +22,6 @@ namespace CubbyFlow
 //!
 class CubicSemiLagrangian2 final : public SemiLagrangian2
 {
- public:
-    CubicSemiLagrangian2();
-
  protected:
     //!
     //! \brief Returns spatial interpolation function object for given scalar
@@ -32,7 +29,7 @@ class CubicSemiLagrangian2 final : public SemiLagrangian2
     //!
     //! This function overrides the original function with cubic interpolation.
     //!
-    std::function<double(const Vector2D&)> GetScalarSamplerFunc(
+    [[nodiscard]] std::function<double(const Vector2D&)> GetScalarSamplerFunc(
         const ScalarGrid2& source) const override;
 
     //!
@@ -41,7 +38,7 @@ class CubicSemiLagrangian2 final : public SemiLagrangian2
     //!
     //! This function overrides the original function with cubic interpolation.
     //!
-    std::function<Vector2D(const Vector2D&)> GetVectorSamplerFunc(
+    [[nodiscard]] std::function<Vector2D(const Vector2D&)> GetVectorSamplerFunc(
         const CollocatedVectorGrid2& source) const override;
 
     //!
@@ -50,7 +47,7 @@ class CubicSemiLagrangian2 final : public SemiLagrangian2
     //!
     //! This function overrides the original function with cubic interpolation.
     //!
-    std::function<Vector2D(const Vector2D&)> GetVectorSamplerFunc(
+    [[nodiscard]] std::function<Vector2D(const Vector2D&)> GetVectorSamplerFunc(
         const FaceCenteredGrid2& source) const override;
 };
 

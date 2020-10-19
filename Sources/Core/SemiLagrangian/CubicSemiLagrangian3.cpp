@@ -12,17 +12,13 @@
 
 namespace CubbyFlow
 {
-CubicSemiLagrangian3::CubicSemiLagrangian3()
-{
-    // Do nothing
-}
-
 std::function<double(const Vector3D&)>
 CubicSemiLagrangian3::GetScalarSamplerFunc(const ScalarGrid3& source) const
 {
-    auto sourceSampler = CubicArraySampler3<double, double>(
-        source.GetConstDataAccessor(), source.GridSpacing(),
-        source.GetDataOrigin());
+    const auto sourceSampler =
+        CubicArraySampler3<double, double>{ source.GetConstDataAccessor(),
+                                            source.GridSpacing(),
+                                            source.GetDataOrigin() };
     return sourceSampler.Functor();
 }
 
@@ -30,9 +26,10 @@ std::function<Vector3D(const Vector3D&)>
 CubicSemiLagrangian3::GetVectorSamplerFunc(
     const CollocatedVectorGrid3& source) const
 {
-    auto sourceSampler = CubicArraySampler3<Vector3D, double>(
-        source.GetConstDataAccessor(), source.GridSpacing(),
-        source.GetDataOrigin());
+    const auto sourceSampler =
+        CubicArraySampler3<Vector3D, double>{ source.GetConstDataAccessor(),
+                                              source.GridSpacing(),
+                                              source.GetDataOrigin() };
     return sourceSampler.Functor();
 }
 
@@ -47,8 +44,8 @@ CubicSemiLagrangian3::GetVectorSamplerFunc(
     auto wSourceSampler = CubicArraySampler3<double, double>(
         source.GetWConstAccessor(), source.GridSpacing(), source.GetWOrigin());
     return [uSourceSampler, vSourceSampler, wSourceSampler](const Vector3D& x) {
-        return Vector3D(uSourceSampler(x), vSourceSampler(x),
-                        wSourceSampler(x));
+        return Vector3D{ uSourceSampler(x), vSourceSampler(x),
+                         wSourceSampler(x) };
     };
 }
 }  // namespace CubbyFlow
