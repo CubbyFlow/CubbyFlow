@@ -19,34 +19,10 @@
 namespace CubbyFlow
 {
 template <typename T>
-Point<T, 2>::Point() : x{ 0 }, y{ 0 }
-{
-    // Do nothing
-}
-
-template <typename T>
-Point<T, 2>::Point(T _x, T _y) : x{ _x }, y{ _y }
-{
-    // Do nothing
-}
-
-template <typename T>
 template <typename U>
 Point<T, 2>::Point(const std::initializer_list<U>& list)
 {
     Set(list);
-}
-
-template <typename T>
-Point<T, 2>::Point(const Point& pt) : x{ pt.x }, y{ pt.y }
-{
-    // Do nothing
-}
-
-template <typename T>
-Point<T, 2>::Point(Point&& pt) noexcept : x{ pt.x }, y{ pt.y }
-{
-    // Do nothing
 }
 
 template <typename T>

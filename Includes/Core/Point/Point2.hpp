@@ -31,20 +31,32 @@ class Point<T, 2> final
                   "Point only can be instantiated with arithmetic types");
 
     //! Constructs default point (0, 0).
-    Point();
+    constexpr Point() : x{ 0 }, y{ 0 }
+    {
+        // Do nothing
+    }
 
     //! Constructs point with given parameters \p _x and \p _y.
-    Point(T _x, T _y);
+    constexpr Point(T _x, T _y) : x{ _x }, y{ _y }
+    {
+        // Do nothing
+    }
 
     //! Constructs point with initializer list.
     template <typename U>
     Point(const std::initializer_list<U>& list);
 
     //! Copy constructor.
-    Point(const Point& pt);
+    constexpr Point(const Point& pt) : x{ pt.x }, y{ pt.y }
+    {
+        // Do nothing
+    }
 
     //! Move constructor.
-    Point(Point&& pt) noexcept;
+    constexpr Point(Point&& pt) noexcept : x{ pt.x }, y{ pt.y }
+    {
+        // Do nothing
+    }
 
     //! Default destructor.
     ~Point() = default;
