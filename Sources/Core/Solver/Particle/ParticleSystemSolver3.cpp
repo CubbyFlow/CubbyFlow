@@ -20,7 +20,7 @@
 namespace CubbyFlow
 {
 ParticleSystemSolver3::ParticleSystemSolver3()
-    : ParticleSystemSolver3(1e-3, 1e-3)
+    : ParticleSystemSolver3{ 1e-3, 1e-3 }
 {
     // Do nothing
 }
@@ -30,12 +30,7 @@ ParticleSystemSolver3::ParticleSystemSolver3(double radius, double mass)
     m_particleSystemData = std::make_shared<ParticleSystemData3>();
     m_particleSystemData->SetRadius(radius);
     m_particleSystemData->SetMass(mass);
-    m_wind = std::make_shared<ConstantVectorField3>(Vector3D());
-}
-
-ParticleSystemSolver3::~ParticleSystemSolver3()
-{
-    // Do nothing
+    m_wind = std::make_shared<ConstantVectorField3>(Vector3D{});
 }
 
 double ParticleSystemSolver3::GetDragCoefficient() const
@@ -154,8 +149,8 @@ void ParticleSystemSolver3::AccumulateForces(double timeStepInSeconds)
 void ParticleSystemSolver3::BeginAdvanceTimeStep(double timeStepInSeconds)
 {
     // Clear forces
-    auto forces = m_particleSystemData->GetForces();
-    SetRange1(forces.size(), Vector3D(), &forces);
+    ArrayAccessor<Vector3D, 1> forces = m_particleSystemData->GetForces();
+    SetRange1(forces.size(), Vector3D{}, &forces);
 
     // Update collider and emitter
     Timer timer;
@@ -169,7 +164,7 @@ void ParticleSystemSolver3::BeginAdvanceTimeStep(double timeStepInSeconds)
                    << " seconds";
 
     // Allocate buffers
-    size_t n = m_particleSystemData->GetNumberOfParticles();
+    const size_t n = m_particleSystemData->GetNumberOfParticles();
     m_newPositions.Resize(n);
     m_newVelocities.Resize(n);
 
@@ -179,9 +174,10 @@ void ParticleSystemSolver3::BeginAdvanceTimeStep(double timeStepInSeconds)
 void ParticleSystemSolver3::EndAdvanceTimeStep(double timeStepInSeconds)
 {
     // Update data
-    size_t n = m_particleSystemData->GetNumberOfParticles();
-    auto positions = m_particleSystemData->GetPositions();
-    auto velocities = m_particleSystemData->GetVelocities();
+    const size_t n = m_particleSystemData->GetNumberOfParticles();
+    ArrayAccessor<Vector3D, 1> positions = m_particleSystemData->GetPositions();
+    ArrayAccessor<Vector3D, 1> velocities =
+        m_particleSystemData->GetVelocities();
 
     ParallelFor(ZERO_SIZE, n, [&](size_t i) {
         positions[i] = m_newPositions[i];
@@ -212,7 +208,8 @@ void ParticleSystemSolver3::ResolveCollision(
 {
     if (m_collider != nullptr)
     {
-        size_t numberOfParticles = m_particleSystemData->GetNumberOfParticles();
+        const size_t numberOfParticles =
+            m_particleSystemData->GetNumberOfParticles();
         const double radius = m_particleSystemData->GetRadius();
 
         ParallelFor(ZERO_SIZE, numberOfParticles, [&](size_t i) {
@@ -230,10 +227,11 @@ void ParticleSystemSolver3::SetParticleSystemData(
 
 void ParticleSystemSolver3::AccumulateExternalForces()
 {
-    size_t n = m_particleSystemData->GetNumberOfParticles();
-    auto forces = m_particleSystemData->GetForces();
-    auto velocities = m_particleSystemData->GetVelocities();
-    auto positions = m_particleSystemData->GetPositions();
+    const size_t n = m_particleSystemData->GetNumberOfParticles();
+    ArrayAccessor<Vector3D, 1> forces = m_particleSystemData->GetForces();
+    ArrayAccessor<Vector3D, 1> velocities =
+        m_particleSystemData->GetVelocities();
+    ArrayAccessor<Vector3D, 1> positions = m_particleSystemData->GetPositions();
     const double mass = m_particleSystemData->GetMass();
 
     ParallelFor(ZERO_SIZE, n, [&](size_t i) {
@@ -241,7 +239,8 @@ void ParticleSystemSolver3::AccumulateExternalForces()
         Vector3D force = mass * m_gravity;
 
         // Wind forces
-        Vector3D relativeVel = velocities[i] - m_wind->Sample(positions[i]);
+        const Vector3D relativeVel =
+            velocities[i] - m_wind->Sample(positions[i]);
         force += -m_dragCoefficient * relativeVel;
 
         forces[i] += force;
@@ -250,10 +249,11 @@ void ParticleSystemSolver3::AccumulateExternalForces()
 
 void ParticleSystemSolver3::TimeIntegration(double timeStepInSeconds)
 {
-    size_t n = m_particleSystemData->GetNumberOfParticles();
-    auto forces = m_particleSystemData->GetForces();
-    auto velocities = m_particleSystemData->GetVelocities();
-    auto positions = m_particleSystemData->GetPositions();
+    const size_t n = m_particleSystemData->GetNumberOfParticles();
+    ArrayAccessor<Vector3D, 1> forces = m_particleSystemData->GetForces();
+    ArrayAccessor<Vector3D, 1> velocities =
+        m_particleSystemData->GetVelocities();
+    ArrayAccessor<Vector3D, 1> positions = m_particleSystemData->GetPositions();
     const double mass = m_particleSystemData->GetMass();
 
     ParallelFor(ZERO_SIZE, n, [&](size_t i) {
@@ -285,18 +285,18 @@ void ParticleSystemSolver3::UpdateEmitter(double timeStepInSeconds) const
 
 ParticleSystemSolver3::Builder ParticleSystemSolver3::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 ParticleSystemSolver3 ParticleSystemSolver3::Builder::Build() const
 {
-    return ParticleSystemSolver3(m_radius, m_mass);
+    return ParticleSystemSolver3{ m_radius, m_mass };
 }
 
 ParticleSystemSolver3Ptr ParticleSystemSolver3::Builder::MakeShared() const
 {
     return std::shared_ptr<ParticleSystemSolver3>(
-        new ParticleSystemSolver3(m_radius, m_mass),
+        new ParticleSystemSolver3{ m_radius, m_mass },
         [](ParticleSystemSolver3* obj) { delete obj; });
 }
 }  // namespace CubbyFlow
