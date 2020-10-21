@@ -25,14 +25,9 @@ PCISPHSolver2::PCISPHSolver2()
 
 PCISPHSolver2::PCISPHSolver2(double targetDensity, double targetSpacing,
                              double relativeKernelRadius)
-    : SPHSolver2(targetDensity, targetSpacing, relativeKernelRadius)
+    : SPHSolver2{ targetDensity, targetSpacing, relativeKernelRadius }
 {
     SetTimeStepLimitScale(DEFAULT_TIME_STEP_LIMIT_SCALE);
-}
-
-PCISPHSolver2::~PCISPHSolver2()
-{
-    // Do nothing
 }
 
 double PCISPHSolver2::GetMaxDensityErrorRatio() const
@@ -57,27 +52,27 @@ void PCISPHSolver2::SetMaxNumberOfIterations(unsigned int n)
 
 void PCISPHSolver2::AccumulatePressureForce(double timeIntervalInSeconds)
 {
-    auto particles = GetSPHSystemData();
+    SPHSystemData2Ptr particles = GetSPHSystemData();
     const size_t numberOfParticles = particles->GetNumberOfParticles();
     const double delta = ComputeDelta(timeIntervalInSeconds);
     const double targetDensity = particles->GetTargetDensity();
     const double mass = particles->GetMass();
 
-    auto p = particles->GetPressures();
-    auto d = particles->GetDensities();
-    auto x = particles->GetPositions();
-    auto v = particles->GetVelocities();
-    auto f = particles->GetForces();
+    ArrayAccessor1<double> p = particles->GetPressures();
+    ArrayAccessor1<double> d = particles->GetDensities();
+    ArrayAccessor1<Vector2D> x = particles->GetPositions();
+    ArrayAccessor1<Vector2D> v = particles->GetVelocities();
+    ArrayAccessor1<Vector2D> f = particles->GetForces();
 
     // Predicted density ds
     Array1<double> ds(numberOfParticles, 0.0);
 
-    SPHStdKernel2 kernel(particles->GetKernelRadius());
+    SPHStdKernel2 kernel{ particles->GetKernelRadius() };
 
     // Initialize buffers
     ParallelFor(ZERO_SIZE, numberOfParticles, [&](size_t i) {
         p[i] = 0.0;
-        m_pressureForces[i] = Vector2D();
+        m_pressureForces[i] = Vector2D{};
         m_densityErrors[i] = 0.0;
         ds[i] = d[i];
     });
@@ -106,12 +101,13 @@ void PCISPHSolver2::AccumulatePressureForce(double timeIntervalInSeconds)
 
             for (size_t j : neighbors)
             {
-                double dist = m_tempPositions[j].DistanceTo(m_tempPositions[i]);
+                const double dist =
+                    m_tempPositions[j].DistanceTo(m_tempPositions[i]);
                 weightSum += kernel(dist);
             }
             weightSum += kernel(0);
 
-            double density = mass * weightSum;
+            const double density = mass * weightSum;
             double densityError = (density - targetDensity);
             double pressure = delta * densityError;
 
@@ -127,7 +123,7 @@ void PCISPHSolver2::AccumulatePressureForce(double timeIntervalInSeconds)
         });
 
         // Compute pressure gradient force
-        m_pressureForces.Set(Vector2D());
+        m_pressureForces.Set(Vector2D{});
         SPHSolver2::AccumulatePressureForce(x, ds.ConstAccessor(), p,
                                             m_pressureForces.Accessor());
 
@@ -169,7 +165,8 @@ void PCISPHSolver2::OnBeginAdvanceTimeStep(double timeStepInSeconds)
     SPHSolver2::OnBeginAdvanceTimeStep(timeStepInSeconds);
 
     // Allocate temp buffers
-    size_t numberOfParticles = GetParticleSystemData()->GetNumberOfParticles();
+    const size_t numberOfParticles =
+        GetParticleSystemData()->GetNumberOfParticles();
     m_tempPositions.Resize(numberOfParticles);
     m_tempVelocities.Resize(numberOfParticles);
     m_pressureForces.Resize(numberOfParticles);
@@ -178,34 +175,33 @@ void PCISPHSolver2::OnBeginAdvanceTimeStep(double timeStepInSeconds)
 
 double PCISPHSolver2::ComputeDelta(double timeStepInSeconds) const
 {
-    auto particles = GetSPHSystemData();
+    const SPHSystemData2Ptr particles = GetSPHSystemData();
     const double kernelRadius = particles->GetKernelRadius();
 
     Array1<Vector2D> points;
-    TrianglePointGenerator pointsGenerator;
-    Vector2D origin;
-    BoundingBox2D sampleBound(origin, origin);
+    const TrianglePointGenerator pointsGenerator;
+    const Vector2D origin;
+    BoundingBox2D sampleBound{ origin, origin };
     sampleBound.Expand(1.5 * kernelRadius);
 
     pointsGenerator.Generate(sampleBound, particles->GetTargetSpacing(),
                              &points);
 
-    SPHSpikyKernel2 kernel(kernelRadius);
+    const SPHSpikyKernel2 kernel{ kernelRadius };
 
     double denom = 0;
     Vector2D denom1;
     double denom2 = 0;
 
-    for (size_t i = 0; i < points.size(); ++i)
+    for (const auto& point : points)
     {
-        const Vector2D& point = points[i];
-        double distanceSquared = point.LengthSquared();
+        const double distanceSquared = point.LengthSquared();
 
         if (distanceSquared < kernelRadius * kernelRadius)
         {
-            double distance = std::sqrt(distanceSquared);
+            const double distance = std::sqrt(distanceSquared);
             Vector2D direction =
-                (distance > 0.0) ? point / distance : Vector2D();
+                (distance > 0.0) ? point / distance : Vector2D{};
 
             // grad(Wij)
             Vector2D gradWij = kernel.Gradient(distance, direction);
@@ -223,27 +219,27 @@ double PCISPHSolver2::ComputeDelta(double timeStepInSeconds) const
 
 double PCISPHSolver2::ComputeBeta(double timeStepInSeconds) const
 {
-    auto particles = GetSPHSystemData();
+    const SPHSystemData2Ptr particles = GetSPHSystemData();
     return 2.0 * Square(particles->GetMass() * timeStepInSeconds /
                         particles->GetTargetDensity());
 }
 
 PCISPHSolver2::Builder PCISPHSolver2::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 PCISPHSolver2 PCISPHSolver2::Builder::Build() const
 {
-    return PCISPHSolver2(m_targetDensity, m_targetSpacing,
-                         m_relativeKernelRadius);
+    return PCISPHSolver2{ m_targetDensity, m_targetSpacing,
+                          m_relativeKernelRadius };
 }
 
 PCISPHSolver2Ptr PCISPHSolver2::Builder::MakeShared() const
 {
     return std::shared_ptr<PCISPHSolver2>(
-        new PCISPHSolver2(m_targetDensity, m_targetSpacing,
-                          m_relativeKernelRadius),
+        new PCISPHSolver2{ m_targetDensity, m_targetSpacing,
+                           m_relativeKernelRadius },
         [](PCISPHSolver2* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

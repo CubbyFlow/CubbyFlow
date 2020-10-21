@@ -37,15 +37,28 @@ class SPHSolver2 : public ParticleSystemSolver2
     //! Constructs a solver with empty particle set.
     SPHSolver2();
 
-    virtual ~SPHSolver2();
-
     //! Constructs a solver with target density, spacing, and relative kernel
     //! radius.
     SPHSolver2(double targetDensity, double targetSpacing,
                double relativeKernelRadius);
 
+    //! Deleted copy constructor.
+    SPHSolver2(const SPHSolver2&) = delete;
+
+    //! Deleted move constructor.
+    SPHSolver2(SPHSolver2&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~SPHSolver2() override = default;
+
+    //! Deleted copy assignment operator.
+    SPHSolver2& operator=(const SPHSolver2&) = delete;
+
+    //! Deleted move assignment operator.
+    SPHSolver2& operator=(SPHSolver2&&) noexcept = delete;
+
     //! Returns the exponent part of the equation-of-state.
-    double GetEosExponent() const;
+    [[nodiscard]] double GetEosExponent() const;
 
     //!
     //! \brief Sets the exponent part of the equation-of-state.
@@ -57,7 +70,7 @@ class SPHSolver2 : public ParticleSystemSolver2
     void SetEosExponent(double newEosExponent);
 
     //! Returns the negative pressure scale.
-    double GetNegativePressureScale() const;
+    [[nodiscard]] double GetNegativePressureScale() const;
 
     //!
     //! \brief Sets the negative pressure scale.
@@ -70,13 +83,13 @@ class SPHSolver2 : public ParticleSystemSolver2
     void SetNegativePressureScale(double newNegativePressureScale);
 
     //! Returns the viscosity coefficient.
-    double GetViscosityCoefficient() const;
+    [[nodiscard]] double GetViscosityCoefficient() const;
 
     //! Sets the viscosity coefficient.
     void SetViscosityCoefficient(double newViscosityCoefficient);
 
     //! Returns the pseudo viscosity coefficient.
-    double GetPseudoViscosityCoefficient() const;
+    [[nodiscard]] double GetPseudoViscosityCoefficient() const;
 
     //!
     //! \brief Sets the pseudo viscosity coefficient.
@@ -87,7 +100,7 @@ class SPHSolver2 : public ParticleSystemSolver2
     void SetPseudoViscosityCoefficient(double newPseudoViscosityCoefficient);
 
     //! Returns the speed of sound.
-    double GetSpeedOfSound() const;
+    [[nodiscard]] double GetSpeedOfSound() const;
 
     //!
     //! \brief Sets the speed of sound.
@@ -105,7 +118,7 @@ class SPHSolver2 : public ParticleSystemSolver2
     //! time-step. When the scale is 1.0, the time-step is bounded by the speed
     //! of sound and max acceleration.
     //!
-    double GetTimeStepLimitScale() const;
+    [[nodiscard]] double GetTimeStepLimitScale() const;
 
     //!
     //! \brief Sets the multiplier that scales the max allowed time-step.
@@ -117,14 +130,14 @@ class SPHSolver2 : public ParticleSystemSolver2
     void SetTimeStepLimitScale(double newScale);
 
     //! Returns the SPH system data.
-    SPHSystemData2Ptr GetSPHSystemData() const;
+    [[nodiscard]] SPHSystemData2Ptr GetSPHSystemData() const;
 
     //! Returns builder fox SPHSolver2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  protected:
     //! Returns the number of sub-time-steps.
-    unsigned int GetNumberOfSubTimeSteps(
+    [[nodiscard]] unsigned int GetNumberOfSubTimeSteps(
         double timeIntervalInSeconds) const override;
 
     //! Accumulates the force to the forces array in the particle system.
@@ -196,13 +209,14 @@ class SPHSolverBuilderBase2
 {
  public:
     //! Returns builder with target density.
-    DerivedBuilder& WithTargetDensity(double targetDensity);
+    [[nodiscard]] DerivedBuilder& WithTargetDensity(double targetDensity);
 
     //! Returns builder with target spacing.
-    DerivedBuilder& WithTargetSpacing(double targetSpacing);
+    [[nodiscard]] DerivedBuilder& WithTargetSpacing(double targetSpacing);
 
     //! Returns builder with relative kernel radius.
-    DerivedBuilder& WithRelativeKernelRadius(double relativeKernelRadius);
+    [[nodiscard]] DerivedBuilder& WithRelativeKernelRadius(
+        double relativeKernelRadius);
 
  protected:
     double m_targetDensity = WATER_DENSITY;
@@ -235,15 +249,14 @@ T& SPHSolverBuilderBase2<T>::WithRelativeKernelRadius(
 //!
 //! \brief Front-end to create SPHSolver2 objects step by step.
 //!
-class SPHSolver2::Builder final
-    : public SPHSolverBuilderBase2<SPHSolver2::Builder>
+class SPHSolver2::Builder final : public SPHSolverBuilderBase2<Builder>
 {
  public:
     //! Builds SPHSolver2.
-    SPHSolver2 Build() const;
+    [[nodiscard]] SPHSolver2 Build() const;
 
     //! Builds shared pointer of SPHSolver2 instance.
-    SPHSolver2Ptr MakeShared() const;
+    [[nodiscard]] SPHSolver2Ptr MakeShared() const;
 };
 }  // namespace CubbyFlow
 

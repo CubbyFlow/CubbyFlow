@@ -36,11 +36,6 @@ SPHSolver3::SPHSolver3(double targetDensity, double targetSpacing,
     SetIsUsingFixedSubTimeSteps(false);
 }
 
-SPHSolver3::~SPHSolver3()
-{
-    // Do nothing
-}
-
 double SPHSolver3::GetEosExponent() const
 {
     return m_eosExponent;
@@ -111,9 +106,9 @@ SPHSystemData3Ptr SPHSolver3::GetSPHSystemData() const
 unsigned int SPHSolver3::GetNumberOfSubTimeSteps(
     double timeIntervalInSeconds) const
 {
-    auto particles = GetSPHSystemData();
-    size_t numberOfParticles = particles->GetNumberOfParticles();
-    auto f = particles->GetForces();
+    SPHSystemData3Ptr particles = GetSPHSystemData();
+    const size_t numberOfParticles = particles->GetNumberOfParticles();
+    ArrayAccessor1<Vector3D> f = particles->GetForces();
 
     const double kernelRadius = particles->GetKernelRadius();
     const double mass = particles->GetMass();
@@ -125,13 +120,13 @@ unsigned int SPHSolver3::GetNumberOfSubTimeSteps(
         maxForceMagnitude = std::max(maxForceMagnitude, f[i].Length());
     }
 
-    double timeStepLimitBySpeed =
+    const double timeStepLimitBySpeed =
         TIME_STEP_LIMIT_BY_SPEED_FACTOR * kernelRadius / m_speedOfSound;
-    double timeStepLimitByForce =
+    const double timeStepLimitByForce =
         TIME_STEP_LIMIT_BY_FORCE_FACTOR *
         std::sqrt(kernelRadius * mass / maxForceMagnitude);
 
-    double desiredTimeStep =
+    const double desiredTimeStep =
         m_timeStepLimitScale *
         std::min(timeStepLimitBySpeed, timeStepLimitByForce);
 
@@ -149,9 +144,9 @@ void SPHSolver3::OnBeginAdvanceTimeStep(double timeStepInSeconds)
 {
     UNUSED_VARIABLE(timeStepInSeconds);
 
-    auto particles = GetSPHSystemData();
+    SPHSystemData3Ptr particles = GetSPHSystemData();
 
-    Timer timer;
+    const Timer timer;
     particles->BuildNeighborSearcher();
     particles->BuildNeighborLists();
     particles->UpdateDensities();
@@ -164,9 +159,9 @@ void SPHSolver3::OnEndAdvanceTimeStep(double timeStepInSeconds)
 {
     ComputePseudoViscosity(timeStepInSeconds);
 
-    auto particles = GetSPHSystemData();
-    size_t numberOfParticles = particles->GetNumberOfParticles();
-    auto densities = particles->GetDensities();
+    SPHSystemData3Ptr particles = GetSPHSystemData();
+    const size_t numberOfParticles = particles->GetNumberOfParticles();
+    ArrayAccessor1<double> densities = particles->GetDensities();
 
     double maxDensity = 0.0;
     for (size_t i = 0; i < numberOfParticles; ++i)
@@ -189,11 +184,11 @@ void SPHSolver3::AccumulatePressureForce(double timeStepInSeconds)
 {
     UNUSED_VARIABLE(timeStepInSeconds);
 
-    auto particles = GetSPHSystemData();
-    auto x = particles->GetPositions();
-    auto d = particles->GetDensities();
-    auto p = particles->GetPressures();
-    auto f = particles->GetForces();
+    SPHSystemData3Ptr particles = GetSPHSystemData();
+    const ArrayAccessor1<Vector3D> x = particles->GetPositions();
+    const ArrayAccessor1<double> d = particles->GetDensities();
+    const ArrayAccessor1<double> p = particles->GetPressures();
+    const ArrayAccessor1<Vector3D> f = particles->GetForces();
 
     ComputePressure();
     AccumulatePressureForce(x, d, p, f);
@@ -201,10 +196,10 @@ void SPHSolver3::AccumulatePressureForce(double timeStepInSeconds)
 
 void SPHSolver3::ComputePressure()
 {
-    auto particles = GetSPHSystemData();
-    size_t numberOfParticles = particles->GetNumberOfParticles();
-    auto d = particles->GetDensities();
-    auto p = particles->GetPressures();
+    SPHSystemData3Ptr particles = GetSPHSystemData();
+    const size_t numberOfParticles = particles->GetNumberOfParticles();
+    ArrayAccessor1<double> d = particles->GetDensities();
+    ArrayAccessor1<double> p = particles->GetPressures();
 
     // See Murnaghan-Tait equation of state from
     // https://en.wikipedia.org/wiki/Tait_equation
@@ -224,17 +219,17 @@ void SPHSolver3::AccumulatePressureForce(
     const ConstArrayAccessor1<double>& pressures,
     ArrayAccessor1<Vector3D> pressureForces)
 {
-    auto particles = GetSPHSystemData();
-    size_t numberOfParticles = particles->GetNumberOfParticles();
+    SPHSystemData3Ptr particles = GetSPHSystemData();
+    const size_t numberOfParticles = particles->GetNumberOfParticles();
 
     const double massSquared = Square(particles->GetMass());
-    const SPHSpikyKernel3 kernel(particles->GetKernelRadius());
+    const SPHSpikyKernel3 kernel{ particles->GetKernelRadius() };
 
     ParallelFor(ZERO_SIZE, numberOfParticles, [&](size_t i) {
         const auto& neighbors = particles->GetNeighborLists()[i];
         for (size_t j : neighbors)
         {
-            double dist = positions[i].DistanceTo(positions[j]);
+            const double dist = positions[i].DistanceTo(positions[j]);
             if (dist > 0.0)
             {
                 Vector3D dir = (positions[j] - positions[i]) / dist;
@@ -250,21 +245,21 @@ void SPHSolver3::AccumulatePressureForce(
 
 void SPHSolver3::AccumulateViscosityForce()
 {
-    auto particles = GetSPHSystemData();
-    size_t numberOfParticles = particles->GetNumberOfParticles();
-    auto x = particles->GetPositions();
-    auto v = particles->GetVelocities();
-    auto d = particles->GetDensities();
-    auto f = particles->GetForces();
+    SPHSystemData3Ptr particles = GetSPHSystemData();
+    const size_t numberOfParticles = particles->GetNumberOfParticles();
+    ArrayAccessor1<Vector3D> x = particles->GetPositions();
+    ArrayAccessor1<Vector3D> v = particles->GetVelocities();
+    ArrayAccessor1<double> d = particles->GetDensities();
+    ArrayAccessor1<Vector3D> f = particles->GetForces();
 
     const double massSquared = Square(particles->GetMass());
-    const SPHSpikyKernel3 kernel(particles->GetKernelRadius());
+    const SPHSpikyKernel3 kernel{ particles->GetKernelRadius() };
 
     ParallelFor(ZERO_SIZE, numberOfParticles, [&](size_t i) {
         const auto& neighbors = particles->GetNeighborLists()[i];
         for (size_t j : neighbors)
         {
-            double dist = x[i].DistanceTo(x[j]);
+            const double dist = x[i].DistanceTo(x[j]);
 
             f[i] += GetViscosityCoefficient() * massSquared * (v[j] - v[i]) /
                     d[j] * kernel.SecondDerivative(dist);
@@ -274,16 +269,16 @@ void SPHSolver3::AccumulateViscosityForce()
 
 void SPHSolver3::ComputePseudoViscosity(double timeStepInSeconds)
 {
-    auto particles = GetSPHSystemData();
-    size_t numberOfParticles = particles->GetNumberOfParticles();
-    auto x = particles->GetPositions();
-    auto v = particles->GetVelocities();
-    auto d = particles->GetDensities();
+    SPHSystemData3Ptr particles = GetSPHSystemData();
+    const size_t numberOfParticles = particles->GetNumberOfParticles();
+    ArrayAccessor1<Vector3D> x = particles->GetPositions();
+    ArrayAccessor1<Vector3D> v = particles->GetVelocities();
+    ArrayAccessor1<double> d = particles->GetDensities();
 
     const double mass = particles->GetMass();
-    const SPHSpikyKernel3 kernel(particles->GetKernelRadius());
+    const SPHSpikyKernel3 kernel{ particles->GetKernelRadius() };
 
-    Array1<Vector3D> smoothedVelocities(numberOfParticles);
+    Array1<Vector3D> smoothedVelocities{ numberOfParticles };
 
     ParallelFor(ZERO_SIZE, numberOfParticles, [&](size_t i) {
         double weightSum = 0.0;
@@ -292,13 +287,13 @@ void SPHSolver3::ComputePseudoViscosity(double timeStepInSeconds)
         const auto& neighbors = particles->GetNeighborLists()[i];
         for (size_t j : neighbors)
         {
-            double dist = x[i].DistanceTo(x[j]);
-            double wj = mass / d[j] * kernel(dist);
+            const double dist = x[i].DistanceTo(x[j]);
+            const double wj = mass / d[j] * kernel(dist);
             weightSum += wj;
             smoothedVelocity += wj * v[j];
         }
 
-        double wi = mass / d[i];
+        const double wi = mass / d[i];
         weightSum += wi;
         smoothedVelocity += wi * v[i];
 
@@ -320,19 +315,20 @@ void SPHSolver3::ComputePseudoViscosity(double timeStepInSeconds)
 
 SPHSolver3::Builder SPHSolver3::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 SPHSolver3 SPHSolver3::Builder::Build() const
 {
-    return SPHSolver3(m_targetDensity, m_targetSpacing, m_relativeKernelRadius);
+    return SPHSolver3{ m_targetDensity, m_targetSpacing,
+                       m_relativeKernelRadius };
 }
 
 SPHSolver3Ptr SPHSolver3::Builder::MakeShared() const
 {
     return std::shared_ptr<SPHSolver3>(
-        new SPHSolver3(m_targetDensity, m_targetSpacing,
-                       m_relativeKernelRadius),
+        new SPHSolver3{ m_targetDensity, m_targetSpacing,
+                        m_relativeKernelRadius },
         [](SPHSolver3* obj) { delete obj; });
 }
 }  // namespace CubbyFlow
