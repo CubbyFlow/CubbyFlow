@@ -20,7 +20,7 @@
 namespace CubbyFlow
 {
 GridFluidSolver2::GridFluidSolver2()
-    : GridFluidSolver2({ 1, 1 }, { 1, 1 }, { 0, 0 })
+    : GridFluidSolver2{ { 1, 1 }, { 1, 1 }, { 0, 0 } }
 {
     // Do nothing
 }
@@ -37,11 +37,6 @@ GridFluidSolver2::GridFluidSolver2(const Size2& resolution,
     SetPressureSolver(
         std::make_shared<GridFractionalSinglePhasePressureSolver2>());
     SetIsUsingFixedSubTimeSteps(false);
-}
-
-GridFluidSolver2::~GridFluidSolver2()
-{
-    // Do nothing
 }
 
 const Vector2D& GridFluidSolver2::GetGravity() const
@@ -66,18 +61,18 @@ void GridFluidSolver2::SetViscosityCoefficient(double newValue)
 
 double GridFluidSolver2::GetCFL(double timeIntervalInSeconds) const
 {
-    auto vel = m_grids->GetVelocity();
+    FaceCenteredGrid2Ptr vel = m_grids->GetVelocity();
     double maxVel = 0.0;
 
     vel->ForEachCellIndex([&](size_t i, size_t j) {
-        Vector2D v =
+        const Vector2D v =
             vel->ValueAtCellCenter(i, j) + timeIntervalInSeconds * m_gravity;
         maxVel = std::max(maxVel, v.x);
         maxVel = std::max(maxVel, v.y);
     });
 
-    Vector2D gridSpacing = m_grids->GetGridSpacing();
-    double minGridSize = std::min(gridSpacing.x, gridSpacing.y);
+    const Vector2D gridSpacing = m_grids->GetGridSpacing();
+    const double minGridSize = std::min(gridSpacing.x, gridSpacing.y);
 
     return maxVel * timeIntervalInSeconds / minGridSize;
 }
@@ -97,9 +92,9 @@ bool GridFluidSolver2::GetUseCompressedLinearSystem() const
     return m_useCompressedLinearSys;
 }
 
-void GridFluidSolver2::SetUseCompressedLinearSystem(bool onoff)
+void GridFluidSolver2::SetUseCompressedLinearSystem(bool isOn)
 {
-    m_useCompressedLinearSys = onoff;
+    m_useCompressedLinearSys = isOn;
 }
 
 const AdvectionSolver2Ptr& GridFluidSolver2::GetAdvectionSolver() const
@@ -259,7 +254,7 @@ void GridFluidSolver2::OnAdvanceTimeStep(double timeIntervalInSeconds)
 unsigned int GridFluidSolver2::GetNumberOfSubTimeSteps(
     double timeIntervalInSeconds) const
 {
-    double currentCFL = GetCFL(timeIntervalInSeconds);
+    const double currentCFL = GetCFL(timeIntervalInSeconds);
     return static_cast<unsigned int>(
         std::max(std::ceil(currentCFL / m_maxCFL), 1.0));
 }
@@ -284,8 +279,9 @@ void GridFluidSolver2::ComputeViscosity(double timeIntervalInSeconds)
     if (m_diffusionSolver != nullptr &&
         m_viscosityCoefficient > std::numeric_limits<double>::epsilon())
     {
-        auto vel = GetVelocity();
-        auto vel0 = std::dynamic_pointer_cast<FaceCenteredGrid2>(vel->Clone());
+        const FaceCenteredGrid2Ptr vel = GetVelocity();
+        const std::shared_ptr<FaceCenteredGrid2> vel0 =
+            std::dynamic_pointer_cast<FaceCenteredGrid2>(vel->Clone());
 
         m_diffusionSolver->Solve(*vel0, m_viscosityCoefficient,
                                  timeIntervalInSeconds, vel.get(),
@@ -298,8 +294,9 @@ void GridFluidSolver2::ComputePressure(double timeIntervalInSeconds)
 {
     if (m_pressureSolver != nullptr)
     {
-        auto vel = GetVelocity();
-        auto vel0 = std::dynamic_pointer_cast<FaceCenteredGrid2>(vel->Clone());
+        const FaceCenteredGrid2Ptr vel = GetVelocity();
+        const std::shared_ptr<FaceCenteredGrid2> vel0 =
+            std::dynamic_pointer_cast<FaceCenteredGrid2>(vel->Clone());
 
         m_pressureSolver->Solve(*vel0, timeIntervalInSeconds, vel.get(),
                                 *GetColliderSDF(), *GetColliderVelocityField(),
@@ -310,7 +307,7 @@ void GridFluidSolver2::ComputePressure(double timeIntervalInSeconds)
 
 void GridFluidSolver2::ComputeAdvection(double timeIntervalInSeconds)
 {
-    auto vel = GetVelocity();
+    const FaceCenteredGrid2Ptr vel = GetVelocity();
 
     if (m_advectionSolver != nullptr)
     {
@@ -319,8 +316,8 @@ void GridFluidSolver2::ComputeAdvection(double timeIntervalInSeconds)
 
         for (size_t i = 0; i < n; ++i)
         {
-            auto grid = m_grids->GetAdvectableScalarDataAt(i);
-            auto grid0 = grid->Clone();
+            ScalarGrid2Ptr grid = m_grids->GetAdvectableScalarDataAt(i);
+            std::shared_ptr<ScalarGrid2> grid0 = grid->Clone();
 
             m_advectionSolver->Advect(*grid0, *vel, timeIntervalInSeconds,
                                       grid.get(), *GetColliderSDF());
@@ -329,7 +326,7 @@ void GridFluidSolver2::ComputeAdvection(double timeIntervalInSeconds)
 
         // Solve advections for custom vector fields
         n = m_grids->GetNumberOfAdvectableVectorData();
-        size_t velIdx = m_grids->GetVelocityIndex();
+        const size_t velIdx = m_grids->GetVelocityIndex();
 
         for (size_t i = 0; i < n; ++i)
         {
@@ -339,12 +336,12 @@ void GridFluidSolver2::ComputeAdvection(double timeIntervalInSeconds)
                 continue;
             }
 
-            auto grid = m_grids->GetAdvectableVectorDataAt(i);
-            auto grid0 = grid->Clone();
+            VectorGrid2Ptr grid = m_grids->GetAdvectableVectorDataAt(i);
+            std::shared_ptr<VectorGrid2> grid0 = grid->Clone();
 
-            auto collocated =
+            std::shared_ptr<CollocatedVectorGrid2> collocated =
                 std::dynamic_pointer_cast<CollocatedVectorGrid2>(grid);
-            auto collocated0 =
+            std::shared_ptr<CollocatedVectorGrid2> collocated0 =
                 std::dynamic_pointer_cast<CollocatedVectorGrid2>(grid0);
 
             if (collocated != nullptr)
@@ -356,9 +353,9 @@ void GridFluidSolver2::ComputeAdvection(double timeIntervalInSeconds)
                 continue;
             }
 
-            auto faceCentered =
+            std::shared_ptr<FaceCenteredGrid2> faceCentered =
                 std::dynamic_pointer_cast<FaceCenteredGrid2>(grid);
-            auto faceCentered0 =
+            std::shared_ptr<FaceCenteredGrid2> faceCentered0 =
                 std::dynamic_pointer_cast<FaceCenteredGrid2>(grid0);
 
             if (faceCentered != nullptr && faceCentered0 != nullptr)
@@ -371,7 +368,8 @@ void GridFluidSolver2::ComputeAdvection(double timeIntervalInSeconds)
         }
 
         // Solve velocity advection
-        auto vel0 = std::dynamic_pointer_cast<FaceCenteredGrid2>(vel->Clone());
+        const std::shared_ptr<FaceCenteredGrid2> vel0 =
+            std::dynamic_pointer_cast<FaceCenteredGrid2>(vel->Clone());
 
         m_advectionSolver->Advect(*vel0, *vel0, timeIntervalInSeconds,
                                   vel.get(), *GetColliderSDF());
@@ -389,9 +387,9 @@ void GridFluidSolver2::ComputeGravity(double timeIntervalInSeconds)
 {
     if (m_gravity.LengthSquared() > std::numeric_limits<double>::epsilon())
     {
-        auto vel = m_grids->GetVelocity();
-        auto u = vel->GetUAccessor();
-        auto v = vel->GetVAccessor();
+        FaceCenteredGrid2Ptr vel = m_grids->GetVelocity();
+        ArrayAccessor2<double> u = vel->GetUAccessor();
+        ArrayAccessor2<double> v = vel->GetVAccessor();
 
         if (std::abs(m_gravity.x) > std::numeric_limits<double>::epsilon())
         {
@@ -413,11 +411,11 @@ void GridFluidSolver2::ComputeGravity(double timeIntervalInSeconds)
 
 void GridFluidSolver2::ApplyBoundaryCondition() const
 {
-    auto vel = m_grids->GetVelocity();
+    const FaceCenteredGrid2Ptr vel = m_grids->GetVelocity();
 
     if (vel != nullptr && m_boundaryConditionSolver != nullptr)
     {
-        unsigned int depth = static_cast<unsigned int>(std::ceil(m_maxCFL));
+        const auto depth = static_cast<unsigned int>(std::ceil(m_maxCFL));
         m_boundaryConditionSolver->ConstrainVelocity(vel.get(), depth);
     }
 }
@@ -438,7 +436,7 @@ void GridFluidSolver2::ExtrapolateIntoCollider(ScalarGrid2* grid)
         }
     });
 
-    unsigned int depth = static_cast<unsigned int>(std::ceil(m_maxCFL));
+    const auto depth = static_cast<unsigned int>(std::ceil(m_maxCFL));
     ExtrapolateToRegion(grid->GetConstDataAccessor(), marker, depth,
                         grid->GetDataAccessor());
 }
@@ -459,20 +457,20 @@ void GridFluidSolver2::ExtrapolateIntoCollider(CollocatedVectorGrid2* grid)
         }
     });
 
-    unsigned int depth = static_cast<unsigned int>(std::ceil(m_maxCFL));
+    const auto depth = static_cast<unsigned int>(std::ceil(m_maxCFL));
     ExtrapolateToRegion(grid->GetConstDataAccessor(), marker, depth,
                         grid->GetDataAccessor());
 }
 
 void GridFluidSolver2::ExtrapolateIntoCollider(FaceCenteredGrid2* grid)
 {
-    auto u = grid->GetUAccessor();
-    auto v = grid->GetVAccessor();
+    const ArrayAccessor2<double> u = grid->GetUAccessor();
+    const ArrayAccessor2<double> v = grid->GetVAccessor();
     auto uPos = grid->GetUPosition();
     auto vPos = grid->GetVPosition();
 
-    Array2<char> uMarker(u.size());
-    Array2<char> vMarker(v.size());
+    Array2<char> uMarker{ u.size() };
+    Array2<char> vMarker{ v.size() };
 
     uMarker.ParallelForEachIndex([&](size_t i, size_t j) {
         if (IsInsideSDF(GetColliderSDF()->Sample(uPos(i, j))))
@@ -496,7 +494,7 @@ void GridFluidSolver2::ExtrapolateIntoCollider(FaceCenteredGrid2* grid)
         }
     });
 
-    unsigned int depth = static_cast<unsigned int>(std::ceil(m_maxCFL));
+    const auto depth = static_cast<unsigned int>(std::ceil(m_maxCFL));
     ExtrapolateToRegion(grid->GetUConstAccessor(), uMarker, depth, u);
     ExtrapolateToRegion(grid->GetVConstAccessor(), vMarker, depth, v);
 }
@@ -564,6 +562,6 @@ void GridFluidSolver2::UpdateEmitter(double timeIntervalInSeconds) const
 
 GridFluidSolver2::Builder GridFluidSolver2::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 }  // namespace CubbyFlow
