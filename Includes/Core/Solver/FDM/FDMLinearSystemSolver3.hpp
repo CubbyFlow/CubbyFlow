@@ -19,7 +19,24 @@ namespace CubbyFlow
 class FDMLinearSystemSolver3
 {
  public:
+    //! Default constructor.
+    FDMLinearSystemSolver3() = default;
+
+    //! Deleted copy constructor.
+    FDMLinearSystemSolver3(const FDMLinearSystemSolver3&) = delete;
+
+    //! Deleted move constructor.
+    FDMLinearSystemSolver3(FDMLinearSystemSolver3&&) noexcept = delete;
+
+    //! Default virtual destructor.
     virtual ~FDMLinearSystemSolver3() = default;
+
+    //! Deleted copy assignment operator.
+    FDMLinearSystemSolver3& operator=(const FDMLinearSystemSolver3&) = delete;
+
+    //! Deleted move assignment operator.
+    FDMLinearSystemSolver3& operator=(FDMLinearSystemSolver3&&) noexcept =
+        delete;
 
     //! Solves the given linear system.
     virtual bool Solve(FDMLinearSystem3* system) = 0;
