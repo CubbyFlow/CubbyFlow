@@ -15,11 +15,11 @@ namespace CubbyFlow
 FDMJacobiSolver3::FDMJacobiSolver3(unsigned int maxNumberOfIterations,
                                    unsigned int residualCheckInterval,
                                    double tolerance)
-    : m_maxNumberOfIterations(maxNumberOfIterations),
-      m_lastNumberOfIterations(0),
-      m_residualCheckInterval(residualCheckInterval),
-      m_tolerance(tolerance),
-      m_lastResidual(std::numeric_limits<double>::max())
+    : m_maxNumberOfIterations{ maxNumberOfIterations },
+      m_lastNumberOfIterations{ 0 },
+      m_residualCheckInterval{ residualCheckInterval },
+      m_tolerance{ tolerance },
+      m_lastResidual{ std::numeric_limits<double>::max() }
 {
     // Do nothing
 }
@@ -115,31 +115,31 @@ void FDMJacobiSolver3::Relax(const FDMMatrix3& A, const FDMVector3& b,
                              FDMVector3* x, FDMVector3* xTemp)
 {
     Size3 size = A.size();
-    FDMVector3& refX = *x;
-    FDMVector3& refXTemp = *xTemp;
+    FDMVector3& xRef = *x;
+    FDMVector3& xTempRef = *xTemp;
 
     A.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
-        double r =
-            ((i > 0) ? A(i - 1, j, k).right * refX(i - 1, j, k) : 0.0) +
-            ((i + 1 < size.x) ? A(i, j, k).right * refX(i + 1, j, k) : 0.0) +
-            ((j > 0) ? A(i, j - 1, k).up * refX(i, j - 1, k) : 0.0) +
-            ((j + 1 < size.y) ? A(i, j, k).up * refX(i, j + 1, k) : 0.0) +
-            ((k > 0) ? A(i, j, k - 1).front * refX(i, j, k - 1) : 0.0) +
-            ((k + 1 < size.z) ? A(i, j, k).front * refX(i, j, k + 1) : 0.0);
+        const double r =
+            ((i > 0) ? A(i - 1, j, k).right * xRef(i - 1, j, k) : 0.0) +
+            ((i + 1 < size.x) ? A(i, j, k).right * xRef(i + 1, j, k) : 0.0) +
+            ((j > 0) ? A(i, j - 1, k).up * xRef(i, j - 1, k) : 0.0) +
+            ((j + 1 < size.y) ? A(i, j, k).up * xRef(i, j + 1, k) : 0.0) +
+            ((k > 0) ? A(i, j, k - 1).front * xRef(i, j, k - 1) : 0.0) +
+            ((k + 1 < size.z) ? A(i, j, k).front * xRef(i, j, k + 1) : 0.0);
 
-        refXTemp(i, j, k) = (b(i, j, k) - r) / A(i, j, k).center;
+        xTempRef(i, j, k) = (b(i, j, k) - r) / A(i, j, k).center;
     });
 }
 
 void FDMJacobiSolver3::Relax(const MatrixCSRD& A, const VectorND& b,
-                             VectorND* x_, VectorND* xTemp_)
+                             VectorND* x, VectorND* xTemp)
 {
     const auto rp = A.RowPointersBegin();
     const auto ci = A.ColumnIndicesBegin();
     const auto nnz = A.NonZeroBegin();
 
-    VectorND& x = *x_;
-    VectorND& xTemp = *xTemp_;
+    VectorND& xRef = *x;
+    VectorND& xTempRef = *xTemp;
 
     b.ParallelForEachIndex([&](size_t i) {
         const size_t rowBegin = rp[i];
@@ -149,7 +149,7 @@ void FDMJacobiSolver3::Relax(const MatrixCSRD& A, const VectorND& b,
         double diag = 1.0;
         for (size_t jj = rowBegin; jj < rowEnd; ++jj)
         {
-            size_t j = ci[jj];
+            const size_t j = ci[jj];
 
             if (i == j)
             {
@@ -157,11 +157,11 @@ void FDMJacobiSolver3::Relax(const MatrixCSRD& A, const VectorND& b,
             }
             else
             {
-                r += nnz[jj] * x[j];
+                r += nnz[jj] * xRef[j];
             }
         }
 
-        xTemp[i] = (b[i] - r) / diag;
+        xTempRef[i] = (b[i] - r) / diag;
     });
 }
 

@@ -31,13 +31,13 @@ class FDMMGSolver2 : public FDMLinearSystemSolver2
                  bool useRedBlackOrdering = false);
 
     //! Returns the Multigrid parameters.
-    const MGParameters<FDMBLAS2>& GetParams() const;
+    [[nodiscard]] const MGParameters<FDMBLAS2>& GetParams() const;
 
     //! Returns the SOR (Successive Over Relaxation) factor.
-    double GetSORFactor() const;
+    [[nodiscard]] double GetSORFactor() const;
 
     //! Returns true if red-black ordering is enabled.
-    bool GetUseRedBlackOrdering() const;
+    [[nodiscard]] bool GetUseRedBlackOrdering() const;
 
     //! No-op. Multigrid-type solvers do not solve FDMLinearSystem2.
     bool Solve(FDMLinearSystem2* system) final;

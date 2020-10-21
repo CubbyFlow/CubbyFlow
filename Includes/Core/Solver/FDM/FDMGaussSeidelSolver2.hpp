@@ -33,22 +33,22 @@ class FDMGaussSeidelSolver2 final : public FDMLinearSystemSolver2
     bool SolveCompressed(FDMCompressedLinearSystem2* system) override;
 
     //! Returns the max number of Gauss-Seidel iterations.
-    unsigned int GetMaxNumberOfIterations() const;
+    [[nodiscard]] unsigned int GetMaxNumberOfIterations() const;
 
     //! Returns the last number of Gauss-Seidel iterations the solver made.
-    unsigned int GetLastNumberOfIterations() const;
+    [[nodiscard]] unsigned int GetLastNumberOfIterations() const;
 
     //! Returns the max residual tolerance for the Gauss-Seidel method.
-    double GetTolerance() const;
+    [[nodiscard]] double GetTolerance() const;
 
     //! Returns the last residual after the Gauss-Seidel iterations.
-    double GetLastResidual() const;
+    [[nodiscard]] double GetLastResidual() const;
 
     //! Returns the SOR (Successive Over Relaxation) factor.
-    double GetSORFactor() const;
+    [[nodiscard]] double GetSORFactor() const;
 
     //! Returns true if red-black ordering is enabled.
-    bool GetUseRedBlackOrdering() const;
+    [[nodiscard]] bool GetUseRedBlackOrdering() const;
 
     //! Performs single natural Gauss-Seidel relaxation step.
     static void Relax(const FDMMatrix2& A, const FDMVector2& b,
@@ -63,13 +63,8 @@ class FDMGaussSeidelSolver2 final : public FDMLinearSystemSolver2
                               double sorFactor, FDMVector2* x);
 
  private:
-    unsigned int m_maxNumberOfIterations;
-    unsigned int m_lastNumberOfIterations;
-    unsigned int m_residualCheckInterval;
-    double m_tolerance;
-    double m_lastResidual;
-    double m_sorFactor;
-    double m_useRedBlackOrdering;
+    void ClearUncompressedVectors();
+    void ClearCompressedVectors();
 
     // Uncompressed vectors
     FDMVector2 m_residual;
@@ -77,8 +72,13 @@ class FDMGaussSeidelSolver2 final : public FDMLinearSystemSolver2
     // Compressed vectors
     VectorND m_residualComp;
 
-    void ClearUncompressedVectors();
-    void ClearCompressedVectors();
+    unsigned int m_maxNumberOfIterations;
+    unsigned int m_lastNumberOfIterations;
+    unsigned int m_residualCheckInterval;
+    double m_tolerance;
+    double m_lastResidual;
+    double m_sorFactor;
+    bool m_useRedBlackOrdering;
 };
 
 //! Shared pointer type for the FDMGaussSeidelSolver2.

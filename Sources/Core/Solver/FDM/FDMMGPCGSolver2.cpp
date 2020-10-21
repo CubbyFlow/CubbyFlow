@@ -46,14 +46,18 @@ FDMMGPCGSolver2::FDMMGPCGSolver2(
     unsigned int numberOfRestrictionIter, unsigned int numberOfCorrectionIter,
     unsigned int numberOfCoarsestIter, unsigned int numberOfFinalIter,
     double maxTolerance, double sorFactor, bool useRedBlackOrdering)
-    : FDMMGSolver2(maxNumberOfLevels, numberOfRestrictionIter,
-                   numberOfCorrectionIter, numberOfCoarsestIter,
-                   numberOfFinalIter, maxTolerance, sorFactor,
-                   useRedBlackOrdering),
-      m_maxNumberOfIterations(numberOfCGIter),
-      m_lastNumberOfIterations(0),
-      m_tolerance(maxTolerance),
-      m_lastResidualNorm(std::numeric_limits<double>::max())
+    : FDMMGSolver2{ maxNumberOfLevels,
+                    numberOfRestrictionIter,
+                    numberOfCorrectionIter,
+                    numberOfCoarsestIter,
+                    numberOfFinalIter,
+                    maxTolerance,
+                    sorFactor,
+                    useRedBlackOrdering },
+      m_maxNumberOfIterations{ numberOfCGIter },
+      m_lastNumberOfIterations{ 0 },
+      m_tolerance{ maxTolerance },
+      m_lastResidualNorm{ std::numeric_limits<double>::max() }
 {
     // Do nothing
 }

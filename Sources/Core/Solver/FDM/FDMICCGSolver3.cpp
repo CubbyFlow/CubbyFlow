@@ -23,7 +23,7 @@ void FDMICCGSolver3::Preconditioner::Build(const FDMMatrix3& matrix)
     y.Resize(size, 0.0);
 
     matrix.ForEachIndex([&](size_t i, size_t j, size_t k) {
-        double denom =
+        const double denom =
             matrix(i, j, k).center -
             ((i > 0) ? Square(matrix(i - 1, j, k).right) * d(i - 1, j, k)
                      : 0.0) -
@@ -45,9 +45,9 @@ void FDMICCGSolver3::Preconditioner::Build(const FDMMatrix3& matrix)
 void FDMICCGSolver3::Preconditioner::Solve(const FDMVector3& b, FDMVector3* x)
 {
     const Size3 size = b.size();
-    const ssize_t sx = static_cast<ssize_t>(size.x);
-    const ssize_t sy = static_cast<ssize_t>(size.y);
-    const ssize_t sz = static_cast<ssize_t>(size.z);
+    const auto sx = static_cast<ssize_t>(size.x);
+    const auto sy = static_cast<ssize_t>(size.y);
+    const auto sz = static_cast<ssize_t>(size.z);
 
     b.ForEachIndex([&](size_t i, size_t j, size_t k) {
         y(i, j, k) = (b(i, j, k) -
@@ -95,7 +95,7 @@ void FDMICCGSolver3::PreconditionerCompressed::Build(const MatrixCSRD& matrix)
         double denom = 0.0;
         for (size_t jj = rowBegin; jj < rowEnd; ++jj)
         {
-            size_t j = ci[jj];
+            const size_t j = ci[jj];
 
             if (j == i)
             {
@@ -121,7 +121,7 @@ void FDMICCGSolver3::PreconditionerCompressed::Build(const MatrixCSRD& matrix)
 void FDMICCGSolver3::PreconditionerCompressed::Solve(const VectorND& b,
                                                      VectorND* x)
 {
-    const ssize_t size = static_cast<ssize_t>(b.size());
+    const auto size = static_cast<ssize_t>(b.size());
 
     const auto rp = A->RowPointersBegin();
     const auto ci = A->ColumnIndicesBegin();
@@ -134,7 +134,7 @@ void FDMICCGSolver3::PreconditionerCompressed::Solve(const VectorND& b,
         double sum = b[i];
         for (size_t jj = rowBegin; jj < rowEnd; ++jj)
         {
-            size_t j = ci[jj];
+            const size_t j = ci[jj];
 
             if (j < i)
             {
@@ -153,7 +153,7 @@ void FDMICCGSolver3::PreconditionerCompressed::Solve(const VectorND& b,
         double sum = y[i];
         for (size_t jj = rowBegin; jj < rowEnd; ++jj)
         {
-            const ssize_t j = static_cast<ssize_t>(ci[jj]);
+            const auto j = static_cast<ssize_t>(ci[jj]);
 
             if (j > i)
             {
@@ -167,10 +167,10 @@ void FDMICCGSolver3::PreconditionerCompressed::Solve(const VectorND& b,
 
 FDMICCGSolver3::FDMICCGSolver3(unsigned int maxNumberOfIterations,
                                double tolerance)
-    : m_maxNumberOfIterations(maxNumberOfIterations),
-      m_lastNumberOfIterations(0),
-      m_tolerance(tolerance),
-      m_lastResidualNorm(std::numeric_limits<double>::max())
+    : m_maxNumberOfIterations{ maxNumberOfIterations },
+      m_lastNumberOfIterations{ 0 },
+      m_tolerance{ tolerance },
+      m_lastResidualNorm{ std::numeric_limits<double>::max() }
 {
     // Do nothing
 }
