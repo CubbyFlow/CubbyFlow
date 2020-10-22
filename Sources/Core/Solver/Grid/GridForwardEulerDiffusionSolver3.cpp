@@ -66,11 +66,6 @@ T Laplacian(const ConstArrayAccessor3<T>& data, const Array3<char>& marker,
            (dFront - dBack) / Square(GridSpacing.z);
 }
 
-GridForwardEulerDiffusionSolver3::GridForwardEulerDiffusionSolver3()
-{
-    // Do nothing
-}
-
 void GridForwardEulerDiffusionSolver3::Solve(const ScalarGrid3& source,
                                              double diffusionCoefficient,
                                              double timeIntervalInSeconds,
@@ -78,9 +73,9 @@ void GridForwardEulerDiffusionSolver3::Solve(const ScalarGrid3& source,
                                              const ScalarField3& boundarySDF,
                                              const ScalarField3& fluidSDF)
 {
-    auto src = source.GetConstDataAccessor();
+    ConstArrayAccessor3<double> src = source.GetConstDataAccessor();
     Vector3D h = source.GridSpacing();
-    auto pos = source.GetDataPosition();
+    const auto pos = source.GetDataPosition();
 
     BuildMarkers(source.Resolution(), pos, boundarySDF, fluidSDF);
 
@@ -103,9 +98,9 @@ void GridForwardEulerDiffusionSolver3::Solve(
     double timeIntervalInSeconds, CollocatedVectorGrid3* dest,
     const ScalarField3& boundarySDF, const ScalarField3& fluidSDF)
 {
-    auto src = source.GetConstDataAccessor();
+    ConstArrayAccessor3<Vector3<double>> src = source.GetConstDataAccessor();
     Vector3D h = source.GridSpacing();
-    auto pos = source.GetDataPosition();
+    const auto pos = source.GetDataPosition();
 
     BuildMarkers(source.Resolution(), pos, boundarySDF, fluidSDF);
 
@@ -130,12 +125,12 @@ void GridForwardEulerDiffusionSolver3::Solve(const FaceCenteredGrid3& source,
                                              const ScalarField3& boundarySDF,
                                              const ScalarField3& fluidSDF)
 {
-    auto uSrc = source.GetUConstAccessor();
-    auto vSrc = source.GetVConstAccessor();
-    auto wSrc = source.GetWConstAccessor();
-    auto u = dest->GetUAccessor();
-    auto v = dest->GetVAccessor();
-    auto w = dest->GetWAccessor();
+    ConstArrayAccessor3<double> uSrc = source.GetUConstAccessor();
+    ConstArrayAccessor3<double> vSrc = source.GetVConstAccessor();
+    ConstArrayAccessor3<double> wSrc = source.GetWConstAccessor();
+    ArrayAccessor3<double> u = dest->GetUAccessor();
+    ArrayAccessor3<double> v = dest->GetVAccessor();
+    ArrayAccessor3<double> w = dest->GetWAccessor();
     auto uPos = source.GetUPosition();
     auto vPos = source.GetVPosition();
     auto wPos = source.GetWPosition();

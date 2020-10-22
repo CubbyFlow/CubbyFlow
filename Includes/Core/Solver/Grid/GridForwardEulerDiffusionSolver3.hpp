@@ -30,7 +30,26 @@ class GridForwardEulerDiffusionSolver3 final : public GridDiffusionSolver3
 {
  public:
     //! Default constructor.
-    GridForwardEulerDiffusionSolver3();
+    GridForwardEulerDiffusionSolver3() = default;
+
+    //! Deleted copy constructor.
+    GridForwardEulerDiffusionSolver3(const GridForwardEulerDiffusionSolver3&) =
+        delete;
+
+    //! Deleted move constructor.
+    GridForwardEulerDiffusionSolver3(
+        GridForwardEulerDiffusionSolver3&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~GridForwardEulerDiffusionSolver3() override = default;
+
+    //! Deleted copy assignment operator.
+    GridForwardEulerDiffusionSolver3& operator=(
+        const GridForwardEulerDiffusionSolver3&) = delete;
+
+    //! Deleted move assignment operator.
+    GridForwardEulerDiffusionSolver3& operator=(
+        GridForwardEulerDiffusionSolver3&&) noexcept = delete;
 
     //!
     //! Solves diffusion equation for a scalar field.
@@ -45,9 +64,9 @@ class GridForwardEulerDiffusionSolver3 final : public GridDiffusionSolver3
     void Solve(const ScalarGrid3& source, double diffusionCoefficient,
                double timeIntervalInSeconds, ScalarGrid3* dest,
                const ScalarField3& boundarySDF =
-                   ConstantScalarField3(std::numeric_limits<double>::max()),
-               const ScalarField3& fluidSDF = ConstantScalarField3(
-                   -std::numeric_limits<double>::max())) override;
+                   ConstantScalarField3{ std::numeric_limits<double>::max() },
+               const ScalarField3& fluidSDF = ConstantScalarField3{
+                   -std::numeric_limits<double>::max() }) override;
 
     //!
     //! Solves diffusion equation for a collocated vector field.
@@ -62,9 +81,9 @@ class GridForwardEulerDiffusionSolver3 final : public GridDiffusionSolver3
     void Solve(const CollocatedVectorGrid3& source, double diffusionCoefficient,
                double timeIntervalInSeconds, CollocatedVectorGrid3* dest,
                const ScalarField3& boundarySDF =
-                   ConstantScalarField3(std::numeric_limits<double>::max()),
-               const ScalarField3& fluidSDF = ConstantScalarField3(
-                   -std::numeric_limits<double>::max())) override;
+                   ConstantScalarField3{ std::numeric_limits<double>::max() },
+               const ScalarField3& fluidSDF = ConstantScalarField3{
+                   -std::numeric_limits<double>::max() }) override;
 
     //!
     //! Solves diffusion equation for a face-centered vector field.
@@ -79,17 +98,17 @@ class GridForwardEulerDiffusionSolver3 final : public GridDiffusionSolver3
     void Solve(const FaceCenteredGrid3& source, double diffusionCoefficient,
                double timeIntervalInSeconds, FaceCenteredGrid3* dest,
                const ScalarField3& boundarySDF =
-                   ConstantScalarField3(std::numeric_limits<double>::max()),
-               const ScalarField3& fluidSDF = ConstantScalarField3(
-                   -std::numeric_limits<double>::max())) override;
+                   ConstantScalarField3{ std::numeric_limits<double>::max() },
+               const ScalarField3& fluidSDF = ConstantScalarField3{
+                   -std::numeric_limits<double>::max() }) override;
 
  private:
-    Array3<char> m_markers;
-
     void BuildMarkers(
         const Size3& size,
         const std::function<Vector3D(size_t, size_t, size_t)>& pos,
         const ScalarField3& boundarySDF, const ScalarField3& fluidSDF);
+
+    Array3<char> m_markers;
 };
 
 //! Shared pointer type for the GridForwardEulerDiffusionSolver3.
