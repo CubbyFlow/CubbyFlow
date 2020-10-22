@@ -40,6 +40,25 @@ class GridBackwardEulerDiffusionSolver3 final : public GridDiffusionSolver3
     explicit GridBackwardEulerDiffusionSolver3(
         BoundaryType boundaryType = BoundaryType::Neumann);
 
+    //! Deleted copy constructor.
+    GridBackwardEulerDiffusionSolver3(
+        const GridBackwardEulerDiffusionSolver3&) = delete;
+
+    //! Deleted move constructor.
+    GridBackwardEulerDiffusionSolver3(
+        GridBackwardEulerDiffusionSolver3&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~GridBackwardEulerDiffusionSolver3() override = default;
+
+    //! Deleted copy assignment operator.
+    GridBackwardEulerDiffusionSolver3& operator=(
+        const GridBackwardEulerDiffusionSolver3&) = delete;
+
+    //! Deleted move assignment operator.
+    GridBackwardEulerDiffusionSolver3& operator=(
+        GridBackwardEulerDiffusionSolver3&&) noexcept = delete;
+
     //!
     //! Solves diffusion equation for a scalar field.
     //!
@@ -53,9 +72,9 @@ class GridBackwardEulerDiffusionSolver3 final : public GridDiffusionSolver3
     void Solve(const ScalarGrid3& source, double diffusionCoefficient,
                double timeIntervalInSeconds, ScalarGrid3* dest,
                const ScalarField3& boundarySDF =
-                   ConstantScalarField3(std::numeric_limits<double>::max()),
-               const ScalarField3& fluidSDF = ConstantScalarField3(
-                   -std::numeric_limits<double>::max())) override;
+                   ConstantScalarField3{ std::numeric_limits<double>::max() },
+               const ScalarField3& fluidSDF = ConstantScalarField3{
+                   -std::numeric_limits<double>::max() }) override;
 
     //!
     //! Solves diffusion equation for a collocated vector field.
@@ -70,9 +89,9 @@ class GridBackwardEulerDiffusionSolver3 final : public GridDiffusionSolver3
     void Solve(const CollocatedVectorGrid3& source, double diffusionCoefficient,
                double timeIntervalInSeconds, CollocatedVectorGrid3* dest,
                const ScalarField3& boundarySDF =
-                   ConstantScalarField3(std::numeric_limits<double>::max()),
-               const ScalarField3& fluidSDF = ConstantScalarField3(
-                   -std::numeric_limits<double>::max())) override;
+                   ConstantScalarField3{ std::numeric_limits<double>::max() },
+               const ScalarField3& fluidSDF = ConstantScalarField3{
+                   -std::numeric_limits<double>::max() }) override;
 
     //!
     //! Solves diffusion equation for a face-centered vector field.
@@ -87,19 +106,14 @@ class GridBackwardEulerDiffusionSolver3 final : public GridDiffusionSolver3
     void Solve(const FaceCenteredGrid3& source, double diffusionCoefficient,
                double timeIntervalInSeconds, FaceCenteredGrid3* dest,
                const ScalarField3& boundarySDF =
-                   ConstantScalarField3(std::numeric_limits<double>::max()),
-               const ScalarField3& fluidSDF = ConstantScalarField3(
-                   -std::numeric_limits<double>::max())) override;
+                   ConstantScalarField3{ std::numeric_limits<double>::max() },
+               const ScalarField3& fluidSDF = ConstantScalarField3{
+                   -std::numeric_limits<double>::max() }) override;
 
     //! Sets the linear system solver for this diffusion solver.
     void SetLinearSystemSolver(const FDMLinearSystemSolver3Ptr& solver);
 
  private:
-    BoundaryType m_boundaryType;
-    FDMLinearSystem3 m_system;
-    FDMLinearSystemSolver3Ptr m_systemSolver;
-    Array3<char> m_markers;
-
     void BuildMarkers(
         const Size3& size,
         const std::function<Vector3D(size_t, size_t, size_t)>& pos,
@@ -111,6 +125,11 @@ class GridBackwardEulerDiffusionSolver3 final : public GridDiffusionSolver3
 
     void BuildVectors(const ConstArrayAccessor3<Vector3D>& f, const Vector3D& c,
                       size_t component);
+
+    BoundaryType m_boundaryType;
+    FDMLinearSystem3 m_system;
+    FDMLinearSystemSolver3Ptr m_systemSolver;
+    Array3<char> m_markers;
 };
 
 //! Shared pointer type for the GridBackwardEulerDiffusionSolver3.
