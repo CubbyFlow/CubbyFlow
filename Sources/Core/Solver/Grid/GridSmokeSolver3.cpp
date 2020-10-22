@@ -14,7 +14,7 @@
 namespace CubbyFlow
 {
 GridSmokeSolver3::GridSmokeSolver3()
-    : GridSmokeSolver3({ 1, 1, 1 }, { 1, 1, 1 }, { 0, 0, 0 })
+    : GridSmokeSolver3{ { 1, 1, 1 }, { 1, 1, 1 }, { 0, 0, 0 } }
 {
     // Do nothing
 }
@@ -22,18 +22,13 @@ GridSmokeSolver3::GridSmokeSolver3()
 GridSmokeSolver3::GridSmokeSolver3(const Size3& resolution,
                                    const Vector3D& gridSpacing,
                                    const Vector3D& gridOrigin)
-    : GridFluidSolver3(resolution, gridSpacing, gridOrigin)
+    : GridFluidSolver3{ resolution, gridSpacing, gridOrigin }
 {
-    auto grids = GetGridSystemData();
+    GridSystemData3Ptr grids = GetGridSystemData();
     m_smokeDensityDataID = grids->AddAdvectableScalarData(
         std::make_shared<CellCenteredScalarGrid3::Builder>(), 0.0);
     m_temperatureDataID = grids->AddAdvectableScalarData(
         std::make_shared<CellCenteredScalarGrid3::Builder>(), 0.0);
-}
-
-GridSmokeSolver3::~GridSmokeSolver3()
-{
-    // Do nothing
 }
 
 double GridSmokeSolver3::GetSmokeDiffusionCoefficient() const
@@ -123,8 +118,8 @@ void GridSmokeSolver3::ComputeDiffusion(double timeIntervalInSeconds)
         if (m_smokeDiffusionCoefficient >
             std::numeric_limits<double>::epsilon())
         {
-            auto den = GetSmokeDensity();
-            const auto den0 =
+            const ScalarGrid3Ptr den = GetSmokeDensity();
+            const std::shared_ptr<CellCenteredScalarGrid3> den0 =
                 std::dynamic_pointer_cast<CellCenteredScalarGrid3>(
                     den->Clone());
 
@@ -137,8 +132,8 @@ void GridSmokeSolver3::ComputeDiffusion(double timeIntervalInSeconds)
         if (m_temperatureDiffusionCoefficient >
             std::numeric_limits<double>::epsilon())
         {
-            auto temp = GetSmokeDensity();
-            const auto temp0 =
+            const ScalarGrid3Ptr temp = GetSmokeDensity();
+            const std::shared_ptr<CellCenteredScalarGrid3> temp0 =
                 std::dynamic_pointer_cast<CellCenteredScalarGrid3>(
                     temp->Clone());
 
@@ -149,11 +144,11 @@ void GridSmokeSolver3::ComputeDiffusion(double timeIntervalInSeconds)
         }
     }
 
-    auto den = GetSmokeDensity();
+    ScalarGrid3Ptr den = GetSmokeDensity();
     den->ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
         (*den)(i, j, k) *= 1.0 - m_smokeDecayFactor;
     });
-    auto temp = GetTemperature();
+    ScalarGrid3Ptr temp = GetTemperature();
     temp->ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
         (*temp)(i, j, k) *= 1.0 - m_temperatureDecayFactor;
     });
@@ -161,10 +156,10 @@ void GridSmokeSolver3::ComputeDiffusion(double timeIntervalInSeconds)
 
 void GridSmokeSolver3::ComputeBuoyancyForce(double timeIntervalInSeconds)
 {
-    const auto grids = GetGridSystemData();
-    auto vel = grids->GetVelocity();
+    const GridSystemData3Ptr grids = GetGridSystemData();
+    FaceCenteredGrid3Ptr vel = grids->GetVelocity();
 
-    Vector3D up(0, 0, 1);
+    Vector3D up{ 0, 0, 1 };
     if (GetGravity().LengthSquared() > std::numeric_limits<double>::epsilon())
     {
         up = -GetGravity().Normalized();
@@ -175,8 +170,8 @@ void GridSmokeSolver3::ComputeBuoyancyForce(double timeIntervalInSeconds)
         std::abs(m_buoyancyTemperatureFactor) >
             std::numeric_limits<double>::epsilon())
     {
-        auto den = GetSmokeDensity();
-        auto temp = GetTemperature();
+        ScalarGrid3Ptr den = GetSmokeDensity();
+        ScalarGrid3Ptr temp = GetTemperature();
 
         double tAmb = 0.0;
         temp->ForEachCellIndex(
@@ -185,9 +180,9 @@ void GridSmokeSolver3::ComputeBuoyancyForce(double timeIntervalInSeconds)
         tAmb /= static_cast<double>(
             temp->Resolution().x * temp->Resolution().y * temp->Resolution().z);
 
-        auto u = vel->GetUAccessor();
-        auto v = vel->GetVAccessor();
-        auto w = vel->GetWAccessor();
+        ArrayAccessor3<double> u = vel->GetUAccessor();
+        ArrayAccessor3<double> v = vel->GetVAccessor();
+        ArrayAccessor3<double> w = vel->GetWAccessor();
         auto uPos = vel->GetUPosition();
         auto vPos = vel->GetVPosition();
         auto wPos = vel->GetWPosition();
@@ -195,8 +190,8 @@ void GridSmokeSolver3::ComputeBuoyancyForce(double timeIntervalInSeconds)
         if (std::abs(up.x) > std::numeric_limits<double>::epsilon())
         {
             vel->ParallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-                Vector3D pt = uPos(i, j, k);
-                double fBuoy =
+                const Vector3D pt = uPos(i, j, k);
+                const double fBuoy =
                     m_buoyancySmokeDensityFactor * den->Sample(pt) +
                     m_buoyancyTemperatureFactor * (temp->Sample(pt) - tAmb);
                 u(i, j, k) += timeIntervalInSeconds * fBuoy * up.x;
@@ -206,8 +201,8 @@ void GridSmokeSolver3::ComputeBuoyancyForce(double timeIntervalInSeconds)
         if (std::abs(up.y) > std::numeric_limits<double>::epsilon())
         {
             vel->ParallelForEachVIndex([&](size_t i, size_t j, size_t k) {
-                Vector3D pt = vPos(i, j, k);
-                double fBuoy =
+                const Vector3D pt = vPos(i, j, k);
+                const double fBuoy =
                     m_buoyancySmokeDensityFactor * den->Sample(pt) +
                     m_buoyancyTemperatureFactor * (temp->Sample(pt) - tAmb);
                 v(i, j, k) += timeIntervalInSeconds * fBuoy * up.y;
@@ -217,8 +212,8 @@ void GridSmokeSolver3::ComputeBuoyancyForce(double timeIntervalInSeconds)
         if (std::abs(up.z) > std::numeric_limits<double>::epsilon())
         {
             vel->ParallelForEachWIndex([&](size_t i, size_t j, size_t k) {
-                Vector3D pt = wPos(i, j, k);
-                double fBuoy =
+                const Vector3D pt = wPos(i, j, k);
+                const double fBuoy =
                     m_buoyancySmokeDensityFactor * den->Sample(pt) +
                     m_buoyancyTemperatureFactor * (temp->Sample(pt) - tAmb);
                 w(i, j, k) += timeIntervalInSeconds * fBuoy * up.z;
@@ -231,18 +226,18 @@ void GridSmokeSolver3::ComputeBuoyancyForce(double timeIntervalInSeconds)
 
 GridSmokeSolver3::Builder GridSmokeSolver3::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 GridSmokeSolver3 GridSmokeSolver3::Builder::Build() const
 {
-    return GridSmokeSolver3(m_resolution, GetGridSpacing(), m_gridOrigin);
+    return GridSmokeSolver3{ m_resolution, GetGridSpacing(), m_gridOrigin };
 }
 
 GridSmokeSolver3Ptr GridSmokeSolver3::Builder::MakeShared() const
 {
     return std::shared_ptr<GridSmokeSolver3>(
-        new GridSmokeSolver3(m_resolution, GetGridSpacing(), m_gridOrigin),
+        new GridSmokeSolver3{ m_resolution, GetGridSpacing(), m_gridOrigin },
         [](GridSmokeSolver3* obj) { delete obj; });
 }
 }  // namespace CubbyFlow
