@@ -33,7 +33,7 @@ void BuildSingleSystem(FDMMatrix3* A, FDMVector3* b,
 
     // Build linear system
     A->ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
-        auto& row = (*A)(i, j, k);
+        FDMMatrixRow3& row = (*A)(i, j, k);
 
         // initialize
         row.center = row.right = row.up = row.front = 0.0;
@@ -100,13 +100,13 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
     const Vector3D invH = 1.0 / input.GridSpacing();
     Vector3D invHSqr = invH * invH;
 
-    const auto markerAcc = markers.ConstAccessor();
+    const ConstArrayAccessor3<char> markerAcc = markers.ConstAccessor();
 
     A->Clear();
     b->Clear();
 
     size_t numRows = 0;
-    Array3<size_t> coordToIndex(size);
+    Array3<size_t> coordToIndex{ size };
     markers.ForEachIndex([&](size_t i, size_t j, size_t k) {
         const size_t cIdx = markerAcc.Index(i, j, k);
 
@@ -211,11 +211,6 @@ GridSinglePhasePressureSolver3::GridSinglePhasePressureSolver3()
     m_systemSolver = std::make_shared<FDMICCGSolver3>(100, DEFAULT_TOLERANCE);
 }
 
-GridSinglePhasePressureSolver3::~GridSinglePhasePressureSolver3()
-{
-    // Do nothing
-}
-
 void GridSinglePhasePressureSolver3::Solve(const FaceCenteredGrid3& input,
                                            double timeIntervalInSeconds,
                                            FaceCenteredGrid3* output,
@@ -315,7 +310,8 @@ void GridSinglePhasePressureSolver3::BuildMarkers(
 
     // Build top-level markers
     m_markers[0].ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
-        Vector3D pt = pos(i, j, k);
+        const Vector3D pt = pos(i, j, k);
+
         if (IsInsideSDF(boundarySDF.Sample(pt)))
         {
             m_markers[0](i, j, k) = BOUNDARY;
@@ -333,15 +329,15 @@ void GridSinglePhasePressureSolver3::BuildMarkers(
     // Build sub-level markers
     for (size_t l = 1; l < m_markers.size(); ++l)
     {
-        const auto& finer = m_markers[l - 1];
-        auto& coarser = m_markers[l];
+        const Array3<char>& finer = m_markers[l - 1];
+        Array3<char>& coarser = m_markers[l];
         const Size3 n = coarser.size();
 
         ParallelRangeFor(
             ZERO_SIZE, n.x, ZERO_SIZE, n.y, ZERO_SIZE, n.z,
             [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd,
                 size_t kBegin, size_t kEnd) {
-                std::array<size_t, 4> kIndices;
+                std::array<size_t, 4> kIndices{};
 
                 for (size_t k = kBegin; k < kEnd; ++k)
                 {
@@ -350,7 +346,7 @@ void GridSinglePhasePressureSolver3::BuildMarkers(
                     kIndices[2] = 2 * k + 1;
                     kIndices[3] = (k + 1 < n.z) ? 2 * k + 2 : 2 * k + 1;
 
-                    std::array<size_t, 4> jIndices;
+                    std::array<size_t, 4> jIndices{};
 
                     for (size_t j = jBegin; j < jEnd; ++j)
                     {
@@ -359,7 +355,7 @@ void GridSinglePhasePressureSolver3::BuildMarkers(
                         jIndices[2] = 2 * j + 1;
                         jIndices[3] = (j + 1 < n.y) ? 2 * j + 2 : 2 * j + 1;
 
-                        std::array<size_t, 4> iIndices;
+                        std::array<size_t, 4> iIndices{};
                         for (size_t i = iBegin; i < iEnd; ++i)
                         {
                             iIndices[0] = (i > 0) ? 2 * i - 1 : 2 * i;
@@ -374,8 +370,9 @@ void GridSinglePhasePressureSolver3::BuildMarkers(
                                 {
                                     for (size_t x = 0; x < 4; ++x)
                                     {
-                                        char f = finer(iIndices[x], jIndices[y],
-                                                       kIndices[z]);
+                                        const char f =
+                                            finer(iIndices[x], jIndices[y],
+                                                  kIndices[z]);
                                         if (f == BOUNDARY)
                                         {
                                             ++cnt[static_cast<int>(BOUNDARY)];
@@ -403,7 +400,7 @@ void GridSinglePhasePressureSolver3::BuildMarkers(
 
 void GridSinglePhasePressureSolver3::DecompressSolution()
 {
-    const auto acc = m_markers[0].ConstAccessor();
+    const ConstArrayAccessor3<char> acc = m_markers[0].ConstAccessor();
     m_system.x.Resize(acc.size());
 
     size_t row = 0;
@@ -468,9 +465,9 @@ void GridSinglePhasePressureSolver3::BuildSystem(const FaceCenteredGrid3& input,
     FaceCenteredGrid3 coarser;
     for (size_t l = 1; l < numLevels; ++l)
     {
-        auto res = finer->Resolution();
-        auto h = finer->GridSpacing();
-        const auto o = finer->Origin();
+        Size3 res = finer->Resolution();
+        Vector3D h = finer->GridSpacing();
+        const Vector3D& o = finer->Origin();
         res.x = res.x >> 1;
         res.y = res.y >> 1;
         res.z = res.z >> 1;
@@ -491,14 +488,14 @@ void GridSinglePhasePressureSolver3::ApplyPressureGradient(
     const FaceCenteredGrid3& input, FaceCenteredGrid3* output)
 {
     Size3 size = input.Resolution();
-    auto u = input.GetUConstAccessor();
-    auto v = input.GetVConstAccessor();
-    auto w = input.GetWConstAccessor();
-    auto u0 = output->GetUAccessor();
-    auto v0 = output->GetVAccessor();
-    auto w0 = output->GetWAccessor();
+    ConstArrayAccessor3<double> u = input.GetUConstAccessor();
+    ConstArrayAccessor3<double> v = input.GetVConstAccessor();
+    ConstArrayAccessor3<double> w = input.GetWConstAccessor();
+    ArrayAccessor3<double> u0 = output->GetUAccessor();
+    ArrayAccessor3<double> v0 = output->GetVAccessor();
+    ArrayAccessor3<double> w0 = output->GetWAccessor();
 
-    const auto& x = GetPressure();
+    const FDMVector3& x = GetPressure();
 
     Vector3D invH = 1.0 / input.GridSpacing();
 
