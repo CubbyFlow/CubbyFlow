@@ -30,10 +30,26 @@ class GridFractionalBoundaryConditionSolver2
 {
  public:
     //! Default constructor.
-    GridFractionalBoundaryConditionSolver2();
+    GridFractionalBoundaryConditionSolver2() = default;
 
-    //! Default destructor.
-    virtual ~GridFractionalBoundaryConditionSolver2();
+    //! Deleted copy constructor.
+    GridFractionalBoundaryConditionSolver2(
+        const GridFractionalBoundaryConditionSolver2&) = delete;
+
+    //! Deleted move constructor.
+    GridFractionalBoundaryConditionSolver2(
+        GridFractionalBoundaryConditionSolver2&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~GridFractionalBoundaryConditionSolver2() override = default;
+
+    //! Deleted copy assignment operator.
+    GridFractionalBoundaryConditionSolver2& operator=(
+        const GridFractionalBoundaryConditionSolver2&) = delete;
+
+    //! Deleted move assignment operator.
+    GridFractionalBoundaryConditionSolver2& operator=(
+        GridFractionalBoundaryConditionSolver2&&) noexcept = delete;
 
     //!
     //! Constrains the velocity field to conform the collider boundary.
@@ -46,10 +62,10 @@ class GridFractionalBoundaryConditionSolver2
                            unsigned int extrapolationDepth = 5) override;
 
     //! Returns the signed distance field of the collider.
-    ScalarField2Ptr GetColliderSDF() const override;
+    [[nodiscard]] ScalarField2Ptr GetColliderSDF() const override;
 
     //! Returns the velocity field of the collider.
-    VectorField2Ptr GetColliderVelocityField() const override;
+    [[nodiscard]] VectorField2Ptr GetColliderVelocityField() const override;
 
  protected:
     //! Invoked when a new collider is set.
