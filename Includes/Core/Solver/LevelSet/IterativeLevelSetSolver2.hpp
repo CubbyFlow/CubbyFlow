@@ -30,10 +30,24 @@ class IterativeLevelSetSolver2 : public LevelSetSolver2
 {
  public:
     //! Default constructor.
-    IterativeLevelSetSolver2();
+    IterativeLevelSetSolver2() = default;
 
-    //! Default destructor.
-    virtual ~IterativeLevelSetSolver2();
+    //! Deleted copy constructor.
+    IterativeLevelSetSolver2(const IterativeLevelSetSolver2&) = delete;
+
+    //! Deleted move constructor.
+    IterativeLevelSetSolver2(IterativeLevelSetSolver2&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~IterativeLevelSetSolver2() override = default;
+
+    //! Deleted copy assignment operator.
+    IterativeLevelSetSolver2& operator=(const IterativeLevelSetSolver2&) =
+        delete;
+
+    //! Deleted move assignment operator.
+    IterativeLevelSetSolver2& operator=(IterativeLevelSetSolver2&&) noexcept =
+        delete;
 
     //!
     //! Reinitializes given scalar field to signed-distance field.
@@ -82,7 +96,7 @@ class IterativeLevelSetSolver2 : public LevelSetSolver2
                      double maxDistance, FaceCenteredGrid2* output) override;
 
     //! Returns the maximum CFL limit.
-    double GetMaxCFL() const;
+    [[nodiscard]] double GetMaxCFL() const;
 
     //!
     //! \brief Sets the maximum CFL limit.
@@ -100,21 +114,22 @@ class IterativeLevelSetSolver2 : public LevelSetSolver2
                                 std::array<double, 2>* dy) const = 0;
 
  private:
-    double m_maxCFL = 0.5;
-
     void Extrapolate(const ConstArrayAccessor2<double>& input,
                      const ConstArrayAccessor2<double>& sdf,
                      const Vector2D& gridSpacing, double maxDistance,
                      ArrayAccessor2<double> output);
 
-    static unsigned int DistanceToNumberOfIterations(double distance,
-                                                     double dtau);
+    [[nodiscard]] static unsigned int DistanceToNumberOfIterations(
+        double distance, double dtau);
 
-    static double Sign(const ConstArrayAccessor2<double>& sdf,
-                       const Vector2D& gridSpacing, size_t i, size_t j);
+    [[nodiscard]] static double Sign(const ConstArrayAccessor2<double>& sdf,
+                                     const Vector2D& gridSpacing, size_t i,
+                                     size_t j);
 
-    double PseudoTimeStep(ConstArrayAccessor2<double> sdf,
-                          const Vector2D& gridSpacing) const;
+    [[nodiscard]] double PseudoTimeStep(const ConstArrayAccessor2<double>& sdf,
+                                        const Vector2D& gridSpacing) const;
+
+    double m_maxCFL = 0.5;
 };
 
 using IterativeLevelSetSolver2Ptr = std::shared_ptr<IterativeLevelSetSolver2>;
