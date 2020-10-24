@@ -39,14 +39,26 @@ class LevelSetLiquidSolver2 : public GridFluidSolver2
     LevelSetLiquidSolver2(const Size2& resolution, const Vector2D& gridSpacing,
                           const Vector2D& gridOrigin);
 
-    //! Destructor.
-    virtual ~LevelSetLiquidSolver2();
+    //! Deleted copy constructor.
+    LevelSetLiquidSolver2(const LevelSetLiquidSolver2&) = delete;
+
+    //! Deleted move constructor.
+    LevelSetLiquidSolver2(LevelSetLiquidSolver2&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~LevelSetLiquidSolver2() override = default;
+
+    //! Deleted copy assignment operator.
+    LevelSetLiquidSolver2& operator=(const LevelSetLiquidSolver2&) = delete;
+
+    //! Deleted move assignment operator.
+    LevelSetLiquidSolver2& operator=(LevelSetLiquidSolver2&&) noexcept = delete;
 
     //! Returns signed-distance field.
-    ScalarGrid2Ptr GetSignedDistanceField() const;
+    [[nodiscard]] ScalarGrid2Ptr GetSignedDistanceField() const;
 
     //! Returns the level set solver.
-    LevelSetSolver2Ptr GetLevelSetSolver() const;
+    [[nodiscard]] LevelSetSolver2Ptr GetLevelSetSolver() const;
 
     //! Sets the level set solver.
     void SetLevelSetSolver(const LevelSetSolver2Ptr& newSolver);
@@ -75,10 +87,10 @@ class LevelSetLiquidSolver2 : public GridFluidSolver2
     //! Heaviside function. Thus, the estimated volume is an approximated
     //! quantity.
     //!
-    double ComputeVolume() const;
+    [[nodiscard]] double ComputeVolume() const;
 
     //! Returns builder fox LevelSetLiquidSolver2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  protected:
     //! Called at the beginning of the time-step.
@@ -97,20 +109,20 @@ class LevelSetLiquidSolver2 : public GridFluidSolver2
     //! particular class, it returns the same field as the function
     //! LevelSetLiquidSolver2::signedDistanceField().
     //!
-    ScalarField2Ptr GetFluidSDF() const override;
+    [[nodiscard]] ScalarField2Ptr GetFluidSDF() const override;
 
  private:
-    size_t m_signedDistanceFieldId;
-    LevelSetSolver2Ptr m_levelSetSolver;
-    double m_minReinitializeDistance = 10.0;
-    bool m_isGlobalCompensationEnabled = false;
-    double m_lastKnownVolume = 0.0;
-
     void Reinitialize(double currentCFL);
 
     void ExtrapolateVelocityToAir(double currentCFL);
 
     void AddVolume(double volDiff);
+
+    size_t m_signedDistanceFieldId;
+    LevelSetSolver2Ptr m_levelSetSolver;
+    double m_minReinitializeDistance = 10.0;
+    bool m_isGlobalCompensationEnabled = false;
+    double m_lastKnownVolume = 0.0;
 };
 
 //! Shared pointer type for the LevelSetLiquidSolver2.
@@ -120,14 +132,14 @@ using LevelSetLiquidSolver2Ptr = std::shared_ptr<LevelSetLiquidSolver2>;
 //! \brief Front-end to create LevelSetLiquidSolver2 objects step by step.
 //!
 class LevelSetLiquidSolver2::Builder final
-    : public GridFluidSolverBuilderBase2<LevelSetLiquidSolver2::Builder>
+    : public GridFluidSolverBuilderBase2<Builder>
 {
  public:
     //! Builds LevelSetLiquidSolver2.
-    LevelSetLiquidSolver2 Build() const;
+    [[nodiscard]] LevelSetLiquidSolver2 Build() const;
 
     //! Builds shared pointer of LevelSetLiquidSolver2 instance.
-    LevelSetLiquidSolver2Ptr MakeShared() const;
+    [[nodiscard]] LevelSetLiquidSolver2Ptr MakeShared() const;
 };
 }  // namespace CubbyFlow
 
