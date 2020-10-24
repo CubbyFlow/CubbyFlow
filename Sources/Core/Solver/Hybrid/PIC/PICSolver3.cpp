@@ -16,25 +16,20 @@
 
 namespace CubbyFlow
 {
-PICSolver3::PICSolver3() : PICSolver3({ 1, 1, 1 }, { 1, 1, 1 }, { 0, 0, 0 })
+PICSolver3::PICSolver3() : PICSolver3{ { 1, 1, 1 }, { 1, 1, 1 }, { 0, 0, 0 } }
 {
     // Do nothing
 }
 
 PICSolver3::PICSolver3(const Size3& resolution, const Vector3D& gridSpacing,
                        const Vector3D& gridOrigin)
-    : GridFluidSolver3(resolution, gridSpacing, gridOrigin)
+    : GridFluidSolver3{ resolution, gridSpacing, gridOrigin }
 {
-    auto grids = GetGridSystemData();
+    GridSystemData3Ptr grids = GetGridSystemData();
     m_signedDistanceFieldID = grids->AddScalarData(
         std::make_shared<CellCenteredScalarGrid3::Builder>(),
         std::numeric_limits<double>::max());
     m_particles = std::make_shared<ParticleSystemData3>();
-}
-
-PICSolver3::~PICSolver3()
-{
-    // Do nothing
 }
 
 ScalarGrid3Ptr PICSolver3::GetSignedDistanceField() const
@@ -62,7 +57,7 @@ void PICSolver3::OnInitialize()
 {
     GridFluidSolver3::OnInitialize();
 
-    Timer timer;
+    const Timer timer;
     UpdateParticleEmitter(0.0);
     CUBBYFLOW_INFO << "Update particle emitter took "
                    << timer.DurationInSeconds() << " seconds";
@@ -126,37 +121,42 @@ ScalarField3Ptr PICSolver3::GetFluidSDF() const
 
 void PICSolver3::TransferFromParticlesToGrids()
 {
-    auto flow = GetGridSystemData()->GetVelocity();
-    auto positions = m_particles->GetPositions();
-    auto velocities = m_particles->GetVelocities();
+    FaceCenteredGrid3Ptr flow = GetGridSystemData()->GetVelocity();
+    ArrayAccessor1<Vector3<double>> positions = m_particles->GetPositions();
+    ArrayAccessor1<Vector3<double>> velocities = m_particles->GetVelocities();
     size_t numberOfParticles = m_particles->GetNumberOfParticles();
 
     // Clear velocity to zero
-    flow->Fill(Vector3D());
+    flow->Fill(Vector3D{});
 
     // Weighted-average velocity
-    auto u = flow->GetUAccessor();
-    auto v = flow->GetVAccessor();
-    auto w = flow->GetWAccessor();
-    Array3<double> uWeight(u.size());
-    Array3<double> vWeight(v.size());
-    Array3<double> wWeight(w.size());
+    ArrayAccessor3<double> u = flow->GetUAccessor();
+    ArrayAccessor3<double> v = flow->GetVAccessor();
+    ArrayAccessor3<double> w = flow->GetWAccessor();
+    Array3<double> uWeight{ u.size() };
+    Array3<double> vWeight{ v.size() };
+    Array3<double> wWeight{ w.size() };
     m_uMarkers.Resize(u.size());
     m_vMarkers.Resize(v.size());
     m_wMarkers.Resize(w.size());
     m_uMarkers.Set(0);
     m_vMarkers.Set(0);
     m_wMarkers.Set(0);
-    LinearArraySampler3<double, double> uSampler(
-        flow->GetUConstAccessor(), flow->GridSpacing(), flow->GetUOrigin());
-    LinearArraySampler3<double, double> vSampler(
-        flow->GetVConstAccessor(), flow->GridSpacing(), flow->GetVOrigin());
-    LinearArraySampler3<double, double> wSampler(
-        flow->GetWConstAccessor(), flow->GridSpacing(), flow->GetWOrigin());
+
+    LinearArraySampler3<double, double> uSampler{ flow->GetUConstAccessor(),
+                                                  flow->GridSpacing(),
+                                                  flow->GetUOrigin() };
+    LinearArraySampler3<double, double> vSampler{ flow->GetVConstAccessor(),
+                                                  flow->GridSpacing(),
+                                                  flow->GetVOrigin() };
+    LinearArraySampler3<double, double> wSampler{ flow->GetWConstAccessor(),
+                                                  flow->GridSpacing(),
+                                                  flow->GetWOrigin() };
+
     for (size_t i = 0; i < numberOfParticles; ++i)
     {
-        std::array<Point3UI, 8> indices;
-        std::array<double, 8> weights;
+        std::array<Point3UI, 8> indices{};
+        std::array<double, 8> weights{};
 
         uSampler.GetCoordinatesAndWeights(positions[i], &indices, &weights);
         for (int j = 0; j < 8; ++j)
@@ -205,10 +205,10 @@ void PICSolver3::TransferFromParticlesToGrids()
 
 void PICSolver3::TransferFromGridsToParticles()
 {
-    auto flow = GetGridSystemData()->GetVelocity();
-    auto positions = m_particles->GetPositions();
-    auto velocities = m_particles->GetVelocities();
-    size_t numberOfParticles = m_particles->GetNumberOfParticles();
+    FaceCenteredGrid3Ptr flow = GetGridSystemData()->GetVelocity();
+    ArrayAccessor1<Vector3<double>> positions = m_particles->GetPositions();
+    ArrayAccessor1<Vector3<double>> velocities = m_particles->GetVelocities();
+    const size_t numberOfParticles = m_particles->GetNumberOfParticles();
 
     ParallelFor(ZERO_SIZE, numberOfParticles,
                 [&](size_t i) { velocities[i] = flow->Sample(positions[i]); });
@@ -216,10 +216,10 @@ void PICSolver3::TransferFromGridsToParticles()
 
 void PICSolver3::MoveParticles(double timeIntervalInSeconds)
 {
-    auto flow = GetGridSystemData()->GetVelocity();
-    auto positions = m_particles->GetPositions();
-    auto velocities = m_particles->GetVelocities();
-    size_t numberOfParticles = m_particles->GetNumberOfParticles();
+    FaceCenteredGrid3Ptr flow = GetGridSystemData()->GetVelocity();
+    ArrayAccessor1<Vector3<double>> positions = m_particles->GetPositions();
+    ArrayAccessor1<Vector3<double>> velocities = m_particles->GetVelocities();
+    const size_t numberOfParticles = m_particles->GetNumberOfParticles();
     int domainBoundaryFlag = GetClosedDomainBoundaryFlag();
     BoundingBox3D boundingBox = flow->BoundingBox();
 
@@ -229,9 +229,9 @@ void PICSolver3::MoveParticles(double timeIntervalInSeconds)
         Vector3D vel = velocities[i];
 
         // Adaptive time-stepping
-        unsigned int numSubSteps =
+        const unsigned int numSubSteps =
             static_cast<unsigned int>(std::max(GetMaxCFL(), 1.0));
-        double dt = timeIntervalInSeconds / numSubSteps;
+        const double dt = timeIntervalInSeconds / numSubSteps;
         for (unsigned int t = 0; t < numSubSteps; ++t)
         {
             Vector3D vel0 = flow->Sample(pt0);
@@ -296,12 +296,12 @@ void PICSolver3::MoveParticles(double timeIntervalInSeconds)
 
 void PICSolver3::ExtrapolateVelocityToAir() const
 {
-    auto vel = GetGridSystemData()->GetVelocity();
-    auto u = vel->GetUAccessor();
-    auto v = vel->GetVAccessor();
-    auto w = vel->GetWAccessor();
+    FaceCenteredGrid3Ptr vel = GetGridSystemData()->GetVelocity();
+    const ArrayAccessor3<double> u = vel->GetUAccessor();
+    const ArrayAccessor3<double> v = vel->GetVAccessor();
+    const ArrayAccessor3<double> w = vel->GetWAccessor();
 
-    unsigned int depth = static_cast<unsigned int>(std::ceil(GetMaxCFL()));
+    const auto depth = static_cast<unsigned int>(std::ceil(GetMaxCFL()));
     ExtrapolateToRegion(vel->GetUConstAccessor(), m_uMarkers, depth, u);
     ExtrapolateToRegion(vel->GetVConstAccessor(), m_vMarkers, depth, v);
     ExtrapolateToRegion(vel->GetWConstAccessor(), m_wMarkers, depth, w);
@@ -309,15 +309,15 @@ void PICSolver3::ExtrapolateVelocityToAir() const
 
 void PICSolver3::BuildSignedDistanceField()
 {
-    auto sdf = GetSignedDistanceField();
+    ScalarGrid3Ptr sdf = GetSignedDistanceField();
     auto sdfPos = sdf->GetDataPosition();
-    double maxH = std::max(
+    const double maxH = std::max(
         { sdf->GridSpacing().x, sdf->GridSpacing().y, sdf->GridSpacing().z });
     double radius = 1.2 * maxH / std::sqrt(2.0);
     double sdfBandRadius = 2.0 * radius;
 
     m_particles->BuildNeighborSearcher(2 * radius);
-    auto searcher = m_particles->GetNeighborSearcher();
+    PointNeighborSearcher3Ptr searcher = m_particles->GetNeighborSearcher();
     sdf->ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
         Vector3D pt = sdfPos(i, j, k);
         double minDist = sdfBandRadius;
@@ -343,18 +343,18 @@ void PICSolver3::UpdateParticleEmitter(double timeIntervalInSeconds) const
 
 PICSolver3::Builder PICSolver3::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 PICSolver3 PICSolver3::Builder::Build() const
 {
-    return PICSolver3(m_resolution, GetGridSpacing(), m_gridOrigin);
+    return PICSolver3{ m_resolution, GetGridSpacing(), m_gridOrigin };
 }
 
 PICSolver3Ptr PICSolver3::Builder::MakeShared() const
 {
     return std::shared_ptr<PICSolver3>(
-        new PICSolver3(m_resolution, GetGridSpacing(), m_gridOrigin),
+        new PICSolver3{ m_resolution, GetGridSpacing(), m_gridOrigin },
         [](PICSolver3* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

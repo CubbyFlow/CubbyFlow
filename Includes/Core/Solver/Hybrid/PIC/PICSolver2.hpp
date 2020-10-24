@@ -39,28 +39,37 @@ class PICSolver2 : public GridFluidSolver2
     PICSolver2(const Size2& resolution, const Vector2D& gridSpacing,
                const Vector2D& gridOrigin);
 
-    //! Default destructor.
-    virtual ~PICSolver2();
+    //! Deleted copy constructor.
+    PICSolver2(const PICSolver2&) = delete;
+
+    //! Deleted move constructor.
+    PICSolver2(PICSolver2&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~PICSolver2() override = default;
+
+    //! Deleted copy assignment operator.
+    PICSolver2& operator=(const PICSolver2&) = delete;
+
+    //! Deleted move assignment operator.
+    PICSolver2& operator=(PICSolver2&&) noexcept = delete;
 
     //! Returns the signed-distance field of particles.
-    ScalarGrid2Ptr GetSignedDistanceField() const;
+    [[nodiscard]] ScalarGrid2Ptr GetSignedDistanceField() const;
 
     //! Returns the particle system data.
-    const ParticleSystemData2Ptr& GetParticleSystemData() const;
+    [[nodiscard]] const ParticleSystemData2Ptr& GetParticleSystemData() const;
 
     //! Returns the particle emitter.
-    const ParticleEmitter2Ptr& GetParticleEmitter() const;
+    [[nodiscard]] const ParticleEmitter2Ptr& GetParticleEmitter() const;
 
     //! Sets the particle emitter.
     void SetParticleEmitter(const ParticleEmitter2Ptr& newEmitter);
 
     //! Returns builder fox PICSolver2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  protected:
-    Array2<char> m_uMarkers;
-    Array2<char> m_vMarkers;
-
     //! Initializes the simulator.
     void OnInitialize() override;
 
@@ -71,7 +80,7 @@ class PICSolver2 : public GridFluidSolver2
     void ComputeAdvection(double timeIntervalInSeconds) override;
 
     //! Returns the signed-distance field of the fluid.
-    ScalarField2Ptr GetFluidSDF() const override;
+    [[nodiscard]] ScalarField2Ptr GetFluidSDF() const override;
 
     //! Transfers velocity field from particles to grids.
     virtual void TransferFromParticlesToGrids();
@@ -82,16 +91,19 @@ class PICSolver2 : public GridFluidSolver2
     //! Moves particles.
     virtual void MoveParticles(double timeIntervalInSeconds);
 
- private:
-    size_t m_signedDistanceFieldID;
-    ParticleSystemData2Ptr m_particles;
-    ParticleEmitter2Ptr m_particleEmitter;
+    Array2<char> m_uMarkers;
+    Array2<char> m_vMarkers;
 
+ private:
     void ExtrapolateVelocityToAir() const;
 
     void BuildSignedDistanceField();
 
     void UpdateParticleEmitter(double timeIntervalInSeconds) const;
+
+    size_t m_signedDistanceFieldID;
+    ParticleSystemData2Ptr m_particles;
+    ParticleEmitter2Ptr m_particleEmitter;
 };
 
 //! Shared pointer type for the PICSolver2.
@@ -100,15 +112,14 @@ using PICSolver2Ptr = std::shared_ptr<PICSolver2>;
 //!
 //! \brief Front-end to create PICSolver2 objects step by step.
 //!
-class PICSolver2::Builder final
-    : public GridFluidSolverBuilderBase2<PICSolver2::Builder>
+class PICSolver2::Builder final : public GridFluidSolverBuilderBase2<Builder>
 {
  public:
     //! Builds PICSolver2.
-    PICSolver2 Build() const;
+    [[nodiscard]] PICSolver2 Build() const;
 
     //! Builds shared pointer of PicSolver2 instance.
-    PICSolver2Ptr MakeShared() const;
+    [[nodiscard]] PICSolver2Ptr MakeShared() const;
 };
 }  // namespace CubbyFlow
 
