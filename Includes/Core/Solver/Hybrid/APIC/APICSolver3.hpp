@@ -36,11 +36,23 @@ class APICSolver3 : public PICSolver3
     APICSolver3(const Size3& resolution, const Vector3D& gridSpacing,
                 const Vector3D& gridOrigin);
 
-    //! Default destructor.
-    virtual ~APICSolver3();
+    //! Deleted copy constructor.
+    APICSolver3(const APICSolver3&) = delete;
+
+    //! Deleted move constructor.
+    APICSolver3(APICSolver3&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~APICSolver3() override = default;
+
+    //! Deleted copy assignment operator.
+    APICSolver3& operator=(const APICSolver3&) = delete;
+
+    //! Deleted move assignment operator.
+    APICSolver3& operator=(APICSolver3&&) noexcept = delete;
 
     //! Returns builder fox APICSolver3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  protected:
     //! Transfers velocity field from particles to grids.
@@ -61,15 +73,14 @@ using APICSolver3Ptr = std::shared_ptr<APICSolver3>;
 //!
 //! \brief Front-end to create APICSolver3 objects step by step.
 //!
-class APICSolver3::Builder final
-    : public GridFluidSolverBuilderBase3<APICSolver3::Builder>
+class APICSolver3::Builder final : public GridFluidSolverBuilderBase3<Builder>
 {
  public:
     //! Builds APICSolver3.
-    APICSolver3 Build() const;
+    [[nodiscard]] APICSolver3 Build() const;
 
     //! Builds shared pointer of APICSolver3 instance.
-    APICSolver3Ptr MakeShared() const;
+    [[nodiscard]] APICSolver3Ptr MakeShared() const;
 };
 }  // namespace CubbyFlow
 
