@@ -13,6 +13,8 @@
 
 #include <Core/Math/MathUtils.hpp>
 
+#include <cmath>
+
 namespace CubbyFlow
 {
 template <typename T, size_t N>
@@ -48,13 +50,27 @@ Vector<T, N>::Vector(const VectorExpression<T, E>& other)
 }
 
 template <typename T, size_t N>
-Vector<T, N>::Vector(const Vector& other) : m_elements(other.m_elements)
+Vector<T, N>::Vector(const Vector& other) : m_elements{ other.m_elements }
+{
+    // Do nothing
+}
+
+template <typename T, size_t N>
+Vector<T, N>::Vector(Vector&& other) noexcept : m_elements{ other.m_elements }
 {
     // Do nothing
 }
 
 template <typename T, size_t N>
 Vector<T, N>& Vector<T, N>::operator=(const Vector& other)
+{
+    m_elements = other.m_elements;
+
+    return *this;
+}
+
+template <typename T, size_t N>
+Vector<T, N>& Vector<T, N>::operator=(Vector&& other) noexcept
 {
     m_elements = other.m_elements;
 
@@ -117,7 +133,7 @@ void Vector<T, N>::Normalize()
 }
 
 template <typename T, size_t N>
-constexpr size_t Vector<T, N>::size() const
+constexpr size_t Vector<T, N>::size()
 {
     return N;
 }
@@ -277,7 +293,7 @@ template <typename T, size_t N>
 VectorScalarDiv<T, Vector<T, N>> Vector<T, N>::Normalized() const
 {
     T len = Length();
-    return VectorScalarDiv<T, Vector>(*this, len);
+    return VectorScalarDiv<T, Vector>{ *this, len };
 }
 
 template <typename T, size_t N>
@@ -320,7 +336,7 @@ template <typename T, size_t N>
 template <typename U>
 VectorTypeCast<U, Vector<T, N>, T> Vector<T, N>::CastTo() const
 {
-    return VectorTypeCast<U, Vector<T, N>, T>(*this);
+    return VectorTypeCast<U, Vector<T, N>, T>{ *this };
 }
 
 template <typename T, size_t N>
@@ -367,52 +383,52 @@ template <typename T, size_t N>
 template <typename E>
 VectorAdd<T, Vector<T, N>, E> Vector<T, N>::Add(const E& v) const
 {
-    return VectorAdd<T, Vector, E>(*this, v);
+    return VectorAdd<T, Vector, E>{ *this, v };
 }
 
 template <typename T, size_t N>
 VectorScalarAdd<T, Vector<T, N>> Vector<T, N>::Add(const T& s) const
 {
-    return VectorScalarAdd<T, Vector>(*this, s);
+    return VectorScalarAdd<T, Vector>{ *this, s };
 }
 
 template <typename T, size_t N>
 template <typename E>
 VectorSub<T, Vector<T, N>, E> Vector<T, N>::Sub(const E& v) const
 {
-    return VectorSub<T, Vector, E>(*this, v);
+    return VectorSub<T, Vector, E>{ *this, v };
 }
 
 template <typename T, size_t N>
 VectorScalarSub<T, Vector<T, N>> Vector<T, N>::Sub(const T& s) const
 {
-    return VectorScalarSub<T, Vector>(*this, s);
+    return VectorScalarSub<T, Vector>{ *this, s };
 }
 
 template <typename T, size_t N>
 template <typename E>
 VectorMul<T, Vector<T, N>, E> Vector<T, N>::Mul(const E& v) const
 {
-    return VectorMul<T, Vector, E>(*this, v);
+    return VectorMul<T, Vector, E>{ *this, v };
 }
 
 template <typename T, size_t N>
 VectorScalarMul<T, Vector<T, N>> Vector<T, N>::Mul(const T& s) const
 {
-    return VectorScalarMul<T, Vector>(*this, s);
+    return VectorScalarMul<T, Vector>{ *this, s };
 }
 
 template <typename T, size_t N>
 template <typename E>
 VectorDiv<T, Vector<T, N>, E> Vector<T, N>::Div(const E& v) const
 {
-    return VectorDiv<T, Vector, E>(*this, v);
+    return VectorDiv<T, Vector, E>{ *this, v };
 }
 
 template <typename T, size_t N>
 VectorScalarDiv<T, Vector<T, N>> Vector<T, N>::Div(const T& s) const
 {
-    return VectorScalarDiv<T, Vector>(*this, s);
+    return VectorScalarDiv<T, Vector>{ *this, s };
 }
 
 template <typename T, size_t N>
@@ -434,27 +450,27 @@ T Vector<T, N>::Dot(const E& v) const
 template <typename T, size_t N>
 VectorScalarRSub<T, Vector<T, N>> Vector<T, N>::RSub(const T& s) const
 {
-    return VectorScalarRSub<T, Vector>(*this, s);
+    return VectorScalarRSub<T, Vector>{ *this, s };
 }
 
 template <typename T, size_t N>
 template <typename E>
 VectorSub<T, Vector<T, N>, E> Vector<T, N>::RSub(const E& v) const
 {
-    return VectorSub<T, Vector, E>(v, *this);
+    return VectorSub<T, Vector, E>{ v, *this };
 }
 
 template <typename T, size_t N>
 VectorScalarRDiv<T, Vector<T, N>> Vector<T, N>::RDiv(const T& s) const
 {
-    return VectorScalarRDiv<T, Vector>(*this, s);
+    return VectorScalarRDiv<T, Vector>{ *this, s };
 }
 
 template <typename T, size_t N>
 template <typename E>
 VectorDiv<T, Vector<T, N>, E> Vector<T, N>::RDiv(const E& v) const
 {
-    return VectorDiv<T, Vector, E>(v, *this);
+    return VectorDiv<T, Vector, E>{ v, *this };
 }
 
 template <typename T, size_t N>
