@@ -59,7 +59,8 @@ bool CustomImplicitSurface2::IntersectsLocal(const Ray2D& ray) const
     if (intersection.isIntersecting)
     {
         double start, end;
-        if (intersection.far == std::numeric_limits<double>::max())
+        if (std::abs(intersection.far - std::numeric_limits<double>::max()) <
+            std::numeric_limits<double>::epsilon())
         {
             start = 0.0;
             end = intersection.near;
@@ -133,7 +134,8 @@ SurfaceRayIntersection2 CustomImplicitSurface2::ClosestIntersectionLocal(
     if (intersection.isIntersecting)
     {
         double start, end;
-        if (intersection.far == std::numeric_limits<double>::max())
+        if (std::abs(intersection.far - std::numeric_limits<double>::max()) <
+            std::numeric_limits<double>::epsilon())
         {
             start = 0.0;
             end = intersection.near;
