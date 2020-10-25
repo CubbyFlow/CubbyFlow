@@ -20,30 +20,38 @@ class ImplicitSurface3 : public Surface3
 {
  public:
     //! Default constructor.
-    ImplicitSurface3(const Transform3& transform = Transform3(),
-                     bool isNormalFlipped = false);
+    ImplicitSurface3(const Transform3& _transform = Transform3{},
+                     bool _isNormalFlipped = false);
 
-    //! Copy constructor.
-    ImplicitSurface3(const ImplicitSurface3& other);
+    //! Default copy constructor.
+    ImplicitSurface3(const ImplicitSurface3&) = default;
+
+    //! Default move constructor.
+    ImplicitSurface3(ImplicitSurface3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~ImplicitSurface3() override = default;
 
     //! Default copy assignment operator.
-    ImplicitSurface3& operator=(const ImplicitSurface3& other) = default;
+    ImplicitSurface3& operator=(const ImplicitSurface3&) = default;
 
-    //! Default destructor.
-    virtual ~ImplicitSurface3();
+    //! Default move assignment operator.
+    ImplicitSurface3& operator=(ImplicitSurface3&&) noexcept = default;
 
     //! Returns signed distance from the given point \p otherPoint.
-    double SignedDistance(const Vector3D& otherPoint) const;
+    [[nodiscard]] double SignedDistance(const Vector3D& otherPoint) const;
 
  protected:
     //! Returns signed distance from the given point \p otherPoint in local
     //! space.
-    virtual double SignedDistanceLocal(const Vector3D& otherPoint) const = 0;
+    [[nodiscard]] virtual double SignedDistanceLocal(
+        const Vector3D& otherPoint) const = 0;
 
  private:
-    double ClosestDistanceLocal(const Vector3D& otherPoint) const override;
+    [[nodiscard]] double ClosestDistanceLocal(
+        const Vector3D& otherPoint) const override;
 
-    bool IsInsideLocal(const Vector3D& otherPoint) const override;
+    [[nodiscard]] bool IsInsideLocal(const Vector3D& otherPoint) const override;
 };
 
 //! Shared pointer type for the ImplicitSurface3.
