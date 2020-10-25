@@ -19,7 +19,7 @@ ImplicitSurfaceSet3::ImplicitSurfaceSet3(
     std::vector<ImplicitSurface3Ptr> surfaces, const Transform3& _transform,
     bool _isNormalFlipped)
     : ImplicitSurface3{ _transform, _isNormalFlipped },
-      m_surfaces(std::move(surfaces))
+      m_surfaces{ std::move(surfaces) }
 {
     for (const auto& surface : m_surfaces)
     {

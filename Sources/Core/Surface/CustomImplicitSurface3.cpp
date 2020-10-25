@@ -21,11 +21,11 @@ CustomImplicitSurface3::CustomImplicitSurface3(
     unsigned int maxNumberOfIterations, const Transform3& _transform,
     bool _isNormalFlipped)
     : ImplicitSurface3{ _transform, _isNormalFlipped },
-      m_func(std::move(func)),
-      m_domain(std::move(domain)),
-      m_resolution(resolution),
-      m_rayMarchingResolution(rayMarchingResolution),
-      m_maxNumberOfIterations(maxNumberOfIterations)
+      m_func{ std::move(func) },
+      m_domain{ std::move(domain) },
+      m_resolution{ resolution },
+      m_rayMarchingResolution{ rayMarchingResolution },
+      m_maxNumberOfIterations{ maxNumberOfIterations }
 {
     // Do nothing
 }

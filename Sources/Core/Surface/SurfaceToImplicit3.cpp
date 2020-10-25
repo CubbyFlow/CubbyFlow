@@ -17,7 +17,7 @@ namespace CubbyFlow
 SurfaceToImplicit3::SurfaceToImplicit3(const Surface3Ptr& surface,
                                        const Transform3& _transform,
                                        bool _isNormalFlipped)
-    : ImplicitSurface3{ _transform, _isNormalFlipped }, m_surface(surface)
+    : ImplicitSurface3{ _transform, _isNormalFlipped }, m_surface{ surface }
 {
     if (std::dynamic_pointer_cast<TriangleMesh3>(surface) != nullptr)
     {

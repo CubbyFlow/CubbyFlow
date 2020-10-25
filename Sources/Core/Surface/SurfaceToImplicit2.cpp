@@ -18,7 +18,7 @@ SurfaceToImplicit2::SurfaceToImplicit2(Surface2Ptr surface,
                                        const Transform2& _transform,
                                        bool _isNormalFlipped)
     : ImplicitSurface2{ _transform, _isNormalFlipped },
-      m_surface(std::move(surface))
+      m_surface{ std::move(surface) }
 {
     // Do nothing
 }

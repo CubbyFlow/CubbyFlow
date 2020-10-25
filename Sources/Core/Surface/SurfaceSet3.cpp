@@ -16,7 +16,7 @@ namespace CubbyFlow
 {
 SurfaceSet3::SurfaceSet3(std::vector<Surface3Ptr> others,
                          const Transform3& _transform, bool _isNormalFlipped)
-    : Surface3{ _transform, _isNormalFlipped }, m_surfaces(std::move(others))
+    : Surface3{ _transform, _isNormalFlipped }, m_surfaces{ std::move(others) }
 {
     for (const auto& surface : m_surfaces)
     {

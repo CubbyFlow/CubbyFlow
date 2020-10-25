@@ -15,7 +15,7 @@
 namespace CubbyFlow
 {
 Surface2::Surface2(Transform2 _transform, bool _isNormalFlipped)
-    : transform(std::move(_transform)), isNormalFlipped(_isNormalFlipped)
+    : transform{ std::move(_transform) }, isNormalFlipped{ _isNormalFlipped }
 {
     // Do nothing
 }
