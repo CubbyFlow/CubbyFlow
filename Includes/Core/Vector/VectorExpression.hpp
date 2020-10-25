@@ -17,7 +17,6 @@
 
 namespace CubbyFlow
 {
-// MARK: VectorExpression
 //!
 //! \brief Base class for vector expression.
 //!
@@ -31,13 +30,12 @@ class VectorExpression
 {
  public:
     //! Size of the vector.
-    size_t size() const;
+    [[nodiscard]] size_t size() const;
 
     //! Returns actual implementation (the subclass).
     const E& operator()() const;
 };
 
-// MARK: VectorUnaryOp
 //!
 //! \brief Vector expression for unary operation.
 //!
@@ -56,7 +54,7 @@ class VectorUnaryOp : public VectorExpression<T, VectorUnaryOp<T, E, Op>>
     VectorUnaryOp(const E& u);
 
     //! Size of the matrix.
-    size_t size() const;
+    [[nodiscard]] size_t size() const;
 
     //! Returns vector element at i.
     T operator[](size_t i) const;
@@ -66,12 +64,10 @@ class VectorUnaryOp : public VectorExpression<T, VectorUnaryOp<T, E, Op>>
     Op m_op;
 };
 
-// MARK: VectorUnaryOp Aliases
 //! Matrix expression for type casting.
 template <typename T, typename E, typename U>
 using VectorTypeCast = VectorUnaryOp<T, E, TypeCast<U, T>>;
 
-// MARK: VectorBinaryOp
 //!
 //! \brief Vector expression for binary operation.
 //!
@@ -92,7 +88,7 @@ class VectorBinaryOp : public VectorExpression<T, VectorBinaryOp<T, E1, E2, Op>>
     VectorBinaryOp(const E1& u, const E2& v);
 
     //! Size of the matrix.
-    size_t size() const;
+    [[nodiscard]] size_t size() const;
 
     //! Returns vector element at i.
     T operator[](size_t i) const;
@@ -122,7 +118,7 @@ class VectorScalarBinaryOp
     VectorScalarBinaryOp(const E& u, const T& v);
 
     //! Size of the matrix.
-    size_t size() const;
+    [[nodiscard]] size_t size() const;
 
     //! Returns vector element at i.
     T operator[](size_t i) const;
@@ -133,7 +129,6 @@ class VectorScalarBinaryOp
     Op m_op;
 };
 
-// MARK: VectorBinaryOp Aliases
 //! Vector-vector addition expression.
 template <typename T, typename E1, typename E2>
 using VectorAdd = VectorBinaryOp<T, E1, E2, std::plus<T>>;
@@ -174,7 +169,6 @@ using VectorScalarDiv = VectorScalarBinaryOp<T, E, std::divides<T>>;
 template <typename T, typename E>
 using VectorScalarRDiv = VectorScalarBinaryOp<T, E, RDivides<T>>;
 
-// MARK: Global Functions
 //! Scalar-vector addition operation.
 template <typename T, typename E>
 VectorScalarAdd<T, E> operator+(const T& a, const VectorExpression<T, E>& b);
