@@ -11,24 +11,21 @@
 #include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Surface/CustomImplicitSurface2.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
 CustomImplicitSurface2::CustomImplicitSurface2(
-    const std::function<double(const Vector2D&)>& func,
-    const BoundingBox2D& domain, double resolution,
-    double rayMarchingResolution, unsigned int maxNumberOfIterations,
-    const Transform2& transform, bool isNormalFlipped)
-    : ImplicitSurface2(transform, isNormalFlipped),
-      m_func(func),
-      m_domain(domain),
+    std::function<double(const Vector2D&)> func, BoundingBox2D domain,
+    double resolution, double rayMarchingResolution,
+    unsigned int maxNumberOfIterations, const Transform2& _transform,
+    bool _isNormalFlipped)
+    : ImplicitSurface2{ _transform, _isNormalFlipped },
+      m_func(std::move(func)),
+      m_domain(std::move(domain)),
       m_resolution(resolution),
       m_rayMarchingResolution(rayMarchingResolution),
       m_maxNumberOfIterations(maxNumberOfIterations)
-{
-    // Do nothing
-}
-
-CustomImplicitSurface2::~CustomImplicitSurface2()
 {
     // Do nothing
 }
@@ -40,7 +37,7 @@ Vector2D CustomImplicitSurface2::ClosestPointLocal(
 
     for (unsigned int iter = 0; iter < m_maxNumberOfIterations; ++iter)
     {
-        double sdf = SignedDistanceLocal(pt);
+        const double sdf = SignedDistanceLocal(pt);
 
         if (std::fabs(sdf) < std::numeric_limits<double>::epsilon())
         {
@@ -56,7 +53,7 @@ Vector2D CustomImplicitSurface2::ClosestPointLocal(
 
 bool CustomImplicitSurface2::IntersectsLocal(const Ray2D& ray) const
 {
-    BoundingBoxRayIntersection2D intersection =
+    const BoundingBoxRayIntersection2D intersection =
         m_domain.ClosestIntersection(ray);
 
     if (intersection.isIntersecting)
@@ -115,7 +112,7 @@ double CustomImplicitSurface2::SignedDistanceLocal(
 Vector2D CustomImplicitSurface2::ClosestNormalLocal(
     const Vector2D& otherPoint) const
 {
-    Vector2D pt = ClosestPointLocal(otherPoint);
+    const Vector2D pt = ClosestPointLocal(otherPoint);
     Vector2D g = GradientLocal(pt);
 
     if (g.LengthSquared() > 0.0)
@@ -130,7 +127,7 @@ SurfaceRayIntersection2 CustomImplicitSurface2::ClosestIntersectionLocal(
     const Ray2D& ray) const
 {
     SurfaceRayIntersection2 result;
-    BoundingBoxRayIntersection2D intersection =
+    const BoundingBoxRayIntersection2D intersection =
         m_domain.ClosestIntersection(ray);
 
     if (intersection.isIntersecting)
@@ -187,18 +184,18 @@ SurfaceRayIntersection2 CustomImplicitSurface2::ClosestIntersectionLocal(
 
 Vector2D CustomImplicitSurface2::GradientLocal(const Vector2D& x) const
 {
-    double left = m_func(x - Vector2D(0.5 * m_resolution, 0.0));
-    double right = m_func(x + Vector2D(0.5 * m_resolution, 0.0));
-    double bottom = m_func(x - Vector2D(0.0, 0.5 * m_resolution));
-    double top = m_func(x + Vector2D(0.0, 0.5 * m_resolution));
+    const double left = m_func(x - Vector2D{ 0.5 * m_resolution, 0.0 });
+    const double right = m_func(x + Vector2D{ 0.5 * m_resolution, 0.0 });
+    const double bottom = m_func(x - Vector2D{ 0.0, 0.5 * m_resolution });
+    const double top = m_func(x + Vector2D{ 0.0, 0.5 * m_resolution });
 
-    return Vector2D((right - left) / m_resolution,
-                    (top - bottom) / m_resolution);
+    return Vector2D{ (right - left) / m_resolution,
+                     (top - bottom) / m_resolution };
 }
 
 CustomImplicitSurface2::Builder CustomImplicitSurface2::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 CustomImplicitSurface2::Builder&
@@ -239,17 +236,21 @@ CustomImplicitSurface2::Builder::WithMaxNumberOfIterations(unsigned int numIter)
 
 CustomImplicitSurface2 CustomImplicitSurface2::Builder::Build() const
 {
-    return CustomImplicitSurface2(
-        m_func, m_domain, m_resolution, m_rayMarchingResolution,
-        m_maxNumberOfIterations, m_transform, m_isNormalFlipped);
+    return CustomImplicitSurface2{ m_func,
+                                   m_domain,
+                                   m_resolution,
+                                   m_rayMarchingResolution,
+                                   m_maxNumberOfIterations,
+                                   m_transform,
+                                   m_isNormalFlipped };
 }
 
 CustomImplicitSurface2Ptr CustomImplicitSurface2::Builder::MakeShared() const
 {
     return std::shared_ptr<CustomImplicitSurface2>(
-        new CustomImplicitSurface2(
+        new CustomImplicitSurface2{
             m_func, m_domain, m_resolution, m_rayMarchingResolution,
-            m_maxNumberOfIterations, m_transform, m_isNormalFlipped),
+            m_maxNumberOfIterations, m_transform, m_isNormalFlipped },
         [](CustomImplicitSurface2* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

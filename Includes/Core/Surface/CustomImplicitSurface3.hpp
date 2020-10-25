@@ -31,44 +31,45 @@ class CustomImplicitSurface3 final : public ImplicitSurface3
     //! \param resolution Finite differencing resolution for derivatives.
     //! \param rayMarchingResolution Ray marching resolution for ray tests.
     //! \param maxNumberOfIterations Number of iterations for closest point
-    //! search. \param transform Local-to-world transform. \param
-    //! isNormalFlipped True if normal is flipped.
+    //!                              search.
+    //! \param _transform Local-to-world transform.
+    //! \param _isNormalFlipped True if normal is flipped.
     //!
-    CustomImplicitSurface3(const std::function<double(const Vector3D&)>& func,
-                           const BoundingBox3D& domain = BoundingBox3D(),
+    CustomImplicitSurface3(std::function<double(const Vector3D&)> func,
+                           BoundingBox3D domain = BoundingBox3D{},
                            double resolution = 1e-3,
                            double rayMarchingResolution = 1e-6,
                            unsigned int maxNumberOfIterations = 5,
-                           const Transform3& transform = Transform3(),
-                           bool isNormalFlipped = false);
-
-    //! Destructor.
-    virtual ~CustomImplicitSurface3();
+                           const Transform3& _transform = Transform3{},
+                           bool _isNormalFlipped = false);
 
     //! Returns builder for CustomImplicitSurface3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
+    [[nodiscard]] Vector3D ClosestPointLocal(
+        const Vector3D& otherPoint) const override;
+
+    [[nodiscard]] bool IntersectsLocal(const Ray3D& ray) const override;
+
+    [[nodiscard]] BoundingBox3D BoundingBoxLocal() const override;
+
+    [[nodiscard]] Vector3D ClosestNormalLocal(
+        const Vector3D& otherPoint) const override;
+
+    [[nodiscard]] double SignedDistanceLocal(
+        const Vector3D& otherPoint) const override;
+
+    [[nodiscard]] SurfaceRayIntersection3 ClosestIntersectionLocal(
+        const Ray3D& ray) const override;
+
+    [[nodiscard]] Vector3D GradientLocal(const Vector3D& x) const;
+
     std::function<double(const Vector3D&)> m_func;
     BoundingBox3D m_domain;
     double m_resolution = 1e-3;
     double m_rayMarchingResolution = 1e-6;
     unsigned int m_maxNumberOfIterations = 5;
-
-    Vector3D ClosestPointLocal(const Vector3D& otherPoint) const override;
-
-    bool IntersectsLocal(const Ray3D& ray) const override;
-
-    BoundingBox3D BoundingBoxLocal() const override;
-
-    Vector3D ClosestNormalLocal(const Vector3D& otherPoint) const override;
-
-    double SignedDistanceLocal(const Vector3D& otherPoint) const override;
-
-    SurfaceRayIntersection3 ClosestIntersectionLocal(
-        const Ray3D& ray) const override;
-
-    Vector3D GradientLocal(const Vector3D& x) const;
 };
 
 //! Shared pointer type for the CustomImplicitSurface3.
@@ -78,32 +79,33 @@ using CustomImplicitSurface3Ptr = std::shared_ptr<CustomImplicitSurface3>;
 //! \brief Front-end to create CustomImplicitSurface3 objects step by step.
 //!
 class CustomImplicitSurface3::Builder final
-    : public SurfaceBuilderBase3<CustomImplicitSurface3::Builder>
+    : public SurfaceBuilderBase3<Builder>
 {
  public:
     //! Returns builder with custom signed-distance function
-    Builder& WithSignedDistanceFunction(
+    [[nodiscard]] Builder& WithSignedDistanceFunction(
         const std::function<double(const Vector3D&)>& func);
 
     //! Returns builder with domain.
-    Builder& WithDomain(const BoundingBox3D& domain);
+    [[nodiscard]] Builder& WithDomain(const BoundingBox3D& domain);
 
     //! Returns builder with finite differencing resolution.
-    Builder& WithResolution(double resolution);
+    [[nodiscard]] Builder& WithResolution(double resolution);
 
     //! Returns builder with ray marching resolution which determines the ray
     //! intersection quality.
-    Builder& WithRayMarchingResolution(double rayMarchingResolution);
+    [[nodiscard]] Builder& WithRayMarchingResolution(
+        double rayMarchingResolution);
 
     //! Returns builder with number of iterations for closest point/normal
     //! searches.
-    Builder& WithMaxNumberOfIterations(unsigned int numIter);
+    [[nodiscard]] Builder& WithMaxNumberOfIterations(unsigned int numIter);
 
     //! Builds CustomImplicitSurface3.
-    CustomImplicitSurface3 Build() const;
+    [[nodiscard]] CustomImplicitSurface3 Build() const;
 
     //! Builds shared pointer of CustomImplicitSurface3 instance.
-    CustomImplicitSurface3Ptr MakeShared() const;
+    [[nodiscard]] CustomImplicitSurface3Ptr MakeShared() const;
 
  private:
     std::function<double(const Vector3D&)> m_func;
