@@ -31,65 +31,77 @@ class SurfaceSet3 final : public Surface3
     class Builder;
 
     //! Constructs an empty surface set.
-    SurfaceSet3();
+    SurfaceSet3() = default;
 
     //! Constructs with a list of other surfaces.
-    explicit SurfaceSet3(const std::vector<Surface3Ptr>& others,
-                         const Transform3& transform = Transform3(),
-                         bool isNormalFlipped = false);
+    explicit SurfaceSet3(std::vector<Surface3Ptr> others,
+                         const Transform3& _transform = Transform3{},
+                         bool _isNormalFlipped = false);
 
     //! Copy constructor.
     SurfaceSet3(const SurfaceSet3& other);
 
+    //! Move constructor.
+    SurfaceSet3(SurfaceSet3&& other) noexcept;
+
+    //! Default virtual destructor.
+    ~SurfaceSet3() override = default;
+
     //! Copy assignment operator.
     SurfaceSet3& operator=(const SurfaceSet3& other);
+
+    //! Default move assignment operator.
+    SurfaceSet3& operator=(SurfaceSet3&&) = default;
 
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;
 
     //! Returns true if bounding box can be defined.
-    bool IsBounded() const override;
+    [[nodiscard]] bool IsBounded() const override;
 
     //! Returns true if the surface is a valid geometry.
-    bool IsValidGeometry() const override;
+    [[nodiscard]] bool IsValidGeometry() const override;
 
     //! Returns the number of surfaces.
-    size_t NumberOfSurfaces() const;
+    [[nodiscard]] size_t NumberOfSurfaces() const;
 
     //! Returns the i-th surface.
-    const Surface3Ptr& SurfaceAt(size_t i) const;
+    [[nodiscard]] const Surface3Ptr& SurfaceAt(size_t i) const;
 
     //! Adds a surface instance.
     void AddSurface(const Surface3Ptr& surface);
 
     //! Returns builder for SurfaceSet3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
-    std::vector<Surface3Ptr> m_surfaces;
-    std::vector<Surface3Ptr> m_unboundedSurfaces;
-    mutable BVH3<Surface3Ptr> m_bvh;
-    mutable bool m_bvhInvalidated = true;
-
     // Surface3 implementations
-    Vector3D ClosestPointLocal(const Vector3D& otherPoint) const override;
+    [[nodiscard]] Vector3D ClosestPointLocal(
+        const Vector3D& otherPoint) const override;
 
-    BoundingBox3D BoundingBoxLocal() const override;
+    [[nodiscard]] BoundingBox3D BoundingBoxLocal() const override;
 
-    double ClosestDistanceLocal(const Vector3D& otherPoint) const override;
+    [[nodiscard]] double ClosestDistanceLocal(
+        const Vector3D& otherPoint) const override;
 
-    bool IntersectsLocal(const Ray3D& ray) const override;
+    [[nodiscard]] bool IntersectsLocal(const Ray3D& ray) const override;
 
-    Vector3D ClosestNormalLocal(const Vector3D& otherPoint) const override;
+    [[nodiscard]] Vector3D ClosestNormalLocal(
+        const Vector3D& otherPoint) const override;
 
-    SurfaceRayIntersection3 ClosestIntersectionLocal(
+    [[nodiscard]] SurfaceRayIntersection3 ClosestIntersectionLocal(
         const Ray3D& ray) const override;
 
-    bool IsInsideLocal(const Vector3D& otherPoint) const override;
+    [[nodiscard]] bool IsInsideLocal(const Vector3D& otherPoint) const override;
 
     void InvalidateBVH() const;
 
     void BuildBVH() const;
+
+    std::vector<Surface3Ptr> m_surfaces;
+    std::vector<Surface3Ptr> m_unboundedSurfaces;
+    mutable BVH3<Surface3Ptr> m_bvh;
+    mutable bool m_bvhInvalidated = true;
 };
 
 //! Shared pointer for the SurfaceSet3 type.
@@ -98,18 +110,17 @@ using SurfaceSet3Ptr = std::shared_ptr<SurfaceSet3>;
 //!
 //! \brief Front-end to create SurfaceSet3 objects step by step.
 //!
-class SurfaceSet3::Builder final
-    : public SurfaceBuilderBase3<SurfaceSet3::Builder>
+class SurfaceSet3::Builder final : public SurfaceBuilderBase3<Builder>
 {
  public:
     //! Returns builder with other surfaces.
-    Builder& WithSurfaces(const std::vector<Surface3Ptr>& others);
+    [[nodiscard]] Builder& WithSurfaces(const std::vector<Surface3Ptr>& others);
 
     //! Builds SurfaceSet3.
-    SurfaceSet3 Build() const;
+    [[nodiscard]] SurfaceSet3 Build() const;
 
     //! Builds shared pointer of SurfaceSet3 instance.
-    SurfaceSet3Ptr MakeShared() const;
+    [[nodiscard]] SurfaceSet3Ptr MakeShared() const;
 
  private:
     std::vector<Surface3Ptr> m_surfaces;
