@@ -17,12 +17,25 @@
 
 namespace CubbyFlow
 {
-// Constructors
 template <typename T>
 template <typename U>
 Vector<T, 3>::Vector(const std::initializer_list<U>& list)
 {
     Set(list);
+}
+
+template <typename T>
+Vector<T, 3>& Vector<T, 3>::operator=(const Vector& v)
+{
+    Set(v);
+    return (*this);
+}
+
+template <typename T>
+Vector<T, 3>& Vector<T, 3>::operator=(Vector&& v) noexcept
+{
+    Set(v);
+    return (*this);
 }
 
 template <typename T>
@@ -89,49 +102,49 @@ void Vector<T, 3>::Normalize()
 template <typename T>
 Vector<T, 3> Vector<T, 3>::Add(T v) const
 {
-    return Vector<T, 3>(x + v, y + v, z + v);
+    return Vector<T, 3>{ x + v, y + v, z + v };
 }
 
 template <typename T>
 Vector<T, 3> Vector<T, 3>::Add(const Vector& v) const
 {
-    return Vector<T, 3>(x + v.x, y + v.y, z + v.z);
+    return Vector<T, 3>{ x + v.x, y + v.y, z + v.z };
 }
 
 template <typename T>
 Vector<T, 3> Vector<T, 3>::Sub(T v) const
 {
-    return Vector<T, 3>(x - v, y - v, z - v);
+    return Vector<T, 3>{ x - v, y - v, z - v };
 }
 
 template <typename T>
 Vector<T, 3> Vector<T, 3>::Sub(const Vector& v) const
 {
-    return Vector<T, 3>(x - v.x, y - v.y, z - v.z);
+    return Vector<T, 3>{ x - v.x, y - v.y, z - v.z };
 }
 
 template <typename T>
 Vector<T, 3> Vector<T, 3>::Mul(T v) const
 {
-    return Vector<T, 3>(x * v, y * v, z * v);
+    return Vector<T, 3>{ x * v, y * v, z * v };
 }
 
 template <typename T>
 Vector<T, 3> Vector<T, 3>::Mul(const Vector& v) const
 {
-    return Vector<T, 3>(x * v.x, y * v.y, z * v.z);
+    return Vector<T, 3>{ x * v.x, y * v.y, z * v.z };
 }
 
 template <typename T>
 Vector<T, 3> Vector<T, 3>::Div(T v) const
 {
-    return Vector<T, 3>(x / v, y / v, z / v);
+    return Vector<T, 3>{ x / v, y / v, z / v };
 }
 
 template <typename T>
 Vector<T, 3> Vector<T, 3>::Div(const Vector& v) const
 {
-    return Vector<T, 3>(x / v.x, y / v.y, z / v.z);
+    return Vector<T, 3>{ x / v.x, y / v.y, z / v.z };
 }
 
 template <typename T>
@@ -143,39 +156,39 @@ T Vector<T, 3>::Dot(const Vector& v) const
 template <typename T>
 Vector<T, 3> Vector<T, 3>::Cross(const Vector& v) const
 {
-    return Vector<T, 3>(y * v.z - z * v.y, z * v.x - x * v.z,
-                        x * v.y - y * v.x);
+    return Vector<T, 3>{ y * v.z - z * v.y, z * v.x - x * v.z,
+                         x * v.y - y * v.x };
 }
 
 template <typename T>
 Vector<T, 3> Vector<T, 3>::RSub(T v) const
 {
-    return Vector<T, 3>(v - x, v - y, v - z);
+    return Vector<T, 3>{ v - x, v - y, v - z };
 }
 
 template <typename T>
 Vector<T, 3> Vector<T, 3>::RSub(const Vector& v) const
 {
-    return Vector<T, 3>(v.x - x, v.y - y, v.z - z);
+    return Vector<T, 3>{ v.x - x, v.y - y, v.z - z };
 }
 
 template <typename T>
 Vector<T, 3> Vector<T, 3>::RDiv(T v) const
 {
-    return Vector<T, 3>(v / x, v / y, v / z);
+    return Vector<T, 3>{ v / x, v / y, v / z };
 }
 
 template <typename T>
 Vector<T, 3> Vector<T, 3>::RDiv(const Vector& v) const
 {
-    return Vector<T, 3>(v.x / x, v.y / y, v.z / z);
+    return Vector<T, 3>{ v.x / x, v.y / y, v.z / z };
 }
 
 template <typename T>
 Vector<T, 3> Vector<T, 3>::RCross(const Vector& v) const
 {
-    return Vector<T, 3>(v.y * z - v.z * y, v.z * x - v.x * z,
-                        v.x * y - v.y * x);
+    return Vector<T, 3>{ v.y * z - v.z * y, v.z * x - v.x * z,
+                         v.x * y - v.y * x };
 }
 
 template <typename T>
@@ -311,7 +324,7 @@ size_t Vector<T, 3>::SubdominantAxis() const
 template <typename T>
 Vector<T, 3> Vector<T, 3>::Normalized() const
 {
-    return Vector<T, 3>(x / Length(), y / Length(), z / Length());
+    return Vector<T, 3>{ x / Length(), y / Length(), z / Length() };
 }
 
 template <typename T>
@@ -356,8 +369,8 @@ template <typename T>
 std::tuple<Vector<T, 3>, Vector<T, 3>> Vector<T, 3>::Tangential() const
 {
     Vector<T, 3> a =
-        ((std::fabs(y) > 0 || std::fabs(z) > 0) ? Vector<T, 3>(1, 0, 0)
-                                                : Vector<T, 3>(0, 1, 0))
+        ((std::fabs(y) > 0 || std::fabs(z) > 0) ? Vector<T, 3>{ 1, 0, 0 }
+                                                : Vector<T, 3>{ 0, 1, 0 })
             .Cross(*this)
             .Normalized();
     Vector<T, 3> b = Cross(a);
@@ -369,8 +382,8 @@ template <typename T>
 template <typename U>
 Vector<U, 3> Vector<T, 3>::CastTo() const
 {
-    return Vector<U, 3>(static_cast<U>(x), static_cast<U>(y),
-                        static_cast<U>(z));
+    return Vector<U, 3>{ static_cast<U>(x), static_cast<U>(y),
+                         static_cast<U>(z) };
 }
 
 template <typename T>
@@ -406,13 +419,6 @@ template <typename U>
 Vector<T, 3>& Vector<T, 3>::operator=(const std::initializer_list<U>& list)
 {
     Set(list);
-    return (*this);
-}
-
-template <typename T>
-Vector<T, 3>& Vector<T, 3>::operator=(const Vector& v)
-{
-    Set(v);
     return (*this);
 }
 
@@ -493,7 +499,7 @@ Vector<T, 3> operator+(const Vector<T, 3>& a)
 template <typename T>
 Vector<T, 3> operator-(const Vector<T, 3>& a)
 {
-    return Vector<T, 3>(-a.x, -a.y, -a.z);
+    return Vector<T, 3>{ -a.x, -a.y, -a.z };
 }
 
 template <typename T>
@@ -571,35 +577,35 @@ Vector<T, 3> operator/(const Vector<T, 3>& a, const Vector<T, 3>& b)
 template <typename T>
 Vector<T, 3> Min(const Vector<T, 3>& a, const Vector<T, 3>& b)
 {
-    return Vector<T, 3>(std::min(a.x, b.x), std::min(a.y, b.y),
-                        std::min(a.z, b.z));
+    return Vector<T, 3>{ std::min(a.x, b.x), std::min(a.y, b.y),
+                         std::min(a.z, b.z) };
 }
 
 template <typename T>
 Vector<T, 3> Max(const Vector<T, 3>& a, const Vector<T, 3>& b)
 {
-    return Vector<T, 3>(std::max(a.x, b.x), std::max(a.y, b.y),
-                        std::max(a.z, b.z));
+    return Vector<T, 3>{ std::max(a.x, b.x), std::max(a.y, b.y),
+                         std::max(a.z, b.z) };
 }
 
 template <typename T>
 Vector<T, 3> Clamp(const Vector<T, 3>& v, const Vector<T, 3>& low,
                    const Vector<T, 3>& high)
 {
-    return Vector<T, 3>(Clamp(v.x, low.x, high.x), Clamp(v.y, low.y, high.y),
-                        Clamp(v.z, low.z, high.z));
+    return Vector<T, 3>{ Clamp(v.x, low.x, high.x), Clamp(v.y, low.y, high.y),
+                         Clamp(v.z, low.z, high.z) };
 }
 
 template <typename T>
 Vector<T, 3> Ceil(const Vector<T, 3>& a)
 {
-    return Vector<T, 3>(std::ceil(a.x), std::ceil(a.y), std::ceil(a.z));
+    return Vector<T, 3>{ std::ceil(a.x), std::ceil(a.y), std::ceil(a.z) };
 }
 
 template <typename T>
 Vector<T, 3> Floor(const Vector<T, 3>& a)
 {
-    return Vector<T, 3>(std::floor(a.x), std::floor(a.y), std::floor(a.z));
+    return Vector<T, 3>{ std::floor(a.x), std::floor(a.y), std::floor(a.z) };
 }
 
 template <typename T>
