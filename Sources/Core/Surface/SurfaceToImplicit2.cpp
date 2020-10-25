@@ -10,18 +10,15 @@
 
 #include <Core/Surface/SurfaceToImplicit2.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
-SurfaceToImplicit2::SurfaceToImplicit2(const Surface2Ptr& surface,
-                                       const Transform2& transform,
-                                       bool isNormalFlipped)
-    : ImplicitSurface2(transform, isNormalFlipped), m_surface(surface)
-{
-    // Do nothing
-}
-
-SurfaceToImplicit2::SurfaceToImplicit2(const SurfaceToImplicit2& other)
-    : ImplicitSurface2(other), m_surface(other.m_surface)
+SurfaceToImplicit2::SurfaceToImplicit2(Surface2Ptr surface,
+                                       const Transform2& _transform,
+                                       bool _isNormalFlipped)
+    : ImplicitSurface2{ _transform, _isNormalFlipped },
+      m_surface(std::move(surface))
 {
     // Do nothing
 }
@@ -48,7 +45,7 @@ Surface2Ptr SurfaceToImplicit2::GetSurface() const
 
 SurfaceToImplicit2::Builder SurfaceToImplicit2::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 Vector2D SurfaceToImplicit2::ClosestPointLocal(const Vector2D& otherPoint) const
@@ -105,13 +102,13 @@ SurfaceToImplicit2::Builder& SurfaceToImplicit2::Builder::WithSurface(
 
 SurfaceToImplicit2 SurfaceToImplicit2::Builder::Build() const
 {
-    return SurfaceToImplicit2(m_surface, m_transform, m_isNormalFlipped);
+    return SurfaceToImplicit2{ m_surface, m_transform, m_isNormalFlipped };
 }
 
 SurfaceToImplicit2Ptr SurfaceToImplicit2::Builder::MakeShared() const
 {
     return std::shared_ptr<SurfaceToImplicit2>(
-        new SurfaceToImplicit2(m_surface, m_transform, m_isNormalFlipped),
+        new SurfaceToImplicit2{ m_surface, m_transform, m_isNormalFlipped },
         [](SurfaceToImplicit2* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

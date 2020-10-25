@@ -15,9 +15,9 @@
 namespace CubbyFlow
 {
 SurfaceToImplicit3::SurfaceToImplicit3(const Surface3Ptr& surface,
-                                       const Transform3& transform,
-                                       bool isNormalFlipped)
-    : ImplicitSurface3(transform, isNormalFlipped), m_surface(surface)
+                                       const Transform3& _transform,
+                                       bool _isNormalFlipped)
+    : ImplicitSurface3{ _transform, _isNormalFlipped }, m_surface(surface)
 {
     if (std::dynamic_pointer_cast<TriangleMesh3>(surface) != nullptr)
     {
@@ -26,12 +26,6 @@ SurfaceToImplicit3::SurfaceToImplicit3(const Surface3Ptr& surface,
                "but slow. ImplicitTriangleMesh3 can provide faster but "
                "approximated results.";
     }
-}
-
-SurfaceToImplicit3::SurfaceToImplicit3(const SurfaceToImplicit3& other)
-    : ImplicitSurface3(other), m_surface(other.m_surface)
-{
-    // Do nothing
 }
 
 bool SurfaceToImplicit3::IsBounded() const
@@ -56,7 +50,7 @@ Surface3Ptr SurfaceToImplicit3::GetSurface() const
 
 SurfaceToImplicit3::Builder SurfaceToImplicit3::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 Vector3D SurfaceToImplicit3::ClosestPointLocal(const Vector3D& otherPoint) const
@@ -113,13 +107,13 @@ SurfaceToImplicit3::Builder& SurfaceToImplicit3::Builder::WithSurface(
 
 SurfaceToImplicit3 SurfaceToImplicit3::Builder::Build() const
 {
-    return SurfaceToImplicit3(m_surface, m_transform, m_isNormalFlipped);
+    return SurfaceToImplicit3{ m_surface, m_transform, m_isNormalFlipped };
 }
 
 SurfaceToImplicit3Ptr SurfaceToImplicit3::Builder::MakeShared() const
 {
     return std::shared_ptr<SurfaceToImplicit3>(
-        new SurfaceToImplicit3(m_surface, m_transform, m_isNormalFlipped),
+        new SurfaceToImplicit3{ m_surface, m_transform, m_isNormalFlipped },
         [](SurfaceToImplicit3* obj) { delete obj; });
 }
 }  // namespace CubbyFlow
