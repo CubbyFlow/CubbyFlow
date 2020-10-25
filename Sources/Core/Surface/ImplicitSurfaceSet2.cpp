@@ -11,17 +11,15 @@
 #include <Core/Surface/ImplicitSurfaceSet2.hpp>
 #include <Core/Surface/SurfaceToImplicit2.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
-ImplicitSurfaceSet2::ImplicitSurfaceSet2()
-{
-    // Do nothing
-}
-
 ImplicitSurfaceSet2::ImplicitSurfaceSet2(
-    const std::vector<ImplicitSurface2Ptr>& surfaces,
-    const Transform2& transform, bool isNormalFlipped)
-    : ImplicitSurface2(transform, isNormalFlipped), m_surfaces(surfaces)
+    std::vector<ImplicitSurface2Ptr> surfaces, const Transform2& _transform,
+    bool _isNormalFlipped)
+    : ImplicitSurface2{ _transform, _isNormalFlipped },
+      m_surfaces(std::move(surfaces))
 {
     for (const auto& surface : m_surfaces)
     {
@@ -35,9 +33,9 @@ ImplicitSurfaceSet2::ImplicitSurfaceSet2(
 }
 
 ImplicitSurfaceSet2::ImplicitSurfaceSet2(
-    const std::vector<Surface2Ptr>& surfaces, const Transform2& transform,
-    bool isNormalFlipped)
-    : ImplicitSurface2(transform, isNormalFlipped)
+    const std::vector<Surface2Ptr>& surfaces, const Transform2& _transform,
+    bool _isNormalFlipped)
+    : ImplicitSurface2{ _transform, _isNormalFlipped }
 {
     for (const auto& surface : surfaces)
     {
@@ -46,9 +44,17 @@ ImplicitSurfaceSet2::ImplicitSurfaceSet2(
 }
 
 ImplicitSurfaceSet2::ImplicitSurfaceSet2(const ImplicitSurfaceSet2& other)
-    : ImplicitSurface2(other),
+    : ImplicitSurface2{ other },
       m_surfaces(other.m_surfaces),
       m_unboundedSurfaces(other.m_unboundedSurfaces)
+{
+    // Do nothing
+}
+
+ImplicitSurfaceSet2::ImplicitSurfaceSet2(ImplicitSurfaceSet2&& other) noexcept
+    : ImplicitSurface2{ std::move(other) },
+      m_surfaces(std::move(other.m_surfaces)),
+      m_unboundedSurfaces(std::move(other.m_unboundedSurfaces))
 {
     // Do nothing
 }
@@ -140,7 +146,8 @@ Vector2D ImplicitSurfaceSet2::ClosestPointLocal(
     Vector2D result{ std::numeric_limits<double>::max(),
                      std::numeric_limits<double>::max() };
 
-    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
+    const NearestNeighborQueryResult2<ImplicitSurface2Ptr> queryResult =
+        m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
     if (queryResult.item != nullptr)
     {
         result = (*queryResult.item)->ClosestPoint(otherPoint);
@@ -149,7 +156,7 @@ Vector2D ImplicitSurfaceSet2::ClosestPointLocal(
     double minDist = queryResult.distance;
     for (const auto& surface : m_unboundedSurfaces)
     {
-        auto pt = surface->ClosestPoint(otherPoint);
+        Vector2D pt = surface->ClosestPoint(otherPoint);
         const double dist = pt.DistanceTo(otherPoint);
 
         if (dist < minDist)
@@ -172,12 +179,13 @@ double ImplicitSurfaceSet2::ClosestDistanceLocal(
         return surface->ClosestDistance(pt);
     };
 
-    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
+    const NearestNeighborQueryResult2<ImplicitSurface2Ptr> queryResult =
+        m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
 
     double minDist = queryResult.distance;
     for (const auto& surface : m_unboundedSurfaces)
     {
-        auto pt = surface->ClosestPoint(otherPoint);
+        Vector2D pt = surface->ClosestPoint(otherPoint);
         const double dist = pt.DistanceTo(otherPoint);
 
         if (dist < minDist)
@@ -201,7 +209,8 @@ Vector2D ImplicitSurfaceSet2::ClosestNormalLocal(
 
     Vector2D result{ 1.0, 0.0 };
 
-    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
+    const NearestNeighborQueryResult2<ImplicitSurface2Ptr> queryResult =
+        m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
     if (queryResult.item != nullptr)
     {
         result = (*queryResult.item)->ClosestNormal(otherPoint);
@@ -210,7 +219,7 @@ Vector2D ImplicitSurfaceSet2::ClosestNormalLocal(
     double minDist = queryResult.distance;
     for (const auto& surface : m_unboundedSurfaces)
     {
-        auto pt = surface->ClosestPoint(otherPoint);
+        Vector2D pt = surface->ClosestPoint(otherPoint);
         const double dist = pt.DistanceTo(otherPoint);
 
         if (dist < minDist)
@@ -227,8 +236,8 @@ bool ImplicitSurfaceSet2::IntersectsLocal(const Ray2D& ray) const
 {
     BuildBVH();
 
-    const auto testFunc = [](const Surface2Ptr& surface, const Ray2D& ray) {
-        return surface->Intersects(ray);
+    const auto testFunc = [](const Surface2Ptr& surface, const Ray2D& _ray) {
+        return surface->Intersects(_ray);
     };
 
     bool result = m_bvh.IsIntersects(ray, testFunc);
@@ -245,12 +254,14 @@ SurfaceRayIntersection2 ImplicitSurfaceSet2::ClosestIntersectionLocal(
 {
     BuildBVH();
 
-    const auto testFunc = [](const Surface2Ptr& surface, const Ray2D& ray) {
-        SurfaceRayIntersection2 result = surface->ClosestIntersection(ray);
+    const auto testFunc = [](const Surface2Ptr& surface, const Ray2D& _ray) {
+        const SurfaceRayIntersection2 result =
+            surface->ClosestIntersection(_ray);
         return result.distance;
     };
 
-    const auto queryResult = m_bvh.GetClosestIntersection(ray, testFunc);
+    const ClosestIntersectionQueryResult2<ImplicitSurface2Ptr> queryResult =
+        m_bvh.GetClosestIntersection(ray, testFunc);
 
     SurfaceRayIntersection2 result;
     result.distance = queryResult.distance;
@@ -336,7 +347,7 @@ void ImplicitSurfaceSet2::BuildBVH() const
 
 ImplicitSurfaceSet2::Builder ImplicitSurfaceSet2::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 ImplicitSurfaceSet2::Builder& ImplicitSurfaceSet2::Builder::WithSurfaces(
@@ -362,13 +373,13 @@ ImplicitSurfaceSet2::Builder::WithExplicitSurfaces(
 
 ImplicitSurfaceSet2 ImplicitSurfaceSet2::Builder::Build() const
 {
-    return ImplicitSurfaceSet2(m_surfaces, m_transform, m_isNormalFlipped);
+    return ImplicitSurfaceSet2{ m_surfaces, m_transform, m_isNormalFlipped };
 }
 
 ImplicitSurfaceSet2Ptr ImplicitSurfaceSet2::Builder::MakeShared() const
 {
     return std::shared_ptr<ImplicitSurfaceSet2>(
-        new ImplicitSurfaceSet2(m_surfaces, m_transform, m_isNormalFlipped),
+        new ImplicitSurfaceSet2{ m_surfaces, m_transform, m_isNormalFlipped },
         [](ImplicitSurfaceSet2* obj) { delete obj; });
 }
 }  // namespace CubbyFlow
