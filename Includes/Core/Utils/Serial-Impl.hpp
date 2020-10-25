@@ -22,7 +22,8 @@ void SerialFill(const RandomIterator& begin, const RandomIterator& end,
 {
     size_t size = static_cast<size_t>(end - begin);
 
-    SerialFor(size_t(0), size, [begin, value](size_t i) { begin[i] = value; });
+    SerialFor(static_cast<size_t>(0), size,
+              [begin, value](size_t i) { begin[i] = value; });
 }
 
 template <typename IndexType, typename Function>

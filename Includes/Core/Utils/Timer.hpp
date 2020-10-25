@@ -23,13 +23,12 @@ class Timer
     Timer();
 
     //! Returns the time duration since the creation or reset in seconds.
-    double DurationInSeconds() const;
+    [[nodiscard]] double DurationInSeconds() const;
 
     //! Resets the timer.
     void Reset();
 
  private:
-    std::chrono::steady_clock m_clock;
     std::chrono::steady_clock::time_point m_startingPoint;
 };
 }  // namespace CubbyFlow

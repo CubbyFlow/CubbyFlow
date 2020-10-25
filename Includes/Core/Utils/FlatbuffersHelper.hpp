@@ -42,22 +42,22 @@ inline fbs::Vector3D CubbyFlowToFlatbuffers(const Vector3D& vec)
 
 inline Size2 FlatbuffersToCubbyFlow(const fbs::Size2& vec)
 {
-    return Size2({ vec.x(), vec.y() });
+    return Size2{ { vec.x(), vec.y() } };
 }
 
 inline Size3 FlatbuffersToCubbyFlow(const fbs::Size3& vec)
 {
-    return Size3({ vec.x(), vec.y(), vec.z() });
+    return Size3{ { vec.x(), vec.y(), vec.z() } };
 }
 
 inline Vector2D FlatbuffersToCubbyFlow(const fbs::Vector2D& vec)
 {
-    return Vector2D(vec.x(), vec.y());
+    return Vector2D{ vec.x(), vec.y() };
 }
 
 inline Vector3D FlatbuffersToCubbyFlow(const fbs::Vector3D& vec)
 {
-    return Vector3D(vec.x(), vec.y(), vec.z());
+    return Vector3D{ vec.x(), vec.y(), vec.z() };
 }
 
 template <typename GridType, typename FbsFactoryFunc, typename FbsGridType>

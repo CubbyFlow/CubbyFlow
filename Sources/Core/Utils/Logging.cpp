@@ -28,6 +28,7 @@ inline std::ostream* LevelToStream(LogLevel level)
 {
     switch (level)
     {
+        case LogLevel::All:
         case LogLevel::Info:
             return infoOutStream;
         case LogLevel::Warn:
@@ -36,15 +37,19 @@ inline std::ostream* LevelToStream(LogLevel level)
             return errorOutStream;
         case LogLevel::Debug:
             return debugOutStream;
-        default:
-            return infoOutStream;
+        case LogLevel::Off:
+            return nullptr;
     }
+
+    return nullptr;
 }
 
 inline std::string LevelToString(LogLevel level)
 {
     switch (level)
     {
+        case LogLevel::All:
+            return "";
         case LogLevel::Info:
             return "INFO";
         case LogLevel::Warn:
@@ -53,9 +58,11 @@ inline std::string LevelToString(LogLevel level)
             return "ERROR";
         case LogLevel::Debug:
             return "DEBUG";
-        default:
+        case LogLevel::Off:
             return "";
     }
+
+    return "";
 }
 
 inline bool IsLeq(LogLevel a, LogLevel b)
@@ -63,7 +70,7 @@ inline bool IsLeq(LogLevel a, LogLevel b)
     return static_cast<uint8_t>(a) <= static_cast<uint8_t>(b);
 }
 
-Logger::Logger(LogLevel level) : m_level(level)
+Logger::Logger(LogLevel level) : m_level{ level }
 {
     // Do nothing
 }
@@ -74,7 +81,7 @@ Logger::~Logger()
 
     if (IsLeq(logLevel, m_level))
     {
-        auto stream = LevelToStream(m_level);
+        std::ostream* stream = LevelToStream(m_level);
         *stream << m_buffer.str() << std::endl;
         stream->flush();
     }
@@ -118,7 +125,7 @@ std::string Logging::GetHeader(LogLevel level)
         std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     char timeStr[20];
 #ifdef CUBBYFLOW_WINDOWS
-    tm time;
+    tm time{};
     localtime_s(&time, &now);
 #ifdef _MSC_VER
     strftime(timeStr, sizeof(timeStr), "%F %T", &time);

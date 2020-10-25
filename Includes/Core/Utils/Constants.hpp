@@ -310,7 +310,7 @@ constexpr int DIRECTION_NONE = 0;
 //! Left direction.
 constexpr int DIRECTION_LEFT = 1 << 0;
 
-//! RIght direction.
+//! Right direction.
 constexpr int DIRECTION_RIGHT = 1 << 1;
 
 //! Down direction.
