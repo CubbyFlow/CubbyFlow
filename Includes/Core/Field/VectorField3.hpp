@@ -26,10 +26,10 @@ class VectorField3 : public Field3
     //! Default constructor.
     VectorField3() = default;
 
-    //! Copy constructor.
+    //! Default copy constructor.
     VectorField3(const VectorField3&) = default;
 
-    //! Move constructor.
+    //! Default move constructor.
     VectorField3(VectorField3&&) noexcept = default;
 
     //! Default virtual destructor.

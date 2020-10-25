@@ -26,10 +26,10 @@ class VectorField2 : public Field2
     //! Default constructor.
     VectorField2() = default;
 
-    //! Copy constructor.
+    //! Default copy constructor.
     VectorField2(const VectorField2&) = default;
 
-    //! Move constructor.
+    //! Default move constructor.
     VectorField2(VectorField2&&) noexcept = default;
 
     //! Default virtual destructor.

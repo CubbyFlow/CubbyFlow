@@ -43,19 +43,19 @@ class Box2 final : public Surface2
     Box2(BoundingBox2D boundingBox, const Transform2& transform = Transform2{},
          bool isNormalFlipped = false);
 
-    //! Copy constructor.
+    //! Default copy constructor.
     Box2(const Box2& other) = default;
 
-    //! Move constructor.
+    //! Default move constructor.
     Box2(Box2&& other) noexcept = default;
 
     //! Default virtual destructor.
     ~Box2() override = default;
 
-    //! Copy assignment operator.
+    //! Default copy assignment operator.
     Box2& operator=(const Box2& other) = default;
 
-    //! Move assignment operator.
+    //! Default move assignment operator.
     Box2& operator=(Box2&& other) noexcept = default;
 
     //! Returns builder fox Box2.

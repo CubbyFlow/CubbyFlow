@@ -45,19 +45,19 @@ class Box3 final : public Surface3
                   const Transform3& transform = Transform3{},
                   bool isNormalFlipped = false);
 
-    //! Copy constructor.
+    //! Default copy constructor.
     Box3(const Box3& other) = default;
 
-    //! Move constructor.
+    //! Default move constructor.
     Box3(Box3&& other) noexcept = default;
 
     //! Default virtual destructor.
     ~Box3() override = default;
 
-    //! Copy assignment operator.
+    //! Default copy assignment operator.
     Box3& operator=(const Box3& other) = default;
 
-    //! Move assignment operator.
+    //! Default move assignment operator.
     Box3& operator=(Box3&& other) noexcept = default;
 
     //! Returns builder fox Box3.

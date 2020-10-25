@@ -26,10 +26,10 @@ class ScalarField2 : public Field2
     //! Default constructor.
     ScalarField2() = default;
 
-    //! Copy constructor.
+    //! Default copy constructor.
     ScalarField2(const ScalarField2&) = default;
 
-    //! Move constructor.
+    //! Default move constructor.
     ScalarField2(ScalarField2&&) noexcept = default;
 
     //! Default virtual destructor.
@@ -38,7 +38,7 @@ class ScalarField2 : public Field2
     //! Default copy assignment operator.
     ScalarField2& operator=(const ScalarField2&) = default;
 
-    //! Deafult move assignment operator.
+    //! Default move assignment operator.
     ScalarField2& operator=(ScalarField2&&) noexcept = default;
 
     //! Returns sampled value at given position \p x.
