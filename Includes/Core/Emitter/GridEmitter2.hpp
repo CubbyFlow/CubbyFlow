@@ -31,18 +31,30 @@ class GridEmitter2
     using OnBeginUpdateCallback =
         std::function<void(GridEmitter2*, double, double)>;
 
-    //! Constructs an emitter.
-    GridEmitter2();
+    //! Default constructor.
+    GridEmitter2() = default;
 
-    //! Destructor.
-    virtual ~GridEmitter2();
+    //! Default copy constructor.
+    GridEmitter2(const GridEmitter2&) = default;
+
+    //! Default move constructor.
+    GridEmitter2(GridEmitter2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~GridEmitter2() = default;
+
+    //! Default copy assignment operator.
+    GridEmitter2& operator=(const GridEmitter2&) = default;
+
+    //! Default copy assignment operator.
+    GridEmitter2& operator=(GridEmitter2&&) noexcept = default;
 
     //! Updates the emitter state from \p currentTimeInSeconds to the following
     //! time-step.
     void Update(double currentTimeInSeconds, double timeIntervalInSeconds);
 
     //! Returns true if the emitter is enabled.
-    bool GetIsEnabled() const;
+    [[nodiscard]] bool GetIsEnabled() const;
 
     //! Sets true/false to enable/disable the emitter.
     void SetIsEnabled(bool enabled);

@@ -28,12 +28,6 @@ class Ray<T, 2> final
     static_assert(std::is_floating_point<T>::value,
                   "Ray only can be instantiated with floating point types");
 
-    //! The origin of the ray.
-    Vector2<T> origin;
-
-    //! The direction of the ray.
-    Vector2<T> direction;
-
     //! Constructs an empty ray that points (1, 0) from (0, 0).
     Ray();
 
@@ -43,11 +37,26 @@ class Ray<T, 2> final
     //! Copy constructor.
     Ray(const Ray& other);
 
+    //! Move constructor.
+    Ray(Ray&& other) noexcept;
+
+    //! Default destructor.
+    ~Ray() = default;
+
     //! Copy assignment operator.
     Ray& operator=(const Ray& other);
 
+    //! Move assignment operator.
+    Ray& operator=(Ray&& other) noexcept;
+
     //! Returns a point on the ray at distance \p t.
     Vector2<T> PointAt(T t) const;
+
+    //! The origin of the ray.
+    Vector2<T> origin;
+
+    //! The direction of the ray.
+    Vector2<T> direction;
 };
 
 //! Type alias for 2-D ray.

@@ -37,7 +37,7 @@
 namespace CubbyFlow
 {
 template <typename T>
-inline Vector3<T> UniformSampleCone(T u1, T u2, const Vector3<T>& axis, T angle)
+Vector3<T> UniformSampleCone(T u1, T u2, const Vector3<T>& axis, T angle)
 {
     T cosAngle_2 = std::cos(angle / 2);
     T y = 1 - (1 - cosAngle_2) * u1;
@@ -51,7 +51,7 @@ inline Vector3<T> UniformSampleCone(T u1, T u2, const Vector3<T>& axis, T angle)
 }
 
 template <typename T>
-inline Vector3<T> UniformSampleHemisphere(T u1, T u2, const Vector3<T>& normal)
+Vector3<T> UniformSampleHemisphere(T u1, T u2, const Vector3<T>& normal)
 {
     T y = u1;
     T r = std::sqrt(std::max<T>(0, 1 - y * y));
@@ -64,8 +64,7 @@ inline Vector3<T> UniformSampleHemisphere(T u1, T u2, const Vector3<T>& normal)
 }
 
 template <typename T>
-inline Vector3<T> CosineWeightedSampleHemisphere(T u1, T u2,
-                                                 const Vector3<T>& normal)
+Vector3<T> CosineWeightedSampleHemisphere(T u1, T u2, const Vector3<T>& normal)
 {
     T phi = static_cast<T>(2.0 * PI<T>()) * u1;
     T y = std::sqrt(u2);
@@ -79,7 +78,7 @@ inline Vector3<T> CosineWeightedSampleHemisphere(T u1, T u2,
 }
 
 template <typename T>
-inline Vector3<T> UniformSampleSphere(T u1, T u2)
+Vector3<T> UniformSampleSphere(T u1, T u2)
 {
     T y = 1 - 2 * u1;
     T r = std::sqrt(std::max<T>(0, 1 - y * y));
@@ -91,7 +90,7 @@ inline Vector3<T> UniformSampleSphere(T u1, T u2)
 }
 
 template <typename T>
-inline Vector2<T> UniformSampleDisk(T u1, T u2)
+Vector2<T> UniformSampleDisk(T u1, T u2)
 {
     T r = std::sqrt(u1);
     T theta = static_cast<T>(2.0 * PI<T>()) * u2;

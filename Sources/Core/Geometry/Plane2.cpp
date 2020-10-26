@@ -12,21 +12,15 @@
 
 namespace CubbyFlow
 {
-Plane2::Plane2(const Transform2& transform_, bool isNormalFlipped_)
-    : Surface2(transform_, isNormalFlipped_)
+Plane2::Plane2(const Transform2& _transform, bool _isNormalFlipped)
+    : Surface2{ _transform, _isNormalFlipped }
 {
     // Do nothing
 }
 
-Plane2::Plane2(const Vector2D& normal_, const Vector2D& point_,
-               const Transform2& transform_, bool isNormalFlipped_)
-    : Surface2(transform_, isNormalFlipped_), normal(normal_), point(point_)
-{
-    // Do nothing
-}
-
-Plane2::Plane2(const Plane2& other)
-    : Surface2(other), normal(other.normal), point(other.point)
+Plane2::Plane2(const Vector2D& _normal, const Vector2D& _point,
+               const Transform2& _transform, bool _isNormalFlipped)
+    : Surface2{ _transform, _isNormalFlipped }, normal(_normal), point(_point)
 {
     // Do nothing
 }
@@ -38,7 +32,7 @@ bool Plane2::IsBounded() const
 
 Vector2D Plane2::ClosestPointLocal(const Vector2D& otherPoint) const
 {
-    Vector2D r = otherPoint - point;
+    const Vector2D r = otherPoint - point;
     return r - normal.Dot(r) * normal + point;
 }
 
@@ -57,12 +51,12 @@ bool Plane2::IntersectsLocal(const Ray2D& ray) const
 SurfaceRayIntersection2 Plane2::ClosestIntersectionLocal(const Ray2D& ray) const
 {
     SurfaceRayIntersection2 intersection;
-    double dDotN = ray.direction.Dot(normal);
+    const double dDotN = ray.direction.Dot(normal);
 
     // Check if not parallel
     if (std::fabs(dDotN) > 0)
     {
-        double t = normal.Dot(point - ray.origin) / dDotN;
+        const double t = normal.Dot(point - ray.origin) / dDotN;
         if (t >= 0.0)
         {
             intersection.isIntersecting = true;
@@ -78,49 +72,49 @@ SurfaceRayIntersection2 Plane2::ClosestIntersectionLocal(const Ray2D& ray) const
 BoundingBox2D Plane2::BoundingBoxLocal() const
 {
     static const double eps = std::numeric_limits<double>::epsilon();
-    static const double dmax = std::numeric_limits<double>::max();
+    static const double dMax = std::numeric_limits<double>::max();
 
-    if (std::fabs(normal.Dot(Vector2D(1, 0)) - 1.0) < eps)
+    if (std::fabs(normal.Dot(Vector2D{ 1, 0 }) - 1.0) < eps)
     {
-        return BoundingBox2D(point - Vector2D(0, dmax),
-                             point + Vector2D(0, dmax));
+        return BoundingBox2D{ point - Vector2D{ 0, dMax },
+                              point + Vector2D{ 0, dMax } };
     }
 
-    if (std::fabs(normal.Dot(Vector2D(0, 1)) - 1.0) < eps)
+    if (std::fabs(normal.Dot(Vector2D{ 0, 1 }) - 1.0) < eps)
     {
-        return BoundingBox2D(point - Vector2D(dmax, 0),
-                             point + Vector2D(dmax, 0));
+        return BoundingBox2D{ point - Vector2D{ dMax, 0 },
+                              point + Vector2D{ dMax, 0 } };
     }
 
-    return BoundingBox2D(Vector2D(dmax, dmax), Vector2D(dmax, dmax));
+    return BoundingBox2D{ Vector2D{ dMax, dMax }, Vector2D{ dMax, dMax } };
 }
 
 Plane2::Builder Plane2::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
-Plane2::Builder& Plane2::Builder::WithNormal(const Vector2D& normal)
+Plane2::Builder& Plane2::Builder::WithNormal(const Vector2D& _normal)
 {
-    m_normal = normal;
+    m_normal = _normal;
     return *this;
 }
 
-Plane2::Builder& Plane2::Builder::WithPoint(const Vector2D& point)
+Plane2::Builder& Plane2::Builder::WithPoint(const Vector2D& _point)
 {
-    m_point = point;
+    m_point = _point;
     return *this;
 }
 
 Plane2 Plane2::Builder::Build() const
 {
-    return Plane2(m_normal, m_point, m_transform, m_isNormalFlipped);
+    return Plane2{ m_normal, m_point, m_transform, m_isNormalFlipped };
 }
 
 Plane2Ptr Plane2::Builder::MakeShared() const
 {
     return std::shared_ptr<Plane2>(
-        new Plane2(m_normal, m_point, m_transform, m_isNormalFlipped),
+        new Plane2{ m_normal, m_point, m_transform, m_isNormalFlipped },
         [](Plane2* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

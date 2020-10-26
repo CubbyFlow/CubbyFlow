@@ -16,7 +16,7 @@ namespace CubbyFlow
 template <typename T>
 void ListQueryEngine3<T>::Add(const T& item)
 {
-    m_items.push_back(item);
+    m_items.emplace_back(item);
 }
 
 template <typename T>

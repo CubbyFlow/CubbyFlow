@@ -24,22 +24,35 @@ class VectorField3 : public Field3
 {
  public:
     //! Default constructor.
-    VectorField3();
+    VectorField3() = default;
 
-    //! Default destructor.
-    virtual ~VectorField3();
+    //! Default copy constructor.
+    VectorField3(const VectorField3&) = default;
+
+    //! Default move constructor.
+    VectorField3(VectorField3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~VectorField3() = default;
+
+    //! Default copy assignment operator.
+    VectorField3& operator=(const VectorField3&) = default;
+
+    //! Default move assignment operator.
+    VectorField3& operator=(VectorField3&&) noexcept = default;
 
     //! Returns sampled value at given position \p x.
-    virtual Vector3D Sample(const Vector3D& x) const = 0;
+    [[nodiscard]] virtual Vector3D Sample(const Vector3D& x) const = 0;
 
     //! Returns divergence at given position \p x.
-    virtual double Divergence(const Vector3D& x) const;
+    [[nodiscard]] virtual double Divergence(const Vector3D& x) const;
 
     //! Returns curl at given position \p x.
-    virtual Vector3D Curl(const Vector3D& x) const;
+    [[nodiscard]] virtual Vector3D Curl(const Vector3D& x) const;
 
     //! Returns sampler function object.
-    virtual std::function<Vector3D(const Vector3D&)> Sampler() const;
+    [[nodiscard]] virtual std::function<Vector3D(const Vector3D&)> Sampler()
+        const;
 };
 
 //! Shared pointer for the VectorField3 type.

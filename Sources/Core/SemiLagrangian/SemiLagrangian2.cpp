@@ -12,31 +12,22 @@
 
 namespace CubbyFlow
 {
-SemiLagrangian2::SemiLagrangian2()
-{
-    // Do nothing
-}
-
-SemiLagrangian2::~SemiLagrangian2()
-{
-    // Do nothing
-}
-
 void SemiLagrangian2::Advect(const ScalarGrid2& input, const VectorField2& flow,
                              double dt, ScalarGrid2* output,
                              const ScalarField2& boundarySDF)
 {
-    auto inputSamplerFunc = GetScalarSamplerFunc(input);
+    std::function<double(const Vector2D&)> inputSamplerFunc =
+        GetScalarSamplerFunc(input);
     double h = std::min(output->GridSpacing().x, output->GridSpacing().y);
 
-    auto inputDataPos = input.GetDataPosition();
-    auto outputDataPos = output->GetDataPosition();
-    auto outputDataAcc = output->GetDataAccessor();
+    ScalarGrid2::DataPositionFunc inputDataPos = input.GetDataPosition();
+    ScalarGrid2::DataPositionFunc outputDataPos = output->GetDataPosition();
+    ArrayAccessor<double, 2> outputDataAcc = output->GetDataAccessor();
 
     output->ParallelForEachDataPointIndex([&](size_t i, size_t j) {
         if (boundarySDF.Sample(inputDataPos(i, j)) > 0.0)
         {
-            Vector2D pt =
+            const Vector2D pt =
                 BackTrace(flow, dt, h, outputDataPos(i, j), boundarySDF);
             outputDataAcc(i, j) = inputSamplerFunc(pt);
         }
@@ -48,17 +39,21 @@ void SemiLagrangian2::Advect(const CollocatedVectorGrid2& input,
                              CollocatedVectorGrid2* output,
                              const ScalarField2& boundarySDF)
 {
-    auto inputSamplerFunc = GetVectorSamplerFunc(input);
+    std::function<Vector2D(const Vector2D&)> inputSamplerFunc =
+        GetVectorSamplerFunc(input);
     double h = std::min(output->GridSpacing().x, output->GridSpacing().y);
 
-    auto inputDataPos = input.GetDataPosition();
-    auto outputDataPos = output->GetDataPosition();
-    auto outputDataAcc = output->GetDataAccessor();
+    CollocatedVectorGrid2::DataPositionFunc inputDataPos =
+        input.GetDataPosition();
+    CollocatedVectorGrid2::DataPositionFunc outputDataPos =
+        output->GetDataPosition();
+    ArrayAccessor<Vector<double, 2>, 2> outputDataAcc =
+        output->GetDataAccessor();
 
     output->ParallelForEachDataPointIndex([&](size_t i, size_t j) {
         if (boundarySDF.Sample(inputDataPos(i, j)) > 0.0)
         {
-            Vector2D pt =
+            const Vector2D pt =
                 BackTrace(flow, dt, h, outputDataPos(i, j), boundarySDF);
             outputDataAcc(i, j) = inputSamplerFunc(pt);
         }
@@ -70,30 +65,31 @@ void SemiLagrangian2::Advect(const FaceCenteredGrid2& input,
                              FaceCenteredGrid2* output,
                              const ScalarField2& boundarySDF)
 {
-    auto inputSamplerFunc = GetVectorSamplerFunc(input);
+    std::function<Vector2D(const Vector2D&)> inputSamplerFunc =
+        GetVectorSamplerFunc(input);
     double h = std::min(output->GridSpacing().x, output->GridSpacing().y);
 
-    auto uSourceDataPos = input.GetUPosition();
-    auto uTargetDataPos = output->GetUPosition();
-    auto uTargetDataAcc = output->GetUAccessor();
+    FaceCenteredGrid2::DataPositionFunc uSourceDataPos = input.GetUPosition();
+    FaceCenteredGrid2::DataPositionFunc uTargetDataPos = output->GetUPosition();
+    ArrayAccessor<double, 2> uTargetDataAcc = output->GetUAccessor();
 
     output->ParallelForEachUIndex([&](size_t i, size_t j) {
         if (boundarySDF.Sample(uSourceDataPos(i, j)) > 0.0)
         {
-            Vector2D pt =
+            const Vector2D pt =
                 BackTrace(flow, dt, h, uTargetDataPos(i, j), boundarySDF);
             uTargetDataAcc(i, j) = inputSamplerFunc(pt).x;
         }
     });
 
-    auto vSourceDataPos = input.GetVPosition();
-    auto vTargetDataPos = output->GetVPosition();
-    auto vTargetDataAcc = output->GetVAccessor();
+    FaceCenteredGrid2::DataPositionFunc vSourceDataPos = input.GetVPosition();
+    FaceCenteredGrid2::DataPositionFunc vTargetDataPos = output->GetVPosition();
+    ArrayAccessor<double, 2> vTargetDataAcc = output->GetVAccessor();
 
     output->ParallelForEachVIndex([&](size_t i, size_t j) {
         if (boundarySDF.Sample(vSourceDataPos(i, j)) > 0.0)
         {
-            Vector2D pt =
+            const Vector2D pt =
                 BackTrace(flow, dt, h, vTargetDataPos(i, j), boundarySDF);
             vTargetDataAcc(i, j) = inputSamplerFunc(pt).y;
         }
@@ -112,7 +108,7 @@ Vector2D SemiLagrangian2::BackTrace(const VectorField2& flow, double dt,
     {
         // Adaptive time-stepping
         Vector2D vel0 = flow.Sample(pt0);
-        double numSubSteps =
+        const double numSubSteps =
             std::max(std::ceil(vel0.Length() * remainingT / h), 1.0);
         dt = remainingT / numSubSteps;
 
@@ -122,12 +118,13 @@ Vector2D SemiLagrangian2::BackTrace(const VectorField2& flow, double dt,
         pt1 = pt0 - dt * midVel;
 
         // Boundary handling
-        double phi0 = boundarySDF.Sample(pt0);
-        double phi1 = boundarySDF.Sample(pt1);
+        const double phi0 = boundarySDF.Sample(pt0);
+        const double phi1 = boundarySDF.Sample(pt1);
 
         if (phi0 * phi1 < 0.0)
         {
-            double w = std::fabs(phi1) / (std::fabs(phi0) + std::fabs(phi1));
+            const double w =
+                std::fabs(phi1) / (std::fabs(phi0) + std::fabs(phi1));
             pt1 = w * pt0 + (1.0 - w) * pt1;
             break;
         }

@@ -30,7 +30,7 @@ inline double SolveQuadNearBoundary(const Array2<char>& markers,
     UNUSED_VARIABLE(markers);
     UNUSED_VARIABLE(invGridSpacingSqr);
 
-    Size2 size = output.size();
+    const Size2 size = output.size();
 
     bool hasX = false;
     double phiX = std::numeric_limits<double>::max();
@@ -76,10 +76,10 @@ inline double SolveQuadNearBoundary(const Array2<char>& markers,
 
     assert(hasX || hasY);
 
-    double distToBndX = gridSpacing.x * std::abs(output(i, j)) /
-                        (std::abs(output(i, j)) + std::abs(phiX));
-    double distToBndY = gridSpacing.y * std::abs(output(i, j)) /
-                        (std::abs(output(i, j)) + std::abs(phiY));
+    const double distToBndX = gridSpacing.x * std::abs(output(i, j)) /
+                              (std::abs(output(i, j)) + std::abs(phiX));
+    const double distToBndY = gridSpacing.y * std::abs(output(i, j)) /
+                              (std::abs(output(i, j)) + std::abs(phiY));
 
     double denomSqr = 0.0;
 
@@ -92,7 +92,7 @@ inline double SolveQuadNearBoundary(const Array2<char>& markers,
         denomSqr += 1.0 / Square(distToBndY);
     }
 
-    double solution = 1.0 / std::sqrt(denomSqr);
+    const double solution = 1.0 / std::sqrt(denomSqr);
 
     return sign * solution;
 }
@@ -102,7 +102,7 @@ inline double SolveQuad(const Array2<char>& markers,
                         const Vector2D& gridSpacing,
                         const Vector2D& invGridSpacingSqr, size_t i, size_t j)
 {
-    Size2 size = output.size();
+    const Size2 size = output.size();
 
     bool hasX = false;
     double phiX = std::numeric_limits<double>::max();
@@ -178,7 +178,7 @@ inline double SolveQuad(const Array2<char>& markers,
         c += Square(phiY) * invGridSpacingSqr.y;
     }
 
-    double det = b * b - a * c;
+    const double det = b * b - a * c;
 
     if (det > 0.0)
     {
@@ -188,26 +188,22 @@ inline double SolveQuad(const Array2<char>& markers,
     return solution;
 }
 
-FMMLevelSetSolver2::FMMLevelSetSolver2()
-{
-    // Do nothing
-}
-
 void FMMLevelSetSolver2::Reinitialize(const ScalarGrid2& inputSDF,
                                       double maxDistance,
                                       ScalarGrid2* outputSDF)
 {
     if (!inputSDF.HasSameShape(*outputSDF))
     {
-        throw std::invalid_argument(
-            "inputSDF and outputSDF have not same shape.");
+        throw std::invalid_argument{
+            "inputSDF and outputSDF have not same shape."
+        };
     }
 
     Size2 size = inputSDF.GetDataSize();
     Vector2D gridSpacing = inputSDF.GridSpacing();
-    Vector2D invGridSpacing = 1.0 / gridSpacing;
+    const Vector2D invGridSpacing = 1.0 / gridSpacing;
     Vector2D invGridSpacingSqr = invGridSpacing * invGridSpacing;
-    Array2<char> markers(size);
+    Array2<char> markers{ size };
 
     auto output = outputSDF->GetDataAccessor();
 
@@ -272,11 +268,11 @@ void FMMLevelSetSolver2::Reinitialize(const ScalarGrid2& inputSDF,
         // Propagate
         while (!trial.empty())
         {
-            Point2UI idx = trial.top();
+            const Point2UI idx = trial.top();
             trial.pop();
 
-            size_t i = idx.x;
-            size_t j = idx.y;
+            const size_t i = idx.x;
+            const size_t j = idx.y;
 
             markers(i, j) = KNOWN;
             output(i, j) = SolveQuad(markers, output, gridSpacing,
@@ -294,7 +290,7 @@ void FMMLevelSetSolver2::Reinitialize(const ScalarGrid2& inputSDF,
                     markers(i - 1, j) = TRIAL;
                     output(i - 1, j) = SolveQuad(markers, output, gridSpacing,
                                                  invGridSpacingSqr, i - 1, j);
-                    trial.push(Point2UI(i - 1, j));
+                    trial.push(Point2UI{ i - 1, j });
                 }
             }
 
@@ -305,7 +301,7 @@ void FMMLevelSetSolver2::Reinitialize(const ScalarGrid2& inputSDF,
                     markers(i + 1, j) = TRIAL;
                     output(i + 1, j) = SolveQuad(markers, output, gridSpacing,
                                                  invGridSpacingSqr, i + 1, j);
-                    trial.push(Point2UI(i + 1, j));
+                    trial.push(Point2UI{ i + 1, j });
                 }
             }
 
@@ -316,7 +312,7 @@ void FMMLevelSetSolver2::Reinitialize(const ScalarGrid2& inputSDF,
                     markers(i, j - 1) = TRIAL;
                     output(i, j - 1) = SolveQuad(markers, output, gridSpacing,
                                                  invGridSpacingSqr, i, j - 1);
-                    trial.push(Point2UI(i, j - 1));
+                    trial.push(Point2UI{ i, j - 1 });
                 }
             }
 
@@ -327,7 +323,7 @@ void FMMLevelSetSolver2::Reinitialize(const ScalarGrid2& inputSDF,
                     markers(i, j + 1) = TRIAL;
                     output(i, j + 1) = SolveQuad(markers, output, gridSpacing,
                                                  invGridSpacingSqr, i, j + 1);
-                    trial.push(Point2UI(i, j + 1));
+                    trial.push(Point2UI{ i, j + 1 });
                 }
             }
         }
@@ -344,10 +340,10 @@ void FMMLevelSetSolver2::Extrapolate(const ScalarGrid2& input,
 {
     if (!input.HasSameShape(*output))
     {
-        throw std::invalid_argument("input and output have not same shape.");
+        throw std::invalid_argument{ "input and output have not same shape." };
     }
 
-    Array2<double> sdfGrid(input.GetDataSize());
+    Array2<double> sdfGrid{ input.GetDataSize() };
     auto pos = input.GetDataPosition();
     sdfGrid.ParallelForEachIndex(
         [&](size_t i, size_t j) { sdfGrid(i, j) = sdf.Sample(pos(i, j)); });
@@ -363,20 +359,20 @@ void FMMLevelSetSolver2::Extrapolate(const CollocatedVectorGrid2& input,
 {
     if (!input.HasSameShape(*output))
     {
-        throw std::invalid_argument("input and output have not same shape.");
+        throw std::invalid_argument{ "input and output have not same shape." };
     }
 
-    Array2<double> sdfGrid(input.GetDataSize());
+    Array2<double> sdfGrid{ input.GetDataSize() };
     auto pos = input.GetDataPosition();
     sdfGrid.ParallelForEachIndex(
         [&](size_t i, size_t j) { sdfGrid(i, j) = sdf.Sample(pos(i, j)); });
 
     const Vector2D gridSpacing = input.GridSpacing();
 
-    Array2<double> u(input.GetDataSize());
-    Array2<double> u0(input.GetDataSize());
-    Array2<double> v(input.GetDataSize());
-    Array2<double> v0(input.GetDataSize());
+    Array2<double> u{ input.GetDataSize() };
+    Array2<double> u0{ input.GetDataSize() };
+    Array2<double> v{ input.GetDataSize() };
+    Array2<double> v0{ input.GetDataSize() };
 
     input.ParallelForEachDataPointIndex([&](size_t i, size_t j) {
         u(i, j) = input(i, j).x;
@@ -399,23 +395,24 @@ void FMMLevelSetSolver2::Extrapolate(const FaceCenteredGrid2& input,
 {
     if (!input.HasSameShape(*output))
     {
-        throw std::invalid_argument(
-            "inputSDF and outputSDF have not same shape.");
+        throw std::invalid_argument{
+            "inputSDF and outputSDF have not same shape."
+        };
     }
 
-    const Vector2D gridSpacing = input.GridSpacing();
+    const Vector2D& gridSpacing = input.GridSpacing();
 
-    auto u = input.GetUConstAccessor();
+    const ConstArrayAccessor2<double> u = input.GetUConstAccessor();
     auto uPos = input.GetUPosition();
-    Array2<double> sdfAtU(u.size());
+    Array2<double> sdfAtU{ u.size() };
     input.ParallelForEachUIndex(
         [&](size_t i, size_t j) { sdfAtU(i, j) = sdf.Sample(uPos(i, j)); });
 
     Extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->GetUAccessor());
 
-    auto v = input.GetVConstAccessor();
+    const ConstArrayAccessor2<double> v = input.GetVConstAccessor();
     auto vPos = input.GetVPosition();
-    Array2<double> sdfAtV(v.size());
+    Array2<double> sdfAtV{ v.size() };
     input.ParallelForEachVIndex(
         [&](size_t i, size_t j) { sdfAtV(i, j) = sdf.Sample(vPos(i, j)); });
 
@@ -429,10 +426,10 @@ void FMMLevelSetSolver2::Extrapolate(const ConstArrayAccessor2<double>& input,
                                      ArrayAccessor2<double> output)
 {
     Size2 size = input.size();
-    Vector2D invGridSpacing = 1.0 / gridSpacing;
+    const Vector2D invGridSpacing = 1.0 / gridSpacing;
 
     // Build markers
-    Array2<char> markers(size, UNKNOWN);
+    Array2<char> markers{ size, UNKNOWN };
     markers.ParallelForEachIndex([&](size_t i, size_t j) {
         if (IsInsideSDF(sdf(i, j)))
         {
@@ -456,28 +453,28 @@ void FMMLevelSetSolver2::Extrapolate(const ConstArrayAccessor2<double>& input,
 
         if (i > 0 && markers(i - 1, j) == KNOWN)
         {
-            trial.push(Point2UI(i, j));
+            trial.push(Point2UI{ i, j });
             markers(i, j) = TRIAL;
             return;
         }
 
         if (i + 1 < size.x && markers(i + 1, j) == KNOWN)
         {
-            trial.push(Point2UI(i, j));
+            trial.push(Point2UI{ i, j });
             markers(i, j) = TRIAL;
             return;
         }
 
         if (j > 0 && markers(i, j - 1) == KNOWN)
         {
-            trial.push(Point2UI(i, j));
+            trial.push(Point2UI{ i, j });
             markers(i, j) = TRIAL;
             return;
         }
 
         if (j + 1 < size.y && markers(i, j + 1) == KNOWN)
         {
-            trial.push(Point2UI(i, j));
+            trial.push(Point2UI{ i, j });
             markers(i, j) = TRIAL;
             return;
         }
@@ -486,11 +483,11 @@ void FMMLevelSetSolver2::Extrapolate(const ConstArrayAccessor2<double>& input,
     // Propagate
     while (!trial.empty())
     {
-        Point2UI idx = trial.top();
+        const Point2UI idx = trial.top();
         trial.pop();
 
-        size_t i = idx.x;
-        size_t j = idx.y;
+        const size_t i = idx.x;
+        const size_t j = idx.y;
 
         if (sdf(i, j) > maxDistance)
         {
@@ -520,7 +517,7 @@ void FMMLevelSetSolver2::Extrapolate(const ConstArrayAccessor2<double>& input,
             else if (markers(i - 1, j) == UNKNOWN)
             {
                 markers(i - 1, j) = TRIAL;
-                trial.push(Point2UI(i - 1, j));
+                trial.push(Point2UI{ i - 1, j });
             }
         }
 
@@ -542,7 +539,7 @@ void FMMLevelSetSolver2::Extrapolate(const ConstArrayAccessor2<double>& input,
             else if (markers(i + 1, j) == UNKNOWN)
             {
                 markers(i + 1, j) = TRIAL;
-                trial.push(Point2UI(i + 1, j));
+                trial.push(Point2UI{ i + 1, j });
             }
         }
 
@@ -564,7 +561,7 @@ void FMMLevelSetSolver2::Extrapolate(const ConstArrayAccessor2<double>& input,
             else if (markers(i, j - 1) == UNKNOWN)
             {
                 markers(i, j - 1) = TRIAL;
-                trial.push(Point2UI(i, j - 1));
+                trial.push(Point2UI{ i, j - 1 });
             }
         }
 
@@ -586,7 +583,7 @@ void FMMLevelSetSolver2::Extrapolate(const ConstArrayAccessor2<double>& input,
             else if (markers(i, j + 1) == UNKNOWN)
             {
                 markers(i, j + 1) = TRIAL;
-                trial.push(Point2UI(i, j + 1));
+                trial.push(Point2UI{ i, j + 1 });
             }
         }
 

@@ -31,7 +31,7 @@ namespace CubbyFlow
 //! to add more sophisticated simulations, such as SPH, to handle
 //! particle-to-particle intersection.
 //!
-//! \see        SphSolver2
+//! \see        SPHSolver2
 //!
 class ParticleSystemSolver2 : public PhysicsAnimation
 {
@@ -44,11 +44,23 @@ class ParticleSystemSolver2 : public PhysicsAnimation
     //! Constructs a solver with particle parameters.
     ParticleSystemSolver2(double radius, double mass);
 
-    //! Destructor.
-    virtual ~ParticleSystemSolver2();
+    //! Deleted copy constructor.
+    ParticleSystemSolver2(const ParticleSystemSolver2&) = delete;
+
+    //! Deleted move constructor.
+    ParticleSystemSolver2(ParticleSystemSolver2&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~ParticleSystemSolver2() override = default;
+
+    //! Deleted copy assignment operator.
+    ParticleSystemSolver2& operator=(const ParticleSystemSolver2&) = delete;
+
+    //! Deleted move assignment operator.
+    ParticleSystemSolver2& operator=(ParticleSystemSolver2&&) noexcept = delete;
 
     //! Returns the drag coefficient.
-    double GetDragCoefficient() const;
+    [[nodiscard]] double GetDragCoefficient() const;
 
     //!
     //! \brief      Sets the drag coefficient.
@@ -61,7 +73,7 @@ class ParticleSystemSolver2 : public PhysicsAnimation
     void SetDragCoefficient(double newDragCoefficient);
 
     //! Gets the restitution coefficient.
-    double GetRestitutionCoefficient() const;
+    [[nodiscard]] double GetRestitutionCoefficient() const;
 
     //!
     //! \brief      Sets the restitution coefficient.
@@ -75,7 +87,7 @@ class ParticleSystemSolver2 : public PhysicsAnimation
     void SetRestitutionCoefficient(double newRestitutionCoefficient);
 
     //! Returns the gravity.
-    const Vector2D& GetGravity() const;
+    [[nodiscard]] const Vector2D& GetGravity() const;
 
     //! Sets the gravity.
     void SetGravity(const Vector2D& newGravity);
@@ -88,22 +100,22 @@ class ParticleSystemSolver2 : public PhysicsAnimation
     //!
     //! \return     The particle system data.
     //!
-    const ParticleSystemData2Ptr& GetParticleSystemData() const;
+    [[nodiscard]] const ParticleSystemData2Ptr& GetParticleSystemData() const;
 
     //! Returns the collider.
-    const Collider2Ptr& GetCollider() const;
+    [[nodiscard]] const Collider2Ptr& GetCollider() const;
 
     //! Sets the collider.
     void SetCollider(const Collider2Ptr& newCollider);
 
     //! Returns the emitter.
-    const ParticleEmitter2Ptr& GetEmitter() const;
+    [[nodiscard]] const ParticleEmitter2Ptr& GetEmitter() const;
 
     //! Sets the emitter.
     void SetEmitter(const ParticleEmitter2Ptr& newEmitter);
 
     //! Returns the wind field.
-    const VectorField2Ptr& GetWind() const;
+    [[nodiscard]] const VectorField2Ptr& GetWind() const;
 
     //!
     //! \brief      Sets the wind.
@@ -116,7 +128,7 @@ class ParticleSystemSolver2 : public PhysicsAnimation
     void SetWind(const VectorField2Ptr& newWind);
 
     //! Returns builder fox ParticleSystemSolver2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  protected:
     //! Initializes the simulator.
@@ -146,17 +158,6 @@ class ParticleSystemSolver2 : public PhysicsAnimation
     void SetParticleSystemData(const ParticleSystemData2Ptr& newParticles);
 
  private:
-    double m_dragCoefficient = 1e-4;
-    double m_restitutionCoefficient = 0.0;
-    Vector2D m_gravity = Vector2D(0.0, GRAVITY);
-
-    ParticleSystemData2Ptr m_particleSystemData;
-    ParticleSystemData2::VectorData m_newPositions;
-    ParticleSystemData2::VectorData m_newVelocities;
-    Collider2Ptr m_collider;
-    ParticleEmitter2Ptr m_emitter;
-    VectorField2Ptr m_wind;
-
     void BeginAdvanceTimeStep(double timeStepInSeconds);
 
     void EndAdvanceTimeStep(double timeStepInSeconds);
@@ -168,6 +169,17 @@ class ParticleSystemSolver2 : public PhysicsAnimation
     void UpdateCollider(double timeStepInSeconds) const;
 
     void UpdateEmitter(double timeStepInSeconds) const;
+
+    double m_dragCoefficient = 1e-4;
+    double m_restitutionCoefficient = 0.0;
+    Vector2D m_gravity = Vector2D{ 0.0, GRAVITY };
+
+    ParticleSystemData2Ptr m_particleSystemData;
+    ParticleSystemData2::VectorData m_newPositions;
+    ParticleSystemData2::VectorData m_newVelocities;
+    Collider2Ptr m_collider;
+    ParticleEmitter2Ptr m_emitter;
+    VectorField2Ptr m_wind;
 };
 
 //! Shared pointer type for the ParticleSystemSolver2.
@@ -181,10 +193,10 @@ class ParticleSystemSolverBuilderBase2
 {
  public:
     //! Returns builder with particle radius.
-    DerivedBuilder& WithRadius(double radius);
+    [[nodiscard]] DerivedBuilder& WithRadius(double radius);
 
     //! Returns builder with mass per particle.
-    DerivedBuilder& WithMass(double mass);
+    [[nodiscard]] DerivedBuilder& WithMass(double mass);
 
  protected:
     double m_radius = 1e-3;
@@ -209,14 +221,14 @@ T& ParticleSystemSolverBuilderBase2<T>::WithMass(double mass)
 //! \brief Front-end to create ParticleSystemSolver2 objects step by step.
 //!
 class ParticleSystemSolver2::Builder final
-    : public ParticleSystemSolverBuilderBase2<ParticleSystemSolver2::Builder>
+    : public ParticleSystemSolverBuilderBase2<Builder>
 {
  public:
     //! Builds ParticleSystemSolver2.
-    ParticleSystemSolver2 Build() const;
+    [[nodiscard]] ParticleSystemSolver2 Build() const;
 
     //! Builds shared pointer of ParticleSystemSolver2 instance.
-    ParticleSystemSolver2Ptr MakeShared() const;
+    [[nodiscard]] ParticleSystemSolver2Ptr MakeShared() const;
 };
 }  // namespace CubbyFlow
 

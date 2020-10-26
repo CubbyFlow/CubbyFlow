@@ -11,48 +11,39 @@
 #include <Core/Geometry/Box2.hpp>
 #include <Core/Geometry/Plane2.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
-Box2::Box2(const Transform2& transform, bool isNormalFlipped)
-    : Surface2(transform, isNormalFlipped)
+Box2::Box2(const Transform2& _transform, bool _isNormalFlipped)
+    : Surface2{ _transform, _isNormalFlipped }
 {
     // Do nothing
 }
 
 Box2::Box2(const Vector2D& lowerCorner, const Vector2D& upperCorner,
-           const Transform2& transform, bool isNormalFlipped)
-    : Box2(BoundingBox2D(lowerCorner, upperCorner), transform, isNormalFlipped)
+           const Transform2& _transform, bool _isNormalFlipped)
+    : Box2{ BoundingBox2D{ lowerCorner, upperCorner }, _transform,
+            _isNormalFlipped }
 {
     // Do nothing
 }
 
-Box2::Box2(const BoundingBox2D& boundingBox, const Transform2& transform,
-           bool isNormalFlipped)
-    : Surface2(transform, isNormalFlipped), bound(boundingBox)
+Box2::Box2(BoundingBox2D boundingBox, const Transform2& _transform,
+           bool _isNormalFlipped)
+    : Surface2{ _transform, _isNormalFlipped }, bound(std::move(boundingBox))
 {
     // Do nothing
-}
-
-Box2::Box2(const Box2& other) : Surface2(other), bound(other.bound)
-{
-    // Do nothing
-}
-
-Box2& Box2::operator=(const Box2& other)
-{
-    bound = other.bound;
-
-    return *this;
 }
 
 Vector2D Box2::ClosestPointLocal(const Vector2D& otherPoint) const
 {
     if (bound.Contains(otherPoint))
     {
-        Plane2 planes[4] = { Plane2(Vector2D(1, 0), bound.upperCorner),
-                             Plane2(Vector2D(0, 1), bound.upperCorner),
-                             Plane2(Vector2D(-1, 0), bound.lowerCorner),
-                             Plane2(Vector2D(0, -1), bound.lowerCorner) };
+        Plane2 planes[4] = { Plane2{ Vector2D{ 1, 0 }, bound.upperCorner },
+                             Plane2{ Vector2D{ 0, 1 }, bound.upperCorner },
+                             Plane2{ Vector2D{ -1, 0 }, bound.lowerCorner },
+                             Plane2{ Vector2D{ 0, -1 }, bound.lowerCorner } };
 
         Vector2D result = planes[0].ClosestPoint(otherPoint);
         double distanceSquared = result.DistanceSquaredTo(otherPoint);
@@ -60,7 +51,7 @@ Vector2D Box2::ClosestPointLocal(const Vector2D& otherPoint) const
         for (int i = 1; i < 4; ++i)
         {
             Vector2D localResult = planes[i].ClosestPoint(otherPoint);
-            double localDistanceSquared =
+            const double localDistanceSquared =
                 localResult.DistanceSquaredTo(otherPoint);
 
             if (localDistanceSquared < distanceSquared)
@@ -78,21 +69,21 @@ Vector2D Box2::ClosestPointLocal(const Vector2D& otherPoint) const
 
 Vector2D Box2::ClosestNormalLocal(const Vector2D& otherPoint) const
 {
-    Plane2 planes[4] = { Plane2(Vector2D(1, 0), bound.upperCorner),
-                         Plane2(Vector2D(0, 1), bound.upperCorner),
-                         Plane2(Vector2D(-1, 0), bound.lowerCorner),
-                         Plane2(Vector2D(0, -1), bound.lowerCorner) };
+    Plane2 planes[4] = { Plane2{ Vector2D{ 1, 0 }, bound.upperCorner },
+                         Plane2{ Vector2D{ 0, 1 }, bound.upperCorner },
+                         Plane2{ Vector2D{ -1, 0 }, bound.lowerCorner },
+                         Plane2{ Vector2D{ 0, -1 }, bound.lowerCorner } };
 
     if (bound.Contains(otherPoint))
     {
         Vector2D closestNormal = planes[0].normal;
-        Vector2D closestPoint = planes[0].ClosestPoint(otherPoint);
+        const Vector2D closestPoint = planes[0].ClosestPoint(otherPoint);
         double minDistanceSquared = (closestPoint - otherPoint).LengthSquared();
 
         for (int i = 1; i < 4; ++i)
         {
             Vector2D localClosestPoint = planes[i].ClosestPoint(otherPoint);
-            double localDistanceSquared =
+            const double localDistanceSquared =
                 (localClosestPoint - otherPoint).LengthSquared();
 
             if (localDistanceSquared < minDistanceSquared)
@@ -105,15 +96,16 @@ Vector2D Box2::ClosestNormalLocal(const Vector2D& otherPoint) const
         return closestNormal;
     }
 
-    Vector2D closestPoint =
+    const Vector2D closestPoint =
         Clamp(otherPoint, bound.lowerCorner, bound.upperCorner);
-    Vector2D closestPointToInputPoint = otherPoint - closestPoint;
+    const Vector2D closestPointToInputPoint = otherPoint - closestPoint;
     Vector2D closestNormal = planes[0].normal;
     double maxCosineAngle = closestNormal.Dot(closestPointToInputPoint);
 
     for (int i = 1; i < 4; ++i)
     {
-        double cosineAngle = planes[i].normal.Dot(closestPointToInputPoint);
+        const double cosineAngle =
+            planes[i].normal.Dot(closestPointToInputPoint);
 
         if (cosineAngle > maxCosineAngle)
         {
@@ -133,7 +125,7 @@ bool Box2::IntersectsLocal(const Ray2D& ray) const
 SurfaceRayIntersection2 Box2::ClosestIntersectionLocal(const Ray2D& ray) const
 {
     SurfaceRayIntersection2 intersection;
-    BoundingBoxRayIntersection2D bbRayIntersection =
+    const BoundingBoxRayIntersection2D bbRayIntersection =
         bound.ClosestIntersection(ray);
     intersection.isIntersecting = bbRayIntersection.isIntersecting;
 
@@ -154,7 +146,7 @@ BoundingBox2D Box2::BoundingBoxLocal() const
 
 Box2::Builder Box2::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 Box2::Builder& Box2::Builder::WithLowerCorner(const Vector2D& pt)
@@ -178,13 +170,13 @@ Box2::Builder& Box2::Builder::WithBoundingBox(const BoundingBox2D& bbox)
 
 Box2 Box2::Builder::Build() const
 {
-    return Box2(m_lowerCorner, m_upperCorner, m_transform, m_isNormalFlipped);
+    return Box2{ m_lowerCorner, m_upperCorner, m_transform, m_isNormalFlipped };
 }
 
 Box2Ptr Box2::Builder::MakeShared() const
 {
-    return std::shared_ptr<Box2>(
-        new Box2(m_lowerCorner, m_upperCorner, m_transform, m_isNormalFlipped),
-        [](Box2* obj) { delete obj; });
+    return std::shared_ptr<Box2>(new Box2{ m_lowerCorner, m_upperCorner,
+                                           m_transform, m_isNormalFlipped },
+                                 [](Box2* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

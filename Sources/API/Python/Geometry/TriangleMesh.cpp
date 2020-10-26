@@ -335,7 +335,7 @@ void AddTriangleMesh3(pybind11::module& m)
         .def(
             "WriteObj",
             [](const TriangleMesh3& instance, const std::string& fileName) {
-                instance.WriteObj(fileName);
+                [[maybe_unused]] bool isSaved = instance.WriteObj(fileName);
             },
             R"pbdoc(
 			Writes the mesh in obj format to the file.
@@ -344,7 +344,7 @@ void AddTriangleMesh3(pybind11::module& m)
         .def(
             "ReadObj",
             [](TriangleMesh3& instance, const std::string& fileName) {
-                instance.ReadObj(fileName);
+                [[maybe_unused]] bool isLoaded = instance.ReadObj(fileName);
             },
             R"pbdoc(
 			Reads the mesh in obj format from the file.

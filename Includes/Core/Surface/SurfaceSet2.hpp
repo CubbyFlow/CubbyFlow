@@ -31,65 +31,77 @@ class SurfaceSet2 final : public Surface2
     class Builder;
 
     //! Constructs an empty surface set.
-    SurfaceSet2();
+    SurfaceSet2() = default;
 
     //! Constructs with a list of other surfaces.
-    explicit SurfaceSet2(const std::vector<Surface2Ptr>& others,
-                         const Transform2& transform = Transform2(),
-                         bool isNormalFlipped = false);
+    explicit SurfaceSet2(std::vector<Surface2Ptr> others,
+                         const Transform2& _transform = Transform2{},
+                         bool _isNormalFlipped = false);
 
     //! Copy constructor.
     SurfaceSet2(const SurfaceSet2& other);
 
+    //! Move constructor.
+    SurfaceSet2(SurfaceSet2&& other) noexcept;
+
+    //! Default virtual destructor.
+    ~SurfaceSet2() override = default;
+
     //! Copy assignment operator.
     SurfaceSet2& operator=(const SurfaceSet2& other);
+
+    //! Default move assignment operator.
+    SurfaceSet2& operator=(SurfaceSet2&&) = default;
 
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;
 
     //! Returns true if bounding box can be defined.
-    bool IsBounded() const override;
+    [[nodiscard]] bool IsBounded() const override;
 
     //! Returns true if the surface is a valid geometry.
-    bool IsValidGeometry() const override;
+    [[nodiscard]] bool IsValidGeometry() const override;
 
     //! Returns the number of surfaces.
-    size_t NumberOfSurfaces() const;
+    [[nodiscard]] size_t NumberOfSurfaces() const;
 
     //! Returns the i-th surface.
-    const Surface2Ptr& SurfaceAt(size_t i) const;
+    [[nodiscard]] const Surface2Ptr& SurfaceAt(size_t i) const;
 
     //! Adds a surface instance.
     void AddSurface(const Surface2Ptr& surface);
 
     //! Returns builder for SurfaceSet2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
-    std::vector<Surface2Ptr> m_surfaces;
-    std::vector<Surface2Ptr> m_unboundedSurfaces;
-    mutable BVH2<Surface2Ptr> m_bvh;
-    mutable bool m_bvhInvalidated = true;
-
     // Surface2 implementations
-    Vector2D ClosestPointLocal(const Vector2D& otherPoint) const override;
+    [[nodiscard]] Vector2D ClosestPointLocal(
+        const Vector2D& otherPoint) const override;
 
-    BoundingBox2D BoundingBoxLocal() const override;
+    [[nodiscard]] BoundingBox2D BoundingBoxLocal() const override;
 
-    double ClosestDistanceLocal(const Vector2D& otherPoint) const override;
+    [[nodiscard]] double ClosestDistanceLocal(
+        const Vector2D& otherPoint) const override;
 
-    bool IntersectsLocal(const Ray2D& ray) const override;
+    [[nodiscard]] bool IntersectsLocal(const Ray2D& ray) const override;
 
-    Vector2D ClosestNormalLocal(const Vector2D& otherPoint) const override;
+    [[nodiscard]] Vector2D ClosestNormalLocal(
+        const Vector2D& otherPoint) const override;
 
-    SurfaceRayIntersection2 ClosestIntersectionLocal(
+    [[nodiscard]] SurfaceRayIntersection2 ClosestIntersectionLocal(
         const Ray2D& ray) const override;
 
-    bool IsInsideLocal(const Vector2D& otherPoint) const override;
+    [[nodiscard]] bool IsInsideLocal(const Vector2D& otherPoint) const override;
 
     void InvalidateBVH() const;
 
     void BuildBVH() const;
+
+    std::vector<Surface2Ptr> m_surfaces;
+    std::vector<Surface2Ptr> m_unboundedSurfaces;
+    mutable BVH2<Surface2Ptr> m_bvh;
+    mutable bool m_bvhInvalidated = true;
 };
 
 //! Shared pointer for the SurfaceSet2 type.
@@ -98,18 +110,17 @@ using SurfaceSet2Ptr = std::shared_ptr<SurfaceSet2>;
 //!
 //! \brief Front-end to create SurfaceSet2 objects step by step.
 //!
-class SurfaceSet2::Builder final
-    : public SurfaceBuilderBase2<SurfaceSet2::Builder>
+class SurfaceSet2::Builder final : public SurfaceBuilderBase2<Builder>
 {
  public:
     //! Returns builder with other surfaces.
-    Builder& WithSurfaces(const std::vector<Surface2Ptr>& others);
+    [[nodiscard]] Builder& WithSurfaces(const std::vector<Surface2Ptr>& others);
 
     //! Builds SurfaceSet2.
-    SurfaceSet2 Build() const;
+    [[nodiscard]] SurfaceSet2 Build() const;
 
     //! Builds shared pointer of SurfaceSet2 instance.
-    SurfaceSet2Ptr MakeShared() const;
+    [[nodiscard]] SurfaceSet2Ptr MakeShared() const;
 
  private:
     std::vector<Surface2Ptr> m_surfaces;

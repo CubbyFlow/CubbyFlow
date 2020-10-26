@@ -32,48 +32,61 @@ class SurfaceToImplicit3 final : public ImplicitSurface3
     class Builder;
 
     //! Constructs an instance with generic Surface3 instance.
-    SurfaceToImplicit3(const Surface3Ptr& surface,
-                       const Transform3& transform = Transform3(),
-                       bool isNormalFlipped = false);
+    explicit SurfaceToImplicit3(const Surface3Ptr& surface,
+                                const Transform3& _transform = Transform3{},
+                                bool _isNormalFlipped = false);
 
-    //! Copy constructor.
-    SurfaceToImplicit3(const SurfaceToImplicit3& other);
+    //! Default copy constructor.
+    SurfaceToImplicit3(const SurfaceToImplicit3&) = default;
+
+    //! Default move constructor.
+    SurfaceToImplicit3(SurfaceToImplicit3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~SurfaceToImplicit3() override = default;
 
     //! Default copy assignment operator.
-    SurfaceToImplicit3& operator=(const SurfaceToImplicit3& other) = default;
+    SurfaceToImplicit3& operator=(const SurfaceToImplicit3&) = default;
+
+    //! Default move assignment operator.
+    SurfaceToImplicit3& operator=(SurfaceToImplicit3&&) = default;
 
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;
 
     //! Returns true if bounding box can be defined.
-    bool IsBounded() const override;
+    [[nodiscard]] bool IsBounded() const override;
 
     //! Returns true if the surface is a valid geometry.
-    bool IsValidGeometry() const override;
+    [[nodiscard]] bool IsValidGeometry() const override;
 
     //! Returns the raw surface instance.
-    Surface3Ptr GetSurface() const;
+    [[nodiscard]] Surface3Ptr GetSurface() const;
 
     //! Returns builder for SurfaceToImplicit3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  protected:
-    Vector3D ClosestPointLocal(const Vector3D& otherPoint) const override;
+    [[nodiscard]] Vector3D ClosestPointLocal(
+        const Vector3D& otherPoint) const override;
 
-    double ClosestDistanceLocal(const Vector3D& otherPoint) const override;
+    [[nodiscard]] double ClosestDistanceLocal(
+        const Vector3D& otherPoint) const override;
 
-    bool IntersectsLocal(const Ray3D& ray) const override;
+    [[nodiscard]] bool IntersectsLocal(const Ray3D& ray) const override;
 
-    BoundingBox3D BoundingBoxLocal() const override;
+    [[nodiscard]] BoundingBox3D BoundingBoxLocal() const override;
 
-    Vector3D ClosestNormalLocal(const Vector3D& otherPoint) const override;
+    [[nodiscard]] Vector3D ClosestNormalLocal(
+        const Vector3D& otherPoint) const override;
 
-    double SignedDistanceLocal(const Vector3D& otherPoint) const override;
+    [[nodiscard]] double SignedDistanceLocal(
+        const Vector3D& otherPoint) const override;
 
-    SurfaceRayIntersection3 ClosestIntersectionLocal(
+    [[nodiscard]] SurfaceRayIntersection3 ClosestIntersectionLocal(
         const Ray3D& ray) const override;
 
-    bool IsInsideLocal(const Vector3D& otherPoint) const override;
+    [[nodiscard]] bool IsInsideLocal(const Vector3D& otherPoint) const override;
 
  private:
     Surface3Ptr m_surface;
@@ -85,18 +98,17 @@ using SurfaceToImplicit3Ptr = std::shared_ptr<SurfaceToImplicit3>;
 //!
 //! \brief Front-end to create SurfaceToImplicit3 objects step by step.
 //!
-class SurfaceToImplicit3::Builder final
-    : public SurfaceBuilderBase3<SurfaceToImplicit3::Builder>
+class SurfaceToImplicit3::Builder final : public SurfaceBuilderBase3<Builder>
 {
  public:
     //! Returns builder with surface.
-    Builder& WithSurface(const Surface3Ptr& surface);
+    [[nodiscard]] Builder& WithSurface(const Surface3Ptr& surface);
 
     //! Builds SurfaceToImplicit3.
-    SurfaceToImplicit3 Build() const;
+    [[nodiscard]] SurfaceToImplicit3 Build() const;
 
     //! Builds shared pointer of SurfaceToImplicit3 instance.
-    SurfaceToImplicit3Ptr MakeShared() const;
+    [[nodiscard]] SurfaceToImplicit3Ptr MakeShared() const;
 
  private:
     Surface3Ptr m_surface;

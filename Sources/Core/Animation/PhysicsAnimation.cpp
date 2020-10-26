@@ -20,11 +20,6 @@ PhysicsAnimation::PhysicsAnimation()
     m_currentFrame.index = -1;
 }
 
-PhysicsAnimation::~PhysicsAnimation()
-{
-    // Do nothing
-}
-
 bool PhysicsAnimation::GetIsUsingFixedSubTimeSteps() const
 {
     return m_isUsingFixedSubTimeSteps;
@@ -84,7 +79,7 @@ void PhysicsAnimation::OnUpdate(const Frame& frame)
             Initialize();
         }
 
-        int32_t numberOfFrames = frame.index - m_currentFrame.index;
+        const int32_t numberOfFrames = frame.index - m_currentFrame.index;
 
         for (int32_t i = 0; i < numberOfFrames; ++i)
         {

@@ -234,7 +234,7 @@ void RunExample3(const std::string& rootDir, size_t resX, int numberOfFrames,
     std::ifstream objFile(RESOURCES_DIR "/bunny.obj");
     if (objFile)
     {
-        bunnyMesh->ReadObj(&objFile);
+        [[maybe_unused]] bool isLoaded = bunnyMesh->ReadObj(&objFile);
     }
     else
     {
@@ -282,7 +282,7 @@ void RunExample4(const std::string& rootDir, size_t resX, int numberOfFrames,
     std::ifstream objFile(RESOURCES_DIR "/bunny.obj");
     if (objFile)
     {
-        bunnyMesh->ReadObj(&objFile);
+        [[maybe_unused]] bool isLoaded = bunnyMesh->ReadObj(&objFile);
     }
     else
     {

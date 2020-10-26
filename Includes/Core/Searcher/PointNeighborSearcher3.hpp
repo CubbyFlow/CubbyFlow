@@ -36,13 +36,26 @@ class PointNeighborSearcher3 : public Serializable
     using ForEachNearbyPointFunc = std::function<void(size_t, const Vector3D&)>;
 
     //! Default constructor.
-    PointNeighborSearcher3();
+    PointNeighborSearcher3() = default;
 
-    //! Destructor.
-    virtual ~PointNeighborSearcher3();
+    //! Default copy constructor.
+    PointNeighborSearcher3(const PointNeighborSearcher3&) = default;
+
+    //! Default move constructor.
+    PointNeighborSearcher3(PointNeighborSearcher3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~PointNeighborSearcher3() override = default;
+
+    //! Default copy assignment operator.
+    PointNeighborSearcher3& operator=(const PointNeighborSearcher3&) = default;
+
+    //! Default move assignment operator.
+    PointNeighborSearcher3& operator=(PointNeighborSearcher3&&) noexcept =
+        default;
 
     //! Returns the type name of the derived class.
-    virtual std::string TypeName() const = 0;
+    [[nodiscard]] virtual std::string TypeName() const = 0;
 
     //! Builds internal acceleration structure for given points list.
     virtual void Build(const ConstArrayAccessor1<Vector3D>& points) = 0;
@@ -68,8 +81,8 @@ class PointNeighborSearcher3 : public Serializable
     //!
     //! \return     True if has nearby point, false otherwise.
     //!
-    virtual bool HasNearbyPoint(const Vector3D& origin,
-                                double radius) const = 0;
+    [[nodiscard]] virtual bool HasNearbyPoint(const Vector3D& origin,
+                                              double radius) const = 0;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -77,7 +90,8 @@ class PointNeighborSearcher3 : public Serializable
     //!
     //! \return     Copy of this object.
     //!
-    virtual std::shared_ptr<PointNeighborSearcher3> Clone() const = 0;
+    [[nodiscard]] virtual std::shared_ptr<PointNeighborSearcher3> Clone()
+        const = 0;
 };
 
 //! Shared pointer for the PointNeighborSearcher3 type.
@@ -87,10 +101,31 @@ using PointNeighborSearcher3Ptr = std::shared_ptr<PointNeighborSearcher3>;
 class PointNeighborSearcherBuilder3
 {
  public:
-    virtual ~PointNeighborSearcherBuilder3();
+    //! Default constructor.
+    PointNeighborSearcherBuilder3() = default;
+
+    //! Default copy constructor.
+    PointNeighborSearcherBuilder3(const PointNeighborSearcherBuilder3&) =
+        default;
+
+    //! Default move constructor.
+    PointNeighborSearcherBuilder3(PointNeighborSearcherBuilder3&&) noexcept =
+        default;
+
+    //! Default virtual destructor.
+    virtual ~PointNeighborSearcherBuilder3() = default;
+
+    //! Default copy assignment operator.
+    PointNeighborSearcherBuilder3& operator=(
+        const PointNeighborSearcherBuilder3&) = default;
+
+    //! Default move assignment operator.
+    PointNeighborSearcherBuilder3& operator=(
+        PointNeighborSearcherBuilder3&&) noexcept = default;
 
     //! Returns shared pointer of PointNeighborSearcher3 type.
-    virtual PointNeighborSearcher3Ptr BuildPointNeighborSearcher() const = 0;
+    [[nodiscard]] virtual PointNeighborSearcher3Ptr BuildPointNeighborSearcher()
+        const = 0;
 };
 
 //! Shared pointer for the PointNeighborSearcherBuilder3 type.

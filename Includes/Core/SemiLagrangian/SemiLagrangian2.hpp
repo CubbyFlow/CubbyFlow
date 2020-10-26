@@ -29,9 +29,23 @@ namespace CubbyFlow
 class SemiLagrangian2 : public AdvectionSolver2
 {
  public:
-    SemiLagrangian2();
+    //! Default constructor.
+    SemiLagrangian2() = default;
 
-    virtual ~SemiLagrangian2();
+    //! Default copy constructor.
+    SemiLagrangian2(const SemiLagrangian2&) = default;
+
+    //! Default move constructor.
+    SemiLagrangian2(SemiLagrangian2&&) noexcept = default;
+
+    //! Virtual default destructor.
+    ~SemiLagrangian2() override = default;
+
+    //! Default copy assignment operator.
+    SemiLagrangian2& operator=(const SemiLagrangian2&) = default;
+
+    //! Default move assignment operator.
+    SemiLagrangian2& operator=(SemiLagrangian2&&) noexcept = default;
 
     //!
     //! \brief Computes semi-Lagrangian for given scalar grid.
@@ -115,8 +129,8 @@ class SemiLagrangian2 : public AdvectionSolver2
     //! interpolation function. Override this function to have custom
     //! interpolation for semi-Lagrangian process.
     //!
-    virtual std::function<double(const Vector2D&)> GetScalarSamplerFunc(
-        const ScalarGrid2& input) const;
+    [[nodiscard]] virtual std::function<double(const Vector2D&)>
+    GetScalarSamplerFunc(const ScalarGrid2& input) const;
 
     //!
     //! \brief Returns spatial interpolation function object for given
@@ -127,8 +141,8 @@ class SemiLagrangian2 : public AdvectionSolver2
     //! linear interpolation function. Override this function to have custom
     //! interpolation for semi-Lagrangian process.
     //!
-    virtual std::function<Vector2D(const Vector2D&)> GetVectorSamplerFunc(
-        const CollocatedVectorGrid2& input) const;
+    [[nodiscard]] virtual std::function<Vector2D(const Vector2D&)>
+    GetVectorSamplerFunc(const CollocatedVectorGrid2& input) const;
 
     //!
     //! \brief Returns spatial interpolation function object for given
@@ -139,13 +153,13 @@ class SemiLagrangian2 : public AdvectionSolver2
     //! linear interpolation function. Override this function to have custom
     //! interpolation for semi-Lagrangian process.
     //!
-    virtual std::function<Vector2D(const Vector2D&)> GetVectorSamplerFunc(
-        const FaceCenteredGrid2& input) const;
+    [[nodiscard]] virtual std::function<Vector2D(const Vector2D&)>
+    GetVectorSamplerFunc(const FaceCenteredGrid2& input) const;
 
  private:
-    Vector2D BackTrace(const VectorField2& flow, double dt, double h,
-                       const Vector2D& pt0,
-                       const ScalarField2& boundarySDF) const;
+    [[nodiscard]] Vector2D BackTrace(const VectorField2& flow, double dt,
+                                     double h, const Vector2D& startPt,
+                                     const ScalarField2& boundarySDF) const;
 };
 
 using SemiLagrangian2Ptr = std::shared_ptr<SemiLagrangian2>;

@@ -50,8 +50,24 @@ class GridFractionalSinglePhasePressureSolver2 final
     //! Default constructor.
     GridFractionalSinglePhasePressureSolver2();
 
-    //! Default destructor.
-    virtual ~GridFractionalSinglePhasePressureSolver2();
+    //! Deleted copy constructor.
+    GridFractionalSinglePhasePressureSolver2(
+        const GridFractionalSinglePhasePressureSolver2&) = delete;
+
+    //! Deleted move constructor.
+    GridFractionalSinglePhasePressureSolver2(
+        GridFractionalSinglePhasePressureSolver2&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~GridFractionalSinglePhasePressureSolver2() override = default;
+
+    //! Deleted copy assignment operator.
+    GridFractionalSinglePhasePressureSolver2& operator=(
+        const GridFractionalSinglePhasePressureSolver2&) = delete;
+
+    //! Deleted move assignment operator.
+    GridFractionalSinglePhasePressureSolver2& operator=(
+        GridFractionalSinglePhasePressureSolver2&&) noexcept = delete;
 
     //!
     //! \brief Solves the pressure term and apply it to the velocity field.
@@ -68,22 +84,22 @@ class GridFractionalSinglePhasePressureSolver2 final
     //! will be used for \p fluidSDF which means it's fully occupied with fluid
     //! without any atmosphere.
     //!
-    //! \param[in]    input                 The input velocity field.
-    //! \param[in]    timeIntervalInSeconds The time interval for the sim.
-    //! \param[inout] output                The output velocity field.
-    //! \param[in]    boundarySDF           The SDF of the boundary.
-    //! \param[in]    boundaryVelocity      The velocity of the boundary.
-    //! \param[in]    fluidSDF              The SDF of the fluid/atmosphere.
-    //! \param[in]    useCompressed         True if it uses compressed system.
+    //! \param[in]     input                 The input velocity field.
+    //! \param[in]     timeIntervalInSeconds The time interval for the sim.
+    //! \param[in,out] output                The output velocity field.
+    //! \param[in]     boundarySDF           The SDF of the boundary.
+    //! \param[in]     boundaryVelocity      The velocity of the boundary.
+    //! \param[in]     fluidSDF              The SDF of the fluid/atmosphere.
+    //! \param[in]     useCompressed         True if it uses compressed system.
     //!
     void Solve(
         const FaceCenteredGrid2& input, double timeIntervalInSeconds,
         FaceCenteredGrid2* output,
         const ScalarField2& boundarySDF =
-            ConstantScalarField2(std::numeric_limits<double>::max()),
-        const VectorField2& boundaryVelocity = ConstantVectorField2({ 0, 0 }),
+            ConstantScalarField2{ std::numeric_limits<double>::max() },
+        const VectorField2& boundaryVelocity = ConstantVectorField2{ { 0, 0 } },
         const ScalarField2& fluidSDF =
-            ConstantScalarField2(-std::numeric_limits<double>::max()),
+            ConstantScalarField2{ -std::numeric_limits<double>::max() },
         bool useCompressed = false) override;
 
     //!
@@ -95,32 +111,20 @@ class GridFractionalSinglePhasePressureSolver2 final
     //! this particular class, an instance of
     //! GridFractionalBoundaryConditionSolver2 will be returned.
     //!
-    GridBoundaryConditionSolver2Ptr SuggestedBoundaryConditionSolver()
-        const override;
+    [[nodiscard]] GridBoundaryConditionSolver2Ptr
+    SuggestedBoundaryConditionSolver() const override;
 
     //! Returns the linear system solver.
-    const FDMLinearSystemSolver2Ptr& GetLinearSystemSolver() const;
+    [[nodiscard]] const FDMLinearSystemSolver2Ptr& GetLinearSystemSolver()
+        const;
 
     //! Sets the linear system solver.
     void SetLinearSystemSolver(const FDMLinearSystemSolver2Ptr& solver);
 
     //! Returns the pressure field.
-    const FDMVector2& GetPressure() const;
+    [[nodiscard]] const FDMVector2& GetPressure() const;
 
  private:
-    FDMLinearSystem2 m_system;
-    FDMCompressedLinearSystem2 m_compSystem;
-    FDMLinearSystemSolver2Ptr m_systemSolver;
-
-    FDMMGLinearSystem2 m_mgSystem;
-    FDMMGSolver2Ptr m_mgSystemSolver;
-
-    std::vector<Array2<float>> m_uWeights;
-    std::vector<Array2<float>> m_vWeights;
-    std::vector<Array2<float>> m_fluidSDF;
-
-    std::function<Vector2D(const Vector2D&)> m_boundaryVel;
-
     void BuildWeights(const FaceCenteredGrid2& input,
                       const ScalarField2& boundarySDF,
                       const VectorField2& boundaryVelocity,
@@ -128,11 +132,23 @@ class GridFractionalSinglePhasePressureSolver2 final
 
     void DecompressSolution();
 
-    virtual void BuildSystem(const FaceCenteredGrid2& input,
-                             bool useCompressed);
+    void BuildSystem(const FaceCenteredGrid2& input, bool useCompressed);
 
     void ApplyPressureGradient(const FaceCenteredGrid2& input,
                                FaceCenteredGrid2* output);
+
+    FDMLinearSystem2 m_system;
+    FDMCompressedLinearSystem2 m_compSystem;
+    FDMLinearSystemSolver2Ptr m_systemSolver;
+
+    FDMMGLinearSystem2 m_mgSystem;
+    FDMMGSolver2Ptr m_mgSystemSolver;
+
+    std::vector<Array2<double>> m_uWeights;
+    std::vector<Array2<double>> m_vWeights;
+    std::vector<Array2<double>> m_fluidSDF;
+
+    std::function<Vector2D(const Vector2D&)> m_boundaryVel;
 };
 
 //! Shared pointer type for the GridFractionalSinglePhasePressureSolver2.

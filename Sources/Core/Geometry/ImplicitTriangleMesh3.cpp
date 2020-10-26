@@ -11,25 +11,27 @@
 #include <Core/Geometry/ImplicitTriangleMesh3.hpp>
 #include <Core/Geometry/TriangleMeshToSDF.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
-ImplicitTriangleMesh3::ImplicitTriangleMesh3(const TriangleMesh3Ptr& mesh,
+ImplicitTriangleMesh3::ImplicitTriangleMesh3(TriangleMesh3Ptr mesh,
                                              size_t resolutionX, double margin,
-                                             const Transform3& transform,
-                                             bool isNormalFlipped)
-    : ImplicitSurface3(transform, isNormalFlipped), m_mesh(mesh)
+                                             const Transform3& _transform,
+                                             bool _isNormalFlipped)
+    : ImplicitSurface3{ _transform, _isNormalFlipped }, m_mesh(std::move(mesh))
 {
     BoundingBox3D box = m_mesh->BoundingBox();
-    Vector3D scale(box.GetWidth(), box.GetHeight(), box.GetDepth());
+    const Vector3D scale{ box.GetWidth(), box.GetHeight(), box.GetDepth() };
     box.lowerCorner -= margin * scale;
     box.upperCorner += margin * scale;
 
-    size_t resolutionY = static_cast<size_t>(
-        std::ceil(resolutionX * box.GetHeight() / box.GetWidth()));
-    size_t resolutionZ = static_cast<size_t>(
-        std::ceil(resolutionX * box.GetDepth() / box.GetWidth()));
+    const auto resolutionY = static_cast<size_t>(std::ceil(
+        static_cast<double>(resolutionX) * box.GetHeight() / box.GetWidth()));
+    const auto resolutionZ = static_cast<size_t>(std::ceil(
+        static_cast<double>(resolutionX) * box.GetDepth() / box.GetWidth()));
 
-    double dx = box.GetWidth() / resolutionX;
+    const double dx = box.GetWidth() / static_cast<double>(resolutionX);
 
     m_grid = std::make_shared<VertexCenteredScalarGrid3>();
     m_grid->Resize(resolutionX, resolutionY, resolutionZ, dx, dx, dx,
@@ -38,18 +40,13 @@ ImplicitTriangleMesh3::ImplicitTriangleMesh3(const TriangleMesh3Ptr& mesh,
     TriangleMeshToSDF(*m_mesh, m_grid.get());
 
     m_customImplicitSurface =
-        CustomImplicitSurface3::Builder()
+        CustomImplicitSurface3::Builder{}
             .WithSignedDistanceFunction([&](const Vector3D& pt) -> double {
                 return m_grid->Sample(pt);
             })
             .WithDomain(m_grid->BoundingBox())
             .WithResolution(dx)
             .MakeShared();
-}
-
-ImplicitTriangleMesh3::~ImplicitTriangleMesh3()
-{
-    // Do nothing
 }
 
 Vector3D ImplicitTriangleMesh3::ClosestPointLocal(
@@ -94,7 +91,7 @@ SurfaceRayIntersection3 ImplicitTriangleMesh3::ClosestIntersectionLocal(
 
 ImplicitTriangleMesh3::Builder ImplicitTriangleMesh3::GetBuilder()
 {
-    return ImplicitTriangleMesh3::Builder();
+    return Builder{};
 }
 
 const VertexCenteredScalarGrid3Ptr& ImplicitTriangleMesh3::GetGrid() const
@@ -125,15 +122,15 @@ ImplicitTriangleMesh3::Builder& ImplicitTriangleMesh3::Builder::WithMargin(
 
 ImplicitTriangleMesh3 ImplicitTriangleMesh3::Builder::Build() const
 {
-    return ImplicitTriangleMesh3(m_mesh, m_resolutionX, m_margin, m_transform,
-                                 m_isNormalFlipped);
+    return ImplicitTriangleMesh3{ m_mesh, m_resolutionX, m_margin, m_transform,
+                                  m_isNormalFlipped };
 }
 
 ImplicitTriangleMesh3Ptr ImplicitTriangleMesh3::Builder::MakeShared() const
 {
     return std::shared_ptr<ImplicitTriangleMesh3>(
-        new ImplicitTriangleMesh3(m_mesh, m_resolutionX, m_margin, m_transform,
-                                  m_isNormalFlipped),
+        new ImplicitTriangleMesh3{ m_mesh, m_resolutionX, m_margin, m_transform,
+                                   m_isNormalFlipped },
         [](ImplicitTriangleMesh3* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

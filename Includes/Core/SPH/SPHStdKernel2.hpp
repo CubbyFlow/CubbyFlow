@@ -30,6 +30,28 @@ namespace CubbyFlow
 //!
 struct SPHStdKernel2
 {
+    //! Constructs a kernel object with zero radius.
+    SPHStdKernel2();
+
+    //! Constructs a kernel object with given radius.
+    explicit SPHStdKernel2(double kernelRadius);
+
+    //! Returns kernel function value at given distance.
+    double operator()(double distance) const;
+
+    //! Returns the first derivative at given distance.
+    [[nodiscard]] double FirstDerivative(double distance) const;
+
+    //! Returns the gradient at a point.
+    [[nodiscard]] Vector2D Gradient(const Vector2D& point) const;
+
+    //! Returns the gradient at a point defined by distance and direction.
+    [[nodiscard]] Vector2D Gradient(double distance,
+                                    const Vector2D& direction) const;
+
+    //! Returns the second derivative at given distance.
+    [[nodiscard]] double SecondDerivative(double distance) const;
+
     //! Kernel radius.
     double h;
 
@@ -41,33 +63,6 @@ struct SPHStdKernel2
 
     //! Fourth-power of the kernel radius.
     double h4;
-
-    //! Constructs a kernel object with zero radius.
-    SPHStdKernel2();
-
-    //! Constructs a kernel object with given radius.
-    explicit SPHStdKernel2(double kernelRadius);
-
-    //! Copy constructor.
-    SPHStdKernel2(const SPHStdKernel2& other);
-
-    //! Default copy assignment operator.
-    SPHStdKernel2& operator=(const SPHStdKernel2& other) = default;
-
-    //! Returns kernel function value at given distance.
-    double operator()(double distance) const;
-
-    //! Returns the first derivative at given distance.
-    double FirstDerivative(double distance) const;
-
-    //! Returns the gradient at a point.
-    Vector2D Gradient(const Vector2D& point) const;
-
-    //! Returns the gradient at a point defined by distance and direction.
-    Vector2D Gradient(double distance, const Vector2D& direction) const;
-
-    //! Returns the second derivative at given distance.
-    double SecondDerivative(double distance) const;
 };
 
 //!
@@ -80,6 +75,28 @@ struct SPHStdKernel2
 //!
 struct SPHSpikyKernel2
 {
+    //! Constructs a kernel object with zero radius.
+    SPHSpikyKernel2();
+
+    //! Constructs a kernel object with given radius.
+    explicit SPHSpikyKernel2(double kernelRadius);
+
+    //! Returns kernel function value at given distance.
+    double operator()(double distance) const;
+
+    //! Returns the first derivative at given distance.
+    [[nodiscard]] double FirstDerivative(double distance) const;
+
+    //! Returns the gradient at a point.
+    [[nodiscard]] Vector2D Gradient(const Vector2D& point) const;
+
+    //! Returns the gradient at a point defined by distance and direction.
+    [[nodiscard]] Vector2D Gradient(double distance,
+                                    const Vector2D& direction) const;
+
+    //! Returns the second derivative at given distance.
+    [[nodiscard]] double SecondDerivative(double distance) const;
+
     //! Kernel radius.
     double h;
 
@@ -94,33 +111,6 @@ struct SPHSpikyKernel2
 
     //! Fifth-power of the kernel radius.
     double h5;
-
-    //! Constructs a kernel object with zero radius.
-    SPHSpikyKernel2();
-
-    //! Constructs a kernel object with given radius.
-    explicit SPHSpikyKernel2(double kernelRadius);
-
-    //! Copy constructor.
-    SPHSpikyKernel2(const SPHSpikyKernel2& other);
-
-    //! Default copy assignment operator.
-    SPHSpikyKernel2& operator=(const SPHSpikyKernel2& other) = default;
-
-    //! Returns kernel function value at given distance.
-    double operator()(double distance) const;
-
-    //! Returns the first derivative at given distance.
-    double FirstDerivative(double distance) const;
-
-    //! Returns the gradient at a point.
-    Vector2D Gradient(const Vector2D& point) const;
-
-    //! Returns the gradient at a point defined by distance and direction.
-    Vector2D Gradient(double distance, const Vector2D& direction) const;
-
-    //! Returns the second derivative at given distance.
-    double SecondDerivative(double distance) const;
 };
 }  // namespace CubbyFlow
 

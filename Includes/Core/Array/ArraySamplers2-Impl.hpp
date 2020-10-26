@@ -13,25 +13,61 @@
 
 #include <Core/Math/MathUtils.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
 template <typename T, typename R>
 NearestArraySampler<T, R, 2>::NearestArraySampler(
-    const ConstArrayAccessor2<T>& accessor, const Vector2<R>& gridSpacing,
+    ConstArrayAccessor2<T> accessor, const Vector2<R>& gridSpacing,
     const Vector2<R>& gridOrigin)
+    : m_gridSpacing(gridSpacing),
+      m_origin(gridOrigin),
+      m_accessor(std::move(accessor))
 {
-    m_gridSpacing = gridSpacing;
-    m_origin = gridOrigin;
-    m_accessor = accessor;
+    // Do nothing
 }
 
 template <typename T, typename R>
 NearestArraySampler<T, R, 2>::NearestArraySampler(
     const NearestArraySampler& other)
+    : m_gridSpacing(other.m_gridSpacing),
+      m_origin(other.m_origin),
+      m_accessor(other.m_accessor)
+{
+    // Do nothing
+}
+
+template <typename T, typename R>
+NearestArraySampler<T, R, 2>::NearestArraySampler(
+    NearestArraySampler&& other) noexcept
+    : m_gridSpacing(other.m_gridSpacing),
+      m_origin(other.m_origin),
+      m_accessor(other.m_accessor)
+{
+    // Do nothing
+}
+
+template <typename T, typename R>
+NearestArraySampler<T, R, 2>& NearestArraySampler<T, R, 2>::operator=(
+    const NearestArraySampler& other)
 {
     m_gridSpacing = other.m_gridSpacing;
     m_origin = other.m_origin;
     m_accessor = other.m_accessor;
+
+    return *this;
+}
+
+template <typename T, typename R>
+NearestArraySampler<T, R, 2>& NearestArraySampler<T, R, 2>::operator=(
+    NearestArraySampler&& other) noexcept
+{
+    m_gridSpacing = other.m_gridSpacing;
+    m_origin = other.m_origin;
+    m_accessor = other.m_accessor;
+
+    return *this;
 }
 
 template <typename T, typename R>
@@ -89,28 +125,53 @@ std::function<T(const Vector2<R>&)> NearestArraySampler<T, R, 2>::Functor()
 }
 
 template <typename T, typename R>
-LinearArraySampler<T, R, 2>::LinearArraySampler(
-    const ConstArrayAccessor2<T>& accessor, const Vector2<R>& gridSpacing,
-    const Vector2<R>& gridOrigin)
+LinearArraySampler<T, R, 2>::LinearArraySampler(ConstArrayAccessor2<T> accessor,
+                                                const Vector2<R>& gridSpacing,
+                                                const Vector2<R>& gridOrigin)
+    : m_gridSpacing(gridSpacing),
+      m_invGridSpacing(static_cast<R>(1) / m_gridSpacing),
+      m_origin(gridOrigin),
+      m_accessor(std::move(accessor))
 {
-    m_gridSpacing = gridSpacing;
-    m_invGridSpacing = static_cast<R>(1) / m_gridSpacing;
-    m_origin = gridOrigin;
-    m_accessor = accessor;
+    // Do nothing
 }
 
 template <typename T, typename R>
 LinearArraySampler<T, R, 2>::LinearArraySampler(const LinearArraySampler& other)
+    : m_gridSpacing(other.m_gridSpacing),
+      m_invGridSpacing(other.m_invGridSpacing),
+      m_origin(other.m_origin),
+      m_accessor(other.m_accessor)
 {
-    m_gridSpacing = other.m_gridSpacing;
-    m_invGridSpacing = other.m_invGridSpacing;
-    m_origin = other.m_origin;
-    m_accessor = other.m_accessor;
+    // Do nothing
+}
+
+template <typename T, typename R>
+LinearArraySampler<T, R, 2>::LinearArraySampler(
+    LinearArraySampler&& other) noexcept
+    : m_gridSpacing(other.m_gridSpacing),
+      m_invGridSpacing(other.m_invGridSpacing),
+      m_origin(other.m_origin),
+      m_accessor(other.m_accessor)
+{
+    // Do nothing
 }
 
 template <typename T, typename R>
 LinearArraySampler<T, R, 2>& LinearArraySampler<T, R, 2>::operator=(
     const LinearArraySampler& other)
+{
+    m_gridSpacing = other.m_gridSpacing;
+    m_invGridSpacing = other.m_invGridSpacing;
+    m_origin = other.m_origin;
+    m_accessor = other.m_accessor;
+
+    return *this;
+}
+
+template <typename T, typename R>
+LinearArraySampler<T, R, 2>& LinearArraySampler<T, R, 2>::operator=(
+    LinearArraySampler&& other) noexcept
 {
     m_gridSpacing = other.m_gridSpacing;
     m_invGridSpacing = other.m_invGridSpacing;
@@ -179,7 +240,7 @@ void LinearArraySampler<T, R, 2>::GetCoordinatesAndWeights(
 
 template <typename T, typename R>
 void LinearArraySampler<T, R, 2>::GetCoordinatesAndGradientWeights(
-    const Vector2<R>& x, std::array<Point2UI, 4>* indices,
+    const Vector2<R>& pt, std::array<Point2UI, 4>* indices,
     std::array<Vector2<R>, 4>* weights) const
 {
     ssize_t i, j;
@@ -188,7 +249,7 @@ void LinearArraySampler<T, R, 2>::GetCoordinatesAndGradientWeights(
     assert(m_gridSpacing.x > 0.0);
     assert(m_gridSpacing.y > 0.0);
 
-    const Vector2<R> normalizedX = (x - m_origin) * m_invGridSpacing;
+    const Vector2<R> normalizedX = (pt - m_origin) * m_invGridSpacing;
 
     const ssize_t iSize = static_cast<ssize_t>(m_accessor.size().x);
     const ssize_t jSize = static_cast<ssize_t>(m_accessor.size().y);
@@ -223,26 +284,49 @@ std::function<T(const Vector2<R>&)> LinearArraySampler<T, R, 2>::Functor() const
 }
 
 template <typename T, typename R>
-CubicArraySampler<T, R, 2>::CubicArraySampler(
-    const ConstArrayAccessor2<T>& accessor, const Vector2<R>& gridSpacing,
-    const Vector2<R>& gridOrigin)
+CubicArraySampler<T, R, 2>::CubicArraySampler(ConstArrayAccessor2<T> accessor,
+                                              const Vector2<R>& gridSpacing,
+                                              const Vector2<R>& gridOrigin)
+    : m_gridSpacing(gridSpacing),
+      m_origin(gridOrigin),
+      m_accessor(std::move(accessor))
 {
-    m_gridSpacing = gridSpacing;
-    m_origin = gridOrigin;
-    m_accessor = accessor;
+    // Do nothing
 }
 
 template <typename T, typename R>
 CubicArraySampler<T, R, 2>::CubicArraySampler(const CubicArraySampler& other)
+    : m_gridSpacing(other.m_gridSpacing),
+      m_origin(other.m_origin),
+      m_accessor(other.m_accessor)
 {
-    m_gridSpacing = other.m_gridSpacing;
-    m_origin = other.m_origin;
-    m_accessor = other.m_accessor;
+    // Do nothing
+}
+
+template <typename T, typename R>
+CubicArraySampler<T, R, 2>::CubicArraySampler(
+    CubicArraySampler&& other) noexcept
+    : m_gridSpacing(other.m_gridSpacing),
+      m_origin(other.m_origin),
+      m_accessor(other.m_accessor)
+{
+    // Do nothing
 }
 
 template <typename T, typename R>
 CubicArraySampler<T, R, 2>& CubicArraySampler<T, R, 2>::operator=(
     const CubicArraySampler& other)
+{
+    m_gridSpacing = other.m_gridSpacing;
+    m_origin = other.m_origin;
+    m_accessor = other.m_accessor;
+
+    return *this;
+}
+
+template <typename T, typename R>
+CubicArraySampler<T, R, 2>& CubicArraySampler<T, R, 2>::operator=(
+    CubicArraySampler&& other) noexcept
 {
     m_gridSpacing = other.m_gridSpacing;
     m_origin = other.m_origin;

@@ -12,31 +12,22 @@
 
 namespace CubbyFlow
 {
-SemiLagrangian3::SemiLagrangian3()
-{
-    // Do nothing
-}
-
-SemiLagrangian3::~SemiLagrangian3()
-{
-    // Do nothing
-}
-
 void SemiLagrangian3::Advect(const ScalarGrid3& input, const VectorField3& flow,
                              double dt, ScalarGrid3* output,
                              const ScalarField3& boundarySDF)
 {
-    auto inputSamplerFunc = GetScalarSamplerFunc(input);
+    std::function<double(const Vector3D&)> inputSamplerFunc =
+        GetScalarSamplerFunc(input);
     double h = std::min(output->GridSpacing().x, output->GridSpacing().y);
 
-    auto inputDataPos = input.GetDataPosition();
-    auto outputDataPos = output->GetDataPosition();
-    auto outputDataAcc = output->GetDataAccessor();
+    ScalarGrid3::DataPositionFunc inputDataPos = input.GetDataPosition();
+    ScalarGrid3::DataPositionFunc outputDataPos = output->GetDataPosition();
+    ArrayAccessor<double, 3> outputDataAcc = output->GetDataAccessor();
 
     output->ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
         if (boundarySDF.Sample(inputDataPos(i, j, k)) > 0.0)
         {
-            Vector3D pt =
+            const Vector3D pt =
                 BackTrace(flow, dt, h, outputDataPos(i, j, k), boundarySDF);
             outputDataAcc(i, j, k) = inputSamplerFunc(pt);
         }
@@ -48,17 +39,21 @@ void SemiLagrangian3::Advect(const CollocatedVectorGrid3& input,
                              CollocatedVectorGrid3* output,
                              const ScalarField3& boundarySDF)
 {
-    auto inputSamplerFunc = GetVectorSamplerFunc(input);
+    std::function<Vector3D(const Vector3D&)> inputSamplerFunc =
+        GetVectorSamplerFunc(input);
     double h = std::min(output->GridSpacing().x, output->GridSpacing().y);
 
-    auto inputDataPos = input.GetDataPosition();
-    auto outputDataPos = output->GetDataPosition();
-    auto outputDataAcc = output->GetDataAccessor();
+    CollocatedVectorGrid3::DataPositionFunc inputDataPos =
+        input.GetDataPosition();
+    CollocatedVectorGrid3::DataPositionFunc outputDataPos =
+        output->GetDataPosition();
+    ArrayAccessor<Vector<double, 3>, 3> outputDataAcc =
+        output->GetDataAccessor();
 
     output->ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
         if (boundarySDF.Sample(inputDataPos(i, j, k)) > 0.0)
         {
-            Vector3D pt =
+            const Vector3D pt =
                 BackTrace(flow, dt, h, outputDataPos(i, j, k), boundarySDF);
             outputDataAcc(i, j, k) = inputSamplerFunc(pt);
         }
@@ -70,43 +65,45 @@ void SemiLagrangian3::Advect(const FaceCenteredGrid3& input,
                              FaceCenteredGrid3* output,
                              const ScalarField3& boundarySDF)
 {
-    auto inputSamplerFunc = GetVectorSamplerFunc(input);
+    std::function<Vector3D(const Vector3D&)> inputSamplerFunc =
+        GetVectorSamplerFunc(input);
     double h = std::min(output->GridSpacing().x, output->GridSpacing().y);
 
-    auto uSourceDataPos = input.GetUPosition();
-    auto uTargetDataPos = output->GetUPosition();
-    auto uTargetDataAcc = output->GetUAccessor();
+    FaceCenteredGrid3::DataPositionFunc uSourceDataPos = input.GetUPosition();
+    FaceCenteredGrid3::DataPositionFunc uTargetDataPos = output->GetUPosition();
+    ArrayAccessor<double, 3> uTargetDataAcc = output->GetUAccessor();
 
     output->ParallelForEachUIndex([&](size_t i, size_t j, size_t k) {
         if (boundarySDF.Sample(uSourceDataPos(i, j, k)) > 0.0)
         {
-            Vector3D pt =
+            const Vector3D pt =
                 BackTrace(flow, dt, h, uTargetDataPos(i, j, k), boundarySDF);
             uTargetDataAcc(i, j, k) = inputSamplerFunc(pt).x;
         }
     });
 
-    auto vSourceDataPos = input.GetVPosition();
-    auto vTargetDataPos = output->GetVPosition();
-    auto vTargetDataAcc = output->GetVAccessor();
+    FaceCenteredGrid3::DataPositionFunc vSourceDataPos = input.GetVPosition();
+    FaceCenteredGrid3::DataPositionFunc vTargetDataPos = output->GetVPosition();
+    ArrayAccessor<double, 3> vTargetDataAcc = output->GetVAccessor();
 
     output->ParallelForEachVIndex([&](size_t i, size_t j, size_t k) {
         if (boundarySDF.Sample(vSourceDataPos(i, j, k)) > 0.0)
         {
-            Vector3D pt =
+            const Vector3D pt =
                 BackTrace(flow, dt, h, vTargetDataPos(i, j, k), boundarySDF);
             vTargetDataAcc(i, j, k) = inputSamplerFunc(pt).y;
         }
     });
 
-    auto wTargetDataPos = output->GetWPosition();
-    auto wTargetDataAcc = output->GetWAccessor();
-    auto wSourceDataPos = input.GetWPosition();
+    FaceCenteredGrid3::DataPositionFunc wSourceDataPos = input.GetWPosition();
+    FaceCenteredGrid3::DataPositionFunc wTargetDataPos = output->GetWPosition();
+    FaceCenteredGrid3::ScalarDataAccessor wTargetDataAcc =
+        output->GetWAccessor();
 
     output->ParallelForEachWIndex([&](size_t i, size_t j, size_t k) {
         if (boundarySDF.Sample(wSourceDataPos(i, j, k)) > 0.0)
         {
-            Vector3D pt =
+            const Vector3D pt =
                 BackTrace(flow, dt, h, wTargetDataPos(i, j, k), boundarySDF);
             wTargetDataAcc(i, j, k) = inputSamplerFunc(pt).z;
         }
@@ -125,7 +122,7 @@ Vector3D SemiLagrangian3::BackTrace(const VectorField3& flow, double dt,
     {
         // Adaptive time-stepping
         Vector3D vel0 = flow.Sample(pt0);
-        double numSubSteps =
+        const double numSubSteps =
             std::max(std::ceil(vel0.Length() * remainingT / h), 1.0);
         dt = remainingT / numSubSteps;
 
@@ -135,12 +132,13 @@ Vector3D SemiLagrangian3::BackTrace(const VectorField3& flow, double dt,
         pt1 = pt0 - dt * midVel;
 
         // Boundary handling
-        double phi0 = boundarySDF.Sample(pt0);
-        double phi1 = boundarySDF.Sample(pt1);
+        const double phi0 = boundarySDF.Sample(pt0);
+        const double phi1 = boundarySDF.Sample(pt1);
 
         if (phi0 * phi1 < 0.0)
         {
-            double w = std::fabs(phi1) / (std::fabs(phi0) + std::fabs(phi1));
+            const double w =
+                std::fabs(phi1) / (std::fabs(phi0) + std::fabs(phi1));
             pt1 = w * pt0 + (1.0 - w) * pt1;
             break;
         }

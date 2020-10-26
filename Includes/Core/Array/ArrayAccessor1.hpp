@@ -34,16 +34,22 @@ class ArrayAccessor<T, 1> final
     ArrayAccessor();
 
     //! Constructs an array accessor that wraps given array.
-    ArrayAccessor(size_t size, T* const data);
+    ArrayAccessor(size_t size, T* data);
 
     //! Copy constructor.
     ArrayAccessor(const ArrayAccessor& other);
+
+    //! Move constructor.
+    ArrayAccessor(ArrayAccessor&& other) noexcept;
+
+    //! Default destructor.
+    ~ArrayAccessor() = default;
 
     //! Replaces the content with given \p other array accessor.
     void Set(const ArrayAccessor& other);
 
     //! Resets the array.
-    void Reset(size_t size, T* const data);
+    void Reset(size_t size, T* data);
 
     //! Returns the reference to the i-th element.
     T& At(size_t i);
@@ -64,7 +70,7 @@ class ArrayAccessor<T, 1> final
     T* end();
 
     //! Returns size of the array.
-    size_t size() const;
+    [[nodiscard]] size_t size() const;
 
     //! Returns the raw pointer to the array data.
     T* data() const;
@@ -164,6 +170,9 @@ class ArrayAccessor<T, 1> final
     //! Copies given array accessor \p other.
     ArrayAccessor& operator=(const ArrayAccessor& other);
 
+    //! Moves given array accessor \p other.
+    ArrayAccessor& operator=(ArrayAccessor&& other) noexcept;
+
     //! Casts type to ConstArrayAccessor.
     operator ConstArrayAccessor<T, 1>() const;
 
@@ -192,25 +201,31 @@ class ConstArrayAccessor<T, 1>
     ConstArrayAccessor();
 
     //! Constructs an read-only array accessor that wraps given array.
-    ConstArrayAccessor(size_t size, const T* const data);
+    ConstArrayAccessor(size_t size, const T* data);
 
     //! Constructs a read-only array accessor from read/write accessor.
     explicit ConstArrayAccessor(const ArrayAccessor<T, 1>& other);
 
+    //! Default destructor.
+    ~ConstArrayAccessor() = default;
+
     //! Copy constructor.
     ConstArrayAccessor(const ConstArrayAccessor& other);
 
+    //! Move constructor.
+    ConstArrayAccessor(ConstArrayAccessor&& other) noexcept;
+
     //! Returns the const reference to the i-th element.
-    const T& At(size_t i) const;
+    [[nodiscard]] const T& At(size_t i) const;
 
     //! Returns the begin iterator of the array.
-    const T* begin() const;
+    [[nodiscard]] const T* begin() const;
 
     //! Returns the end iterator of the array.
-    const T* end() const;
+    [[nodiscard]] const T* end() const;
 
     //! Returns size of the array.
-    size_t size() const;
+    [[nodiscard]] size_t size() const;
 
     //! Returns the raw pointer to the array data.
     const T* data() const;
@@ -276,6 +291,12 @@ class ConstArrayAccessor<T, 1>
 
     //! Returns the const reference to i-th element.
     const T& operator[](size_t i) const;
+
+    //! Copies given read-only array accessor \p other.
+    ConstArrayAccessor& operator=(const ConstArrayAccessor& other);
+
+    //! Moves given read-only array accessor \p other.
+    ConstArrayAccessor& operator=(ConstArrayAccessor&& other) noexcept;
 
  private:
     size_t m_size;

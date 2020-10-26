@@ -12,16 +12,6 @@
 
 namespace CubbyFlow
 {
-PointGenerator3::PointGenerator3()
-{
-    // Do nothing
-}
-
-PointGenerator3::~PointGenerator3()
-{
-    // Do nothing
-}
-
 void PointGenerator3::Generate(const BoundingBox3D& boundingBox, double spacing,
                                Array1<Vector3D>* points) const
 {

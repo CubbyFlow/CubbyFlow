@@ -31,7 +31,7 @@ class FMMLevelSetSolver2 final : public LevelSetSolver2
 {
  public:
     //! Default constructor.
-    FMMLevelSetSolver2();
+    FMMLevelSetSolver2() = default;
 
     //!
     //! Reinitializes given scalar field to signed-distance field.

@@ -31,23 +31,35 @@ class ParticleEmitter3
         std::function<void(ParticleEmitter3*, double, double)>;
 
     //! Default constructor.
-    ParticleEmitter3();
+    ParticleEmitter3() = default;
 
-    //! Destructor.
-    virtual ~ParticleEmitter3();
+    //! Default copy constructor.
+    ParticleEmitter3(const ParticleEmitter3&) = default;
+
+    //! Default move constructor.
+    ParticleEmitter3(ParticleEmitter3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~ParticleEmitter3() = default;
+
+    //! Default copy assignment operator.
+    ParticleEmitter3& operator=(const ParticleEmitter3&) = default;
+
+    //! Default move assignment operator.
+    ParticleEmitter3& operator=(ParticleEmitter3&&) noexcept = default;
 
     //! Updates the emitter state from \p currentTimeInSeconds to the following
     //! time-step.
     void Update(double currentTimeInSeconds, double timeIntervalInSeconds);
 
     //! Returns the target particle system to emit.
-    const ParticleSystemData3Ptr& GetTarget() const;
+    [[nodiscard]] const ParticleSystemData3Ptr& GetTarget() const;
 
     //! Sets the target particle system to emit.
     void SetTarget(const ParticleSystemData3Ptr& particles);
 
     //! Returns true if the emitter is enabled.
-    bool GetIsEnabled() const;
+    [[nodiscard]] bool GetIsEnabled() const;
 
     //! Sets true/false to enable/disable the emitter.
     void SetIsEnabled(bool enabled);

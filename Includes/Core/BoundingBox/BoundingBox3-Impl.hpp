@@ -39,7 +39,23 @@ BoundingBox<T, 3>::BoundingBox(const BoundingBox& other)
 }
 
 template <typename T>
+BoundingBox<T, 3>::BoundingBox(BoundingBox&& other) noexcept
+    : lowerCorner(other.lowerCorner), upperCorner(other.upperCorner)
+{
+    // Do nothing
+}
+
+template <typename T>
 BoundingBox<T, 3>& BoundingBox<T, 3>::operator=(const BoundingBox& other)
+{
+    lowerCorner = other.lowerCorner;
+    upperCorner = other.upperCorner;
+
+    return *this;
+}
+
+template <typename T>
+BoundingBox<T, 3>& BoundingBox<T, 3>::operator=(BoundingBox&& other) noexcept
 {
     lowerCorner = other.lowerCorner;
     upperCorner = other.upperCorner;

@@ -30,10 +30,23 @@ class PointSimpleListSearcher2 final : public PointNeighborSearcher2
     class Builder;
 
     //! Default constructor.
-    PointSimpleListSearcher2();
+    PointSimpleListSearcher2() = default;
 
     //! Copy constructor.
     PointSimpleListSearcher2(const PointSimpleListSearcher2& other);
+
+    //! Default move constructor.
+    PointSimpleListSearcher2(PointSimpleListSearcher2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~PointSimpleListSearcher2() override = default;
+
+    //! Copy assignment operator.
+    PointSimpleListSearcher2& operator=(const PointSimpleListSearcher2& other);
+
+    //! Move assignment operator.
+    PointSimpleListSearcher2& operator=(PointSimpleListSearcher2&&) noexcept =
+        default;
 
     //!
     //! \brief      Builds internal structure for given points list.
@@ -66,7 +79,8 @@ class PointSimpleListSearcher2 final : public PointNeighborSearcher2
     //!
     //! \return     True if has nearby point, false otherwise.
     //!
-    bool HasNearbyPoint(const Vector2D& origin, double radius) const override;
+    [[nodiscard]] bool HasNearbyPoint(const Vector2D& origin,
+                                      double radius) const override;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -74,10 +88,7 @@ class PointSimpleListSearcher2 final : public PointNeighborSearcher2
     //!
     //! \return     Copy of this object.
     //!
-    PointNeighborSearcher2Ptr Clone() const override;
-
-    //! Assignment operator.
-    PointSimpleListSearcher2& operator=(const PointSimpleListSearcher2& other);
+    [[nodiscard]] PointNeighborSearcher2Ptr Clone() const override;
 
     //! Copy from the other instance.
     void Set(const PointSimpleListSearcher2& other);
@@ -89,7 +100,7 @@ class PointSimpleListSearcher2 final : public PointNeighborSearcher2
     void Deserialize(const std::vector<uint8_t>& buffer) override;
 
     //! Returns builder fox PointSimpleListSearcher2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
     std::vector<Vector2D> m_points;
@@ -106,13 +117,14 @@ class PointSimpleListSearcher2::Builder final
 {
  public:
     //! Builds PointSimpleListSearcher2 instance.
-    PointSimpleListSearcher2 Build() const;
+    [[nodiscard]] static PointSimpleListSearcher2 Build();
 
     //! Builds shared pointer of PointSimpleListSearcher2 instance.
-    PointSimpleListSearcher2Ptr MakeShared() const;
+    [[nodiscard]] static PointSimpleListSearcher2Ptr MakeShared();
 
     //! Returns shared pointer of PointNeighborSearcher3 type.
-    PointNeighborSearcher2Ptr BuildPointNeighborSearcher() const override;
+    [[nodiscard]] PointNeighborSearcher2Ptr BuildPointNeighborSearcher()
+        const override;
 };
 }  // namespace CubbyFlow
 

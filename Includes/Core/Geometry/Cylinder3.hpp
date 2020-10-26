@@ -26,6 +26,34 @@ class Cylinder3 final : public Surface3
  public:
     class Builder;
 
+    //! Constructs a cylinder with \p _transform and \p _isNormalFlipped.
+    Cylinder3(const Transform3& _transform = Transform3{},
+              bool _isNormalFlipped = false);
+
+    //! Constructs a cylinder with \p _center, \p _radius, \p _height,
+    //! \p _transform and \p _isNormalFlipped.
+    Cylinder3(Vector3D _center, double _radius, double _height,
+              const Transform3& _transform = Transform3{},
+              bool _isNormalFlipped = false);
+
+    //! Default copy constructor.
+    Cylinder3(const Cylinder3&) = default;
+
+    //! Default move constructor.
+    Cylinder3(Cylinder3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~Cylinder3() override = default;
+
+    //! Default copy assignment operator.
+    Cylinder3& operator=(const Cylinder3&) = default;
+
+    //! Default move assignment operator.
+    Cylinder3& operator=(Cylinder3&&) noexcept = default;
+
+    //! Returns builder fox Cylinder3.
+    [[nodiscard]] static Builder GetBuilder();
+
     //! Center of the cylinder.
     Vector3D center;
 
@@ -35,38 +63,21 @@ class Cylinder3 final : public Surface3
     //! Height of the cylinder.
     double height = 1.0;
 
-    //! Constructs a cylinder with
-    Cylinder3(const Transform3& transform = Transform3(),
-              bool isNormalFlipped = false);
-
-    //! Constructs a cylinder with \p center, \p radius, and \p height.
-    Cylinder3(const Vector3D& center, double radius, double height,
-              const Transform3& transform = Transform3(),
-              bool isNormalFlipped = false);
-
-    //! Copy constructor.
-    Cylinder3(const Cylinder3& other);
-
-    //! Default copy assignment operator.
-    Cylinder3& operator=(const Cylinder3& other) = default;
-
-    //! Returns builder fox Cylinder3.
-    static Builder GetBuilder();
-
  protected:
-    // Surface3 implementations
+    [[nodiscard]] Vector3D ClosestPointLocal(
+        const Vector3D& otherPoint) const override;
 
-    Vector3D ClosestPointLocal(const Vector3D& otherPoint) const override;
+    [[nodiscard]] double ClosestDistanceLocal(
+        const Vector3D& otherPoint) const override;
 
-    double ClosestDistanceLocal(const Vector3D& otherPoint) const override;
+    [[nodiscard]] bool IntersectsLocal(const Ray3D& ray) const override;
 
-    bool IntersectsLocal(const Ray3D& ray) const override;
+    [[nodiscard]] BoundingBox3D BoundingBoxLocal() const override;
 
-    BoundingBox3D BoundingBoxLocal() const override;
+    [[nodiscard]] Vector3D ClosestNormalLocal(
+        const Vector3D& otherPoint) const override;
 
-    Vector3D ClosestNormalLocal(const Vector3D& otherPoint) const override;
-
-    SurfaceRayIntersection3 ClosestIntersectionLocal(
+    [[nodiscard]] SurfaceRayIntersection3 ClosestIntersectionLocal(
         const Ray3D& ray) const override;
 };
 
@@ -76,23 +87,23 @@ using Cylinder3Ptr = std::shared_ptr<Cylinder3>;
 //!
 //! \brief Front-end to create Cylinder3 objects step by step.
 //!
-class Cylinder3::Builder final : public SurfaceBuilderBase3<Cylinder3::Builder>
+class Cylinder3::Builder final : public SurfaceBuilderBase3<Builder>
 {
  public:
     //! Returns builder with center.
-    Builder& WithCenter(const Vector3D& center);
+    [[nodiscard]] Builder& WithCenter(const Vector3D& _center);
 
     //! Returns builder with radius.
-    Builder& WithRadius(double radius);
+    [[nodiscard]] Builder& WithRadius(double _radius);
 
     //! Returns builder with height.
-    Builder& WithHeight(double height);
+    [[nodiscard]] Builder& WithHeight(double _height);
 
     //! Builds Cylinder3.
-    Cylinder3 Build() const;
+    [[nodiscard]] Cylinder3 Build() const;
 
     //! Builds shared pointer of Cylinder3 instance.
-    Cylinder3Ptr MakeShared() const;
+    [[nodiscard]] Cylinder3Ptr MakeShared() const;
 
  private:
     Vector3D m_center{ 0, 0, 0 };

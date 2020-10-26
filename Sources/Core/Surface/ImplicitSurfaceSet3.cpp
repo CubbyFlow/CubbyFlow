@@ -11,17 +11,15 @@
 #include <Core/Surface/ImplicitSurfaceSet3.hpp>
 #include <Core/Surface/SurfaceToImplicit3.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
-ImplicitSurfaceSet3::ImplicitSurfaceSet3()
-{
-    // Do nothing
-}
-
 ImplicitSurfaceSet3::ImplicitSurfaceSet3(
-    const std::vector<ImplicitSurface3Ptr>& surfaces,
-    const Transform3& transform, bool isNormalFlipped)
-    : ImplicitSurface3(transform, isNormalFlipped), m_surfaces(surfaces)
+    std::vector<ImplicitSurface3Ptr> surfaces, const Transform3& _transform,
+    bool _isNormalFlipped)
+    : ImplicitSurface3{ _transform, _isNormalFlipped },
+      m_surfaces{ std::move(surfaces) }
 {
     for (const auto& surface : m_surfaces)
     {
@@ -35,9 +33,9 @@ ImplicitSurfaceSet3::ImplicitSurfaceSet3(
 }
 
 ImplicitSurfaceSet3::ImplicitSurfaceSet3(
-    const std::vector<Surface3Ptr>& surfaces, const Transform3& transform,
-    bool isNormalFlipped)
-    : ImplicitSurface3(transform, isNormalFlipped)
+    const std::vector<Surface3Ptr>& surfaces, const Transform3& _transform,
+    bool _isNormalFlipped)
+    : ImplicitSurface3{ _transform, _isNormalFlipped }
 {
     for (const auto& surface : surfaces)
     {
@@ -46,9 +44,17 @@ ImplicitSurfaceSet3::ImplicitSurfaceSet3(
 }
 
 ImplicitSurfaceSet3::ImplicitSurfaceSet3(const ImplicitSurfaceSet3& other)
-    : ImplicitSurface3(other),
+    : ImplicitSurface3{ other },
       m_surfaces(other.m_surfaces),
       m_unboundedSurfaces(other.m_unboundedSurfaces)
+{
+    // Do nothing
+}
+
+ImplicitSurfaceSet3::ImplicitSurfaceSet3(ImplicitSurfaceSet3&& other) noexcept
+    : ImplicitSurface3{ std::move(other) },
+      m_surfaces(std::move(other.m_surfaces)),
+      m_unboundedSurfaces(std::move(other.m_unboundedSurfaces))
 {
     // Do nothing
 }
@@ -141,7 +147,8 @@ Vector3D ImplicitSurfaceSet3::ClosestPointLocal(
                      std::numeric_limits<double>::max(),
                      std::numeric_limits<double>::max() };
 
-    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
+    const NearestNeighborQueryResult3<ImplicitSurface3Ptr> queryResult =
+        m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
     if (queryResult.item != nullptr)
     {
         result = (*queryResult.item)->ClosestPoint(otherPoint);
@@ -150,7 +157,7 @@ Vector3D ImplicitSurfaceSet3::ClosestPointLocal(
     double minDist = queryResult.distance;
     for (const auto& surface : m_unboundedSurfaces)
     {
-        auto pt = surface->ClosestPoint(otherPoint);
+        Vector3D pt = surface->ClosestPoint(otherPoint);
         const double dist = pt.DistanceTo(otherPoint);
 
         if (dist < minDist)
@@ -175,7 +182,8 @@ Vector3D ImplicitSurfaceSet3::ClosestNormalLocal(
 
     Vector3D result{ 1.0, 0.0, 0.0 };
 
-    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
+    const NearestNeighborQueryResult3<ImplicitSurface3Ptr> queryResult =
+        m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
     if (queryResult.item != nullptr)
     {
         result = (*queryResult.item)->ClosestNormal(otherPoint);
@@ -184,7 +192,7 @@ Vector3D ImplicitSurfaceSet3::ClosestNormalLocal(
     double minDist = queryResult.distance;
     for (const auto& surface : m_unboundedSurfaces)
     {
-        auto pt = surface->ClosestPoint(otherPoint);
+        Vector3D pt = surface->ClosestPoint(otherPoint);
         const double dist = pt.DistanceTo(otherPoint);
 
         if (dist < minDist)
@@ -207,12 +215,13 @@ double ImplicitSurfaceSet3::ClosestDistanceLocal(
         return surface->ClosestDistance(pt);
     };
 
-    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
+    const NearestNeighborQueryResult3<ImplicitSurface3Ptr> queryResult =
+        m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
 
     double minDist = queryResult.distance;
     for (const auto& surface : m_unboundedSurfaces)
     {
-        auto pt = surface->ClosestPoint(otherPoint);
+        Vector3D pt = surface->ClosestPoint(otherPoint);
         const double dist = pt.DistanceTo(otherPoint);
 
         if (dist < minDist)
@@ -228,8 +237,8 @@ bool ImplicitSurfaceSet3::IntersectsLocal(const Ray3D& ray) const
 {
     BuildBVH();
 
-    const auto testFunc = [](const Surface3Ptr& surface, const Ray3D& ray) {
-        return surface->Intersects(ray);
+    const auto testFunc = [](const Surface3Ptr& surface, const Ray3D& _ray) {
+        return surface->Intersects(_ray);
     };
 
     bool result = m_bvh.IsIntersects(ray, testFunc);
@@ -246,12 +255,14 @@ SurfaceRayIntersection3 ImplicitSurfaceSet3::ClosestIntersectionLocal(
 {
     BuildBVH();
 
-    const auto testFunc = [](const Surface3Ptr& surface, const Ray3D& ray) {
-        SurfaceRayIntersection3 result = surface->ClosestIntersection(ray);
+    const auto testFunc = [](const Surface3Ptr& surface, const Ray3D& _ray) {
+        const SurfaceRayIntersection3 result =
+            surface->ClosestIntersection(_ray);
         return result.distance;
     };
 
-    const auto queryResult = m_bvh.GetClosestIntersection(ray, testFunc);
+    const ClosestIntersectionQueryResult3<ImplicitSurface3Ptr> queryResult =
+        m_bvh.GetClosestIntersection(ray, testFunc);
 
     SurfaceRayIntersection3 result;
     result.distance = queryResult.distance;
@@ -337,7 +348,7 @@ void ImplicitSurfaceSet3::BuildBVH() const
 
 ImplicitSurfaceSet3::Builder ImplicitSurfaceSet3::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 ImplicitSurfaceSet3::Builder& ImplicitSurfaceSet3::Builder::WithSurfaces(
@@ -363,13 +374,13 @@ ImplicitSurfaceSet3::Builder::WithExplicitSurfaces(
 
 ImplicitSurfaceSet3 ImplicitSurfaceSet3::Builder::Build() const
 {
-    return ImplicitSurfaceSet3(m_surfaces, m_transform, m_isNormalFlipped);
+    return ImplicitSurfaceSet3{ m_surfaces, m_transform, m_isNormalFlipped };
 }
 
 ImplicitSurfaceSet3Ptr ImplicitSurfaceSet3::Builder::MakeShared() const
 {
     return std::shared_ptr<ImplicitSurfaceSet3>(
-        new ImplicitSurfaceSet3(m_surfaces, m_transform, m_isNormalFlipped),
+        new ImplicitSurfaceSet3{ m_surfaces, m_transform, m_isNormalFlipped },
         [](ImplicitSurfaceSet3* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

@@ -13,7 +13,6 @@
 
 namespace CubbyFlow
 {
-// MARK: MatrixExpression
 template <typename T, typename E>
 Size2 MatrixExpression<T, E>::size() const
 {
@@ -48,7 +47,7 @@ MatrixConstant<T>::MatrixConstant(size_t m, size_t n, const T& c)
 template <typename T>
 Size2 MatrixConstant<T>::size() const
 {
-    return Size2(Rows(), Cols());
+    return Size2{ Rows(), Cols() };
 }
 
 template <typename T>
@@ -78,7 +77,7 @@ MatrixIdentity<T>::MatrixIdentity(size_t m) : m_m(m)
 template <typename T>
 Size2 MatrixIdentity<T>::size() const
 {
-    return Size2(m_m, m_m);
+    return Size2{ m_m, m_m };
 }
 
 template <typename T>
@@ -99,7 +98,6 @@ T MatrixIdentity<T>::operator()(size_t i, size_t j) const
     return (i == j) ? 1 : 0;
 }
 
-// MARK: MatrixUnaryOp
 template <typename T, typename E, typename Op>
 MatrixUnaryOp<T, E, Op>::MatrixUnaryOp(const E& u) : m_u(u)
 {
@@ -131,8 +129,8 @@ T MatrixUnaryOp<T, E, Op>::operator()(size_t i, size_t j) const
 }
 
 template <typename T, typename E>
-MatrixDiagonal<T, E>::MatrixDiagonal(const E& u, bool isDiag)
-    : m_u(u), m_isDiag(isDiag)
+MatrixDiagonal<T, E>::MatrixDiagonal(const E& u, bool isDiagonal)
+    : m_u(u), m_isDiagonal(isDiagonal)
 {
     // Do nothing
 }
@@ -158,7 +156,7 @@ size_t MatrixDiagonal<T, E>::Cols() const
 template <typename T, typename E>
 T MatrixDiagonal<T, E>::operator()(size_t i, size_t j) const
 {
-    if (m_isDiag)
+    if (m_isDiagonal)
     {
         return (i == j) ? m_u(i, j) : 0;
     }
@@ -208,7 +206,6 @@ T MatrixTriangular<T, E>::operator()(size_t i, size_t j) const
     return (!m_isStrict) ? m_u(i, j) : 0;
 }
 
-// MARK: MatrixBinaryOp
 template <typename T, typename E1, typename E2, typename Op>
 MatrixBinaryOp<T, E1, E2, Op>::MatrixBinaryOp(const E1& u, const E2& v)
     : m_u(u), m_v(v)
@@ -240,7 +237,6 @@ T MatrixBinaryOp<T, E1, E2, Op>::operator()(size_t i, size_t j) const
     return m_op(m_u(i, j), m_v(i, j));
 }
 
-// MARK: MatrixScalarBinaryOp
 template <typename T, typename E, typename Op>
 MatrixScalarBinaryOp<T, E, Op>::MatrixScalarBinaryOp(const E& u, const T& v)
     : m_u(u), m_v(v)
@@ -299,7 +295,6 @@ T MatrixVectorMul<T, ME, VE>::operator[](size_t i) const
     return sum;
 }
 
-// MARK: MatrixMul
 template <typename T, typename E1, typename E2>
 MatrixMul<T, E1, E2>::MatrixMul(const E1& u, const E2& v) : m_u(u), m_v(v)
 {
@@ -309,7 +304,7 @@ MatrixMul<T, E1, E2>::MatrixMul(const E1& u, const E2& v) : m_u(u), m_v(v)
 template <typename T, typename E1, typename E2>
 Size2 MatrixMul<T, E1, E2>::size() const
 {
-    return Size2(m_u.Rows(), m_v.Cols());
+    return Size2{ m_u.Rows(), m_v.Cols() };
 }
 
 template <typename T, typename E1, typename E2>
@@ -339,87 +334,86 @@ T MatrixMul<T, E1, E2>::operator()(size_t i, size_t j) const
     return sum;
 }
 
-// MARK: Operator overloadings
 template <typename T, typename E>
 MatrixScalarMul<T, E> operator-(const MatrixExpression<T, E>& a)
 {
-    return MatrixScalarMul<T, E>(a(), T(-1));
+    return MatrixScalarMul<T, E>{ a(), T(-1) };
 }
 
 template <typename T, typename E1, typename E2>
 MatrixAdd<T, E1, E2> operator+(const MatrixExpression<T, E1>& a,
                                const MatrixExpression<T, E2>& b)
 {
-    return MatrixAdd<T, E1, E2>(a(), b());
+    return MatrixAdd<T, E1, E2>{ a(), b() };
 }
 
 template <typename T, typename E>
 MatrixScalarAdd<T, E> operator+(const MatrixExpression<T, E>& a, T b)
 {
-    return MatrixScalarAdd<T, E>(a(), b);
+    return MatrixScalarAdd<T, E>{ a(), b };
 }
 
 template <typename T, typename E>
 MatrixScalarAdd<T, E> operator+(T a, const MatrixExpression<T, E>& b)
 {
-    return MatrixScalarAdd<T, E>(b(), a);
+    return MatrixScalarAdd<T, E>{ b(), a };
 }
 
 template <typename T, typename E1, typename E2>
 MatrixSub<T, E1, E2> operator-(const MatrixExpression<T, E1>& a,
                                const MatrixExpression<T, E2>& b)
 {
-    return MatrixSub<T, E1, E2>(a(), b());
+    return MatrixSub<T, E1, E2>{ a(), b() };
 }
 
 template <typename T, typename E>
 MatrixScalarSub<T, E> operator-(const MatrixExpression<T, E>& a, T b)
 {
-    return MatrixScalarSub<T, E>(a(), b);
+    return MatrixScalarSub<T, E>{ a(), b };
 }
 
 template <typename T, typename E>
 MatrixScalarRSub<T, E> operator-(T a, const MatrixExpression<T, E>& b)
 {
-    return MatrixScalarRSub<T, E>(b(), a);
+    return MatrixScalarRSub<T, E>{ b(), a };
 }
 
 template <typename T, typename E>
 MatrixScalarMul<T, E> operator*(const MatrixExpression<T, E>& a, T b)
 {
-    return MatrixScalarMul<T, E>(a(), b);
+    return MatrixScalarMul<T, E>{ a(), b };
 }
 
 template <typename T, typename E>
 MatrixScalarMul<T, E> operator*(T a, const MatrixExpression<T, E>& b)
 {
-    return MatrixScalarMul<T, E>(b(), a);
+    return MatrixScalarMul<T, E>{ b(), a };
 }
 
 template <typename T, typename ME, typename VE>
 MatrixVectorMul<T, ME, VE> operator*(const MatrixExpression<T, ME>& a,
                                      const VectorExpression<T, VE>& b)
 {
-    return MatrixVectorMul<T, ME, VE>(a(), b());
+    return MatrixVectorMul<T, ME, VE>{ a(), b() };
 }
 
 template <typename T, typename E1, typename E2>
 MatrixMul<T, E1, E2> operator*(const MatrixExpression<T, E1>& a,
                                const MatrixExpression<T, E2>& b)
 {
-    return MatrixMul<T, E1, E2>(a(), b());
+    return MatrixMul<T, E1, E2>{ a(), b() };
 }
 
 template <typename T, typename E>
 MatrixScalarDiv<T, E> operator/(const MatrixExpression<T, E>& a, T b)
 {
-    return MatrixScalarDiv<T, E>(a(), b);
+    return MatrixScalarDiv<T, E>{ a(), b };
 }
 
 template <typename T, typename E>
 MatrixScalarRDiv<T, E> operator/(T a, const MatrixExpression<T, E>& b)
 {
-    return MatrixScalarRDiv<T, E>(a(), b);
+    return MatrixScalarRDiv<T, E>{ a(), b };
 }
 }  // namespace CubbyFlow
 

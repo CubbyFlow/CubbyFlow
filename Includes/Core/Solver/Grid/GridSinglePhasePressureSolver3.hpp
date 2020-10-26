@@ -38,8 +38,24 @@ class GridSinglePhasePressureSolver3 : public GridPressureSolver3
     //! Default constructor.
     GridSinglePhasePressureSolver3();
 
-    //! Default destructor.
-    virtual ~GridSinglePhasePressureSolver3();
+    //! Deleted copy constructor.
+    GridSinglePhasePressureSolver3(const GridSinglePhasePressureSolver3&) =
+        delete;
+
+    //! Deleted move constructor.
+    GridSinglePhasePressureSolver3(GridSinglePhasePressureSolver3&&) noexcept =
+        delete;
+
+    //! Default virtual destructor.
+    ~GridSinglePhasePressureSolver3() override = default;
+
+    //! Deleted copy assignment operator.
+    GridSinglePhasePressureSolver3& operator=(
+        const GridSinglePhasePressureSolver3&) = delete;
+
+    //! Deleted move assignment operator.
+    GridSinglePhasePressureSolver3& operator=(
+        GridSinglePhasePressureSolver3&&) noexcept = delete;
 
     //!
     //! \brief Solves the pressure term and apply it to the velocity field.
@@ -56,22 +72,22 @@ class GridSinglePhasePressureSolver3 : public GridPressureSolver3
     //! will be used for \p fluidSDF which means it's fully occupied with fluid
     //! without any atmosphere.
     //!
-    //! \param[in]    input                 The input velocity field.
-    //! \param[in]    timeIntervalInSeconds The time interval for the sim.
-    //! \param[inout] output                The output velocity field.
-    //! \param[in]    boundarySDF           The SDF of the boundary.
-    //! \param[in]    boundaryVelocity      The velocity of the boundary.
-    //! \param[in]    fluidSDF              The SDF of the fluid/atmosphere.
-    //! \param[in]    useCompressed         True if it uses compressed system.
+    //! \param[in]     input                 The input velocity field.
+    //! \param[in]     timeIntervalInSeconds The time interval for the sim.
+    //! \param[in,out] output                The output velocity field.
+    //! \param[in]     boundarySDF           The SDF of the boundary.
+    //! \param[in]     boundaryVelocity      The velocity of the boundary.
+    //! \param[in]     fluidSDF              The SDF of the fluid/atmosphere.
+    //! \param[in]     useCompressed         True if it uses compressed system.
     //!
     void Solve(const FaceCenteredGrid3& input, double timeIntervalInSeconds,
                FaceCenteredGrid3* output,
                const ScalarField3& boundarySDF =
-                   ConstantScalarField3(std::numeric_limits<double>::max()),
+                   ConstantScalarField3{ std::numeric_limits<double>::max() },
                const VectorField3& boundaryVelocity =
-                   ConstantVectorField3({ 0, 0, 0 }),
+                   ConstantVectorField3{ { 0, 0, 0 } },
                const ScalarField3& fluidSDF =
-                   ConstantScalarField3(-std::numeric_limits<double>::max()),
+                   ConstantScalarField3{ -std::numeric_limits<double>::max() },
                bool useCompressed = false) override;
 
     //!
@@ -84,28 +100,20 @@ class GridSinglePhasePressureSolver3 : public GridPressureSolver3
     //! GridBlockedBoundaryConditionSolver3 will be returned since this pressure
     //! solver encodes boundaries like pixelated Lego blocks.
     //!
-    GridBoundaryConditionSolver3Ptr SuggestedBoundaryConditionSolver()
-        const override;
+    [[nodiscard]] GridBoundaryConditionSolver3Ptr
+    SuggestedBoundaryConditionSolver() const override;
 
     //! Returns the linear system solver.
-    const FDMLinearSystemSolver3Ptr& GetLinearSystemSolver() const;
+    [[nodiscard]] const FDMLinearSystemSolver3Ptr& GetLinearSystemSolver()
+        const;
 
     //! Sets the linear system solver.
     void SetLinearSystemSolver(const FDMLinearSystemSolver3Ptr& solver);
 
     //! Returns the pressure field.
-    const FDMVector3& GetPressure() const;
+    [[nodiscard]] const FDMVector3& GetPressure() const;
 
  private:
-    FDMLinearSystem3 m_system;
-    FDMCompressedLinearSystem3 m_compSystem;
-    FDMLinearSystemSolver3Ptr m_systemSolver;
-
-    FDMMGLinearSystem3 m_mgSystem;
-    FDMMGSolver3Ptr m_mgSystemSolver;
-
-    std::vector<Array3<char>> m_markers;
-
     void BuildMarkers(
         const Size3& size,
         const std::function<Vector3D(size_t, size_t, size_t)>& pos,
@@ -118,6 +126,15 @@ class GridSinglePhasePressureSolver3 : public GridPressureSolver3
 
     virtual void ApplyPressureGradient(const FaceCenteredGrid3& input,
                                        FaceCenteredGrid3* output);
+
+    FDMLinearSystem3 m_system;
+    FDMCompressedLinearSystem3 m_compSystem;
+    FDMLinearSystemSolver3Ptr m_systemSolver;
+
+    FDMMGLinearSystem3 m_mgSystem;
+    FDMMGSolver3Ptr m_mgSystemSolver;
+
+    std::vector<Array3<char>> m_markers;
 };
 
 //! Shared pointer type for the GridSinglePhasePressureSolver3.

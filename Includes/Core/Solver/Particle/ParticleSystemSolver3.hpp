@@ -31,7 +31,7 @@ namespace CubbyFlow
 //! to add more sophisticated simulations, such as SPH, to handle
 //! particle-to-particle intersection.
 //!
-//! \see        SphSolver3
+//! \see        SPHSolver3
 //!
 class ParticleSystemSolver3 : public PhysicsAnimation
 {
@@ -44,11 +44,23 @@ class ParticleSystemSolver3 : public PhysicsAnimation
     //! Constructs a solver with particle parameters.
     ParticleSystemSolver3(double radius, double mass);
 
-    //! Destructor.
-    virtual ~ParticleSystemSolver3();
+    //! Deleted copy constructor.
+    ParticleSystemSolver3(const ParticleSystemSolver3&) = delete;
+
+    //! Deleted move constructor.
+    ParticleSystemSolver3(ParticleSystemSolver3&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~ParticleSystemSolver3() override = default;
+
+    //! Deleted copy assignment operator.
+    ParticleSystemSolver3& operator=(const ParticleSystemSolver3&) = delete;
+
+    //! Deleted move assignment operator.
+    ParticleSystemSolver3& operator=(ParticleSystemSolver3&&) noexcept = delete;
 
     //! Returns the drag coefficient.
-    double GetDragCoefficient() const;
+    [[nodiscard]] double GetDragCoefficient() const;
 
     //!
     //! \brief      Sets the drag coefficient.
@@ -61,7 +73,7 @@ class ParticleSystemSolver3 : public PhysicsAnimation
     void SetDragCoefficient(double newDragCoefficient);
 
     //! Gets the restitution coefficient.
-    double GetRestitutionCoefficient() const;
+    [[nodiscard]] double GetRestitutionCoefficient() const;
 
     //!
     //! \brief      Sets the restitution coefficient.
@@ -75,7 +87,7 @@ class ParticleSystemSolver3 : public PhysicsAnimation
     void SetRestitutionCoefficient(double newRestitutionCoefficient);
 
     //! Returns the gravity.
-    const Vector3D& GetGravity() const;
+    [[nodiscard]] const Vector3D& GetGravity() const;
 
     //! Sets the gravity.
     void SetGravity(const Vector3D& newGravity);
@@ -88,22 +100,22 @@ class ParticleSystemSolver3 : public PhysicsAnimation
     //!
     //! \return     The particle system data.
     //!
-    const ParticleSystemData3Ptr& GetParticleSystemData() const;
+    [[nodiscard]] const ParticleSystemData3Ptr& GetParticleSystemData() const;
 
     //! Returns the collider.
-    const Collider3Ptr& GetCollider() const;
+    [[nodiscard]] const Collider3Ptr& GetCollider() const;
 
     //! Sets the collider.
     void SetCollider(const Collider3Ptr& newCollider);
 
     //! Returns the emitter.
-    const ParticleEmitter3Ptr& GetEmitter() const;
+    [[nodiscard]] const ParticleEmitter3Ptr& GetEmitter() const;
 
     //! Sets the emitter.
     void SetEmitter(const ParticleEmitter3Ptr& newEmitter);
 
     //! Returns the wind field.
-    const VectorField3Ptr& GetWind() const;
+    [[nodiscard]] const VectorField3Ptr& GetWind() const;
 
     //!
     //! \brief      Sets the wind.
@@ -116,7 +128,7 @@ class ParticleSystemSolver3 : public PhysicsAnimation
     void SetWind(const VectorField3Ptr& newWind);
 
     //! Returns builder fox ParticleSystemSolver3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  protected:
     //! Initializes the simulator.
@@ -146,17 +158,6 @@ class ParticleSystemSolver3 : public PhysicsAnimation
     void SetParticleSystemData(const ParticleSystemData3Ptr& newParticles);
 
  private:
-    double m_dragCoefficient = 1e-4;
-    double m_restitutionCoefficient = 0.0;
-    Vector3D m_gravity = Vector3D(0.0, GRAVITY, 0.0);
-
-    ParticleSystemData3Ptr m_particleSystemData;
-    ParticleSystemData3::VectorData m_newPositions;
-    ParticleSystemData3::VectorData m_newVelocities;
-    Collider3Ptr m_collider;
-    ParticleEmitter3Ptr m_emitter;
-    VectorField3Ptr m_wind;
-
     void BeginAdvanceTimeStep(double timeStepInSeconds);
 
     void EndAdvanceTimeStep(double timeStepInSeconds);
@@ -168,6 +169,17 @@ class ParticleSystemSolver3 : public PhysicsAnimation
     void UpdateCollider(double timeStepInSeconds) const;
 
     void UpdateEmitter(double timeStepInSeconds) const;
+
+    double m_dragCoefficient = 1e-4;
+    double m_restitutionCoefficient = 0.0;
+    Vector3D m_gravity = Vector3D{ 0.0, GRAVITY, 0.0 };
+
+    ParticleSystemData3Ptr m_particleSystemData;
+    ParticleSystemData3::VectorData m_newPositions;
+    ParticleSystemData3::VectorData m_newVelocities;
+    Collider3Ptr m_collider;
+    ParticleEmitter3Ptr m_emitter;
+    VectorField3Ptr m_wind;
 };
 
 //! Shared pointer type for the ParticleSystemSolver3.
@@ -181,10 +193,10 @@ class ParticleSystemSolverBuilderBase3
 {
  public:
     //! Returns builder with particle radius.
-    DerivedBuilder& WithRadius(double radius);
+    [[nodiscard]] DerivedBuilder& WithRadius(double radius);
 
     //! Returns builder with mass per particle.
-    DerivedBuilder& WithMass(double mass);
+    [[nodiscard]] DerivedBuilder& WithMass(double mass);
 
  protected:
     double m_radius = 1e-3;
@@ -209,14 +221,14 @@ T& ParticleSystemSolverBuilderBase3<T>::WithMass(double mass)
 //! \brief Front-end to create ParticleSystemSolver3 objects step by step.
 //!
 class ParticleSystemSolver3::Builder final
-    : public ParticleSystemSolverBuilderBase3<ParticleSystemSolver3::Builder>
+    : public ParticleSystemSolverBuilderBase3<Builder>
 {
  public:
     //! Builds ParticleSystemSolver3.
-    ParticleSystemSolver3 Build() const;
+    [[nodiscard]] ParticleSystemSolver3 Build() const;
 
     //! Builds shared pointer of ParticleSystemSolver3 instance.
-    ParticleSystemSolver3Ptr MakeShared() const;
+    [[nodiscard]] ParticleSystemSolver3Ptr MakeShared() const;
 };
 }  // namespace CubbyFlow
 

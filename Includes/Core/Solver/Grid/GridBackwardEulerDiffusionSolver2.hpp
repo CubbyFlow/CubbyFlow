@@ -40,6 +40,25 @@ class GridBackwardEulerDiffusionSolver2 final : public GridDiffusionSolver2
     explicit GridBackwardEulerDiffusionSolver2(
         BoundaryType boundaryType = BoundaryType::Neumann);
 
+    //! Deleted copy constructor.
+    GridBackwardEulerDiffusionSolver2(
+        const GridBackwardEulerDiffusionSolver2&) = delete;
+
+    //! Deleted move constructor.
+    GridBackwardEulerDiffusionSolver2(
+        GridBackwardEulerDiffusionSolver2&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~GridBackwardEulerDiffusionSolver2() override = default;
+
+    //! Deleted copy assignment operator.
+    GridBackwardEulerDiffusionSolver2& operator=(
+        const GridBackwardEulerDiffusionSolver2&) = delete;
+
+    //! Deleted move assignment operator.
+    GridBackwardEulerDiffusionSolver2& operator=(
+        GridBackwardEulerDiffusionSolver2&&) noexcept = delete;
+
     //!
     //! Solves diffusion equation for a scalar field.
     //!
@@ -53,9 +72,9 @@ class GridBackwardEulerDiffusionSolver2 final : public GridDiffusionSolver2
     void Solve(const ScalarGrid2& source, double diffusionCoefficient,
                double timeIntervalInSeconds, ScalarGrid2* dest,
                const ScalarField2& boundarySDF =
-                   ConstantScalarField2(std::numeric_limits<double>::max()),
-               const ScalarField2& fluidSDF = ConstantScalarField2(
-                   -std::numeric_limits<double>::max())) override;
+                   ConstantScalarField2{ std::numeric_limits<double>::max() },
+               const ScalarField2& fluidSDF = ConstantScalarField2{
+                   -std::numeric_limits<double>::max() }) override;
 
     //!
     //! Solves diffusion equation for a collocated vector field.
@@ -70,9 +89,9 @@ class GridBackwardEulerDiffusionSolver2 final : public GridDiffusionSolver2
     void Solve(const CollocatedVectorGrid2& source, double diffusionCoefficient,
                double timeIntervalInSeconds, CollocatedVectorGrid2* dest,
                const ScalarField2& boundarySDF =
-                   ConstantScalarField2(std::numeric_limits<double>::max()),
-               const ScalarField2& fluidSDF = ConstantScalarField2(
-                   -std::numeric_limits<double>::max())) override;
+                   ConstantScalarField2{ std::numeric_limits<double>::max() },
+               const ScalarField2& fluidSDF = ConstantScalarField2{
+                   -std::numeric_limits<double>::max() }) override;
 
     //!
     //! Solves diffusion equation for a face-centered vector field.
@@ -87,19 +106,14 @@ class GridBackwardEulerDiffusionSolver2 final : public GridDiffusionSolver2
     void Solve(const FaceCenteredGrid2& source, double diffusionCoefficient,
                double timeIntervalInSeconds, FaceCenteredGrid2* dest,
                const ScalarField2& boundarySDF =
-                   ConstantScalarField2(std::numeric_limits<double>::max()),
-               const ScalarField2& fluidSDF = ConstantScalarField2(
-                   -std::numeric_limits<double>::max())) override;
+                   ConstantScalarField2{ std::numeric_limits<double>::max() },
+               const ScalarField2& fluidSDF = ConstantScalarField2{
+                   -std::numeric_limits<double>::max() }) override;
 
     //! Sets the linear system solver for this diffusion solver.
     void SetLinearSystemSolver(const FDMLinearSystemSolver2Ptr& solver);
 
  private:
-    BoundaryType m_boundaryType;
-    FDMLinearSystem2 m_system;
-    FDMLinearSystemSolver2Ptr m_systemSolver;
-    Array2<char> m_markers;
-
     void BuildMarkers(const Size2& size,
                       const std::function<Vector2D(size_t, size_t)>& pos,
                       const ScalarField2& boundarySDF,
@@ -111,6 +125,11 @@ class GridBackwardEulerDiffusionSolver2 final : public GridDiffusionSolver2
 
     void BuildVectors(const ConstArrayAccessor2<Vector2D>& f, const Vector2D& c,
                       size_t component);
+
+    BoundaryType m_boundaryType;
+    FDMLinearSystem2 m_system;
+    FDMLinearSystemSolver2Ptr m_systemSolver;
+    Array2<char> m_markers;
 };
 
 //! Shared pointer type for the GridBackwardEulerDiffusionSolver2.

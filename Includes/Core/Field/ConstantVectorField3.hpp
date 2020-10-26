@@ -25,13 +25,14 @@ class ConstantVectorField3 final : public VectorField3
     explicit ConstantVectorField3(const Vector3D& value);
 
     //! Returns the sampled value at given position \p x.
-    Vector3D Sample(const Vector3D& x) const override;
+    [[nodiscard]] Vector3D Sample(const Vector3D& x) const override;
 
     //! Returns the sampler function.
-    std::function<Vector3D(const Vector3D&)> Sampler() const override;
+    [[nodiscard]] std::function<Vector3D(const Vector3D&)> Sampler()
+        const override;
 
     //! Returns builder fox ConstantVectorField3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
     Vector3D m_value;
@@ -47,13 +48,13 @@ class ConstantVectorField3::Builder final
 {
  public:
     //! Returns builder with value.
-    Builder& WithValue(const Vector3D& value);
+    [[nodiscard]] Builder& WithValue(const Vector3D& value);
 
     //! Builds ConstantVectorField3.
-    ConstantVectorField3 Build() const;
+    [[nodiscard]] ConstantVectorField3 Build() const;
 
     //! Builds shared pointer of ConstantVectorField3 instance.
-    ConstantVectorField3Ptr MakeShared() const;
+    [[nodiscard]] ConstantVectorField3Ptr MakeShared() const;
 
  private:
     Vector3D m_value{ 0, 0, 0 };

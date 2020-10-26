@@ -38,6 +38,7 @@ class AnisotropicPointsToImplicit2 final : public PointsToImplicit2
     //! \param positionSmoothingFactor Position smoothing factor.
     //! \param minNumNeighbors Minimum number of neighbors to enable anisotropic
     //! kernel.
+    //! \param isOutputSDF True if the output should be signed-distance field.
     //!
     AnisotropicPointsToImplicit2(double kernelRadius = 1.0,
                                  double cutOffDensity = 0.5,

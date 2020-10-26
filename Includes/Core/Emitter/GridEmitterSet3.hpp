@@ -26,25 +26,37 @@ class GridEmitterSet3 final : public GridEmitter3
     class Builder;
 
     //! Constructs an emitter.
-    GridEmitterSet3();
+    GridEmitterSet3() = default;
 
     //! Constructs an emitter with sub-emitters.
     explicit GridEmitterSet3(const std::vector<GridEmitter3Ptr>& emitters);
 
-    //! Destructor.
-    virtual ~GridEmitterSet3();
+    //! Default copy constructor.
+    GridEmitterSet3(const GridEmitterSet3&) = default;
+
+    //! Default move constructor.
+    GridEmitterSet3(GridEmitterSet3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~GridEmitterSet3() override = default;
+
+    //! Default copy assignment operator.
+    GridEmitterSet3& operator=(const GridEmitterSet3&) = default;
+
+    //! Default move assignment operator.
+    GridEmitterSet3& operator=(GridEmitterSet3&&) noexcept = default;
 
     //! Adds sub-emitter.
     void AddEmitter(const GridEmitter3Ptr& emitter);
 
     //! Returns builder fox GridEmitterSet3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
-    std::vector<GridEmitter3Ptr> m_emitters;
-
     void OnUpdate(double currentTimeInSeconds,
                   double timeIntervalInSeconds) override;
+
+    std::vector<GridEmitter3Ptr> m_emitters;
 };
 
 //! Shared pointer type for the GridEmitterSet3.
@@ -57,13 +69,14 @@ class GridEmitterSet3::Builder final
 {
  public:
     //! Returns builder with list of sub-emitters.
-    Builder& WithEmitters(const std::vector<GridEmitter3Ptr>& emitters);
+    [[nodiscard]] Builder& WithEmitters(
+        const std::vector<GridEmitter3Ptr>& emitters);
 
     //! Builds GridEmitterSet3.
-    GridEmitterSet3 Build() const;
+    [[nodiscard]] GridEmitterSet3 Build() const;
 
     //! Builds shared pointer of GridEmitterSet3 instance.
-    GridEmitterSet3Ptr MakeShared() const;
+    [[nodiscard]] GridEmitterSet3Ptr MakeShared() const;
 
  private:
     std::vector<GridEmitter3Ptr> m_emitters;

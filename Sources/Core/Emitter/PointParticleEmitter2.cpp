@@ -63,15 +63,15 @@ void PointParticleEmitter2::OnUpdate(double currentTimeInSeconds,
         m_firstFrameTimeInSeconds = currentTimeInSeconds;
     }
 
-    double elapsedTimeInSeconds =
+    const double elapsedTimeInSeconds =
         currentTimeInSeconds - m_firstFrameTimeInSeconds;
 
-    size_t newMaxTotalNumberOfEmittedParticles = static_cast<size_t>(
+    auto newMaxTotalNumberOfEmittedParticles = static_cast<size_t>(
         std::ceil((elapsedTimeInSeconds + timeIntervalInSeconds) *
-                  m_maxNumberOfNewParticlesPerSecond));
+                  static_cast<double>(m_maxNumberOfNewParticlesPerSecond)));
     newMaxTotalNumberOfEmittedParticles =
         std::min(newMaxTotalNumberOfEmittedParticles, m_maxNumberOfParticles);
-    size_t maxNumberOfNewParticles =
+    const size_t maxNumberOfNewParticles =
         newMaxTotalNumberOfEmittedParticles - m_numberOfEmittedParticles;
 
     if (maxNumberOfNewParticles > 0)
@@ -110,7 +110,7 @@ void PointParticleEmitter2::Emit(Array1<Vector2D>* newPositions,
 
 double PointParticleEmitter2::Random()
 {
-    std::uniform_real_distribution<> d(0.0, 1.0);
+    std::uniform_real_distribution<> d{ 0.0, 1.0 };
     return d(m_rng);
 }
 

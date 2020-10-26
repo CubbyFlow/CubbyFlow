@@ -14,10 +14,10 @@
 namespace CubbyFlow
 {
 FDMCGSolver3::FDMCGSolver3(unsigned int maxNumberOfIterations, double tolerance)
-    : m_maxNumberOfIterations(maxNumberOfIterations),
-      m_lastNumberOfIterations(0),
-      m_tolerance(tolerance),
-      m_lastResidual(std::numeric_limits<double>::max())
+    : m_maxNumberOfIterations{ maxNumberOfIterations },
+      m_lastNumberOfIterations{ 0 },
+      m_tolerance{ tolerance },
+      m_lastResidual{ std::numeric_limits<double>::max() }
 {
     // Do nothing
 }

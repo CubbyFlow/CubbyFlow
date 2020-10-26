@@ -32,8 +32,7 @@ namespace CubbyFlow
 //! \return     Sampled direction vector.
 //!
 template <typename T>
-inline Vector3<T> UniformSampleCone(T u1, T u2, const Vector3<T>& axis,
-                                    T angle);
+Vector3<T> UniformSampleCone(T u1, T u2, const Vector3<T>& axis, T angle);
 
 //!
 //! \brief      Returns randomly sampled point within a unit hemisphere.
@@ -50,7 +49,7 @@ inline Vector3<T> UniformSampleCone(T u1, T u2, const Vector3<T>& axis,
 //! \return     Sampled point.
 //!
 template <typename T>
-inline Vector3<T> UniformSampleHemisphere(T u1, T u2, const Vector3<T>& normal);
+Vector3<T> UniformSampleHemisphere(T u1, T u2, const Vector3<T>& normal);
 
 //!
 //! \brief      Returns weighted sampled point on a hemisphere.
@@ -67,8 +66,7 @@ inline Vector3<T> UniformSampleHemisphere(T u1, T u2, const Vector3<T>& normal);
 //! \return     Sampled point.
 //!
 template <typename T>
-inline Vector3<T> CosineWeightedSampleHemisphere(T u1, T u2,
-                                                 const Vector3<T>& normal);
+Vector3<T> CosineWeightedSampleHemisphere(T u1, T u2, const Vector3<T>& normal);
 
 //!
 //! \brief      Returns randomly a point on a sphere.
@@ -84,7 +82,7 @@ inline Vector3<T> CosineWeightedSampleHemisphere(T u1, T u2,
 //! \return     Sampled point.
 //!
 template <typename T>
-inline Vector3<T> UniformSampleSphere(T u1, T u2);
+Vector3<T> UniformSampleSphere(T u1, T u2);
 
 //!
 //! \brief      Returns randomly a point on a disk.
@@ -99,7 +97,7 @@ inline Vector3<T> UniformSampleSphere(T u1, T u2);
 //! \return     Sampled point.
 //!
 template <typename T>
-inline Vector2<T> UniformSampleDisk(T u1, T u2);
+Vector2<T> UniformSampleDisk(T u1, T u2);
 }  // namespace CubbyFlow
 
 #include <Core/Utils/Samplers-Impl.hpp>

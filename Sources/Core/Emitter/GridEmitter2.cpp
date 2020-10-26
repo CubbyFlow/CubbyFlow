@@ -12,16 +12,6 @@
 
 namespace CubbyFlow
 {
-GridEmitter2::GridEmitter2()
-{
-    // Do nothing
-}
-
-GridEmitter2::~GridEmitter2()
-{
-    // Do nothing
-}
-
 void GridEmitter2::Update(double currentTimeInSeconds,
                           double timeIntervalInSeconds)
 {

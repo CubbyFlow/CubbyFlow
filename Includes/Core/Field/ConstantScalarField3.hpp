@@ -25,13 +25,14 @@ class ConstantScalarField3 final : public ScalarField3
     explicit ConstantScalarField3(double value);
 
     //! Returns the sampled value at given position \p x.
-    double Sample(const Vector3D& x) const override;
+    [[nodiscard]] double Sample(const Vector3D& x) const override;
 
     //! Returns the sampler function.
-    std::function<double(const Vector3D&)> Sampler() const override;
+    [[nodiscard]] std::function<double(const Vector3D&)> Sampler()
+        const override;
 
     //! Returns builder fox ConstantScalarField3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
     double m_value = 0.0;
@@ -47,13 +48,13 @@ class ConstantScalarField3::Builder final
 {
  public:
     //! Returns builder with value.
-    Builder& WithValue(double value);
+    [[nodiscard]] Builder& WithValue(double value);
 
     //! Builds ConstantScalarField3.
-    ConstantScalarField3 Build() const;
+    [[nodiscard]] ConstantScalarField3 Build() const;
 
     //! Builds shared pointer of ConstantScalarField3 instance.
-    ConstantScalarField3Ptr MakeShared() const;
+    [[nodiscard]] ConstantScalarField3Ptr MakeShared() const;
 
  private:
     double m_value = 0.0;

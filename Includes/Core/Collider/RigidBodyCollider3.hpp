@@ -26,25 +26,25 @@ class RigidBodyCollider3 final : public Collider3
  public:
     class Builder;
 
-    //! Linear velocity of the rigid body.
-    Vector3D linearVelocity;
-
-    //! Angular velocity of the rigid body.
-    Vector3D angularVelocity;
-
     //! Constructs a collider with a surface.
     explicit RigidBodyCollider3(const Surface3Ptr& surface);
 
     //! Constructs a collider with a surface and other parameters.
     RigidBodyCollider3(const Surface3Ptr& surface,
-                       const Vector3D& linearVelocity,
-                       const Vector3D& angularVelocity);
+                       const Vector3D& _linearVelocity,
+                       const Vector3D& _angularVelocity);
 
     //! Returns the velocity of the collider at given \p point.
-    Vector3D VelocityAt(const Vector3D& point) const override;
+    [[nodiscard]] Vector3D VelocityAt(const Vector3D& point) const override;
 
     //! Returns builder fox RigidBodyCollider3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
+
+    //! Linear velocity of the rigid body.
+    Vector3D linearVelocity;
+
+    //! Angular velocity of the rigid body.
+    Vector3D angularVelocity;
 };
 
 //! Shared pointer for the RigidBodyCollider3 type.
@@ -57,19 +57,20 @@ class RigidBodyCollider3::Builder final
 {
  public:
     //! Returns builder with surface.
-    Builder& WithSurface(const Surface3Ptr& surface);
+    [[nodiscard]] Builder& WithSurface(const Surface3Ptr& surface);
 
     //! Returns builder with linear velocity.
-    Builder& WithLinearVelocity(const Vector3D& linearVelocity);
+    [[nodiscard]] Builder& WithLinearVelocity(const Vector3D& _linearVelocity);
 
     //! Returns builder with angular velocity.
-    Builder& WithAngularVelocity(const Vector3D& angularVelocity);
+    [[nodiscard]] Builder& WithAngularVelocity(
+        const Vector3D& _angularVelocity);
 
     //! Builds RigidBodyCollider3.
-    RigidBodyCollider3 Build() const;
+    [[nodiscard]] RigidBodyCollider3 Build() const;
 
     //! Builds shared pointer of RigidBodyCollider3 instance.
-    RigidBodyCollider3Ptr MakeShared() const;
+    [[nodiscard]] RigidBodyCollider3Ptr MakeShared() const;
 
  private:
     Surface3Ptr m_surface;

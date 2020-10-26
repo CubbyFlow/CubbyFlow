@@ -16,12 +16,6 @@
 namespace CubbyFlow
 {
 template <typename T, size_t K>
-KdTree<T, K>::Node::Node()
-{
-    child = std::numeric_limits<size_t>::max();
-}
-
-template <typename T, size_t K>
 void KdTree<T, K>::Node::InitLeaf(size_t it, const Point& pt)
 {
     flags = K;
@@ -47,12 +41,6 @@ bool KdTree<T, K>::Node::IsLeaf() const
 }
 
 template <typename T, size_t K>
-KdTree<T, K>::KdTree()
-{
-    // Do nothing
-}
-
-template <typename T, size_t K>
 void KdTree<T, K>::Build(const ConstArrayAccessor1<Point>& points)
 {
     m_points.resize(points.size());
@@ -68,7 +56,8 @@ void KdTree<T, K>::Build(const ConstArrayAccessor1<Point>& points)
     std::vector<size_t> itemIndices(m_points.size());
     std::iota(std::begin(itemIndices), std::end(itemIndices), 0);
 
-    Build(0, itemIndices.data(), m_points.size(), 0);
+    [[maybe_unused]] const size_t d =
+        Build(0, itemIndices.data(), m_points.size(), 0);
 }
 
 template <typename T, size_t K>
@@ -352,7 +341,7 @@ size_t KdTree<T, K>::Build(size_t nodeIndex, size_t* itemIndices, size_t nItems,
         nodeBound.Merge(m_points[itemIndices[i]]);
     }
     Point d = nodeBound.upperCorner - nodeBound.lowerCorner;
-    size_t axis = static_cast<size_t>(d.DominantAxis());
+    const size_t axis = static_cast<size_t>(d.DominantAxis());
 
     // pick mid point
     std::nth_element(itemIndices, itemIndices + nItems / 2,

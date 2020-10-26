@@ -14,19 +14,9 @@
 
 namespace CubbyFlow
 {
-Animation::Animation()
-{
-    // Do nothing
-}
-
-Animation::~Animation()
-{
-    // Do nothing
-}
-
 void Animation::Update(const Frame& frame)
 {
-    Timer timer;
+    const Timer timer;
 
     CUBBYFLOW_INFO << "Begin updating frame: " << frame.index
                    << " timeIntervalInSeconds: " << frame.timeIntervalInSeconds

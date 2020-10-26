@@ -57,15 +57,22 @@ Matrix<T, 4, 4>::Matrix(const Matrix3x3<T>& m33)
 }
 
 template <typename T>
+Matrix<T, 4, 4>::Matrix(const T* arr)
+{
+    Set(arr);
+}
+
+template <typename T>
 Matrix<T, 4, 4>::Matrix(const Matrix& m)
 {
     Set(m);
 }
 
 template <typename T>
-Matrix<T, 4, 4>::Matrix(const T* arr)
+Matrix<T, 4, 4>& Matrix<T, 4, 4>::operator=(const Matrix& m)
 {
-    Set(arr);
+    Set(m);
+    return *this;
 }
 
 template <typename T>
@@ -139,8 +146,8 @@ template <typename U>
 void Matrix<T, 4, 4>::Set(
     const std::initializer_list<std::initializer_list<U>>& list)
 {
-    size_t height = list.size();
-    size_t width = (height > 0) ? list.begin()->size() : 0;
+    const size_t height = list.size();
+    const size_t width = (height > 0) ? list.begin()->size() : 0;
 
     assert(width == 4);
     assert(height == 4);
@@ -252,19 +259,19 @@ bool Matrix<T, 4, 4>::IsSimilar(const Matrix& m, double tol) const
 }
 
 template <typename T>
-bool Matrix<T, 4, 4>::IsSquare() const
+bool Matrix<T, 4, 4>::IsSquare()
 {
     return true;
 }
 
 template <typename T>
-size_t Matrix<T, 4, 4>::Rows() const
+size_t Matrix<T, 4, 4>::Rows()
 {
     return 4;
 }
 
 template <typename T>
-size_t Matrix<T, 4, 4>::Cols() const
+size_t Matrix<T, 4, 4>::Cols()
 {
     return 4;
 }
@@ -284,92 +291,97 @@ const T* Matrix<T, 4, 4>::data() const
 template <typename T>
 Matrix<T, 3, 3> Matrix<T, 4, 4>::Matrix3() const
 {
-    return Matrix<T, 3, 3>(m_elements[0], m_elements[1], m_elements[2],
-                           m_elements[4], m_elements[5], m_elements[6],
-                           m_elements[8], m_elements[9], m_elements[10]);
+    return Matrix<T, 3, 3>{ m_elements[0], m_elements[1], m_elements[2],
+                            m_elements[4], m_elements[5], m_elements[6],
+                            m_elements[8], m_elements[9], m_elements[10] };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::Add(T s) const
 {
-    return Matrix<T, 4, 4>(
-        m_elements[0] + s, m_elements[1] + s, m_elements[2] + s,
-        m_elements[3] + s, m_elements[4] + s, m_elements[5] + s,
-        m_elements[6] + s, m_elements[7] + s, m_elements[8] + s,
-        m_elements[9] + s, m_elements[10] + s, m_elements[11] + s,
-        m_elements[12] + s, m_elements[13] + s, m_elements[14] + s,
-        m_elements[15] + s);
+    return Matrix<T, 4, 4>{ m_elements[0] + s,  m_elements[1] + s,
+                            m_elements[2] + s,  m_elements[3] + s,
+                            m_elements[4] + s,  m_elements[5] + s,
+                            m_elements[6] + s,  m_elements[7] + s,
+                            m_elements[8] + s,  m_elements[9] + s,
+                            m_elements[10] + s, m_elements[11] + s,
+                            m_elements[12] + s, m_elements[13] + s,
+                            m_elements[14] + s, m_elements[15] + s };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::Add(const Matrix& m) const
 {
-    return Matrix<T, 4, 4>(
-        m_elements[0] + m.m_elements[0], m_elements[1] + m.m_elements[1],
-        m_elements[2] + m.m_elements[2], m_elements[3] + m.m_elements[3],
-        m_elements[4] + m.m_elements[4], m_elements[5] + m.m_elements[5],
-        m_elements[6] + m.m_elements[6], m_elements[7] + m.m_elements[7],
-        m_elements[8] + m.m_elements[8], m_elements[9] + m.m_elements[9],
+    return Matrix<T, 4, 4>{
+        m_elements[0] + m.m_elements[0],   m_elements[1] + m.m_elements[1],
+        m_elements[2] + m.m_elements[2],   m_elements[3] + m.m_elements[3],
+        m_elements[4] + m.m_elements[4],   m_elements[5] + m.m_elements[5],
+        m_elements[6] + m.m_elements[6],   m_elements[7] + m.m_elements[7],
+        m_elements[8] + m.m_elements[8],   m_elements[9] + m.m_elements[9],
         m_elements[10] + m.m_elements[10], m_elements[11] + m.m_elements[11],
         m_elements[12] + m.m_elements[12], m_elements[13] + m.m_elements[13],
-        m_elements[14] + m.m_elements[14], m_elements[15] + m.m_elements[15]);
+        m_elements[14] + m.m_elements[14], m_elements[15] + m.m_elements[15]
+    };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::Sub(T s) const
 {
-    return Matrix<T, 4, 4>(
-        m_elements[0] - s, m_elements[1] - s, m_elements[2] - s,
-        m_elements[3] - s, m_elements[4] - s, m_elements[5] - s,
-        m_elements[6] - s, m_elements[7] - s, m_elements[8] - s,
-        m_elements[9] - s, m_elements[10] - s, m_elements[11] - s,
-        m_elements[12] - s, m_elements[13] - s, m_elements[14] - s,
-        m_elements[15] - s);
+    return Matrix<T, 4, 4>{ m_elements[0] - s,  m_elements[1] - s,
+                            m_elements[2] - s,  m_elements[3] - s,
+                            m_elements[4] - s,  m_elements[5] - s,
+                            m_elements[6] - s,  m_elements[7] - s,
+                            m_elements[8] - s,  m_elements[9] - s,
+                            m_elements[10] - s, m_elements[11] - s,
+                            m_elements[12] - s, m_elements[13] - s,
+                            m_elements[14] - s, m_elements[15] - s };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::Sub(const Matrix& m) const
 {
-    return Matrix<T, 4, 4>(
-        m_elements[0] - m.m_elements[0], m_elements[1] - m.m_elements[1],
-        m_elements[2] - m.m_elements[2], m_elements[3] - m.m_elements[3],
-        m_elements[4] - m.m_elements[4], m_elements[5] - m.m_elements[5],
-        m_elements[6] - m.m_elements[6], m_elements[7] - m.m_elements[7],
-        m_elements[8] - m.m_elements[8], m_elements[9] - m.m_elements[9],
+    return Matrix<T, 4, 4>{
+        m_elements[0] - m.m_elements[0],   m_elements[1] - m.m_elements[1],
+        m_elements[2] - m.m_elements[2],   m_elements[3] - m.m_elements[3],
+        m_elements[4] - m.m_elements[4],   m_elements[5] - m.m_elements[5],
+        m_elements[6] - m.m_elements[6],   m_elements[7] - m.m_elements[7],
+        m_elements[8] - m.m_elements[8],   m_elements[9] - m.m_elements[9],
         m_elements[10] - m.m_elements[10], m_elements[11] - m.m_elements[11],
         m_elements[12] - m.m_elements[12], m_elements[13] - m.m_elements[13],
-        m_elements[14] - m.m_elements[14], m_elements[15] - m.m_elements[15]);
+        m_elements[14] - m.m_elements[14], m_elements[15] - m.m_elements[15]
+    };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::Mul(T s) const
 {
-    return Matrix<T, 4, 4>(
-        m_elements[0] * s, m_elements[1] * s, m_elements[2] * s,
-        m_elements[3] * s, m_elements[4] * s, m_elements[5] * s,
-        m_elements[6] * s, m_elements[7] * s, m_elements[8] * s,
-        m_elements[9] * s, m_elements[10] * s, m_elements[11] * s,
-        m_elements[12] * s, m_elements[13] * s, m_elements[14] * s,
-        m_elements[15] * s);
+    return Matrix<T, 4, 4>{ m_elements[0] * s,  m_elements[1] * s,
+                            m_elements[2] * s,  m_elements[3] * s,
+                            m_elements[4] * s,  m_elements[5] * s,
+                            m_elements[6] * s,  m_elements[7] * s,
+                            m_elements[8] * s,  m_elements[9] * s,
+                            m_elements[10] * s, m_elements[11] * s,
+                            m_elements[12] * s, m_elements[13] * s,
+                            m_elements[14] * s, m_elements[15] * s };
 }
 
 template <typename T>
 Vector4<T> Matrix<T, 4, 4>::Mul(const Vector4<T>& v) const
 {
-    return Vector4<T>(m_elements[0] * v.x + m_elements[1] * v.y +
-                          m_elements[2] * v.z + m_elements[3] * v.w,
-                      m_elements[4] * v.x + m_elements[5] * v.y +
-                          m_elements[6] * v.z + m_elements[7] * v.w,
-                      m_elements[8] * v.x + m_elements[9] * v.y +
-                          m_elements[10] * v.z + m_elements[11] * v.w,
-                      m_elements[12] * v.x + m_elements[13] * v.y +
-                          m_elements[14] * v.z + m_elements[15] * v.w);
+    return Vector4<T>{ m_elements[0] * v.x + m_elements[1] * v.y +
+                           m_elements[2] * v.z + m_elements[3] * v.w,
+                       m_elements[4] * v.x + m_elements[5] * v.y +
+                           m_elements[6] * v.z + m_elements[7] * v.w,
+                       m_elements[8] * v.x + m_elements[9] * v.y +
+                           m_elements[10] * v.z + m_elements[11] * v.w,
+                       m_elements[12] * v.x + m_elements[13] * v.y +
+                           m_elements[14] * v.z + m_elements[15] * v.w };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::Mul(const Matrix& m) const
 {
-    return Matrix(
+    return Matrix{
         m_elements[0] * m.m_elements[0] + m_elements[1] * m.m_elements[4] +
             m_elements[2] * m.m_elements[8] + m_elements[3] * m.m_elements[12],
         m_elements[0] * m.m_elements[1] + m_elements[1] * m.m_elements[5] +
@@ -412,83 +424,90 @@ Matrix<T, 4, 4> Matrix<T, 4, 4>::Mul(const Matrix& m) const
             m_elements[15] * m.m_elements[14],
         m_elements[12] * m.m_elements[3] + m_elements[13] * m.m_elements[7] +
             m_elements[14] * m.m_elements[11] +
-            m_elements[15] * m.m_elements[15]);
+            m_elements[15] * m.m_elements[15]
+    };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::Div(T s) const
 {
-    return Matrix<T, 4, 4>(
-        m_elements[0] / s, m_elements[1] / s, m_elements[2] / s,
-        m_elements[3] / s, m_elements[4] / s, m_elements[5] / s,
-        m_elements[6] / s, m_elements[7] / s, m_elements[8] / s,
-        m_elements[9] / s, m_elements[10] / s, m_elements[11] / s,
-        m_elements[12] / s, m_elements[13] / s, m_elements[14] / s,
-        m_elements[15] / s);
+    return Matrix<T, 4, 4>{ m_elements[0] / s,  m_elements[1] / s,
+                            m_elements[2] / s,  m_elements[3] / s,
+                            m_elements[4] / s,  m_elements[5] / s,
+                            m_elements[6] / s,  m_elements[7] / s,
+                            m_elements[8] / s,  m_elements[9] / s,
+                            m_elements[10] / s, m_elements[11] / s,
+                            m_elements[12] / s, m_elements[13] / s,
+                            m_elements[14] / s, m_elements[15] / s };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::RAdd(T s) const
 {
-    return Matrix<T, 4, 4>(
-        s + m_elements[0], s + m_elements[1], s + m_elements[2],
-        s + m_elements[3], s + m_elements[4], s + m_elements[5],
-        s + m_elements[6], s + m_elements[7], s + m_elements[8],
-        s + m_elements[9], s + m_elements[10], s + m_elements[11],
-        s + m_elements[12], s + m_elements[13], s + m_elements[14],
-        s + m_elements[15]);
+    return Matrix<T, 4, 4>{ s + m_elements[0],  s + m_elements[1],
+                            s + m_elements[2],  s + m_elements[3],
+                            s + m_elements[4],  s + m_elements[5],
+                            s + m_elements[6],  s + m_elements[7],
+                            s + m_elements[8],  s + m_elements[9],
+                            s + m_elements[10], s + m_elements[11],
+                            s + m_elements[12], s + m_elements[13],
+                            s + m_elements[14], s + m_elements[15] };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::RAdd(const Matrix& m) const
 {
-    return Matrix<T, 4, 4>(
-        m.m_elements[0] + m_elements[0], m.m_elements[1] + m_elements[1],
-        m.m_elements[2] + m_elements[2], m.m_elements[3] + m_elements[3],
-        m.m_elements[4] + m_elements[4], m.m_elements[5] + m_elements[5],
-        m.m_elements[6] + m_elements[6], m.m_elements[7] + m_elements[7],
-        m.m_elements[8] + m_elements[8], m.m_elements[9] + m_elements[9],
+    return Matrix<T, 4, 4>{
+        m.m_elements[0] + m_elements[0],   m.m_elements[1] + m_elements[1],
+        m.m_elements[2] + m_elements[2],   m.m_elements[3] + m_elements[3],
+        m.m_elements[4] + m_elements[4],   m.m_elements[5] + m_elements[5],
+        m.m_elements[6] + m_elements[6],   m.m_elements[7] + m_elements[7],
+        m.m_elements[8] + m_elements[8],   m.m_elements[9] + m_elements[9],
         m.m_elements[10] + m_elements[10], m.m_elements[11] + m_elements[11],
         m.m_elements[12] + m_elements[12], m.m_elements[13] + m_elements[13],
-        m.m_elements[14] + m_elements[14], m.m_elements[15] + m_elements[15]);
+        m.m_elements[14] + m_elements[14], m.m_elements[15] + m_elements[15]
+    };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::RSub(T s) const
 {
-    return Matrix<T, 4, 4>(
-        s - m_elements[0], s - m_elements[1], s - m_elements[2],
-        s - m_elements[3], s - m_elements[4], s - m_elements[5],
-        s - m_elements[6], s - m_elements[7], s - m_elements[8],
-        s - m_elements[9], s - m_elements[10], s - m_elements[11],
-        s - m_elements[12], s - m_elements[13], s - m_elements[14],
-        s - m_elements[15]);
+    return Matrix<T, 4, 4>{ s - m_elements[0],  s - m_elements[1],
+                            s - m_elements[2],  s - m_elements[3],
+                            s - m_elements[4],  s - m_elements[5],
+                            s - m_elements[6],  s - m_elements[7],
+                            s - m_elements[8],  s - m_elements[9],
+                            s - m_elements[10], s - m_elements[11],
+                            s - m_elements[12], s - m_elements[13],
+                            s - m_elements[14], s - m_elements[15] };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::RSub(const Matrix& m) const
 {
-    return Matrix<T, 4, 4>(
-        m.m_elements[0] - m_elements[0], m.m_elements[1] - m_elements[1],
-        m.m_elements[2] - m_elements[2], m.m_elements[3] - m_elements[3],
-        m.m_elements[4] - m_elements[4], m.m_elements[5] - m_elements[5],
-        m.m_elements[6] - m_elements[6], m.m_elements[7] - m_elements[7],
-        m.m_elements[8] - m_elements[8], m.m_elements[9] - m_elements[9],
+    return Matrix<T, 4, 4>{
+        m.m_elements[0] - m_elements[0],   m.m_elements[1] - m_elements[1],
+        m.m_elements[2] - m_elements[2],   m.m_elements[3] - m_elements[3],
+        m.m_elements[4] - m_elements[4],   m.m_elements[5] - m_elements[5],
+        m.m_elements[6] - m_elements[6],   m.m_elements[7] - m_elements[7],
+        m.m_elements[8] - m_elements[8],   m.m_elements[9] - m_elements[9],
         m.m_elements[10] - m_elements[10], m.m_elements[11] - m_elements[11],
         m.m_elements[12] - m_elements[12], m.m_elements[13] - m_elements[13],
-        m.m_elements[14] - m_elements[14], m.m_elements[15] - m_elements[15]);
+        m.m_elements[14] - m_elements[14], m.m_elements[15] - m_elements[15]
+    };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::RMul(T s) const
 {
-    return Matrix<T, 4, 4>(
-        s * m_elements[0], s * m_elements[1], s * m_elements[2],
-        s * m_elements[3], s * m_elements[4], s * m_elements[5],
-        s * m_elements[6], s * m_elements[7], s * m_elements[8],
-        s * m_elements[9], s * m_elements[10], s * m_elements[11],
-        s * m_elements[12], s * m_elements[13], s * m_elements[14],
-        s * m_elements[15]);
+    return Matrix<T, 4, 4>{ s * m_elements[0],  s * m_elements[1],
+                            s * m_elements[2],  s * m_elements[3],
+                            s * m_elements[4],  s * m_elements[5],
+                            s * m_elements[6],  s * m_elements[7],
+                            s * m_elements[8],  s * m_elements[9],
+                            s * m_elements[10], s * m_elements[11],
+                            s * m_elements[12], s * m_elements[13],
+                            s * m_elements[14], s * m_elements[15] };
 }
 
 template <typename T>
@@ -500,13 +519,14 @@ Matrix<T, 4, 4> Matrix<T, 4, 4>::RMul(const Matrix& m) const
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::RDiv(T s) const
 {
-    return Matrix<T, 4, 4>(
-        s / m_elements[0], s / m_elements[1], s / m_elements[2],
-        s / m_elements[3], s / m_elements[4], s / m_elements[5],
-        s / m_elements[6], s / m_elements[7], s / m_elements[8],
-        s / m_elements[9], s / m_elements[10], s / m_elements[11],
-        s / m_elements[12], s / m_elements[13], s / m_elements[14],
-        s / m_elements[15]);
+    return Matrix<T, 4, 4>{ s / m_elements[0],  s / m_elements[1],
+                            s / m_elements[2],  s / m_elements[3],
+                            s / m_elements[4],  s / m_elements[5],
+                            s / m_elements[6],  s / m_elements[7],
+                            s / m_elements[8],  s / m_elements[9],
+                            s / m_elements[10], s / m_elements[11],
+                            s / m_elements[12], s / m_elements[13],
+                            s / m_elements[14], s / m_elements[15] };
 }
 
 template <typename T>
@@ -844,67 +864,122 @@ T Matrix<T, 4, 4>::Determinant() const
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::Diagonal() const
 {
-    return Matrix<T, 4, 4>(m_elements[0], 0, 0, 0, 0, m_elements[5], 0, 0, 0, 0,
-                           m_elements[10], 0, 0, 0, 0, m_elements[15]);
+    return Matrix<T, 4, 4>{ m_elements[0],  0, 0, 0, 0,
+                            m_elements[5],  0, 0, 0, 0,
+                            m_elements[10], 0, 0, 0, 0,
+                            m_elements[15] };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::OffDiagonal() const
 {
-    return Matrix<T, 4, 4>(0, m_elements[1], m_elements[2], m_elements[3],
-                           m_elements[4], 0, m_elements[6], m_elements[7],
-                           m_elements[8], m_elements[9], 0, m_elements[11],
-                           m_elements[12], m_elements[13], m_elements[14], 0);
+    return Matrix<T, 4, 4>{
+        0, m_elements[1],  m_elements[2],  m_elements[3],  m_elements[4],
+        0, m_elements[6],  m_elements[7],  m_elements[8],  m_elements[9],
+        0, m_elements[11], m_elements[12], m_elements[13], m_elements[14],
+        0
+    };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::StrictLowerTriangle() const
 {
-    return Matrix<T, 4, 4>(0, 0, 0, 0, m_elements[4], 0, 0, 0, m_elements[8],
-                           m_elements[9], 0, 0, m_elements[12], m_elements[13],
-                           m_elements[14], 0);
+    return Matrix<T, 4, 4>{ 0,
+                            0,
+                            0,
+                            0,
+                            m_elements[4],
+                            0,
+                            0,
+                            0,
+                            m_elements[8],
+                            m_elements[9],
+                            0,
+                            0,
+                            m_elements[12],
+                            m_elements[13],
+                            m_elements[14],
+                            0 };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::StrictUpperTriangle() const
 {
-    return Matrix<T, 4, 4>(0, m_elements[1], m_elements[2], m_elements[3], 0, 0,
-                           m_elements[6], m_elements[7], 0, 0, 0,
-                           m_elements[11], 0, 0, 0, 0);
+    return Matrix<T, 4, 4>{ 0,
+                            m_elements[1],
+                            m_elements[2],
+                            m_elements[3],
+                            0,
+                            0,
+                            m_elements[6],
+                            m_elements[7],
+                            0,
+                            0,
+                            0,
+                            m_elements[11],
+                            0,
+                            0,
+                            0,
+                            0 };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::LowerTriangle() const
 {
-    return Matrix<T, 4, 4>(m_elements[0], 0, 0, 0, m_elements[4], m_elements[5],
-                           0, 0, m_elements[8], m_elements[9], m_elements[10],
-                           0, m_elements[12], m_elements[13], m_elements[14],
-                           m_elements[15]);
+    return Matrix<T, 4, 4>{ m_elements[0],
+                            0,
+                            0,
+                            0,
+                            m_elements[4],
+                            m_elements[5],
+                            0,
+                            0,
+                            m_elements[8],
+                            m_elements[9],
+                            m_elements[10],
+                            0,
+                            m_elements[12],
+                            m_elements[13],
+                            m_elements[14],
+                            m_elements[15] };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::UpperTriangle() const
 {
-    return Matrix<T, 4, 4>(m_elements[0], m_elements[1], m_elements[2],
-                           m_elements[3], 0, m_elements[5], m_elements[6],
-                           m_elements[7], 0, 0, m_elements[10], m_elements[11],
-                           0, 0, 0, m_elements[15]);
+    return Matrix<T, 4, 4>{ m_elements[0],
+                            m_elements[1],
+                            m_elements[2],
+                            m_elements[3],
+                            0,
+                            m_elements[5],
+                            m_elements[6],
+                            m_elements[7],
+                            0,
+                            0,
+                            m_elements[10],
+                            m_elements[11],
+                            0,
+                            0,
+                            0,
+                            m_elements[15] };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::Transposed() const
 {
-    return Matrix<T, 4, 4>(
-        m_elements[0], m_elements[4], m_elements[8], m_elements[12],
-        m_elements[1], m_elements[5], m_elements[9], m_elements[13],
-        m_elements[2], m_elements[6], m_elements[10], m_elements[14],
-        m_elements[3], m_elements[7], m_elements[11], m_elements[15]);
+    return Matrix<T, 4, 4>{ m_elements[0],  m_elements[4],  m_elements[8],
+                            m_elements[12], m_elements[1],  m_elements[5],
+                            m_elements[9],  m_elements[13], m_elements[2],
+                            m_elements[6],  m_elements[10], m_elements[14],
+                            m_elements[3],  m_elements[7],  m_elements[11],
+                            m_elements[15] };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::Inverse() const
 {
-    Matrix m(*this);
+    Matrix m{ *this };
     m.Invert();
     return m;
 }
@@ -913,22 +988,16 @@ template <typename T>
 template <typename U>
 Matrix<U, 4, 4> Matrix<T, 4, 4>::CastTo() const
 {
-    return Matrix<U, 4, 4>(
-        static_cast<U>(m_elements[0]), static_cast<U>(m_elements[1]),
-        static_cast<U>(m_elements[2]), static_cast<U>(m_elements[3]),
-        static_cast<U>(m_elements[4]), static_cast<U>(m_elements[5]),
-        static_cast<U>(m_elements[6]), static_cast<U>(m_elements[7]),
-        static_cast<U>(m_elements[8]), static_cast<U>(m_elements[9]),
+    return Matrix<U, 4, 4>{
+        static_cast<U>(m_elements[0]),  static_cast<U>(m_elements[1]),
+        static_cast<U>(m_elements[2]),  static_cast<U>(m_elements[3]),
+        static_cast<U>(m_elements[4]),  static_cast<U>(m_elements[5]),
+        static_cast<U>(m_elements[6]),  static_cast<U>(m_elements[7]),
+        static_cast<U>(m_elements[8]),  static_cast<U>(m_elements[9]),
         static_cast<U>(m_elements[10]), static_cast<U>(m_elements[11]),
         static_cast<U>(m_elements[12]), static_cast<U>(m_elements[13]),
-        static_cast<U>(m_elements[14]), static_cast<U>(m_elements[15]));
-}
-
-template <typename T>
-Matrix<T, 4, 4>& Matrix<T, 4, 4>::operator=(const Matrix& m)
-{
-    Set(m);
-    return *this;
+        static_cast<U>(m_elements[14]), static_cast<U>(m_elements[15])
+    };
 }
 
 template <typename T>
@@ -1049,19 +1118,19 @@ bool Matrix<T, 4, 4>::operator!=(const Matrix& m) const
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::MakeZero()
 {
-    return Matrix<T, 4, 4>(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    return Matrix<T, 4, 4>{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::MakeIdentity()
 {
-    return Matrix<T, 4, 4>(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    return Matrix<T, 4, 4>{ 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::MakeScaleMatrix(T sx, T sy, T sz)
 {
-    return Matrix<T, 4, 4>(sx, 0, 0, 0, 0, sy, 0, 0, 0, 0, sz, 0, 0, 0, 0, 1);
+    return Matrix<T, 4, 4>{ sx, 0, 0, 0, 0, sy, 0, 0, 0, 0, sz, 0, 0, 0, 0, 1 };
 }
 
 template <typename T>
@@ -1074,14 +1143,15 @@ template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::MakeRotationMatrix(const Vector3<T>& axis,
                                                     const T rad)
 {
-    return Matrix<T, 4, 4>(Matrix<T, 3, 3>::MakeRotationMatrix(axis, rad));
+    return Matrix<T, 4, 4>{ Matrix<T, 3, 3>::MakeRotationMatrix(axis, rad) };
 }
 
 template <typename T>
 Matrix<T, 4, 4> Matrix<T, 4, 4>::MakeTranslationMatrix(const Vector3<T>& t)
 {
-    return Matrix<T, 4, 4>(1, 0, 0, t.x, 0, 1, 0, t.y, 0, 0, 1, t.z, 0, 0, 0,
-                           1);
+    return Matrix<T, 4, 4>{
+        1, 0, 0, t.x, 0, 1, 0, t.y, 0, 0, 1, t.z, 0, 0, 0, 1
+    };
 }
 
 template <typename T>

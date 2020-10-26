@@ -42,10 +42,23 @@ class SPHSolver3 : public ParticleSystemSolver3
     SPHSolver3(double targetDensity, double targetSpacing,
                double relativeKernelRadius);
 
-    virtual ~SPHSolver3();
+    //! Deleted copy constructor.
+    SPHSolver3(const SPHSolver3&) = delete;
+
+    //! Deleted move constructor.
+    SPHSolver3(SPHSolver3&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~SPHSolver3() override = default;
+
+    //! Deleted copy assignment operator.
+    SPHSolver3& operator=(const SPHSolver3&) = delete;
+
+    //! Deleted move assignment operator.
+    SPHSolver3& operator=(SPHSolver3&&) noexcept = delete;
 
     //! Returns the exponent part of the equation-of-state.
-    double GetEosExponent() const;
+    [[nodiscard]] double GetEosExponent() const;
 
     //!
     //! \brief Sets the exponent part of the equation-of-state.
@@ -57,7 +70,7 @@ class SPHSolver3 : public ParticleSystemSolver3
     void SetEosExponent(double newEosExponent);
 
     //! Returns the negative pressure scale.
-    double GetNegativePressureScale() const;
+    [[nodiscard]] double GetNegativePressureScale() const;
 
     //!
     //! \brief Sets the negative pressure scale.
@@ -70,13 +83,13 @@ class SPHSolver3 : public ParticleSystemSolver3
     void SetNegativePressureScale(double newNegativePressureScale);
 
     //! Returns the viscosity coefficient.
-    double GetViscosityCoefficient() const;
+    [[nodiscard]] double GetViscosityCoefficient() const;
 
     //! Sets the viscosity coefficient.
     void SetViscosityCoefficient(double newViscosityCoefficient);
 
     //! Returns the pseudo viscosity coefficient.
-    double GetPseudoViscosityCoefficient() const;
+    [[nodiscard]] double GetPseudoViscosityCoefficient() const;
 
     //!
     //! \brief Sets the pseudo viscosity coefficient.
@@ -87,7 +100,7 @@ class SPHSolver3 : public ParticleSystemSolver3
     void SetPseudoViscosityCoefficient(double newPseudoViscosityCoefficient);
 
     //! Returns the speed of sound.
-    double GetSpeedOfSound() const;
+    [[nodiscard]] double GetSpeedOfSound() const;
 
     //!
     //! \brief Sets the speed of sound.
@@ -105,7 +118,7 @@ class SPHSolver3 : public ParticleSystemSolver3
     //! time-step. When the scale is 1.0, the time-step is bounded by the speed
     //! of sound and max acceleration.
     //!
-    double GetTimeStepLimitScale() const;
+    [[nodiscard]] double GetTimeStepLimitScale() const;
 
     //!
     //! \brief Sets the multiplier that scales the max allowed time-step.
@@ -117,14 +130,14 @@ class SPHSolver3 : public ParticleSystemSolver3
     void SetTimeStepLimitScale(double newScale);
 
     //! Returns the SPH system data.
-    SPHSystemData3Ptr GetSPHSystemData() const;
+    [[nodiscard]] SPHSystemData3Ptr GetSPHSystemData() const;
 
     //! Returns builder fox SPHSolver3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  protected:
     //! Returns the number of sub-time-steps.
-    unsigned int GetNumberOfSubTimeSteps(
+    [[nodiscard]] unsigned int GetNumberOfSubTimeSteps(
         double timeIntervalInSeconds) const override;
 
     //! Accumulates the force to the forces array in the particle system.
@@ -196,13 +209,14 @@ class SPHSolverBuilderBase3
 {
  public:
     //! Returns builder with target density.
-    DerivedBuilder& WithTargetDensity(double targetDensity);
+    [[nodiscard]] DerivedBuilder& WithTargetDensity(double targetDensity);
 
     //! Returns builder with target spacing.
-    DerivedBuilder& WithTargetSpacing(double targetSpacing);
+    [[nodiscard]] DerivedBuilder& WithTargetSpacing(double targetSpacing);
 
     //! Returns builder with relative kernel radius.
-    DerivedBuilder& WithRelativeKernelRadius(double relativeKernelRadius);
+    [[nodiscard]] DerivedBuilder& WithRelativeKernelRadius(
+        double relativeKernelRadius);
 
  protected:
     double m_targetDensity = WATER_DENSITY;
@@ -235,15 +249,14 @@ T& SPHSolverBuilderBase3<T>::WithRelativeKernelRadius(
 //!
 //! \brief Front-end to create SPHSolver3 objects step by step.
 //!
-class SPHSolver3::Builder final
-    : public SPHSolverBuilderBase3<SPHSolver3::Builder>
+class SPHSolver3::Builder final : public SPHSolverBuilderBase3<Builder>
 {
  public:
     //! Builds SPHSolver3.
-    SPHSolver3 Build() const;
+    [[nodiscard]] SPHSolver3 Build() const;
 
     //! Builds shared pointer of SPHSolver3 instance.
-    SPHSolver3Ptr MakeShared() const;
+    [[nodiscard]] SPHSolver3Ptr MakeShared() const;
 };
 }  // namespace CubbyFlow
 

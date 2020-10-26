@@ -14,7 +14,7 @@
 namespace CubbyFlow
 {
 GridSmokeSolver2::GridSmokeSolver2()
-    : GridSmokeSolver2({ 1, 1 }, { 1, 1 }, { 0, 0 })
+    : GridSmokeSolver2{ { 1, 1 }, { 1, 1 }, { 0, 0 } }
 {
     // Do nothing
 }
@@ -22,18 +22,13 @@ GridSmokeSolver2::GridSmokeSolver2()
 GridSmokeSolver2::GridSmokeSolver2(const Size2& resolution,
                                    const Vector2D& gridSpacing,
                                    const Vector2D& gridOrigin)
-    : GridFluidSolver2(resolution, gridSpacing, gridOrigin)
+    : GridFluidSolver2{ resolution, gridSpacing, gridOrigin }
 {
-    auto grids = GetGridSystemData();
+    GridSystemData2Ptr grids = GetGridSystemData();
     m_smokeDensityDataID = grids->AddAdvectableScalarData(
         std::make_shared<CellCenteredScalarGrid2::Builder>(), 0.0);
     m_temperatureDataID = grids->AddAdvectableScalarData(
         std::make_shared<CellCenteredScalarGrid2::Builder>(), 0.0);
-}
-
-GridSmokeSolver2::~GridSmokeSolver2()
-{
-    // Do nothing
 }
 
 double GridSmokeSolver2::GetSmokeDiffusionCoefficient() const
@@ -123,8 +118,8 @@ void GridSmokeSolver2::ComputeDiffusion(double timeIntervalInSeconds)
         if (m_smokeDiffusionCoefficient >
             std::numeric_limits<double>::epsilon())
         {
-            auto den = GetSmokeDensity();
-            const auto den0 =
+            const ScalarGrid2Ptr den = GetSmokeDensity();
+            const std::shared_ptr<CellCenteredScalarGrid2> den0 =
                 std::dynamic_pointer_cast<CellCenteredScalarGrid2>(
                     den->Clone());
 
@@ -137,8 +132,8 @@ void GridSmokeSolver2::ComputeDiffusion(double timeIntervalInSeconds)
         if (m_temperatureDiffusionCoefficient >
             std::numeric_limits<double>::epsilon())
         {
-            auto temp = GetSmokeDensity();
-            const auto temp0 =
+            const ScalarGrid2Ptr temp = GetSmokeDensity();
+            const std::shared_ptr<CellCenteredScalarGrid2> temp0 =
                 std::dynamic_pointer_cast<CellCenteredScalarGrid2>(
                     temp->Clone());
 
@@ -149,10 +144,10 @@ void GridSmokeSolver2::ComputeDiffusion(double timeIntervalInSeconds)
         }
     }
 
-    auto den = GetSmokeDensity();
+    ScalarGrid2Ptr den = GetSmokeDensity();
     den->ParallelForEachDataPointIndex(
         [&](size_t i, size_t j) { (*den)(i, j) *= 1.0 - m_smokeDecayFactor; });
-    auto temp = GetTemperature();
+    ScalarGrid2Ptr temp = GetTemperature();
     temp->ParallelForEachDataPointIndex([&](size_t i, size_t j) {
         (*temp)(i, j) *= 1.0 - m_temperatureDecayFactor;
     });
@@ -160,10 +155,10 @@ void GridSmokeSolver2::ComputeDiffusion(double timeIntervalInSeconds)
 
 void GridSmokeSolver2::ComputeBuoyancyForce(double timeIntervalInSeconds)
 {
-    const auto grids = GetGridSystemData();
-    auto vel = grids->GetVelocity();
+    const GridSystemData2Ptr grids = GetGridSystemData();
+    FaceCenteredGrid2Ptr vel = grids->GetVelocity();
 
-    Vector2D up(0, 1);
+    Vector2D up{ 0, 1 };
     if (GetGravity().LengthSquared() > std::numeric_limits<double>::epsilon())
     {
         up = -GetGravity().Normalized();
@@ -174,8 +169,8 @@ void GridSmokeSolver2::ComputeBuoyancyForce(double timeIntervalInSeconds)
         std::abs(m_buoyancyTemperatureFactor) >
             std::numeric_limits<double>::epsilon())
     {
-        auto den = GetSmokeDensity();
-        auto temp = GetTemperature();
+        ScalarGrid2Ptr den = GetSmokeDensity();
+        ScalarGrid2Ptr temp = GetTemperature();
 
         double tAmb = 0.0;
         temp->ForEachCellIndex(
@@ -184,16 +179,16 @@ void GridSmokeSolver2::ComputeBuoyancyForce(double timeIntervalInSeconds)
         tAmb /=
             static_cast<double>(temp->Resolution().x * temp->Resolution().y);
 
-        auto u = vel->GetUAccessor();
-        auto v = vel->GetVAccessor();
+        ArrayAccessor2<double> u = vel->GetUAccessor();
+        ArrayAccessor2<double> v = vel->GetVAccessor();
         auto uPos = vel->GetUPosition();
         auto vPos = vel->GetVPosition();
 
         if (std::abs(up.x) > std::numeric_limits<double>::epsilon())
         {
             vel->ParallelForEachUIndex([&](size_t i, size_t j) {
-                Vector2D pt = uPos(i, j);
-                double fBuoy =
+                const Vector2D pt = uPos(i, j);
+                const double fBuoy =
                     m_buoyancySmokeDensityFactor * den->Sample(pt) +
                     m_buoyancyTemperatureFactor * (temp->Sample(pt) - tAmb);
                 u(i, j) += timeIntervalInSeconds * fBuoy * up.x;
@@ -203,8 +198,8 @@ void GridSmokeSolver2::ComputeBuoyancyForce(double timeIntervalInSeconds)
         if (std::abs(up.y) > std::numeric_limits<double>::epsilon())
         {
             vel->ParallelForEachVIndex([&](size_t i, size_t j) {
-                Vector2D pt = vPos(i, j);
-                double fBuoy =
+                const Vector2D pt = vPos(i, j);
+                const double fBuoy =
                     m_buoyancySmokeDensityFactor * den->Sample(pt) +
                     m_buoyancyTemperatureFactor * (temp->Sample(pt) - tAmb);
                 v(i, j) += timeIntervalInSeconds * fBuoy * up.y;
@@ -217,18 +212,18 @@ void GridSmokeSolver2::ComputeBuoyancyForce(double timeIntervalInSeconds)
 
 GridSmokeSolver2::Builder GridSmokeSolver2::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 GridSmokeSolver2 GridSmokeSolver2::Builder::Build() const
 {
-    return GridSmokeSolver2(m_resolution, GetGridSpacing(), m_gridOrigin);
+    return GridSmokeSolver2{ m_resolution, GetGridSpacing(), m_gridOrigin };
 }
 
 GridSmokeSolver2Ptr GridSmokeSolver2::Builder::MakeShared() const
 {
     return std::shared_ptr<GridSmokeSolver2>(
-        new GridSmokeSolver2(m_resolution, GetGridSpacing(), m_gridOrigin),
+        new GridSmokeSolver2{ m_resolution, GetGridSpacing(), m_gridOrigin },
         [](GridSmokeSolver2* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

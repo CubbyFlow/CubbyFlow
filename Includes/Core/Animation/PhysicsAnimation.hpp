@@ -27,8 +27,20 @@ class PhysicsAnimation : public Animation
     //! Default constructor.
     PhysicsAnimation();
 
-    //! Destructor.
-    virtual ~PhysicsAnimation();
+    //! Default copy constructor.
+    PhysicsAnimation(const PhysicsAnimation&) = default;
+
+    //! Default move constructor.
+    PhysicsAnimation(PhysicsAnimation&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~PhysicsAnimation() = default;
+
+    //! Default copy assignment operator.
+    PhysicsAnimation& operator=(const PhysicsAnimation&) = default;
+
+    //! Default move assignment operator.
+    PhysicsAnimation& operator=(PhysicsAnimation&&) noexcept = default;
 
     //!
     //! \brief Returns true if fixed sub-timestepping is used.
@@ -40,7 +52,7 @@ class PhysicsAnimation : public Animation
     //!
     //! \return True if using fixed sub time steps, false otherwise.
     //!
-    bool GetIsUsingFixedSubTimeSteps() const;
+    [[nodiscard]] bool GetIsUsingFixedSubTimeSteps() const;
 
     //!
     //! \brief Sets true if fixed sub-timestepping is used.
@@ -64,7 +76,7 @@ class PhysicsAnimation : public Animation
     //!
     //! \return The number of fixed sub-timesteps.
     //!
-    unsigned int GetNumberOfFixedSubTimeSteps() const;
+    [[nodiscard]] unsigned int GetNumberOfFixedSubTimeSteps() const;
 
     //!
     //! \brief Sets the number of fixed sub-timesteps.
@@ -84,7 +96,7 @@ class PhysicsAnimation : public Animation
     //!
     //! \brief Returns current frame.
     //!
-    Frame GetCurrentFrame() const;
+    [[nodiscard]] Frame GetCurrentFrame() const;
 
     //!
     //! \brief Sets current frame cursor (but do not invoke update()).
@@ -97,7 +109,7 @@ class PhysicsAnimation : public Animation
     //! This function returns the current time which is calculated by adding
     //! current frame + sub-timesteps it passed.
     //!
-    double GetCurrentTimeInSeconds() const;
+    [[nodiscard]] double GetCurrentTimeInSeconds() const;
 
  protected:
     //!
@@ -126,7 +138,7 @@ class PhysicsAnimation : public Animation
     //!
     //! \return The required number of sub-timesteps.
     //!
-    virtual unsigned int GetNumberOfSubTimeSteps(
+    [[nodiscard]] virtual unsigned int GetNumberOfSubTimeSteps(
         double timeIntervalInSeconds) const;
 
     //!
@@ -138,16 +150,16 @@ class PhysicsAnimation : public Animation
     virtual void OnInitialize();
 
  private:
-    Frame m_currentFrame;
-    bool m_isUsingFixedSubTimeSteps = true;
-    unsigned int m_numberOfFixedSubTimeSteps = 1;
-    double m_currentTime = 0.0;
-
     void OnUpdate(const Frame& frame) final;
 
     void AdvanceTimeStep(double timeIntervalInSeconds);
 
     void Initialize();
+
+    Frame m_currentFrame;
+    bool m_isUsingFixedSubTimeSteps = true;
+    unsigned int m_numberOfFixedSubTimeSteps = 1;
+    double m_currentTime = 0.0;
 };
 
 using PhysicsAnimationPtr = std::shared_ptr<PhysicsAnimation>;

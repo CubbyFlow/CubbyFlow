@@ -16,13 +16,6 @@
 
 namespace CubbyFlow
 {
-// MARK: VectorN
-template <typename T>
-VectorN<T>::VectorN()
-{
-    // Do nothing
-}
-
 template <typename T>
 VectorN<T>::VectorN(size_t n, const T& val) : m_elements(n, val)
 {
@@ -94,7 +87,7 @@ void VectorN<T>::Set(const VectorExpression<T, E>& other)
 template <typename T>
 void VectorN<T>::Append(const T& val)
 {
-    m_elements.push_back(val);
+    m_elements.emplace_back(val);
 }
 
 template <typename T>
@@ -160,13 +153,13 @@ typename VectorN<T>::ContainerType::const_iterator VectorN<T>::end() const
 template <typename T>
 ArrayAccessor1<T> VectorN<T>::Accessor()
 {
-    return ArrayAccessor1<T>(size(), data());
+    return ArrayAccessor1<T>{ size(), data() };
 }
 
 template <typename T>
 ConstArrayAccessor1<T> VectorN<T>::ConstAccessor() const
 {
-    return ConstArrayAccessor1<T>(size(), data());
+    return ConstArrayAccessor1<T>{ size(), data() };
 }
 
 template <typename T>
@@ -305,7 +298,7 @@ template <typename T>
 VectorScalarDiv<T, VectorN<T>> VectorN<T>::Normalized() const
 {
     T len = Length();
-    return VectorScalarDiv<T, VectorN>(*this, len);
+    return VectorScalarDiv<T, VectorN>{ *this, len };
 }
 
 template <typename T>
@@ -353,7 +346,7 @@ template <typename T>
 template <typename U>
 VectorTypeCast<U, VectorN<T>, T> VectorN<T>::CastTo() const
 {
-    return VectorTypeCast<U, VectorN<T>, T>(*this);
+    return VectorTypeCast<U, VectorN<T>, T>{ *this };
 }
 
 template <typename T>
@@ -400,52 +393,52 @@ template <typename T>
 template <typename E>
 VectorAdd<T, VectorN<T>, E> VectorN<T>::Add(const E& v) const
 {
-    return VectorAdd<T, VectorN, E>(*this, v);
+    return VectorAdd<T, VectorN, E>{ *this, v };
 }
 
 template <typename T>
 VectorScalarAdd<T, VectorN<T>> VectorN<T>::Add(const T& s) const
 {
-    return VectorScalarAdd<T, VectorN>(*this, s);
+    return VectorScalarAdd<T, VectorN>{ *this, s };
 }
 
 template <typename T>
 template <typename E>
 VectorSub<T, VectorN<T>, E> VectorN<T>::Sub(const E& v) const
 {
-    return VectorSub<T, VectorN, E>(*this, v);
+    return VectorSub<T, VectorN, E>{ *this, v };
 }
 
 template <typename T>
 VectorScalarSub<T, VectorN<T>> VectorN<T>::Sub(const T& s) const
 {
-    return VectorScalarSub<T, VectorN>(*this, s);
+    return VectorScalarSub<T, VectorN>{ *this, s };
 }
 
 template <typename T>
 template <typename E>
 VectorMul<T, VectorN<T>, E> VectorN<T>::Mul(const E& v) const
 {
-    return VectorMul<T, VectorN, E>(*this, v);
+    return VectorMul<T, VectorN, E>{ *this, v };
 }
 
 template <typename T>
 VectorScalarMul<T, VectorN<T>> VectorN<T>::Mul(const T& s) const
 {
-    return VectorScalarMul<T, VectorN>(*this, s);
+    return VectorScalarMul<T, VectorN>{ *this, s };
 }
 
 template <typename T>
 template <typename E>
 VectorDiv<T, VectorN<T>, E> VectorN<T>::Div(const E& v) const
 {
-    return VectorDiv<T, VectorN, E>(*this, v);
+    return VectorDiv<T, VectorN, E>{ *this, v };
 }
 
 template <typename T>
 VectorScalarDiv<T, VectorN<T>> VectorN<T>::Div(const T& s) const
 {
-    return VectorScalarDiv<T, VectorN>(*this, s);
+    return VectorScalarDiv<T, VectorN>{ *this, s };
 }
 
 template <typename T>
@@ -472,27 +465,27 @@ T VectorN<T>::Dot(const E& v) const
 template <typename T>
 VectorScalarRSub<T, VectorN<T>> VectorN<T>::RSub(const T& s) const
 {
-    return VectorScalarRSub<T, VectorN>(*this, s);
+    return VectorScalarRSub<T, VectorN>{ *this, s };
 }
 
 template <typename T>
 template <typename E>
 VectorSub<T, VectorN<T>, E> VectorN<T>::RSub(const E& v) const
 {
-    return VectorSub<T, VectorN, E>(v, *this);
+    return VectorSub<T, VectorN, E>{ v, *this };
 }
 
 template <typename T>
 VectorScalarRDiv<T, VectorN<T>> VectorN<T>::RDiv(const T& s) const
 {
-    return VectorScalarRDiv<T, VectorN>(*this, s);
+    return VectorScalarRDiv<T, VectorN>{ *this, s };
 }
 
 template <typename T>
 template <typename E>
 VectorDiv<T, VectorN<T>, E> VectorN<T>::RDiv(const E& v) const
 {
-    return VectorDiv<T, VectorN, E>(v, *this);
+    return VectorDiv<T, VectorN, E>{ v, *this };
 }
 
 template <typename T>

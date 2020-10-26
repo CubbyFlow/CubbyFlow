@@ -46,57 +46,60 @@ template <typename T>
 class BoundingBox<T, 2>
 {
  public:
-    //! Lower corner of the bounding box.
-    Vector2<T> lowerCorner;
-
-    //! Upper corner of the bounding box.
-    Vector2<T> upperCorner;
-
     //! Default constructor.
     BoundingBox();
 
     //! Constructs a box that tightly covers two points.
     BoundingBox(const Vector2<T>& point1, const Vector2<T>& point2);
 
-    //! Constructs a box with other box instance.
+    //! Copy constructor.
     BoundingBox(const BoundingBox& other);
+
+    //! Move constructor.
+    BoundingBox(BoundingBox&& other) noexcept;
+
+    //! Default destructor.
+    ~BoundingBox() = default;
 
     //! Copy assignment operator.
     BoundingBox& operator=(const BoundingBox& other);
 
+    //! Move assignment operator.
+    BoundingBox& operator=(BoundingBox&& other) noexcept;
+
     //! Returns width of the box.
-    T GetWidth() const;
+    [[nodiscard]] T GetWidth() const;
 
     //! Returns height of the box.
-    T GetHeight() const;
+    [[nodiscard]] T GetHeight() const;
 
     //! Returns length of the box in given axis.
-    T Length(size_t axis);
+    [[nodiscard]] T Length(size_t axis);
 
     //! Returns true of this box and other box overlaps.
-    bool Overlaps(const BoundingBox& other) const;
+    [[nodiscard]] bool Overlaps(const BoundingBox& other) const;
 
     //! Returns true if the input point is inside of this box.
-    bool Contains(const Vector2<T>& point) const;
+    [[nodiscard]] bool Contains(const Vector2<T>& point) const;
 
     //! Returns true if the input ray is intersecting with this box.
-    bool Intersects(const Ray2<T>& ray) const;
+    [[nodiscard]] bool Intersects(const Ray2<T>& ray) const;
 
     //! Returns intersection.isIntersecting = true if the input ray is
     //! intersecting with this box. If intersects, intersection.tNear is
     //! assigned with distant to the closest intersecting point, and
     //! intersection.tFar with furthest.
-    BoundingBoxRayIntersection2<T> ClosestIntersection(
+    [[nodiscard]] BoundingBoxRayIntersection2<T> ClosestIntersection(
         const Ray2<T>& ray) const;
 
     //! Returns the mid-point of this box.
-    Vector2<T> MidPoint() const;
+    [[nodiscard]] Vector2<T> MidPoint() const;
 
     //! Returns diagonal length of this box.
-    T DiagonalLength() const;
+    [[nodiscard]] T DiagonalLength() const;
 
     //! Returns squared diagonal length of this box.
-    T DiagonalLengthSquared() const;
+    [[nodiscard]] T DiagonalLengthSquared() const;
 
     //! Resets this box to initial state (min=infinite, max=-infinite).
     void Reset();
@@ -113,13 +116,19 @@ class BoundingBox<T, 2>
     void Expand(T delta);
 
     //! Returns corner position. Index starts from x-first order.
-    Vector2<T> Corner(size_t idx) const;
+    [[nodiscard]] Vector2<T> Corner(size_t idx) const;
 
     //! Returns the clamped point.
-    Vector2<T> Clamp(const Vector2<T>& pt) const;
+    [[nodiscard]] Vector2<T> Clamp(const Vector2<T>& pt) const;
 
     //! Returns true if the box is empty.
-    bool IsEmpty() const;
+    [[nodiscard]] bool IsEmpty() const;
+
+    //! Lower corner of the bounding box.
+    Vector2<T> lowerCorner;
+
+    //! Upper corner of the bounding box.
+    Vector2<T> upperCorner;
 };
 
 //! Type alias for 2-D BoundingBox.

@@ -27,43 +27,54 @@ class Box2 final : public Surface2
  public:
     class Builder;
 
-    //! Bounding box of this box.
-    BoundingBox2D bound = BoundingBox2D(Vector2D(), Vector2D(1.0, 1.0));
-
     //! Constructs (0, 0) x (1, 1) box.
-    Box2(const Transform2& transform = Transform2(),
+    Box2(const Transform2& transform = Transform2{},
          bool isNormalFlipped = false);
 
     //! Constructs a box with given \p lowerCorner and \p upperCorner.
     Box2(const Vector2D& lowerCorner, const Vector2D& upperCorner,
-         const Transform2& transform = Transform2(),
+         const Transform2& transform = Transform2{},
          bool isNormalFlipped = false);
 
     //! Constructs a box with BoundingBox2D instance.
-    Box2(const BoundingBox2D& boundingBox,
-         const Transform2& transform = Transform2(),
-         bool isNormalFlipped = false);
+    explicit Box2(BoundingBox2D boundingBox,
+                  const Transform2& transform = Transform2{},
+                  bool isNormalFlipped = false);
 
-    //! Copy constructor.
-    Box2(const Box2& other);
+    //! Default copy constructor.
+    Box2(const Box2& other) = default;
 
-    //! Copy assignment operator.
-    Box2& operator=(const Box2& other);
+    //! Default move constructor.
+    Box2(Box2&& other) noexcept = default;
+
+    //! Default virtual destructor.
+    ~Box2() override = default;
+
+    //! Default copy assignment operator.
+    Box2& operator=(const Box2& other) = default;
+
+    //! Default move assignment operator.
+    Box2& operator=(Box2&& other) noexcept = default;
 
     //! Returns builder fox Box2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
+
+    //! Bounding box of this box.
+    BoundingBox2D bound = BoundingBox2D{ Vector2D{}, Vector2D{ 1.0, 1.0 } };
 
  protected:
     // Surface2 implementations
-    Vector2D ClosestPointLocal(const Vector2D& otherPoint) const override;
+    [[nodiscard]] Vector2D ClosestPointLocal(
+        const Vector2D& otherPoint) const override;
 
-    bool IntersectsLocal(const Ray2D& ray) const override;
+    [[nodiscard]] bool IntersectsLocal(const Ray2D& ray) const override;
 
-    BoundingBox2D BoundingBoxLocal() const override;
+    [[nodiscard]] BoundingBox2D BoundingBoxLocal() const override;
 
-    Vector2D ClosestNormalLocal(const Vector2D& otherPoint) const override;
+    [[nodiscard]] Vector2D ClosestNormalLocal(
+        const Vector2D& otherPoint) const override;
 
-    SurfaceRayIntersection2 ClosestIntersectionLocal(
+    [[nodiscard]] SurfaceRayIntersection2 ClosestIntersectionLocal(
         const Ray2D& ray) const override;
 };
 
@@ -73,23 +84,23 @@ using Box2Ptr = std::shared_ptr<Box2>;
 //!
 //! \brief Front-end to create Box2 objects step by step.
 //!
-class Box2::Builder final : public SurfaceBuilderBase2<Box2::Builder>
+class Box2::Builder final : public SurfaceBuilderBase2<Builder>
 {
  public:
     //! Returns builder with lower corner set.
-    Builder& WithLowerCorner(const Vector2D& pt);
+    [[nodiscard]] Builder& WithLowerCorner(const Vector2D& pt);
 
     //! Returns builder with upper corner set.
-    Builder& WithUpperCorner(const Vector2D& pt);
+    [[nodiscard]] Builder& WithUpperCorner(const Vector2D& pt);
 
     //! Returns builder with bounding box.
-    Builder& WithBoundingBox(const BoundingBox2D& bbox);
+    [[nodiscard]] Builder& WithBoundingBox(const BoundingBox2D& bbox);
 
     //! Builds Box2.
-    Box2 Build() const;
+    [[nodiscard]] Box2 Build() const;
 
     //! Builds shared pointer of Box2 instance.
-    Box2Ptr MakeShared() const;
+    [[nodiscard]] Box2Ptr MakeShared() const;
 
  private:
     Vector2D m_lowerCorner{ 0, 0 };

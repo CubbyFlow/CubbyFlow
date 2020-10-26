@@ -52,11 +52,17 @@ class GridSystemData3 : public Serializable
     //! Copy constructor.
     GridSystemData3(const GridSystemData3& other);
 
+    //! Deleted move constructor.
+    GridSystemData3(GridSystemData3&& other) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~GridSystemData3() override = default;
+
     //! Copy assignment operator.
     GridSystemData3& operator=(const GridSystemData3& other);
 
-    //! Destructor.
-    virtual ~GridSystemData3();
+    //! Deleted move assignment operator.
+    GridSystemData3& operator=(GridSystemData3&& other) noexcept = delete;
 
     //!
     //! \brief      Resizes the whole system with given resolution, grid
@@ -88,16 +94,16 @@ class GridSystemData3 : public Serializable
     //!
     //! \return     Grid cell resolution.
     //!
-    Size3 GetResolution() const;
+    [[nodiscard]] Size3 GetResolution() const;
 
     //! Return the grid spacing.
-    Vector3D GetGridSpacing() const;
+    [[nodiscard]] Vector3D GetGridSpacing() const;
 
     //! Returns the origin of the grid.
-    Vector3D GetOrigin() const;
+    [[nodiscard]] Vector3D GetOrigin() const;
 
     //! Returns the bounding box of the grid.
-    BoundingBox3D GetBoundingBox() const;
+    [[nodiscard]] BoundingBox3D GetBoundingBox() const;
 
     //!
     //! \brief      Adds a non-advectable scalar data grid by passing its
@@ -113,8 +119,8 @@ class GridSystemData3 : public Serializable
     //!
     //! \return     Index of the data.
     //!
-    size_t AddScalarData(const ScalarGridBuilder3Ptr& builder,
-                         double initialVal = 0.0);
+    [[nodiscard]] size_t AddScalarData(const ScalarGridBuilder3Ptr& builder,
+                                       double initialVal = 0.0);
 
     //!
     //! \brief      Adds a non-advectable vector data grid by passing its
@@ -130,8 +136,8 @@ class GridSystemData3 : public Serializable
     //!
     //! \return     Index of the data.
     //!
-    size_t AddVectorData(const VectorGridBuilder3Ptr& builder,
-                         const Vector3D& initialVal = Vector3D());
+    [[nodiscard]] size_t AddVectorData(const VectorGridBuilder3Ptr& builder,
+                                       const Vector3D& initialVal = Vector3D());
 
     //!
     //! \brief      Adds an advectable scalar data grid by passing its builder
@@ -147,8 +153,8 @@ class GridSystemData3 : public Serializable
     //!
     //! \return     Index of the data.
     //!
-    size_t AddAdvectableScalarData(const ScalarGridBuilder3Ptr& builder,
-                                   double initialVal = 0.0);
+    [[nodiscard]] size_t AddAdvectableScalarData(
+        const ScalarGridBuilder3Ptr& builder, double initialVal = 0.0);
 
     //!
     //! \brief      Adds an advectable vector data grid by passing its builder
@@ -164,8 +170,9 @@ class GridSystemData3 : public Serializable
     //!
     //! \return     Index of the data.
     //!
-    size_t AddAdvectableVectorData(const VectorGridBuilder3Ptr& builder,
-                                   const Vector3D& initialVal = Vector3D());
+    [[nodiscard]] size_t AddAdvectableVectorData(
+        const VectorGridBuilder3Ptr& builder,
+        const Vector3D& initialVal = Vector3D());
 
     //!
     //! \brief      Returns the velocity field.
@@ -175,7 +182,7 @@ class GridSystemData3 : public Serializable
     //!
     //! \return     Pointer to the velocity field.
     //!
-    const FaceCenteredGrid3Ptr& GetVelocity() const;
+    [[nodiscard]] const FaceCenteredGrid3Ptr& GetVelocity() const;
 
     //!
     //! \brief      Returns the index of the velocity field.
@@ -186,31 +193,33 @@ class GridSystemData3 : public Serializable
     //!
     //! \return     Index of the velocity field.
     //!
-    size_t GetVelocityIndex() const;
+    [[nodiscard]] size_t GetVelocityIndex() const;
 
     //! Returns the non-advectable scalar data at given index.
-    const ScalarGrid3Ptr& GetScalarDataAt(size_t idx) const;
+    [[nodiscard]] const ScalarGrid3Ptr& GetScalarDataAt(size_t idx) const;
 
     //! Returns the non-advectable vector data at given index.
-    const VectorGrid3Ptr& GetVectorDataAt(size_t idx) const;
+    [[nodiscard]] const VectorGrid3Ptr& GetVectorDataAt(size_t idx) const;
 
     //! Returns the advectable scalar data at given index.
-    const ScalarGrid3Ptr& GetAdvectableScalarDataAt(size_t idx) const;
+    [[nodiscard]] const ScalarGrid3Ptr& GetAdvectableScalarDataAt(
+        size_t idx) const;
 
     //! Returns the advectable vector data at given index.
-    const VectorGrid3Ptr& GetAdvectableVectorDataAt(size_t idx) const;
+    [[nodiscard]] const VectorGrid3Ptr& GetAdvectableVectorDataAt(
+        size_t idx) const;
 
     //! Returns the number of non-advectable scalar data.
-    size_t GetNumberOfScalarData() const;
+    [[nodiscard]] size_t GetNumberOfScalarData() const;
 
     //! Returns the number of non-advectable vector data.
-    size_t GetNumberOfVectorData() const;
+    [[nodiscard]] size_t GetNumberOfVectorData() const;
 
     //! Returns the number of advectable scalar data.
-    size_t GetNumberOfAdvectableScalarData() const;
+    [[nodiscard]] size_t GetNumberOfAdvectableScalarData() const;
 
     //! Returns the number of advectable vector data.
-    size_t GetNumberOfAdvectableVectorData() const;
+    [[nodiscard]] size_t GetNumberOfAdvectableVectorData() const;
 
     //! Serialize the data to the given buffer.
     void Serialize(std::vector<uint8_t>* buffer) const override;

@@ -13,16 +13,6 @@
 
 namespace CubbyFlow
 {
-ParticleEmitter3::ParticleEmitter3()
-{
-    // Do nothing
-}
-
-ParticleEmitter3::~ParticleEmitter3()
-{
-    // Do nothing
-}
-
 void ParticleEmitter3::Update(double currentTimeInSeconds,
                               double timeIntervalInSeconds)
 {

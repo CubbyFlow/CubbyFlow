@@ -34,7 +34,7 @@ Vector2D ColliderSet2::VelocityAt(const Vector2D& point) const
 
     for (size_t i = 0; i < m_colliders.size(); ++i)
     {
-        double dist = m_colliders[i]->GetSurface()->ClosestDistance(point);
+        const double dist = m_colliders[i]->GetSurface()->ClosestDistance(point);
 
         if (dist < closestDist)
         {

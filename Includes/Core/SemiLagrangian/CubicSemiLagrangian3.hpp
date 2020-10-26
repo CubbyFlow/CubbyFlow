@@ -22,9 +22,6 @@ namespace CubbyFlow
 //!
 class CubicSemiLagrangian3 final : public SemiLagrangian3
 {
- public:
-    CubicSemiLagrangian3();
-
  protected:
     //!
     //! \brief Returns spatial interpolation function object for given scalar
@@ -32,7 +29,7 @@ class CubicSemiLagrangian3 final : public SemiLagrangian3
     //!
     //! This function overrides the original function with cubic interpolation.
     //!
-    std::function<double(const Vector3D&)> GetScalarSamplerFunc(
+    [[nodiscard]] std::function<double(const Vector3D&)> GetScalarSamplerFunc(
         const ScalarGrid3& source) const override;
 
     //!
@@ -41,7 +38,7 @@ class CubicSemiLagrangian3 final : public SemiLagrangian3
     //!
     //! This function overrides the original function with cubic interpolation.
     //!
-    std::function<Vector3D(const Vector3D&)> GetVectorSamplerFunc(
+    [[nodiscard]] std::function<Vector3D(const Vector3D&)> GetVectorSamplerFunc(
         const CollocatedVectorGrid3& source) const override;
 
     //!
@@ -50,7 +47,7 @@ class CubicSemiLagrangian3 final : public SemiLagrangian3
     //!
     //! This function overrides the original function with cubic interpolation.
     //!
-    std::function<Vector3D(const Vector3D&)> GetVectorSamplerFunc(
+    [[nodiscard]] std::function<Vector3D(const Vector3D&)> GetVectorSamplerFunc(
         const FaceCenteredGrid3& source) const override;
 };
 

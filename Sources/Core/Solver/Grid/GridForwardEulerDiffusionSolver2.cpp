@@ -18,9 +18,8 @@ static const char AIR = 1;
 static const char BOUNDARY = 2;
 
 template <typename T>
-inline T Laplacian(const ConstArrayAccessor2<T>& data,
-                   const Array2<char>& marker, const Vector2D& gridSpacing,
-                   size_t i, size_t j)
+T Laplacian(const ConstArrayAccessor2<T>& data, const Array2<char>& marker,
+            const Vector2D& gridSpacing, size_t i, size_t j)
 {
     const T center = data(i, j);
     const Size2 ds = data.size();
@@ -54,11 +53,6 @@ inline T Laplacian(const ConstArrayAccessor2<T>& data,
            (dUp - dDown) / Square(gridSpacing.y);
 }
 
-GridForwardEulerDiffusionSolver2::GridForwardEulerDiffusionSolver2()
-{
-    // Do nothing
-}
-
 void GridForwardEulerDiffusionSolver2::Solve(const ScalarGrid2& source,
                                              double diffusionCoefficient,
                                              double timeIntervalInSeconds,
@@ -66,9 +60,9 @@ void GridForwardEulerDiffusionSolver2::Solve(const ScalarGrid2& source,
                                              const ScalarField2& boundarySDF,
                                              const ScalarField2& fluidSDF)
 {
-    auto src = source.GetConstDataAccessor();
+    ConstArrayAccessor2<double> src = source.GetConstDataAccessor();
     Vector2D h = source.GridSpacing();
-    auto pos = source.GetDataPosition();
+    const auto pos = source.GetDataPosition();
 
     BuildMarkers(source.Resolution(), pos, boundarySDF, fluidSDF);
 
@@ -91,9 +85,9 @@ void GridForwardEulerDiffusionSolver2::Solve(
     double timeIntervalInSeconds, CollocatedVectorGrid2* dest,
     const ScalarField2& boundarySDF, const ScalarField2& fluidSDF)
 {
-    auto src = source.GetConstDataAccessor();
+    ConstArrayAccessor2<Vector2<double>> src = source.GetConstDataAccessor();
     Vector2D h = source.GridSpacing();
-    auto pos = source.GetDataPosition();
+    const auto pos = source.GetDataPosition();
 
     BuildMarkers(source.Resolution(), pos, boundarySDF, fluidSDF);
 
@@ -118,12 +112,12 @@ void GridForwardEulerDiffusionSolver2::Solve(const FaceCenteredGrid2& source,
                                              const ScalarField2& boundarySDF,
                                              const ScalarField2& fluidSDF)
 {
-    auto uSrc = source.GetUConstAccessor();
-    auto vSrc = source.GetVConstAccessor();
-    auto u = dest->GetUAccessor();
-    auto v = dest->GetVAccessor();
-    auto uPos = source.GetUPosition();
-    auto vPos = source.GetVPosition();
+    ConstArrayAccessor2<double> uSrc = source.GetUConstAccessor();
+    ConstArrayAccessor2<double> vSrc = source.GetVConstAccessor();
+    ArrayAccessor2<double> u = dest->GetUAccessor();
+    ArrayAccessor2<double> v = dest->GetVAccessor();
+    const auto uPos = source.GetUPosition();
+    const auto vPos = source.GetVPosition();
     Vector2D h = source.GridSpacing();
 
     BuildMarkers(source.GetUSize(), uPos, boundarySDF, fluidSDF);

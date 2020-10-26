@@ -31,7 +31,7 @@ class VertexCenteredScalarGrid3 final : public ScalarGrid3
     class Builder;
 
     //! Constructs zero-sized grid.
-    VertexCenteredScalarGrid3();
+    VertexCenteredScalarGrid3() = default;
 
     //! Constructs a grid with given resolution, grid spacing, origin and
     //! initial value.
@@ -45,24 +45,38 @@ class VertexCenteredScalarGrid3 final : public ScalarGrid3
     //! Constructs a grid with given resolution, grid spacing, origin and
     //! initial value.
     VertexCenteredScalarGrid3(const Size3& resolution,
-                              const Vector3D& gridSpacing = Vector3D(1.0, 1.0,
-                                                                     1.0),
-                              const Vector3D& origin = Vector3D(),
+                              const Vector3D& gridSpacing = Vector3D{ 1.0, 1.0,
+                                                                      1.0 },
+                              const Vector3D& origin = Vector3D{},
                               double initialValue = 0.0);
 
     //! Copy constructor.
     VertexCenteredScalarGrid3(const VertexCenteredScalarGrid3& other);
 
+    //! Deleted move constructor.
+    VertexCenteredScalarGrid3(VertexCenteredScalarGrid3&&) noexcept = delete;
+
+    // Default virtual destructor.
+    ~VertexCenteredScalarGrid3() override = default;
+
+    //! Sets the contents with the given \p other grid.
+    VertexCenteredScalarGrid3& operator=(
+        const VertexCenteredScalarGrid3& other);
+
+    //! Deleted move assignment operator.
+    VertexCenteredScalarGrid3& operator=(VertexCenteredScalarGrid3&&) noexcept =
+        delete;
+
     //! Returns the actual data point size.
-    Size3 GetDataSize() const override;
+    [[nodiscard]] Size3 GetDataSize() const override;
 
     //! Returns data position for the grid point at (0, 0, 0).
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
-    Vector3D GetDataOrigin() const override;
+    [[nodiscard]] Vector3D GetDataOrigin() const override;
 
     //! Returns the copy of the grid instance.
-    std::shared_ptr<ScalarGrid3> Clone() const override;
+    [[nodiscard]] std::shared_ptr<ScalarGrid3> Clone() const override;
 
     //!
     //! \brief Swaps the contents with the given \p other grid.
@@ -75,12 +89,8 @@ class VertexCenteredScalarGrid3 final : public ScalarGrid3
     //! Sets the contents with the given \p other grid.
     void Set(const VertexCenteredScalarGrid3& other);
 
-    //! Sets the contents with the given \p other grid.
-    VertexCenteredScalarGrid3& operator=(
-        const VertexCenteredScalarGrid3& other);
-
     //! Returns builder fox VertexCenteredScalarGrid3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 };
 
 //! Shared pointer for the VertexCenteredScalarGrid3 type.
@@ -91,43 +101,46 @@ class VertexCenteredScalarGrid3::Builder final : public ScalarGridBuilder3
 {
  public:
     //! Returns builder with resolution.
-    Builder& WithResolution(const Size3& resolution);
+    [[nodiscard]] Builder& WithResolution(const Size3& resolution);
 
     //! Returns builder with resolution.
-    Builder& WithResolution(size_t resolutionX, size_t resolutionY,
-                            size_t resolutionZ);
+    [[nodiscard]] Builder& WithResolution(size_t resolutionX,
+                                          size_t resolutionY,
+                                          size_t resolutionZ);
 
     //! Returns builder with grid spacing.
-    Builder& WithGridSpacing(const Vector3D& gridSpacing);
+    [[nodiscard]] Builder& WithGridSpacing(const Vector3D& gridSpacing);
 
     //! Returns builder with grid spacing.
-    Builder& WithGridSpacing(double gridSpacingX, double gridSpacingY,
-                             double gridSpacingZ);
+    [[nodiscard]] Builder& WithGridSpacing(double gridSpacingX,
+                                           double gridSpacingY,
+                                           double gridSpacingZ);
 
     //! Returns builder with grid origin.
-    Builder& WithOrigin(const Vector3D& gridOrigin);
+    [[nodiscard]] Builder& WithOrigin(const Vector3D& gridOrigin);
 
     //! Returns builder with grid origin.
-    Builder& WithOrigin(double gridOriginX, double gridOriginY,
-                        double gridOriginZ);
+    [[nodiscard]] Builder& WithOrigin(double gridOriginX, double gridOriginY,
+                                      double gridOriginZ);
 
     //! Returns builder with initial value.
-    Builder& WithInitialValue(double initialVal);
+    [[nodiscard]] Builder& WithInitialValue(double initialVal);
 
     //! Builds VertexCenteredScalarGrid3 instance.
-    VertexCenteredScalarGrid3 Build() const;
+    [[nodiscard]] VertexCenteredScalarGrid3 Build() const;
 
     //! Builds shared pointer of VertexCenteredScalarGrid3 instance.
-    VertexCenteredScalarGrid3Ptr MakeShared() const;
+    [[nodiscard]] VertexCenteredScalarGrid3Ptr MakeShared() const;
 
     //!
     //! \brief Builds shared pointer of VertexCenteredScalarGrid3 instance.
     //!
     //! This is an overriding function that implements ScalarGridBuilder3.
     //!
-    ScalarGrid3Ptr Build(const Size3& resolution, const Vector3D& gridSpacing,
-                         const Vector3D& gridOrigin,
-                         double initialVal) const override;
+    [[nodiscard]] ScalarGrid3Ptr Build(const Size3& resolution,
+                                       const Vector3D& gridSpacing,
+                                       const Vector3D& gridOrigin,
+                                       double initialVal) const override;
 
  private:
     Size3 m_resolution{ 1, 1, 1 };

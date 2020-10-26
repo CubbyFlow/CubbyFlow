@@ -34,7 +34,7 @@ std::function<Vector2D(const Vector2D&)> ConstantVectorField2::Sampler() const
 
 ConstantVectorField2::Builder ConstantVectorField2::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 ConstantVectorField2::Builder& ConstantVectorField2::Builder::WithValue(
@@ -46,13 +46,13 @@ ConstantVectorField2::Builder& ConstantVectorField2::Builder::WithValue(
 
 ConstantVectorField2 ConstantVectorField2::Builder::Build() const
 {
-    return ConstantVectorField2(m_value);
+    return ConstantVectorField2{ m_value };
 }
 
 ConstantVectorField2Ptr ConstantVectorField2::Builder::MakeShared() const
 {
     return std::shared_ptr<ConstantVectorField2>(
-        new ConstantVectorField2(m_value),
+        new ConstantVectorField2{ m_value },
         [](ConstantVectorField2* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

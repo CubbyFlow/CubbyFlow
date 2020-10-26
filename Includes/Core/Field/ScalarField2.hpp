@@ -24,22 +24,35 @@ class ScalarField2 : public Field2
 {
  public:
     //! Default constructor.
-    ScalarField2();
+    ScalarField2() = default;
 
-    //! Default destructor.
-    virtual ~ScalarField2();
+    //! Default copy constructor.
+    ScalarField2(const ScalarField2&) = default;
+
+    //! Default move constructor.
+    ScalarField2(ScalarField2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~ScalarField2() = default;
+
+    //! Default copy assignment operator.
+    ScalarField2& operator=(const ScalarField2&) = default;
+
+    //! Default move assignment operator.
+    ScalarField2& operator=(ScalarField2&&) noexcept = default;
 
     //! Returns sampled value at given position \p x.
-    virtual double Sample(const Vector2D& x) const = 0;
+    [[nodiscard]] virtual double Sample(const Vector2D& x) const = 0;
 
     //! Returns gradient vector at given position \p x.
-    virtual Vector2D Gradient(const Vector2D& x) const;
+    [[nodiscard]] virtual Vector2D Gradient(const Vector2D& x) const;
 
     //! Returns Laplacian at given position \p x.
-    virtual double Laplacian(const Vector2D& x) const;
+    [[nodiscard]] virtual double Laplacian(const Vector2D& x) const;
 
     //! Returns sampler function object.
-    virtual std::function<double(const Vector2D&)> Sampler() const;
+    [[nodiscard]] virtual std::function<double(const Vector2D&)> Sampler()
+        const;
 };
 
 //! Shared pointer for the ScalarField2 type.

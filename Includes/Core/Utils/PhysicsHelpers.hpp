@@ -33,14 +33,14 @@ inline Vector3D ComputeDragForce(double dragCoefficient, double radius,
 }
 
 template <size_t N>
-inline Vector<double, N> ProjectAndApplyFriction(
-    const Vector<double, N>& vel, const Vector<double, N>& normal,
-    double frictionCoefficient)
+Vector<double, N> ProjectAndApplyFriction(const Vector<double, N>& vel,
+                                          const Vector<double, N>& normal,
+                                          double frictionCoefficient)
 {
     Vector<double, N> velt = vel.Projected(normal);
     if (velt.LengthSquared() > 0)
     {
-        double veln = std::max(-vel.Dot(normal), 0.0);
+        const double veln = std::max(-vel.Dot(normal), 0.0);
         velt *= std::max(1.0 - frictionCoefficient * veln / velt.Length(), 0.0);
     }
 

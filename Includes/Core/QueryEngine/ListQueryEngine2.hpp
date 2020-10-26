@@ -29,12 +29,12 @@ class ListQueryEngine2 final : public IntersectionQueryEngine2<T>,
     void Add(const std::vector<T>& items);
 
     //! Returns true if given \p box intersects with any of the stored items.
-    bool IsIntersects(
+    [[nodiscard]] bool IsIntersects(
         const BoundingBox2D& box,
         const BoxIntersectionTestFunc2<T>& testFunc) const override;
 
     //! Returns true if given \p ray intersects with any of the stored items.
-    bool IsIntersects(
+    [[nodiscard]] bool IsIntersects(
         const Ray2D& ray,
         const RayIntersectionTestFunc2<T>& testFunc) const override;
 
@@ -49,13 +49,13 @@ class ListQueryEngine2 final : public IntersectionQueryEngine2<T>,
         const IntersectionVisitorFunc2<T>& visitorFunc) const override;
 
     //! Returns the closest intersection for given \p ray.
-    ClosestIntersectionQueryResult2<T> GetClosestIntersection(
+    [[nodiscard]] ClosestIntersectionQueryResult2<T> GetClosestIntersection(
         const Ray2D& ray,
         const GetRayIntersectionFunc2<T>& testFunc) const override;
 
     //! Returns the nearest neighbor for given point and distance measure
     //! function.
-    NearestNeighborQueryResult2<T> GetNearestNeighbor(
+    [[nodiscard]] NearestNeighborQueryResult2<T> GetNearestNeighbor(
         const Vector2D& pt,
         const NearestNeighborDistanceFunc2<T>& distanceFunc) const override;
 

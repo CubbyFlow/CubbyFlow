@@ -25,13 +25,13 @@ void Serialize(const uint8_t* data, size_t size, std::vector<uint8_t>* buffer)
 {
     flatbuffers::FlatBufferBuilder builder(1024);
 
-    auto fbsData =
+    const auto fbsData =
         fbs::CreateFlatData(builder, builder.CreateVector(data, size));
 
     builder.Finish(fbsData);
 
     uint8_t* buf = builder.GetBufferPointer();
-    size_t sz = builder.GetSize();
+    const size_t sz = builder.GetSize();
 
     buffer->resize(sz);
     memcpy(buffer->data(), buf, sz);
@@ -44,7 +44,7 @@ void Deserialize(const std::vector<uint8_t>& buffer, Serializable* serializable)
 
 void Deserialize(const std::vector<uint8_t>& buffer, std::vector<uint8_t>* data)
 {
-    auto fbsData = fbs::GetFlatData(buffer.data());
+    const auto fbsData = fbs::GetFlatData(buffer.data());
     data->resize(fbsData->data()->size());
     std::copy(fbsData->data()->begin(), fbsData->data()->end(), data->begin());
 }

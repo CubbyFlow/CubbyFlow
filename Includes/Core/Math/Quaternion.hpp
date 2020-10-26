@@ -26,19 +26,6 @@ class Quaternion
         std::is_floating_point<T>::value,
         "Quaternion only can be instantiated with floating point types");
 
-    //! Real part.
-    T w;
-
-    //!< Imaginary part (i).
-    T x;
-
-    //!< Imaginary part (j).
-    T y;
-
-    //!< Imaginary part (k).
-    T z;
-
-    // MARK: Constructors
     //! Make an identity quaternion.
     Quaternion();
 
@@ -64,7 +51,18 @@ class Quaternion
     //! Copy constructor.
     Quaternion(const Quaternion& other);
 
-    // MARK: Basic setters
+    //! Default move constructor.
+    Quaternion(Quaternion&& other) noexcept;
+
+    //! Default destructor.
+    ~Quaternion() = default;
+
+    //! Copy assignment operator.
+    Quaternion& operator=(const Quaternion& other);
+
+    //! Default move assignment operator.
+    Quaternion& operator=(Quaternion&& other) noexcept;
+
     //! Sets the quaternion with other quaternion.
     void Set(const Quaternion& other);
 
@@ -87,33 +85,28 @@ class Quaternion
     //! Sets the quaternion with 3x3 rotational matrix.
     void Set(const Matrix3x3<T>& m);
 
-    // MARK: Basic getters
     //! Returns quaternion with other base type.
     template <typename U>
-    Quaternion<U> CastTo() const;
+    [[nodiscard]] Quaternion<U> CastTo() const;
 
     //! Returns normalized quaternion.
-    Quaternion Normalized() const;
+    [[nodiscard]] Quaternion Normalized() const;
 
-    // MARK: Binary operator methods - new instance = this instance (+) input
     //! Returns this quaternion * vector.
-    Vector3<T> Mul(const Vector3<T>& v) const;
+    [[nodiscard]] Vector3<T> Mul(const Vector3<T>& v) const;
 
     //! Returns this quaternion * other quaternion.
-    Quaternion Mul(const Quaternion& other) const;
+    [[nodiscard]] Quaternion Mul(const Quaternion& other) const;
 
     //! Computes the dot product with other quaternion.
-    T Dot(const Quaternion<T>& other);
+    [[nodiscard]] T Dot(const Quaternion<T>& other);
 
-    // MARK: Binary operator methods - new instance = input (+) this instance
     //! Returns other quaternion * this quaternion.
-    Quaternion RMul(const Quaternion& other) const;
+    [[nodiscard]] Quaternion RMul(const Quaternion& other) const;
 
-    // MARK: Augmented operator methods - this instance (+)= input
     //! Returns this quaternion *= other quaternion.
     void IMul(const Quaternion& other);
 
-    // MARK: Modifiers
     //! Makes this quaternion identity.
     void SetIdentity();
 
@@ -123,36 +116,30 @@ class Quaternion
     //! Normalizes the quaternion.
     void Normalize();
 
-    // MARK: Complex getters
     //! Returns the rotational axis.
-    Vector3<T> Axis() const;
+    [[nodiscard]] Vector3<T> Axis() const;
 
     //! Returns the rotational angle.
-    T Angle() const;
+    [[nodiscard]] T Angle() const;
 
     //! Returns the axis and angle.
     void GetAxisAngle(Vector3<T>* axis, T* angle) const;
 
     //! Returns the inverse quaternion.
-    Quaternion Inverse() const;
+    [[nodiscard]] Quaternion Inverse() const;
 
     //! Converts to the 3x3 rotation matrix.
-    Matrix3x3<T> Matrix3() const;
+    [[nodiscard]] Matrix3x3<T> Matrix3() const;
 
     //! Converts to the 4x4 rotation matrix.
-    Matrix4x4<T> Matrix4() const;
+    [[nodiscard]] Matrix4x4<T> Matrix4() const;
 
     //! Returns L2 norm of this quaternion.
-    T L2Norm() const;
-
-    // MARK: Setter operators
-    //! Assigns other quaternion.
-    Quaternion& operator=(const Quaternion& other);
+    [[nodiscard]] T L2Norm() const;
 
     //! Returns this quaternion *= other quaternion.
     Quaternion& operator*=(const Quaternion& other);
 
-    // MARK: Getter operators
     //! Returns the reference to the i-th element.
     T& operator[](size_t i);
 
@@ -165,22 +152,36 @@ class Quaternion
     //! Returns true if not equal.
     bool operator!=(const Quaternion& other) const;
 
-    // MARK: Builders
     //! Returns identity matrix.
-    static Quaternion MakeIdentity();
+    [[nodiscard]] static Quaternion MakeIdentity();
+
+    //! Real part.
+    T w;
+
+    //!< Imaginary part (i).
+    T x;
+
+    //!< Imaginary part (j).
+    T y;
+
+    //!< Imaginary part (k).
+    T z;
 };
 
 //! Computes spherical linear interpolation.
 template <typename T>
-Quaternion<T> Slerp(const Quaternion<T>& a, const Quaternion<T>& b, T t);
+[[nodiscard]] Quaternion<T> Slerp(const Quaternion<T>& a,
+                                  const Quaternion<T>& b, T t);
 
 //! Returns quaternion q * vector v.
 template <typename T>
-Vector<T, 3> operator*(const Quaternion<T>& q, const Vector<T, 3>& v);
+[[nodiscard]] Vector<T, 3> operator*(const Quaternion<T>& q,
+                                     const Vector<T, 3>& v);
 
 //! Returns quaternion a times quaternion b.
 template <typename T>
-Quaternion<T> operator*(const Quaternion<T>& a, const Quaternion<T>& b);
+[[nodiscard]] Quaternion<T> operator*(const Quaternion<T>& a,
+                                      const Quaternion<T>& b);
 
 //! Float-type quaternion.
 using QuaternionF = Quaternion<float>;

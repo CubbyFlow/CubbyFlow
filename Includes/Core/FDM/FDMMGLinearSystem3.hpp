@@ -25,20 +25,11 @@ using FDMMGVector3 = MGVector<FDMBLAS3>;
 //! Multigrid-syle 3-D linear system.
 struct FDMMGLinearSystem3
 {
-    //! The system matrix.
-    FDMMGMatrix3 A;
-
-    //! The solution vector.
-    FDMMGVector3 x;
-
-    //! The RHS vector.
-    FDMMGVector3 b;
-
     //! Clears the linear system.
     void Clear();
 
     //! Returns the number of multigrid levels.
-    size_t GetNumberOfLevels() const;
+    [[nodiscard]] size_t GetNumberOfLevels() const;
 
     //! Resizes the system with the coarsest resolution and number of levels.
     void ResizeWithCoarsest(const Size3& coarsestResolution,
@@ -56,6 +47,15 @@ struct FDMMGLinearSystem3
     //!
     void ResizeWithFinest(const Size3& finestResolution,
                           size_t maxNumberOfLevels);
+
+    //! The system matrix.
+    FDMMGMatrix3 A;
+
+    //! The solution vector.
+    FDMMGVector3 x;
+
+    //! The RHS vector.
+    FDMMGVector3 b;
 };
 
 //! Multigrid utilities for 2-D FDM system.
@@ -83,6 +83,7 @@ class FDMMGUtils3
     //!
     //! \param finestResolution - The finest grid resolution.
     //! \param maxNumberOfLevels - Maximum number of multigrid levels.
+    //! \param levels - The array to resize.
     //!
     template <typename T>
     static void ResizeArrayWithFinest(const Size3& finestResolution,

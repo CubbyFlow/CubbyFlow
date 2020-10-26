@@ -12,11 +12,6 @@
 
 namespace CubbyFlow
 {
-Transform3::Transform3()
-{
-    // Do nothing
-}
-
 Transform3::Transform3(const Vector3D& translation,
                        const QuaternionD& orientation)
 {
@@ -58,8 +53,8 @@ Vector3D Transform3::ToLocalDirection(const Vector3D& dirInWorld) const
 
 Ray3D Transform3::ToLocal(const Ray3D& rayInWorld) const
 {
-    return Ray3D(ToLocal(rayInWorld.origin),
-                 ToLocalDirection(rayInWorld.direction));
+    return Ray3D{ ToLocal(rayInWorld.origin),
+                  ToLocalDirection(rayInWorld.direction) };
 }
 
 BoundingBox3D Transform3::ToLocal(const BoundingBox3D& bboxInWorld) const
@@ -89,8 +84,8 @@ Vector3D Transform3::ToWorldDirection(const Vector3D& dirInLocal) const
 
 Ray3D Transform3::ToWorld(const Ray3D& rayInLocal) const
 {
-    return Ray3D(ToWorld(rayInLocal.origin),
-                 ToWorldDirection(rayInLocal.direction));
+    return Ray3D{ ToWorld(rayInLocal.origin),
+                  ToWorldDirection(rayInLocal.direction) };
 }
 
 BoundingBox3D Transform3::ToWorld(const BoundingBox3D& bboxInLocal) const

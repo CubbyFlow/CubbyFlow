@@ -30,19 +30,19 @@ class ColliderSet3 final : public Collider3
     explicit ColliderSet3(const std::vector<Collider3Ptr>& others);
 
     //! Returns the velocity of the collider at given \p point.
-    Vector3D VelocityAt(const Vector3D& point) const override;
+    [[nodiscard]] Vector3D VelocityAt(const Vector3D& point) const override;
 
     //! Adds a collider to the set.
     void AddCollider(const Collider3Ptr& collider);
 
     //! Returns number of colliders.
-    size_t NumberOfColliders() const;
+    [[nodiscard]] size_t NumberOfColliders() const;
 
     //! Returns collider at index \p i.
-    Collider3Ptr Collider(size_t i) const;
+    [[nodiscard]] Collider3Ptr Collider(size_t i) const;
 
     //! Returns builder fox ColliderSet3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
     std::vector<Collider3Ptr> m_colliders;
@@ -58,13 +58,14 @@ class ColliderSet3::Builder final
 {
  public:
     //! Returns builder with other colliders.
-    Builder& WithColliders(const std::vector<Collider3Ptr>& others);
+    [[nodiscard]] Builder& WithColliders(
+        const std::vector<Collider3Ptr>& others);
 
     //! Builds ColliderSet3.
-    ColliderSet3 Build() const;
+    [[nodiscard]] ColliderSet3 Build() const;
 
     //! Builds shared pointer of ColliderSet3 instance.
-    ColliderSet3Ptr MakeShared() const;
+    [[nodiscard]] ColliderSet3Ptr MakeShared() const;
 
  private:
     std::vector<Collider3Ptr> m_colliders;

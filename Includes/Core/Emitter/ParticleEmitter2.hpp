@@ -31,23 +31,35 @@ class ParticleEmitter2
         std::function<void(ParticleEmitter2*, double, double)>;
 
     //! Default constructor.
-    ParticleEmitter2();
+    ParticleEmitter2() = default;
 
-    //! Destructor.
-    virtual ~ParticleEmitter2();
+    //! Default copy constructor.
+    ParticleEmitter2(const ParticleEmitter2&) = default;
+
+    //! Default move constructor.
+    ParticleEmitter2(ParticleEmitter2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~ParticleEmitter2() = default;
+
+    //! Default copy assignment operator.
+    ParticleEmitter2& operator=(const ParticleEmitter2&) = default;
+
+    //! Default move assignment operator.
+    ParticleEmitter2& operator=(ParticleEmitter2&&) noexcept = default;
 
     //! Updates the emitter state from \p currentTimeInSeconds to the following
     //! time-step.
     void Update(double currentTimeInSeconds, double timeIntervalInSeconds);
 
     //! Returns the target particle system to emit.
-    const ParticleSystemData2Ptr& GetTarget() const;
+    [[nodiscard]] const ParticleSystemData2Ptr& GetTarget() const;
 
     //! Sets the target particle system to emit.
     void SetTarget(const ParticleSystemData2Ptr& particles);
 
     //! Returns true if the emitter is enabled.
-    bool GetIsEnabled() const;
+    [[nodiscard]] bool GetIsEnabled() const;
 
     //! Sets true/false to enable/disable the emitter.
     void SetIsEnabled(bool enabled);

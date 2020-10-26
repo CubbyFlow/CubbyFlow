@@ -24,10 +24,22 @@ class LevelSetSolver3
 {
  public:
     //! Default constructor.
-    LevelSetSolver3();
+    LevelSetSolver3() = default;
 
-    //! Default destructor.
-    virtual ~LevelSetSolver3();
+    //! Deleted copy constructor.
+    LevelSetSolver3(const LevelSetSolver3&) = delete;
+
+    //! Deleted move constructor.
+    LevelSetSolver3(LevelSetSolver3&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    virtual ~LevelSetSolver3() = default;
+
+    //! Deleted copy assignment operator.
+    LevelSetSolver3& operator=(const LevelSetSolver3&) = delete;
+
+    //! Deleted move assignment operator.
+    LevelSetSolver3& operator=(LevelSetSolver3&&) noexcept = delete;
 
     //!
     //! Reinitializes given scalar field to signed-distance field.

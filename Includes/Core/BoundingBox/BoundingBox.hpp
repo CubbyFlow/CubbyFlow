@@ -30,38 +30,41 @@ class BoundingBox
 
     using VectorType = Vector<T, N>;
 
-    //! Lower corner of the bounding box.
-    VectorType lowerCorner;
-
-    //! Upper corner of the bounding box.
-    VectorType upperCorner;
-
     //! Default constructor.
     BoundingBox();
 
     //! Constructs a box that tightly covers two points.
     BoundingBox(const VectorType& point1, const VectorType& point2);
 
-    //! Constructs a box with other box instance.
+    //! Copy constructor.
     BoundingBox(const BoundingBox& other);
+
+    //! Move constructor.
+    BoundingBox(BoundingBox&& other) noexcept;
+
+    //! Default destructor.
+    ~BoundingBox() = default;
 
     //! Copy assignment operator.
     BoundingBox& operator=(const BoundingBox& other);
 
+    //! Move assignment operator.
+    BoundingBox& operator=(BoundingBox&& other) noexcept;
+
     //! Returns true of this box and other box overlaps.
-    bool Overlaps(const BoundingBox& other) const;
+    [[nodiscard]] bool Overlaps(const BoundingBox& other) const;
 
     //! Returns true if the input point is inside of this box.
-    bool Contains(const VectorType& point) const;
+    [[nodiscard]] bool Contains(const VectorType& point) const;
 
     //! Returns the mid-point of this box.
-    VectorType MidPoint() const;
+    [[nodiscard]] VectorType MidPoint() const;
 
     //! Returns diagonal length of this box.
-    T DiagonalLength() const;
+    [[nodiscard]] T DiagonalLength() const;
 
     //! Returns squared diagonal length of this box.
-    T DiagonalLengthSquared() const;
+    [[nodiscard]] T DiagonalLengthSquared() const;
 
     //! Resets this box to initial state (min=infinite, max=-infinite).
     void Reset();
@@ -76,6 +79,12 @@ class BoundingBox
     //! If the width of the box was x, expand(y) will result a box with
     //! x+y+y width.
     void Expand(T delta);
+
+    //! Lower corner of the bounding box.
+    VectorType lowerCorner;
+
+    //! Upper corner of the bounding box.
+    VectorType upperCorner;
 };
 }  // namespace CubbyFlow
 

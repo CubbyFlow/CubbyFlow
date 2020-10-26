@@ -31,10 +31,22 @@ class GridDiffusionSolver2
 {
  public:
     //! Default constructor.
-    GridDiffusionSolver2();
+    GridDiffusionSolver2() = default;
 
-    //! Default destructor.
-    virtual ~GridDiffusionSolver2();
+    //! Deleted copy constructor.
+    GridDiffusionSolver2(const GridDiffusionSolver2&) = delete;
+
+    //! Deleted move constructor.
+    GridDiffusionSolver2(GridDiffusionSolver2&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    virtual ~GridDiffusionSolver2() = default;
+
+    //! Deleted copy assignment operator.
+    GridDiffusionSolver2& operator=(const GridDiffusionSolver2&) = delete;
+
+    //! Deleted move assignment operator.
+    GridDiffusionSolver2& operator=(GridDiffusionSolver2&&) noexcept = delete;
 
     //!
     //! Solves diffusion equation for a scalar field.
@@ -48,10 +60,11 @@ class GridDiffusionSolver2
     //!
     virtual void Solve(const ScalarGrid2& source, double diffusionCoefficient,
                        double timeIntervalInSeconds, ScalarGrid2* dest,
-                       const ScalarField2& boundarySDF = ConstantScalarField2(
-                           std::numeric_limits<double>::max()),
-                       const ScalarField2& fluidSDF = ConstantScalarField2(
-                           -std::numeric_limits<double>::max())) = 0;
+                       const ScalarField2& boundarySDF =
+                           ConstantScalarField2{
+                               std::numeric_limits<double>::max() },
+                       const ScalarField2& fluidSDF = ConstantScalarField2{
+                           -std::numeric_limits<double>::max() }) = 0;
 
     //!
     //! Solves diffusion equation for a collocated vector field.
@@ -63,14 +76,13 @@ class GridDiffusionSolver2
     //! \param boundarySDF Shape of the solid boundary that is empty by default.
     //! \param fluidSDF Shape of the fluid boundary that is full by default.
     //!
-    virtual void Solve(const CollocatedVectorGrid2& source,
-                       double diffusionCoefficient,
-                       double timeIntervalInSeconds,
-                       CollocatedVectorGrid2* dest,
-                       const ScalarField2& boundarySDF = ConstantScalarField2(
-                           std::numeric_limits<double>::max()),
-                       const ScalarField2& fluidSDF = ConstantScalarField2(
-                           -std::numeric_limits<double>::max())) = 0;
+    virtual void Solve(
+        const CollocatedVectorGrid2& source, double diffusionCoefficient,
+        double timeIntervalInSeconds, CollocatedVectorGrid2* dest,
+        const ScalarField2& boundarySDF =
+            ConstantScalarField2{ std::numeric_limits<double>::max() },
+        const ScalarField2& fluidSDF = ConstantScalarField2{
+            -std::numeric_limits<double>::max() }) = 0;
 
     //!
     //! Solves diffusion equation for a face-centered vector field.
@@ -85,10 +97,11 @@ class GridDiffusionSolver2
     virtual void Solve(const FaceCenteredGrid2& source,
                        double diffusionCoefficient,
                        double timeIntervalInSeconds, FaceCenteredGrid2* dest,
-                       const ScalarField2& boundarySDF = ConstantScalarField2(
-                           std::numeric_limits<double>::max()),
-                       const ScalarField2& fluidSDF = ConstantScalarField2(
-                           -std::numeric_limits<double>::max())) = 0;
+                       const ScalarField2& boundarySDF =
+                           ConstantScalarField2{
+                               std::numeric_limits<double>::max() },
+                       const ScalarField2& fluidSDF = ConstantScalarField2{
+                           -std::numeric_limits<double>::max() }) = 0;
 };
 
 //! Shared pointer type for the GridDiffusionSolver2.

@@ -16,9 +16,9 @@
 namespace CubbyFlow
 {
 template <typename T>
-BVH3<T>::Node::Node() : flags(0)
+BVH3<T>::Node::Node() : flags(0), child(std::numeric_limits<size_t>::max())
 {
-    child = std::numeric_limits<size_t>::max();
+    // Do nothing
 }
 
 template <typename T>
@@ -44,12 +44,6 @@ bool BVH3<T>::Node::IsLeaf() const
 }
 
 template <typename T>
-BVH3<T>::BVH3()
-{
-    // Do nothing
-}
-
-template <typename T>
 void BVH3<T>::Build(const std::vector<T>& items,
                     const std::vector<BoundingBox3D>& itemsBounds)
 {
@@ -72,7 +66,8 @@ void BVH3<T>::Build(const std::vector<T>& items,
     std::vector<size_t> itemIndices(m_items.size());
     std::iota(std::begin(itemIndices), std::end(itemIndices), 0);
 
-    Build(0, itemIndices.data(), m_items.size(), 0);
+    [[maybe_unused]] const size_t d =
+        Build(0, itemIndices.data(), m_items.size(), 0);
 }
 
 template <typename T>
@@ -137,11 +132,11 @@ inline NearestNeighborQueryResult3<T> BVH3<T>::GetNearestNeighbor(
             Vector3D closestLeft = left->bound.Clamp(pt);
             Vector3D closestRight = right->bound.Clamp(pt);
 
-            double distMinLeftSqr = closestLeft.DistanceSquaredTo(pt);
-            double distMinRightSqr = closestRight.DistanceSquaredTo(pt);
+            const double distMinLeftSqr = closestLeft.DistanceSquaredTo(pt);
+            const double distMinRightSqr = closestRight.DistanceSquaredTo(pt);
 
-            bool shouldVisitLeft = distMinLeftSqr < bestDistSqr;
-            bool shouldVisitRight = distMinRightSqr < bestDistSqr;
+            const bool shouldVisitLeft = distMinLeftSqr < bestDistSqr;
+            const bool shouldVisitRight = distMinRightSqr < bestDistSqr;
 
             const Node* firstChild;
             const Node* secondChild;
@@ -680,7 +675,7 @@ size_t BVH3<T>::Build(size_t nodeIndex, size_t* itemIndices, size_t nItems,
         nodeBound.Merge(m_itemBounds[itemIndices[i]]);
     }
 
-    Vector3D d = nodeBound.upperCorner - nodeBound.lowerCorner;
+    const Vector3D d = nodeBound.upperCorner - nodeBound.lowerCorner;
 
     // choose which axis to split along
     uint8_t axis;
@@ -693,17 +688,18 @@ size_t BVH3<T>::Build(size_t nodeIndex, size_t* itemIndices, size_t nItems,
         axis = (d.y > d.z) ? 1 : 2;
     }
 
-    double pivot =
+    const double pivot =
         0.5 * (nodeBound.upperCorner[axis] + nodeBound.lowerCorner[axis]);
 
     // classify primitives with respect to split
-    size_t midPoint = QSplit(itemIndices, nItems, pivot, axis);
+    const size_t midPoint = QSplit(itemIndices, nItems, pivot, axis);
 
     // recursively Initialize children m_nodes
-    size_t d0 = Build(nodeIndex + 1, itemIndices, midPoint, currentDepth + 1);
+    const size_t d0 =
+        Build(nodeIndex + 1, itemIndices, midPoint, currentDepth + 1);
     m_nodes[nodeIndex].InitInternal(axis, m_nodes.size(), nodeBound);
-    size_t d1 = Build(m_nodes[nodeIndex].child, itemIndices + midPoint,
-                      nItems - midPoint, currentDepth + 1);
+    const size_t d1 = Build(m_nodes[nodeIndex].child, itemIndices + midPoint,
+                            nItems - midPoint, currentDepth + 1);
 
     return std::max(d0, d1);
 }
@@ -717,7 +713,8 @@ size_t BVH3<T>::QSplit(size_t* itemIndices, size_t numItems, double pivot,
     for (size_t i = 0; i < numItems; ++i)
     {
         BoundingBox3D b = m_itemBounds[itemIndices[i]];
-        double centroid = 0.5f * (b.lowerCorner[axis] + b.upperCorner[axis]);
+        const double centroid =
+            0.5f * (b.lowerCorner[axis] + b.upperCorner[axis]);
 
         if (centroid < pivot)
         {

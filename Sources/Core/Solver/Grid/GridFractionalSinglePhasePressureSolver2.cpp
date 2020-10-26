@@ -27,27 +27,27 @@ const double MIN_WEIGHT = 0.01;
 
 namespace
 {
-void Restrict(const Array2<float>& finer, Array2<float>* coarser)
+void Restrict(const Array2<double>& finer, Array2<double>* coarser)
 {
     // --*--|--*--|--*--|--*--
     //  1/8   3/8   3/8   1/8
     //           to
     // -----|-----*-----|-----
-    static const std::array<float, 4> centeredKernel = { { 0.125f, 0.375f,
-                                                           0.375f, 0.125f } };
+    static const std::array<double, 4> centeredKernel = { { 0.125, 0.375, 0.375,
+                                                            0.125 } };
 
     // -|----|----|----|----|-
     //      1/4  1/2  1/4
     //           to
     // -|---------|---------|-
-    static const std::array<float, 4> staggeredKernel = { { 0.f, 1.f, 0.f,
-                                                            0.f } };
+    static const std::array<double, 4> staggeredKernel = { { 0.0, 1.0, 0.0,
+                                                             0.0 } };
 
-    std::array<int, 2> kernelSize;
+    std::array<int, 2> kernelSize{};
     kernelSize[0] = finer.size().x != 2 * coarser->size().x ? 3 : 4;
     kernelSize[1] = finer.size().y != 2 * coarser->size().y ? 3 : 4;
 
-    std::array<std::array<float, 4>, 2> kernels;
+    std::array<std::array<double, 4>, 2> kernels{};
     kernels[0] = (kernelSize[0] == 3) ? staggeredKernel : centeredKernel;
     kernels[1] = (kernelSize[1] == 3) ? staggeredKernel : centeredKernel;
 
@@ -55,7 +55,7 @@ void Restrict(const Array2<float>& finer, Array2<float>* coarser)
     ParallelRangeFor(
         ZERO_SIZE, n.x, ZERO_SIZE, n.y,
         [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd) {
-            std::array<size_t, 4> jIndices;
+            std::array<size_t, 4> jIndices{};
 
             for (size_t j = jBegin; j < jEnd; ++j)
             {
@@ -90,12 +90,12 @@ void Restrict(const Array2<float>& finer, Array2<float>* coarser)
                         iIndices[3] = (i + 1 < n.x) ? 2 * i + 2 : 2 * i + 1;
                     }
 
-                    float sum = 0.0f;
+                    double sum = 0.0;
                     for (int y = 0; y < kernelSize[1]; ++y)
                     {
                         for (int x = 0; x < kernelSize[0]; ++x)
                         {
-                            float w = kernels[0][x] * kernels[1][y];
+                            const double w = kernels[0][x] * kernels[1][y];
                             sum += w * finer(iIndices[x], jIndices[y]);
                         }
                     }
@@ -107,9 +107,9 @@ void Restrict(const Array2<float>& finer, Array2<float>* coarser)
 }
 
 void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
-                       const Array2<float>& fluidSDF,
-                       const Array2<float>& uWeights,
-                       const Array2<float>& vWeights,
+                       const Array2<double>& fluidSDF,
+                       const Array2<double>& uWeights,
+                       const Array2<double>& vWeights,
                        std::function<Vector2D(const Vector2D&)> boundaryVel,
                        const FaceCenteredGrid2& input)
 {
@@ -122,13 +122,13 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
 
     // Build linear system
     A->ParallelForEachIndex([&](size_t i, size_t j) {
-        auto& row = (*A)(i, j);
+        FDMMatrixRow2& row = (*A)(i, j);
 
         // initialize
         row.center = row.right = row.up = 0.0;
         (*b)(i, j) = 0.0;
 
-        double centerPhi = fluidSDF(i, j);
+        const double centerPhi = fluidSDF(i, j);
 
         if (IsInsideSDF(centerPhi))
         {
@@ -137,7 +137,7 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
             if (i + 1 < size.x)
             {
                 term = uWeights(i + 1, j) * invHSqr.x;
-                double rightPhi = fluidSDF(i + 1, j);
+                const double rightPhi = fluidSDF(i + 1, j);
 
                 if (IsInsideSDF(rightPhi))
                 {
@@ -162,7 +162,7 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
             if (i > 0)
             {
                 term = uWeights(i, j) * invHSqr.x;
-                double leftPhi = fluidSDF(i - 1, j);
+                const double leftPhi = fluidSDF(i - 1, j);
 
                 if (IsInsideSDF(leftPhi))
                 {
@@ -185,7 +185,7 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
             if (j + 1 < size.y)
             {
                 term = vWeights(i, j + 1) * invHSqr.y;
-                double upPhi = fluidSDF(i, j + 1);
+                const double upPhi = fluidSDF(i, j + 1);
 
                 if (IsInsideSDF(upPhi))
                 {
@@ -210,7 +210,7 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
             if (j > 0)
             {
                 term = vWeights(i, j) * invHSqr.y;
-                double downPhi = fluidSDF(i, j - 1);
+                const double downPhi = fluidSDF(i, j - 1);
 
                 if (IsInsideSDF(downPhi))
                 {
@@ -231,7 +231,7 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
             }
 
             // Accumulate contributions from the moving boundary
-            double boundaryContribution =
+            const double boundaryContribution =
                 (1.0 - uWeights(i + 1, j)) * boundaryVel(uPos(i + 1, j)).x *
                     invH.x -
                 (1.0 - uWeights(i, j)) * boundaryVel(uPos(i, j)).x * invH.x +
@@ -256,9 +256,9 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
 }
 
 void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
-                       const Array2<float>& fluidSDF,
-                       const Array2<float>& uWeights,
-                       const Array2<float>& vWeights,
+                       const Array2<double>& fluidSDF,
+                       const Array2<double>& uWeights,
+                       const Array2<double>& vWeights,
                        std::function<Vector2D(const Vector2D&)> boundaryVel,
                        const FaceCenteredGrid2& input)
 {
@@ -269,13 +269,13 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
     const Vector2D invH = 1.0 / input.GridSpacing();
     const Vector2D invHSqr = invH * invH;
 
-    const auto fluidSDFAcc = fluidSDF.ConstAccessor();
+    const ConstArrayAccessor2<double> fluidSDFAcc = fluidSDF.ConstAccessor();
 
     A->Clear();
     b->Clear();
 
     size_t numRows = 0;
-    Array2<size_t> coordToIndex(size);
+    Array2<size_t> coordToIndex{ size };
     fluidSDF.ForEachIndex([&](size_t i, size_t j) {
         const size_t cIdx = fluidSDFAcc.Index(i, j);
         const double centerPhi = fluidSDF[cIdx];
@@ -432,12 +432,6 @@ GridFractionalSinglePhasePressureSolver2::
     m_systemSolver = std::make_shared<FDMICCGSolver2>(100, DEFAULT_TOLERANCE);
 }
 
-GridFractionalSinglePhasePressureSolver2::
-    ~GridFractionalSinglePhasePressureSolver2()
-{
-    // Do nothing
-}
-
 void GridFractionalSinglePhasePressureSolver2::Solve(
     const FaceCenteredGrid2& input, double timeIntervalInSeconds,
     FaceCenteredGrid2* output, const ScalarField2& boundarySDF,
@@ -522,7 +516,7 @@ void GridFractionalSinglePhasePressureSolver2::BuildWeights(
     const FaceCenteredGrid2& input, const ScalarField2& boundarySDF,
     const VectorField2& boundaryVelocity, const ScalarField2& fluidSDF)
 {
-    const auto size = input.Resolution();
+    const Size2& size = input.Resolution();
 
     // Build levels
     size_t maxLevels = 1;
@@ -536,8 +530,8 @@ void GridFractionalSinglePhasePressureSolver2::BuildWeights(
     m_vWeights.resize(m_fluidSDF.size());
     for (size_t l = 0; l < m_fluidSDF.size(); ++l)
     {
-        m_uWeights[l].Resize(m_fluidSDF[l].size() + Size2(1, 0));
-        m_vWeights[l].Resize(m_fluidSDF[l].size() + Size2(0, 1));
+        m_uWeights[l].Resize(m_fluidSDF[l].size() + Size2{ 1, 0 });
+        m_vWeights[l].Resize(m_fluidSDF[l].size() + Size2{ 0, 1 });
     }
 
     // Build top-level grids
@@ -548,15 +542,14 @@ void GridFractionalSinglePhasePressureSolver2::BuildWeights(
     Vector2D h = input.GridSpacing();
 
     m_fluidSDF[0].ParallelForEachIndex([&](size_t i, size_t j) {
-        m_fluidSDF[0](i, j) =
-            static_cast<float>(fluidSDF.Sample(cellPos(i, j)));
+        m_fluidSDF[0](i, j) = fluidSDF.Sample(cellPos(i, j));
     });
 
     m_uWeights[0].ParallelForEachIndex([&](size_t i, size_t j) {
-        Vector2D pt = uPos(i, j);
-        double phi0 = boundarySDF.Sample(pt - Vector2D(0.5 * h.x, 0.0));
-        double phi1 = boundarySDF.Sample(pt + Vector2D(0.5 * h.x, 0.0));
-        double frac = FractionInsideSDF(phi0, phi1);
+        const Vector2D pt = uPos(i, j);
+        const double phi0 = boundarySDF.Sample(pt - Vector2D{ 0.5 * h.x, 0.0 });
+        const double phi1 = boundarySDF.Sample(pt + Vector2D{ 0.5 * h.x, 0.0 });
+        const double frac = FractionInsideSDF(phi0, phi1);
         double weight = std::clamp(1.0 - frac, 0.0, 1.0);
 
         // Clamp non-zero weight to kMinWeight. Having nearly-zero element
@@ -566,14 +559,14 @@ void GridFractionalSinglePhasePressureSolver2::BuildWeights(
             weight = MIN_WEIGHT;
         }
 
-        m_uWeights[0](i, j) = static_cast<float>(weight);
+        m_uWeights[0](i, j) = weight;
     });
 
     m_vWeights[0].ParallelForEachIndex([&](size_t i, size_t j) {
-        Vector2D pt = vPos(i, j);
-        double phi0 = boundarySDF.Sample(pt - Vector2D(0.0, 0.5 * h.y));
-        double phi1 = boundarySDF.Sample(pt + Vector2D(0.0, 0.5 * h.y));
-        double frac = FractionInsideSDF(phi0, phi1);
+        const Vector2D pt = vPos(i, j);
+        const double phi0 = boundarySDF.Sample(pt - Vector2D{ 0.0, 0.5 * h.y });
+        const double phi1 = boundarySDF.Sample(pt + Vector2D{ 0.0, 0.5 * h.y });
+        const double frac = FractionInsideSDF(phi0, phi1);
         double weight = std::clamp(1.0 - frac, 0.0, 1.0);
 
         // Clamp non-zero weight to kMinWeight. Having nearly-zero element
@@ -583,7 +576,7 @@ void GridFractionalSinglePhasePressureSolver2::BuildWeights(
             weight = MIN_WEIGHT;
         }
 
-        m_vWeights[0](i, j) = static_cast<float>(weight);
+        m_vWeights[0](i, j) = weight;
     });
 
     // Build sub-levels
@@ -674,9 +667,9 @@ void GridFractionalSinglePhasePressureSolver2::BuildSystem(
     FaceCenteredGrid2 coarser;
     for (size_t l = 1; l < numLevels; ++l)
     {
-        auto res = finer->Resolution();
-        auto h = finer->GridSpacing();
-        const auto o = finer->Origin();
+        Size2 res = finer->Resolution();
+        Vector2D h = finer->GridSpacing();
+        const Vector2D o = finer->Origin();
         res.x = res.x >> 1;
         res.y = res.y >> 1;
         h *= 2.0;
@@ -697,22 +690,22 @@ void GridFractionalSinglePhasePressureSolver2::ApplyPressureGradient(
     const FaceCenteredGrid2& input, FaceCenteredGrid2* output)
 {
     Size2 size = input.Resolution();
-    auto u = input.GetUConstAccessor();
-    auto v = input.GetVConstAccessor();
-    auto u0 = output->GetUAccessor();
-    auto v0 = output->GetVAccessor();
+    ConstArrayAccessor2<double> u = input.GetUConstAccessor();
+    ConstArrayAccessor2<double> v = input.GetVConstAccessor();
+    ArrayAccessor2<double> u0 = output->GetUAccessor();
+    ArrayAccessor2<double> v0 = output->GetVAccessor();
 
-    const auto& x = GetPressure();
+    const FDMVector2& x = GetPressure();
 
     Vector2D invH = 1.0 / input.GridSpacing();
 
     x.ParallelForEachIndex([&](size_t i, size_t j) {
-        double centerPhi = m_fluidSDF[0](i, j);
+        const double centerPhi = m_fluidSDF[0](i, j);
 
         if (i + 1 < size.x && m_uWeights[0](i + 1, j) > 0.0 &&
             (IsInsideSDF(centerPhi) || IsInsideSDF(m_fluidSDF[0](i + 1, j))))
         {
-            double rightPhi = m_fluidSDF[0](i + 1, j);
+            const double rightPhi = m_fluidSDF[0](i + 1, j);
             double theta = FractionInsideSDF(centerPhi, rightPhi);
             theta = std::max(theta, 0.01);
 
@@ -723,7 +716,7 @@ void GridFractionalSinglePhasePressureSolver2::ApplyPressureGradient(
         if (j + 1 < size.y && m_vWeights[0](i, j + 1) > 0.0 &&
             (IsInsideSDF(centerPhi) || IsInsideSDF(m_fluidSDF[0](i, j + 1))))
         {
-            double upPhi = m_fluidSDF[0](i, j + 1);
+            const double upPhi = m_fluidSDF[0](i, j + 1);
             double theta = FractionInsideSDF(centerPhi, upPhi);
             theta = std::max(theta, 0.01);
 

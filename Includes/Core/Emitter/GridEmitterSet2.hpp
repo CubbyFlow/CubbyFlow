@@ -25,26 +25,38 @@ class GridEmitterSet2 final : public GridEmitter2
  public:
     class Builder;
 
-    //! Constructs an emitter.
-    GridEmitterSet2();
+    //! Default constructor.
+    GridEmitterSet2() = default;
 
     //! Constructs an emitter with sub-emitters.
     explicit GridEmitterSet2(const std::vector<GridEmitter2Ptr>& emitters);
 
-    //! Destructor.
-    virtual ~GridEmitterSet2();
+    //! Default copy constructor.
+    GridEmitterSet2(const GridEmitterSet2&) = default;
+
+    //! Default move constructor.
+    GridEmitterSet2(GridEmitterSet2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~GridEmitterSet2() override = default;
+
+    //! Default copy assignment operator.
+    GridEmitterSet2& operator=(const GridEmitterSet2&) = default;
+
+    //! Default move assignment operator.
+    GridEmitterSet2& operator=(GridEmitterSet2&&) noexcept = default;
 
     //! Adds sub-emitter.
     void AddEmitter(const GridEmitter2Ptr& emitter);
 
     //! Returns builder fox GridEmitterSet2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
-    std::vector<GridEmitter2Ptr> m_emitters;
-
     void OnUpdate(double currentTimeInSeconds,
                   double timeIntervalInSeconds) override;
+
+    std::vector<GridEmitter2Ptr> m_emitters;
 };
 
 //! Shared pointer type for the GridEmitterSet2.
@@ -57,13 +69,14 @@ class GridEmitterSet2::Builder final
 {
  public:
     //! Returns builder with list of sub-emitters.
-    Builder& WithEmitters(const std::vector<GridEmitter2Ptr>& emitters);
+    [[nodiscard]] Builder& WithEmitters(
+        const std::vector<GridEmitter2Ptr>& emitters);
 
     //! Builds GridEmitterSet2.
-    GridEmitterSet2 Build() const;
+    [[nodiscard]] GridEmitterSet2 Build() const;
 
     //! Builds shared pointer of GridEmitterSet2 instance.
-    GridEmitterSet2Ptr MakeShared() const;
+    [[nodiscard]] GridEmitterSet2Ptr MakeShared() const;
 
  private:
     std::vector<GridEmitter2Ptr> m_emitters;

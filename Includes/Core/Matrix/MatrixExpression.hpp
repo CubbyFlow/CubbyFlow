@@ -16,7 +16,6 @@
 
 namespace CubbyFlow
 {
-// MARK: MatrixExpression
 //!
 //! \brief Base class for matrix expression.
 //!
@@ -30,13 +29,13 @@ class MatrixExpression
 {
  public:
     //! Size of the matrix.
-    Size2 size() const;
+    [[nodiscard]] Size2 size() const;
 
     //! Number of rows.
-    size_t Rows() const;
+    [[nodiscard]] size_t Rows() const;
 
     //! Number of columns.
-    size_t Cols() const;
+    [[nodiscard]] size_t Cols() const;
 
     //! Returns actual implementation (the subclass).
     const E& operator()() const;
@@ -57,13 +56,13 @@ class MatrixConstant : public MatrixExpression<T, MatrixConstant<T>>
     MatrixConstant(size_t m, size_t n, const T& c);
 
     //! Size of the matrix.
-    Size2 size() const;
+    [[nodiscard]] Size2 size() const;
 
     //! Number of rows.
-    size_t Rows() const;
+    [[nodiscard]] size_t Rows() const;
 
     //! Number of columns.
-    size_t Cols() const;
+    [[nodiscard]] size_t Cols() const;
 
     //! Returns matrix element at (i, j).
     T operator()(size_t i, size_t j) const;
@@ -89,13 +88,13 @@ class MatrixIdentity : public MatrixExpression<T, MatrixIdentity<T>>
     MatrixIdentity(size_t m);
 
     //! Size of the matrix.
-    Size2 size() const;
+    [[nodiscard]] Size2 size() const;
 
     //! Number of rows.
-    size_t Rows() const;
+    [[nodiscard]] size_t Rows() const;
 
     //! Number of columns.
-    size_t Cols() const;
+    [[nodiscard]] size_t Cols() const;
 
     //! Returns matrix element at (i, j).
     T operator()(size_t i, size_t j) const;
@@ -104,7 +103,6 @@ class MatrixIdentity : public MatrixExpression<T, MatrixIdentity<T>>
     size_t m_m;
 };
 
-// MARK: MatrixUnaryOp
 //!
 //! \brief Matrix expression for unary operation.
 //!
@@ -123,13 +121,13 @@ class MatrixUnaryOp : public MatrixExpression<T, MatrixUnaryOp<T, E, Op>>
     MatrixUnaryOp(const E& u);
 
     //! Size of the matrix.
-    Size2 size() const;
+    [[nodiscard]] Size2 size() const;
 
     //! Number of rows.
-    size_t Rows() const;
+    [[nodiscard]] size_t Rows() const;
 
     //! Number of columns.
-    size_t Cols() const;
+    [[nodiscard]] size_t Cols() const;
 
     //! Returns matrix element at (i, j).
     T operator()(size_t i, size_t j) const;
@@ -153,24 +151,25 @@ class MatrixDiagonal : public MatrixExpression<T, MatrixDiagonal<T, E>>
 {
  public:
     //! Constructs diagonal matrix expression for given input expression.
-    //! \param isDiag - True for diagonal matrix, false for off-diagonal.
-    MatrixDiagonal(const E& u, bool isDiag);
+    //! \param u The given input expression.
+    //! \param isDiagonal true for diagonal matrix, false for off-diagonal.
+    MatrixDiagonal(const E& u, bool isDiagonal);
 
     //! Size of the matrix.
-    Size2 size() const;
+    [[nodiscard]] Size2 size() const;
 
     //! Number of rows.
-    size_t Rows() const;
+    [[nodiscard]] size_t Rows() const;
 
     //! Number of columns.
-    size_t Cols() const;
+    [[nodiscard]] size_t Cols() const;
 
     //! Returns matrix element at (i, j).
     T operator()(size_t i, size_t j) const;
 
  private:
     const E& m_u;
-    bool m_isDiag;
+    bool m_isDiagonal;
 };
 
 //!
@@ -187,18 +186,20 @@ class MatrixTriangular : public MatrixExpression<T, MatrixTriangular<T, E>>
 {
  public:
     //! Constructs triangular matrix expression for given input expression.
-    //! \param isUpper - True for upper tri matrix, false for lower tri matrix.
-    //! \param isStrict - True for strictly upper/lower triangular matrix.
+    //! \param u The given input expression.
+    //! \param isUpper true for upper triangular matrix,
+    //! false for lower triangular matrix.
+    //! \param isStrict true for strictly upper/lower triangular matrix.
     MatrixTriangular(const E& u, bool isUpper, bool isStrict);
 
     //! Size of the matrix.
-    Size2 size() const;
+    [[nodiscard]] Size2 size() const;
 
     //! Number of rows.
-    size_t Rows() const;
+    [[nodiscard]] size_t Rows() const;
 
     //! Number of columns.
-    size_t Cols() const;
+    [[nodiscard]] size_t Cols() const;
 
     //! Returns matrix element at (i, j).
     T operator()(size_t i, size_t j) const;
@@ -209,12 +210,10 @@ class MatrixTriangular : public MatrixExpression<T, MatrixTriangular<T, E>>
     bool m_isStrict;
 };
 
-// MARK: MatrixUnaryOp Aliases
 //! Matrix expression for type casting.
 template <typename T, typename E, typename U>
 using MatrixTypeCast = MatrixUnaryOp<T, E, TypeCast<U, T>>;
 
-// MARK: MatrixBinaryOp
 //!
 //! \brief Matrix expression for binary operation.
 //!
@@ -235,13 +234,13 @@ class MatrixBinaryOp : public MatrixExpression<T, MatrixBinaryOp<T, E1, E2, Op>>
     MatrixBinaryOp(const E1& u, const E2& v);
 
     //! Size of the matrix.
-    Size2 size() const;
+    [[nodiscard]] Size2 size() const;
 
     //! Number of rows.
-    size_t Rows() const;
+    [[nodiscard]] size_t Rows() const;
 
     //! Number of columns.
-    size_t Cols() const;
+    [[nodiscard]] size_t Cols() const;
 
     //! Returns matrix element at (i, j).
     T operator()(size_t i, size_t j) const;
@@ -271,13 +270,13 @@ class MatrixScalarBinaryOp
     MatrixScalarBinaryOp(const E& u, const T& v);
 
     //! Size of the matrix.
-    Size2 size() const;
+    [[nodiscard]] Size2 size() const;
 
     //! Number of rows.
-    size_t Rows() const;
+    [[nodiscard]] size_t Rows() const;
 
     //! Number of columns.
-    size_t Cols() const;
+    [[nodiscard]] size_t Cols() const;
 
     //! Returns matrix element at (i, j).
     T operator()(size_t i, size_t j) const;
@@ -305,7 +304,7 @@ class MatrixVectorMul : public VectorExpression<T, MatrixVectorMul<T, ME, VE>>
     MatrixVectorMul(const ME& m, const VE& v);
 
     //! Size of the vector.
-    size_t size() const;
+    [[nodiscard]] size_t size() const;
 
     //! Returns vector element at i.
     T operator[](size_t i) const;
@@ -334,13 +333,13 @@ class MatrixMul : public MatrixExpression<T, MatrixMul<T, E1, E2>>
     MatrixMul(const E1& u, const E2& v);
 
     //! Size of the matrix.
-    Size2 size() const;
+    [[nodiscard]] Size2 size() const;
 
     //! Number of rows.
-    size_t Rows() const;
+    [[nodiscard]] size_t Rows() const;
 
     //! Number of columns.
-    size_t Cols() const;
+    [[nodiscard]] size_t Cols() const;
 
     //! Returns matrix element at (i, j).
     T operator()(size_t i, size_t j) const;
@@ -350,7 +349,6 @@ class MatrixMul : public MatrixExpression<T, MatrixMul<T, E1, E2>>
     const E2& m_v;
 };
 
-// MARK: MatrixBinaryOp Aliases
 //! Matrix-matrix addition expression.
 template <typename T, typename E1, typename E2>
 using MatrixAdd = MatrixBinaryOp<T, E1, E2, std::plus<T>>;
@@ -383,7 +381,6 @@ using MatrixScalarDiv = MatrixScalarBinaryOp<T, E, std::divides<T>>;
 template <typename T, typename E>
 using MatrixScalarRDiv = MatrixScalarBinaryOp<T, E, RDivides<T>>;
 
-// MARK: Operator overloadings
 //! Returns a matrix with opposite sign.
 template <typename T, typename E>
 MatrixScalarMul<T, E> operator-(const MatrixExpression<T, E>& a);

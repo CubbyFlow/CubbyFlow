@@ -14,21 +14,23 @@ namespace CubbyFlow
 {
 Timer::Timer()
 {
-    m_startingPoint = m_clock.now();
+    m_startingPoint = std::chrono::steady_clock::now();
 }
 
 double Timer::DurationInSeconds() const
 {
-    auto end = std::chrono::steady_clock::now();
-    auto count = std::chrono::duration_cast<std::chrono::microseconds>(
-                     end - m_startingPoint)
-                     .count();
-    return count / 1000000.0;
+    const std::chrono::time_point<std::chrono::steady_clock> end =
+        std::chrono::steady_clock::now();
+    const long long count =
+        std::chrono::duration_cast<std::chrono::microseconds>(end -
+                                                              m_startingPoint)
+            .count();
+    return static_cast<double>(count) / 1000000.0;
 }
 
 void Timer::Reset()
 {
-    m_startingPoint = m_clock.now();
+    m_startingPoint = std::chrono::steady_clock::now();
 }
 
 }  // namespace CubbyFlow

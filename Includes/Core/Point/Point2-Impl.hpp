@@ -18,7 +18,6 @@
 
 namespace CubbyFlow
 {
-// Constructors
 template <typename T>
 template <typename U>
 Point<T, 2>::Point(const std::initializer_list<U>& list)
@@ -26,7 +25,20 @@ Point<T, 2>::Point(const std::initializer_list<U>& list)
     Set(list);
 }
 
-// Basic setters
+template <typename T>
+Point<T, 2>& Point<T, 2>::operator=(const Point& v)
+{
+    Set(v);
+    return (*this);
+}
+
+template <typename T>
+Point<T, 2>& Point<T, 2>::operator=(Point&& v) noexcept
+{
+    Set(v);
+    return (*this);
+}
+
 template <typename T>
 void Point<T, 2>::Set(T s)
 {
@@ -65,105 +77,103 @@ void Point<T, 2>::SetZero()
     x = y = 0;
 }
 
-// Binary operators: new instance = this (+) v
 template <typename T>
 Point<T, 2> Point<T, 2>::Add(T v) const
 {
-    return Point(x + v, y + v);
+    return Point{ x + v, y + v };
 }
 
 template <typename T>
 Point<T, 2> Point<T, 2>::Add(const Point& v) const
 {
-    return Point(x + v.x, y + v.y);
+    return Point{ x + v.x, y + v.y };
 }
 
 template <typename T>
 Point<T, 2> Point<T, 2>::Sub(T v) const
 {
-    return Point(x - v, y - v);
+    return Point{ x - v, y - v };
 }
 
 template <typename T>
 Point<T, 2> Point<T, 2>::Sub(const Point& v) const
 {
-    return Point(x - v.x, y - v.y);
+    return Point{ x - v.x, y - v.y };
 }
 
 template <typename T>
 Point<T, 2> Point<T, 2>::Mul(T v) const
 {
-    return Point(x * v, y * v);
+    return Point{ x * v, y * v };
 }
 
 template <typename T>
 Point<T, 2> Point<T, 2>::Mul(const Point& v) const
 {
-    return Point(x * v.x, y * v.y);
+    return Point{ x * v.x, y * v.y };
 }
 
 template <typename T>
 Point<T, 2> Point<T, 2>::Div(T v) const
 {
-    return Point(x / v, y / v);
+    return Point{ x / v, y / v };
 }
 
 template <typename T>
 Point<T, 2> Point<T, 2>::Div(const Point& v) const
 {
-    return Point(x / v.x, y / v.y);
+    return Point{ x / v.x, y / v.y };
 }
 
 // Binary operators: new instance = v (+) this
 template <typename T>
 Point<T, 2> Point<T, 2>::RAdd(T v) const
 {
-    return Point(v + x, v + y);
+    return Point{ v + x, v + y };
 }
 
 template <typename T>
 Point<T, 2> Point<T, 2>::RAdd(const Point& v) const
 {
-    return Point(v.x + x, v.y + y);
+    return Point{ v.x + x, v.y + y };
 }
 
 template <typename T>
 Point<T, 2> Point<T, 2>::RSub(T v) const
 {
-    return Point(v - x, v - y);
+    return Point{ v - x, v - y };
 }
 
 template <typename T>
 Point<T, 2> Point<T, 2>::RSub(const Point& v) const
 {
-    return Point(v.x - x, v.y - y);
+    return Point{ v.x - x, v.y - y };
 }
 
 template <typename T>
 Point<T, 2> Point<T, 2>::RMul(T v) const
 {
-    return Point(v * x, v * y);
+    return Point{ v * x, v * y };
 }
 
 template <typename T>
 Point<T, 2> Point<T, 2>::RMul(const Point& v) const
 {
-    return Point(v.x * x, v.y * y);
+    return Point{ v.x * x, v.y * y };
 }
 
 template <typename T>
 Point<T, 2> Point<T, 2>::RDiv(T v) const
 {
-    return Point(v / x, v / y);
+    return Point{ v / x, v / y };
 }
 
 template <typename T>
 Point<T, 2> Point<T, 2>::RDiv(const Point& v) const
 {
-    return Point(v.x / x, v.y / y);
+    return Point{ v.x / x, v.y / y };
 }
 
-// Augmented operators: this (+)= v
 template <typename T>
 void Point<T, 2>::IAdd(T v)
 {
@@ -220,7 +230,6 @@ void Point<T, 2>::IDiv(const Point& v)
     y /= v.y;
 }
 
-// Basic getters
 template <typename T>
 const T& Point<T, 2>::At(size_t i) const
 {
@@ -281,7 +290,7 @@ template <typename T>
 template <typename U>
 Point2<U> Point<T, 2>::CastTo() const
 {
-    return Point2<U>(static_cast<U>(x), static_cast<U>(y));
+    return Point2<U>{ static_cast<U>(x), static_cast<U>(y) };
 }
 
 template <typename T>
@@ -290,7 +299,6 @@ bool Point<T, 2>::IsEqual(const Point& other) const
     return (x == other.x && y == other.y);
 }
 
-// Operators
 template <typename T>
 T& Point<T, 2>::operator[](size_t i)
 {
@@ -309,13 +317,6 @@ template <typename T>
 Point<T, 2>& Point<T, 2>::operator=(const std::initializer_list<T>& list)
 {
     Set(list);
-    return (*this);
-}
-
-template <typename T>
-Point<T, 2>& Point<T, 2>::operator=(const Point& v)
-{
-    Set(v);
     return (*this);
 }
 
@@ -387,7 +388,6 @@ bool Point<T, 2>::operator!=(const Point& v) const
     return !IsEqual(v);
 }
 
-// Math functions
 template <typename T>
 Point<T, 2> operator+(const Point<T, 2>& a)
 {
@@ -475,32 +475,32 @@ Point<T, 2> operator/(const Point<T, 2>& a, const Point<T, 2>& b)
 template <typename T>
 Point<T, 2> Min(const Point<T, 2>& a, const Point<T, 2>& b)
 {
-    return Point<T, 2>(std::min(a.x, b.x), std::min(a.y, b.y));
+    return Point<T, 2>{ std::min(a.x, b.x), std::min(a.y, b.y) };
 }
 
 template <typename T>
 Point<T, 2> Max(const Point<T, 2>& a, const Point<T, 2>& b)
 {
-    return Point<T, 2>(std::max(a.x, b.x), std::max(a.y, b.y));
+    return Point<T, 2>{ std::max(a.x, b.x), std::max(a.y, b.y) };
 }
 
 template <typename T>
 Point<T, 2> Clamp(const Point<T, 2>& v, const Point<T, 2>& low,
                   const Point<T, 2>& high)
 {
-    return Point<T, 2>(Clamp(v.x, low.x, high.x), Clamp(v.y, low.y, high.y));
+    return Point<T, 2>{ Clamp(v.x, low.x, high.x), Clamp(v.y, low.y, high.y) };
 }
 
 template <typename T>
 Point<T, 2> Ceil(const Point<T, 2>& a)
 {
-    return Point<T, 2>(std::ceil(a.x), std::ceil(a.y));
+    return Point<T, 2>{ std::ceil(a.x), std::ceil(a.y) };
 }
 
 template <typename T>
 Point<T, 2> Floor(const Point<T, 2>& a)
 {
-    return Point<T, 2>(std::floor(a.x), std::floor(a.y));
+    return Point<T, 2>{ std::floor(a.x), std::floor(a.y) };
 }
 }  // namespace CubbyFlow
 

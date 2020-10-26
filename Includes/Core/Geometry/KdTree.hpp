@@ -27,6 +27,15 @@ class KdTree final
     //! Simple K-d tree node.
     struct Node
     {
+        //! Initializes leaf node.
+        void InitLeaf(size_t it, const Point& pt);
+
+        //! Initializes internal node.
+        void InitInternal(size_t axis, size_t it, size_t c, const Point& pt);
+
+        //! Returns true if leaf.
+        [[nodiscard]] bool IsLeaf() const;
+
         //! Split axis if flags < K, leaf indicator if flags == K.
         size_t flags = 0;
 
@@ -39,18 +48,6 @@ class KdTree final
 
         //! Point stored in the node.
         Point point;
-
-        //! Default contructor.
-        Node();
-
-        //! Initializes leaf node.
-        void InitLeaf(size_t it, const Point& pt);
-
-        //! Initializes internal node.
-        void InitInternal(size_t axis, size_t it, size_t c, const Point& pt);
-
-        //! Returns true if leaf.
-        bool IsLeaf() const;
     };
 
     using ContainerType = std::vector<Point>;
@@ -60,9 +57,6 @@ class KdTree final
     using NodeContainerType = std::vector<Node>;
     using NodeIterator = typename NodeContainerType::iterator;
     using ConstNodeIterator = typename NodeContainerType::const_iterator;
-
-    //! Constructs an empty kD-tree instance.
-    KdTree();
 
     //! Builds internal acceleration structure for given points list.
     void Build(const ConstArrayAccessor1<Point>& points);
@@ -88,44 +82,44 @@ class KdTree final
     //!
     //! \return     True if has nearby point, false otherwise.
     //!
-    bool HasNearbyPoint(const Point& origin, T radius) const;
+    [[nodiscard]] bool HasNearbyPoint(const Point& origin, T radius) const;
 
     //! Returns index of the nearest point.
-    size_t GetNearestPoint(const Point& origin) const;
+    [[nodiscard]] size_t GetNearestPoint(const Point& origin) const;
 
     //! Returns the mutable begin iterator of the item.
-    Iterator begin();
+    [[nodiscard]] Iterator begin();
 
     //! Returns the mutable end iterator of the item.
-    Iterator end();
+    [[nodiscard]] Iterator end();
 
     //! Returns the immutable begin iterator of the item.
-    ConstIterator begin() const;
+    [[nodiscard]] ConstIterator begin() const;
 
     //! Returns the immutable end iterator of the item.
-    ConstIterator end() const;
+    [[nodiscard]] ConstIterator end() const;
 
     //! Returns the mutable begin iterator of the node.
-    NodeIterator BeginNode();
+    [[nodiscard]] NodeIterator BeginNode();
 
     //! Returns the mutable end iterator of the node.
-    NodeIterator EndNode();
+    [[nodiscard]] NodeIterator EndNode();
 
     //! Returns the immutable begin iterator of the node.
-    ConstNodeIterator BeginNode() const;
+    [[nodiscard]] ConstNodeIterator BeginNode() const;
 
     //! Returns the immutable end iterator of the node.
-    ConstNodeIterator EndNode() const;
+    [[nodiscard]] ConstNodeIterator EndNode() const;
 
     //! Reserves memory space for this tree.
     void Reserve(size_t numPoints, size_t numNodes);
 
  private:
+    [[nodiscard]] size_t Build(size_t nodeIndex, size_t* itemIndices,
+                               size_t nItems, size_t currentDepth);
+
     std::vector<Point> m_points;
     std::vector<Node> m_nodes;
-
-    size_t Build(size_t nodeIndex, size_t* itemIndices, size_t nItems,
-                 size_t currentDepth);
 };
 }  // namespace CubbyFlow
 

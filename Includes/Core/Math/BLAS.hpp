@@ -44,7 +44,8 @@ struct BLAS
     static void Set(const MatrixType& m, MatrixType* result);
 
     //! Performs dot product with vector \p a and \p b.
-    static ScalarType Dot(const VectorType& a, const VectorType& b);
+    [[nodiscard]] static ScalarType Dot(const VectorType& a,
+                                        const VectorType& b);
 
     //! Performs ax + y operation where \p a is a matrix and \p x and \p y are
     //! vectors.
@@ -60,10 +61,10 @@ struct BLAS
                          const VectorType& b, VectorType* result);
 
     //! Returns L2-norm of the given vector \p v.
-    static ScalarType L2Norm(const VectorType& v);
+    [[nodiscard]] static ScalarType L2Norm(const VectorType& v);
 
     //! Returns L-inf-norm of the given vector \p v.
-    static ScalarType LInfNorm(const VectorType& v);
+    [[nodiscard]] static ScalarType LInfNorm(const VectorType& v);
 };
 }  // namespace CubbyFlow
 

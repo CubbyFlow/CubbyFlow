@@ -39,8 +39,20 @@ class Logger final
     //! Constructs a logger with logging level.
     explicit Logger(LogLevel level);
 
+    //! Deleted copy constructor.
+    Logger(const Logger&) = delete;
+
+    //! Deleted move constructor.
+    Logger(Logger&&) noexcept = delete;
+
     //! Destructor.
     ~Logger();
+
+    //! Deleted copy assignment operator.
+    Logger& operator=(const Logger&) = delete;
+
+    //! Deleted move assignment operator.
+    Logger& operator=(Logger&&) noexcept = delete;
 
     //! Writes a value to the buffer stream.
     template <typename T>
@@ -52,7 +64,7 @@ class Logger final
 
  private:
     LogLevel m_level;
-    mutable std::stringstream m_buffer;
+    mutable std::stringstream m_buffer{};
 };
 
 //! Helper class for logging.

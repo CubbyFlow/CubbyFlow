@@ -16,7 +16,6 @@
 
 namespace CubbyFlow
 {
-// MARK: VectorN
 //!
 //! \brief General purpose dynamically-sizedN-D vector class.
 //!
@@ -34,9 +33,8 @@ class VectorN final : public VectorExpression<T, VectorN<T>>
 
     using ContainerType = std::vector<T>;
 
-    // MARK: Constructors
     //! Constructs empty vector.
-    VectorN();
+    VectorN() = default;
 
     //! Constructs default vector (val, val, ... , val).
     VectorN(size_t n, const T& val = 0);
@@ -55,7 +53,15 @@ class VectorN final : public VectorExpression<T, VectorN<T>>
     //! Move constructor.
     VectorN(VectorN&& other) noexcept;
 
-    // MARK: Basic setters
+    //! Default destructor.
+    ~VectorN() = default;
+
+    //! Copy assignment operator.
+    VectorN& operator=(const VectorN& other);
+
+    //! Move assignment operator.
+    VectorN& operator=(VectorN&& other) noexcept;
+
     //! Resizes to \p n dimensional vector with initial value \p val.
     void Resize(size_t n, const T& val = 0);
 
@@ -85,143 +91,139 @@ class VectorN final : public VectorExpression<T, VectorN<T>>
     //! Normalizes this vector.
     void Normalize();
 
-    // MARK: Basic getters
     //! Returns the size of the vector.
-    size_t size() const;
+    [[nodiscard]] size_t size() const;
 
     //! Returns the raw pointer to the vector data.
-    T* data();
+    [[nodiscard]] T* data();
 
     //! Returns the const raw pointer to the vector data.
-    const T* data() const;
+    [[nodiscard]] const T* data() const;
 
     //! Returns the begin iterator of the vector.
-    typename ContainerType::iterator begin();
+    [[nodiscard]] typename ContainerType::iterator begin();
 
     //! Returns the begin const iterator of the vector.
-    typename ContainerType::const_iterator begin() const;
+    [[nodiscard]] typename ContainerType::const_iterator begin() const;
 
     //! Returns the end iterator of the vector.
-    typename ContainerType::iterator end();
+    [[nodiscard]] typename ContainerType::iterator end();
 
     //! Returns the end const iterator of the vector.
-    typename ContainerType::const_iterator end() const;
+    [[nodiscard]] typename ContainerType::const_iterator end() const;
 
     //! Returns the array accessor.
-    ArrayAccessor1<T> Accessor();
+    [[nodiscard]] ArrayAccessor1<T> Accessor();
 
     //! Returns the const array accessor.
-    ConstArrayAccessor1<T> ConstAccessor() const;
+    [[nodiscard]] ConstArrayAccessor1<T> ConstAccessor() const;
 
     //! Returns const reference to the \p i -th element of the vector.
-    T At(size_t i) const;
+    [[nodiscard]] T At(size_t i) const;
 
     //! Returns reference to the \p i -th element of the vector.
-    T& At(size_t i);
+    [[nodiscard]] T& At(size_t i);
 
     //! Returns the sum of all the elements.
-    T Sum() const;
+    [[nodiscard]] T Sum() const;
 
     //! Returns the average of all the elements.
-    T Avg() const;
+    [[nodiscard]] T Avg() const;
 
     //! Returns the minimum element.
-    T Min() const;
+    [[nodiscard]] T Min() const;
 
     //! Returns the maximum element.
-    T Max() const;
+    [[nodiscard]] T Max() const;
 
     //! Returns the absolute minimum element.
-    T AbsMin() const;
+    [[nodiscard]] T AbsMin() const;
 
     //! Returns the absolute maximum element.
-    T AbsMax() const;
+    [[nodiscard]] T AbsMax() const;
 
     //! Returns the index of the dominant axis.
-    size_t DominantAxis() const;
+    [[nodiscard]] size_t DominantAxis() const;
 
     //! Returns the index of the subdominant axis.
-    size_t SubdominantAxis() const;
+    [[nodiscard]] size_t SubdominantAxis() const;
 
     //! Returns normalized vector.
-    VectorScalarDiv<T, VectorN> Normalized() const;
+    [[nodiscard]] VectorScalarDiv<T, VectorN> Normalized() const;
 
     //! Returns the length of the vector.
-    T Length() const;
+    [[nodiscard]] T Length() const;
 
     //! Returns the squared length of the vector.
-    T LengthSquared() const;
+    [[nodiscard]] T LengthSquared() const;
 
     //! Returns the distance to the other vector.
     template <typename E>
-    T DistanceTo(const E& other) const;
+    [[nodiscard]] T DistanceTo(const E& other) const;
 
     //! Returns the squared distance to the other vector.
     template <typename E>
-    T DistanceSquaredTo(const E& other) const;
+    [[nodiscard]] T DistanceSquaredTo(const E& other) const;
 
     //! Returns a vector with different value type.
     template <typename U>
-    VectorTypeCast<U, VectorN<T>, T> CastTo() const;
+    [[nodiscard]] VectorTypeCast<U, VectorN<T>, T> CastTo() const;
 
     //! Returns true if \p other is the same as this vector.
     template <typename E>
-    bool IsEqual(const E& other) const;
+    [[nodiscard]] bool IsEqual(const E& other) const;
 
     //! Returns true if \p other is similar to this vector.
     template <typename E>
-    bool IsSimilar(const E& other,
-                   T epsilon = std::numeric_limits<T>::epsilon()) const;
+    [[nodiscard]] bool IsSimilar(
+        const E& other, T epsilon = std::numeric_limits<T>::epsilon()) const;
 
-    // MARK: Binary operations: new instance = this (+) v
     //! Computes this + v.
     template <typename E>
-    VectorAdd<T, VectorN, E> Add(const E& v) const;
+    [[nodiscard]] VectorAdd<T, VectorN, E> Add(const E& v) const;
 
     //! Computes this + (s, s, ... , s).
-    VectorScalarAdd<T, VectorN> Add(const T& s) const;
+    [[nodiscard]] VectorScalarAdd<T, VectorN> Add(const T& s) const;
 
     //! Computes this - v.
     template <typename E>
-    VectorSub<T, VectorN, E> Sub(const E& v) const;
+    [[nodiscard]] VectorSub<T, VectorN, E> Sub(const E& v) const;
 
     //! Computes this - (s, s, ... , s).
-    VectorScalarSub<T, VectorN> Sub(const T& s) const;
+    [[nodiscard]] VectorScalarSub<T, VectorN> Sub(const T& s) const;
 
     //! Computes this * v.
     template <typename E>
-    VectorMul<T, VectorN, E> Mul(const E& v) const;
+    [[nodiscard]] VectorMul<T, VectorN, E> Mul(const E& v) const;
 
     //! Computes this * (s, s, ... , s).
-    VectorScalarMul<T, VectorN> Mul(const T& s) const;
+    [[nodiscard]] VectorScalarMul<T, VectorN> Mul(const T& s) const;
 
     //! Computes this / v.
     template <typename E>
-    VectorDiv<T, VectorN, E> Div(const E& v) const;
+    [[nodiscard]] VectorDiv<T, VectorN, E> Div(const E& v) const;
 
     //! Computes this / (s, s, ... , s).
-    VectorScalarDiv<T, VectorN> Div(const T& s) const;
+    [[nodiscard]] VectorScalarDiv<T, VectorN> Div(const T& s) const;
 
     //! Computes dot product.
     template <typename E>
-    T Dot(const E& v) const;
+    [[nodiscard]] T Dot(const E& v) const;
 
-    // MARK: Binary operations: new instance = v (+) this
     //! Computes (s, s, ... , s) - this.
-    VectorScalarRSub<T, VectorN> RSub(const T& s) const;
+    [[nodiscard]] VectorScalarRSub<T, VectorN> RSub(const T& s) const;
 
     //! Computes v - this.
     template <typename E>
-    VectorSub<T, VectorN, E> RSub(const E& v) const;
+    [[nodiscard]] VectorSub<T, VectorN, E> RSub(const E& v) const;
 
     //! Computes (s, s, ... , s) / this.
-    VectorScalarRDiv<T, VectorN> RDiv(const T& s) const;
+    [[nodiscard]] VectorScalarRDiv<T, VectorN> RDiv(const T& s) const;
 
     //! Computes v / this.
     template <typename E>
-    VectorDiv<T, VectorN, E> RDiv(const E& v) const;
+    [[nodiscard]] VectorDiv<T, VectorN, E> RDiv(const E& v) const;
 
-    // MARK: Augmented operations: this (+)= v
     //! Computes this += (s, s, ... , s).
     void IAdd(const T& s);
 
@@ -250,7 +252,6 @@ class VectorN final : public VectorExpression<T, VectorN<T>>
     template <typename E>
     void IDiv(const E& v);
 
-    // MARK: Operators
     //!
     //! \brief Iterates the vector and invoke given \p func for each element.
     //!
@@ -347,12 +348,6 @@ class VectorN final : public VectorExpression<T, VectorN<T>>
     //! Sets vector with expression template.
     template <typename E>
     VectorN& operator=(const VectorExpression<T, E>& other);
-
-    //! Copy assignment.
-    VectorN& operator=(const VectorN& other);
-
-    //! Move assignment.
-    VectorN& operator=(VectorN&& other) noexcept;
 
     //! Computes this += (s, s, ... , s)
     VectorN& operator+=(const T& s);

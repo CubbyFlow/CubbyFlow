@@ -13,16 +13,6 @@
 
 namespace CubbyFlow
 {
-Grid2::Grid2()
-{
-    // Do nothing
-}
-
-Grid2::~Grid2()
-{
-    // Do nothing
-}
-
 const Size2& Grid2::Resolution() const
 {
     return m_resolution;
@@ -48,8 +38,9 @@ Grid2::DataPositionFunc Grid2::CellCenterPosition() const
     Vector2D h = m_gridSpacing;
     Vector2D o = m_origin;
 
-    return [h, o](size_t i, size_t j) {
-        return o + h * Vector2D(i + 0.5, j + 0.5);
+    return [h, o](const size_t i, const size_t j) {
+        return o + h * Vector2D{ static_cast<double>(i) + 0.5,
+                                 static_cast<double>(j) + 0.5 };
     };
 }
 
@@ -57,14 +48,14 @@ void Grid2::ForEachCellIndex(
     const std::function<void(size_t, size_t)>& func) const
 {
     SerialFor(ZERO_SIZE, m_resolution.x, ZERO_SIZE, m_resolution.y,
-              [&func](size_t i, size_t j) { func(i, j); });
+              [&func](const size_t i, const size_t j) { func(i, j); });
 }
 
 void Grid2::ParallelForEachCellIndex(
     const std::function<void(size_t, size_t)>& func) const
 {
     ParallelFor(ZERO_SIZE, m_resolution.x, ZERO_SIZE, m_resolution.y,
-                [&func](size_t i, size_t j) { func(i, j); });
+                [&func](const size_t i, const size_t j) { func(i, j); });
 }
 
 bool Grid2::HasSameShape(const Grid2& other) const
@@ -85,10 +76,10 @@ void Grid2::SetSizeParameters(const Size2& resolution,
     m_origin = origin;
     m_gridSpacing = gridSpacing;
 
-    Vector2D resolutionD = Vector2D(static_cast<double>(resolution.x),
-                                    static_cast<double>(resolution.y));
+    const Vector2D resolutionD = Vector2D{ static_cast<double>(resolution.x),
+                                           static_cast<double>(resolution.y) };
 
-    m_boundingBox = BoundingBox2D(origin, origin + gridSpacing * resolutionD);
+    m_boundingBox = BoundingBox2D{ origin, origin + gridSpacing * resolutionD };
 }
 
 void Grid2::SwapGrid(Grid2* other)

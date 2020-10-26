@@ -19,8 +19,23 @@ namespace CubbyFlow
 class Field2
 {
  public:
-    Field2();
-    virtual ~Field2();
+    //! Default constructor.
+    Field2() = default;
+
+    //! Default copy constructor.
+    Field2(const Field2&) = default;
+
+    //! Default move constructor.
+    Field2(Field2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~Field2() = default;
+
+    //! Default copy assignment operator.
+    Field2& operator=(const Field2&) = default;
+
+    //! Default move assignment operator.
+    Field2& operator=(Field2&&) noexcept = default;
 };
 
 using Field2Ptr = std::shared_ptr<Field2>;

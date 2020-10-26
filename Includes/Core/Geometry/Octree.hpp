@@ -35,7 +35,22 @@ class Octree final : public IntersectionQueryEngine3<T>,
     using ConstIterator = typename ContainerType::const_iterator;
 
     //! Default constructor.
-    Octree();
+    Octree() = default;
+
+    //! Default copy constructor.
+    Octree(const Octree&) = default;
+
+    //! Default move constructor.
+    Octree(Octree&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~Octree() = default;
+
+    //! Default copy assignment operator.
+    Octree& operator=(const Octree&) = default;
+
+    //! Default move assignment operator.
+    Octree& operator=(Octree&&) noexcept = default;
 
     //! Builds an octree with given list of items, bounding box of the items,
     //! overlapping test function, and max depth of the tree.
@@ -47,17 +62,17 @@ class Octree final : public IntersectionQueryEngine3<T>,
 
     //! Returns the nearest neighbor for given point and distance measure
     //! function.
-    NearestNeighborQueryResult3<T> GetNearestNeighbor(
+    [[nodiscard]] NearestNeighborQueryResult3<T> GetNearestNeighbor(
         const Vector3D& pt,
         const NearestNeighborDistanceFunc3<T>& distanceFunc) const override;
 
     //! Returns true if given \p box intersects with any of the stored items.
-    bool IsIntersects(
+    [[nodiscard]] bool IsIntersects(
         const BoundingBox3D& box,
         const BoxIntersectionTestFunc3<T>& testFunc) const override;
 
     //! Returns true if given \p ray intersects with any of the stored items.
-    bool IsIntersects(
+    [[nodiscard]] bool IsIntersects(
         const Ray3D& ray,
         const RayIntersectionTestFunc3<T>& testFunc) const override;
 
@@ -72,33 +87,34 @@ class Octree final : public IntersectionQueryEngine3<T>,
         const IntersectionVisitorFunc3<T>& visitorFunc) const override;
 
     //! Returns the closest intersection for given \p ray.
-    ClosestIntersectionQueryResult3<T> GetClosestIntersection(
+    [[nodiscard]] ClosestIntersectionQueryResult3<T> GetClosestIntersection(
         const Ray3D& ray,
         const GetRayIntersectionFunc3<T>& testFunc) const override;
 
     //! Returns the begin iterator of the item.
-    Iterator begin();
+    [[nodiscard]] Iterator begin();
 
     //! Returns the end iterator of the item.
-    Iterator end();
+    [[nodiscard]] Iterator end();
 
     //! Returns the immutable begin iterator of the item.
-    ConstIterator begin() const;
+    [[nodiscard]] ConstIterator begin() const;
 
     //! Returns the immutable end iterator of the item.
-    ConstIterator end() const;
+    [[nodiscard]] ConstIterator end() const;
 
     //! Returns the number of items.
-    size_t GetNumberOfItems() const;
+    [[nodiscard]] size_t GetNumberOfItems() const;
 
     //! Returns the item at \p i.
-    const T& GetItem(size_t i) const;
+    [[nodiscard]] const T& GetItem(size_t i) const;
 
     //! Returns the number of octree nodes.
-    size_t GetNumberOfNodes() const;
+    [[nodiscard]] size_t GetNumberOfNodes() const;
 
     //! Returns the list of the items for given node index.
-    const std::vector<size_t>& GetItemsAtNode(size_t nodeIdx) const;
+    [[nodiscard]] const std::vector<size_t>& GetItemsAtNode(
+        size_t nodeIdx) const;
 
     //!
     //! \brief      Returns a child's index for given node.
@@ -112,56 +128,56 @@ class Octree final : public IntersectionQueryEngine3<T>,
     //!
     //! \return     Index of the selected child.
     //!
-    size_t GetChildIndex(size_t nodeIdx, size_t childIdx) const;
+    [[nodiscard]] size_t GetChildIndex(size_t nodeIdx, size_t childIdx) const;
 
     //! Returns the bounding box of this octree.
-    const BoundingBox3D& GetBoundingBox() const;
+    [[nodiscard]] const BoundingBox3D& GetBoundingBox() const;
 
     //! Returns the maximum depth of the tree.
-    size_t GetMaxDepth() const;
+    [[nodiscard]] size_t GetMaxDepth() const;
 
  private:
     struct Node
     {
+        [[nodiscard]] bool IsLeaf() const;
+
         size_t firstChild = std::numeric_limits<size_t>::max();
         std::vector<size_t> items;
-
-        bool IsLeaf() const;
     };
 
-    size_t m_maxDepth = 1;
-    BoundingBox3D m_bbox;
-    std::vector<T> m_items;
-    std::vector<Node> m_nodes;
-
-    void Build(size_t nodeIdx, size_t currentDepth,
-               const BoundingBox3D& currentBound,
-               const BoxIntersectionTestFunc3<T>& overlapsFunc);
+    void Build(size_t nodeIdx, size_t Depth, const BoundingBox3D& Bound,
+               const BoxIntersectionTestFunc3<T>& testFunc);
 
     bool IsIntersects(const BoundingBox3D& box,
                       const BoxIntersectionTestFunc3<T>& testFunc,
-                      size_t nodeIdx, const BoundingBox3D& currentBound) const;
+                      size_t nodeIdx, const BoundingBox3D& Bound) const;
 
-    bool IsIntersects(const Ray3D& ray,
-                      const RayIntersectionTestFunc3<T>& testFunc,
-                      size_t nodeIdx, const BoundingBox3D& currentBound) const;
+    [[nodiscard]] bool IsIntersects(const Ray3D& ray,
+                                    const RayIntersectionTestFunc3<T>& testFunc,
+                                    size_t nodeIdx,
+                                    const BoundingBox3D& Bound) const;
 
     void ForEachIntersectingItem(const BoundingBox3D& box,
                                  const BoxIntersectionTestFunc3<T>& testFunc,
                                  const IntersectionVisitorFunc3<T>& visitorFunc,
                                  size_t nodeIdx,
-                                 const BoundingBox3D& currentBound) const;
+                                 const BoundingBox3D& Bound) const;
 
     void ForEachIntersectingItem(const Ray3D& ray,
                                  const RayIntersectionTestFunc3<T>& testFunc,
                                  const IntersectionVisitorFunc3<T>& visitorFunc,
                                  size_t nodeIdx,
-                                 const BoundingBox3D& currentBound) const;
+                                 const BoundingBox3D& Bound) const;
 
-    ClosestIntersectionQueryResult3<T> GetClosestIntersection(
+    [[nodiscard]] ClosestIntersectionQueryResult3<T> GetClosestIntersection(
         const Ray3D& ray, const GetRayIntersectionFunc3<T>& testFunc,
-        size_t nodeIdx, const BoundingBox3D& currentBound,
+        size_t nodeIdx, const BoundingBox3D& Bound,
         ClosestIntersectionQueryResult3<T> best) const;
+
+    size_t m_maxDepth = 1;
+    BoundingBox3D m_bbox;
+    std::vector<T> m_items;
+    std::vector<Node> m_nodes;
 };
 }  // namespace CubbyFlow
 

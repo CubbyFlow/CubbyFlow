@@ -31,13 +31,13 @@ class FDMMGSolver3 : public FDMLinearSystemSolver3
                  bool useRedBlackOrdering = false);
 
     //! Returns the Multigrid parameters.
-    const MGParameters<FDMBLAS3>& GetParams() const;
+    [[nodiscard]] const MGParameters<FDMBLAS3>& GetParams() const;
 
     //! Returns the SOR (Successive Over Relaxation) factor.
-    double GetSORFactor() const;
+    [[nodiscard]] double GetSORFactor() const;
 
     //! Returns true if red-black ordering is enabled.
-    bool GetUseRedBlackOrdering() const;
+    [[nodiscard]] bool GetUseRedBlackOrdering() const;
 
     //! No-op. Multigrid-type solvers do not solve FDMLinearSystem3.
     bool Solve(FDMLinearSystem3* system) final;

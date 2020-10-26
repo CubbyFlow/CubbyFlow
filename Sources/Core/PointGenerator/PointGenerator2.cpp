@@ -12,16 +12,6 @@
 
 namespace CubbyFlow
 {
-PointGenerator2::PointGenerator2()
-{
-    // Do nothing
-}
-
-PointGenerator2::~PointGenerator2()
-{
-    // Do nothing
-}
-
 void PointGenerator2::Generate(const BoundingBox2D& boundingBox, double spacing,
                                Array1<Vector2D>* points) const
 {

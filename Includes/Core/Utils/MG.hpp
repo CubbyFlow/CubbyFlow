@@ -22,8 +22,8 @@ struct MGMatrix
     std::vector<typename BlasType::MatrixType> levels;
     const typename BlasType::MatrixType& operator[](size_t i) const;
     typename BlasType::MatrixType& operator[](size_t i);
-    const typename BlasType::MatrixType& Finest() const;
-    typename BlasType::MatrixType& Finest();
+    [[nodiscard]] const typename BlasType::MatrixType& Finest() const;
+    [[nodiscard]] typename BlasType::MatrixType& Finest();
 };
 
 //! Multi-grid vector wrapper.
@@ -33,8 +33,8 @@ struct MGVector
     std::vector<typename BlasType::VectorType> levels;
     const typename BlasType::VectorType& operator[](size_t i) const;
     typename BlasType::VectorType& operator[](size_t i);
-    const typename BlasType::VectorType& Finest() const;
-    typename BlasType::VectorType& Finest();
+    [[nodiscard]] const typename BlasType::VectorType& Finest() const;
+    [[nodiscard]] typename BlasType::VectorType& Finest();
 };
 
 //! Multi-grid relax function type.
@@ -103,9 +103,9 @@ struct MGResult
 //! computes the solution \p x using Multi-grid method with V-cycle.
 //!
 template <typename BlasType>
-MGResult MGCycle(const MGMatrix<BlasType>& A, MGParameters<BlasType> params,
-                 MGVector<BlasType>* x, MGVector<BlasType>* b,
-                 MGVector<BlasType>* buffer);
+MGResult MGVCycle(const MGMatrix<BlasType>& A, MGParameters<BlasType> params,
+                  MGVector<BlasType>* x, MGVector<BlasType>* b,
+                  MGVector<BlasType>* buffer);
 }  // namespace CubbyFlow
 
 #include <Core/Utils/MG-Impl.hpp>

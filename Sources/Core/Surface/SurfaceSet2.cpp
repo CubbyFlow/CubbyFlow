@@ -10,16 +10,13 @@
 
 #include <Core/Surface/SurfaceSet2.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
-SurfaceSet2::SurfaceSet2()
-{
-    // Do nothing
-}
-
-SurfaceSet2::SurfaceSet2(const std::vector<Surface2Ptr>& others,
-                         const Transform2& transform, bool isNormalFlipped)
-    : Surface2(transform, isNormalFlipped), m_surfaces(others)
+SurfaceSet2::SurfaceSet2(std::vector<Surface2Ptr> others,
+                         const Transform2& _transform, bool _isNormalFlipped)
+    : Surface2{ _transform, _isNormalFlipped }, m_surfaces{ std::move(others) }
 {
     for (const auto& surface : m_surfaces)
     {
@@ -33,9 +30,17 @@ SurfaceSet2::SurfaceSet2(const std::vector<Surface2Ptr>& others,
 }
 
 SurfaceSet2::SurfaceSet2(const SurfaceSet2& other)
-    : Surface2(other),
+    : Surface2{ other },
       m_surfaces(other.m_surfaces),
       m_unboundedSurfaces(other.m_unboundedSurfaces)
+{
+    InvalidateBVH();
+}
+
+SurfaceSet2::SurfaceSet2(SurfaceSet2&& other) noexcept
+    : Surface2{ std::move(other) },
+      m_surfaces(std::move(other.m_surfaces)),
+      m_unboundedSurfaces(std::move(other.m_unboundedSurfaces))
 {
     InvalidateBVH();
 }
@@ -112,7 +117,7 @@ void SurfaceSet2::AddSurface(const Surface2Ptr& surface)
 
 SurfaceSet2::Builder SurfaceSet2::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 Vector2D SurfaceSet2::ClosestPointLocal(const Vector2D& otherPoint) const
@@ -127,7 +132,8 @@ Vector2D SurfaceSet2::ClosestPointLocal(const Vector2D& otherPoint) const
     Vector2D result{ std::numeric_limits<double>::max(),
                      std::numeric_limits<double>::max() };
 
-    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
+    const NearestNeighborQueryResult2<Surface2Ptr> queryResult =
+        m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
     if (queryResult.item != nullptr)
     {
         result = (*queryResult.item)->ClosestPoint(otherPoint);
@@ -136,7 +142,7 @@ Vector2D SurfaceSet2::ClosestPointLocal(const Vector2D& otherPoint) const
     double minDist = queryResult.distance;
     for (const auto& surface : m_unboundedSurfaces)
     {
-        auto pt = surface->ClosestPoint(otherPoint);
+        Vector2D pt = surface->ClosestPoint(otherPoint);
         const double dist = pt.DistanceTo(otherPoint);
 
         if (dist < minDist)
@@ -160,7 +166,8 @@ Vector2D SurfaceSet2::ClosestNormalLocal(const Vector2D& otherPoint) const
 
     Vector2D result{ 1.0, 0.0 };
 
-    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
+    const NearestNeighborQueryResult2<Surface2Ptr> queryResult =
+        m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
     if (queryResult.item != nullptr)
     {
         result = (*queryResult.item)->ClosestNormal(otherPoint);
@@ -169,7 +176,7 @@ Vector2D SurfaceSet2::ClosestNormalLocal(const Vector2D& otherPoint) const
     double minDist = queryResult.distance;
     for (const auto& surface : m_unboundedSurfaces)
     {
-        auto pt = surface->ClosestPoint(otherPoint);
+        Vector2D pt = surface->ClosestPoint(otherPoint);
         const double dist = pt.DistanceTo(otherPoint);
 
         if (dist < minDist)
@@ -191,12 +198,13 @@ double SurfaceSet2::ClosestDistanceLocal(const Vector2D& otherPoint) const
         return surface->ClosestDistance(pt);
     };
 
-    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
+    const NearestNeighborQueryResult2<Surface2Ptr> queryResult =
+        m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
 
     double minDist = queryResult.distance;
     for (const auto& surface : m_unboundedSurfaces)
     {
-        auto pt = surface->ClosestPoint(otherPoint);
+        Vector2D pt = surface->ClosestPoint(otherPoint);
         const double dist = pt.DistanceTo(otherPoint);
 
         if (dist < minDist)
@@ -212,8 +220,8 @@ bool SurfaceSet2::IntersectsLocal(const Ray2D& ray) const
 {
     BuildBVH();
 
-    const auto testFunc = [](const Surface2Ptr& surface, const Ray2D& ray) {
-        return surface->Intersects(ray);
+    const auto testFunc = [](const Surface2Ptr& surface, const Ray2D& _ray) {
+        return surface->Intersects(_ray);
     };
 
     bool result = m_bvh.IsIntersects(ray, testFunc);
@@ -230,12 +238,14 @@ SurfaceRayIntersection2 SurfaceSet2::ClosestIntersectionLocal(
 {
     BuildBVH();
 
-    const auto testFunc = [](const Surface2Ptr& surface, const Ray2D& ray) {
-        SurfaceRayIntersection2 result = surface->ClosestIntersection(ray);
+    const auto testFunc = [](const Surface2Ptr& surface, const Ray2D& _ray) {
+        const SurfaceRayIntersection2 result =
+            surface->ClosestIntersection(_ray);
         return result.distance;
     };
 
-    const auto queryResult = m_bvh.GetClosestIntersection(ray, testFunc);
+    const ClosestIntersectionQueryResult2<Surface2Ptr> queryResult =
+        m_bvh.GetClosestIntersection(ray, testFunc);
 
     SurfaceRayIntersection2 result;
     result.distance = queryResult.distance;
@@ -315,13 +325,13 @@ SurfaceSet2::Builder& SurfaceSet2::Builder::WithSurfaces(
 
 SurfaceSet2 SurfaceSet2::Builder::Build() const
 {
-    return SurfaceSet2(m_surfaces, m_transform, m_isNormalFlipped);
+    return SurfaceSet2{ m_surfaces, m_transform, m_isNormalFlipped };
 }
 
 SurfaceSet2Ptr SurfaceSet2::Builder::MakeShared() const
 {
     return std::shared_ptr<SurfaceSet2>(
-        new SurfaceSet2(m_surfaces, m_transform, m_isNormalFlipped),
+        new SurfaceSet2{ m_surfaces, m_transform, m_isNormalFlipped },
         [](SurfaceSet2* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

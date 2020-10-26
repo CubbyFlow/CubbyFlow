@@ -13,7 +13,6 @@
 
 #include <Core/Array/Array1.hpp>
 
-#include <cstring>
 #include <vector>
 
 namespace CubbyFlow
@@ -22,8 +21,23 @@ namespace CubbyFlow
 class Serializable
 {
  public:
+    //! Default constructor.
+    Serializable() = default;
+
+    //! Default copy constructor.
+    Serializable(const Serializable&) = default;
+
+    //! Default move constructor.
+    Serializable(Serializable&&) noexcept = default;
+
     //! Default virtual destructor.
     virtual ~Serializable() = default;
+
+    //! Default copy assignment operator.
+    Serializable& operator=(const Serializable&) = default;
+
+    //! Default move assignment operator.
+    Serializable& operator=(Serializable&&) noexcept = default;
 
     //! Serializes this instance into the flat buffer.
     virtual void Serialize(std::vector<uint8_t>* buffer) const = 0;

@@ -29,8 +29,8 @@ class CustomVectorField2 final : public VectorField2
     //! differencing is used. Thus, the differencing resolution also can be
     //! provided as the last parameter.
     //!
-    CustomVectorField2(
-        const std::function<Vector2D(const Vector2D&)>& customFunction,
+    explicit CustomVectorField2(
+        std::function<Vector2D(const Vector2D&)> customFunction,
         double derivativeResolution = 1e-3);
 
     //!
@@ -42,30 +42,31 @@ class CustomVectorField2 final : public VectorField2
     //! parameter.
     //!
     CustomVectorField2(
-        const std::function<Vector2D(const Vector2D&)>& customFunction,
-        const std::function<double(const Vector2D&)>& customDivergenceFunction,
+        std::function<Vector2D(const Vector2D&)> customFunction,
+        std::function<double(const Vector2D&)> customDivergenceFunction,
         double derivativeResolution = 1e-3);
 
     //! Constructs a field with given field, gradient, and Laplacian function.
     CustomVectorField2(
-        const std::function<Vector2D(const Vector2D&)>& customFunction,
-        const std::function<double(const Vector2D&)>& customDivergenceFunction,
-        const std::function<double(const Vector2D&)>& customCurlFunction);
+        std::function<Vector2D(const Vector2D&)> customFunction,
+        std::function<double(const Vector2D&)> customDivergenceFunction,
+        std::function<double(const Vector2D&)> customCurlFunction);
 
     //! Returns the sampled value at given position \p x.
-    Vector2D Sample(const Vector2D& x) const override;
+    [[nodiscard]] Vector2D Sample(const Vector2D& x) const override;
 
     //! Returns the divergence at given position \p x.
-    double Divergence(const Vector2D& x) const override;
+    [[nodiscard]] double Divergence(const Vector2D& x) const override;
 
     //! Returns the curl at given position \p x.
-    double Curl(const Vector2D& x) const override;
+    [[nodiscard]] double Curl(const Vector2D& x) const override;
 
     //! Returns the sampler function.
-    std::function<Vector2D(const Vector2D&)> Sampler() const override;
+    [[nodiscard]] std::function<Vector2D(const Vector2D&)> Sampler()
+        const override;
 
     //! Returns builder fox CustomVectorField2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
     std::function<Vector2D(const Vector2D&)> m_customFunction;
@@ -84,24 +85,25 @@ class CustomVectorField2::Builder final
 {
  public:
     //! Returns builder with field function.
-    Builder& WithFunction(const std::function<Vector2D(const Vector2D&)>& func);
+    [[nodiscard]] Builder& WithFunction(
+        const std::function<Vector2D(const Vector2D&)>& func);
 
     //! Returns builder with divergence function.
-    Builder& WithDivergenceFunction(
+    [[nodiscard]] Builder& WithDivergenceFunction(
         const std::function<double(const Vector2D&)>& func);
 
     //! Returns builder with curl function.
-    Builder& WithCurlFunction(
+    [[nodiscard]] Builder& WithCurlFunction(
         const std::function<double(const Vector2D&)>& func);
 
     //! Returns builder with derivative resolution.
-    Builder& WithDerivativeResolution(double resolution);
+    [[nodiscard]] Builder& WithDerivativeResolution(double resolution);
 
     //! Builds CustomVectorField2.
-    CustomVectorField2 Build() const;
+    [[nodiscard]] CustomVectorField2 Build() const;
 
     //! Builds shared pointer of CustomVectorField2 instance.
-    CustomVectorField2Ptr MakeShared() const;
+    [[nodiscard]] CustomVectorField2Ptr MakeShared() const;
 
  private:
     double m_resolution = 1e-3;

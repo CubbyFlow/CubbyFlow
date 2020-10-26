@@ -19,13 +19,13 @@
 namespace CubbyFlow
 {
 template <typename T>
-inline bool Similar(T x, T y, T eps)
+bool Similar(T x, T y, T eps)
 {
     return (std::abs(x - y) <= eps);
 }
 
 template <typename T>
-inline T Sign(T x)
+T Sign(T x)
 {
     if (x >= 0)
     {
@@ -38,19 +38,19 @@ inline T Sign(T x)
 }
 
 template <typename T>
-inline T AbsMin(T x, T y)
+T AbsMin(T x, T y)
 {
     return (x * x < y * y) ? x : y;
 }
 
 template <typename T>
-inline T AbsMax(T x, T y)
+T AbsMax(T x, T y)
 {
     return (x * x > y * y) ? x : y;
 }
 
 template <typename T>
-inline T AbsMinN(const T* x, size_t n)
+T AbsMinN(const T* x, size_t n)
 {
     T m = x[0];
 
@@ -63,7 +63,7 @@ inline T AbsMinN(const T* x, size_t n)
 }
 
 template <typename T>
-inline T AbsMaxN(const T* x, size_t n)
+T AbsMaxN(const T* x, size_t n)
 {
     T m = x[0];
 
@@ -76,19 +76,19 @@ inline T AbsMaxN(const T* x, size_t n)
 }
 
 template <typename T>
-inline size_t ArgMin2(T x, T y)
+size_t ArgMin2(T x, T y)
 {
     return (x < y) ? 0 : 1;
 }
 
 template <typename T>
-inline size_t ArgMax2(T x, T y)
+size_t ArgMax2(T x, T y)
 {
     return (x > y) ? 0 : 1;
 }
 
 template <typename T>
-inline size_t ArgMin3(T x, T y, T z)
+size_t ArgMin3(T x, T y, T z)
 {
     if (x < y)
     {
@@ -99,7 +99,7 @@ inline size_t ArgMin3(T x, T y, T z)
 }
 
 template <typename T>
-inline size_t ArgMax3(T x, T y, T z)
+size_t ArgMax3(T x, T y, T z)
 {
     if (x > y)
     {
@@ -110,19 +110,19 @@ inline size_t ArgMax3(T x, T y, T z)
 }
 
 template <typename T>
-inline T Square(T x)
+T Square(T x)
 {
     return x * x;
 }
 
 template <typename T>
-inline T Cubic(T x)
+T Cubic(T x)
 {
     return x * x * x;
 }
 
 template <typename T>
-inline T Clamp(T val, T low, T high)
+T Clamp(T val, T low, T high)
 {
     if (val < low)
     {
@@ -138,74 +138,68 @@ inline T Clamp(T val, T low, T high)
 }
 
 template <typename T>
-inline T DegreesToRadians(T angleInDegrees)
+T DegreesToRadians(T angleInDegrees)
 {
     return angleInDegrees * PI<T>() / 180;
 }
 
 template <typename T>
-inline T RadiansToDegrees(T angleInRadians)
+T RadiansToDegrees(T angleInRadians)
 {
     return angleInRadians * 180 / PI<T>();
 }
 
 template <typename T>
-inline void GetBarycentric(T x, ssize_t iLow, ssize_t iHigh, ssize_t* i, T* f)
+void GetBarycentric(T x, ssize_t iLow, ssize_t iHigh, ssize_t* i, T* t)
 {
     T s = std::floor(x);
     *i = static_cast<ssize_t>(s);
 
-    ssize_t offset = -iLow;
+    const ssize_t offset = -iLow;
     iLow += offset;
     iHigh += offset;
 
-    if (iLow == iHigh)
+    if (iLow == iHigh || *i < iLow)
     {
         *i = iLow;
-        *f = 0;
-    }
-    else if (*i < iLow)
-    {
-        *i = iLow;
-        *f = 0;
+        *t = 0;
     }
     else if (*i > iHigh - 1)
     {
         *i = iHigh - 1;
-        *f = 1;
+        *t = 1;
     }
     else
     {
-        *f = static_cast<T>(x - s);
+        *t = static_cast<T>(x - s);
     }
 
     *i -= offset;
 }
 
 template <typename S, typename T>
-inline S Lerp(const S& value0, const S& value1, T f)
+S Lerp(const S& f0, const S& f1, T t)
 {
-    return (1 - f) * value0 + f * value1;
+    return (1 - t) * f0 + t * f1;
 }
 
 template <typename S, typename T>
-inline S BiLerp(const S& f00, const S& f10, const S& f01, const S& f11, T tx,
-                T ty)
+S BiLerp(const S& f00, const S& f10, const S& f01, const S& f11, T tx, T ty)
 {
     return Lerp(Lerp(f00, f10, tx), Lerp(f01, f11, tx), ty);
 }
 
 template <typename S, typename T>
-inline S TriLerp(const S& f000, const S& f100, const S& f010, const S& f110,
-                 const S& f001, const S& f101, const S& f011, const S& f111,
-                 T tx, T ty, T fz)
+S TriLerp(const S& f000, const S& f100, const S& f010, const S& f110,
+          const S& f001, const S& f101, const S& f011, const S& f111, T tx,
+          T ty, T tz)
 {
     return Lerp(BiLerp(f000, f100, f010, f110, tx, ty),
-                BiLerp(f001, f101, f011, f111, tx, ty), fz);
+                BiLerp(f001, f101, f011, f111, tx, ty), tz);
 }
 
 template <typename S, typename T>
-inline S CatmullRom(const S& f0, const S& f1, const S& f2, const S& f3, T f)
+S CatmullRom(const S& f0, const S& f1, const S& f2, const S& f3, T t)
 {
     S d1 = (f2 - f0) / 2;
     S d2 = (f3 - f1) / 2;
@@ -216,12 +210,11 @@ inline S CatmullRom(const S& f0, const S& f1, const S& f2, const S& f3, T f)
     S a1 = d1;
     S a0 = f1;
 
-    return a3 * Cubic(f) + a2 * Square(f) + a1 * f + a0;
+    return a3 * Cubic(t) + a2 * Square(t) + a1 * t + a0;
 }
 
 template <typename T>
-inline T MonotonicCatmullRom(const T& f0, const T& f1, const T& f2, const T& f3,
-                             T f)
+T MonotonicCatmullRom(const T& f0, const T& f1, const T& f2, const T& f3, T t)
 {
     T d1 = (f2 - f0) / 2;
     T d2 = (f3 - f1) / 2;
@@ -247,7 +240,7 @@ inline T MonotonicCatmullRom(const T& f0, const T& f1, const T& f2, const T& f3,
     T a1 = d1;
     T a0 = f1;
 
-    return a3 * Cubic(f) + a2 * Square(f) + a1 * f + a0;
+    return a3 * Cubic(t) + a2 * Square(t) + a1 * t + a0;
 }
 }  // namespace CubbyFlow
 

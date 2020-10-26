@@ -15,16 +15,13 @@
 #include <Core/Surface/SurfaceToImplicit3.hpp>
 #include <Core/Utils/Macros.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
-VolumeGridEmitter3::VolumeGridEmitter3(const ImplicitSurface3Ptr& sourceRegion,
+VolumeGridEmitter3::VolumeGridEmitter3(ImplicitSurface3Ptr sourceRegion,
                                        bool isOneShot)
-    : m_sourceRegion(sourceRegion), m_isOneShot(isOneShot)
-{
-    // Do nothing
-}
-
-VolumeGridEmitter3::~VolumeGridEmitter3()
+    : m_sourceRegion(std::move(sourceRegion)), m_isOneShot(isOneShot)
 {
     // Do nothing
 }
@@ -43,9 +40,9 @@ void VolumeGridEmitter3::AddStepFunctionTarget(
     const ScalarGrid3Ptr& scalarGridTarget, double minValue, double maxValue)
 {
     double smoothingWidth = scalarGridTarget->GridSpacing().Min();
-    auto mapper = [minValue, maxValue, smoothingWidth, scalarGridTarget](
+    auto mapper = [minValue, maxValue, smoothingWidth](
                       double sdf, const Vector3D&, double oldVal) {
-        double step = 1.0 - SmearedHeavisideSDF(sdf / smoothingWidth);
+        const double step = 1.0 - SmearedHeavisideSDF(sdf / smoothingWidth);
         return std::max(oldVal, (maxValue - minValue) * step + minValue);
     };
 
@@ -111,8 +108,8 @@ void VolumeGridEmitter3::Emit()
 
         auto pos = grid->GetDataPosition();
         grid->ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
-            Vector3D gx = pos(i, j, k);
-            double sdf = GetSourceRegion()->SignedDistance(gx);
+            const Vector3D gx = pos(i, j, k);
+            const double sdf = GetSourceRegion()->SignedDistance(gx);
 
             (*grid)(i, j, k) = mapper(sdf, gx, (*grid)(i, j, k));
         });
@@ -130,8 +127,8 @@ void VolumeGridEmitter3::Emit()
             auto pos = collocated->GetDataPosition();
             collocated->ParallelForEachDataPointIndex(
                 [&](size_t i, size_t j, size_t k) {
-                    Vector3D gx = pos(i, j, k);
-                    double sdf = GetSourceRegion()->SignedDistance(gx);
+                    const Vector3D gx = pos(i, j, k);
+                    const double sdf = GetSourceRegion()->SignedDistance(gx);
 
                     if (IsInsideSDF(sdf))
                     {
@@ -153,30 +150,30 @@ void VolumeGridEmitter3::Emit()
 
             faceCentered->ParallelForEachUIndex(
                 [&](size_t i, size_t j, size_t k) {
-                    Vector3D gx = uPos(i, j, k);
-                    double sdf = GetSourceRegion()->SignedDistance(gx);
-                    Vector3D oldVal = faceCentered->Sample(gx);
-                    Vector3D newVal = mapper(sdf, gx, oldVal);
+                    const Vector3D gx = uPos(i, j, k);
+                    const double sdf = GetSourceRegion()->SignedDistance(gx);
+                    const Vector3D oldVal = faceCentered->Sample(gx);
+                    const Vector3D newVal = mapper(sdf, gx, oldVal);
 
                     faceCentered->GetU(i, j, k) = newVal.x;
                 });
 
             faceCentered->ParallelForEachVIndex(
                 [&](size_t i, size_t j, size_t k) {
-                    Vector3D gx = vPos(i, j, k);
-                    double sdf = GetSourceRegion()->SignedDistance(gx);
-                    Vector3D oldVal = faceCentered->Sample(gx);
-                    Vector3D newVal = mapper(sdf, gx, oldVal);
+                    const Vector3D gx = vPos(i, j, k);
+                    const double sdf = GetSourceRegion()->SignedDistance(gx);
+                    const Vector3D oldVal = faceCentered->Sample(gx);
+                    const Vector3D newVal = mapper(sdf, gx, oldVal);
 
                     faceCentered->GetV(i, j, k) = newVal.y;
                 });
 
             faceCentered->ParallelForEachWIndex(
                 [&](size_t i, size_t j, size_t k) {
-                    Vector3D gx = wPos(i, j, k);
-                    double sdf = GetSourceRegion()->SignedDistance(gx);
-                    Vector3D oldVal = faceCentered->Sample(gx);
-                    Vector3D newVal = mapper(sdf, gx, oldVal);
+                    const Vector3D gx = wPos(i, j, k);
+                    const double sdf = GetSourceRegion()->SignedDistance(gx);
+                    const Vector3D oldVal = faceCentered->Sample(gx);
+                    const Vector3D newVal = mapper(sdf, gx, oldVal);
 
                     faceCentered->GetW(i, j, k) = newVal.z;
                 });
@@ -192,7 +189,8 @@ VolumeGridEmitter3::Builder VolumeGridEmitter3::GetBuilder()
 VolumeGridEmitter3::Builder& VolumeGridEmitter3::Builder::WithSourceRegion(
     const Surface3Ptr& sourceRegion)
 {
-    auto implicit = std::dynamic_pointer_cast<ImplicitSurface3>(sourceRegion);
+    const auto implicit =
+        std::dynamic_pointer_cast<ImplicitSurface3>(sourceRegion);
     if (implicit != nullptr)
     {
         m_sourceRegion = implicit;

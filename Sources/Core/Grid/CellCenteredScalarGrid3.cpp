@@ -12,11 +12,6 @@
 
 namespace CubbyFlow
 {
-CellCenteredScalarGrid3::CellCenteredScalarGrid3()
-{
-    // Do nothing
-}
-
 CellCenteredScalarGrid3::CellCenteredScalarGrid3(
     size_t resolutionX, size_t resolutionY, size_t resolutionZ,
     double gridSpacingX, double gridSpacingY, double gridSpacingZ,
@@ -36,8 +31,16 @@ CellCenteredScalarGrid3::CellCenteredScalarGrid3(const Size3& resolution,
 
 CellCenteredScalarGrid3::CellCenteredScalarGrid3(
     const CellCenteredScalarGrid3& other)
+    : ScalarGrid3{ other }
 {
     Set(other);
+}
+
+CellCenteredScalarGrid3& CellCenteredScalarGrid3::operator=(
+    const CellCenteredScalarGrid3& other)
+{
+    Set(other);
+    return *this;
 }
 
 Size3 CellCenteredScalarGrid3::GetDataSize() const
@@ -54,14 +57,13 @@ Vector3D CellCenteredScalarGrid3::GetDataOrigin() const
 std::shared_ptr<ScalarGrid3> CellCenteredScalarGrid3::Clone() const
 {
     return std::shared_ptr<CellCenteredScalarGrid3>(
-        new CellCenteredScalarGrid3(*this),
+        new CellCenteredScalarGrid3{ *this },
         [](CellCenteredScalarGrid3* obj) { delete obj; });
 }
 
 void CellCenteredScalarGrid3::Swap(Grid3* other)
 {
-    CellCenteredScalarGrid3* sameType =
-        dynamic_cast<CellCenteredScalarGrid3*>(other);
+    const auto sameType = dynamic_cast<CellCenteredScalarGrid3*>(other);
     if (sameType != nullptr)
     {
         SwapScalarGrid(sameType);
@@ -71,13 +73,6 @@ void CellCenteredScalarGrid3::Swap(Grid3* other)
 void CellCenteredScalarGrid3::Set(const CellCenteredScalarGrid3& other)
 {
     SetScalarGrid(other);
-}
-
-CellCenteredScalarGrid3& CellCenteredScalarGrid3::operator=(
-    const CellCenteredScalarGrid3& other)
-{
-    Set(other);
-    return *this;
 }
 
 CellCenteredScalarGrid3::Builder CellCenteredScalarGrid3::GetBuilder()
@@ -146,15 +141,15 @@ CellCenteredScalarGrid3::Builder::WithInitialValue(double initialVal)
 
 CellCenteredScalarGrid3 CellCenteredScalarGrid3::Builder::Build() const
 {
-    return CellCenteredScalarGrid3(m_resolution, m_gridSpacing, m_gridOrigin,
-                                   m_initialVal);
+    return CellCenteredScalarGrid3{ m_resolution, m_gridSpacing, m_gridOrigin,
+                                    m_initialVal };
 }
 
 CellCenteredScalarGrid3Ptr CellCenteredScalarGrid3::Builder::MakeShared() const
 {
     return std::shared_ptr<CellCenteredScalarGrid3>(
-        new CellCenteredScalarGrid3(m_resolution, m_gridSpacing, m_gridOrigin,
-                                    m_initialVal),
+        new CellCenteredScalarGrid3{ m_resolution, m_gridSpacing, m_gridOrigin,
+                                     m_initialVal },
         [](CellCenteredScalarGrid3* obj) { delete obj; });
 }
 
@@ -163,8 +158,8 @@ ScalarGrid3Ptr CellCenteredScalarGrid3::Builder::Build(
     const Vector3D& gridOrigin, double initialVal) const
 {
     return std::shared_ptr<CellCenteredScalarGrid3>(
-        new CellCenteredScalarGrid3(resolution, gridSpacing, gridOrigin,
-                                    initialVal),
+        new CellCenteredScalarGrid3{ resolution, gridSpacing, gridOrigin,
+                                     initialVal },
         [](CellCenteredScalarGrid3* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

@@ -12,32 +12,26 @@
 
 namespace CubbyFlow
 {
-Plane3::Plane3(const Transform3& transform_, bool isNormalFlipped_)
-    : Surface3(transform_, isNormalFlipped_)
+Plane3::Plane3(const Transform3& _transform, bool _isNormalFlipped)
+    : Surface3{ _transform, _isNormalFlipped }
 {
     // Do nothing
 }
 
-Plane3::Plane3(const Vector3D& normal, const Vector3D& point,
-               const Transform3& transform_, bool isNormalFlipped_)
-    : Surface3(transform_, isNormalFlipped_), normal(normal), point(point)
+Plane3::Plane3(const Vector3D& _normal, const Vector3D& _point,
+               const Transform3& _transform, bool _isNormalFlipped)
+    : Surface3{ _transform, _isNormalFlipped }, normal(_normal), point(_point)
 {
     // Do nothing
 }
 
 Plane3::Plane3(const Vector3D& point0, const Vector3D& point1,
-               const Vector3D& point2, const Transform3& transform_,
-               bool isNormalFlipped_)
-    : Surface3(transform_, isNormalFlipped_)
+               const Vector3D& point2, const Transform3& _transform,
+               bool _isNormalFlipped)
+    : Surface3{ _transform, _isNormalFlipped }
 {
     normal = (point1 - point0).Cross(point2 - point0).Normalized();
     point = point0;
-}
-
-Plane3::Plane3(const Plane3& other)
-    : Surface3(other), normal(other.normal), point(other.point)
-{
-    // Do nothing
 }
 
 bool Plane3::IsBounded() const
@@ -47,7 +41,7 @@ bool Plane3::IsBounded() const
 
 Vector3D Plane3::ClosestPointLocal(const Vector3D& otherPoint) const
 {
-    Vector3D r = otherPoint - point;
+    const Vector3D r = otherPoint - point;
     return r - normal.Dot(r) * normal + point;
 }
 
@@ -67,12 +61,12 @@ SurfaceRayIntersection3 Plane3::ClosestIntersectionLocal(const Ray3D& ray) const
 {
     SurfaceRayIntersection3 intersection;
 
-    double dDotN = ray.direction.Dot(normal);
+    const double dDotN = ray.direction.Dot(normal);
 
     // Check if not parallel
     if (std::fabs(dDotN) > 0)
     {
-        double t = normal.Dot(point - ray.origin) / dDotN;
+        const double t = normal.Dot(point - ray.origin) / dDotN;
         if (t >= 0.0)
         {
             intersection.isIntersecting = true;
@@ -88,56 +82,56 @@ SurfaceRayIntersection3 Plane3::ClosestIntersectionLocal(const Ray3D& ray) const
 BoundingBox3D Plane3::BoundingBoxLocal() const
 {
     static const double eps = std::numeric_limits<double>::epsilon();
-    static const double dmax = std::numeric_limits<double>::max();
+    static const double dMax = std::numeric_limits<double>::max();
 
-    if (std::fabs(normal.Dot(Vector3D(1, 0, 0)) - 1.0) < eps)
+    if (std::fabs(normal.Dot(Vector3D{ 1, 0, 0 }) - 1.0) < eps)
     {
-        return BoundingBox3D(point - Vector3D(0, dmax, dmax),
-                             point + Vector3D(0, dmax, dmax));
+        return BoundingBox3D{ point - Vector3D{ 0, dMax, dMax },
+                              point + Vector3D{ 0, dMax, dMax } };
     }
 
-    if (std::fabs(normal.Dot(Vector3D(0, 1, 0)) - 1.0) < eps)
+    if (std::fabs(normal.Dot(Vector3D{ 0, 1, 0 }) - 1.0) < eps)
     {
-        return BoundingBox3D(point - Vector3D(dmax, 0, dmax),
-                             point + Vector3D(dmax, 0, dmax));
+        return BoundingBox3D{ point - Vector3D{ dMax, 0, dMax },
+                              point + Vector3D{ dMax, 0, dMax } };
     }
 
-    if (std::fabs(normal.Dot(Vector3D(0, 0, 1)) - 1.0) < eps)
+    if (std::fabs(normal.Dot(Vector3D{ 0, 0, 1 }) - 1.0) < eps)
     {
-        return BoundingBox3D(point - Vector3D(dmax, dmax, 0),
-                             point + Vector3D(dmax, dmax, 0));
+        return BoundingBox3D{ point - Vector3D{ dMax, dMax, 0 },
+                              point + Vector3D{ dMax, dMax, 0 } };
     }
 
-    return BoundingBox3D(Vector3D(dmax, dmax, dmax),
-                         Vector3D(dmax, dmax, dmax));
+    return BoundingBox3D{ Vector3D{ dMax, dMax, dMax },
+                          Vector3D{ dMax, dMax, dMax } };
 }
 
 Plane3::Builder Plane3::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
-Plane3::Builder& Plane3::Builder::WithNormal(const Vector3D& normal)
+Plane3::Builder& Plane3::Builder::WithNormal(const Vector3D& _normal)
 {
-    m_normal = normal;
+    m_normal = _normal;
     return *this;
 }
 
-Plane3::Builder& Plane3::Builder::WithPoint(const Vector3D& point)
+Plane3::Builder& Plane3::Builder::WithPoint(const Vector3D& _point)
 {
-    m_point = point;
+    m_point = _point;
     return *this;
 }
 
 Plane3 Plane3::Builder::Build() const
 {
-    return Plane3(m_normal, m_point, m_transform, m_isNormalFlipped);
+    return Plane3{ m_normal, m_point, m_transform, m_isNormalFlipped };
 }
 
 Plane3Ptr Plane3::Builder::MakeShared() const
 {
     return std::shared_ptr<Plane3>(
-        new Plane3(m_normal, m_point, m_transform, m_isNormalFlipped),
+        new Plane3{ m_normal, m_point, m_transform, m_isNormalFlipped },
         [](Plane3* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

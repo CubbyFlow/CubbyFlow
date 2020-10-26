@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
     if (objFile)
     {
         printf("Reading obj file %s\n", inputFileName.c_str());
-        triMesh.ReadObj(&objFile);
+        [[maybe_unused]] bool isLoaded = triMesh.ReadObj(&objFile);
         objFile.close();
     }
     else

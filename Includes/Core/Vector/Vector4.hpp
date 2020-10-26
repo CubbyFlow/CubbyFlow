@@ -31,34 +31,22 @@ class Vector<T, 4> final
     static_assert(std::is_floating_point<T>::value,
                   "Vector only can be instantiated with floating point types");
 
-    //! X (or the first) component of the vector.
-    T x;
-
-    //! Y (or the second) component of the vector.
-    T y;
-
-    //! Z (or the third) component of the vector.
-    T z;
-
-    //! W (or the fourth) component of the vector.
-    T w;
-
-    // MARK: Constructors
     //! Constructs default vector (0, 0, 0, 0).
-    constexpr Vector() : x(0), y(0), z(0), w(0)
+    constexpr Vector() : x{ 0 }, y{ 0 }, z{ 0 }, w{ 0 }
     {
         // Do nothing
     }
 
     //! Constructs vector with given parameters \p _x, \p _y, \p _z, and \p _w.
-    constexpr Vector(T _x, T _y, T _z, T _w) : x(_x), y(_y), z(_z), w(_w)
+    constexpr Vector(T _x, T _y, T _z, T _w)
+        : x{ _x }, y{ _y }, z{ _z }, w{ _w }
     {
         // Do nothing
     }
 
     //! Constructs vector with a 3-D vector (x, y, and z) and a scalar (w).
     constexpr Vector(const Vector<T, 3>& v, T _w)
-        : x(v.x), y(v.y), z(v.z), w(_w)
+        : x{ v.x }, y{ v.y }, z{ v.z }, w{ _w }
     {
         // Do nothing
     }
@@ -68,20 +56,35 @@ class Vector<T, 4> final
     Vector(const std::initializer_list<U>& list);
 
     //! Copy constructor.
-    constexpr Vector(const Vector& v) : x(v.x), y(v.y), z(v.z), w(v.w)
+    constexpr Vector(const Vector& v) : x{ v.x }, y{ v.y }, z{ v.z }, w{ v.w }
     {
         // Do nothing
     }
 
-    // MARK: Basic setters
+    //! Move constructor.
+    constexpr Vector(Vector&& v) noexcept
+        : x{ v.x }, y{ v.y }, z{ v.z }, w{ v.w }
+    {
+        // Do nothing
+    }
+
+    //! Default destructor.
+    ~Vector() = default;
+
+    //! Copy assignment operator.
+    Vector& operator=(const Vector& v);
+
+    //! Move assignment operator.
+    Vector& operator=(Vector&& v) noexcept;
+
     //! Set both x, y, z, and w components to \p s.
     void Set(T s);
 
     //! Set x, y, z, and w components with given parameters.
     void Set(T x, T y, T z, T w);
 
-    //! Set x, y, z, and w components with \p pt.x, \p pt.y, \p z, and \p w.
-    void Set(const Vector<T, 3>& pt, T z);
+    //! Set x, y, z, and w components with \p pt.x, \p pt.y, \p z, and \p newW.
+    void Set(const Vector<T, 3>& pt, T newW);
 
     //! Set x, y, z, and w components with given initializer list.
     template <typename U>
@@ -96,48 +99,45 @@ class Vector<T, 4> final
     //! Normalizes this vector.
     void Normalize();
 
-    // MARK: Binary operations: new instance = this (+) v
     //! Computes this + (v, v, v, v).
-    Vector Add(T v) const;
+    [[nodiscard]] Vector Add(T v) const;
 
     //! Computes this + (v.x, v.y, v.z, v.w).
-    Vector Add(const Vector& v) const;
+    [[nodiscard]] Vector Add(const Vector& v) const;
 
     //! Computes this - (v, v, v, v).
-    Vector Sub(T v) const;
+    [[nodiscard]] Vector Sub(T v) const;
 
     //! Computes this - (v.x, v.y, v.z, v.w).
-    Vector Sub(const Vector& v) const;
+    [[nodiscard]] Vector Sub(const Vector& v) const;
 
     //! Computes this * (v, v, v, v).
-    Vector Mul(T v) const;
+    [[nodiscard]] Vector Mul(T v) const;
 
     //! Computes this * (v.x, v.y, v.z, v.w).
-    Vector Mul(const Vector& v) const;
+    [[nodiscard]] Vector Mul(const Vector& v) const;
 
     //! Computes this / (v, v, v, v).
-    Vector Div(T v) const;
+    [[nodiscard]] Vector Div(T v) const;
 
     //! Computes this / (v.x, v.y, v.z, v.w).
-    Vector Div(const Vector& v) const;
+    [[nodiscard]] Vector Div(const Vector& v) const;
 
     //! Computes dot product.
-    T Dot(const Vector& v) const;
+    [[nodiscard]] T Dot(const Vector& v) const;
 
-    // MARK: Binary operations: new instance = v (+) this
     //! Computes (v, v, v, v) - this.
-    Vector RSub(T v) const;
+    [[nodiscard]] Vector RSub(T v) const;
 
     //! Computes (v.x, v.y, v.z, v.w) - this.
-    Vector RSub(const Vector& v) const;
+    [[nodiscard]] Vector RSub(const Vector& v) const;
 
     //! Computes (v, v, v, v) / this.
-    Vector RDiv(T v) const;
+    [[nodiscard]] Vector RDiv(T v) const;
 
     //! Computes (v.x, v.y, v.z, v.w) / this.
-    Vector RDiv(const Vector& v) const;
+    [[nodiscard]] Vector RDiv(const Vector& v) const;
 
-    // MARK: Augmented operations: this (+)= v
     //! Computes this += (v, v, v, v).
     void IAdd(T v);
 
@@ -162,64 +162,63 @@ class Vector<T, 4> final
     //! Computes this /= (v.x, v.y, v.z, v.w).
     void IDiv(const Vector& v);
 
-    // MARK: Basic getters
     //! Returns const reference to the \p i -th element of the vector.
-    const T& At(size_t i) const;
+    [[nodiscard]] const T& At(size_t i) const;
 
     //! Returns reference to the \p i -th element of the vector.
-    T& At(size_t i);
+    [[nodiscard]] T& At(size_t i);
 
     //! Returns the sum of all the components (i.e. x + y + z + w).
-    T Sum() const;
+    [[nodiscard]] T Sum() const;
 
     //! Returns the average of all the components.
-    T Avg() const;
+    [[nodiscard]] T Avg() const;
 
     //! Returns the minimum value among x, y, z and w.
-    T Min() const;
+    [[nodiscard]] T Min() const;
 
     //! Returns the maximum value among x, y, z and w.
-    T Max() const;
+    [[nodiscard]] T Max() const;
 
     //! Returns the absolute minimum value among x, y, z and w.
-    T AbsMin() const;
+    [[nodiscard]] T AbsMin() const;
 
     //! Returns the absolute maximum value among x, y, z and w.
-    T AbsMax() const;
+    [[nodiscard]] T AbsMax() const;
 
     //! Returns the index of the dominant axis.
-    size_t DominantAxis() const;
+    [[nodiscard]] size_t DominantAxis() const;
 
     //! Returns the index of the sub-dominant axis.
-    size_t SubdominantAxis() const;
+    [[nodiscard]] size_t SubdominantAxis() const;
 
     //! Returns normalized vector.
-    Vector Normalized() const;
+    [[nodiscard]] Vector Normalized() const;
 
     //! Returns the length of the vector.
-    T Length() const;
+    [[nodiscard]] T Length() const;
 
     //! Returns the squared length of the vector.
-    T LengthSquared() const;
+    [[nodiscard]] T LengthSquared() const;
 
     //! Returns the distance to the other vector.
-    T DistanceTo(const Vector& other) const;
+    [[nodiscard]] T DistanceTo(const Vector& other) const;
 
     //! Returns the squared distance to the other vector.
-    T DistanceSquaredTo(const Vector& other) const;
+    [[nodiscard]] T DistanceSquaredTo(const Vector& other) const;
 
     //! Returns a vector with different value type.
     template <typename U>
-    Vector<U, 4> CastTo() const;
+    [[nodiscard]] Vector<U, 4> CastTo() const;
 
     //! Returns true if \p other is the same as this vector.
-    bool IsEqual(const Vector& other) const;
+    [[nodiscard]] bool IsEqual(const Vector& other) const;
 
     //! Returns true if \p other is similar to this vector.
-    bool IsSimilar(const Vector& other,
-                   T epsilon = std::numeric_limits<T>::epsilon()) const;
+    [[nodiscard]] bool IsSimilar(
+        const Vector& other,
+        T epsilon = std::numeric_limits<T>::epsilon()) const;
 
-    // MARK: Operators
     //! Returns reference to the \p i -th element of the vector.
     T& operator[](size_t i);
 
@@ -229,9 +228,6 @@ class Vector<T, 4> final
     //! Set x and y components with given initializer list.
     template <typename U>
     Vector& operator=(const std::initializer_list<U>& list);
-
-    //! Set x and y with other vector \p pt.
-    Vector& operator=(const Vector& v);
 
     //! Computes this += (v, v, v, v)
     Vector& operator+=(T v);
@@ -262,6 +258,18 @@ class Vector<T, 4> final
 
     //! Returns true if \p other is the not same as this vector.
     bool operator!=(const Vector& v) const;
+
+    //! X (or the first) component of the vector.
+    T x;
+
+    //! Y (or the second) component of the vector.
+    T y;
+
+    //! Z (or the third) component of the vector.
+    T z;
+
+    //! W (or the fourth) component of the vector.
+    T w;
 };
 
 //! Type alias for four dimensional vector.
@@ -347,7 +355,6 @@ using Vector4F = Vector4<float>;
 //! Double-type 4D vector.
 using Vector4D = Vector4<double>;
 
-// MARK: Extensions
 //! Returns float-type zero vector.
 template <>
 constexpr Vector4F Zero<Vector4F>()

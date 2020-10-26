@@ -16,25 +16,20 @@
 
 namespace CubbyFlow
 {
-PICSolver2::PICSolver2() : PICSolver2({ 1, 1 }, { 1, 1 }, { 0, 0 })
+PICSolver2::PICSolver2() : PICSolver2{ { 1, 1 }, { 1, 1 }, { 0, 0 } }
 {
     // Do nothing
 }
 
 PICSolver2::PICSolver2(const Size2& resolution, const Vector2D& gridSpacing,
                        const Vector2D& gridOrigin)
-    : GridFluidSolver2(resolution, gridSpacing, gridOrigin)
+    : GridFluidSolver2{ resolution, gridSpacing, gridOrigin }
 {
-    auto grids = GetGridSystemData();
+    GridSystemData2Ptr grids = GetGridSystemData();
     m_signedDistanceFieldID = grids->AddScalarData(
         std::make_shared<CellCenteredScalarGrid2::Builder>(),
         std::numeric_limits<double>::max());
     m_particles = std::make_shared<ParticleSystemData2>();
-}
-
-PICSolver2::~PICSolver2()
-{
-    // Do nothing
 }
 
 ScalarGrid2Ptr PICSolver2::GetSignedDistanceField() const
@@ -62,7 +57,7 @@ void PICSolver2::OnInitialize()
 {
     GridFluidSolver2::OnInitialize();
 
-    Timer timer;
+    const Timer timer;
     UpdateParticleEmitter(0.0);
     CUBBYFLOW_INFO << "Update particle emitter took "
                    << timer.DurationInSeconds() << " seconds";
@@ -123,31 +118,35 @@ ScalarField2Ptr PICSolver2::GetFluidSDF() const
 
 void PICSolver2::TransferFromParticlesToGrids()
 {
-    auto flow = GetGridSystemData()->GetVelocity();
-    auto positions = m_particles->GetPositions();
-    auto velocities = m_particles->GetVelocities();
-    size_t numberOfParticles = m_particles->GetNumberOfParticles();
+    FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
+    ArrayAccessor1<Vector2<double>> positions = m_particles->GetPositions();
+    ArrayAccessor1<Vector2<double>> velocities = m_particles->GetVelocities();
+    const size_t numberOfParticles = m_particles->GetNumberOfParticles();
 
     // Clear velocity to zero
-    flow->Fill(Vector2D());
+    flow->Fill(Vector2D{});
 
     // Weighted-average velocity
-    auto u = flow->GetUAccessor();
-    auto v = flow->GetVAccessor();
-    Array2<double> uWeight(u.size());
-    Array2<double> vWeight(v.size());
+    ArrayAccessor2<double> u = flow->GetUAccessor();
+    ArrayAccessor2<double> v = flow->GetVAccessor();
+    Array2<double> uWeight{ u.size() };
+    Array2<double> vWeight{ v.size() };
     m_uMarkers.Resize(u.size());
     m_vMarkers.Resize(v.size());
     m_uMarkers.Set(0);
     m_vMarkers.Set(0);
-    LinearArraySampler2<double, double> uSampler(
-        flow->GetUConstAccessor(), flow->GridSpacing(), flow->GetUOrigin());
-    LinearArraySampler2<double, double> vSampler(
-        flow->GetVConstAccessor(), flow->GridSpacing(), flow->GetVOrigin());
+
+    const LinearArraySampler2<double, double> uSampler{
+        flow->GetUConstAccessor(), flow->GridSpacing(), flow->GetUOrigin()
+    };
+    const LinearArraySampler2<double, double> vSampler{
+        flow->GetVConstAccessor(), flow->GridSpacing(), flow->GetVOrigin()
+    };
+
     for (size_t i = 0; i < numberOfParticles; ++i)
     {
-        std::array<Point2UI, 4> indices;
-        std::array<double, 4> weights;
+        std::array<Point2UI, 4> indices{};
+        std::array<double, 4> weights{};
 
         uSampler.GetCoordinatesAndWeights(positions[i], &indices, &weights);
         for (int j = 0; j < 4; ++j)
@@ -182,10 +181,10 @@ void PICSolver2::TransferFromParticlesToGrids()
 
 void PICSolver2::TransferFromGridsToParticles()
 {
-    auto flow = GetGridSystemData()->GetVelocity();
-    auto positions = m_particles->GetPositions();
-    auto velocities = m_particles->GetVelocities();
-    size_t numberOfParticles = m_particles->GetNumberOfParticles();
+    FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
+    ArrayAccessor1<Vector2<double>> positions = m_particles->GetPositions();
+    ArrayAccessor1<Vector2<double>> velocities = m_particles->GetVelocities();
+    const size_t numberOfParticles = m_particles->GetNumberOfParticles();
 
     ParallelFor(ZERO_SIZE, numberOfParticles,
                 [&](size_t i) { velocities[i] = flow->Sample(positions[i]); });
@@ -193,10 +192,10 @@ void PICSolver2::TransferFromGridsToParticles()
 
 void PICSolver2::MoveParticles(double timeIntervalInSeconds)
 {
-    auto flow = GetGridSystemData()->GetVelocity();
-    auto positions = m_particles->GetPositions();
-    auto velocities = m_particles->GetVelocities();
-    size_t numberOfParticles = m_particles->GetNumberOfParticles();
+    FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
+    ArrayAccessor1<Vector2<double>> positions = m_particles->GetPositions();
+    ArrayAccessor1<Vector2<double>> velocities = m_particles->GetVelocities();
+    const size_t numberOfParticles = m_particles->GetNumberOfParticles();
     int domainBoundaryFlag = GetClosedDomainBoundaryFlag();
     BoundingBox2D boundingBox = flow->BoundingBox();
 
@@ -206,9 +205,9 @@ void PICSolver2::MoveParticles(double timeIntervalInSeconds)
         Vector2D vel = velocities[i];
 
         // Adaptive time-stepping
-        unsigned int numSubSteps =
+        const unsigned int numSubSteps =
             static_cast<unsigned int>(std::max(GetMaxCFL(), 1.0));
-        double dt = timeIntervalInSeconds / numSubSteps;
+        const double dt = timeIntervalInSeconds / numSubSteps;
         for (unsigned int t = 0; t < numSubSteps; ++t)
         {
             Vector2D vel0 = flow->Sample(pt0);
@@ -261,20 +260,20 @@ void PICSolver2::MoveParticles(double timeIntervalInSeconds)
 
 void PICSolver2::ExtrapolateVelocityToAir() const
 {
-    auto vel = GetGridSystemData()->GetVelocity();
-    auto u = vel->GetUAccessor();
-    auto v = vel->GetVAccessor();
+    FaceCenteredGrid2Ptr vel = GetGridSystemData()->GetVelocity();
+    const ArrayAccessor2<double> u = vel->GetUAccessor();
+    const ArrayAccessor2<double> v = vel->GetVAccessor();
 
-    unsigned int depth = static_cast<unsigned int>(std::ceil(GetMaxCFL()));
+    const auto depth = static_cast<unsigned int>(std::ceil(GetMaxCFL()));
     ExtrapolateToRegion(vel->GetUConstAccessor(), m_uMarkers, depth, u);
     ExtrapolateToRegion(vel->GetVConstAccessor(), m_vMarkers, depth, v);
 }
 
 void PICSolver2::BuildSignedDistanceField()
 {
-    auto sdf = GetSignedDistanceField();
+    ScalarGrid2Ptr sdf = GetSignedDistanceField();
     auto sdfPos = sdf->GetDataPosition();
-    double maxH = std::max(sdf->GridSpacing().x, sdf->GridSpacing().y);
+    const double maxH = std::max(sdf->GridSpacing().x, sdf->GridSpacing().y);
     double radius = 1.2 * maxH / std::sqrt(2.0);
 
     m_particles->BuildNeighborSearcher(2 * radius);
@@ -304,18 +303,18 @@ void PICSolver2::UpdateParticleEmitter(double timeIntervalInSeconds) const
 
 PICSolver2::Builder PICSolver2::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 PICSolver2 PICSolver2::Builder::Build() const
 {
-    return PICSolver2(m_resolution, GetGridSpacing(), m_gridOrigin);
+    return PICSolver2{ m_resolution, GetGridSpacing(), m_gridOrigin };
 }
 
 PICSolver2Ptr PICSolver2::Builder::MakeShared() const
 {
     return std::shared_ptr<PICSolver2>(
-        new PICSolver2(m_resolution, GetGridSpacing(), m_gridOrigin),
+        new PICSolver2{ m_resolution, GetGridSpacing(), m_gridOrigin },
         [](PICSolver2* obj) { delete obj; });
 }
 }  // namespace CubbyFlow
