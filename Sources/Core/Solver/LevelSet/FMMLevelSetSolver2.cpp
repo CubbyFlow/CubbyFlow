@@ -195,7 +195,6 @@ void FMMLevelSetSolver2::Reinitialize(const ScalarGrid2& inputSDF,
     if (!inputSDF.HasSameShape(*outputSDF))
     {
         throw std::invalid_argument{
-
             "inputSDF and outputSDF have not same shape."
         };
     }
