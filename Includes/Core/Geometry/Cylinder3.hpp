@@ -27,13 +27,13 @@ class Cylinder3 final : public Surface3
     class Builder;
 
     //! Constructs a cylinder with \p _transform and \p _isNormalFlipped.
-    Cylinder3(const Transform3& _transform = Transform3(),
+    Cylinder3(const Transform3& _transform = Transform3{},
               bool _isNormalFlipped = false);
 
     //! Constructs a cylinder with \p _center, \p _radius, \p _height,
     //! \p _transform and \p _isNormalFlipped.
-    Cylinder3(const Vector3D& _center, double _radius, double _height,
-              const Transform3& _transform = Transform3(),
+    Cylinder3(Vector3D _center, double _radius, double _height,
+              const Transform3& _transform = Transform3{},
               bool _isNormalFlipped = false);
 
     //! Default copy constructor.

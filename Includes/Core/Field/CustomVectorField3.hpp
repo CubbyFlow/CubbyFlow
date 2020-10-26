@@ -29,8 +29,9 @@ class CustomVectorField3 final : public VectorField3
     //! differencing is used. Thus, the differencing resolution also can be
     //! provided as the last parameter.
     //!
-    CustomVectorField3(std::function<Vector3D(const Vector3D&)> customFunction,
-                       double derivativeResolution = 1e-3);
+    explicit CustomVectorField3(
+        std::function<Vector3D(const Vector3D&)> customFunction,
+        double derivativeResolution = 1e-3);
 
     //!
     //! \brief Constructs a field with given field and gradient function.

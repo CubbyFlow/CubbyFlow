@@ -34,9 +34,9 @@ class ImplicitSurfaceSet3 final : public ImplicitSurface3
     ImplicitSurfaceSet3() = default;
 
     //! Constructs an implicit surface set using list of other surfaces.
-    ImplicitSurfaceSet3(std::vector<ImplicitSurface3Ptr> surfaces,
-                        const Transform3& _transform = Transform3{},
-                        bool _isNormalFlipped = false);
+    explicit ImplicitSurfaceSet3(std::vector<ImplicitSurface3Ptr> surfaces,
+                                 const Transform3& _transform = Transform3{},
+                                 bool _isNormalFlipped = false);
 
     //! Constructs an implicit surface set using list of other surfaces.
     ImplicitSurfaceSet3(const std::vector<Surface3Ptr>& surfaces,

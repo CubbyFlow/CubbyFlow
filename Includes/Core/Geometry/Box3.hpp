@@ -27,10 +27,6 @@ class Box3 final : public Surface3
  public:
     class Builder;
 
-    //! Bounding box of this box.
-    BoundingBox3D bound =
-        BoundingBox3D{ Vector3D{}, Vector3D{ 1.0, 1.0, 1.0 } };
-
     //! Constructs (0, 0, 0) x (1, 1, 1) box.
     Box3(const Transform3& transform = Transform3{},
          bool isNormalFlipped = false);
@@ -62,6 +58,10 @@ class Box3 final : public Surface3
 
     //! Returns builder fox Box3.
     [[nodiscard]] static Builder GetBuilder();
+
+    //! Bounding box of this box.
+    BoundingBox3D bound =
+        BoundingBox3D{ Vector3D{}, Vector3D{ 1.0, 1.0, 1.0 } };
 
  protected:
     // Surface3 implementations

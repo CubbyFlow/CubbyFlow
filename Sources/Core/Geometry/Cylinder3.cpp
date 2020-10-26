@@ -12,6 +12,8 @@
 #include <Core/Geometry/Cylinder3.hpp>
 #include <Core/Geometry/Plane3.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
 Cylinder3::Cylinder3(const Transform3& _transform, bool _isNormalFlipped)
@@ -20,10 +22,10 @@ Cylinder3::Cylinder3(const Transform3& _transform, bool _isNormalFlipped)
     // Do nothing
 }
 
-Cylinder3::Cylinder3(const Vector3D& _center, double _radius, double _height,
+Cylinder3::Cylinder3(Vector3D _center, double _radius, double _height,
                      const Transform3& _transform, bool _isNormalFlipped)
     : Surface3{ _transform, _isNormalFlipped },
-      center(_center),
+      center(std::move(_center)),
       radius(_radius),
       height(_height)
 {
@@ -37,8 +39,8 @@ Vector3D Cylinder3::ClosestPointLocal(const Vector3D& otherPoint) const
     const Box2 box{ Vector2D{ -radius, -0.5 * height },
                     Vector2D{ radius, 0.5 * height } };
 
-    const Vector2D cp = box.ClosestPoint(rr);
-    const double angle = std::atan2(r.z, r.x);
+    [[maybe_unused]] const Vector2D cp = box.ClosestPoint(rr);
+    [[maybe_unused]] const double angle = std::atan2(r.z, r.x);
 
     return Vector3D{ cp.x * std::cos(angle), cp.y, cp.x * std::sin(angle) } +
            center;

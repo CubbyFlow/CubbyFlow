@@ -29,8 +29,9 @@ class CustomVectorField2 final : public VectorField2
     //! differencing is used. Thus, the differencing resolution also can be
     //! provided as the last parameter.
     //!
-    CustomVectorField2(std::function<Vector2D(const Vector2D&)> customFunction,
-                       double derivativeResolution = 1e-3);
+    explicit CustomVectorField2(
+        std::function<Vector2D(const Vector2D&)> customFunction,
+        double derivativeResolution = 1e-3);
 
     //!
     //! \brief Constructs a field with given field and gradient function.

@@ -27,9 +27,6 @@ class Box2 final : public Surface2
  public:
     class Builder;
 
-    //! Bounding box of this box.
-    BoundingBox2D bound = BoundingBox2D{ Vector2D{}, Vector2D{ 1.0, 1.0 } };
-
     //! Constructs (0, 0) x (1, 1) box.
     Box2(const Transform2& transform = Transform2{},
          bool isNormalFlipped = false);
@@ -40,8 +37,9 @@ class Box2 final : public Surface2
          bool isNormalFlipped = false);
 
     //! Constructs a box with BoundingBox2D instance.
-    Box2(BoundingBox2D boundingBox, const Transform2& transform = Transform2{},
-         bool isNormalFlipped = false);
+    explicit Box2(BoundingBox2D boundingBox,
+                  const Transform2& transform = Transform2{},
+                  bool isNormalFlipped = false);
 
     //! Default copy constructor.
     Box2(const Box2& other) = default;
@@ -60,6 +58,9 @@ class Box2 final : public Surface2
 
     //! Returns builder fox Box2.
     [[nodiscard]] static Builder GetBuilder();
+
+    //! Bounding box of this box.
+    BoundingBox2D bound = BoundingBox2D{ Vector2D{}, Vector2D{ 1.0, 1.0 } };
 
  protected:
     // Surface2 implementations

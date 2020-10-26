@@ -35,13 +35,13 @@ class CustomImplicitSurface3 final : public ImplicitSurface3
     //! \param _transform Local-to-world transform.
     //! \param _isNormalFlipped True if normal is flipped.
     //!
-    CustomImplicitSurface3(std::function<double(const Vector3D&)> func,
-                           BoundingBox3D domain = BoundingBox3D{},
-                           double resolution = 1e-3,
-                           double rayMarchingResolution = 1e-6,
-                           unsigned int maxNumberOfIterations = 5,
-                           const Transform3& _transform = Transform3{},
-                           bool _isNormalFlipped = false);
+    explicit CustomImplicitSurface3(std::function<double(const Vector3D&)> func,
+                                    BoundingBox3D domain = BoundingBox3D{},
+                                    double resolution = 1e-3,
+                                    double rayMarchingResolution = 1e-6,
+                                    unsigned int maxNumberOfIterations = 5,
+                                    const Transform3& _transform = Transform3{},
+                                    bool _isNormalFlipped = false);
 
     //! Returns builder for CustomImplicitSurface3.
     [[nodiscard]] static Builder GetBuilder();

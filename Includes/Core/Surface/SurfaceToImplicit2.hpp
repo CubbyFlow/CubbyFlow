@@ -30,9 +30,9 @@ class SurfaceToImplicit2 final : public ImplicitSurface2
     class Builder;
 
     //! Constructs an instance with generic Surface2 instance.
-    SurfaceToImplicit2(Surface2Ptr surface,
-                       const Transform2& _transform = Transform2{},
-                       bool _isNormalFlipped = false);
+    explicit SurfaceToImplicit2(Surface2Ptr surface,
+                                const Transform2& _transform = Transform2{},
+                                bool _isNormalFlipped = false);
 
     //! Default copy constructor.
     SurfaceToImplicit2(const SurfaceToImplicit2&) = default;

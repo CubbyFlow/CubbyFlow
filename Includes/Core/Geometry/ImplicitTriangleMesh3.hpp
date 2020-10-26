@@ -33,10 +33,10 @@ class ImplicitTriangleMesh3 final : public ImplicitSurface3
     class Builder;
 
     //! Constructs an ImplicitSurface3 with mesh and other grid parameters.
-    ImplicitTriangleMesh3(TriangleMesh3Ptr mesh, size_t resolutionX = 32,
-                          double margin = 0.2,
-                          const Transform3& _transform = Transform3{},
-                          bool _isNormalFlipped = false);
+    explicit ImplicitTriangleMesh3(TriangleMesh3Ptr mesh,
+                                   size_t resolutionX = 32, double margin = 0.2,
+                                   const Transform3& _transform = Transform3{},
+                                   bool _isNormalFlipped = false);
 
     //! Default copy constructor.
     ImplicitTriangleMesh3(const ImplicitTriangleMesh3&) = default;

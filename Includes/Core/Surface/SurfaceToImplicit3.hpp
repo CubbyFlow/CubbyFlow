@@ -32,9 +32,9 @@ class SurfaceToImplicit3 final : public ImplicitSurface3
     class Builder;
 
     //! Constructs an instance with generic Surface3 instance.
-    SurfaceToImplicit3(const Surface3Ptr& surface,
-                       const Transform3& _transform = Transform3{},
-                       bool _isNormalFlipped = false);
+    explicit SurfaceToImplicit3(const Surface3Ptr& surface,
+                                const Transform3& _transform = Transform3{},
+                                bool _isNormalFlipped = false);
 
     //! Default copy constructor.
     SurfaceToImplicit3(const SurfaceToImplicit3&) = default;

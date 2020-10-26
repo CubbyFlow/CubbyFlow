@@ -29,8 +29,9 @@ class CustomScalarField2 final : public ScalarField2
     //! differencing is used. Thus, the differencing resolution also can be
     //! provided as the last parameter.
     //!
-    CustomScalarField2(std::function<double(const Vector2D&)> customFunction,
-                       double derivativeResolution = 1e-3);
+    explicit CustomScalarField2(
+        std::function<double(const Vector2D&)> customFunction,
+        double derivativeResolution = 1e-3);
 
     //!
     //! \brief Constructs a field with given field and gradient function.

@@ -34,9 +34,9 @@ class ImplicitSurfaceSet2 final : public ImplicitSurface2
     ImplicitSurfaceSet2() = default;
 
     //! Constructs an implicit surface set using list of other surfaces.
-    ImplicitSurfaceSet2(std::vector<ImplicitSurface2Ptr> surfaces,
-                        const Transform2& _transform = Transform2{},
-                        bool _isNormalFlipped = false);
+    explicit ImplicitSurfaceSet2(std::vector<ImplicitSurface2Ptr> surfaces,
+                                 const Transform2& _transform = Transform2{},
+                                 bool _isNormalFlipped = false);
 
     //! Constructs an implicit surface set using list of other surfaces.
     ImplicitSurfaceSet2(const std::vector<Surface2Ptr>& surfaces,

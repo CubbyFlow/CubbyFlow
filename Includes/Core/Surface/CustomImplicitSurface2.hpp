@@ -35,13 +35,13 @@ class CustomImplicitSurface2 final : public ImplicitSurface2
     //! \param _transform Local-to-world transform.
     //! \param _isNormalFlipped True if normal is flipped.
     //!
-    CustomImplicitSurface2(std::function<double(const Vector2D&)> func,
-                           BoundingBox2D domain = BoundingBox2D{},
-                           double resolution = 1e-3,
-                           double rayMarchingResolution = 1e-6,
-                           unsigned int maxNumberOfIterations = 5,
-                           const Transform2& _transform = Transform2{},
-                           bool _isNormalFlipped = false);
+    explicit CustomImplicitSurface2(std::function<double(const Vector2D&)> func,
+                                    BoundingBox2D domain = BoundingBox2D{},
+                                    double resolution = 1e-3,
+                                    double rayMarchingResolution = 1e-6,
+                                    unsigned int maxNumberOfIterations = 5,
+                                    const Transform2& _transform = Transform2{},
+                                    bool _isNormalFlipped = false);
 
     //! Returns builder for CustomImplicitSurface2.
     [[nodiscard]] static Builder GetBuilder();
