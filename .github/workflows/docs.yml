@@ -1,7 +1,7 @@
 on:
   push:
     branch:
-    - master
+    - main
 name: Document
 
 jobs:
