@@ -87,7 +87,6 @@ add_subdirectory(Examples/Particles2Obj)
 add_subdirectory(Examples/Particles2Xml)
 add_subdirectory(Examples/SmokeSim)
 add_subdirectory(Examples/SPHSim)
-add_subdirectory(Examples/ExampleHelper)
 
 add_subdirectory(Libraries/pybind11)
 if(BUILD_FROM_PIP)
