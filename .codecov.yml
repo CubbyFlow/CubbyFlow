@@ -1,4 +1,0 @@
-ignore:
-  - "Libraries/.*"
-  - "Tests/.*"
-  - .github/**
