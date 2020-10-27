@@ -1,5 +1,7 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 MAINTAINER Chris Ohk <utilForever@gmail.com>
+
+ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update -yq && \
     apt-get install -yq build-essential python3-dev python3-pip python3-venv cmake lcov wget unzip && \
