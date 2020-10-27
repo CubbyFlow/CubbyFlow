@@ -1,3 +1,4 @@
 ignore:
   - "Libraries/.*"
   - "Tests/.*"
+  - .github/**
