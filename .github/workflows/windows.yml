@@ -30,7 +30,7 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.1
     - name: Build
-      run: cd build && MSBuild.exe CubbyFlow.sln /p:Configuration=Release
+      run: cd build && MSBuild.exe CubbyFlow.sln /p:Configuration=Release /p:PreferredToolArchitecture=x64
     - name: Run Unit Test
       run: /a/CubbyFlow/CubbyFlow/build/bin/Release/UnitTests.exe
     - name: Run Python Test
