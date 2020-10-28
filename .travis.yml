@@ -17,7 +17,7 @@ script:
   - cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_COVERAGE=ON -DBUILD_SONARCLOUD=ON ..
   # Wraps the compilation with the Build Wrapper to generate configuration
   # (used later by the SonarQube Scanner) into the "bw-output" folder
-  - build-wrapper-linux-x86-64 --out- dir ../bw-output make all
+  - build-wrapper-linux-x86-64 --out-dir ../bw-output make all
   # Execute some tests
   - lcov --gcov-tool /usr/bin/gcov -c -i -d Tests/UnitTests -o base.info
   - bin/UnitTests
