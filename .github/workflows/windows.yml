@@ -12,8 +12,8 @@ jobs:
       matrix:
         include:
           # Windows Server 2016 + Visual Studio 2017
-          - name: "Windows Server 2016 + Visual Studio 2017"
-            os: windows-2016
+          #- name: "Windows Server 2016 + Visual Studio 2017"
+          #  os: windows-2016
           # Windows Server 2019 + Visual Studio 2019
           - name: "Windows Server 2019 + Visual Studio 2019"
             os: windows-2019
@@ -30,7 +30,7 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.1
     - name: Build
-      run: cd build && MSBuild.exe CubbyFlow.sln /p:Configuration=Release /p:PreferredToolArchitecture=x64
+      run: cd build && MSBuild.exe CubbyFlow.sln /p:Configuration=Release
     - name: Run Unit Test
       run: /a/CubbyFlow/CubbyFlow/build/bin/Release/UnitTests.exe
     - name: Run Python Test
