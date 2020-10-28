@@ -56,6 +56,10 @@ jobs:
       run: cd build && make
     - name: Run Unit Test
       run: /Users/runner/work/CubbyFlow/CubbyFlow/build/bin/UnitTests
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.7'
     - name: Run Python Test
       run: |
         pip install -r requirements.txt
