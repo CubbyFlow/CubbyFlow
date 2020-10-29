@@ -1,78 +1,38 @@
 language: cpp
+os: linux
+dist: focal
 
-matrix:
-  include:
-    - name: Test Ubuntu 16.04 + gcc-7 + codecov + (sonarcloud)
-      os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-7
-        sonarcloud:
-          organization: "utilforever-github"
-          token:
-            secure: "f1puOiDV2tTq2FX2vJhQftnK9ffJ6+L7lPvEa1j1CumGG+aEbdYQxhz2o2qBJm7nzy/TbD5RW31HS/ml7n6fH6y07CMaW4P2uaOCyNRQMSMeR4V+bE64vaJQWaNecUTX2IyigjOJWJoi5nt5H2MPNTZ0ontQQpmsxwqMG/EOm4z/EK6qfkJkir+bZ80a5p3du5QQC+OI6HxYw6fGIUzB0yw+/BT9pFU4q1L4pBeVMJI0uj+Vfq9d1BnlpsUDRmZ+0rqCQzqDwd5E1G8yMqj5bfrO0l2zrkkiGDrnf8yXaZBJQBBySXkEc+4a+7ob4uzS84MxqR5lSVbUPHQQtS1YxtfF88i14ez2xsHAxejrccEHxaLUiykd5Inx91Q7FLSpvzXk31xomtYjO0wcKRGlqLQHhh0e9ppZxxs9e4vR03pdzyLiFtxoJ16tg9OC6S5PEWsJM1eDzU5EM9UFNJBtiJDAXjTFzMGuOOCEXnMvDbMuwIGNuO8FtOL0CesrTCbK6ks43p9KaETBO4zGaJSN9FCY/9zoCoaRiVqUgUUHKa+B2R+tLch1conMMmaiSEKH8aTZmg137gTM8iPLKNYBT9LX0B8QI8qxI8D+hp1K8UYPfUCkVBQcr0ZDcXmgg/kFrEA2L+sm/pe2cV24sHSK7cKcBlZELb0Whm24I0j9URI="
-      dist: xenial
-      sudo: required
-      compiler: gcc
-      env:
-        - BUILD_TYPE=Debug
-      script:
-        - |
-          if [[ -n "${TRAVIS_PULL_REQUEST_SLUG}" && "${TRAVIS_PULL_REQUEST_SLUG}" != "${TRAVIS_REPO_SLUG}" ]]; then
-            echo "The pull request from ${TRAVIS_PULL_REQUEST_SLUG} is an EXTERNAL pull request. Skip sonar analysis."
-            sh Scripts/travis_build_codecov.sh
-          else
-            sh Scripts/travis_build_codecov_sonar.sh
-          fi
-    - name: Test Docker based on Ubuntu 18.04 LTS + gcc
-      os: linux
-      dist: trusty
-      sudo: required
-      services: docker
-      script:
-        - sh Scripts/travis_build_docker.sh
-    - name: Test Docker based on Ubuntu 20.04 LTS + gcc
-      os: linux
-      dist: trusty
-      sudo: required
-      services: docker
-      script:
-        - sh Scripts/travis_build_docker.sh Scripts/Dockerfile.focal focal
-    - name: Test Docker based on Ubuntu 20.04 LTS + gcc-latest
-      os: linux
-      dist: trusty
-      sudo: required
-      services: docker
-      script:
-        - sh Scripts/travis_build_docker.sh Scripts/Dockerfile.focal.gcc-latest focal-gcc-latest
-    - name: Test Docker based on Ubuntu 20.04 LTS + clang-latest
-      os: linux
-      dist: trusty
-      sudo: required
-      services: docker
-      script:
-        - sh Scripts/travis_build_docker.sh Scripts/Dockerfile.focal.clang-latest focal-clang-latest
-    - name: Test OS X 10.14 + Xcode 11.3 + clang
-      os: osx
-      osx_image: xcode11.3
-      compiler: clang
-      script:
-        - sh Scripts/travis_build.sh
-before_install:
-  - eval "${MATRIX_EVAL}"
-  - if [ $TRAVIS_OS_NAME == linux ]; then 
-       sudo apt-get update -qq;
-       sudo apt-get install -y --no-install-recommends libxrandr-dev libxi-dev libxxf86vm-dev libxinerama-dev libxcursor-dev;
-       sudo apt-get install -y --no-install-recommends xorg-dev libglu1-mesa-dev lcov;
-       wget https://github.com/glfw/glfw/releases/download/3.2.1/glfw-3.2.1.zip;
-       unzip glfw-3.2.1.zip && cd glfw-3.2.1; 
-       cmake -DBUILD_SHARED_LIBS=true -DGLFW_BUILD_EXAMPLES=false -DGLFW_BUILD_TESTS=false -DGLFW_BUILD_DOCS=false .;
-       sudo make -j $CPU_NUM install && cd ..;
-    fi
-  - if [ $TRAVIS_OS_NAME == osx ]; then
-       brew update;
-       brew install glfw3;
-    fi
+addons:
+  sonarcloud:
+    organization: "utilforever-github"
+    token:
+      secure: "f1puOiDV2tTq2FX2vJhQftnK9ffJ6+L7lPvEa1j1CumGG+aEbdYQxhz2o2qBJm7nzy/TbD5RW31HS/ml7n6fH6y07CMaW4P2uaOCyNRQMSMeR4V+bE64vaJQWaNecUTX2IyigjOJWJoi5nt5H2MPNTZ0ontQQpmsxwqMG/EOm4z/EK6qfkJkir+bZ80a5p3du5QQC+OI6HxYw6fGIUzB0yw+/BT9pFU4q1L4pBeVMJI0uj+Vfq9d1BnlpsUDRmZ+0rqCQzqDwd5E1G8yMqj5bfrO0l2zrkkiGDrnf8yXaZBJQBBySXkEc+4a+7ob4uzS84MxqR5lSVbUPHQQtS1YxtfF88i14ez2xsHAxejrccEHxaLUiykd5Inx91Q7FLSpvzXk31xomtYjO0wcKRGlqLQHhh0e9ppZxxs9e4vR03pdzyLiFtxoJ16tg9OC6S5PEWsJM1eDzU5EM9UFNJBtiJDAXjTFzMGuOOCEXnMvDbMuwIGNuO8FtOL0CesrTCbK6ks43p9KaETBO4zGaJSN9FCY/9zoCoaRiVqUgUUHKa+B2R+tLch1conMMmaiSEKH8aTZmg137gTM8iPLKNYBT9LX0B8QI8qxI8D+hp1K8UYPfUCkVBQcr0ZDcXmgg/kFrEA2L+sm/pe2cV24sHSK7cKcBlZELb0Whm24I0j9URI="
+
+script:
+  # Install packages
+  - sudo apt-get install -yq gcovr ggcov lcov curl
+  # Configure build
+  - mkdir build
+  - cd build
+  - cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_COVERAGE=ON -DBUILD_SONARCLOUD=ON ..
+  # Wraps the compilation with the Build Wrapper to generate configuration
+  # (used later by the SonarQube Scanner) into the "bw-output" folder
+  - build-wrapper-linux-x86-64 --out-dir ../bw-output make all
+  # Execute some tests
+  - lcov --gcov-tool /usr/bin/gcov -c -i -d Tests/UnitTests -o base.info
+  - bin/UnitTests
+  - lcov --gcov-tool /usr/bin/gcov -c -d Tests/UnitTests -o test.info
+  - lcov --gcov-tool /usr/bin/gcov -a base.info -a test.info -o coverage.info
+  - lcov --gcov-tool /usr/bin/gcov -r coverage.info '/usr/*' -o coverage.info
+  - lcov --gcov-tool /usr/bin/gcov -r coverage.info '*/Examples/*' -o coverage.info
+  - lcov --gcov-tool /usr/bin/gcov -r coverage.info '*/Libraries/*' -o coverage.info
+  - locv --gcov-tool /usr/bin/gcov -r coverage.info '*/Tests/*' -o coverage.info
+  - lcov --gcov-tool /usr/bin/gcov -l coverage.info
+  # And finally run the SonarQube analysis - read the "sonar-project.properties"
+  # file to see the specific configuration
+  - cd ..
+  - sonar-scanner
+
+cache:
+  directories:
+    - '$HOME/.sonar/cache'

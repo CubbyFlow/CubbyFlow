@@ -83,7 +83,7 @@ template <typename FbsGridList, typename GridType, typename FactoryFunc>
 void DeserializeGrid(FbsGridList* fbsGridList, FactoryFunc factoryFunc,
                      std::vector<GridType>* gridList)
 {
-    for (const auto& grid : (*fbsGridList))
+    for (const auto grid : *fbsGridList)
     {
         auto type = grid->type()->c_str();
 
