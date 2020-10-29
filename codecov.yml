@@ -19,6 +19,8 @@ coverage:
   # our code references these areas also means we need to tell codecov itself to
   # ignore them from the stats.
   ignore:
+  - 'Includes/API/**/*'
+  - 'Sources/API/**/*'
   - 'Builds'
   - 'Documents'
   - 'Examples'
