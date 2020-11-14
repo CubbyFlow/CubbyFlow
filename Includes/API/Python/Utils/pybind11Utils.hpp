@@ -11,9 +11,9 @@
 #ifndef CUBBYFLOW_PYTHON_PYBIND11_UTILS_HPP
 #define CUBBYFLOW_PYTHON_PYBIND11_UTILS_HPP
 
+#include <Core/Geometry/Point2.hpp>
+#include <Core/Geometry/Point3.hpp>
 #include <Core/Math/Quaternion.hpp>
-#include <Core/Point/Point2.hpp>
-#include <Core/Point/Point3.hpp>
 #include <Core/Size/Size2.hpp>
 #include <Core/Size/Size3.hpp>
 #include <Core/Vector/Vector2.hpp>

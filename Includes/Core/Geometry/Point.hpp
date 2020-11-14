@@ -85,6 +85,6 @@ class Point final
 };
 }  // namespace CubbyFlow
 
-#include <Core/Point/Point-Impl.hpp>
+#include <Core/Geometry/Point-Impl.hpp>
 
 #endif

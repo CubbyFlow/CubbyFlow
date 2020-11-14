@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_POINT2_HPP
 #define CUBBYFLOW_POINT2_HPP
 
-#include <Core/Point/Point.hpp>
+#include <Core/Geometry/Point.hpp>
 #include <Core/Utils/Constants.hpp>
 
 namespace CubbyFlow
@@ -325,6 +325,6 @@ using Point2I = Point2<ssize_t>;
 using Point2UI = Point2<size_t>;
 }  // namespace CubbyFlow
 
-#include <Core/Point/Point2-Impl.hpp>
+#include <Core/Geometry/Point2-Impl.hpp>
 
 #endif

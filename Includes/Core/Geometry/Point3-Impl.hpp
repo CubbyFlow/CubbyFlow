@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_POINT3_IMPL_HPP
 #define CUBBYFLOW_POINT3_IMPL_HPP
 
-#include <Core/Point/Point2.hpp>
+#include <Core/Geometry/Point2.hpp>
 
 #include <cassert>
 #include <cmath>

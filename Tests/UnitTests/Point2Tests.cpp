@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Point/Point2.hpp>
+#include <Core/Geometry/Point2.hpp>
 
 using namespace CubbyFlow;
 

@@ -8,10 +8,10 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <API/Python/Point/Point.hpp>
+#include <API/Python/Geometry/Point.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Point/Point2.hpp>
-#include <Core/Point/Point3.hpp>
+#include <Core/Geometry/Point2.hpp>
+#include <Core/Geometry/Point3.hpp>
 
 #include <pybind11/pybind11.h>
 

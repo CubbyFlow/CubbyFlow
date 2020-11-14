@@ -33,6 +33,7 @@
 #include <API/Python/Geometry/ImplicitTriangleMesh.hpp>
 #include <API/Python/Geometry/MarchingCubes.hpp>
 #include <API/Python/Geometry/Plane.hpp>
+#include <API/Python/Geometry/Point.hpp>
 #include <API/Python/Geometry/RigidbodyCollider.hpp>
 #include <API/Python/Geometry/Sphere.hpp>
 #include <API/Python/Geometry/Triangle.hpp>
@@ -49,7 +50,6 @@
 #include <API/Python/Grid/VertexCenteredVectorGrid.hpp>
 #include <API/Python/Math/Quaternion.hpp>
 #include <API/Python/Particle/ParticleSystemData.hpp>
-#include <API/Python/Point/Point.hpp>
 #include <API/Python/PointsToImplicit/AnisotropicPointsToImplicit.hpp>
 #include <API/Python/PointsToImplicit/PointsToImplicit.hpp>
 #include <API/Python/PointsToImplicit/SPHPointsToImplicit.hpp>
@@ -135,10 +135,6 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddQuaternionD(m);
     AddQuaternionF(m);
 
-    // Points
-    AddPoint2UI(m);
-    AddPoint3UI(m);
-
     // Sizes
     AddSize2(m);
     AddSize3(m);
@@ -198,6 +194,8 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddSurfaceSet3(m);
 
     // Geometries, part 1
+    AddPoint2UI(m);
+    AddPoint3UI(m);
     AddBoundingBox2D(m);
     AddBoundingBox2F(m);
     AddBoundingBox3D(m);

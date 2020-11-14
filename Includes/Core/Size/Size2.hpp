@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_SIZE2_HPP
 #define CUBBYFLOW_SIZE2_HPP
 
-#include <Core/Point/Point2.hpp>
+#include <Core/Geometry/Point2.hpp>
 
 namespace CubbyFlow
 {
