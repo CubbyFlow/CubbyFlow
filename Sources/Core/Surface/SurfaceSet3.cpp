@@ -10,16 +10,13 @@
 
 #include <Core/Surface/SurfaceSet3.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
-SurfaceSet3::SurfaceSet3()
-{
-    // Do nothing
-}
-
-SurfaceSet3::SurfaceSet3(const std::vector<Surface3Ptr>& others,
-                         const Transform3& transform, bool isNormalFlipped)
-    : Surface3(transform, isNormalFlipped), m_surfaces(others)
+SurfaceSet3::SurfaceSet3(std::vector<Surface3Ptr> others,
+                         const Transform3& _transform, bool _isNormalFlipped)
+    : Surface3{ _transform, _isNormalFlipped }, m_surfaces{ std::move(others) }
 {
     for (const auto& surface : m_surfaces)
     {
@@ -33,9 +30,17 @@ SurfaceSet3::SurfaceSet3(const std::vector<Surface3Ptr>& others,
 }
 
 SurfaceSet3::SurfaceSet3(const SurfaceSet3& other)
-    : Surface3(other),
+    : Surface3{ other },
       m_surfaces(other.m_surfaces),
       m_unboundedSurfaces(other.m_unboundedSurfaces)
+{
+    InvalidateBVH();
+}
+
+SurfaceSet3::SurfaceSet3(SurfaceSet3&& other) noexcept
+    : Surface3{ std::move(other) },
+      m_surfaces(std::move(other.m_surfaces)),
+      m_unboundedSurfaces(std::move(other.m_unboundedSurfaces))
 {
     InvalidateBVH();
 }
@@ -112,7 +117,7 @@ void SurfaceSet3::AddSurface(const Surface3Ptr& surface)
 
 SurfaceSet3::Builder SurfaceSet3::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 Vector3D SurfaceSet3::ClosestPointLocal(const Vector3D& otherPoint) const
@@ -128,7 +133,8 @@ Vector3D SurfaceSet3::ClosestPointLocal(const Vector3D& otherPoint) const
                      std::numeric_limits<double>::max(),
                      std::numeric_limits<double>::max() };
 
-    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
+    const NearestNeighborQueryResult3<Surface3Ptr> queryResult =
+        m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
     if (queryResult.item != nullptr)
     {
         result = (*queryResult.item)->ClosestPoint(otherPoint);
@@ -137,7 +143,7 @@ Vector3D SurfaceSet3::ClosestPointLocal(const Vector3D& otherPoint) const
     double minDist = queryResult.distance;
     for (const auto& surface : m_unboundedSurfaces)
     {
-        auto pt = surface->ClosestPoint(otherPoint);
+        Vector3D pt = surface->ClosestPoint(otherPoint);
         const double dist = pt.DistanceTo(otherPoint);
 
         if (dist < minDist)
@@ -161,7 +167,8 @@ Vector3D SurfaceSet3::ClosestNormalLocal(const Vector3D& otherPoint) const
 
     Vector3D result{ 1.0, 0.0, 0.0 };
 
-    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
+    const NearestNeighborQueryResult3<Surface3Ptr> queryResult =
+        m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
     if (queryResult.item != nullptr)
     {
         result = (*queryResult.item)->ClosestNormal(otherPoint);
@@ -170,7 +177,7 @@ Vector3D SurfaceSet3::ClosestNormalLocal(const Vector3D& otherPoint) const
     double minDist = queryResult.distance;
     for (const auto& surface : m_unboundedSurfaces)
     {
-        auto pt = surface->ClosestPoint(otherPoint);
+        Vector3D pt = surface->ClosestPoint(otherPoint);
         const double dist = pt.DistanceTo(otherPoint);
 
         if (dist < minDist)
@@ -192,12 +199,13 @@ double SurfaceSet3::ClosestDistanceLocal(const Vector3D& otherPoint) const
         return surface->ClosestDistance(pt);
     };
 
-    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
+    const NearestNeighborQueryResult3<Surface3Ptr> queryResult =
+        m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
 
     double minDist = queryResult.distance;
     for (const auto& surface : m_unboundedSurfaces)
     {
-        auto pt = surface->ClosestPoint(otherPoint);
+        Vector3D pt = surface->ClosestPoint(otherPoint);
         const double dist = pt.DistanceTo(otherPoint);
 
         if (dist < minDist)
@@ -213,8 +221,8 @@ bool SurfaceSet3::IntersectsLocal(const Ray3D& ray) const
 {
     BuildBVH();
 
-    const auto testFunc = [](const Surface3Ptr& surface, const Ray3D& ray) {
-        return surface->Intersects(ray);
+    const auto testFunc = [](const Surface3Ptr& surface, const Ray3D& _ray) {
+        return surface->Intersects(_ray);
     };
 
     bool result = m_bvh.IsIntersects(ray, testFunc);
@@ -231,12 +239,14 @@ SurfaceRayIntersection3 SurfaceSet3::ClosestIntersectionLocal(
 {
     BuildBVH();
 
-    const auto testFunc = [](const Surface3Ptr& surface, const Ray3D& ray) {
-        SurfaceRayIntersection3 result = surface->ClosestIntersection(ray);
+    const auto testFunc = [](const Surface3Ptr& surface, const Ray3D& _ray) {
+        const SurfaceRayIntersection3 result =
+            surface->ClosestIntersection(_ray);
         return result.distance;
     };
 
-    const auto queryResult = m_bvh.GetClosestIntersection(ray, testFunc);
+    const ClosestIntersectionQueryResult3<Surface3Ptr> queryResult =
+        m_bvh.GetClosestIntersection(ray, testFunc);
 
     SurfaceRayIntersection3 result;
     result.distance = queryResult.distance;
@@ -316,13 +326,13 @@ SurfaceSet3::Builder& SurfaceSet3::Builder::WithSurfaces(
 
 SurfaceSet3 SurfaceSet3::Builder::Build() const
 {
-    return SurfaceSet3(m_surfaces, m_transform, m_isNormalFlipped);
+    return SurfaceSet3{ m_surfaces, m_transform, m_isNormalFlipped };
 }
 
 SurfaceSet3Ptr SurfaceSet3::Builder::MakeShared() const
 {
     return std::shared_ptr<SurfaceSet3>(
-        new SurfaceSet3(m_surfaces, m_transform, m_isNormalFlipped),
+        new SurfaceSet3{ m_surfaces, m_transform, m_isNormalFlipped },
         [](SurfaceSet3* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

@@ -10,21 +10,12 @@
 
 #include <Core/Surface/Surface3.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
-Surface3::Surface3(const Transform3& transform_, bool isNormalFlipped_)
-    : transform(transform_), isNormalFlipped(isNormalFlipped_)
-{
-    // Do nothing
-}
-
-Surface3::Surface3(const Surface3& other)
-    : transform(other.transform), isNormalFlipped(other.isNormalFlipped)
-{
-    // Do nothing
-}
-
-Surface3::~Surface3()
+Surface3::Surface3(Transform3 _transform, bool _isNormalFlipped)
+    : transform{ std::move(_transform) }, isNormalFlipped{ _isNormalFlipped }
 {
     // Do nothing
 }
@@ -51,7 +42,8 @@ double Surface3::ClosestDistance(const Vector3D& otherPoint) const
 
 SurfaceRayIntersection3 Surface3::ClosestIntersection(const Ray3D& ray) const
 {
-    auto result = ClosestIntersectionLocal(transform.ToLocal(ray));
+    SurfaceRayIntersection3 result =
+        ClosestIntersectionLocal(transform.ToLocal(ray));
 
     result.point = transform.ToWorld(result.point);
     result.normal = transform.ToWorldDirection(result.normal);
@@ -62,7 +54,7 @@ SurfaceRayIntersection3 Surface3::ClosestIntersection(const Ray3D& ray) const
 
 Vector3D Surface3::ClosestNormal(const Vector3D& otherPoint) const
 {
-    auto result = transform.ToWorldDirection(
+    Vector3D result = transform.ToWorldDirection(
         ClosestNormalLocal(transform.ToLocal(otherPoint)));
     result *= (isNormalFlipped) ? -1.0 : 1.0;
     return result;
@@ -70,7 +62,7 @@ Vector3D Surface3::ClosestNormal(const Vector3D& otherPoint) const
 
 bool Surface3::IntersectsLocal(const Ray3D& ray) const
 {
-    auto result = ClosestIntersectionLocal(ray);
+    const SurfaceRayIntersection3 result = ClosestIntersectionLocal(ray);
     return result.isIntersecting;
 }
 
@@ -101,8 +93,8 @@ double Surface3::ClosestDistanceLocal(const Vector3D& otherPoint) const
 
 bool Surface3::IsInsideLocal(const Vector3D& otherPointLocal) const
 {
-    Vector3D cpLocal = ClosestPointLocal(otherPointLocal);
-    Vector3D normalLocal = ClosestNormalLocal(otherPointLocal);
+    const Vector3D cpLocal = ClosestPointLocal(otherPointLocal);
+    const Vector3D normalLocal = ClosestNormalLocal(otherPointLocal);
     return (otherPointLocal - cpLocal).Dot(normalLocal) < 0.0;
 }
 }  // namespace CubbyFlow

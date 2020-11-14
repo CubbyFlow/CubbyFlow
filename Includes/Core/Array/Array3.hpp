@@ -51,8 +51,8 @@ class Array<T, 3> final
     using Iterator = typename ContainerType::iterator;
     using ConstIterator = typename ContainerType::const_iterator;
 
-    //! Constructs zero-sized 3-D array.
-    Array();
+    //! Default constructor.
+    Array() = default;
 
     //! Constructs 3-D array with given \p size and fill it with \p initVal.
     //! \param size Initial size of the array.
@@ -102,7 +102,10 @@ class Array<T, 3> final
     Array(const Array& other);
 
     //! Move constructor.
-    Array(Array&& other);
+    Array(Array&& other) noexcept;
+
+    //! Default destructor.
+    ~Array() = default;
 
     //! Sets entire array with given \p value.
     void Set(const T& value);
@@ -169,31 +172,31 @@ class Array<T, 3> final
     //! i = x + width * (y + height * z) (x, y and z are the 3-D coordinates of
     //! the element).
     //!
-    const T& At(size_t i) const;
+    [[nodiscard]] const T& At(size_t i) const;
 
     //! Returns the reference to the element at (pt.x, pt.y, pt.z).
     T& At(const Point3UI& pt);
 
     //! Returns the const reference to the element at (pt.x, pt.y, pt.z).
-    const T& At(const Point3UI& pt) const;
+    [[nodiscard]] const T& At(const Point3UI& pt) const;
 
     //! Returns the reference to the element at (i, j, k).
     T& At(size_t i, size_t j, size_t k);
 
     //! Returns the const reference to the element at (i, j, k).
-    const T& At(size_t i, size_t j, size_t k) const;
+    [[nodiscard]] const T& At(size_t i, size_t j, size_t k) const;
 
     //! Returns the size of the array.
-    Size3 size() const;
+    [[nodiscard]] Size3 size() const;
 
     //! Returns the width of the array.
-    size_t Width() const;
+    [[nodiscard]] size_t Width() const;
 
     //! Returns the height of the array.
-    size_t Height() const;
+    [[nodiscard]] size_t Height() const;
 
     //! Returns the depth of the array.
-    size_t Depth() const;
+    [[nodiscard]] size_t Depth() const;
 
     //! Returns the raw pointer to the array data.
     T* data();
@@ -202,13 +205,13 @@ class Array<T, 3> final
     Iterator begin();
 
     //! Returns the begin const iterator of the array.
-    ConstIterator begin() const;
+    [[nodiscard]] ConstIterator begin() const;
 
     //! Returns the end iterator of the array.
     Iterator end();
 
     //! Returns the end const iterator of the array.
-    ConstIterator end() const;
+    [[nodiscard]] ConstIterator end() const;
 
     //! Returns the const raw pointer to the array data.
     const T* data() const;
@@ -379,7 +382,7 @@ class Array<T, 3> final
     Array& operator=(const Array& other);
 
     //! Moves given array \p other to this array.
-    Array& operator=(Array&& other);
+    Array& operator=(Array&& other) noexcept;
 
     //!
     //! Copies given initializer list \p list to this array.

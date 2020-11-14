@@ -10,21 +10,13 @@
 
 #include <Core/Emitter/ParticleEmitterSet2.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
-ParticleEmitterSet2::ParticleEmitterSet2()
-{
-    // Do nothing
-}
-
 ParticleEmitterSet2::ParticleEmitterSet2(
-    const std::vector<ParticleEmitter2Ptr>& emitters)
-    : m_emitters(emitters)
-{
-    // Do nothing
-}
-
-ParticleEmitterSet2::~ParticleEmitterSet2()
+    std::vector<ParticleEmitter2Ptr> emitters)
+    : m_emitters(std::move(emitters))
 {
     // Do nothing
 }

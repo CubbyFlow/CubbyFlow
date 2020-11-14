@@ -48,9 +48,29 @@ Point<T, N>::Point(const std::initializer_list<U>& list)
 }
 
 template <typename T, size_t N>
-Point<T, N>::Point(const Point& other) : m_elements(other.m_elements)
+Point<T, N>::Point(const Point& other) : m_elements{ other.m_elements }
 {
     // Do nothing
+}
+
+template <typename T, size_t N>
+Point<T, N>::Point(Point&& other) noexcept : m_elements{ other.m_elements }
+{
+    // Do nothing
+}
+
+template <typename T, size_t N>
+Point<T, N>& Point<T, N>::operator=(const Point& other)
+{
+    Set(other);
+    return *this;
+}
+
+template <typename T, size_t N>
+Point<T, N>& Point<T, N>::operator=(Point&& other) noexcept
+{
+    Set(other);
+    return *this;
 }
 
 template <typename T, size_t N>
@@ -78,13 +98,6 @@ template <typename U>
 Point<T, N>& Point<T, N>::operator=(const std::initializer_list<U>& list)
 {
     Set(list);
-    return *this;
-}
-
-template <typename T, size_t N>
-Point<T, N>& Point<T, N>::operator=(const Point& other)
-{
-    Set(other);
     return *this;
 }
 

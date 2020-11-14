@@ -44,17 +44,29 @@ class GridFluidSolver3 : public PhysicsAnimation
     GridFluidSolver3(const Size3& resolution, const Vector3D& gridSpacing,
                      const Vector3D& gridOrigin);
 
-    //! Default destructor.
-    virtual ~GridFluidSolver3();
+    //! Deleted copy constructor.
+    GridFluidSolver3(const GridFluidSolver3&) = delete;
+
+    //! Deleted move constructor.
+    GridFluidSolver3(GridFluidSolver3&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~GridFluidSolver3() override = default;
+
+    //! Deleted copy assignment operator.
+    GridFluidSolver3& operator=(const GridFluidSolver3&) = delete;
+
+    //! Deleted move assignment operator.
+    GridFluidSolver3& operator=(GridFluidSolver3&&) noexcept = delete;
 
     //! Returns the gravity vector of the system.
-    const Vector3D& GetGravity() const;
+    [[nodiscard]] const Vector3D& GetGravity() const;
 
     //! Sets the gravity of the system.
     void SetGravity(const Vector3D& newGravity);
 
     //! Returns the viscosity coefficient.
-    double GetViscosityCoefficient() const;
+    [[nodiscard]] double GetViscosityCoefficient() const;
 
     //!
     //! \brief Sets the viscosity coefficient.
@@ -72,40 +84,40 @@ class GridFluidSolver3 : public PhysicsAnimation
     //!
     //! \param[in] timeIntervalInSeconds The time interval in seconds.
     //!
-    double GetCFL(double timeIntervalInSeconds) const;
+    [[nodiscard]] double GetCFL(double timeIntervalInSeconds) const;
 
     //! Returns the max allowed CFL number.
-    double GetMaxCFL() const;
+    [[nodiscard]] double GetMaxCFL() const;
 
     //! Sets the max allowed CFL number.
     void SetMaxCFL(double newCFL);
 
     //! Returns true if the solver is using compressed linear system.
-    bool GetUseCompressedLinearSystem() const;
+    [[nodiscard]] bool GetUseCompressedLinearSystem() const;
 
     //! Sets whether the solver should use compressed linear system.
-    void SetUseCompressedLinearSystem(bool onoff);
+    void SetUseCompressedLinearSystem(bool isOn);
 
     //! Returns the advection solver instance.
-    const AdvectionSolver3Ptr& GetAdvectionSolver() const;
+    [[nodiscard]] const AdvectionSolver3Ptr& GetAdvectionSolver() const;
 
     //! Sets the advection solver.
     void SetAdvectionSolver(const AdvectionSolver3Ptr& newSolver);
 
     //! Returns the diffusion solver instance.
-    const GridDiffusionSolver3Ptr& GetDiffusionSolver() const;
+    [[nodiscard]] const GridDiffusionSolver3Ptr& GetDiffusionSolver() const;
 
     //! Sets the diffusion solver.
     void SetDiffusionSolver(const GridDiffusionSolver3Ptr& newSolver);
 
     //! Returns the pressure solver instance.
-    const GridPressureSolver3Ptr& GetPressureSolver() const;
+    [[nodiscard]] const GridPressureSolver3Ptr& GetPressureSolver() const;
 
     //! Sets the pressure solver.
     void SetPressureSolver(const GridPressureSolver3Ptr& newSolver);
 
     //! Returns the closed domain boundary flag.
-    int GetClosedDomainBoundaryFlag() const;
+    [[nodiscard]] int GetClosedDomainBoundaryFlag() const;
 
     //! Sets the closed domain boundary flag.
     void SetClosedDomainBoundaryFlag(int flag);
@@ -119,7 +131,7 @@ class GridFluidSolver3 : public PhysicsAnimation
     //!
     //! \see GridSystemData3
     //!
-    const GridSystemData3Ptr& GetGridSystemData() const;
+    [[nodiscard]] const GridSystemData3Ptr& GetGridSystemData() const;
 
     //!
     //! \brief Resizes grid system data.
@@ -143,7 +155,7 @@ class GridFluidSolver3 : public PhysicsAnimation
     //! equivalent to calling gridSystemData()->resolution(), but provides a
     //! shortcut.
     //!
-    Size3 GetResolution() const;
+    [[nodiscard]] Size3 GetResolution() const;
 
     //!
     //! \brief Returns the grid spacing of the grid system data.
@@ -152,7 +164,7 @@ class GridFluidSolver3 : public PhysicsAnimation
     //! equivalent to calling gridSystemData()->gridSpacing(), but provides a
     //! shortcut.
     //!
-    Vector3D GetGridSpacing() const;
+    [[nodiscard]] Vector3D GetGridSpacing() const;
 
     //!
     //! \brief Returns the origin of the grid system data.
@@ -161,7 +173,7 @@ class GridFluidSolver3 : public PhysicsAnimation
     //! equivalent to calling gridSystemData()->origin(), but provides a
     //! shortcut.
     //!
-    Vector3D GetGridOrigin() const;
+    [[nodiscard]] Vector3D GetGridOrigin() const;
 
     //!
     //! \brief Returns the velocity field.
@@ -169,22 +181,22 @@ class GridFluidSolver3 : public PhysicsAnimation
     //! This function returns the velocity field from the grid system data.
     //! It is just a shortcut to the most commonly accessed data chunk.
     //!
-    const FaceCenteredGrid3Ptr& GetVelocity() const;
+    [[nodiscard]] const FaceCenteredGrid3Ptr& GetVelocity() const;
 
     //! Returns the collider.
-    const Collider3Ptr& GetCollider() const;
+    [[nodiscard]] const Collider3Ptr& GetCollider() const;
 
     //! Sets the collider.
     void SetCollider(const Collider3Ptr& newCollider);
 
     //! Returns the emitter.
-    const GridEmitter3Ptr& GetEmitter() const;
+    [[nodiscard]] const GridEmitter3Ptr& GetEmitter() const;
 
     //! Sets the emitter.
     void SetEmitter(const GridEmitter3Ptr& newEmitter);
 
     //! Returns builder fox GridFluidSolver3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  protected:
     //! Called when it needs to setup initial condition.
@@ -203,7 +215,7 @@ class GridFluidSolver3 : public PhysicsAnimation
     //!
     //! \see GridFluidSolver3::GetMaxCFL
     //!
-    unsigned int GetNumberOfSubTimeSteps(
+    [[nodiscard]] unsigned int GetNumberOfSubTimeSteps(
         double timeIntervalInSeconds) const override;
 
     //! Called at the beginning of a time-step.
@@ -240,7 +252,7 @@ class GridFluidSolver3 : public PhysicsAnimation
     //! field of -std::numeric_limits<double>::max(), meaning that
     //! the entire volume is occupied with fluid.
     //!
-    virtual ScalarField3Ptr GetFluidSDF() const;
+    [[nodiscard]] virtual ScalarField3Ptr GetFluidSDF() const;
 
     //! Computes the gravity term.
     void ComputeGravity(double timeIntervalInSeconds);
@@ -263,17 +275,19 @@ class GridFluidSolver3 : public PhysicsAnimation
     void ExtrapolateIntoCollider(FaceCenteredGrid3* grid);
 
     //! Returns the signed-distance field representation of the collider.
-    ScalarField3Ptr GetColliderSDF() const;
+    [[nodiscard]] ScalarField3Ptr GetColliderSDF() const;
 
     //! Returns the velocity field of the collider.
-    VectorField3Ptr GetColliderVelocityField() const;
+    [[nodiscard]] VectorField3Ptr GetColliderVelocityField() const;
 
  private:
-    Vector3D m_gravity = Vector3D(0.0, -9.8, 0.0);
-    double m_viscosityCoefficient = 0.0;
-    double m_maxCFL = 5.0;
-    bool m_useCompressedLinearSys = false;
-    int m_closedDomainBoundaryFlag = DIRECTION_ALL;
+    void BeginAdvanceTimeStep(double timeIntervalInSeconds);
+
+    void EndAdvanceTimeStep(double timeIntervalInSeconds);
+
+    void UpdateCollider(double timeIntervalInSeconds) const;
+
+    void UpdateEmitter(double timeIntervalInSeconds) const;
 
     GridSystemData3Ptr m_grids;
     Collider3Ptr m_collider;
@@ -284,13 +298,11 @@ class GridFluidSolver3 : public PhysicsAnimation
     GridPressureSolver3Ptr m_pressureSolver;
     GridBoundaryConditionSolver3Ptr m_boundaryConditionSolver;
 
-    void BeginAdvanceTimeStep(double timeIntervalInSeconds);
-
-    void EndAdvanceTimeStep(double timeIntervalInSeconds);
-
-    void UpdateCollider(double timeIntervalInSeconds) const;
-
-    void UpdateEmitter(double timeIntervalInSeconds) const;
+    Vector3D m_gravity = Vector3D{ 0.0, -9.8, 0.0 };
+    double m_viscosityCoefficient = 0.0;
+    double m_maxCFL = 5.0;
+    int m_closedDomainBoundaryFlag = DIRECTION_ALL;
+    bool m_useCompressedLinearSys = false;
 };
 
 //! Shared pointer type for the GridFluidSolver3.
@@ -304,13 +316,13 @@ class GridFluidSolverBuilderBase3
 {
  public:
     //! Returns builder with grid resolution.
-    DerivedBuilder& WithResolution(const Size3& resolution);
+    [[nodiscard]] DerivedBuilder& WithResolution(const Size3& resolution);
 
     //! Returns builder with grid spacing.
-    DerivedBuilder& WithGridSpacing(const Vector3D& gridSpacing);
+    [[nodiscard]] DerivedBuilder& WithGridSpacing(const Vector3D& gridSpacing);
 
     //! Returns builder with grid spacing.
-    DerivedBuilder& WithGridSpacing(double gridSpacing);
+    [[nodiscard]] DerivedBuilder& WithGridSpacing(double gridSpacing);
 
     //!
     //! \brief Returns builder with domain size in x-direction.
@@ -318,19 +330,19 @@ class GridFluidSolverBuilderBase3
     //! To build a solver, one can use either grid spacing directly or domain
     //! size in x-direction to set the final grid spacing.
     //!
-    DerivedBuilder& WithDomainSizeX(double domainSizeX);
+    [[nodiscard]] DerivedBuilder& WithDomainSizeX(double domainSizeX);
 
     //! Returns builder with grid origin
-    DerivedBuilder& WithOrigin(const Vector3D& gridOrigin);
+    [[nodiscard]] DerivedBuilder& WithOrigin(const Vector3D& gridOrigin);
 
  protected:
+    [[nodiscard]] Vector3D GetGridSpacing() const;
+
     Size3 m_resolution{ 1, 1, 1 };
     Vector3D m_gridSpacing{ 1, 1, 1 };
     Vector3D m_gridOrigin{ 0, 0, 0 };
     double m_domainSizeX = 1.0;
     bool m_useDomainSize = false;
-
-    Vector3D GetGridSpacing() const;
 };
 
 template <typename T>
@@ -390,14 +402,14 @@ Vector3D GridFluidSolverBuilderBase3<T>::GetGridSpacing() const
 //! \brief Front-end to create GridFluidSolver3 objects step by step.
 //!
 class GridFluidSolver3::Builder final
-    : public GridFluidSolverBuilderBase3<GridFluidSolver3::Builder>
+    : public GridFluidSolverBuilderBase3<Builder>
 {
  public:
     //! Builds GridFluidSolver3.
-    GridFluidSolver3 Build() const;
+    [[nodiscard]] GridFluidSolver3 Build() const;
 
     //! Builds shared pointer of GridFluidSolver3 instance.
-    GridFluidSolver3Ptr MakeShared() const
+    [[nodiscard]] GridFluidSolver3Ptr MakeShared() const
     {
         return std::make_shared<GridFluidSolver3>(
             m_resolution, GetGridSpacing(), m_gridOrigin);

@@ -12,16 +12,6 @@
 
 namespace CubbyFlow
 {
-VectorField3::VectorField3()
-{
-    // Do nothing
-}
-
-VectorField3::~VectorField3()
-{
-    // Do nothing
-}
-
 double VectorField3::Divergence(const Vector3D&) const
 {
     return 0.0;
@@ -29,7 +19,7 @@ double VectorField3::Divergence(const Vector3D&) const
 
 Vector3D VectorField3::Curl(const Vector3D&) const
 {
-    return Vector3D(0, 0, 0);
+    return Vector3D{ 0, 0, 0 };
 }
 
 std::function<Vector3D(const Vector3D&)> VectorField3::Sampler() const

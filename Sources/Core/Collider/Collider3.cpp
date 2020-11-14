@@ -12,18 +12,9 @@
 
 namespace CubbyFlow
 {
-Collider3::Collider3()
-{
-    // Do nothing
-}
-
-Collider3::~Collider3()
-{
-    // Do nothing
-}
-
 void Collider3::ResolveCollision(double radius, double restitutionCoefficient,
-                                 Vector3D* newPosition, Vector3D* newVelocity)
+                                 Vector3D* newPosition,
+                                 Vector3D* newVelocity) const
 {
     assert(m_surface != nullptr);
 
@@ -41,13 +32,14 @@ void Collider3::ResolveCollision(double radius, double restitutionCoefficient,
     {
         // Target point is the closest non-penetrating position from the new
         // position.
-        Vector3D targetNormal = colliderPoint.normal;
-        Vector3D targetPoint = colliderPoint.point + radius * targetNormal;
-        Vector3D colliderVelAtTargetPoint = colliderPoint.velocity;
+        const Vector3D targetNormal = colliderPoint.normal;
+        const Vector3D targetPoint =
+            colliderPoint.point + radius * targetNormal;
+        const Vector3D colliderVelAtTargetPoint = colliderPoint.velocity;
 
         // Get new candidate relative velocity from the target point.
-        Vector3D relativeVel = *newVelocity - colliderVelAtTargetPoint;
-        double normalDotRelativeVel = targetNormal.Dot(relativeVel);
+        const Vector3D relativeVel = *newVelocity - colliderVelAtTargetPoint;
+        const double normalDotRelativeVel = targetNormal.Dot(relativeVel);
         Vector3D relativeVelN = normalDotRelativeVel * targetNormal;
         Vector3D relativeVelT = relativeVel - relativeVelN;
 
@@ -57,7 +49,7 @@ void Collider3::ResolveCollision(double radius, double restitutionCoefficient,
         {
             // Apply restitution coefficient to the surface normal component of
             // the velocity
-            Vector3D deltaRelativeVelN =
+            const Vector3D deltaRelativeVelN =
                 (-restitutionCoefficient - 1.0) * relativeVelN;
             relativeVelN *= -restitutionCoefficient;
 
@@ -67,8 +59,8 @@ void Collider3::ResolveCollision(double radius, double restitutionCoefficient,
             // http://graphics.stanford.edu/papers/cloth-sig02/cloth.pdf
             if (relativeVelT.LengthSquared() > 0.0)
             {
-                double frictionScale = std::max(
-                    1.0 - m_frictionCoeffient * deltaRelativeVelN.Length() /
+                const double frictionScale = std::max(
+                    1.0 - m_frictionCoefficient * deltaRelativeVelN.Length() /
                               relativeVelT.Length(),
                     0.0);
                 relativeVelT *= frictionScale;
@@ -86,12 +78,12 @@ void Collider3::ResolveCollision(double radius, double restitutionCoefficient,
 
 double Collider3::GetFrictionCoefficient() const
 {
-    return m_frictionCoeffient;
+    return m_frictionCoefficient;
 }
 
-void Collider3::SetFrictionCoefficient(double newFrictionCoeffient)
+void Collider3::SetFrictionCoefficient(double newFrictionCoefficient)
 {
-    m_frictionCoeffient = std::max(newFrictionCoeffient, 0.0);
+    m_frictionCoefficient = std::max(newFrictionCoefficient, 0.0);
 }
 
 const Surface3Ptr& Collider3::GetSurface() const
@@ -115,7 +107,7 @@ void Collider3::GetClosestPoint(const Surface3Ptr& surface,
 }
 
 bool Collider3::IsPenetrating(const ColliderQueryResult& colliderPoint,
-                              const Vector3D& position, double radius)
+                              const Vector3D& position, double radius) const
 {
     // If the new candidate position of the particle is inside
     // the volume defined by the surface OR the new distance to the surface is

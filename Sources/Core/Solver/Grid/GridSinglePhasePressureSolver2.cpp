@@ -32,7 +32,7 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
     Vector2D invHSqr = invH * invH;
 
     A->ParallelForEachIndex([&](size_t i, size_t j) {
-        auto& row = (*A)(i, j);
+        FDMMatrixRow2& row = (*A)(i, j);
 
         // initialize
         row.center = row.right = row.up = 0.0;
@@ -85,13 +85,13 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
     const Vector2D invH = 1.0 / input.GridSpacing();
     Vector2D invHSqr = invH * invH;
 
-    const auto markerAcc = markers.ConstAccessor();
+    const ConstArrayAccessor2<char> markerAcc = markers.ConstAccessor();
 
     A->Clear();
     b->Clear();
 
     size_t numRows = 0;
-    Array2<size_t> coordToIndex(size);
+    Array2<size_t> coordToIndex{ size };
     markers.ForEachIndex([&](size_t i, size_t j) {
         const size_t cIdx = markerAcc.Index(i, j);
 
@@ -170,11 +170,6 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
 GridSinglePhasePressureSolver2::GridSinglePhasePressureSolver2()
 {
     m_systemSolver = std::make_shared<FDMICCGSolver2>(100, DEFAULT_TOLERANCE);
-}
-
-GridSinglePhasePressureSolver2::~GridSinglePhasePressureSolver2()
-{
-    // Do nothing
 }
 
 void GridSinglePhasePressureSolver2::Solve(const FaceCenteredGrid2& input,
@@ -275,7 +270,8 @@ void GridSinglePhasePressureSolver2::BuildMarkers(
 
     // Build top-level markers
     m_markers[0].ParallelForEachIndex([&](size_t i, size_t j) {
-        Vector2D pt = pos(i, j);
+        const Vector2D pt = pos(i, j);
+
         if (IsInsideSDF(boundarySDF.Sample(pt)))
         {
             m_markers[0](i, j) = BOUNDARY;
@@ -293,14 +289,14 @@ void GridSinglePhasePressureSolver2::BuildMarkers(
     // Build sub-level markers
     for (size_t l = 1; l < m_markers.size(); ++l)
     {
-        const auto& finer = m_markers[l - 1];
-        auto& coarser = m_markers[l];
+        const Array2<char>& finer = m_markers[l - 1];
+        Array2<char>& coarser = m_markers[l];
         const Size2 n = coarser.size();
 
         ParallelRangeFor(
             ZERO_SIZE, n.x, ZERO_SIZE, n.y,
             [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd) {
-                std::array<size_t, 4> jIndices;
+                std::array<size_t, 4> jIndices{};
 
                 for (size_t j = jBegin; j < jEnd; ++j)
                 {
@@ -309,7 +305,7 @@ void GridSinglePhasePressureSolver2::BuildMarkers(
                     jIndices[2] = 2 * j + 1;
                     jIndices[3] = (j + 1 < n.y) ? 2 * j + 2 : 2 * j + 1;
 
-                    std::array<size_t, 4> iIndices;
+                    std::array<size_t, 4> iIndices{};
                     for (size_t i = iBegin; i < iEnd; ++i)
                     {
                         iIndices[0] = (i > 0) ? 2 * i - 1 : 2 * i;
@@ -322,7 +318,7 @@ void GridSinglePhasePressureSolver2::BuildMarkers(
                         {
                             for (size_t x = 0; x < 4; ++x)
                             {
-                                char f = finer(iIndices[x], jIndices[y]);
+                                const char f = finer(iIndices[x], jIndices[y]);
                                 if (f == BOUNDARY)
                                 {
                                     ++cnt[static_cast<int>(BOUNDARY)];
@@ -348,7 +344,7 @@ void GridSinglePhasePressureSolver2::BuildMarkers(
 
 void GridSinglePhasePressureSolver2::DecompressSolution()
 {
-    const auto acc = m_markers[0].ConstAccessor();
+    const ConstArrayAccessor2<char> acc = m_markers[0].ConstAccessor();
     m_system.x.Resize(acc.size());
 
     size_t row = 0;
@@ -413,9 +409,9 @@ void GridSinglePhasePressureSolver2::BuildSystem(const FaceCenteredGrid2& input,
     FaceCenteredGrid2 coarser;
     for (size_t l = 1; l < numLevels; ++l)
     {
-        auto res = finer->Resolution();
-        auto h = finer->GridSpacing();
-        const auto o = finer->Origin();
+        Size2 res = finer->Resolution();
+        Vector2D h = finer->GridSpacing();
+        const Vector2D& o = finer->Origin();
         res.x = res.x >> 1;
         res.y = res.y >> 1;
         h *= 2.0;
@@ -435,12 +431,12 @@ void GridSinglePhasePressureSolver2::ApplyPressureGradient(
     const FaceCenteredGrid2& input, FaceCenteredGrid2* output)
 {
     Size2 size = input.Resolution();
-    auto u = input.GetUConstAccessor();
-    auto v = input.GetVConstAccessor();
-    auto u0 = output->GetUAccessor();
-    auto v0 = output->GetVAccessor();
+    ConstArrayAccessor2<double> u = input.GetUConstAccessor();
+    ConstArrayAccessor2<double> v = input.GetVConstAccessor();
+    ArrayAccessor2<double> u0 = output->GetUAccessor();
+    ArrayAccessor2<double> v0 = output->GetVAccessor();
 
-    const auto& x = GetPressure();
+    const FDMVector2& x = GetPressure();
 
     Vector2D invH = 1.0 / input.GridSpacing();
 

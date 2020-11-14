@@ -49,9 +49,8 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2
     //! \param[in]  seed                    The random seed.
     //!
     VolumeParticleEmitter2(
-        const ImplicitSurface2Ptr& implicitSurface,
-        const BoundingBox2D& maxRegion, double spacing,
-        const Vector2D& initialVel = Vector2D(),
+        ImplicitSurface2Ptr implicitSurface, BoundingBox2D maxRegion,
+        double spacing, const Vector2D& initialVel = Vector2D(),
         const Vector2D& linearVel = Vector2D(), double angularVel = 0.0,
         size_t maxNumberOfParticles = std::numeric_limits<size_t>::max(),
         double jitter = 0.0, bool isOneShot = true,
@@ -68,25 +67,25 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2
     void SetPointGenerator(const PointGenerator2Ptr& newPointsGen);
 
     //! Returns source surface.
-    const ImplicitSurface2Ptr& GetSurface() const;
+    [[nodiscard]] const ImplicitSurface2Ptr& GetSurface() const;
 
     //! Sets the source surface.
     void SetSurface(const ImplicitSurface2Ptr& newSurface);
 
     //! Returns max particle generator region.
-    const BoundingBox2D& GetMaxRegion() const;
+    [[nodiscard]] const BoundingBox2D& GetMaxRegion() const;
 
     //! Sets the max particle generator region.
     void SetMaxRegion(const BoundingBox2D& newMaxRegion);
 
     //! Returns jitter amount.
-    double GetJitter() const;
+    [[nodiscard]] double GetJitter() const;
 
     //! Sets jitter amount between 0 and 1.
     void SetJitter(double newJitter);
 
     //! Returns true if particles should be emitted just once.
-    bool GetIsOneShot() const;
+    [[nodiscard]] bool GetIsOneShot() const;
 
     //!
     //! \brief      Sets the flag to true if particles are emitted just once.
@@ -100,7 +99,7 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2
     void SetIsOneShot(bool newValue);
 
     //! Returns true if particles can be overlapped.
-    bool GetAllowOverlapping() const;
+    [[nodiscard]] bool GetAllowOverlapping() const;
 
     //!
     //! \brief      Sets the flag to true if particles can overlap each other.
@@ -114,39 +113,55 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2
     void SetAllowOverlapping(bool newValue);
 
     //! Returns max number of particles to be emitted.
-    size_t GetMaxNumberOfParticles() const;
+    [[nodiscard]] size_t GetMaxNumberOfParticles() const;
 
     //! Sets the max number of particles to be emitted.
     void SetMaxNumberOfParticles(size_t newMaxNumberOfParticles);
 
     //! Returns the spacing between particles.
-    double GetSpacing() const;
+    [[nodiscard]] double GetSpacing() const;
 
     //! Sets the spacing between particles.
     void SetSpacing(double newSpacing);
 
     //! Sets the initial velocity of the particles.
-    Vector2D GetInitialVelocity() const;
+    [[nodiscard]] Vector2D GetInitialVelocity() const;
 
     //! Returns the initial velocity of the particles.
     void SetInitialVelocity(const Vector2D& newInitialVel);
 
     //! Returns the linear velocity of the emitter.
-    Vector2D GetLinearVelocity() const;
+    [[nodiscard]] Vector2D GetLinearVelocity() const;
 
     //! Sets the linear velocity of the emitter.
     void SetLinearVelocity(const Vector2D& newLinearVel);
 
     //! Returns the angular velocity of the emitter.
-    double GetAngularVelocity() const;
+    [[nodiscard]] double GetAngularVelocity() const;
 
     //! Sets the linear velocity of the emitter.
     void SetAngularVelocity(double newAngularVel);
 
     //! Returns builder fox VolumeParticleEmitter2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
+    //!
+    //! \brief      Emits particles to the particle system data.
+    //!
+    //! \param[in]  currentTimeInSeconds    Current simulation time.
+    //! \param[in]  timeIntervalInSeconds   The time-step interval.
+    //!
+    void OnUpdate(double currentTimeInSeconds,
+                  double timeIntervalInSeconds) override;
+
+    void Emit(const ParticleSystemData2Ptr& particles,
+              Array1<Vector2D>* newPositions, Array1<Vector2D>* newVelocities);
+
+    [[nodiscard]] double Random();
+
+    [[nodiscard]] Vector2D VelocityAt(const Vector2D& point) const;
+
     std::mt19937 m_rng;
 
     ImplicitSurface2Ptr m_implicitSurface;
@@ -163,22 +178,6 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2
     double m_jitter = 0.0;
     bool m_isOneShot = true;
     bool m_allowOverlapping = false;
-
-    //!
-    //! \brief      Emits particles to the particle system data.
-    //!
-    //! \param[in]  currentTimeInSeconds    Current simulation time.
-    //! \param[in]  timeIntervalInSeconds   The time-step interval.
-    //!
-    void OnUpdate(double currentTimeInSeconds,
-                  double timeIntervalInSeconds) override;
-
-    void Emit(const ParticleSystemData2Ptr& particles,
-              Array1<Vector2D>* newPositions, Array1<Vector2D>* newVelocities);
-
-    double Random();
-
-    Vector2D VelocityAt(const Vector2D& point) const;
 };
 
 //! Shared pointer for the VolumeParticleEmitter2 type.
@@ -191,50 +190,51 @@ class VolumeParticleEmitter2::Builder final
 {
  public:
     //! Returns builder with implicit surface defining volume shape.
-    Builder& WithImplicitSurface(const ImplicitSurface2Ptr& implicitSurface);
+    [[nodiscard]] Builder& WithImplicitSurface(
+        const ImplicitSurface2Ptr& implicitSurface);
 
     //! Returns builder with surface defining volume shape.
-    Builder& WithSurface(const Surface2Ptr& surface);
+    [[nodiscard]] Builder& WithSurface(const Surface2Ptr& surface);
 
     //! Returns builder with max region.
-    Builder& WithMaxRegion(const BoundingBox2D& maxRegion);
+    [[nodiscard]] Builder& WithMaxRegion(const BoundingBox2D& maxRegion);
 
     //! Returns builder with spacing.
-    Builder& WithSpacing(double spacing);
+    [[nodiscard]] Builder& WithSpacing(double spacing);
 
     //! Returns builder with initial velocity.
-    Builder& WithInitialVelocity(const Vector2D& initialVel);
+    [[nodiscard]] Builder& WithInitialVelocity(const Vector2D& initialVel);
 
     //! Returns builder with linear velocity.
-    Builder& WithLinearVelocity(const Vector2D& linearVel);
+    [[nodiscard]] Builder& WithLinearVelocity(const Vector2D& linearVel);
 
     //! Returns builder with angular velocity.
-    Builder& WithAngularVelocity(double angularVel);
+    [[nodiscard]] Builder& WithAngularVelocity(double angularVel);
 
     //! Returns builder with max number of particles.
-    Builder& WithMaxNumberOfParticles(size_t maxNumberOfParticles);
+    [[nodiscard]] Builder& WithMaxNumberOfParticles(
+        size_t maxNumberOfParticles);
 
     //! Returns builder with jitter amount.
-    Builder& WithJitter(double jitter);
+    [[nodiscard]] Builder& WithJitter(double jitter);
 
     //! Returns builder with one-shot flag.
-    Builder& WithIsOneShot(bool isOneShot);
+    [[nodiscard]] Builder& WithIsOneShot(bool isOneShot);
 
     //! Returns builder with overlapping flag.
-    Builder& WithAllowOverlapping(bool allowOverlapping);
+    [[nodiscard]] Builder& WithAllowOverlapping(bool allowOverlapping);
 
     //! Returns builder with random seed.
-    Builder& WithRandomSeed(uint32_t seed);
+    [[nodiscard]] Builder& WithRandomSeed(uint32_t seed);
 
     //! Builds VolumeParticleEmitter2.
-    VolumeParticleEmitter2 Build() const;
+    [[nodiscard]] VolumeParticleEmitter2 Build() const;
 
     //! Builds shared pointer of VolumeParticleEmitter2 instance.
-    VolumeParticleEmitter2Ptr MakeShared() const;
+    [[nodiscard]] VolumeParticleEmitter2Ptr MakeShared() const;
 
  private:
     ImplicitSurface2Ptr m_implicitSurface;
-    bool m_isBoundSet = false;
     BoundingBox2D m_maxRegion;
     double m_spacing = 0.1;
     Vector2D m_initialVel;
@@ -242,9 +242,10 @@ class VolumeParticleEmitter2::Builder final
     double m_angularVel = 0.0;
     size_t m_maxNumberOfParticles = std::numeric_limits<size_t>::max();
     double m_jitter = 0.0;
+    uint32_t m_seed = 0;
+    bool m_isBoundSet = false;
     bool m_isOneShot = true;
     bool m_allowOverlapping = false;
-    uint32_t m_seed = 0;
 };
 }  // namespace CubbyFlow
 

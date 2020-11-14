@@ -12,16 +12,6 @@
 
 namespace CubbyFlow
 {
-GridBoundaryConditionSolver3::GridBoundaryConditionSolver3()
-{
-    // Do nothing
-}
-
-GridBoundaryConditionSolver3::~GridBoundaryConditionSolver3()
-{
-    // Do nothing
-}
-
 const Collider3Ptr& GridBoundaryConditionSolver3::GetCollider() const
 {
     return m_collider;

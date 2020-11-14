@@ -13,12 +13,7 @@
 namespace CubbyFlow
 {
 CollocatedVectorGrid2::CollocatedVectorGrid2()
-    : m_linearSampler(m_data.ConstAccessor(), Vector2D(1, 1), Vector2D())
-{
-    // Do nothing
-}
-
-CollocatedVectorGrid2::~CollocatedVectorGrid2()
+    : m_linearSampler(m_data.ConstAccessor(), Vector2D{ 1, 1 }, Vector2D{})
 {
     // Do nothing
 }
@@ -40,10 +35,10 @@ double CollocatedVectorGrid2::DivergenceAtDataPoint(size_t i, size_t j) const
 
     assert(i < ds.x && j < ds.y);
 
-    double left = m_data((i > 0) ? i - 1 : i, j).x;
-    double right = m_data((i + 1 < ds.x) ? i + 1 : i, j).x;
-    double down = m_data(i, (j > 0) ? j - 1 : j).y;
-    double up = m_data(i, (j + 1 < ds.y) ? j + 1 : j).y;
+    const double left = m_data((i > 0) ? i - 1 : i, j).x;
+    const double right = m_data((i + 1 < ds.x) ? i + 1 : i, j).x;
+    const double down = m_data(i, (j > 0) ? j - 1 : j).y;
+    const double up = m_data(i, (j + 1 < ds.y) ? j + 1 : j).y;
 
     return 0.5 * (right - left) / gs.x + 0.5 * (up - down) / gs.y;
 }
@@ -55,16 +50,16 @@ double CollocatedVectorGrid2::CurlAtDataPoint(size_t i, size_t j) const
 
     assert(i < ds.x && j < ds.y);
 
-    Vector2D left = m_data((i > 0) ? i - 1 : i, j);
-    Vector2D right = m_data((i + 1 < ds.x) ? i + 1 : i, j);
-    Vector2D bottom = m_data(i, (j > 0) ? j - 1 : j);
-    Vector2D top = m_data(i, (j + 1 < ds.y) ? j + 1 : j);
+    const Vector2D left = m_data((i > 0) ? i - 1 : i, j);
+    const Vector2D right = m_data((i + 1 < ds.x) ? i + 1 : i, j);
+    const Vector2D bottom = m_data(i, (j > 0) ? j - 1 : j);
+    const Vector2D top = m_data(i, (j + 1 < ds.y) ? j + 1 : j);
 
-    double Fx_ym = bottom.x;
-    double Fx_yp = top.x;
+    const double Fx_ym = bottom.x;
+    const double Fx_yp = top.x;
 
-    double Fy_xm = left.y;
-    double Fy_xp = right.y;
+    const double Fy_xm = left.y;
+    const double Fy_xp = right.y;
 
     return 0.5 * (Fy_xp - Fy_xm) / gs.x - 0.5 * (Fx_yp - Fx_ym) / gs.y;
 }
@@ -77,7 +72,7 @@ Vector2D CollocatedVectorGrid2::Sample(const Vector2D& x) const
 double CollocatedVectorGrid2::Divergence(const Vector2D& x) const
 {
     std::array<Point2UI, 4> indices;
-    std::array<double, 4> weights;
+    std::array<double, 4> weights{};
     m_linearSampler.GetCoordinatesAndWeights(x, &indices, &weights);
 
     double result = 0.0;
@@ -93,7 +88,7 @@ double CollocatedVectorGrid2::Divergence(const Vector2D& x) const
 double CollocatedVectorGrid2::Curl(const Vector2D& x) const
 {
     std::array<Point2UI, 4> indices;
-    std::array<double, 4> weights;
+    std::array<double, 4> weights{};
     m_linearSampler.GetCoordinatesAndWeights(x, &indices, &weights);
 
     double result = 0.0;
@@ -124,8 +119,8 @@ CollocatedVectorGrid2::GetConstDataAccessor() const
 VectorGrid2::DataPositionFunc CollocatedVectorGrid2::GetDataPosition() const
 {
     Vector2D dataOrigin = GetDataOrigin();
-    return [this, dataOrigin](size_t i, size_t j) -> Vector2D {
-        return dataOrigin + GridSpacing() * Vector2D({ i, j });
+    return [this, dataOrigin](const size_t i, const size_t j) -> Vector2D {
+        return dataOrigin + GridSpacing() * Vector2D{ { i, j } };
     };
 }
 
@@ -175,14 +170,15 @@ void CollocatedVectorGrid2::OnResize(const Size2& resolution,
 
 void CollocatedVectorGrid2::ResetSampler()
 {
-    m_linearSampler = LinearArraySampler2<Vector2D, double>(
-        m_data.ConstAccessor(), GridSpacing(), GetDataOrigin());
+    m_linearSampler =
+        LinearArraySampler2<Vector2D, double>{ m_data.ConstAccessor(),
+                                               GridSpacing(), GetDataOrigin() };
     m_sampler = m_linearSampler.Functor();
 }
 
 void CollocatedVectorGrid2::GetData(std::vector<double>* data) const
 {
-    size_t size = 2 * GetDataSize().x * GetDataSize().y;
+    const size_t size = 2 * GetDataSize().x * GetDataSize().y;
     data->resize(size);
     size_t cnt = 0;
 
@@ -198,7 +194,7 @@ void CollocatedVectorGrid2::SetData(const std::vector<double>& data)
 
     size_t cnt = 0;
 
-    m_data.ForEachIndex([&](size_t i, size_t j) {
+    m_data.ForEachIndex([&](const size_t i, const size_t j) {
         m_data(i, j).x = data[cnt++];
         m_data(i, j).y = data[cnt++];
     });

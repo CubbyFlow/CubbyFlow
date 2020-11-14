@@ -10,35 +10,37 @@
 
 #include <Core/Field/CustomScalarField3.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
 CustomScalarField3::CustomScalarField3(
-    const std::function<double(const Vector3D&)>& customFunction,
+    std::function<double(const Vector3D&)> customFunction,
     double derivativeResolution)
-    : m_customFunction(customFunction), m_resolution(derivativeResolution)
-{
-    // Do nothing
-}
-
-CustomScalarField3::CustomScalarField3(
-    const std::function<double(const Vector3D&)>& customFunction,
-    const std::function<Vector3D(const Vector3D&)>& customGradientFunction,
-    double derivativeResolution)
-    : m_customFunction(customFunction),
-      m_customGradientFunction(customGradientFunction),
+    : m_customFunction(std::move(customFunction)),
       m_resolution(derivativeResolution)
 {
     // Do nothing
 }
 
 CustomScalarField3::CustomScalarField3(
-    const std::function<double(const Vector3D&)>& customFunction,
-    const std::function<Vector3D(const Vector3D&)>& customGradientFunction,
-    const std::function<double(const Vector3D&)>& customLaplacianFunction)
-    : m_customFunction(customFunction),
-      m_customGradientFunction(customGradientFunction),
-      m_customLaplacianFunction(customLaplacianFunction),
-      m_resolution(1e-3)
+    std::function<double(const Vector3D&)> customFunction,
+    std::function<Vector3D(const Vector3D&)> customGradientFunction,
+    double derivativeResolution)
+    : m_customFunction(std::move(customFunction)),
+      m_customGradientFunction(std::move(customGradientFunction)),
+      m_resolution(derivativeResolution)
+{
+    // Do nothing
+}
+
+CustomScalarField3::CustomScalarField3(
+    std::function<double(const Vector3D&)> customFunction,
+    std::function<Vector3D(const Vector3D&)> customGradientFunction,
+    std::function<double(const Vector3D&)> customLaplacianFunction)
+    : m_customFunction(std::move(customFunction)),
+      m_customGradientFunction(std::move(customGradientFunction)),
+      m_customLaplacianFunction(std::move(customLaplacianFunction))
 {
     // Do nothing
 }
@@ -60,17 +62,22 @@ Vector3D CustomScalarField3::Gradient(const Vector3D& x) const
         return m_customGradientFunction(x);
     }
 
-    double left = m_customFunction(x - Vector3D(0.5 * m_resolution, 0.0, 0.0));
-    double right = m_customFunction(x + Vector3D(0.5 * m_resolution, 0.0, 0.0));
-    double bottom =
-        m_customFunction(x - Vector3D(0.0, 0.5 * m_resolution, 0.0));
-    double top = m_customFunction(x + Vector3D(0.0, 0.5 * m_resolution, 0.0));
-    double back = m_customFunction(x - Vector3D(0.0, 0.0, 0.5 * m_resolution));
-    double front = m_customFunction(x + Vector3D(0.0, 0.0, 0.5 * m_resolution));
+    const double left =
+        m_customFunction(x - Vector3D{ 0.5 * m_resolution, 0.0, 0.0 });
+    const double right =
+        m_customFunction(x + Vector3D{ 0.5 * m_resolution, 0.0, 0.0 });
+    const double bottom =
+        m_customFunction(x - Vector3D{ 0.0, 0.5 * m_resolution, 0.0 });
+    const double top =
+        m_customFunction(x + Vector3D{ 0.0, 0.5 * m_resolution, 0.0 });
+    const double back =
+        m_customFunction(x - Vector3D{ 0.0, 0.0, 0.5 * m_resolution });
+    const double front =
+        m_customFunction(x + Vector3D{ 0.0, 0.0, 0.5 * m_resolution });
 
-    return Vector3D((right - left) / m_resolution,
-                    (top - bottom) / m_resolution,
-                    (front - back) / m_resolution);
+    return Vector3D{ (right - left) / m_resolution,
+                     (top - bottom) / m_resolution,
+                     (front - back) / m_resolution };
 }
 
 double CustomScalarField3::Laplacian(const Vector3D& x) const
@@ -80,14 +87,19 @@ double CustomScalarField3::Laplacian(const Vector3D& x) const
         return m_customLaplacianFunction(x);
     }
 
-    double center = m_customFunction(x);
-    double left = m_customFunction(x - Vector3D(0.5 * m_resolution, 0.0, 0.0));
-    double right = m_customFunction(x + Vector3D(0.5 * m_resolution, 0.0, 0.0));
-    double bottom =
-        m_customFunction(x - Vector3D(0.0, 0.5 * m_resolution, 0.0));
-    double top = m_customFunction(x + Vector3D(0.0, 0.5 * m_resolution, 0.0));
-    double back = m_customFunction(x - Vector3D(0.0, 0.0, 0.5 * m_resolution));
-    double front = m_customFunction(x + Vector3D(0.0, 0.0, 0.5 * m_resolution));
+    const double center = m_customFunction(x);
+    const double left =
+        m_customFunction(x - Vector3D{ 0.5 * m_resolution, 0.0, 0.0 });
+    const double right =
+        m_customFunction(x + Vector3D{ 0.5 * m_resolution, 0.0, 0.0 });
+    const double bottom =
+        m_customFunction(x - Vector3D{ 0.0, 0.5 * m_resolution, 0.0 });
+    const double top =
+        m_customFunction(x + Vector3D{ 0.0, 0.5 * m_resolution, 0.0 });
+    const double back =
+        m_customFunction(x - Vector3D{ 0.0, 0.0, 0.5 * m_resolution });
+    const double front =
+        m_customFunction(x + Vector3D{ 0.0, 0.0, 0.5 * m_resolution });
 
     return (left + right + bottom + top + back + front - 6.0 * center) /
            (m_resolution * m_resolution);
@@ -95,7 +107,7 @@ double CustomScalarField3::Laplacian(const Vector3D& x) const
 
 CustomScalarField3::Builder CustomScalarField3::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 CustomScalarField3::Builder& CustomScalarField3::Builder::WithFunction(
@@ -130,12 +142,12 @@ CustomScalarField3 CustomScalarField3::Builder::Build() const
 {
     if (m_customLaplacianFunction)
     {
-        return CustomScalarField3(m_customFunction, m_customGradientFunction,
-                                  m_customLaplacianFunction);
+        return CustomScalarField3{ m_customFunction, m_customGradientFunction,
+                                   m_customLaplacianFunction };
     }
 
-    return CustomScalarField3(m_customFunction, m_customGradientFunction,
-                              m_resolution);
+    return CustomScalarField3{ m_customFunction, m_customGradientFunction,
+                               m_resolution };
 }
 
 CustomScalarField3Ptr CustomScalarField3::Builder::MakeShared() const
@@ -143,14 +155,14 @@ CustomScalarField3Ptr CustomScalarField3::Builder::MakeShared() const
     if (m_customLaplacianFunction)
     {
         return std::shared_ptr<CustomScalarField3>(
-            new CustomScalarField3(m_customFunction, m_customGradientFunction,
-                                   m_customLaplacianFunction),
+            new CustomScalarField3{ m_customFunction, m_customGradientFunction,
+                                    m_customLaplacianFunction },
             [](CustomScalarField3* obj) { delete obj; });
     }
 
     return std::shared_ptr<CustomScalarField3>(
-        new CustomScalarField3(m_customFunction, m_customGradientFunction,
-                               m_resolution),
+        new CustomScalarField3{ m_customFunction, m_customGradientFunction,
+                                m_resolution },
         [](CustomScalarField3* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

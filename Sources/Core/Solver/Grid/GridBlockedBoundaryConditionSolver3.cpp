@@ -16,11 +16,6 @@ namespace CubbyFlow
 static const char FLUID = 1;
 static const char COLLIDER = 0;
 
-GridBlockedBoundaryConditionSolver3::GridBlockedBoundaryConditionSolver3()
-{
-    // Do nothing
-}
-
 void GridBlockedBoundaryConditionSolver3::ConstrainVelocity(
     FaceCenteredGrid3* velocity, unsigned int extrapolationDepth)
 {
@@ -29,9 +24,9 @@ void GridBlockedBoundaryConditionSolver3::ConstrainVelocity(
 
     // No-flux: project the velocity at the marker interface
     Size3 size = velocity->Resolution();
-    auto u = velocity->GetUAccessor();
-    auto v = velocity->GetVAccessor();
-    auto w = velocity->GetWAccessor();
+    ArrayAccessor3<double> u = velocity->GetUAccessor();
+    ArrayAccessor3<double> v = velocity->GetVAccessor();
+    ArrayAccessor3<double> w = velocity->GetWAccessor();
     auto uPos = velocity->GetUPosition();
     auto vPos = velocity->GetVPosition();
     auto wPos = velocity->GetWPosition();
@@ -41,34 +36,37 @@ void GridBlockedBoundaryConditionSolver3::ConstrainVelocity(
         {
             if (i > 0 && m_marker(i - 1, j, k) == FLUID)
             {
-                Vector3D colliderVel = GetCollider()->VelocityAt(uPos(i, j, k));
+                const Vector3D colliderVel =
+                    GetCollider()->VelocityAt(uPos(i, j, k));
                 u(i, j, k) = colliderVel.x;
             }
             if (i < size.x - 1 && m_marker(i + 1, j, k) == FLUID)
             {
-                Vector3D colliderVel =
+                const Vector3D colliderVel =
                     GetCollider()->VelocityAt(uPos(i + 1, j, k));
                 u(i + 1, j, k) = colliderVel.x;
             }
             if (j > 0 && m_marker(i, j - 1, k) == FLUID)
             {
-                Vector3D colliderVel = GetCollider()->VelocityAt(vPos(i, j, k));
+                const Vector3D colliderVel =
+                    GetCollider()->VelocityAt(vPos(i, j, k));
                 v(i, j, k) = colliderVel.y;
             }
             if (j < size.y - 1 && m_marker(i, j + 1, k) == FLUID)
             {
-                Vector3D colliderVel =
+                const Vector3D colliderVel =
                     GetCollider()->VelocityAt(vPos(i, j + 1, k));
                 v(i, j + 1, k) = colliderVel.y;
             }
             if (k > 0 && m_marker(i, j, k - 1) == FLUID)
             {
-                Vector3D colliderVel = GetCollider()->VelocityAt(wPos(i, j, k));
+                const Vector3D colliderVel =
+                    GetCollider()->VelocityAt(wPos(i, j, k));
                 w(i, j, k) = colliderVel.z;
             }
             if (k < size.z - 1 && m_marker(i, j, k + 1) == FLUID)
             {
-                Vector3D colliderVel =
+                const Vector3D colliderVel =
                     GetCollider()->VelocityAt(wPos(i, j, k + 1));
                 w(i, j, k + 1) = colliderVel.z;
             }

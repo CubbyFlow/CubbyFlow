@@ -13,24 +13,61 @@
 
 #include <Core/Math/MathUtils.hpp>
 
+#include <cmath>
+#include <utility>
+
 namespace CubbyFlow
 {
 template <typename T, typename R>
 NearestArraySampler<T, R, 1>::NearestArraySampler(
-    const ConstArrayAccessor1<T>& accessor, R gridSpacing, R gridOrigin)
+    ConstArrayAccessor1<T> accessor, R gridSpacing, R gridOrigin)
+    : m_gridSpacing(gridSpacing),
+      m_origin(gridOrigin),
+      m_accessor(std::move(accessor))
 {
-    m_gridSpacing = gridSpacing;
-    m_origin = gridOrigin;
-    m_accessor = accessor;
+    // Do nothing
 }
 
 template <typename T, typename R>
 NearestArraySampler<T, R, 1>::NearestArraySampler(
     const NearestArraySampler& other)
+    : m_gridSpacing(other.m_gridSpacing),
+      m_origin(other.m_origin),
+      m_accessor(other.m_accessor)
+{
+    // Do nothing
+}
+
+template <typename T, typename R>
+NearestArraySampler<T, R, 1>::NearestArraySampler(
+    NearestArraySampler&& other) noexcept
+    : m_gridSpacing(other.m_gridSpacing),
+      m_origin(other.m_origin),
+      m_accessor(other.m_accessor)
+{
+    // Do nothing
+}
+
+template <typename T, typename R>
+NearestArraySampler<T, R, 1>& NearestArraySampler<T, R, 1>::operator=(
+    const NearestArraySampler& other)
 {
     m_gridSpacing = other.m_gridSpacing;
     m_origin = other.m_origin;
     m_accessor = other.m_accessor;
+
+    return *this;
+}
+
+template <typename T, typename R>
+NearestArraySampler<T, R, 1>& NearestArraySampler<T, R, 1>::operator=(
+    NearestArraySampler&& other) noexcept
+{
+    m_gridSpacing = other.m_gridSpacing;
+    m_origin = other.m_origin;
+    m_accessor = other.m_accessor;
+
+    return *this;
 }
 
 template <typename T, typename R>
@@ -43,11 +80,12 @@ T NearestArraySampler<T, R, 1>::operator()(R pt) const
 
     const R normalizedX = (pt - m_origin) / m_gridSpacing;
 
-    const ssize_t iSize = static_cast<ssize_t>(m_accessor.size());
+    const auto iSize = static_cast<ssize_t>(m_accessor.size());
 
     GetBarycentric(normalizedX, 0, iSize - 1, &i, &fx);
 
-    i = std::min(static_cast<ssize_t>(i + fx + 0.5), iSize - 1);
+    i = std::min(static_cast<ssize_t>(std::lround(static_cast<R>(i) + fx)),
+                 iSize - 1);
 
     return m_accessor[i];
 }
@@ -78,20 +116,54 @@ std::function<T(R)> NearestArraySampler<T, R, 1>::Functor() const
 }
 
 template <typename T, typename R>
-LinearArraySampler<T, R, 1>::LinearArraySampler(
-    const ConstArrayAccessor1<T>& accessor, R gridSpacing, R gridOrigin)
+LinearArraySampler<T, R, 1>::LinearArraySampler(ConstArrayAccessor1<T> accessor,
+                                                R gridSpacing, R gridOrigin)
+    : m_gridSpacing(gridSpacing),
+      m_origin(gridOrigin),
+      m_accessor(std::move(accessor))
 {
-    m_gridSpacing = gridSpacing;
-    m_origin = gridOrigin;
-    m_accessor = accessor;
+    // Do nothing
 }
 
 template <typename T, typename R>
 LinearArraySampler<T, R, 1>::LinearArraySampler(const LinearArraySampler& other)
+    : m_gridSpacing(other.m_gridSpacing),
+      m_origin(other.m_origin),
+      m_accessor(other.m_accessor)
+{
+    // Do nothing
+}
+
+template <typename T, typename R>
+LinearArraySampler<T, R, 1>::LinearArraySampler(
+    LinearArraySampler&& other) noexcept
+    : m_gridSpacing(other.m_gridSpacing),
+      m_origin(other.m_origin),
+      m_accessor(other.m_accessor)
+{
+    // Do nothing
+}
+
+template <typename T, typename R>
+LinearArraySampler<T, R, 1>& LinearArraySampler<T, R, 1>::operator=(
+    const LinearArraySampler& other)
 {
     m_gridSpacing = other.m_gridSpacing;
     m_origin = other.m_origin;
     m_accessor = other.m_accessor;
+
+    return *this;
+}
+
+template <typename T, typename R>
+LinearArraySampler<T, R, 1>& LinearArraySampler<T, R, 1>::operator=(
+    LinearArraySampler&& other) noexcept
+{
+    m_gridSpacing = other.m_gridSpacing;
+    m_origin = other.m_origin;
+    m_accessor = other.m_accessor;
+
+    return *this;
 }
 
 template <typename T, typename R>
@@ -104,7 +176,7 @@ T LinearArraySampler<T, R, 1>::operator()(R pt) const
 
     const R normalizedX = (pt - m_origin) / m_gridSpacing;
 
-    const ssize_t iSize = static_cast<ssize_t>(m_accessor.size());
+    const auto iSize = static_cast<ssize_t>(m_accessor.size());
 
     GetBarycentric(normalizedX, 0, iSize - 1, &i, &fx);
 
@@ -147,33 +219,67 @@ std::function<T(R)> LinearArraySampler<T, R, 1>::Functor() const
 }
 
 template <typename T, typename R>
-CubicArraySampler<T, R, 1>::CubicArraySampler(
-    const ConstArrayAccessor1<T>& accessor, R gridSpacing, R gridOrigin)
+CubicArraySampler<T, R, 1>::CubicArraySampler(ConstArrayAccessor1<T> accessor,
+                                              R gridSpacing, R gridOrigin)
+    : m_gridSpacing(gridSpacing),
+      m_origin(gridOrigin),
+      m_accessor(std::move(accessor))
 {
-    m_gridSpacing = gridSpacing;
-    m_origin = gridOrigin;
-    m_accessor = accessor;
+    // Do nothing
 }
 
 template <typename T, typename R>
 CubicArraySampler<T, R, 1>::CubicArraySampler(const CubicArraySampler& other)
+    : m_gridSpacing(other.m_gridSpacing),
+      m_origin(other.m_origin),
+      m_accessor(other.m_accessor)
+{
+    // Do nothing
+}
+
+template <typename T, typename R>
+CubicArraySampler<T, R, 1>::CubicArraySampler(
+    CubicArraySampler&& other) noexcept
+    : m_gridSpacing(other.m_gridSpacing),
+      m_origin(other.m_origin),
+      m_accessor(other.m_accessor)
+{
+    // Do nothing
+}
+
+template <typename T, typename R>
+CubicArraySampler<T, R, 1>& CubicArraySampler<T, R, 1>::operator=(
+    const CubicArraySampler& other)
 {
     m_gridSpacing = other.m_gridSpacing;
     m_origin = other.m_origin;
     m_accessor = other.m_accessor;
+
+    return *this;
 }
 
 template <typename T, typename R>
-T CubicArraySampler<T, R, 1>::operator()(R x) const
+CubicArraySampler<T, R, 1>& CubicArraySampler<T, R, 1>::operator=(
+    CubicArraySampler&& other) noexcept
+{
+    m_gridSpacing = other.m_gridSpacing;
+    m_origin = other.m_origin;
+    m_accessor = other.m_accessor;
+
+    return *this;
+}
+
+template <typename T, typename R>
+T CubicArraySampler<T, R, 1>::operator()(R pt) const
 {
     ssize_t i;
     R fx;
 
     assert(m_gridSpacing > std::numeric_limits<R>::epsilon());
 
-    const R normalizedX = (x - m_origin) / m_gridSpacing;
+    const R normalizedX = (pt - m_origin) / m_gridSpacing;
 
-    const ssize_t iSize = static_cast<ssize_t>(m_accessor.size());
+    const auto iSize = static_cast<ssize_t>(m_accessor.size());
 
     GetBarycentric(normalizedX, 0, iSize - 1, &i, &fx);
 

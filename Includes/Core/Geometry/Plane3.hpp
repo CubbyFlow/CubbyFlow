@@ -26,49 +26,60 @@ class Plane3 final : public Surface3
  public:
     class Builder;
 
-    //! Plane normal.
-    Vector3D normal = Vector3D(0, 1, 0);
-
-    //! Point that lies on the plane.
-    Vector3D point;
-
     //! Constructs a plane that crosses (0, 0, 0) with surface normal (0, 1, 0).
-    Plane3(const Transform3& transform = Transform3(),
-           bool isNormalFlipped = false);
+    Plane3(const Transform3& _transform = Transform3{},
+           bool _isNormalFlipped = false);
 
     //! Constructs a plane that cross \p point with surface normal \p normal.
-    Plane3(const Vector3D& normal, const Vector3D& point,
-           const Transform3& transform = Transform3(),
-           bool isNormalFlipped = false);
+    Plane3(const Vector3D& _normal, const Vector3D& _point,
+           const Transform3& _transform = Transform3{},
+           bool _isNormalFlipped = false);
 
     //! Constructs a plane with three points on the surface. The normal will be
     //! set using the counter clockwise direction.
     Plane3(const Vector3D& point0, const Vector3D& point1,
-           const Vector3D& point2, const Transform3& transform = Transform3(),
-           bool isNormalFlipped = false);
+           const Vector3D& point2, const Transform3& _transform = Transform3{},
+           bool _isNormalFlipped = false);
 
-    //! Copy constructor.
-    Plane3(const Plane3& other);
+    //! Default copy constructor.
+    Plane3(const Plane3&) = default;
+
+    //! Default move constructor.
+    Plane3(Plane3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~Plane3() override = default;
 
     //! Default copy assignment operator.
-    Plane3& operator=(const Plane3& other) = default;
+    Plane3& operator=(const Plane3&) = default;
+
+    //! Default move assignment operator.
+    Plane3& operator=(Plane3&&) noexcept = default;
 
     //! Returns true if bounding box can be defined.
-    bool IsBounded() const override;
+    [[nodiscard]] bool IsBounded() const override;
 
     //! Returns builder fox Plane3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
+
+    //! Plane normal.
+    Vector3D normal = Vector3D{ 0, 1, 0 };
+
+    //! Point that lies on the plane.
+    Vector3D point;
 
  protected:
-    Vector3D ClosestPointLocal(const Vector3D& otherPoint) const override;
+    [[nodiscard]] Vector3D ClosestPointLocal(
+        const Vector3D& otherPoint) const override;
 
-    bool IntersectsLocal(const Ray3D& ray) const override;
+    [[nodiscard]] bool IntersectsLocal(const Ray3D& ray) const override;
 
-    BoundingBox3D BoundingBoxLocal() const override;
+    [[nodiscard]] BoundingBox3D BoundingBoxLocal() const override;
 
-    Vector3D ClosestNormalLocal(const Vector3D& otherPoint) const override;
+    [[nodiscard]] Vector3D ClosestNormalLocal(
+        const Vector3D& otherPoint) const override;
 
-    SurfaceRayIntersection3 ClosestIntersectionLocal(
+    [[nodiscard]] SurfaceRayIntersection3 ClosestIntersectionLocal(
         const Ray3D& ray) const override;
 };
 
@@ -78,20 +89,20 @@ using Plane3Ptr = std::shared_ptr<Plane3>;
 //!
 //! \brief Front-end to create Plane3 objects step by step.
 //!
-class Plane3::Builder final : public SurfaceBuilderBase3<Plane3::Builder>
+class Plane3::Builder final : public SurfaceBuilderBase3<Builder>
 {
  public:
     //! Returns builder with plane normal.
-    Builder& WithNormal(const Vector3D& normal);
+    [[nodiscard]] Builder& WithNormal(const Vector3D& _normal);
 
     //! Returns builder with point on the plane.
-    Builder& WithPoint(const Vector3D& point);
+    [[nodiscard]] Builder& WithPoint(const Vector3D& _point);
 
     //! Builds Plane3.
-    Plane3 Build() const;
+    [[nodiscard]] Plane3 Build() const;
 
     //! Builds shared pointer of Plane3 instance.
-    Plane3Ptr MakeShared() const;
+    [[nodiscard]] Plane3Ptr MakeShared() const;
 
  private:
     Vector3D m_normal{ 0, 1, 0 };

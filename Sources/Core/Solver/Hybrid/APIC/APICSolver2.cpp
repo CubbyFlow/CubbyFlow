@@ -12,63 +12,60 @@
 
 namespace CubbyFlow
 {
-APICSolver2::APICSolver2() : APICSolver2({ 1, 1 }, { 1, 1 }, { 0, 0 })
+APICSolver2::APICSolver2() : APICSolver2{ { 1, 1 }, { 1, 1 }, { 0, 0 } }
 {
     // Do nothing
 }
 
 APICSolver2::APICSolver2(const Size2& resolution, const Vector2D& gridSpacing,
                          const Vector2D& gridOrigin)
-    : PICSolver2(resolution, gridSpacing, gridOrigin)
-{
-    // Do nothing
-}
-
-APICSolver2::~APICSolver2()
+    : PICSolver2{ resolution, gridSpacing, gridOrigin }
 {
     // Do nothing
 }
 
 void APICSolver2::TransferFromParticlesToGrids()
 {
-    auto flow = GetGridSystemData()->GetVelocity();
-    const auto particles = GetParticleSystemData();
-    const auto positions = particles->GetPositions();
-    auto velocities = particles->GetVelocities();
+    FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
+    const ParticleSystemData2Ptr particles = GetParticleSystemData();
+    const ArrayAccessor1<Vector2<double>> positions = particles->GetPositions();
+    ArrayAccessor1<Vector2<double>> velocities = particles->GetVelocities();
     const size_t numberOfParticles = particles->GetNumberOfParticles();
-    const auto hh = flow->GridSpacing() / 2.0;
-    const auto bbox = flow->BoundingBox();
+    const Vector2<double> hh = flow->GridSpacing() / 2.0;
+    const BoundingBox2D& bbox = flow->BoundingBox();
 
     // Allocate buffers
     m_cX.Resize(numberOfParticles);
     m_cY.Resize(numberOfParticles);
 
     // Clear velocity to zero
-    flow->Fill(Vector2D());
+    flow->Fill(Vector2D{});
 
     // Weighted-average velocity
-    auto u = flow->GetUAccessor();
-    auto v = flow->GetVAccessor();
+    ArrayAccessor2<double> u = flow->GetUAccessor();
+    ArrayAccessor2<double> v = flow->GetVAccessor();
     const auto uPos = flow->GetUPosition();
     const auto vPos = flow->GetVPosition();
-    Array2<double> uWeight(u.size());
-    Array2<double> vWeight(v.size());
+    Array2<double> uWeight{ u.size() };
+    Array2<double> vWeight{ v.size() };
     m_uMarkers.Resize(u.size());
     m_vMarkers.Resize(v.size());
     m_uMarkers.Set(0);
     m_vMarkers.Set(0);
 
-    LinearArraySampler2<double, double> uSampler(
-        flow->GetUConstAccessor(), flow->GridSpacing(), flow->GetUOrigin());
-    LinearArraySampler2<double, double> vSampler(
-        flow->GetVConstAccessor(), flow->GridSpacing(), flow->GetVOrigin());
+    LinearArraySampler2<double, double> uSampler{ flow->GetUConstAccessor(),
+                                                  flow->GridSpacing(),
+                                                  flow->GetUOrigin() };
+    LinearArraySampler2<double, double> vSampler{ flow->GetVConstAccessor(),
+                                                  flow->GridSpacing(),
+                                                  flow->GetVOrigin() };
 
     for (size_t i = 0; i < numberOfParticles; ++i)
     {
-        std::array<Point2UI, 4> indices;
-        std::array<double, 4> weights;
+        std::array<Point2UI, 4> indices{};
+        std::array<double, 4> weights{};
 
-        auto uPosClamped = positions[i];
+        Vector2<double> uPosClamped = positions[i];
         uPosClamped.y = std::clamp(uPosClamped.y, bbox.lowerCorner.y + hh.y,
                                    bbox.upperCorner.y - hh.y);
         uSampler.GetCoordinatesAndWeights(uPosClamped, &indices, &weights);
@@ -83,7 +80,7 @@ void APICSolver2::TransferFromParticlesToGrids()
             m_uMarkers(indices[j]) = 1;
         }
 
-        auto vPosClamped = positions[i];
+        Vector2<double> vPosClamped = positions[i];
         vPosClamped.x = std::clamp(vPosClamped.x, bbox.lowerCorner.x + hh.x,
                                    bbox.upperCorner.x - hh.x);
         vSampler.GetCoordinatesAndWeights(vPosClamped, &indices, &weights);
@@ -115,36 +112,36 @@ void APICSolver2::TransferFromParticlesToGrids()
 
 void APICSolver2::TransferFromGridsToParticles()
 {
-    const auto flow = GetGridSystemData()->GetVelocity();
-    auto particles = GetParticleSystemData();
-    auto positions = particles->GetPositions();
-    auto velocities = particles->GetVelocities();
+    const FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
+    ParticleSystemData2Ptr particles = GetParticleSystemData();
+    ArrayAccessor1<Vector2<double>> positions = particles->GetPositions();
+    ArrayAccessor1<Vector2<double>> velocities = particles->GetVelocities();
     const size_t numberOfParticles = particles->GetNumberOfParticles();
-    const auto hh = flow->GridSpacing() / 2.0;
-    const auto bbox = flow->BoundingBox();
+    const Vector2<double> hh = flow->GridSpacing() / 2.0;
+    const BoundingBox2D& bbox = flow->BoundingBox();
 
     // Allocate buffers
     m_cX.Resize(numberOfParticles);
     m_cY.Resize(numberOfParticles);
-    m_cX.Set(Vector2D());
-    m_cY.Set(Vector2D());
+    m_cX.Set(Vector2D{});
+    m_cY.Set(Vector2D{});
 
-    auto u = flow->GetUAccessor();
-    auto v = flow->GetVAccessor();
+    ArrayAccessor2<double> u = flow->GetUAccessor();
+    ArrayAccessor2<double> v = flow->GetVAccessor();
 
-    LinearArraySampler2<double, double> uSampler(u, flow->GridSpacing(),
-                                                 flow->GetUOrigin());
-    LinearArraySampler2<double, double> vSampler(v, flow->GridSpacing(),
-                                                 flow->GetVOrigin());
+    LinearArraySampler2<double, double> uSampler{ u, flow->GridSpacing(),
+                                                  flow->GetUOrigin() };
+    LinearArraySampler2<double, double> vSampler{ v, flow->GridSpacing(),
+                                                  flow->GetVOrigin() };
 
     ParallelFor(ZERO_SIZE, numberOfParticles, [&](size_t i) {
         velocities[i] = flow->Sample(positions[i]);
 
-        std::array<Point2UI, 4> indices;
-        std::array<Vector2D, 4> gradWeights;
+        std::array<Point2UI, 4> indices{};
+        std::array<Vector2D, 4> gradWeights{};
 
         // x
-        auto uPosClamped = positions[i];
+        Vector2<double> uPosClamped = positions[i];
         uPosClamped.y = std::clamp(uPosClamped.y, bbox.lowerCorner.y + hh.y,
                                    bbox.upperCorner.y - hh.y);
         uSampler.GetCoordinatesAndGradientWeights(uPosClamped, &indices,
@@ -156,7 +153,7 @@ void APICSolver2::TransferFromGridsToParticles()
         }
 
         // y
-        auto vPosClamped = positions[i];
+        Vector2<double> vPosClamped = positions[i];
         vPosClamped.x = std::clamp(vPosClamped.x, bbox.lowerCorner.x + hh.x,
                                    bbox.upperCorner.x - hh.x);
         vSampler.GetCoordinatesAndGradientWeights(vPosClamped, &indices,
@@ -171,18 +168,18 @@ void APICSolver2::TransferFromGridsToParticles()
 
 APICSolver2::Builder APICSolver2::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 APICSolver2 APICSolver2::Builder::Build() const
 {
-    return APICSolver2(m_resolution, GetGridSpacing(), m_gridOrigin);
+    return APICSolver2{ m_resolution, GetGridSpacing(), m_gridOrigin };
 }
 
 APICSolver2Ptr APICSolver2::Builder::MakeShared() const
 {
     return std::shared_ptr<APICSolver2>(
-        new APICSolver2(m_resolution, GetGridSpacing(), m_gridOrigin),
+        new APICSolver2{ m_resolution, GetGridSpacing(), m_gridOrigin },
         [](APICSolver2* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

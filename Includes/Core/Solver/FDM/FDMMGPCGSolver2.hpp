@@ -37,6 +37,8 @@ class FDMMGPCGSolver2 final : public FDMMGSolver2
     //! \param numberOfCoarsestIter - Number of iterations at the coarsest grid.
     //! \param numberOfFinalIter - Number of final iterations.
     //! \param maxTolerance - Number of max residual tolerance.
+    //! \param sorFactor - Factor of successive over-relaxation (SOR).
+    //! \param useRedBlackOrdering - Flag to use red-black ordering.
     FDMMGPCGSolver2(unsigned int numberOfCGIter, size_t maxNumberOfLevels,
                     unsigned int numberOfRestrictionIter = 5,
                     unsigned int numberOfCorrectionIter = 5,
@@ -49,26 +51,26 @@ class FDMMGPCGSolver2 final : public FDMMGSolver2
     bool Solve(FDMMGLinearSystem2* system) override;
 
     //! Returns the max number of Jacobi iterations.
-    unsigned int GetMaxNumberOfIterations() const;
+    [[nodiscard]] unsigned int GetMaxNumberOfIterations() const;
 
     //! Returns the last number of Jacobi iterations the solver made.
-    unsigned int GetLastNumberOfIterations() const;
+    [[nodiscard]] unsigned int GetLastNumberOfIterations() const;
 
     //! Returns the max residual tolerance for the Jacobi method.
-    double GetTolerance() const;
+    [[nodiscard]] double GetTolerance() const;
 
     //! Returns the last residual after the Jacobi iterations.
-    double GetLastResidual() const;
+    [[nodiscard]] double GetLastResidual() const;
 
  private:
     struct Preconditioner final
     {
-        FDMMGLinearSystem2* system;
-        MGParameters<FDMBLAS2> mgParams;
-
         void Build(FDMMGLinearSystem2* system, MGParameters<FDMBLAS2> mgParams);
 
         void Solve(const FDMVector2& b, FDMVector2* x) const;
+
+        FDMMGLinearSystem2* system = nullptr;
+        MGParameters<FDMBLAS2> mgParams;
     };
 
     unsigned int m_maxNumberOfIterations;

@@ -12,16 +12,6 @@
 
 namespace CubbyFlow
 {
-VectorField2::VectorField2()
-{
-    // Do nothing
-}
-
-VectorField2::~VectorField2()
-{
-    // Do nothing
-}
-
 double VectorField2::Divergence(const Vector2D&) const
 {
     return 0.0;

@@ -15,16 +15,6 @@
 
 namespace CubbyFlow
 {
-IterativeLevelSetSolver2::IterativeLevelSetSolver2()
-{
-    // Do nothing
-}
-
-IterativeLevelSetSolver2::~IterativeLevelSetSolver2()
-{
-    // Do nothing
-}
-
 void IterativeLevelSetSolver2::Reinitialize(const ScalarGrid2& inputSDF,
                                             double maxDistance,
                                             ScalarGrid2* outputSDF)
@@ -34,8 +24,9 @@ void IterativeLevelSetSolver2::Reinitialize(const ScalarGrid2& inputSDF,
 
     if (!inputSDF.HasSameShape(*outputSDF))
     {
-        throw std::invalid_argument(
-            "inputSDF and outputSDF have not same shape.");
+        throw std::invalid_argument{
+            "inputSDF and outputSDF have not same shape."
+        };
     }
 
     ArrayAccessor2<double> outputAcc = outputSDF->GetDataAccessor();
@@ -47,7 +38,7 @@ void IterativeLevelSetSolver2::Reinitialize(const ScalarGrid2& inputSDF,
 
     CopyRange2(inputSDF.GetConstDataAccessor(), size.x, size.y, &outputAcc);
 
-    Array2<double> temp(size);
+    Array2<double> temp{ size };
     ArrayAccessor2<double> tempAcc = temp.Accessor();
 
     CUBBYFLOW_INFO << "Reinitializing with pseudoTimeStep: " << dtau
@@ -56,33 +47,33 @@ void IterativeLevelSetSolver2::Reinitialize(const ScalarGrid2& inputSDF,
     for (unsigned int n = 0; n < numberOfIterations; ++n)
     {
         inputSDF.ParallelForEachDataPointIndex([&](size_t i, size_t j) {
-            double s = Sign(outputAcc, gridSpacing, i, j);
+            const double s = Sign(outputAcc, gridSpacing, i, j);
 
-            std::array<double, 2> dx, dy;
+            std::array<double, 2> dx{}, dy{};
 
             GetDerivatives(outputAcc, gridSpacing, i, j, &dx, &dy);
 
             // Explicit Euler step
-            double val = outputAcc(i, j) -
-                         dtau * std::max(s, 0.0) *
-                             (std::sqrt(Square(std::max(dx[0], 0.0)) +
-                                        Square(std::min(dx[1], 0.0)) +
-                                        Square(std::max(dy[0], 0.0)) +
-                                        Square(std::min(dy[1], 0.0))) -
-                              1.0) -
-                         dtau * std::min(s, 0.0) *
-                             (std::sqrt(Square(std::min(dx[0], 0.0)) +
-                                        Square(std::max(dx[1], 0.0)) +
-                                        Square(std::min(dy[0], 0.0)) +
-                                        Square(std::max(dy[1], 0.0))) -
-                              1.0);
+            const double val = outputAcc(i, j) -
+                               dtau * std::max(s, 0.0) *
+                                   (std::sqrt(Square(std::max(dx[0], 0.0)) +
+                                              Square(std::min(dx[1], 0.0)) +
+                                              Square(std::max(dy[0], 0.0)) +
+                                              Square(std::min(dy[1], 0.0))) -
+                                    1.0) -
+                               dtau * std::min(s, 0.0) *
+                                   (std::sqrt(Square(std::min(dx[0], 0.0)) +
+                                              Square(std::max(dx[1], 0.0)) +
+                                              Square(std::min(dy[0], 0.0)) +
+                                              Square(std::max(dy[1], 0.0))) -
+                                    1.0);
             tempAcc(i, j) = val;
         });
 
         std::swap(tempAcc, outputAcc);
     }
 
-    auto outputSDFAcc = outputSDF->GetDataAccessor();
+    ArrayAccessor2<double> outputSDFAcc = outputSDF->GetDataAccessor();
     CopyRange2(outputAcc, size.x, size.y, &outputSDFAcc);
 }
 
@@ -93,11 +84,12 @@ void IterativeLevelSetSolver2::Extrapolate(const ScalarGrid2& input,
 {
     if (!input.HasSameShape(*output))
     {
-        throw std::invalid_argument(
-            "inputSDF and outputSDF have not same shape.");
+        throw std::invalid_argument{
+            "inputSDF and outputSDF have not same shape."
+        };
     }
 
-    Array2<double> sdfGrid(input.GetDataSize());
+    Array2<double> sdfGrid{ input.GetDataSize() };
     auto pos = input.GetDataPosition();
     sdfGrid.ParallelForEachIndex(
         [&](size_t i, size_t j) { sdfGrid(i, j) = sdf.Sample(pos(i, j)); });
@@ -113,21 +105,22 @@ void IterativeLevelSetSolver2::Extrapolate(const CollocatedVectorGrid2& input,
 {
     if (!input.HasSameShape(*output))
     {
-        throw std::invalid_argument(
-            "inputSDF and outputSDF have not same shape.");
+        throw std::invalid_argument{
+            "inputSDF and outputSDF have not same shape."
+        };
     }
 
-    Array2<double> sdfGrid(input.GetDataSize());
+    Array2<double> sdfGrid{ input.GetDataSize() };
     auto pos = input.GetDataPosition();
     sdfGrid.ParallelForEachIndex(
         [&](size_t i, size_t j) { sdfGrid(i, j) = sdf.Sample(pos(i, j)); });
 
     const Vector2D gridSpacing = input.GridSpacing();
 
-    Array2<double> u(input.GetDataSize());
-    Array2<double> u0(input.GetDataSize());
-    Array2<double> v(input.GetDataSize());
-    Array2<double> v0(input.GetDataSize());
+    Array2<double> u{ input.GetDataSize() };
+    Array2<double> u0{ input.GetDataSize() };
+    Array2<double> v{ input.GetDataSize() };
+    Array2<double> v0{ input.GetDataSize() };
 
     input.ParallelForEachDataPointIndex([&](size_t i, size_t j) {
         u(i, j) = input(i, j).x;
@@ -150,23 +143,24 @@ void IterativeLevelSetSolver2::Extrapolate(const FaceCenteredGrid2& input,
 {
     if (!input.HasSameShape(*output))
     {
-        throw std::invalid_argument(
-            "inputSDF and outputSDF have not same shape.");
+        throw std::invalid_argument{
+            "inputSDF and outputSDF have not same shape."
+        };
     }
 
-    const Vector2D gridSpacing = input.GridSpacing();
+    const Vector2D& gridSpacing = input.GridSpacing();
 
-    auto u = input.GetUConstAccessor();
+    const ConstArrayAccessor2<double> u = input.GetUConstAccessor();
     auto uPos = input.GetUPosition();
-    Array2<double> sdfAtU(u.size());
+    Array2<double> sdfAtU{ u.size() };
     input.ParallelForEachUIndex(
         [&](size_t i, size_t j) { sdfAtU(i, j) = sdf.Sample(uPos(i, j)); });
 
     Extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->GetUAccessor());
 
-    auto v = input.GetVConstAccessor();
+    const ConstArrayAccessor2<double> v = input.GetVConstAccessor();
     auto vPos = input.GetVPosition();
-    Array2<double> sdfAtV(v.size());
+    Array2<double> sdfAtV{ v.size() };
     input.ParallelForEachVIndex(
         [&](size_t i, size_t j) { sdfAtV(i, j) = sdf.Sample(vPos(i, j)); });
 
@@ -188,7 +182,7 @@ void IterativeLevelSetSolver2::Extrapolate(
 
     CopyRange2(input, size.x, size.y, &outputAcc);
 
-    Array2<double> temp(size);
+    Array2<double> temp{ size };
     ArrayAccessor2<double> tempAcc = temp.Accessor();
 
     for (unsigned int n = 0; n < numberOfIterations; ++n)
@@ -197,8 +191,8 @@ void IterativeLevelSetSolver2::Extrapolate(
             ZERO_SIZE, size.x, ZERO_SIZE, size.y, [&](size_t i, size_t j) {
                 if (sdf(i, j) >= 0)
                 {
-                    std::array<double, 2> dx, dy;
-                    Vector2D grad = Gradient2(sdf, gridSpacing, i, j);
+                    std::array<double, 2> dx{}, dy{};
+                    const Vector2D grad = Gradient2(sdf, gridSpacing, i, j);
 
                     GetDerivatives(outputAcc, gridSpacing, i, j, &dx, &dy);
 
@@ -240,13 +234,13 @@ double IterativeLevelSetSolver2::Sign(const ConstArrayAccessor2<double>& sdf,
                                       const Vector2D& gridSpacing, size_t i,
                                       size_t j)
 {
-    double d = sdf(i, j);
-    double e = std::min(gridSpacing.x, gridSpacing.y);
+    const double d = sdf(i, j);
+    const double e = std::min(gridSpacing.x, gridSpacing.y);
     return d / std::sqrt(d * d + e * e);
 }
 
 double IterativeLevelSetSolver2::PseudoTimeStep(
-    ConstArrayAccessor2<double> sdf, const Vector2D& gridSpacing) const
+    const ConstArrayAccessor2<double>& sdf, const Vector2D& gridSpacing) const
 {
     const Size2 size = sdf.size();
 

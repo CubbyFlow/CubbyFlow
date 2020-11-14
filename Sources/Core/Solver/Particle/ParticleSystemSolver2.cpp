@@ -20,7 +20,7 @@
 namespace CubbyFlow
 {
 ParticleSystemSolver2::ParticleSystemSolver2()
-    : ParticleSystemSolver2(1e-3, 1e-3)
+    : ParticleSystemSolver2{ 1e-3, 1e-3 }
 {
     // Do nothing
 }
@@ -30,12 +30,7 @@ ParticleSystemSolver2::ParticleSystemSolver2(double radius, double mass)
     m_particleSystemData = std::make_shared<ParticleSystemData2>();
     m_particleSystemData->SetRadius(radius);
     m_particleSystemData->SetMass(mass);
-    m_wind = std::make_shared<ConstantVectorField2>(Vector2D());
-}
-
-ParticleSystemSolver2::~ParticleSystemSolver2()
-{
-    // Do nothing
+    m_wind = std::make_shared<ConstantVectorField2>(Vector2D{});
 }
 
 double ParticleSystemSolver2::GetDragCoefficient() const
@@ -154,8 +149,8 @@ void ParticleSystemSolver2::AccumulateForces(double timeStepInSeconds)
 void ParticleSystemSolver2::BeginAdvanceTimeStep(double timeStepInSeconds)
 {
     // Clear forces
-    auto forces = m_particleSystemData->GetForces();
-    SetRange1(forces.size(), Vector2D(), &forces);
+    ArrayAccessor<Vector2D, 1> forces = m_particleSystemData->GetForces();
+    SetRange1(forces.size(), Vector2D{}, &forces);
 
     // Update collider and emitter
     Timer timer;
@@ -169,7 +164,7 @@ void ParticleSystemSolver2::BeginAdvanceTimeStep(double timeStepInSeconds)
                    << " seconds";
 
     // Allocate buffers
-    size_t n = m_particleSystemData->GetNumberOfParticles();
+    const size_t n = m_particleSystemData->GetNumberOfParticles();
     m_newPositions.Resize(n);
     m_newVelocities.Resize(n);
 
@@ -179,9 +174,10 @@ void ParticleSystemSolver2::BeginAdvanceTimeStep(double timeStepInSeconds)
 void ParticleSystemSolver2::EndAdvanceTimeStep(double timeStepInSeconds)
 {
     // Update data
-    size_t n = m_particleSystemData->GetNumberOfParticles();
-    auto positions = m_particleSystemData->GetPositions();
-    auto velocities = m_particleSystemData->GetVelocities();
+    const size_t n = m_particleSystemData->GetNumberOfParticles();
+    ArrayAccessor<Vector2D, 1> positions = m_particleSystemData->GetPositions();
+    ArrayAccessor<Vector2D, 1> velocities =
+        m_particleSystemData->GetVelocities();
 
     ParallelFor(ZERO_SIZE, n, [&](size_t i) {
         positions[i] = m_newPositions[i];
@@ -212,7 +208,8 @@ void ParticleSystemSolver2::ResolveCollision(
 {
     if (m_collider != nullptr)
     {
-        size_t numberOfParticles = m_particleSystemData->GetNumberOfParticles();
+        const size_t numberOfParticles =
+            m_particleSystemData->GetNumberOfParticles();
         const double radius = m_particleSystemData->GetRadius();
 
         ParallelFor(ZERO_SIZE, numberOfParticles, [&](size_t i) {
@@ -230,10 +227,11 @@ void ParticleSystemSolver2::SetParticleSystemData(
 
 void ParticleSystemSolver2::AccumulateExternalForces()
 {
-    size_t n = m_particleSystemData->GetNumberOfParticles();
-    auto forces = m_particleSystemData->GetForces();
-    auto velocities = m_particleSystemData->GetVelocities();
-    auto positions = m_particleSystemData->GetPositions();
+    const size_t n = m_particleSystemData->GetNumberOfParticles();
+    ArrayAccessor<Vector2D, 1> forces = m_particleSystemData->GetForces();
+    ArrayAccessor<Vector2D, 1> velocities =
+        m_particleSystemData->GetVelocities();
+    ArrayAccessor<Vector2D, 1> positions = m_particleSystemData->GetPositions();
     const double mass = m_particleSystemData->GetMass();
 
     ParallelFor(ZERO_SIZE, n, [&](size_t i) {
@@ -241,7 +239,8 @@ void ParticleSystemSolver2::AccumulateExternalForces()
         Vector2D force = mass * m_gravity;
 
         // Wind forces
-        Vector2D relativeVel = velocities[i] - m_wind->Sample(positions[i]);
+        const Vector2D relativeVel =
+            velocities[i] - m_wind->Sample(positions[i]);
         force += -m_dragCoefficient * relativeVel;
 
         forces[i] += force;
@@ -250,10 +249,11 @@ void ParticleSystemSolver2::AccumulateExternalForces()
 
 void ParticleSystemSolver2::TimeIntegration(double timeStepInSeconds)
 {
-    size_t n = m_particleSystemData->GetNumberOfParticles();
-    auto forces = m_particleSystemData->GetForces();
-    auto velocities = m_particleSystemData->GetVelocities();
-    auto positions = m_particleSystemData->GetPositions();
+    const size_t n = m_particleSystemData->GetNumberOfParticles();
+    ArrayAccessor<Vector2D, 1> forces = m_particleSystemData->GetForces();
+    ArrayAccessor<Vector2D, 1> velocities =
+        m_particleSystemData->GetVelocities();
+    ArrayAccessor<Vector2D, 1> positions = m_particleSystemData->GetPositions();
     const double mass = m_particleSystemData->GetMass();
 
     ParallelFor(ZERO_SIZE, n, [&](size_t i) {
@@ -285,18 +285,18 @@ void ParticleSystemSolver2::UpdateEmitter(double timeStepInSeconds) const
 
 ParticleSystemSolver2::Builder ParticleSystemSolver2::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 ParticleSystemSolver2 ParticleSystemSolver2::Builder::Build() const
 {
-    return ParticleSystemSolver2(m_radius, m_mass);
+    return ParticleSystemSolver2{ m_radius, m_mass };
 }
 
 ParticleSystemSolver2Ptr ParticleSystemSolver2::Builder::MakeShared() const
 {
     return std::shared_ptr<ParticleSystemSolver2>(
-        new ParticleSystemSolver2(m_radius, m_mass),
+        new ParticleSystemSolver2{ m_radius, m_mass },
         [](ParticleSystemSolver2* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

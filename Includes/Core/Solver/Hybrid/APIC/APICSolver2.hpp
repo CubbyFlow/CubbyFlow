@@ -36,11 +36,23 @@ class APICSolver2 : public PICSolver2
     APICSolver2(const Size2& resolution, const Vector2D& gridSpacing,
                 const Vector2D& gridOrigin);
 
-    //! Default destructor.
-    virtual ~APICSolver2();
+    //! Deleted copy constructor.
+    APICSolver2(const APICSolver2&) = delete;
+
+    //! Deleted move constructor.
+    APICSolver2(APICSolver2&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~APICSolver2() override = default;
+
+    //! Deleted copy assignment operator.
+    APICSolver2& operator=(const APICSolver2&) = delete;
+
+    //! Deleted move assignment operator.
+    APICSolver2& operator=(APICSolver2&&) noexcept = delete;
 
     //! Returns builder fox APICSolver2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  protected:
     //! Transfers velocity field from particles to grids.
@@ -60,15 +72,14 @@ using APICSolver2Ptr = std::shared_ptr<APICSolver2>;
 //!
 //! \brief Front-end to create APICSolver2 objects step by step.
 //!
-class APICSolver2::Builder final
-    : public GridFluidSolverBuilderBase2<APICSolver2::Builder>
+class APICSolver2::Builder final : public GridFluidSolverBuilderBase2<Builder>
 {
  public:
     //! Builds APICSolver2.
-    APICSolver2 Build() const;
+    [[nodiscard]] APICSolver2 Build() const;
 
     //! Builds shared pointer of APICSolver2 instance.
-    APICSolver2Ptr MakeShared() const;
+    [[nodiscard]] APICSolver2Ptr MakeShared() const;
 };
 }  // namespace CubbyFlow
 

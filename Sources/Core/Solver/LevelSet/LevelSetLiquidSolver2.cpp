@@ -19,7 +19,7 @@
 namespace CubbyFlow
 {
 LevelSetLiquidSolver2::LevelSetLiquidSolver2()
-    : LevelSetLiquidSolver2({ 1, 1 }, { 1, 1 }, { 0, 0 })
+    : LevelSetLiquidSolver2{ { 1, 1 }, { 1, 1 }, { 0, 0 } }
 {
     // Do nothing
 }
@@ -27,18 +27,13 @@ LevelSetLiquidSolver2::LevelSetLiquidSolver2()
 LevelSetLiquidSolver2::LevelSetLiquidSolver2(const Size2& resolution,
                                              const Vector2D& gridSpacing,
                                              const Vector2D& gridOrigin)
-    : GridFluidSolver2(resolution, gridSpacing, gridOrigin)
+    : GridFluidSolver2{ resolution, gridSpacing, gridOrigin }
 {
-    auto grids = GetGridSystemData();
+    GridSystemData2Ptr grids = GetGridSystemData();
     m_signedDistanceFieldId = grids->AddAdvectableScalarData(
         std::make_shared<CellCenteredScalarGrid2::Builder>(),
         std::numeric_limits<double>::max());
     m_levelSetSolver = std::make_shared<ENOLevelSetSolver2>();
-}
-
-LevelSetLiquidSolver2::~LevelSetLiquidSolver2()
-{
-    // Do nothing
 }
 
 ScalarGrid2Ptr LevelSetLiquidSolver2::GetSignedDistanceField() const
@@ -70,7 +65,7 @@ void LevelSetLiquidSolver2::SetIsGlobalCompensationEnabled(bool isEnabled)
 
 double LevelSetLiquidSolver2::ComputeVolume() const
 {
-    auto sdf = GetSignedDistanceField();
+    ScalarGrid2Ptr sdf = GetSignedDistanceField();
     const Vector2D gridSpacing = sdf->GridSpacing();
     const double cellVolume = gridSpacing.x * gridSpacing.y;
     const double h = std::max(gridSpacing.x, gridSpacing.y);
@@ -96,16 +91,16 @@ void LevelSetLiquidSolver2::OnBeginAdvanceTimeStep(double timeIntervalInSeconds)
 
 void LevelSetLiquidSolver2::OnEndAdvanceTimeStep(double timeIntervalInSeconds)
 {
-    double currentCfl = GetCFL(timeIntervalInSeconds);
+    const double currentCFL = GetCFL(timeIntervalInSeconds);
 
-    Timer timer;
-    Reinitialize(currentCfl);
+    const Timer timer;
+    Reinitialize(currentCFL);
     CUBBYFLOW_INFO << "reinitializing level set field took "
                    << timer.DurationInSeconds() << " seconds";
 
     // Measure current volume
     double currentVol = ComputeVolume();
-    double volDiff = currentVol - m_lastKnownVolume;
+    const double volDiff = currentVol - m_lastKnownVolume;
 
     CUBBYFLOW_INFO << "Current volume: " << currentVol << " "
                    << "Volume diff: " << volDiff;
@@ -121,9 +116,9 @@ void LevelSetLiquidSolver2::OnEndAdvanceTimeStep(double timeIntervalInSeconds)
 
 void LevelSetLiquidSolver2::ComputeAdvection(double timeIntervalInSeconds)
 {
-    double currentCFL = GetCFL(timeIntervalInSeconds);
+    const double currentCFL = GetCFL(timeIntervalInSeconds);
 
-    Timer timer;
+    const Timer timer;
     ExtrapolateVelocityToAir(currentCFL);
     CUBBYFLOW_INFO << "velocity extrapolation took "
                    << timer.DurationInSeconds() << " seconds";
@@ -140,8 +135,8 @@ void LevelSetLiquidSolver2::Reinitialize(double currentCfl)
 {
     if (m_levelSetSolver != nullptr)
     {
-        auto sdf = GetSignedDistanceField();
-        auto sdf0 = sdf->Clone();
+        const ScalarGrid2Ptr sdf = GetSignedDistanceField();
+        const std::shared_ptr<ScalarGrid2> sdf0 = sdf->Clone();
 
         const Vector2D gridSpacing = sdf->GridSpacing();
         const double h = std::max(gridSpacing.x, gridSpacing.y);
@@ -157,16 +152,16 @@ void LevelSetLiquidSolver2::Reinitialize(double currentCfl)
 
 void LevelSetLiquidSolver2::ExtrapolateVelocityToAir(double currentCFL)
 {
-    auto sdf = GetSignedDistanceField();
-    auto vel = GetGridSystemData()->GetVelocity();
+    ScalarGrid2Ptr sdf = GetSignedDistanceField();
+    FaceCenteredGrid2Ptr vel = GetGridSystemData()->GetVelocity();
 
-    auto u = vel->GetUAccessor();
-    auto v = vel->GetVAccessor();
+    ArrayAccessor2<double> u = vel->GetUAccessor();
+    ArrayAccessor2<double> v = vel->GetVAccessor();
     auto uPos = vel->GetUPosition();
     auto vPos = vel->GetVPosition();
 
-    Array2<char> uMarker(u.size());
-    Array2<char> vMarker(v.size());
+    Array2<char> uMarker{ u.size() };
+    Array2<char> vMarker{ v.size() };
 
     uMarker.ParallelForEachIndex([&](size_t i, size_t j) {
         if (IsInsideSDF(sdf->Sample(uPos(i, j))))
@@ -207,7 +202,7 @@ void LevelSetLiquidSolver2::ExtrapolateVelocityToAir(double currentCFL)
 
 void LevelSetLiquidSolver2::AddVolume(double volDiff)
 {
-    auto sdf = GetSignedDistanceField();
+    ScalarGrid2Ptr sdf = GetSignedDistanceField();
     const Vector2D gridSpacing = sdf->GridSpacing();
     const double cellVolume = gridSpacing.x * gridSpacing.y;
     const double h = std::max(gridSpacing.x, gridSpacing.y);
@@ -234,18 +229,20 @@ void LevelSetLiquidSolver2::AddVolume(double volDiff)
 
 LevelSetLiquidSolver2::Builder LevelSetLiquidSolver2::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 LevelSetLiquidSolver2 LevelSetLiquidSolver2::Builder::Build() const
 {
-    return LevelSetLiquidSolver2(m_resolution, GetGridSpacing(), m_gridOrigin);
+    return LevelSetLiquidSolver2{ m_resolution, GetGridSpacing(),
+                                  m_gridOrigin };
 }
 
 LevelSetLiquidSolver2Ptr LevelSetLiquidSolver2::Builder::MakeShared() const
 {
     return std::shared_ptr<LevelSetLiquidSolver2>(
-        new LevelSetLiquidSolver2(m_resolution, GetGridSpacing(), m_gridOrigin),
+        new LevelSetLiquidSolver2{ m_resolution, GetGridSpacing(),
+                                   m_gridOrigin },
         [](LevelSetLiquidSolver2* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

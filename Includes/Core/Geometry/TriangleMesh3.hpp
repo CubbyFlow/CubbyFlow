@@ -39,19 +39,31 @@ class TriangleMesh3 final : public Surface3
     using NormalArray = Vector3DArray;
     using UVArray = Vector2DArray;
 
-    //! Default constructor.
-    TriangleMesh3(const Transform3& transform = Transform3(),
-                  bool isNormalFlipped = false);
+    //! Constructs an empty triangle mesh.
+    TriangleMesh3(const Transform3& _transform = Transform3{},
+                  bool _isNormalFlipped = false);
 
     //! Constructs mesh with points, normals, uvs, and their indices.
-    TriangleMesh3(const PointArray& points, const NormalArray& normals,
-                  const UVArray& uvs, const IndexArray& pointIndices,
-                  const IndexArray& normalIndices, const IndexArray& uvIndices,
-                  const Transform3& transform_ = Transform3(),
-                  bool isNormalFlipped_ = false);
+    TriangleMesh3(PointArray points, NormalArray normals, UVArray uvs,
+                  IndexArray pointIndices, IndexArray normalIndices,
+                  IndexArray uvIndices,
+                  const Transform3& _transform = Transform3{},
+                  bool _isNormalFlipped = false);
 
     //! Copy constructor.
     TriangleMesh3(const TriangleMesh3& other);
+
+    //! Deleted move constructor.
+    TriangleMesh3(TriangleMesh3&& other) noexcept = delete;
+
+    // Default virtual destructor.
+    ~TriangleMesh3() override = default;
+
+    //! Deleted copy assignment operator.
+    TriangleMesh3& operator=(const TriangleMesh3& other);
+
+    //! Deleted move assignment operator.
+    TriangleMesh3& operator=(TriangleMesh3&& other) noexcept = delete;
 
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;
@@ -69,67 +81,67 @@ class TriangleMesh3 final : public Surface3
     void Swap(TriangleMesh3& other);
 
     //! Returns area of this mesh.
-    double Area() const;
+    [[nodiscard]] double Area() const;
 
     //! Returns volume of this mesh.
-    double Volume() const;
+    [[nodiscard]] double Volume() const;
 
     //! Returns constant reference to the i-th point.
-    const Vector3D& Point(size_t i) const;
+    [[nodiscard]] const Vector3D& Point(size_t i) const;
 
     //! Returns reference to the i-th point.
-    Vector3D& Point(size_t i);
+    [[nodiscard]] Vector3D& Point(size_t i);
 
     //! Returns constant reference to the i-th normal.
-    const Vector3D& Normal(size_t i) const;
+    [[nodiscard]] const Vector3D& Normal(size_t i) const;
 
     //! Returns reference to the i-th normal.
-    Vector3D& Normal(size_t i);
+    [[nodiscard]] Vector3D& Normal(size_t i);
 
     //! Returns constant reference to the i-th UV coordinates.
-    const Vector2D& UV(size_t i) const;
+    [[nodiscard]] const Vector2D& UV(size_t i) const;
 
     //! Returns reference to the i-th UV coordinates.
-    Vector2D& UV(size_t i);
+    [[nodiscard]] Vector2D& UV(size_t i);
 
     //! Returns constant reference to the point indices of i-th triangle.
-    const Point3UI& PointIndex(size_t i) const;
+    [[nodiscard]] const Point3UI& PointIndex(size_t i) const;
 
     //! Returns reference to the point indices of i-th triangle.
-    Point3UI& PointIndex(size_t i);
+    [[nodiscard]] Point3UI& PointIndex(size_t i);
 
     //! Returns constant reference to the normal indices of i-th triangle.
-    const Point3UI& NormalIndex(size_t i) const;
+    [[nodiscard]] const Point3UI& NormalIndex(size_t i) const;
 
     //! Returns reference to the normal indices of i-th triangle.
-    Point3UI& NormalIndex(size_t i);
+    [[nodiscard]] Point3UI& NormalIndex(size_t i);
 
     //! Returns constant reference to the UV indices of i-th triangle.
-    const Point3UI& UVIndex(size_t i) const;
+    [[nodiscard]] const Point3UI& UVIndex(size_t i) const;
 
     //! Returns reference to the UV indices of i-th triangle.
-    Point3UI& UVIndex(size_t i);
+    [[nodiscard]] Point3UI& UVIndex(size_t i);
 
     //! Returns i-th triangle.
-    Triangle3 Triangle(size_t i) const;
+    [[nodiscard]] Triangle3 Triangle(size_t i) const;
 
     //! Returns number of points.
-    size_t NumberOfPoints() const;
+    [[nodiscard]] size_t NumberOfPoints() const;
 
     //! Returns number of normals.
-    size_t NumberOfNormals() const;
+    [[nodiscard]] size_t NumberOfNormals() const;
 
     //! Returns number of UV coordinates.
-    size_t NumberOfUVs() const;
+    [[nodiscard]] size_t NumberOfUVs() const;
 
     //! Returns number of triangles.
-    size_t NumberOfTriangles() const;
+    [[nodiscard]] size_t NumberOfTriangles() const;
 
     //! Returns true if the mesh has normals.
-    bool HasNormals() const;
+    [[nodiscard]] bool HasNormals() const;
 
     //! Returns true if the mesh has UV coordinates.
-    bool HasUVs() const;
+    [[nodiscard]] bool HasUVs() const;
 
     //! Adds a point.
     void AddPoint(const Vector3D& pt);
@@ -171,37 +183,55 @@ class TriangleMesh3 final : public Surface3
     void WriteObj(std::ostream* stream) const;
 
     //! Writes the mesh in obj format to the file.
-    bool WriteObj(const std::string& fileName) const;
+    [[nodiscard]] bool WriteObj(const std::string& fileName) const;
 
     //! Reads the mesh in obj format from the input stream.
-    bool ReadObj(std::istream* stream);
+    [[nodiscard]] bool ReadObj(std::istream* stream);
 
     //! Reads the mesh in obj format from the file.
-    bool ReadObj(const std::string& fileName);
-
-    //! Copies \p other mesh.
-    TriangleMesh3& operator=(const TriangleMesh3& other);
+    [[nodiscard]] bool ReadObj(const std::string& fileName);
 
     //! Returns builder fox TriangleMesh3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  protected:
-    Vector3D ClosestPointLocal(const Vector3D& otherPoint) const override;
+    [[nodiscard]] Vector3D ClosestPointLocal(
+        const Vector3D& otherPoint) const override;
 
-    double ClosestDistanceLocal(const Vector3D& otherPoint) const override;
+    [[nodiscard]] double ClosestDistanceLocal(
+        const Vector3D& otherPoint) const override;
 
-    bool IntersectsLocal(const Ray3D& ray) const override;
+    [[nodiscard]] bool IntersectsLocal(const Ray3D& ray) const override;
 
-    BoundingBox3D BoundingBoxLocal() const override;
+    [[nodiscard]] BoundingBox3D BoundingBoxLocal() const override;
 
-    Vector3D ClosestNormalLocal(const Vector3D& otherPoint) const override;
+    [[nodiscard]] Vector3D ClosestNormalLocal(
+        const Vector3D& otherPoint) const override;
 
-    SurfaceRayIntersection3 ClosestIntersectionLocal(
+    [[nodiscard]] SurfaceRayIntersection3 ClosestIntersectionLocal(
         const Ray3D& ray) const override;
 
-    bool IsInsideLocal(const Vector3D& otherPoint) const override;
+    [[nodiscard]] bool IsInsideLocal(const Vector3D& otherPoint) const override;
 
  private:
+    void InvalidateCache() const;
+
+    void InvalidateBVH() const;
+
+    void BuildBVH() const;
+
+    void BuildWindingNumbers() const;
+
+    [[nodiscard]] double GetWindingNumber(const Vector3D& queryPoint,
+                                          size_t triIndex) const;
+
+    [[nodiscard]] double GetFastWindingNumber(const Vector3D& queryPoint,
+                                              double accuracy) const;
+
+    [[nodiscard]] double GetFastWindingNumber(const Vector3D& queryPoint,
+                                              size_t rootNodeIndex,
+                                              double accuracy) const;
+
     PointArray m_points;
     NormalArray m_normals;
     UVArray m_uvs;
@@ -215,22 +245,6 @@ class TriangleMesh3 final : public Surface3
     mutable Array1<Vector3D> m_wnAreaWeightedNormalSums;
     mutable Array1<Vector3D> m_wnAreaWeightedAvgPositions;
     mutable bool m_wnInvalidated = true;
-
-    void InvalidateCache() const;
-
-    void InvalidateBVH() const;
-
-    void BuildBVH() const;
-
-    void BuildWindingNumbers() const;
-
-    double GetWindingNumber(const Vector3D& queryPoint, size_t triIndex) const;
-
-    double GetFastWindingNumber(const Vector3D& queryPoint,
-                                double accuracy) const;
-
-    double GetFastWindingNumber(const Vector3D& queryPoint,
-                                size_t rootNodeIndex, double accuracy) const;
 };
 
 //! Shared pointer for the TriangleMesh3 type.
@@ -239,33 +253,32 @@ using TriangleMesh3Ptr = std::shared_ptr<TriangleMesh3>;
 //!
 //! \brief Front-end to create TriangleMesh3 objects step by step.
 //!
-class TriangleMesh3::Builder final
-    : public SurfaceBuilderBase3<TriangleMesh3::Builder>
+class TriangleMesh3::Builder final : public SurfaceBuilderBase3<Builder>
 {
  public:
     //! Returns builder with points.
-    Builder& WithPoints(const PointArray& points);
+    [[nodiscard]] Builder& WithPoints(const PointArray& points);
 
     //! Returns builder with normals.
-    Builder& WithNormals(const NormalArray& normals);
+    [[nodiscard]] Builder& WithNormals(const NormalArray& normals);
 
     //! Returns builder with uvs.
-    Builder& WithUVs(const UVArray& uvs);
+    [[nodiscard]] Builder& WithUVs(const UVArray& uvs);
 
     //! Returns builder with point indices.
-    Builder& WithPointIndices(const IndexArray& pointIndices);
+    [[nodiscard]] Builder& WithPointIndices(const IndexArray& pointIndices);
 
     //! Returns builder with normal indices.
-    Builder& WithNormalIndices(const IndexArray& normalIndices);
+    [[nodiscard]] Builder& WithNormalIndices(const IndexArray& normalIndices);
 
     //! Returns builder with uv indices.
-    Builder& WithUVIndices(const IndexArray& uvIndices);
+    [[nodiscard]] Builder& WithUVIndices(const IndexArray& uvIndices);
 
     //! Builds TriangleMesh3.
-    TriangleMesh3 Build() const;
+    [[nodiscard]] TriangleMesh3 Build() const;
 
     //! Builds shared pointer of TriangleMesh3 instance.
-    TriangleMesh3Ptr MakeShared() const;
+    [[nodiscard]] TriangleMesh3Ptr MakeShared() const;
 
  private:
     PointArray m_points;

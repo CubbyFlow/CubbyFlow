@@ -48,12 +48,24 @@ class FaceCenteredGrid2 final : public VectorGrid2
 
     //! Resizes the grid using given parameters.
     FaceCenteredGrid2(const Size2& resolution,
-                      const Vector2D& gridSpacing = Vector2D(1.0, 1.0),
-                      const Vector2D& origin = Vector2D(),
-                      const Vector2D& initialValue = Vector2D());
+                      const Vector2D& gridSpacing = Vector2D{ 1.0, 1.0 },
+                      const Vector2D& origin = Vector2D{},
+                      const Vector2D& initialValue = Vector2D{});
 
     //! Copy constructor.
     FaceCenteredGrid2(const FaceCenteredGrid2& other);
+
+    //! Deleted move constructor.
+    FaceCenteredGrid2(FaceCenteredGrid2&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~FaceCenteredGrid2() override = default;
+
+    //! Copy assignment operator.
+    FaceCenteredGrid2& operator=(const FaceCenteredGrid2& other);
+
+    //! Deleted move assignment operator.
+    FaceCenteredGrid2& operator=(FaceCenteredGrid2&&) noexcept = delete;
 
     //!
     //! \brief Swaps the contents with the given \p other grid.
@@ -66,53 +78,50 @@ class FaceCenteredGrid2 final : public VectorGrid2
     //! Sets the contents with the given \p other grid.
     void Set(const FaceCenteredGrid2& other);
 
-    //! Sets the contents with the given \p other grid.
-    FaceCenteredGrid2& operator=(const FaceCenteredGrid2& other);
+    //! Returns u-value at given data point.
+    [[nodiscard]] double& GetU(size_t i, size_t j);
 
     //! Returns u-value at given data point.
-    double& GetU(size_t i, size_t j);
-
-    //! Returns u-value at given data point.
-    const double& GetU(size_t i, size_t j) const;
+    [[nodiscard]] const double& GetU(size_t i, size_t j) const;
 
     //! Returns v-value at given data point.
-    double& GetV(size_t i, size_t j);
+    [[nodiscard]] double& GetV(size_t i, size_t j);
 
     //! Returns v-value at given data point.
-    const double& GetV(size_t i, size_t j) const;
+    [[nodiscard]] const double& GetV(size_t i, size_t j) const;
 
     //! Returns interpolated value at cell center.
-    Vector2D ValueAtCellCenter(size_t i, size_t j) const;
+    [[nodiscard]] Vector2D ValueAtCellCenter(size_t i, size_t j) const;
 
     //! Returns divergence at cell-center location.
-    double DivergenceAtCellCenter(size_t i, size_t j) const;
+    [[nodiscard]] double DivergenceAtCellCenter(size_t i, size_t j) const;
 
     //! Returns curl at cell-center location.
-    double CurlAtCellCenter(size_t i, size_t j) const;
+    [[nodiscard]] double CurlAtCellCenter(size_t i, size_t j) const;
 
     //! Returns u data accessor.
-    ScalarDataAccessor GetUAccessor();
+    [[nodiscard]] ScalarDataAccessor GetUAccessor();
 
     //! Returns read-only u data accessor.
-    ConstScalarDataAccessor GetUConstAccessor() const;
+    [[nodiscard]] ConstScalarDataAccessor GetUConstAccessor() const;
 
     //! Returns v data accessor.
-    ScalarDataAccessor GetVAccessor();
+    [[nodiscard]] ScalarDataAccessor GetVAccessor();
 
     //! Returns read-only v data accessor.
-    ConstScalarDataAccessor GetVConstAccessor() const;
+    [[nodiscard]] ConstScalarDataAccessor GetVConstAccessor() const;
 
     //! Returns function object that maps u data point to its actual position.
-    DataPositionFunc GetUPosition() const;
+    [[nodiscard]] DataPositionFunc GetUPosition() const;
 
     //! Returns function object that maps v data point to its actual position.
-    DataPositionFunc GetVPosition() const;
+    [[nodiscard]] DataPositionFunc GetVPosition() const;
 
     //! Returns data size of the u component.
-    Size2 GetUSize() const;
+    [[nodiscard]] Size2 GetUSize() const;
 
     //! Returns data size of the v component.
-    Size2 GetVSize() const;
+    [[nodiscard]] Size2 GetVSize() const;
 
     //!
     //! \brief Returns u-data position for the grid point at (0, 0).
@@ -120,7 +129,7 @@ class FaceCenteredGrid2 final : public VectorGrid2
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
     //!
-    Vector2D GetUOrigin() const;
+    [[nodiscard]] Vector2D GetUOrigin() const;
 
     //!
     //! \brief Returns v-data position for the grid point at (0, 0).
@@ -128,7 +137,7 @@ class FaceCenteredGrid2 final : public VectorGrid2
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
     //!
-    Vector2D GetVOrigin() const;
+    [[nodiscard]] Vector2D GetVOrigin() const;
 
     //! Fills the grid with given value.
     void Fill(const Vector2D& value,
@@ -139,7 +148,7 @@ class FaceCenteredGrid2 final : public VectorGrid2
               ExecutionPolicy policy = ExecutionPolicy::Parallel) override;
 
     //! Returns the copy of the grid instance.
-    std::shared_ptr<VectorGrid2> Clone() const override;
+    [[nodiscard]] std::shared_ptr<VectorGrid2> Clone() const override;
 
     //!
     //! \brief Invokes the given function \p func for each u-data point.
@@ -185,13 +194,13 @@ class FaceCenteredGrid2 final : public VectorGrid2
 
     // VectorField2 implementations
     //! Returns sampled value at given position \p x.
-    Vector2D Sample(const Vector2D& x) const override;
+    [[nodiscard]] Vector2D Sample(const Vector2D& x) const override;
 
     //! Returns divergence at given position \p x.
-    double Divergence(const Vector2D& x) const override;
+    [[nodiscard]] double Divergence(const Vector2D& x) const override;
 
     //! Returns curl at given position \p x.
-    double Curl(const Vector2D& x) const override;
+    [[nodiscard]] double Curl(const Vector2D& x) const override;
 
     //!
     //! \brief Returns the sampler function.
@@ -199,15 +208,17 @@ class FaceCenteredGrid2 final : public VectorGrid2
     //! This function returns the data sampler function object. The sampling
     //! function is linear.
     //!
-    std::function<Vector2D(const Vector2D&)> Sampler() const override;
+    [[nodiscard]] std::function<Vector2D(const Vector2D&)> Sampler()
+        const override;
 
     //! Returns builder fox FaceCenteredGrid2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  protected:
     // VectorGrid2 implementations
     void OnResize(const Size2& resolution, const Vector2D& gridSpacing,
-                  const Vector2D& origin, const Vector2D& initialValue) final;
+                  const Vector2D& origin,
+                  const Vector2D& initialValue) override;
 
     //! Fetches the data into a continuous linear array.
     void GetData(std::vector<double>* data) const override;
@@ -216,6 +227,8 @@ class FaceCenteredGrid2 final : public VectorGrid2
     void SetData(const std::vector<double>& data) override;
 
  private:
+    void ResetSampler();
+
     Array2<double> m_dataU;
     Array2<double> m_dataV;
     Vector2D m_dataOriginU;
@@ -223,8 +236,6 @@ class FaceCenteredGrid2 final : public VectorGrid2
     LinearArraySampler2<double, double> m_uLinearSampler;
     LinearArraySampler2<double, double> m_vLinearSampler;
     std::function<Vector2D(const Vector2D&)> m_sampler;
-
-    void ResetSampler();
 };
 
 //! Shared pointer type for the FaceCenteredGrid2.
@@ -237,43 +248,46 @@ class FaceCenteredGrid2::Builder final : public VectorGridBuilder2
 {
  public:
     //! Returns builder with resolution.
-    Builder& WithResolution(const Size2& resolution);
+    [[nodiscard]] Builder& WithResolution(const Size2& resolution);
 
     //! Returns builder with resolution.
-    Builder& WithResolution(size_t resolutionX, size_t resolutionY);
+    [[nodiscard]] Builder& WithResolution(size_t resolutionX,
+                                          size_t resolutionY);
 
     //! Returns builder with grid spacing.
-    Builder& WithGridSpacing(const Vector2D& gridSpacing);
+    [[nodiscard]] Builder& WithGridSpacing(const Vector2D& gridSpacing);
 
     //! Returns builder with grid spacing.
-    Builder& WithGridSpacing(double gridSpacingX, double gridSpacingY);
+    [[nodiscard]] Builder& WithGridSpacing(double gridSpacingX,
+                                           double gridSpacingY);
 
     //! Returns builder with grid origin.
-    Builder& WithOrigin(const Vector2D& gridOrigin);
+    [[nodiscard]] Builder& WithOrigin(const Vector2D& gridOrigin);
 
     //! Returns builder with grid origin.
-    Builder& WithOrigin(double gridOriginX, double gridOriginY);
+    [[nodiscard]] Builder& WithOrigin(double gridOriginX, double gridOriginY);
 
     //! Returns builder with initial value.
-    Builder& WithInitialValue(const Vector2D& initialVal);
+    [[nodiscard]] Builder& WithInitialValue(const Vector2D& initialVal);
 
     //! Returns builder with initial value.
-    Builder& WithInitialValue(double initialValX, double initialValY);
+    [[nodiscard]] Builder& WithInitialValue(double initialValX,
+                                            double initialValY);
 
     //! Builds FaceCenteredGrid2 instance.
-    FaceCenteredGrid2 Build() const;
+    [[nodiscard]] FaceCenteredGrid2 Build() const;
 
     //! Builds shared pointer of FaceCenteredGrid2 instance.
-    FaceCenteredGrid2Ptr MakeShared() const;
+    [[nodiscard]] FaceCenteredGrid2Ptr MakeShared() const;
 
     //!
     //! \brief Builds shared pointer of FaceCenteredGrid2 instance.
     //!
     //! This is an overriding function that implements VectorGridBuilder2.
     //!
-    VectorGrid2Ptr Build(const Size2& resolution, const Vector2D& gridSpacing,
-                         const Vector2D& gridOrigin,
-                         const Vector2D& initialVal) const override;
+    [[nodiscard]] VectorGrid2Ptr Build(
+        const Size2& resolution, const Vector2D& gridSpacing,
+        const Vector2D& gridOrigin, const Vector2D& initialVal) const override;
 
  private:
     Size2 m_resolution{ 1, 1 };

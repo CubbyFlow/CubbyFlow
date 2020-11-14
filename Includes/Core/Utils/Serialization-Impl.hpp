@@ -11,6 +11,8 @@
 #ifndef CUBBYFLOW_SERIALIZATION_IMPL_HPP
 #define CUBBYFLOW_SERIALIZATION_IMPL_HPP
 
+#include <cstring>
+
 namespace CubbyFlow
 {
 template <typename T>
@@ -27,7 +29,7 @@ void Deserialize(const std::vector<uint8_t>& buffer, Array1<T>* array)
     std::vector<uint8_t> data;
     Deserialize(buffer, &data);
     array->Resize(data.size() / sizeof(T));
-    memcpy(array->data(), data.data(), data.size());
+    std::memcpy(array->data(), data.data(), data.size());
 }
 }  // namespace CubbyFlow
 

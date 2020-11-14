@@ -29,7 +29,26 @@ class GridBlockedBoundaryConditionSolver2 final
 {
  public:
     //! Default constructor.
-    GridBlockedBoundaryConditionSolver2();
+    GridBlockedBoundaryConditionSolver2() = default;
+
+    //! Deleted copy constructor.
+    GridBlockedBoundaryConditionSolver2(
+        const GridBlockedBoundaryConditionSolver2&) = delete;
+
+    //! Deleted move constructor.
+    GridBlockedBoundaryConditionSolver2(
+        GridBlockedBoundaryConditionSolver2&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~GridBlockedBoundaryConditionSolver2() override = default;
+
+    //! Deleted copy assignment operator.
+    GridBlockedBoundaryConditionSolver2& operator=(
+        const GridBlockedBoundaryConditionSolver2&) = delete;
+
+    //! Deleted move assignment operator.
+    GridBlockedBoundaryConditionSolver2& operator=(
+        GridBlockedBoundaryConditionSolver2&&) noexcept = delete;
 
     //!
     //! Constrains the velocity field to conform the collider boundary.
@@ -42,7 +61,7 @@ class GridBlockedBoundaryConditionSolver2 final
                            unsigned int extrapolationDepth = 5) override;
 
     //! Returns the marker which is 1 if occupied by the collider.
-    const Array2<char>& GetMarker() const;
+    [[nodiscard]] const Array2<char>& GetMarker() const;
 
  protected:
     //! Invoked when a new collider is set.

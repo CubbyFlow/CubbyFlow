@@ -26,42 +26,54 @@ class Sphere2 final : public Surface2
  public:
     class Builder;
 
+    //! Constructs a sphere with center at (0, 0) and radius of 1.
+    Sphere2(const Transform2& _transform = Transform2{},
+            bool _isNormalFlipped = false);
+
+    //! Constructs a sphere with \p _center and \p _radius.
+    Sphere2(const Vector2D& _center, double _radius,
+            const Transform2& _transform = Transform2{},
+            bool _isNormalFlipped = false);
+
+    //! Default copy constructor.
+    Sphere2(const Sphere2&) = default;
+
+    //! Default move constructor.
+    Sphere2(Sphere2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~Sphere2() override = default;
+
+    //! Default copy assignment operator.
+    Sphere2& operator=(const Sphere2&) = default;
+
+    //! Default move assignment operator.
+    Sphere2& operator=(Sphere2&&) noexcept = default;
+
+    //! Returns builder fox Sphere2.
+    [[nodiscard]] static Builder GetBuilder();
+
     //! Center of the sphere.
     Vector2D center;
 
     //! Radius of the sphere.
     double radius = 1.0;
 
-    //! Constructs a sphere with center at (0, 0) and radius of 1.
-    Sphere2(const Transform2& transform = Transform2(),
-            bool isNormalFlipped = false);
-
-    //! Constructs a sphere with \p center and \p radius.
-    Sphere2(const Vector2D& center, double radius,
-            const Transform2& transform = Transform2(),
-            bool isNormalFlipped = false);
-
-    //! Copy constructor.
-    Sphere2(const Sphere2& other);
-
-    //! Default copy assignment operator.
-    Sphere2& operator=(const Sphere2& other) = default;
-
-    //! Returns builder fox Sphere2.
-    static Builder GetBuilder();
-
  private:
-    Vector2D ClosestPointLocal(const Vector2D& otherPoint) const override;
+    [[nodiscard]] Vector2D ClosestPointLocal(
+        const Vector2D& otherPoint) const override;
 
-    double ClosestDistanceLocal(const Vector2D& otherPoint) const override;
+    [[nodiscard]] double ClosestDistanceLocal(
+        const Vector2D& otherPoint) const override;
 
-    bool IntersectsLocal(const Ray2D& ray) const override;
+    [[nodiscard]] bool IntersectsLocal(const Ray2D& ray) const override;
 
-    BoundingBox2D BoundingBoxLocal() const override;
+    [[nodiscard]] BoundingBox2D BoundingBoxLocal() const override;
 
-    Vector2D ClosestNormalLocal(const Vector2D& otherPoint) const override;
+    [[nodiscard]] Vector2D ClosestNormalLocal(
+        const Vector2D& otherPoint) const override;
 
-    SurfaceRayIntersection2 ClosestIntersectionLocal(
+    [[nodiscard]] SurfaceRayIntersection2 ClosestIntersectionLocal(
         const Ray2D& ray) const override;
 };
 
@@ -71,20 +83,20 @@ using Sphere2Ptr = std::shared_ptr<Sphere2>;
 //!
 //! \brief Front-end to create Sphere2 objects step by step.
 //!
-class Sphere2::Builder final : public SurfaceBuilderBase2<Sphere2::Builder>
+class Sphere2::Builder final : public SurfaceBuilderBase2<Builder>
 {
  public:
     //! Returns builder with sphere center.
-    Builder& WithCenter(const Vector2D& center);
+    [[nodiscard]] Builder& WithCenter(const Vector2D& _center);
 
     //! Returns builder with sphere radius.
-    Builder& WithRadius(double radius);
+    [[nodiscard]] Builder& WithRadius(double _radius);
 
     //! Builds Sphere2.
-    Sphere2 Build() const;
+    [[nodiscard]] Sphere2 Build() const;
 
     //! Builds shared pointer of Sphere2 instance.
-    Sphere2Ptr MakeShared() const;
+    [[nodiscard]] Sphere2Ptr MakeShared() const;
 
  private:
     Vector2D m_center = { 0, 0 };

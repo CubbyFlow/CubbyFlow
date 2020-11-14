@@ -34,7 +34,7 @@ std::function<double(const Vector3D&)> ConstantScalarField3::Sampler() const
 
 ConstantScalarField3::Builder ConstantScalarField3::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 ConstantScalarField3::Builder& ConstantScalarField3::Builder::WithValue(
@@ -46,13 +46,13 @@ ConstantScalarField3::Builder& ConstantScalarField3::Builder::WithValue(
 
 ConstantScalarField3 ConstantScalarField3::Builder::Build() const
 {
-    return ConstantScalarField3(m_value);
+    return ConstantScalarField3{ m_value };
 }
 
 ConstantScalarField3Ptr ConstantScalarField3::Builder::MakeShared() const
 {
     return std::shared_ptr<ConstantScalarField3>(
-        new ConstantScalarField3(m_value),
+        new ConstantScalarField3{ m_value },
         [](ConstantScalarField3* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

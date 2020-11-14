@@ -38,11 +38,23 @@ class FLIPSolver2 : public PICSolver2
     FLIPSolver2(const Size2& resolution, const Vector2D& gridSpacing,
                 const Vector2D& gridOrigin);
 
-    //! Default destructor.
-    virtual ~FLIPSolver2();
+    //! Deleted copy constructor.
+    FLIPSolver2(const FLIPSolver2&) = delete;
+
+    //! Deleted move constructor.
+    FLIPSolver2(FLIPSolver2&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~FLIPSolver2() override = default;
+
+    //! Deleted copy assignment operator.
+    FLIPSolver2& operator=(const FLIPSolver2&) = delete;
+
+    //! Deleted move assignment operator.
+    FLIPSolver2& operator=(FLIPSolver2&&) noexcept = delete;
 
     //! Returns the PIC blending factor.
-    double GetPICBlendingFactor() const;
+    [[nodiscard]] double GetPICBlendingFactor() const;
 
     //!
     //! \brief  Sets the PIC blending factor.
@@ -57,7 +69,7 @@ class FLIPSolver2 : public PICSolver2
     void SetPICBlendingFactor(double factor);
 
     //! Returns builder fox FLIPSolver2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  protected:
     //! Transfers velocity field from particles to grids.
@@ -68,8 +80,8 @@ class FLIPSolver2 : public PICSolver2
 
  private:
     double m_picBlendingFactor = 0.0;
-    Array2<float> m_uDelta;
-    Array2<float> m_vDelta;
+    Array2<double> m_uDelta;
+    Array2<double> m_vDelta;
 };
 
 //! Shared pointer type for the FLIPSolver2.
@@ -78,15 +90,14 @@ using FLIPSolver2Ptr = std::shared_ptr<FLIPSolver2>;
 //!
 //! \brief Front-end to create FLIPSolver2 objects step by step.
 //!
-class FLIPSolver2::Builder final
-    : public GridFluidSolverBuilderBase2<FLIPSolver2::Builder>
+class FLIPSolver2::Builder final : public GridFluidSolverBuilderBase2<Builder>
 {
  public:
     //! Builds FLIPSolver2.
-    FLIPSolver2 Build() const;
+    [[nodiscard]] FLIPSolver2 Build() const;
 
     //! Builds shared pointer of FLIPSolver2 instance.
-    FLIPSolver2Ptr MakeShared() const;
+    [[nodiscard]] FLIPSolver2Ptr MakeShared() const;
 };
 }  // namespace CubbyFlow
 

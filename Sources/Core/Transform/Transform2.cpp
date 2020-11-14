@@ -12,11 +12,6 @@
 
 namespace CubbyFlow
 {
-Transform2::Transform2()
-{
-    // Do nothing
-}
-
 Transform2::Transform2(const Vector2D& translation, double orientation)
     : m_translation(translation), m_orientation(orientation)
 {
@@ -47,22 +42,22 @@ void Transform2::SetOrientation(double orientation)
 Vector2D Transform2::ToLocal(const Vector2D& pointInWorld) const
 {
     // Convert to the local frame
-    Vector2D xmt = pointInWorld - m_translation;
-    return Vector2D(m_cosAngle * xmt.x + m_sinAngle * xmt.y,
-                    -m_sinAngle * xmt.x + m_cosAngle * xmt.y);
+    const Vector2D xmt = pointInWorld - m_translation;
+    return Vector2D{ m_cosAngle * xmt.x + m_sinAngle * xmt.y,
+                     -m_sinAngle * xmt.x + m_cosAngle * xmt.y };
 }
 
 Vector2D Transform2::ToLocalDirection(const Vector2D& dirInWorld) const
 {
     // Convert to the local frame
-    return Vector2D(m_cosAngle * dirInWorld.x + m_sinAngle * dirInWorld.y,
-                    -m_sinAngle * dirInWorld.x + m_cosAngle * dirInWorld.y);
+    return Vector2D{ m_cosAngle * dirInWorld.x + m_sinAngle * dirInWorld.y,
+                     -m_sinAngle * dirInWorld.x + m_cosAngle * dirInWorld.y };
 }
 
 Ray2D Transform2::ToLocal(const Ray2D& rayInWorld) const
 {
-    return Ray2D(ToLocal(rayInWorld.origin),
-                 ToLocalDirection(rayInWorld.direction));
+    return Ray2D{ ToLocal(rayInWorld.origin),
+                  ToLocalDirection(rayInWorld.direction) };
 }
 
 BoundingBox2D Transform2::ToLocal(const BoundingBox2D& bboxInWorld) const
@@ -83,23 +78,23 @@ BoundingBox2D Transform2::ToLocal(const BoundingBox2D& bboxInWorld) const
 Vector2D Transform2::ToWorld(const Vector2D& pointInLocal) const
 {
     // Convert to the world frame
-    return Vector2D(m_cosAngle * pointInLocal.x - m_sinAngle * pointInLocal.y +
-                        m_translation.x,
-                    m_sinAngle * pointInLocal.x + m_cosAngle * pointInLocal.y +
-                        m_translation.y);
+    return Vector2D{ m_cosAngle * pointInLocal.x - m_sinAngle * pointInLocal.y +
+                         m_translation.x,
+                     m_sinAngle * pointInLocal.x + m_cosAngle * pointInLocal.y +
+                         m_translation.y };
 }
 
 Vector2D Transform2::ToWorldDirection(const Vector2D& dirInLocal) const
 {
     // Convert to the world frame
-    return Vector2D(m_cosAngle * dirInLocal.x - m_sinAngle * dirInLocal.y,
-                    m_sinAngle * dirInLocal.x + m_cosAngle * dirInLocal.y);
+    return Vector2D{ m_cosAngle * dirInLocal.x - m_sinAngle * dirInLocal.y,
+                     m_sinAngle * dirInLocal.x + m_cosAngle * dirInLocal.y };
 }
 
 Ray2D Transform2::ToWorld(const Ray2D& rayInLocal) const
 {
-    return Ray2D(ToWorld(rayInLocal.origin),
-                 ToWorldDirection(rayInLocal.direction));
+    return Ray2D{ ToWorld(rayInLocal.origin),
+                  ToWorldDirection(rayInLocal.direction) };
 }
 
 BoundingBox2D Transform2::ToWorld(const BoundingBox2D& bboxInLocal) const

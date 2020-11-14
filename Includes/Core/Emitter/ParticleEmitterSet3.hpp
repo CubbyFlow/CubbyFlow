@@ -23,21 +23,32 @@ class ParticleEmitterSet3 final : public ParticleEmitter3
  public:
     class Builder;
 
-    //! Constructs an emitter.
-    ParticleEmitterSet3();
+    //! Default constructor.
+    ParticleEmitterSet3() = default;
 
     //! Constructs an emitter with sub-emitters.
-    explicit ParticleEmitterSet3(
-        const std::vector<ParticleEmitter3Ptr>& emitters);
+    explicit ParticleEmitterSet3(std::vector<ParticleEmitter3Ptr> emitters);
 
-    //! Destructor.
-    virtual ~ParticleEmitterSet3();
+    //! Default copy constructor.
+    ParticleEmitterSet3(const ParticleEmitterSet3&) = default;
+
+    //! Default move constructor.
+    ParticleEmitterSet3(ParticleEmitterSet3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~ParticleEmitterSet3() override = default;
+
+    //! Default copy assignment operator.
+    ParticleEmitterSet3& operator=(const ParticleEmitterSet3&) = default;
+
+    //! Default move assignment operator.
+    ParticleEmitterSet3& operator=(ParticleEmitterSet3&&) noexcept = default;
 
     //! Adds sub-emitter.
     void AddEmitter(const ParticleEmitter3Ptr& emitter);
 
     //! Returns builder fox ParticleEmitterSet3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
     std::vector<ParticleEmitter3Ptr> m_emitters;
@@ -58,13 +69,14 @@ class ParticleEmitterSet3::Builder final
 {
  public:
     //! Returns builder with list of sub-emitters.
-    Builder& WithEmitters(const std::vector<ParticleEmitter3Ptr>& emitters);
+    [[nodiscard]] Builder& WithEmitters(
+        const std::vector<ParticleEmitter3Ptr>& emitters);
 
     //! Builds ParticleEmitterSet3.
-    ParticleEmitterSet3 Build() const;
+    [[nodiscard]] ParticleEmitterSet3 Build() const;
 
     //! Builds shared pointer of ParticleEmitterSet3 instance.
-    ParticleEmitterSet3Ptr MakeShared() const;
+    [[nodiscard]] ParticleEmitterSet3Ptr MakeShared() const;
 
  private:
     std::vector<ParticleEmitter3Ptr> m_emitters;

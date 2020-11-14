@@ -17,12 +17,6 @@
 namespace CubbyFlow
 {
 template <typename T>
-Array<T, 2>::Array()
-{
-    // Do nothing
-}
-
-template <typename T>
 Array<T, 2>::Array(const Size2& size, const T& initVal)
 {
     Resize(size, initVal);
@@ -47,7 +41,7 @@ Array<T, 2>::Array(const Array& other)
 }
 
 template <typename T>
-Array<T, 2>::Array(Array&& other)
+Array<T, 2>::Array(Array&& other) noexcept
 {
     *this = std::move(other);
 }
@@ -73,8 +67,8 @@ template <typename T>
 void Array<T, 2>::Set(
     const std::initializer_list<std::initializer_list<T>>& list)
 {
-    size_t height = list.size();
-    size_t width = (height > 0) ? list.begin()->size() : 0;
+    const size_t height = list.size();
+    const size_t width = (height > 0) ? list.begin()->size() : 0;
 
     Resize(Size2(width, height));
 
@@ -108,8 +102,8 @@ void Array<T, 2>::Resize(const Size2& size, const T& initVal)
     grid.m_data.resize(size.x * size.y, initVal);
     grid.m_size = size;
 
-    size_t iMin = std::min(size.x, m_size.x);
-    size_t jMin = std::min(size.y, m_size.y);
+    const size_t iMin = std::min(size.x, m_size.x);
+    const size_t jMin = std::min(size.y, m_size.y);
     for (size_t j = 0; j < jMin; ++j)
     {
         for (size_t i = 0; i < iMin; ++i)
@@ -309,9 +303,9 @@ const T& Array<T, 2>::operator()(const Point2UI& pt) const
 }
 
 template <typename T>
-Array<T, 2>& Array<T, 2>::operator=(const T& value)
+Array<T, 2>& Array<T, 2>::operator=(const T& other)
 {
-    Set(value);
+    Set(other);
     return *this;
 }
 
@@ -323,7 +317,7 @@ Array<T, 2>& Array<T, 2>::operator=(const Array& other)
 }
 
 template <typename T>
-Array<T, 2>& Array<T, 2>::operator=(Array&& other)
+Array<T, 2>& Array<T, 2>::operator=(Array&& other) noexcept
 {
     m_data = std::move(other.m_data);
     m_size = other.m_size;

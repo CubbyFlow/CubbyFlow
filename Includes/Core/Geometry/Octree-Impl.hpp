@@ -23,12 +23,6 @@ bool Octree<T>::Node::IsLeaf() const
 }
 
 template <typename T>
-Octree<T>::Octree()
-{
-    // Do nothing
-}
-
-template <typename T>
 void Octree<T>::Build(const std::vector<T>& items, const BoundingBox3D& bound,
                       const BoxIntersectionTestFunc3<T>& testFunc,
                       size_t maxDepth)
@@ -40,10 +34,10 @@ void Octree<T>::Build(const std::vector<T>& items, const BoundingBox3D& bound,
 
     // Normalize bounding box
     m_bbox = bound;
-    double maxEdgeLen =
+    const double maxEdgeLen =
         std::max({ m_bbox.GetWidth(), m_bbox.GetHeight(), m_bbox.GetDepth() });
     m_bbox.upperCorner =
-        m_bbox.lowerCorner + Vector3D(maxEdgeLen, maxEdgeLen, maxEdgeLen);
+        m_bbox.lowerCorner + Vector3D{ maxEdgeLen, maxEdgeLen, maxEdgeLen };
 
     // Build
     m_nodes.resize(1);
@@ -265,14 +259,14 @@ void Octree<T>::Build(size_t nodeIdx, size_t depth, const BoundingBox3D& bound,
 {
     if (depth < m_maxDepth && !m_nodes[nodeIdx].items.empty())
     {
-        size_t firstChild = m_nodes[nodeIdx].firstChild = m_nodes.size();
+        const size_t firstChild = m_nodes[nodeIdx].firstChild = m_nodes.size();
         m_nodes.resize(m_nodes[nodeIdx].firstChild + 8);
 
         BoundingBox3D bboxPerNode[8];
 
         for (int i = 0; i < 8; ++i)
         {
-            bboxPerNode[i] = BoundingBox3D(bound.Corner(i), bound.MidPoint());
+            bboxPerNode[i] = BoundingBox3D{ bound.Corner(i), bound.MidPoint() };
         }
 
         auto& currentItems = m_nodes[nodeIdx].items;
@@ -311,7 +305,7 @@ bool Octree<T>::IsIntersects(const BoundingBox3D& box,
 
     const Node& node = m_nodes[nodeIdx];
 
-    if (node.items.size() > 0)
+    if (!node.items.empty())
     {
         for (size_t itemIdx : node.items)
         {
@@ -326,8 +320,9 @@ bool Octree<T>::IsIntersects(const BoundingBox3D& box,
     {
         for (int i = 0; i < 8; ++i)
         {
-            if (IsIntersects(box, testFunc, node.firstChild + i,
-                             BoundingBox3D(bound.Corner(i), bound.MidPoint())))
+            if (IsIntersects(
+                    box, testFunc, node.firstChild + i,
+                    BoundingBox3D{ bound.Corner(i), bound.MidPoint() }))
             {
                 return true;
             }
@@ -349,7 +344,7 @@ bool Octree<T>::IsIntersects(const Ray3D& ray,
 
     const Node& node = m_nodes[nodeIdx];
 
-    if (node.items.size() > 0)
+    if (!node.items.empty())
     {
         for (size_t itemIdx : node.items)
         {
@@ -364,8 +359,9 @@ bool Octree<T>::IsIntersects(const Ray3D& ray,
     {
         for (int i = 0; i < 8; ++i)
         {
-            if (IsIntersects(ray, testFunc, node.firstChild + i,
-                             BoundingBox3D(bound.Corner(i), bound.MidPoint())))
+            if (IsIntersects(
+                    ray, testFunc, node.firstChild + i,
+                    BoundingBox3D{ bound.Corner(i), bound.MidPoint() }))
             {
                 return true;
             }
@@ -388,7 +384,7 @@ void Octree<T>::ForEachIntersectingItem(
 
     const Node& node = m_nodes[nodeIdx];
 
-    if (node.items.size() > 0)
+    if (!node.items.empty())
     {
         for (size_t itemIdx : node.items)
         {
@@ -405,7 +401,7 @@ void Octree<T>::ForEachIntersectingItem(
         {
             ForEachIntersectingItem(
                 box, testFunc, visitorFunc, node.firstChild + i,
-                BoundingBox3D(bound.Corner(i), bound.MidPoint()));
+                BoundingBox3D{ bound.Corner(i), bound.MidPoint() });
         }
     }
 }
@@ -423,7 +419,7 @@ void Octree<T>::ForEachIntersectingItem(
 
     const Node& node = m_nodes[nodeIdx];
 
-    if (node.items.size() > 0)
+    if (!node.items.empty())
     {
         for (size_t itemIdx : node.items)
         {
@@ -440,7 +436,7 @@ void Octree<T>::ForEachIntersectingItem(
         {
             ForEachIntersectingItem(
                 ray, testFunc, visitorFunc, node.firstChild + i,
-                BoundingBox3D(bound.Corner(i), bound.MidPoint()));
+                BoundingBox3D{ bound.Corner(i), bound.MidPoint() });
         }
     }
 }
@@ -458,7 +454,7 @@ ClosestIntersectionQueryResult3<T> Octree<T>::GetClosestIntersection(
 
     const Node& node = m_nodes[nodeIdx];
 
-    if (node.items.size() > 0)
+    if (!node.items.empty())
     {
         for (size_t itemIdx : node.items)
         {
@@ -477,7 +473,7 @@ ClosestIntersectionQueryResult3<T> Octree<T>::GetClosestIntersection(
         {
             best = GetClosestIntersection(
                 ray, testFunc, node.firstChild + i,
-                BoundingBox3D(bound.Corner(i), bound.MidPoint()), best);
+                BoundingBox3D{ bound.Corner(i), bound.MidPoint() }, best);
         }
     }
 

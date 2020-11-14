@@ -30,48 +30,61 @@ class SurfaceToImplicit2 final : public ImplicitSurface2
     class Builder;
 
     //! Constructs an instance with generic Surface2 instance.
-    SurfaceToImplicit2(const Surface2Ptr& surface,
-                       const Transform2& transform = Transform2(),
-                       bool isNormalFlipped = false);
+    explicit SurfaceToImplicit2(Surface2Ptr surface,
+                                const Transform2& _transform = Transform2{},
+                                bool _isNormalFlipped = false);
 
-    //! Copy constructor.
-    SurfaceToImplicit2(const SurfaceToImplicit2& other);
+    //! Default copy constructor.
+    SurfaceToImplicit2(const SurfaceToImplicit2&) = default;
+
+    //! Default move constructor.
+    SurfaceToImplicit2(SurfaceToImplicit2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~SurfaceToImplicit2() override = default;
 
     //! Default copy assignment operator.
-    SurfaceToImplicit2& operator=(const SurfaceToImplicit2& other) = default;
+    SurfaceToImplicit2& operator=(const SurfaceToImplicit2&) = default;
+
+    //! Default move assignment operator.
+    SurfaceToImplicit2& operator=(SurfaceToImplicit2&&) = default;
 
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;
 
     //! Returns true if bounding box can be defined.
-    bool IsBounded() const override;
+    [[nodiscard]] bool IsBounded() const override;
 
     //! Returns true if the surface is a valid geometry.
-    bool IsValidGeometry() const override;
+    [[nodiscard]] bool IsValidGeometry() const override;
 
     //! Returns the raw surface instance.
-    Surface2Ptr GetSurface() const;
+    [[nodiscard]] Surface2Ptr GetSurface() const;
 
     //! Returns builder for SurfaceToImplicit2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  protected:
-    Vector2D ClosestPointLocal(const Vector2D& otherPoint) const override;
+    [[nodiscard]] Vector2D ClosestPointLocal(
+        const Vector2D& otherPoint) const override;
 
-    double ClosestDistanceLocal(const Vector2D& otherPoint) const override;
+    [[nodiscard]] double ClosestDistanceLocal(
+        const Vector2D& otherPoint) const override;
 
-    bool IntersectsLocal(const Ray2D& ray) const override;
+    [[nodiscard]] bool IntersectsLocal(const Ray2D& ray) const override;
 
-    BoundingBox2D BoundingBoxLocal() const override;
+    [[nodiscard]] BoundingBox2D BoundingBoxLocal() const override;
 
-    Vector2D ClosestNormalLocal(const Vector2D& otherPoint) const override;
+    [[nodiscard]] Vector2D ClosestNormalLocal(
+        const Vector2D& otherPoint) const override;
 
-    double SignedDistanceLocal(const Vector2D& otherPoint) const override;
+    [[nodiscard]] double SignedDistanceLocal(
+        const Vector2D& otherPoint) const override;
 
-    SurfaceRayIntersection2 ClosestIntersectionLocal(
+    [[nodiscard]] SurfaceRayIntersection2 ClosestIntersectionLocal(
         const Ray2D& ray) const override;
 
-    bool IsInsideLocal(const Vector2D& otherPoint) const override;
+    [[nodiscard]] bool IsInsideLocal(const Vector2D& otherPoint) const override;
 
  private:
     Surface2Ptr m_surface;
@@ -83,18 +96,17 @@ using SurfaceToImplicit2Ptr = std::shared_ptr<SurfaceToImplicit2>;
 //!
 //! \brief Front-end to create SurfaceToImplicit2 objects step by step.
 //!
-class SurfaceToImplicit2::Builder final
-    : public SurfaceBuilderBase2<SurfaceToImplicit2::Builder>
+class SurfaceToImplicit2::Builder final : public SurfaceBuilderBase2<Builder>
 {
  public:
     //! Returns builder with surface.
-    Builder& WithSurface(const Surface2Ptr& surface);
+    [[nodiscard]] Builder& WithSurface(const Surface2Ptr& surface);
 
     //! Builds SurfaceToImplicit2.
-    SurfaceToImplicit2 Build() const;
+    [[nodiscard]] SurfaceToImplicit2 Build() const;
 
     //! Builds shared pointer of SurfaceToImplicit2 instance.
-    SurfaceToImplicit2Ptr MakeShared() const;
+    [[nodiscard]] SurfaceToImplicit2Ptr MakeShared() const;
 
  private:
     Surface2Ptr m_surface;

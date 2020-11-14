@@ -14,7 +14,7 @@
 namespace CubbyFlow
 {
 template <typename T>
-Ray<T, 2>::Ray() : Ray(Vector2<T>(), Vector2<T>(1, 0))
+Ray<T, 2>::Ray() : Ray{ Vector2<T>{}, Vector2<T>(1, 0) }
 {
     // Do nothing
 }
@@ -34,7 +34,23 @@ Ray<T, 2>::Ray(const Ray& other)
 }
 
 template <typename T>
+Ray<T, 2>::Ray(Ray&& other) noexcept
+    : origin(other.origin), direction(other.direction)
+{
+    // Do nothing
+}
+
+template <typename T>
 Ray<T, 2>& Ray<T, 2>::operator=(const Ray& other)
+{
+    origin = other.origin;
+    direction = other.direction;
+
+    return *this;
+}
+
+template <typename T>
+Ray<T, 2>& Ray<T, 2>::operator=(Ray&& other) noexcept
 {
     origin = other.origin;
     direction = other.direction;

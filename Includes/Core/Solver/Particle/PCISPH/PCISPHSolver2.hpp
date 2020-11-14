@@ -37,10 +37,23 @@ class PCISPHSolver2 : public SPHSolver2
     PCISPHSolver2(double targetDensity, double targetSpacing,
                   double relativeKernelRadius);
 
-    virtual ~PCISPHSolver2();
+    //! Deleted copy constructor.
+    PCISPHSolver2(const PCISPHSolver2&) = delete;
+
+    //! Deleted move constructor.
+    PCISPHSolver2(PCISPHSolver2&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~PCISPHSolver2() override = default;
+
+    //! Deleted copy assignment operator.
+    PCISPHSolver2& operator=(const PCISPHSolver2&) = delete;
+
+    //! Deleted move assignment operator.
+    PCISPHSolver2& operator=(PCISPHSolver2&&) noexcept = delete;
 
     //! Returns max allowed density error ratio.
-    double GetMaxDensityErrorRatio() const;
+    [[nodiscard]] double GetMaxDensityErrorRatio() const;
 
     //!
     //! \brief Sets max allowed density error ratio.
@@ -51,7 +64,7 @@ class PCISPHSolver2 : public SPHSolver2
     void SetMaxDensityErrorRatio(double ratio);
 
     //! Returns max number of iterations.
-    unsigned int GetMaxNumberOfIterations() const;
+    [[nodiscard]] unsigned int GetMaxNumberOfIterations() const;
 
     //!
     //! \brief Sets max number of PCISPH iterations.
@@ -61,7 +74,7 @@ class PCISPHSolver2 : public SPHSolver2
     void SetMaxNumberOfIterations(unsigned int n);
 
     //! Returns builder fox PCISPHSolver2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  protected:
     //! Accumulates the pressure force to the forces array in the particle
@@ -72,6 +85,9 @@ class PCISPHSolver2 : public SPHSolver2
     void OnBeginAdvanceTimeStep(double timeStepInSeconds) override;
 
  private:
+    [[nodiscard]] double ComputeDelta(double timeStepInSeconds) const;
+    [[nodiscard]] double ComputeBeta(double timeStepInSeconds) const;
+
     double m_maxDensityErrorRatio = 0.01;
     unsigned int m_maxNumberOfIterations = 5;
 
@@ -79,9 +95,6 @@ class PCISPHSolver2 : public SPHSolver2
     ParticleSystemData2::VectorData m_tempVelocities;
     ParticleSystemData2::VectorData m_pressureForces;
     ParticleSystemData2::ScalarData m_densityErrors;
-
-    double ComputeDelta(double timeStepInSeconds) const;
-    double ComputeBeta(double timeStepInSeconds) const;
 };
 
 //! Shared pointer type for the PCISPHSolver2.
@@ -90,15 +103,14 @@ using PCISPHSolver2Ptr = std::shared_ptr<PCISPHSolver2>;
 //!
 //! \brief Front-end to create PCISPHSolver2 objects step by step.
 //!
-class PCISPHSolver2::Builder final
-    : public SPHSolverBuilderBase2<PCISPHSolver2::Builder>
+class PCISPHSolver2::Builder final : public SPHSolverBuilderBase2<Builder>
 {
  public:
     //! Builds PCISPHSolver2.
-    PCISPHSolver2 Build() const;
+    [[nodiscard]] PCISPHSolver2 Build() const;
 
     //! Builds shared pointer of PCISPHSolver2 instance.
-    PCISPHSolver2Ptr MakeShared() const;
+    [[nodiscard]] PCISPHSolver2Ptr MakeShared() const;
 };
 }  // namespace CubbyFlow
 

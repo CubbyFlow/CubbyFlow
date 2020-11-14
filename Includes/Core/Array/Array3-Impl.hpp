@@ -17,12 +17,6 @@
 namespace CubbyFlow
 {
 template <typename T>
-Array<T, 3>::Array()
-{
-    // Do nothing
-}
-
-template <typename T>
 Array<T, 3>::Array(const Size3& size, const T& initVal)
 {
     Resize(size, initVal);
@@ -48,7 +42,7 @@ Array<T, 3>::Array(const Array& other)
 }
 
 template <typename T>
-Array<T, 3>::Array(Array&& other)
+Array<T, 3>::Array(Array&& other) noexcept
 {
     *this = std::move(other);
 }
@@ -74,9 +68,9 @@ template <typename T>
 void Array<T, 3>::Set(const std::initializer_list<
                       std::initializer_list<std::initializer_list<T>>>& list)
 {
-    size_t depth = list.size();
-    size_t height = (depth > 0) ? list.begin()->size() : 0;
-    size_t width = (height > 0) ? list.begin()->begin()->size() : 0;
+    const size_t depth = list.size();
+    const size_t height = (depth > 0) ? list.begin()->size() : 0;
+    const size_t width = (height > 0) ? list.begin()->begin()->size() : 0;
 
     Resize(Size3(width, height, depth));
 
@@ -116,9 +110,9 @@ void Array<T, 3>::Resize(const Size3& size, const T& initVal)
     grid.m_data.resize(size.x * size.y * size.z, initVal);
     grid.m_size = size;
 
-    size_t iMin = std::min(size.x, m_size.x);
-    size_t jMin = std::min(size.y, m_size.y);
-    size_t kMin = std::min(size.z, m_size.z);
+    const size_t iMin = std::min(size.x, m_size.x);
+    const size_t jMin = std::min(size.y, m_size.y);
+    const size_t kMin = std::min(size.z, m_size.z);
 
     for (size_t k = 0; k < kMin; ++k)
     {
@@ -343,7 +337,7 @@ Array<T, 3>& Array<T, 3>::operator=(const Array& other)
 }
 
 template <typename T>
-Array<T, 3>& Array<T, 3>::operator=(Array&& other)
+Array<T, 3>& Array<T, 3>::operator=(Array&& other) noexcept
 {
     m_data = std::move(other.m_data);
     m_size = other.m_size;

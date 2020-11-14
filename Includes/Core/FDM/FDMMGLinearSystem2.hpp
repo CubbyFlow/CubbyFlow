@@ -25,20 +25,11 @@ using FDMMGVector2 = MGVector<FDMBLAS2>;
 //! Multigrid-syle 2-D linear system.
 struct FDMMGLinearSystem2
 {
-    //! The system matrix.
-    FDMMGMatrix2 A;
-
-    //! The solution vector.
-    FDMMGVector2 x;
-
-    //! The RHS vector.
-    FDMMGVector2 b;
-
     //! Clears the linear system.
     void Clear();
 
     //! Returns the number of multigrid levels.
-    size_t GetNumberOfLevels() const;
+    [[nodiscard]] size_t GetNumberOfLevels() const;
 
     //! Resizes the system with the coarsest resolution and number of levels.
     void ResizeWithCoarsest(const Size2& coarsestResolution,
@@ -56,6 +47,15 @@ struct FDMMGLinearSystem2
     //!
     void ResizeWithFinest(const Size2& finestResolution,
                           size_t maxNumberOfLevels);
+
+    //! The system matrix.
+    FDMMGMatrix2 A;
+
+    //! The solution vector.
+    FDMMGVector2 x;
+
+    //! The RHS vector.
+    FDMMGVector2 b;
 };
 
 //! Multigrid utilities for 2-D FDM system.
@@ -83,6 +83,7 @@ class FDMMGUtils2
     //!
     //! \param finestResolution - The finest grid resolution.
     //! \param maxNumberOfLevels - Maximum number of multigrid levels.
+    //! \param levels - The array to resize.
     //!
     template <typename T>
     static void ResizeArrayWithFinest(const Size2& finestResolution,

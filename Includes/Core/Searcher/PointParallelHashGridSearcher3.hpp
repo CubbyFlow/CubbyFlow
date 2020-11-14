@@ -57,8 +57,23 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3
     PointParallelHashGridSearcher3(size_t resolutionX, size_t resolutionY,
                                    size_t resolutionZ, double gridSpacing);
 
-    //! Copy constructor
+    //! Copy constructor.
     PointParallelHashGridSearcher3(const PointParallelHashGridSearcher3& other);
+
+    //! Default move constructor.
+    PointParallelHashGridSearcher3(PointParallelHashGridSearcher3&&) noexcept =
+        default;
+
+    //! Default virtual destructor.
+    ~PointParallelHashGridSearcher3() override = default;
+
+    //! Copy assignment operator.
+    PointParallelHashGridSearcher3& operator=(
+        const PointParallelHashGridSearcher3& other);
+
+    //! Move assignment operator.
+    PointParallelHashGridSearcher3& operator=(
+        PointParallelHashGridSearcher3&&) noexcept = default;
 
     //!
     //! \brief Builds internal acceleration structure for given points list.
@@ -90,7 +105,8 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3
     //!
     //! \return     True if has nearby point, false otherwise.
     //!
-    bool HasNearbyPoint(const Vector3D& origin, double radius) const override;
+    [[nodiscard]] bool HasNearbyPoint(const Vector3D& origin,
+                                      double radius) const override;
 
     //!
     //! \brief      Returns the hash key list.
@@ -100,7 +116,7 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3
     //!
     //! \return     The hash key list.
     //!
-    const std::vector<size_t>& Keys() const;
+    [[nodiscard]] const std::vector<size_t>& Keys() const;
 
     //!
     //! \brief      Returns the start index table.
@@ -125,7 +141,7 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3
     //!
     //! \return     The start index table.
     //!
-    const std::vector<size_t>& StartIndexTable() const;
+    [[nodiscard]] const std::vector<size_t>& StartIndexTable() const;
 
     //!
     //! \brief      Returns the end index table.
@@ -150,7 +166,7 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3
     //!
     //! \return     The end index table.
     //!
-    const std::vector<size_t>& EndIndexTable() const;
+    [[nodiscard]] const std::vector<size_t>& EndIndexTable() const;
 
     //!
     //! \brief      Returns the sorted indices of the points.
@@ -162,7 +178,7 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3
     //!
     //! \return     The sorted indices of the points.
     //!
-    const std::vector<size_t>& SortedIndices() const;
+    [[nodiscard]] const std::vector<size_t>& SortedIndices() const;
 
     //!
     //! Returns the hash value for given 3-D bucket index.
@@ -171,7 +187,8 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3
     //!
     //! \return     The hash key from bucket index.
     //!
-    size_t GetHashKeyFromBucketIndex(const Point3I& bucketIndex) const;
+    [[nodiscard]] size_t GetHashKeyFromBucketIndex(
+        const Point3I& bucketIndex) const;
 
     //!
     //! Gets the bucket index from a point.
@@ -180,7 +197,7 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3
     //!
     //! \return     The bucket index.
     //!
-    Point3I GetBucketIndex(const Vector3D& position) const;
+    [[nodiscard]] Point3I GetBucketIndex(const Vector3D& position) const;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -188,11 +205,7 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3
     //!
     //! \return     Copy of this object.
     //!
-    PointNeighborSearcher3Ptr Clone() const override;
-
-    //! Assignment operator.
-    PointParallelHashGridSearcher3& operator=(
-        const PointParallelHashGridSearcher3& other);
+    [[nodiscard]] PointNeighborSearcher3Ptr Clone() const override;
 
     //! Copy from the other instance.
     void Set(const PointParallelHashGridSearcher3& other);
@@ -204,20 +217,20 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3
     void Deserialize(const std::vector<uint8_t>& buffer) override;
 
     //! Returns builder fox PointParallelHashGridSearcher3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
+    [[nodiscard]] size_t GetHashKeyFromPosition(const Vector3D& position) const;
+
+    void GetNearbyKeys(const Vector3D& position, size_t* nearbyKeys) const;
+
     double m_gridSpacing = 1.0;
-    Point3I m_resolution = Point3I(1, 1, 1);
+    Point3I m_resolution = Point3I{ 1, 1, 1 };
     std::vector<Vector3D> m_points;
     std::vector<size_t> m_keys;
     std::vector<size_t> m_startIndexTable;
     std::vector<size_t> m_endIndexTable;
     std::vector<size_t> m_sortedIndices;
-
-    size_t GetHashKeyFromPosition(const Vector3D& position) const;
-
-    void GetNearbyKeys(const Vector3D& position, size_t* bucketIndices) const;
 };
 
 //! Shared pointer for the PointParallelHashGridSearcher3 type.
@@ -233,19 +246,20 @@ class PointParallelHashGridSearcher3::Builder final
 {
  public:
     //! Returns builder with resolution.
-    Builder& WithResolution(const Size3& resolution);
+    [[nodiscard]] Builder& WithResolution(const Size3& resolution);
 
     //! Returns builder with grid spacing.
-    Builder& WithGridSpacing(double gridSpacing);
+    [[nodiscard]] Builder& WithGridSpacing(double gridSpacing);
 
     //! Builds PointParallelHashGridSearcher3 instance.
-    PointParallelHashGridSearcher3 Build() const;
+    [[nodiscard]] PointParallelHashGridSearcher3 Build() const;
 
     //! Builds shared pointer of PointParallelHashGridSearcher3 instance.
-    PointParallelHashGridSearcher3Ptr MakeShared() const;
+    [[nodiscard]] PointParallelHashGridSearcher3Ptr MakeShared() const;
 
     //! Returns shared pointer of PointNeighborSearcher3 type.
-    PointNeighborSearcher3Ptr BuildPointNeighborSearcher() const override;
+    [[nodiscard]] PointNeighborSearcher3Ptr BuildPointNeighborSearcher()
+        const override;
 
  private:
     Size3 m_resolution{ 64, 64, 64 };

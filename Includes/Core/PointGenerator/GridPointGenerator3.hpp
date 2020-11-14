@@ -30,7 +30,7 @@ class GridPointGenerator3 final : public PointGenerator3
     //!
     void ForEachPoint(
         const BoundingBox3D& boundingBox, double spacing,
-        const std::function<bool(const Vector3D&)>& callback) const;
+        const std::function<bool(const Vector3D&)>& callback) const override;
 };
 
 //! Shared pointer type for the GridPointGenerator3.

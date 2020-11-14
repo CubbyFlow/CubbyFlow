@@ -17,8 +17,8 @@ namespace CubbyFlow
 {
 PointHashGridSearcher3::PointHashGridSearcher3(const Size3& resolution,
                                                double gridSpacing)
-    : PointHashGridSearcher3(resolution.x, resolution.y, resolution.z,
-                             gridSpacing)
+    : PointHashGridSearcher3{ resolution.x, resolution.y, resolution.z,
+                              gridSpacing }
 {
     // Do nothing
 }
@@ -43,6 +43,13 @@ PointHashGridSearcher3::PointHashGridSearcher3(
     Set(other);
 }
 
+PointHashGridSearcher3& PointHashGridSearcher3::operator=(
+    const PointHashGridSearcher3& other)
+{
+    Set(other);
+    return *this;
+}
+
 void PointHashGridSearcher3::Build(const ConstArrayAccessor1<Vector3D>& points)
 {
     m_buckets.clear();
@@ -52,7 +59,7 @@ void PointHashGridSearcher3::Build(const ConstArrayAccessor1<Vector3D>& points)
     m_buckets.resize(m_resolution.x * m_resolution.y * m_resolution.z);
     m_points.resize(points.size());
 
-    if (m_points.size() == 0)
+    if (m_points.empty())
     {
         return;
     }
@@ -61,7 +68,7 @@ void PointHashGridSearcher3::Build(const ConstArrayAccessor1<Vector3D>& points)
     for (size_t i = 0; i < points.size(); ++i)
     {
         m_points[i] = points[i];
-        size_t key = GetHashKeyFromPosition(points[i]);
+        const size_t key = GetHashKeyFromPosition(points[i]);
         m_buckets[key].push_back(i);
     }
 }
@@ -75,20 +82,21 @@ void PointHashGridSearcher3::ForEachNearbyPoint(
         return;
     }
 
-    size_t nearByKeys[8];
-    GetNearbyKeys(origin, nearByKeys);
+    size_t nearbyKeys[8];
+    GetNearbyKeys(origin, nearbyKeys);
 
     const double queryRadiusSquared = radius * radius;
 
-    for (size_t i = 0; i < 8; ++i)
+    for (const auto& key : nearbyKeys)
     {
-        const auto& bucket = m_buckets[nearByKeys[i]];
-        size_t numberOfPointsInBucket = bucket.size();
+        const std::vector<size_t>& bucket = m_buckets[key];
+        const size_t numberOfPointsInBucket = bucket.size();
 
         for (size_t j = 0; j < numberOfPointsInBucket; ++j)
         {
-            size_t pointIndex = bucket[j];
-            double rSquared = (m_points[pointIndex] - origin).LengthSquared();
+            const size_t pointIndex = bucket[j];
+            const double rSquared =
+                (m_points[pointIndex] - origin).LengthSquared();
             if (rSquared <= queryRadiusSquared)
             {
                 callback(pointIndex, m_points[pointIndex]);
@@ -110,15 +118,16 @@ bool PointHashGridSearcher3::HasNearbyPoint(const Vector3D& origin,
 
     const double queryRadiusSquared = radius * radius;
 
-    for (int i = 0; i < 8; ++i)
+    for (const auto& key : nearbyKeys)
     {
-        const auto& bucket = m_buckets[nearbyKeys[i]];
-        size_t numberOfPointsInBucket = bucket.size();
+        const std::vector<size_t>& bucket = m_buckets[key];
+        const size_t numberOfPointsInBucket = bucket.size();
 
         for (size_t j = 0; j < numberOfPointsInBucket; ++j)
         {
-            size_t pointIndex = bucket[j];
-            double rSquared = (m_points[pointIndex] - origin).LengthSquared();
+            const size_t pointIndex = bucket[j];
+            const double rSquared =
+                (m_points[pointIndex] - origin).LengthSquared();
             if (rSquared <= queryRadiusSquared)
             {
                 return true;
@@ -195,15 +204,8 @@ Point3I PointHashGridSearcher3::GetBucketIndex(const Vector3D& position) const
 PointNeighborSearcher3Ptr PointHashGridSearcher3::Clone() const
 {
     return std::shared_ptr<PointNeighborSearcher3>(
-        new PointHashGridSearcher3(*this),
+        new PointHashGridSearcher3{ *this },
         [](PointHashGridSearcher3* obj) { delete obj; });
-}
-
-PointHashGridSearcher3& PointHashGridSearcher3::operator=(
-    const PointHashGridSearcher3& other)
-{
-    Set(other);
-    return *this;
 }
 
 void PointHashGridSearcher3::Set(const PointHashGridSearcher3& other)
@@ -216,7 +218,7 @@ void PointHashGridSearcher3::Set(const PointHashGridSearcher3& other)
 
 void PointHashGridSearcher3::Serialize(std::vector<uint8_t>* buffer) const
 {
-    flatbuffers::FlatBufferBuilder builder(1024);
+    flatbuffers::FlatBufferBuilder builder{ 1024 };
 
     // Copy simple data
     auto fbsResolution =
@@ -229,14 +231,14 @@ void PointHashGridSearcher3::Serialize(std::vector<uint8_t>* buffer) const
         points.push_back(CubbyFlowToFlatbuffers(pt));
     }
 
-    auto fbsPoints =
-        builder.CreateVectorOfStructs(points.data(), points.size());
+    const flatbuffers::Offset<flatbuffers::Vector<const fbs::Vector3D*>>
+        fbsPoints = builder.CreateVectorOfStructs(points.data(), points.size());
 
     // Copy buckets
     std::vector<flatbuffers::Offset<fbs::PointHashGridSearcherBucket3>> buckets;
     for (const auto& bucket : m_buckets)
     {
-        std::vector<uint64_t> bucket64(bucket.begin(), bucket.end());
+        std::vector<uint64_t> bucket64{ bucket.begin(), bucket.end() };
         flatbuffers::Offset<fbs::PointHashGridSearcherBucket3> fbsBucket =
             fbs::CreatePointHashGridSearcherBucket3(
                 builder,
@@ -244,16 +246,19 @@ void PointHashGridSearcher3::Serialize(std::vector<uint8_t>* buffer) const
         buckets.push_back(fbsBucket);
     }
 
-    auto fbsBuckets = builder.CreateVector(buckets);
+    const flatbuffers::Offset<flatbuffers::Vector<
+        flatbuffers::Offset<fbs::PointHashGridSearcherBucket3>>>
+        fbsBuckets = builder.CreateVector(buckets);
 
     // Copy the searcher
-    auto fbsSearcher = fbs::CreatePointHashGridSearcher3(
-        builder, m_gridSpacing, &fbsResolution, fbsPoints, fbsBuckets);
+    const flatbuffers::Offset<fbs::PointHashGridSearcher3> fbsSearcher =
+        CreatePointHashGridSearcher3(builder, m_gridSpacing, &fbsResolution,
+                                     fbsPoints, fbsBuckets);
 
     builder.Finish(fbsSearcher);
 
     uint8_t* buf = builder.GetBufferPointer();
-    size_t size = builder.GetSize();
+    const size_t size = builder.GetSize();
 
     buffer->resize(size);
     memcpy(buffer->data(), buf, size);
@@ -261,15 +266,17 @@ void PointHashGridSearcher3::Serialize(std::vector<uint8_t>* buffer) const
 
 void PointHashGridSearcher3::Deserialize(const std::vector<uint8_t>& buffer)
 {
-    auto fbsSearcher = fbs::GetPointHashGridSearcher3(buffer.data());
+    const fbs::PointHashGridSearcher3* fbsSearcher =
+        fbs::GetPointHashGridSearcher3(buffer.data());
 
     // Copy simple data
-    auto res = FlatbuffersToCubbyFlow(*fbsSearcher->resolution());
+    const Size3 res = FlatbuffersToCubbyFlow(*fbsSearcher->resolution());
     m_resolution.Set({ res.x, res.y, res.z });
     m_gridSpacing = fbsSearcher->gridSpacing();
 
     // Copy points
-    auto fbsPoints = fbsSearcher->points();
+    const flatbuffers::Vector<const fbs::Vector3D*>* fbsPoints =
+        fbsSearcher->points();
     m_points.resize(fbsPoints->size());
     for (uint32_t i = 0; i < fbsPoints->size(); ++i)
     {
@@ -277,11 +284,15 @@ void PointHashGridSearcher3::Deserialize(const std::vector<uint8_t>& buffer)
     }
 
     // Copy buckets
-    auto fbsBuckets = fbsSearcher->buckets();
+    const flatbuffers::Vector<
+        flatbuffers::Offset<fbs::PointHashGridSearcherBucket3>>* fbsBuckets =
+        fbsSearcher->buckets();
     m_buckets.resize(fbsBuckets->size());
     for (uint32_t i = 0; i < fbsBuckets->size(); ++i)
     {
-        auto fbsBucket = fbsBuckets->Get(i);
+        const flatbuffers::Vector<
+            flatbuffers::Offset<fbs::PointHashGridSearcherBucket3>>::return_type
+            fbsBucket = fbsBuckets->Get(i);
         m_buckets[i].resize(fbsBucket->data()->size());
         std::transform(fbsBucket->data()->begin(), fbsBucket->data()->end(),
                        m_buckets[i].begin(),
@@ -291,27 +302,29 @@ void PointHashGridSearcher3::Deserialize(const std::vector<uint8_t>& buffer)
 
 PointHashGridSearcher3::Builder PointHashGridSearcher3::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 size_t PointHashGridSearcher3::GetHashKeyFromPosition(
     const Vector3D& position) const
 {
-    Point3I bucketIndex = GetBucketIndex(position);
+    const Point3I bucketIndex = GetBucketIndex(position);
     return GetHashKeyFromBucketIndex(bucketIndex);
 }
 
 void PointHashGridSearcher3::GetNearbyKeys(const Vector3D& position,
                                            size_t* nearbyKeys) const
 {
-    Point3I originIndex = GetBucketIndex(position), nearbyBucketIndices[8];
+    const Point3I originIndex = GetBucketIndex(position);
+    Point3I nearbyBucketIndices[8];
 
-    for (int i = 0; i < 8; ++i)
+    for (auto& bucketIndex : nearbyBucketIndices)
     {
-        nearbyBucketIndices[i] = originIndex;
+        bucketIndex = originIndex;
     }
 
-    if ((originIndex.x + 0.5f) * m_gridSpacing <= position.x)
+    if ((static_cast<double>(originIndex.x) + 0.5) * m_gridSpacing <=
+        position.x)
     {
         nearbyBucketIndices[4].x += 1;
         nearbyBucketIndices[5].x += 1;
@@ -326,7 +339,8 @@ void PointHashGridSearcher3::GetNearbyKeys(const Vector3D& position,
         nearbyBucketIndices[7].x -= 1;
     }
 
-    if ((originIndex.y + 0.5f) * m_gridSpacing <= position.y)
+    if ((static_cast<double>(originIndex.y) + 0.5) * m_gridSpacing <=
+        position.y)
     {
         nearbyBucketIndices[2].y += 1;
         nearbyBucketIndices[3].y += 1;
@@ -341,7 +355,8 @@ void PointHashGridSearcher3::GetNearbyKeys(const Vector3D& position,
         nearbyBucketIndices[7].y -= 1;
     }
 
-    if ((originIndex.z + 0.5f) * m_gridSpacing <= position.z)
+    if ((static_cast<double>(originIndex.z) + 0.5) * m_gridSpacing <=
+        position.z)
     {
         nearbyBucketIndices[1].z += 1;
         nearbyBucketIndices[3].z += 1;
@@ -378,7 +393,7 @@ PointHashGridSearcher3::Builder::WithGridSpacing(double gridSpacing)
 
 PointHashGridSearcher3 PointHashGridSearcher3::Builder::Build() const
 {
-    return PointHashGridSearcher3(m_resolution, m_gridSpacing);
+    return PointHashGridSearcher3{ m_resolution, m_gridSpacing };
 }
 
 PointHashGridSearcher3Ptr PointHashGridSearcher3::Builder::MakeShared() const

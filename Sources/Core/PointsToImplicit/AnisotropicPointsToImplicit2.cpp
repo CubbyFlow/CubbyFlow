@@ -43,7 +43,7 @@ inline double Wij(double distance, double r)
 
 inline Matrix2x2D Vvt(const Vector2D& v)
 {
-    return Matrix2x2D(v.x * v.x, v.x * v.y, v.y * v.x, v.y * v.y);
+    return Matrix2x2D{ v.x * v.x, v.x * v.y, v.y * v.x, v.y * v.y };
 }
 
 inline double W(const Vector2D& r, const Matrix2x2D& g, double gDet)
@@ -73,14 +73,14 @@ void AnisotropicPointsToImplicit2::Convert(
         return;
     }
 
-    const auto res = output->Resolution();
+    const Size2& res = output->Resolution();
     if (res.x * res.y == 0)
     {
         CUBBYFLOW_WARN << "Empty grid is provided.";
         return;
     }
 
-    const auto bbox = output->BoundingBox();
+    const BoundingBox2D& bbox = output->BoundingBox();
     if (bbox.IsEmpty())
     {
         CUBBYFLOW_WARN << "Empty domain is provided.";
@@ -92,8 +92,8 @@ void AnisotropicPointsToImplicit2::Convert(
     const double r = 2.0 * h;
 
     // Mean estimator for cov. mat.
-    const auto meanNeighborSearcher =
-        PointKdTreeSearcher2::Builder().MakeShared();
+    const PointKdTreeSearcher2Ptr meanNeighborSearcher =
+        PointKdTreeSearcher2::Builder{}.MakeShared();
     meanNeighborSearcher->Build(points);
 
     CUBBYFLOW_INFO << "Built neighbor searcher.";
@@ -105,10 +105,10 @@ void AnisotropicPointsToImplicit2::Convert(
 
     // Compute G and xMean
     std::vector<Matrix2x2D> gs(points.size());
-    Array1<Vector2D> xMeans(points.size());
+    Array1<Vector2D> xMeans{ points.size() };
 
     ParallelFor(ZERO_SIZE, points.size(), [&](size_t i) {
-        const auto& x = points[i];
+        const Vector2D& x = points[i];
 
         // Compute xMean
         Vector2D xMean;
@@ -129,7 +129,7 @@ void AnisotropicPointsToImplicit2::Convert(
 
         if (numNeighbors < m_minNumNeighbors)
         {
-            const auto g = Matrix2x2D::MakeScaleMatrix(invH, invH);
+            const Matrix2x2D g = Matrix2x2D::MakeScaleMatrix(invH, invH);
             gs[i] = g;
         }
         else
@@ -165,7 +165,7 @@ void AnisotropicPointsToImplicit2::Convert(
             v.x = std::max(v.x, maxSingularVal / kr);
             v.y = std::max(v.y, maxSingularVal / kr);
 
-            const auto invSigma = Matrix2x2D::MakeScaleMatrix(1.0 / v);
+            const Matrix2x2D invSigma = Matrix2x2D::MakeScaleMatrix(1.0 / v);
 
             // Compute G
             // Area preservation
@@ -180,14 +180,14 @@ void AnisotropicPointsToImplicit2::Convert(
     // SPH estimator
     meanParticles.SetKernelRadius(h);
     meanParticles.UpdateDensities();
-    const auto d = meanParticles.GetDensities();
+    const ArrayAccessor<double, 1> d = meanParticles.GetDensities();
     const double m = meanParticles.GetMass();
 
     PointKdTreeSearcher2 meanNeighborSearcher2;
     meanNeighborSearcher2.Build(xMeans);
 
     // Compute SDF
-    auto temp = output->Clone();
+    std::shared_ptr<ScalarGrid2> temp = output->Clone();
     temp->Fill([&](const Vector2D& x) {
         double sum = 0.0;
         meanNeighborSearcher2.ForEachNearbyPoint(

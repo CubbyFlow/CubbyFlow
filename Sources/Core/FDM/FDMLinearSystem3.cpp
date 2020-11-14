@@ -60,7 +60,7 @@ void FDMBLAS3::Set(const FDMMatrix3& m, FDMMatrix3* result)
 
 double FDMBLAS3::Dot(const FDMVector3& a, const FDMVector3& b)
 {
-    Size3 size = a.size();
+    const Size3 size = a.size();
 
     assert(size == b.size());
 
@@ -138,7 +138,7 @@ double FDMBLAS3::L2Norm(const FDMVector3& v)
 
 double FDMBLAS3::LInfNorm(const FDMVector3& v)
 {
-    Size3 size = v.size();
+    const Size3 size = v.size();
     double result = 0.0;
 
     for (size_t k = 0; k < size.z; ++k)
@@ -201,7 +201,7 @@ void FDMCompressedBLAS3::MVM(const MatrixCSRD& m, const VectorND& v,
 
         for (size_t jj = rowBegin; jj < rowEnd; ++jj)
         {
-            size_t j = ci[jj];
+            const size_t j = ci[jj];
             sum += nnz[jj] * v[j];
         }
 
@@ -224,7 +224,7 @@ void FDMCompressedBLAS3::Residual(const MatrixCSRD& a, const VectorND& x,
 
         for (size_t jj = rowBegin; jj < rowEnd; ++jj)
         {
-            size_t j = ci[jj];
+            const size_t j = ci[jj];
             sum += nnz[jj] * x[j];
         }
 

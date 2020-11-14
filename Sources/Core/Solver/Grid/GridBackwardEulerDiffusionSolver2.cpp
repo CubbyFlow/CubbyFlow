@@ -35,9 +35,10 @@ void GridBackwardEulerDiffusionSolver2::Solve(const ScalarGrid2& source,
 {
     if (m_systemSolver != nullptr)
     {
-        auto pos = source.GetDataPosition();
-        Vector2D h = source.GridSpacing();
-        Vector2D c = timeIntervalInSeconds * diffusionCoefficient / (h * h);
+        const auto pos = source.GetDataPosition();
+        const Vector2D& h = source.GridSpacing();
+        const Vector2D c =
+            timeIntervalInSeconds * diffusionCoefficient / (h * h);
 
         BuildMarkers(source.GetDataSize(), pos, boundarySDF, fluidSDF);
         BuildMatrix(source.GetDataSize(), c);
@@ -59,9 +60,10 @@ void GridBackwardEulerDiffusionSolver2::Solve(
 {
     if (m_systemSolver != nullptr)
     {
-        auto pos = source.GetDataPosition();
-        Vector2D h = source.GridSpacing();
-        Vector2D c = timeIntervalInSeconds * diffusionCoefficient / (h * h);
+        const auto pos = source.GetDataPosition();
+        const Vector2D& h = source.GridSpacing();
+        const Vector2D c =
+            timeIntervalInSeconds * diffusionCoefficient / (h * h);
 
         BuildMarkers(source.GetDataSize(), pos, boundarySDF, fluidSDF);
         BuildMatrix(source.GetDataSize(), c);
@@ -97,11 +99,12 @@ void GridBackwardEulerDiffusionSolver2::Solve(const FaceCenteredGrid2& source,
 {
     if (m_systemSolver != nullptr)
     {
-        Vector2D h = source.GridSpacing();
-        Vector2D c = timeIntervalInSeconds * diffusionCoefficient / (h * h);
+        const Vector2D& h = source.GridSpacing();
+        const Vector2D c =
+            timeIntervalInSeconds * diffusionCoefficient / (h * h);
 
         // u
-        auto uPos = source.GetUPosition();
+        const auto uPos = source.GetUPosition();
         BuildMarkers(source.GetUSize(), uPos, boundarySDF, fluidSDF);
         BuildMatrix(source.GetUSize(), c);
         BuildVectors(source.GetUConstAccessor(), c);
@@ -114,7 +117,7 @@ void GridBackwardEulerDiffusionSolver2::Solve(const FaceCenteredGrid2& source,
             [&](size_t i, size_t j) { dest->GetU(i, j) = m_system.x(i, j); });
 
         // v
-        auto vPos = source.GetVPosition();
+        const auto vPos = source.GetVPosition();
         BuildMarkers(source.GetVSize(), vPos, boundarySDF, fluidSDF);
         BuildMatrix(source.GetVSize(), c);
         BuildVectors(source.GetVConstAccessor(), c);
@@ -165,7 +168,7 @@ void GridBackwardEulerDiffusionSolver2::BuildMatrix(const Size2& size,
 
     // Build linear system
     m_system.A.ParallelForEachIndex([&](size_t i, size_t j) {
-        auto& row = m_system.A(i, j);
+        FDMMatrixRow2& row = m_system.A(i, j);
 
         // Initialize
         row.center = 1.0;

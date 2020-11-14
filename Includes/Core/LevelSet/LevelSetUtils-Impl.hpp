@@ -32,7 +32,7 @@ bool IsInsideSDF(T phi)
 }
 
 template <typename T>
-inline T SmearedHeavisideSDF(T phi)
+T SmearedHeavisideSDF(T phi)
 {
     if (phi > 1.5)
     {
@@ -44,12 +44,12 @@ inline T SmearedHeavisideSDF(T phi)
         return 0;
     }
 
-    return 0.5f + phi / 3.0 +
-           0.5f * (1 / PI<T>()) * std::sin(PI<T>() * phi / 1.5);
+    return 0.5 + phi / 3.0 +
+           0.5 * (1 / PI<T>()) * std::sin(PI<T>() * phi / 1.5);
 }
 
 template <typename T>
-inline T SmearedDeltaSDF(T phi)
+T SmearedDeltaSDF(T phi)
 {
     if (std::fabs(phi) > 1.5)
     {
@@ -96,8 +96,9 @@ void CycleArray(T* arr, int size)
 template <typename T>
 T FractionInside(T phiBottomLeft, T phiBottomRight, T phiTopLeft, T phiTopRight)
 {
-    int insideCount = (phiBottomLeft < 0 ? 1 : 0) + (phiTopLeft < 0 ? 1 : 0) +
-                      (phiBottomRight < 0 ? 1 : 0) + (phiTopRight < 0 ? 1 : 0);
+    const int insideCount =
+        (phiBottomLeft < 0 ? 1 : 0) + (phiTopLeft < 0 ? 1 : 0) +
+        (phiBottomRight < 0 ? 1 : 0) + (phiTopRight < 0 ? 1 : 0);
     T list[] = { phiBottomLeft, phiBottomRight, phiTopRight, phiTopLeft };
 
     if (insideCount == 4)

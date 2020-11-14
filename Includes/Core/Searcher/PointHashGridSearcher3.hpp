@@ -62,6 +62,18 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3
     //! Copy constructor.
     PointHashGridSearcher3(const PointHashGridSearcher3& other);
 
+    //! Default move constructor.
+    PointHashGridSearcher3(PointHashGridSearcher3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~PointHashGridSearcher3() override = default;
+
+    //! Copy assignment operator.
+    PointHashGridSearcher3& operator=(const PointHashGridSearcher3& other);
+
+    //! Default move assignment operator.
+    PointHashGridSearcher3& operator=(PointHashGridSearcher3&&) = default;
+
     //! Builds internal acceleration structure for given points list.
     void Build(const ConstArrayAccessor1<Vector3D>& points) override;
 
@@ -86,7 +98,8 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3
     //!
     //! \return     True if has nearby point, false otherwise.
     //!
-    bool HasNearbyPoint(const Vector3D& origin, double radius) const override;
+    [[nodiscard]] bool HasNearbyPoint(const Vector3D& origin,
+                                      double radius) const override;
 
     //!
     //! \brief      Adds a single point to the hash grid.
@@ -107,7 +120,7 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3
     //!
     //! \return     List of buckets.
     //!
-    const std::vector<std::vector<size_t>>& GetBuckets() const;
+    [[nodiscard]] const std::vector<std::vector<size_t>>& GetBuckets() const;
 
     //!
     //! Returns the hash value for given 3-D bucket index.
@@ -116,7 +129,8 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3
     //!
     //! \return     The hash key from bucket index.
     //!
-    size_t GetHashKeyFromBucketIndex(const Point3I& bucketIndex) const;
+    [[nodiscard]] size_t GetHashKeyFromBucketIndex(
+        const Point3I& bucketIndex) const;
 
     //!
     //! Gets the bucket index from a point.
@@ -125,7 +139,7 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3
     //!
     //! \return     The bucket index.
     //!
-    Point3I GetBucketIndex(const Vector3D& position) const;
+    [[nodiscard]] Point3I GetBucketIndex(const Vector3D& position) const;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -133,10 +147,7 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3
     //!
     //! \return     Copy of this object.
     //!
-    PointNeighborSearcher3Ptr Clone() const override;
-
-    //! Assignment operator.
-    PointHashGridSearcher3& operator=(const PointHashGridSearcher3& other);
+    [[nodiscard]] PointNeighborSearcher3Ptr Clone() const override;
 
     //! Copy from the other instance.
     void Set(const PointHashGridSearcher3& other);
@@ -148,17 +159,17 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3
     void Deserialize(const std::vector<uint8_t>& buffer) override;
 
     //! Returns builder fox PointHashGridSearcher3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
+    [[nodiscard]] size_t GetHashKeyFromPosition(const Vector3D& position) const;
+
+    void GetNearbyKeys(const Vector3D& position, size_t* nearbyKeys) const;
+
     double m_gridSpacing = 1.0;
     Point3I m_resolution = Point3I(1, 1, 1);
     std::vector<Vector3D> m_points;
     std::vector<std::vector<size_t>> m_buckets;
-
-    size_t GetHashKeyFromPosition(const Vector3D& position) const;
-
-    void GetNearbyKeys(const Vector3D& position, size_t* nearbyKeys) const;
 };
 
 //! Shared pointer for the PointHashGridSearcher3 type.
@@ -172,19 +183,20 @@ class PointHashGridSearcher3::Builder final
 {
  public:
     //! Returns builder with resolution.
-    Builder& WithResolution(const Size3& resolution);
+    [[nodiscard]] Builder& WithResolution(const Size3& resolution);
 
     //! Returns builder with grid spacing.
-    Builder& WithGridSpacing(double gridSpacing);
+    [[nodiscard]] Builder& WithGridSpacing(double gridSpacing);
 
     //! Builds PointHashGridSearcher3 instance.
-    PointHashGridSearcher3 Build() const;
+    [[nodiscard]] PointHashGridSearcher3 Build() const;
 
     //! Builds shared pointer of PointHashGridSearcher3 instance.
-    PointHashGridSearcher3Ptr MakeShared() const;
+    [[nodiscard]] PointHashGridSearcher3Ptr MakeShared() const;
 
     //! Returns shared pointer of PointHashGridSearcher3 type.
-    PointNeighborSearcher3Ptr BuildPointNeighborSearcher() const override;
+    [[nodiscard]] PointNeighborSearcher3Ptr BuildPointNeighborSearcher()
+        const override;
 
  private:
     Size3 m_resolution{ 64, 64, 64 };

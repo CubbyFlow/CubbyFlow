@@ -30,10 +30,22 @@ class PointKdTreeSearcher2 final : public PointNeighborSearcher2
     class Builder;
 
     //! Constructs an empty kD-tree instance.
-    PointKdTreeSearcher2();
+    PointKdTreeSearcher2() = default;
 
     //! Copy constructor.
     PointKdTreeSearcher2(const PointKdTreeSearcher2& other);
+
+    //! Default move constructor.
+    PointKdTreeSearcher2(PointKdTreeSearcher2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~PointKdTreeSearcher2() override = default;
+
+    //! Copy assignment operator.
+    PointKdTreeSearcher2& operator=(const PointKdTreeSearcher2& other);
+
+    //! Default move assignment operator.
+    PointKdTreeSearcher2& operator=(PointKdTreeSearcher2&&) = default;
 
     //! Builds internal acceleration structure for given points list.
     void Build(const ConstArrayAccessor1<Vector2D>& points) override;
@@ -59,7 +71,8 @@ class PointKdTreeSearcher2 final : public PointNeighborSearcher2
     //!
     //! \return     True if has nearby point, false otherwise.
     //!
-    bool HasNearbyPoint(const Vector2D& origin, double radius) const override;
+    [[nodiscard]] bool HasNearbyPoint(const Vector2D& origin,
+                                      double radius) const override;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -67,10 +80,7 @@ class PointKdTreeSearcher2 final : public PointNeighborSearcher2
     //!
     //! \return     Copy of this object.
     //!
-    PointNeighborSearcher2Ptr Clone() const override;
-
-    //! Assignment operator.
-    PointKdTreeSearcher2& operator=(const PointKdTreeSearcher2& other);
+    [[nodiscard]] PointNeighborSearcher2Ptr Clone() const override;
 
     //! Copy from the other instance.
     void Set(const PointKdTreeSearcher2& other);
@@ -82,7 +92,7 @@ class PointKdTreeSearcher2 final : public PointNeighborSearcher2
     void Deserialize(const std::vector<uint8_t>& buffer) override;
 
     //! Returns builder fox PointKdTreeSearcher2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
     KdTree<double, 2> m_tree;
@@ -98,13 +108,14 @@ class PointKdTreeSearcher2::Builder final : public PointNeighborSearcherBuilder2
 {
  public:
     //! Builds PointKdTreeSearcher2 instance.
-    PointKdTreeSearcher2 Build() const;
+    [[nodiscard]] static PointKdTreeSearcher2 Build();
 
     //! Builds shared pointer of PointKdTreeSearcher2 instance.
-    PointKdTreeSearcher2Ptr MakeShared() const;
+    [[nodiscard]] static PointKdTreeSearcher2Ptr MakeShared();
 
     //! Returns shared pointer of PointNeighborSearcher3 type.
-    PointNeighborSearcher2Ptr BuildPointNeighborSearcher() const override;
+    [[nodiscard]] PointNeighborSearcher2Ptr BuildPointNeighborSearcher()
+        const override;
 };
 }  // namespace CubbyFlow
 

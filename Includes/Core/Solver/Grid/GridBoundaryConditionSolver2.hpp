@@ -29,13 +29,28 @@ class GridBoundaryConditionSolver2
 {
  public:
     //! Default constructor.
-    GridBoundaryConditionSolver2();
+    GridBoundaryConditionSolver2() = default;
 
-    //! Default destructor.
-    virtual ~GridBoundaryConditionSolver2();
+    //! Deleted copy constructor.
+    GridBoundaryConditionSolver2(const GridBoundaryConditionSolver2&) = delete;
+
+    //! Deleted move constructor.
+    GridBoundaryConditionSolver2(GridBoundaryConditionSolver2&&) noexcept =
+        delete;
+
+    //! Default virtual destructor.
+    virtual ~GridBoundaryConditionSolver2() = default;
+
+    //! Deleted copy assignment operator.
+    GridBoundaryConditionSolver2& operator=(
+        const GridBoundaryConditionSolver2&) = delete;
+
+    //! Deleted move assignment operator.
+    GridBoundaryConditionSolver2& operator=(
+        GridBoundaryConditionSolver2&&) noexcept = delete;
 
     //! Returns associated collider.
-    const Collider2Ptr& GetCollider() const;
+    [[nodiscard]] const Collider2Ptr& GetCollider() const;
 
     //!
     //! \brief Applies new collider and build the internals.
@@ -54,7 +69,7 @@ class GridBoundaryConditionSolver2
                         const Vector2D& gridOrigin);
 
     //! Returns the closed domain boundary flag.
-    int GetClosedDomainBoundaryFlag() const;
+    [[nodiscard]] int GetClosedDomainBoundaryFlag() const;
 
     //! Sets the closed domain boundary flag.
     void SetClosedDomainBoundaryFlag(int flag);
@@ -70,10 +85,10 @@ class GridBoundaryConditionSolver2
                                    unsigned int extrapolationDepth = 5) = 0;
 
     //! Returns the signed distance field of the collider.
-    virtual ScalarField2Ptr GetColliderSDF() const = 0;
+    [[nodiscard]] virtual ScalarField2Ptr GetColliderSDF() const = 0;
 
     //! Returns the velocity field of the collider.
-    virtual VectorField2Ptr GetColliderVelocityField() const = 0;
+    [[nodiscard]] virtual VectorField2Ptr GetColliderVelocityField() const = 0;
 
  protected:
     //! Invoked when a new collider is set.
@@ -82,13 +97,13 @@ class GridBoundaryConditionSolver2
                                    const Vector2D& gridOrigin) = 0;
 
     //! Returns the size of the velocity grid to be constrained.
-    const Size2& GetGridSize() const;
+    [[nodiscard]] const Size2& GetGridSize() const;
 
     //! Returns the spacing of the velocity grid to be constrained.
-    const Vector2D& GetGridSpacing() const;
+    [[nodiscard]] const Vector2D& GetGridSpacing() const;
 
     //! Returns the origin of the velocity grid to be constrained.
-    const Vector2D& GetGridOrigin() const;
+    [[nodiscard]] const Vector2D& GetGridOrigin() const;
 
  private:
     Collider2Ptr m_collider;

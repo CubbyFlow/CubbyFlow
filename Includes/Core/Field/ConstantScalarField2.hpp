@@ -25,13 +25,14 @@ class ConstantScalarField2 final : public ScalarField2
     explicit ConstantScalarField2(double value);
 
     //! Returns the sampled value at given position \p x.
-    double Sample(const Vector2D& x) const override;
+    [[nodiscard]] double Sample(const Vector2D& x) const override;
 
     //! Returns the sampler function.
-    std::function<double(const Vector2D&)> Sampler() const override;
+    [[nodiscard]] std::function<double(const Vector2D&)> Sampler()
+        const override;
 
     //! Returns builder fox ConstantScalarField2.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
     double m_value = 0.0;
@@ -47,13 +48,13 @@ class ConstantScalarField2::Builder final
 {
  public:
     //! Returns builder with value.
-    Builder& WithValue(double value);
+    [[nodiscard]] Builder& WithValue(double value);
 
     //! Builds ConstantScalarField2.
-    ConstantScalarField2 Build() const;
+    [[nodiscard]] ConstantScalarField2 Build() const;
 
     //! Builds shared pointer of ConstantScalarField2 instance.
-    ConstantScalarField2Ptr MakeShared() const;
+    [[nodiscard]] ConstantScalarField2Ptr MakeShared() const;
 
  private:
     double m_value = 0.0;

@@ -13,13 +13,6 @@
 
 namespace CubbyFlow
 {
-// MARK: MatrixMxN
-template <typename T>
-MatrixMxN<T>::MatrixMxN()
-{
-    // Do nothing
-}
-
 template <typename T>
 MatrixMxN<T>::MatrixMxN(size_t m, size_t n, const T& s)
 {
@@ -50,6 +43,20 @@ template <typename T>
 MatrixMxN<T>::MatrixMxN(MatrixMxN&& other) noexcept
 {
     (*this) = std::move(other);
+}
+
+template <typename T>
+MatrixMxN<T>& MatrixMxN<T>::operator=(const MatrixMxN& other)
+{
+    Set(other);
+    return *this;
+}
+
+template <typename T>
+MatrixMxN<T>& MatrixMxN<T>::operator=(MatrixMxN&& other) noexcept
+{
+    m_elements = std::move(other.m_elements);
+    return *this;
 }
 
 template <typename T>
@@ -255,33 +262,33 @@ typename MatrixMxN<T>::ConstIterator MatrixMxN<T>::end() const
 template <typename T>
 MatrixScalarAdd<T, MatrixMxN<T>> MatrixMxN<T>::Add(const T& s) const
 {
-    return MatrixScalarAdd<T, MatrixMxN<T>>(*this, s);
+    return MatrixScalarAdd<T, MatrixMxN<T>>{ *this, s };
 }
 
 template <typename T>
 template <typename E>
 MatrixAdd<T, MatrixMxN<T>, E> MatrixMxN<T>::Add(const E& m) const
 {
-    return MatrixAdd<T, MatrixMxN, E>(*this, m);
+    return MatrixAdd<T, MatrixMxN, E>{ *this, m };
 }
 
 template <typename T>
 MatrixScalarSub<T, MatrixMxN<T>> MatrixMxN<T>::Sub(const T& s) const
 {
-    return MatrixScalarSub<T, MatrixMxN<T>>(*this, s);
+    return MatrixScalarSub<T, MatrixMxN<T>>{ *this, s };
 }
 
 template <typename T>
 template <typename E>
 MatrixSub<T, MatrixMxN<T>, E> MatrixMxN<T>::Sub(const E& m) const
 {
-    return MatrixSub<T, MatrixMxN, E>(*this, m);
+    return MatrixSub<T, MatrixMxN, E>{ *this, m };
 }
 
 template <typename T>
 MatrixScalarMul<T, MatrixMxN<T>> MatrixMxN<T>::Mul(const T& s) const
 {
-    return MatrixScalarMul<T, MatrixMxN>(*this, s);
+    return MatrixScalarMul<T, MatrixMxN>{ *this, s };
 }
 
 template <typename T>
@@ -289,65 +296,65 @@ template <typename VE>
 MatrixVectorMul<T, MatrixMxN<T>, VE> MatrixMxN<T>::Mul(
     const VectorExpression<T, VE>& v) const
 {
-    return MatrixVectorMul<T, MatrixMxN<T>, VE>(*this, v());
+    return MatrixVectorMul<T, MatrixMxN<T>, VE>{ *this, v() };
 }
 
 template <typename T>
 template <typename E>
 MatrixMul<T, MatrixMxN<T>, E> MatrixMxN<T>::Mul(const E& m) const
 {
-    return MatrixMul<T, MatrixMxN, E>(*this, m);
+    return MatrixMul<T, MatrixMxN, E>{ *this, m };
 }
 
 template <typename T>
 MatrixScalarDiv<T, MatrixMxN<T>> MatrixMxN<T>::Div(const T& s) const
 {
-    return MatrixScalarDiv<T, MatrixMxN>(*this, s);
+    return MatrixScalarDiv<T, MatrixMxN>{ *this, s };
 }
 
 template <typename T>
 MatrixScalarAdd<T, MatrixMxN<T>> MatrixMxN<T>::RAdd(const T& s) const
 {
-    return MatrixScalarAdd<T, MatrixMxN<T>>(*this, s);
+    return MatrixScalarAdd<T, MatrixMxN<T>>{ *this, s };
 }
 
 template <typename T>
 template <typename E>
 MatrixAdd<T, MatrixMxN<T>, E> MatrixMxN<T>::RAdd(const E& m) const
 {
-    return MatrixAdd<T, MatrixMxN<T>, E>(m, *this);
+    return MatrixAdd<T, MatrixMxN<T>, E>{ m, *this };
 }
 
 template <typename T>
 MatrixScalarRSub<T, MatrixMxN<T>> MatrixMxN<T>::RSub(const T& s) const
 {
-    return MatrixScalarRSub<T, MatrixMxN<T>>(*this, s);
+    return MatrixScalarRSub<T, MatrixMxN<T>>{ *this, s };
 }
 
 template <typename T>
 template <typename E>
 MatrixSub<T, MatrixMxN<T>, E> MatrixMxN<T>::RSub(const E& m) const
 {
-    return MatrixSub<T, MatrixMxN<T>, E>(m, *this);
+    return MatrixSub<T, MatrixMxN<T>, E>{ m, *this };
 }
 
 template <typename T>
 MatrixScalarMul<T, MatrixMxN<T>> MatrixMxN<T>::RMul(const T& s) const
 {
-    return MatrixScalarMul<T, MatrixMxN<T>>(*this, s);
+    return MatrixScalarMul<T, MatrixMxN<T>>{ *this, s };
 }
 
 template <typename T>
 template <typename E>
 MatrixMul<T, E, MatrixMxN<T>> MatrixMxN<T>::RMul(const E& m) const
 {
-    return MatrixMul<T, E, MatrixMxN<T>>(m, *this);
+    return MatrixMul<T, E, MatrixMxN<T>>{ m, *this };
 }
 
 template <typename T>
 MatrixScalarRDiv<T, MatrixMxN<T>> MatrixMxN<T>::RDiv(const T& s) const
 {
-    return MatrixScalarRDiv<T, MatrixMxN<T>>(*this, s);
+    return MatrixScalarRDiv<T, MatrixMxN<T>>{ *this, s };
 }
 
 template <typename T>
@@ -409,7 +416,7 @@ void MatrixMxN<T>::Invert()
 
     // Computes inverse matrix using Gaussian elimination method.
     // https://martin-thoma.com/solving-linear-equations-with-gaussian-elimination/
-    size_t n = Rows();
+    const size_t n = Rows();
     MatrixMxN& a = *this;
     MatrixMxN rhs = MakeIdentity(n);
 
@@ -606,7 +613,7 @@ T MatrixMxN<T>::Determinant() const
 
     // Computes inverse matrix using Gaussian elimination method.
     // https://martin-thoma.com/solving-linear-equations-with-gaussian-elimination/
-    size_t n = Rows();
+    const size_t n = Rows();
     MatrixMxN a(*this);
     T result = 1;
 
@@ -666,43 +673,43 @@ T MatrixMxN<T>::Determinant() const
 template <typename T>
 MatrixDiagonal<T, MatrixMxN<T>> MatrixMxN<T>::Diagonal() const
 {
-    return MatrixDiagonal<T, MatrixMxN>(*this, true);
+    return MatrixDiagonal<T, MatrixMxN>{ *this, true };
 }
 
 template <typename T>
 MatrixDiagonal<T, MatrixMxN<T>> MatrixMxN<T>::OffDiagonal() const
 {
-    return MatrixDiagonal<T, MatrixMxN>(*this, false);
+    return MatrixDiagonal<T, MatrixMxN>{ *this, false };
 }
 
 template <typename T>
 MatrixTriangular<T, MatrixMxN<T>> MatrixMxN<T>::StrictLowerTri() const
 {
-    return MatrixTriangular<T, MatrixMxN<T>>(*this, false, true);
+    return MatrixTriangular<T, MatrixMxN<T>>{ *this, false, true };
 }
 
 template <typename T>
 MatrixTriangular<T, MatrixMxN<T>> MatrixMxN<T>::StrictUpperTri() const
 {
-    return MatrixTriangular<T, MatrixMxN<T>>(*this, true, true);
+    return MatrixTriangular<T, MatrixMxN<T>>{ *this, true, true };
 }
 
 template <typename T>
 MatrixTriangular<T, MatrixMxN<T>> MatrixMxN<T>::LowerTri() const
 {
-    return MatrixTriangular<T, MatrixMxN<T>>(*this, false, false);
+    return MatrixTriangular<T, MatrixMxN<T>>{ *this, false, false };
 }
 
 template <typename T>
 MatrixTriangular<T, MatrixMxN<T>> MatrixMxN<T>::UpperTri() const
 {
-    return MatrixTriangular<T, MatrixMxN<T>>(*this, true, false);
+    return MatrixTriangular<T, MatrixMxN<T>>{ *this, true, false };
 }
 
 template <typename T>
 MatrixMxN<T> MatrixMxN<T>::Transposed() const
 {
-    MatrixMxN mt(Cols(), Rows());
+    MatrixMxN mt{ Cols(), Rows() };
     ParallelForEachIndex([&](size_t i, size_t j) { mt(j, i) = (*this)(i, j); });
     return mt;
 }
@@ -710,7 +717,7 @@ MatrixMxN<T> MatrixMxN<T>::Transposed() const
 template <typename T>
 MatrixMxN<T> MatrixMxN<T>::Inverse() const
 {
-    MatrixMxN mInv(*this);
+    MatrixMxN mInv{ *this };
     mInv.Invert();
     return mInv;
 }
@@ -719,7 +726,7 @@ template <typename T>
 template <typename U>
 MatrixTypeCast<U, MatrixMxN<T>, T> MatrixMxN<T>::CastTo() const
 {
-    return MatrixTypeCast<U, MatrixMxN, T>(*this);
+    return MatrixTypeCast<U, MatrixMxN, T>{ *this };
 }
 
 template <typename T>
@@ -727,20 +734,6 @@ template <typename E>
 MatrixMxN<T>& MatrixMxN<T>::operator=(const E& m)
 {
     Set(m);
-    return *this;
-}
-
-template <typename T>
-MatrixMxN<T>& MatrixMxN<T>::operator=(const MatrixMxN& other)
-{
-    Set(other);
-    return *this;
-}
-
-template <typename T>
-MatrixMxN<T>& MatrixMxN<T>::operator=(MatrixMxN&& other) noexcept
-{
-    m_elements = std::move(other.m_elements);
     return *this;
 }
 
@@ -880,13 +873,13 @@ void MatrixMxN<T>::ParallelForEachIndex(Callback func) const
 template <typename T>
 MatrixConstant<T> MatrixMxN<T>::MakeZero(size_t m, size_t n)
 {
-    return MatrixConstant<T>(m, n, 0);
+    return MatrixConstant<T>{ m, n, 0 };
 }
 
 template <typename T>
 MatrixIdentity<T> MatrixMxN<T>::MakeIdentity(size_t m)
 {
-    return MatrixIdentity<T>(m);
+    return MatrixIdentity<T>{ m };
 }
 }  // namespace CubbyFlow
 

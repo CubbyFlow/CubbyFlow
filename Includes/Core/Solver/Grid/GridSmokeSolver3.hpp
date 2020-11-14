@@ -38,17 +38,29 @@ class GridSmokeSolver3 : public GridFluidSolver3
     GridSmokeSolver3(const Size3& resolution, const Vector3D& gridSpacing,
                      const Vector3D& gridOrigin);
 
-    //! Destructor.
-    virtual ~GridSmokeSolver3();
+    //! Deleted copy constructor.
+    GridSmokeSolver3(const GridSmokeSolver3&) = delete;
+
+    //! Deleted move constructor.
+    GridSmokeSolver3(GridSmokeSolver3&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~GridSmokeSolver3() override = default;
+
+    //! Deleted copy assignment operator.
+    GridSmokeSolver3& operator=(const GridSmokeSolver3&) = delete;
+
+    //! Deleted move assignment operator.
+    GridSmokeSolver3& operator=(GridSmokeSolver3&&) noexcept = delete;
 
     //! Returns smoke diffusion coefficient.
-    double GetSmokeDiffusionCoefficient() const;
+    [[nodiscard]] double GetSmokeDiffusionCoefficient() const;
 
     //! Sets smoke diffusion coefficient.
     void SetSmokeDiffusionCoefficient(double newValue);
 
     //! Returns temperature diffusion coefficient.
-    double GetTemperatureDiffusionCoefficient() const;
+    [[nodiscard]] double GetTemperatureDiffusionCoefficient() const;
 
     //! Sets temperature diffusion coefficient.
     void SetTemperatureDiffusionCoefficient(double newValue);
@@ -66,7 +78,7 @@ class GridSmokeSolver3 : public GridFluidSolver3
     //!
     //! \return     The buoyancy factor for the smoke density.
     //!
-    double GetBuoyancySmokeDensityFactor() const;
+    [[nodiscard]] double GetBuoyancySmokeDensityFactor() const;
 
     //!
     //! \brief      Sets the buoyancy factor which will be multiplied to the
@@ -96,7 +108,7 @@ class GridSmokeSolver3 : public GridFluidSolver3
     //!
     //! \return     The buoyancy factor for the temperature.
     //!
-    double GetBuoyancyTemperatureFactor() const;
+    [[nodiscard]] double GetBuoyancyTemperatureFactor() const;
 
     //!
     //! \brief      Sets the buoyancy factor which will be multiplied to the
@@ -121,7 +133,7 @@ class GridSmokeSolver3 : public GridFluidSolver3
     //!
     //! \return     The decay factor for smoke density.
     //!
-    double GetSmokeDecayFactor() const;
+    [[nodiscard]] double GetSmokeDecayFactor() const;
 
     //!
     //! \brief      Sets the smoke decay factor.
@@ -141,7 +153,7 @@ class GridSmokeSolver3 : public GridFluidSolver3
     //!
     //! \return     The decay factor for smoke temperature.
     //!
-    double GetTemperatureDecayFactor() const;
+    [[nodiscard]] double GetTemperatureDecayFactor() const;
 
     //!
     //! \brief      Sets the temperature decay factor.
@@ -154,13 +166,13 @@ class GridSmokeSolver3 : public GridFluidSolver3
     void SetTemperatureDecayFactor(double newValue);
 
     //! Returns smoke density field.
-    ScalarGrid3Ptr GetSmokeDensity() const;
+    [[nodiscard]] ScalarGrid3Ptr GetSmokeDensity() const;
 
     //! Returns temperature field.
-    ScalarGrid3Ptr GetTemperature() const;
+    [[nodiscard]] ScalarGrid3Ptr GetTemperature() const;
 
     //! Returns builder fox GridSmokeSolver3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  protected:
     void OnEndAdvanceTimeStep(double timeIntervalInSeconds) override;
@@ -168,6 +180,10 @@ class GridSmokeSolver3 : public GridFluidSolver3
     void ComputeExternalForces(double timeIntervalInSeconds) override;
 
  private:
+    void ComputeDiffusion(double timeIntervalInSeconds);
+
+    void ComputeBuoyancyForce(double timeIntervalInSeconds);
+
     size_t m_smokeDensityDataID = 0;
     size_t m_temperatureDataID = 0;
     double m_smokeDiffusionCoefficient = 0.0;
@@ -176,10 +192,6 @@ class GridSmokeSolver3 : public GridFluidSolver3
     double m_buoyancyTemperatureFactor = 5.0;
     double m_smokeDecayFactor = 0.001;
     double m_temperatureDecayFactor = 0.001;
-
-    void ComputeDiffusion(double timeIntervalInSeconds);
-
-    void ComputeBuoyancyForce(double timeIntervalInSeconds);
 };
 
 //! Shared pointer type for the GridSmokeSolver3.
@@ -189,14 +201,14 @@ using GridSmokeSolver3Ptr = std::shared_ptr<GridSmokeSolver3>;
 //! \brief Front-end to create GridSmokeSolver3 objects step by step.
 //!
 class GridSmokeSolver3::Builder final
-    : public GridFluidSolverBuilderBase3<GridSmokeSolver3::Builder>
+    : public GridFluidSolverBuilderBase3<Builder>
 {
  public:
     //! Builds GridSmokeSolver3.
-    GridSmokeSolver3 Build() const;
+    [[nodiscard]] GridSmokeSolver3 Build() const;
 
     //! Builds shared pointer of GridSmokeSolver3 instance.
-    GridSmokeSolver3Ptr MakeShared() const;
+    [[nodiscard]] GridSmokeSolver3Ptr MakeShared() const;
 };
 }  // namespace CubbyFlow
 

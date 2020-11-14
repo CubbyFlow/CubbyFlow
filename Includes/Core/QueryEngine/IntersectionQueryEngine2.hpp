@@ -51,13 +51,33 @@ template <typename T>
 class IntersectionQueryEngine2
 {
  public:
+    //! Default constructor.
+    IntersectionQueryEngine2() = default;
+
+    //! Default copy constructor.
+    IntersectionQueryEngine2(const IntersectionQueryEngine2&) = default;
+
+    //! Default move constructor.
+    IntersectionQueryEngine2(IntersectionQueryEngine2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~IntersectionQueryEngine2() = default;
+
+    //! Default copy assignment operator.
+    IntersectionQueryEngine2& operator=(const IntersectionQueryEngine2&) =
+        default;
+
+    //! Default move assignment operator.
+    IntersectionQueryEngine2& operator=(IntersectionQueryEngine2&&) noexcept =
+        default;
+
     //! Returns true if given \p box intersects with any of the stored items.
-    virtual bool IsIntersects(
+    [[nodiscard]] virtual bool IsIntersects(
         const BoundingBox2D& box,
         const BoxIntersectionTestFunc2<T>& testFunc) const = 0;
 
     //! Returns true if given \p ray intersects with any of the stored items.
-    virtual bool IsIntersects(
+    [[nodiscard]] virtual bool IsIntersects(
         const Ray2D& ray,
         const RayIntersectionTestFunc2<T>& testFunc) const = 0;
 
@@ -72,7 +92,8 @@ class IntersectionQueryEngine2
         const IntersectionVisitorFunc2<T>& visitorFunc) const = 0;
 
     //! Returns the closest intersection for given \p ray.
-    virtual ClosestIntersectionQueryResult2<T> GetClosestIntersection(
+    [[nodiscard]] virtual ClosestIntersectionQueryResult2<T>
+    GetClosestIntersection(
         const Ray2D& ray, const GetRayIntersectionFunc2<T>& testFunc) const = 0;
 };
 }  // namespace CubbyFlow

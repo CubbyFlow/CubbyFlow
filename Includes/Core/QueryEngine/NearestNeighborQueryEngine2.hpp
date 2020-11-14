@@ -33,9 +33,30 @@ template <typename T>
 class NearestNeighborQueryEngine2
 {
  public:
+    //! Default constructor.
+    NearestNeighborQueryEngine2() = default;
+
+    //! Default copy constructor.
+    NearestNeighborQueryEngine2(const NearestNeighborQueryEngine2&) = default;
+
+    //! Default move constructor.
+    NearestNeighborQueryEngine2(NearestNeighborQueryEngine2&&) noexcept =
+        default;
+
+    //! Default virtual destructor.
+    virtual ~NearestNeighborQueryEngine2() = default;
+
+    //! Default copy assignment operator.
+    NearestNeighborQueryEngine2& operator=(const NearestNeighborQueryEngine2&) =
+        default;
+
+    //! Default move assignment operator.
+    NearestNeighborQueryEngine2& operator=(
+        NearestNeighborQueryEngine2&&) noexcept = default;
+
     //! Returns the nearest neighbor for given point and distance measure
     //! function.
-    virtual NearestNeighborQueryResult2<T> GetNearestNeighbor(
+    [[nodiscard]] virtual NearestNeighborQueryResult2<T> GetNearestNeighbor(
         const Vector2D& pt,
         const NearestNeighborDistanceFunc2<T>& distanceFunc) const = 0;
 };

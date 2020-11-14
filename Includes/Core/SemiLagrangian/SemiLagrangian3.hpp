@@ -29,9 +29,23 @@ namespace CubbyFlow
 class SemiLagrangian3 : public AdvectionSolver3
 {
  public:
-    SemiLagrangian3();
+    //! Default constructor.
+    SemiLagrangian3() = default;
 
-    virtual ~SemiLagrangian3();
+    //! Default copy constructor.
+    SemiLagrangian3(const SemiLagrangian3&) = default;
+
+    //! Default move constructor.
+    SemiLagrangian3(SemiLagrangian3&&) noexcept = default;
+
+    //! Virtual default destructor.
+    ~SemiLagrangian3() override = default;
+
+    //! Default copy assignment operator.
+    SemiLagrangian3& operator=(const SemiLagrangian3&) = default;
+
+    //! Default move assignment operator.
+    SemiLagrangian3& operator=(SemiLagrangian3&&) noexcept = default;
 
     //!
     //! \brief Computes semi-Lagrangian for given scalar grid.
@@ -115,8 +129,8 @@ class SemiLagrangian3 : public AdvectionSolver3
     //! interpolation function. Override this function to have custom
     //! interpolation for semi-Lagrangian process.
     //!
-    virtual std::function<double(const Vector3D&)> GetScalarSamplerFunc(
-        const ScalarGrid3& input) const;
+    [[nodiscard]] virtual std::function<double(const Vector3D&)>
+    GetScalarSamplerFunc(const ScalarGrid3& input) const;
 
     //!
     //! \brief Returns spatial interpolation function object for given
@@ -127,8 +141,8 @@ class SemiLagrangian3 : public AdvectionSolver3
     //! linear interpolation function. Override this function to have custom
     //! interpolation for semi-Lagrangian process.
     //!
-    virtual std::function<Vector3D(const Vector3D&)> GetVectorSamplerFunc(
-        const CollocatedVectorGrid3& input) const;
+    [[nodiscard]] virtual std::function<Vector3D(const Vector3D&)>
+    GetVectorSamplerFunc(const CollocatedVectorGrid3& input) const;
 
     //!
     //! \brief Returns spatial interpolation function object for given
@@ -139,13 +153,13 @@ class SemiLagrangian3 : public AdvectionSolver3
     //! linear interpolation function. Override this function to have custom
     //! interpolation for semi-Lagrangian process.
     //!
-    virtual std::function<Vector3D(const Vector3D&)> GetVectorSamplerFunc(
-        const FaceCenteredGrid3& input) const;
+    [[nodiscard]] virtual std::function<Vector3D(const Vector3D&)>
+    GetVectorSamplerFunc(const FaceCenteredGrid3& input) const;
 
  private:
-    Vector3D BackTrace(const VectorField3& flow, double dt, double h,
-                       const Vector3D& pt0,
-                       const ScalarField3& boundarySDF) const;
+    [[nodiscard]] Vector3D BackTrace(const VectorField3& flow, double dt,
+                                     double h, const Vector3D& startPt,
+                                     const ScalarField3& boundarySDF) const;
 };
 
 using SemiLagrangian3Ptr = std::shared_ptr<SemiLagrangian3>;

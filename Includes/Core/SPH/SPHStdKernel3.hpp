@@ -30,6 +30,28 @@ namespace CubbyFlow
 //!
 struct SPHStdKernel3
 {
+    //! Constructs a kernel object with zero radius.
+    SPHStdKernel3();
+
+    //! Constructs a kernel object with given radius.
+    explicit SPHStdKernel3(double kernelRadius);
+
+    //! Returns kernel function value at given distance.
+    double operator()(double distance) const;
+
+    //! Returns the first derivative at given distance.
+    [[nodiscard]] double FirstDerivative(double distance) const;
+
+    //! Returns the gradient at a point.
+    [[nodiscard]] Vector3D Gradient(const Vector3D& point) const;
+
+    //! Returns the gradient at a point defined by distance and direction.
+    [[nodiscard]] Vector3D Gradient(double distance,
+                                    const Vector3D& direction) const;
+
+    //! Returns the second derivative at given distance.
+    [[nodiscard]] double SecondDerivative(double distance) const;
+
     //! Kernel radius.
     double h;
 
@@ -41,33 +63,6 @@ struct SPHStdKernel3
 
     //! Fifth-power of the kernel radius.
     double h5;
-
-    //! Constructs a kernel object with zero radius.
-    SPHStdKernel3();
-
-    //! Constructs a kernel object with given radius.
-    explicit SPHStdKernel3(double kernelRadius);
-
-    //! Copy constructor.
-    SPHStdKernel3(const SPHStdKernel3& other);
-
-    //! Default copy assignment operator.
-    SPHStdKernel3& operator=(const SPHStdKernel3& other) = default;
-
-    //! Returns kernel function value at given distance.
-    double operator()(double distance) const;
-
-    //! Returns the first derivative at given distance.
-    double FirstDerivative(double distance) const;
-
-    //! Returns the gradient at a point.
-    Vector3D Gradient(const Vector3D& point) const;
-
-    //! Returns the gradient at a point defined by distance and direction.
-    Vector3D Gradient(double distance, const Vector3D& direction) const;
-
-    //! Returns the second derivative at given distance.
-    double SecondDerivative(double distance) const;
 };
 
 //!
@@ -80,6 +75,28 @@ struct SPHStdKernel3
 //!
 struct SPHSpikyKernel3
 {
+    //! Constructs a kernel object with zero radius.
+    SPHSpikyKernel3();
+
+    //! Constructs a kernel object with given radius.
+    explicit SPHSpikyKernel3(double kernelRadius);
+
+    //! Returns kernel function value at given distance.
+    double operator()(double distance) const;
+
+    //! Returns the first derivative at given distance.
+    [[nodiscard]] double FirstDerivative(double distance) const;
+
+    //! Returns the gradient at a point.
+    [[nodiscard]] Vector3D Gradient(const Vector3D& point) const;
+
+    //! Returns the gradient at a point defined by distance and direction.
+    [[nodiscard]] Vector3D Gradient(double distance,
+                                    const Vector3D& direction) const;
+
+    //! Returns the second derivative at given distance.
+    [[nodiscard]] double SecondDerivative(double distance) const;
+
     //! Kernel radius.
     double h;
 
@@ -94,33 +111,6 @@ struct SPHSpikyKernel3
 
     //! Fifth-power of the kernel radius.
     double h5;
-
-    //! Constructs a kernel object with zero radius.
-    SPHSpikyKernel3();
-
-    //! Constructs a kernel object with given radius.
-    explicit SPHSpikyKernel3(double kernelRadius);
-
-    //! Copy constructor.
-    SPHSpikyKernel3(const SPHSpikyKernel3& other);
-
-    //! Default copy assignment operator.
-    SPHSpikyKernel3& operator=(const SPHSpikyKernel3& other) = default;
-
-    //! Returns kernel function value at given distance.
-    double operator()(double distance) const;
-
-    //! Returns the first derivative at given distance.
-    double FirstDerivative(double distance) const;
-
-    //! Returns the gradient at a point.
-    Vector3D Gradient(const Vector3D& point) const;
-
-    //! Returns the gradient at a point defined by distance and direction.
-    Vector3D Gradient(double distance, const Vector3D& direction) const;
-
-    //! Returns the second derivative at given distance.
-    double SecondDerivative(double distance) const;
 };
 }  // namespace CubbyFlow
 

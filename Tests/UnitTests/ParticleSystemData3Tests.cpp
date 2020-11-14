@@ -128,43 +128,21 @@ TEST(ParticleSystemData3, AddParticlesException)
     ParticleSystemData3 particleSystem;
     particleSystem.Resize(12);
 
-    try
-    {
-        particleSystem.AddParticles(
-            Array1<Vector3D>(
-                { Vector3D(1.0, 2.0, 3.0), Vector3D(4.0, 5.0, 6.0) })
-                .Accessor(),
-            Array1<Vector3D>({ Vector3D(7.0, 8.0, 9.0) }).Accessor(),
-            Array1<Vector3D>(
-                { Vector3D(5.0, 4.0, 3.0), Vector3D(2.0, 1.0, 3.0) })
-                .Accessor());
-
-        EXPECT_FALSE(true) << "Invalid argument should throw exception.";
-    }
-    catch (...)
-    {
-        // Do nothing -- expected exception
-    }
+    EXPECT_ANY_THROW(particleSystem.AddParticles(
+        Array1<Vector3D>({ Vector3D(1.0, 2.0, 3.0), Vector3D(4.0, 5.0, 6.0) })
+            .Accessor(),
+        Array1<Vector3D>({ Vector3D(7.0, 8.0, 9.0) }).Accessor(),
+        Array1<Vector3D>({ Vector3D(5.0, 4.0, 3.0), Vector3D(2.0, 1.0, 3.0) })
+            .Accessor()));
 
     EXPECT_EQ(12u, particleSystem.GetNumberOfParticles());
 
-    try
-    {
-        particleSystem.AddParticles(
-            Array1<Vector3D>(
-                { Vector3D(1.0, 2.0, 3.0), Vector3D(4.0, 5.0, 6.0) })
-                .Accessor(),
-            Array1<Vector3D>(
-                { Vector3D(7.0, 8.0, 9.0), Vector3D(2.0, 1.0, 3.0) })
-                .Accessor(),
-            Array1<Vector3D>({ Vector3D(5.0, 4.0, 3.0) }).Accessor());
-
-        EXPECT_FALSE(true) << "Invalid argument should throw exception.";
-    }
-    catch (...)
-    {
-        // Do nothing -- expected exception
-    }
+    EXPECT_ANY_THROW(particleSystem.AddParticles(
+        Array1<Vector3D>({ Vector3D(1.0, 2.0, 3.0), Vector3D(4.0, 5.0, 6.0) })
+            .Accessor(),
+        Array1<Vector3D>({ Vector3D(7.0, 8.0, 9.0), Vector3D(2.0, 1.0, 3.0) })
+            .Accessor(),
+        Array1<Vector3D>({ Vector3D(5.0, 4.0, 3.0) }).Accessor()));
 
     EXPECT_EQ(12u, particleSystem.GetNumberOfParticles());
 }

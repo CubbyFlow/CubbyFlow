@@ -30,10 +30,24 @@ class IterativeLevelSetSolver3 : public LevelSetSolver3
 {
  public:
     //! Default constructor.
-    IterativeLevelSetSolver3();
+    IterativeLevelSetSolver3() = default;
 
-    //! Default destructor.
-    virtual ~IterativeLevelSetSolver3();
+    //! Deleted copy constructor.
+    IterativeLevelSetSolver3(const IterativeLevelSetSolver3&) = delete;
+
+    //! Deleted move constructor.
+    IterativeLevelSetSolver3(IterativeLevelSetSolver3&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~IterativeLevelSetSolver3() override = default;
+
+    //! Deleted copy assignment operator.
+    IterativeLevelSetSolver3& operator=(const IterativeLevelSetSolver3&) =
+        delete;
+
+    //! Deleted move assignment operator.
+    IterativeLevelSetSolver3& operator=(IterativeLevelSetSolver3&&) noexcept =
+        delete;
 
     //!
     //! Reinitializes given scalar field to signed-distance field.
@@ -82,7 +96,7 @@ class IterativeLevelSetSolver3 : public LevelSetSolver3
                      double maxDistance, FaceCenteredGrid3* output) override;
 
     //! Returns the maximum CFL limit.
-    double GetMaxCFL() const;
+    [[nodiscard]] double GetMaxCFL() const;
 
     //!
     //! \brief Sets the maximum CFL limit.
@@ -101,22 +115,22 @@ class IterativeLevelSetSolver3 : public LevelSetSolver3
                                 std::array<double, 2>* dz) const = 0;
 
  private:
-    double m_maxCFL = 0.5;
-
     void Extrapolate(const ConstArrayAccessor3<double>& input,
                      const ConstArrayAccessor3<double>& sdf,
                      const Vector3D& gridSpacing, double maxDistance,
                      ArrayAccessor3<double> output);
 
-    static unsigned int DistanceToNumberOfIterations(double distance,
-                                                     double dtau);
+    [[nodiscard]] static unsigned int DistanceToNumberOfIterations(
+        double distance, double dtau);
 
-    static double Sign(const ConstArrayAccessor3<double>& sdf,
-                       const Vector3D& gridSpacing, size_t i, size_t j,
-                       size_t k);
+    [[nodiscard]] static double Sign(const ConstArrayAccessor3<double>& sdf,
+                                     const Vector3D& gridSpacing, size_t i,
+                                     size_t j, size_t k);
 
-    double PseudoTimeStep(ConstArrayAccessor3<double> sdf,
-                          const Vector3D& gridSpacing) const;
+    [[nodiscard]] double PseudoTimeStep(const ConstArrayAccessor3<double>& sdf,
+                                        const Vector3D& gridSpacing) const;
+
+    double m_maxCFL = 0.5;
 };
 
 using IterativeLevelSetSolver3Ptr = std::shared_ptr<IterativeLevelSetSolver3>;

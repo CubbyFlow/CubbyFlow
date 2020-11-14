@@ -18,9 +18,9 @@ RigidBodyCollider3::RigidBodyCollider3(const Surface3Ptr& surface)
 }
 
 RigidBodyCollider3::RigidBodyCollider3(const Surface3Ptr& surface,
-                                       const Vector3D& linearVelocity_,
-                                       const Vector3D& angularVelocity_)
-    : linearVelocity(linearVelocity_), angularVelocity(angularVelocity_)
+                                       const Vector3D& _linearVelocity,
+                                       const Vector3D& _angularVelocity)
+    : linearVelocity(_linearVelocity), angularVelocity(_angularVelocity)
 {
     SetSurface(surface);
 }
@@ -44,16 +44,16 @@ RigidBodyCollider3::Builder& RigidBodyCollider3::Builder::WithSurface(
 }
 
 RigidBodyCollider3::Builder& RigidBodyCollider3::Builder::WithLinearVelocity(
-    const Vector3D& linearVelocity)
+    const Vector3D& _linearVelocity)
 {
-    m_linearVelocity = linearVelocity;
+    m_linearVelocity = _linearVelocity;
     return *this;
 }
 
 RigidBodyCollider3::Builder& RigidBodyCollider3::Builder::WithAngularVelocity(
-    const Vector3D& angularVelocity)
+    const Vector3D& _angularVelocity)
 {
-    m_angularVelocity = angularVelocity;
+    m_angularVelocity = _angularVelocity;
     return *this;
 }
 

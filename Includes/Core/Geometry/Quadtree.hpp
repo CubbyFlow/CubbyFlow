@@ -35,7 +35,22 @@ class Quadtree final : public IntersectionQueryEngine2<T>,
     using ConstIterator = typename ContainerType::const_iterator;
 
     //! Default constructor.
-    Quadtree();
+    Quadtree() = default;
+
+    //! Default copy constructor.
+    Quadtree(const Quadtree&) = default;
+
+    //! Default move constructor.
+    Quadtree(Quadtree&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~Quadtree() = default;
+
+    //! Default copy assignment operator.
+    Quadtree& operator=(const Quadtree&) = default;
+
+    //! Default move assignment operator.
+    Quadtree& operator=(Quadtree&&) noexcept = default;
 
     //! Builds an quadtree with given list of items, bounding box of the items,
     //! overlapping test function, and max depth of the tree.
@@ -47,17 +62,17 @@ class Quadtree final : public IntersectionQueryEngine2<T>,
 
     //! Returns the nearest neighbor for given point and distance measure
     //! function.
-    NearestNeighborQueryResult2<T> GetNearestNeighbor(
+    [[nodiscard]] NearestNeighborQueryResult2<T> GetNearestNeighbor(
         const Vector2D& pt,
         const NearestNeighborDistanceFunc2<T>& distanceFunc) const override;
 
     //! Returns true if given \p box intersects with any of the stored items.
-    bool IsIntersects(
+    [[nodiscard]] bool IsIntersects(
         const BoundingBox2D& box,
         const BoxIntersectionTestFunc2<T>& testFunc) const override;
 
     //! Returns true if given \p ray intersects with any of the stored items.
-    bool IsIntersects(
+    [[nodiscard]] bool IsIntersects(
         const Ray2D& ray,
         const RayIntersectionTestFunc2<T>& testFunc) const override;
 
@@ -72,33 +87,34 @@ class Quadtree final : public IntersectionQueryEngine2<T>,
         const IntersectionVisitorFunc2<T>& visitorFunc) const override;
 
     //! Returns the closest intersection for given \p ray.
-    ClosestIntersectionQueryResult2<T> GetClosestIntersection(
+    [[nodiscard]] ClosestIntersectionQueryResult2<T> GetClosestIntersection(
         const Ray2D& ray,
         const GetRayIntersectionFunc2<T>& testFunc) const override;
 
     //! Returns the begin iterator of the item.
-    Iterator begin();
+    [[nodiscard]] Iterator begin();
 
     //! Returns the end iterator of the item.
-    Iterator end();
+    [[nodiscard]] Iterator end();
 
     //! Returns the immutable begin iterator of the item.
-    ConstIterator begin() const;
+    [[nodiscard]] ConstIterator begin() const;
 
     //! Returns the immutable end iterator of the item.
-    ConstIterator end() const;
+    [[nodiscard]] ConstIterator end() const;
 
     //! Returns the number of items.
-    size_t GetNumberOfItems() const;
+    [[nodiscard]] size_t GetNumberOfItems() const;
 
     //! Returns the item at \p i.
-    const T& GetItem(size_t i) const;
+    [[nodiscard]] const T& GetItem(size_t i) const;
 
     //! Returns the number of quadtree nodes.
-    size_t GetNumberOfNodes() const;
+    [[nodiscard]] size_t GetNumberOfNodes() const;
 
-    //! Returns the list of the items for given noide index.
-    const std::vector<size_t>& GetItemsAtNode(size_t nodeIdx) const;
+    //! Returns the list of the items for given node index.
+    [[nodiscard]] const std::vector<size_t>& GetItemsAtNode(
+        size_t nodeIdx) const;
 
     //!
     //! \brief      Returns a child's index for given node.
@@ -112,56 +128,57 @@ class Quadtree final : public IntersectionQueryEngine2<T>,
     //!
     //! \return     Index of the selected child.
     //!
-    size_t GetChildIndex(size_t nodeIdx, size_t childIdx) const;
+    [[nodiscard]] size_t GetChildIndex(size_t nodeIdx, size_t childIdx) const;
 
     //! Returns the bounding box of this quadtree.
-    const BoundingBox2D& GetBoundingBox() const;
+    [[nodiscard]] const BoundingBox2D& GetBoundingBox() const;
 
     //! Returns the maximum depth of the tree.
-    size_t GetMaxDepth() const;
+    [[nodiscard]] size_t GetMaxDepth() const;
 
  private:
     struct Node
     {
+        [[nodiscard]] bool IsLeaf() const;
+
         size_t firstChild = std::numeric_limits<size_t>::max();
         std::vector<size_t> items;
-
-        bool IsLeaf() const;
     };
 
-    size_t m_maxDepth = 1;
-    BoundingBox2D m_bbox;
-    std::vector<T> m_items;
-    std::vector<Node> m_nodes;
+    void Build(size_t nodeIdx, size_t Depth, const BoundingBox2D& Bound,
+               const BoxIntersectionTestFunc2<T>& testFunc);
 
-    void Build(size_t nodeIdx, size_t currentDepth,
-               const BoundingBox2D& currentBound,
-               const BoxIntersectionTestFunc2<T>& overlapsFunc);
+    [[nodiscard]] bool IsIntersects(const BoundingBox2D& box,
+                                    const BoxIntersectionTestFunc2<T>& testFunc,
+                                    size_t nodeIdx,
+                                    const BoundingBox2D& Bound) const;
 
-    bool IsIntersects(const BoundingBox2D& box,
-                      const BoxIntersectionTestFunc2<T>& testFunc,
-                      size_t nodeIdx, const BoundingBox2D& currentBound) const;
-
-    bool IsIntersects(const Ray2D& ray,
-                      const RayIntersectionTestFunc2<T>& testFunc,
-                      size_t nodeIdx, const BoundingBox2D& currentBound) const;
+    [[nodiscard]] bool IsIntersects(const Ray2D& ray,
+                                    const RayIntersectionTestFunc2<T>& testFunc,
+                                    size_t nodeIdx,
+                                    const BoundingBox2D& Bound) const;
 
     void ForEachIntersectingItem(const BoundingBox2D& box,
                                  const BoxIntersectionTestFunc2<T>& testFunc,
                                  const IntersectionVisitorFunc2<T>& visitorFunc,
                                  size_t nodeIdx,
-                                 const BoundingBox2D& currentBound) const;
+                                 const BoundingBox2D& Bound) const;
 
     void ForEachIntersectingItem(const Ray2D& ray,
                                  const RayIntersectionTestFunc2<T>& testFunc,
                                  const IntersectionVisitorFunc2<T>& visitorFunc,
                                  size_t nodeIdx,
-                                 const BoundingBox2D& currentBound) const;
+                                 const BoundingBox2D& Bound) const;
 
-    ClosestIntersectionQueryResult2<T> GetClosestIntersection(
+    [[nodiscard]] ClosestIntersectionQueryResult2<T> GetClosestIntersection(
         const Ray2D& ray, const GetRayIntersectionFunc2<T>& testFunc,
-        size_t nodeIdx, const BoundingBox2D& currentBound,
+        size_t nodeIdx, const BoundingBox2D& Bound,
         ClosestIntersectionQueryResult2<T> best) const;
+
+    size_t m_maxDepth = 1;
+    BoundingBox2D m_bbox;
+    std::vector<T> m_items;
+    std::vector<Node> m_nodes;
 };
 }  // namespace CubbyFlow
 

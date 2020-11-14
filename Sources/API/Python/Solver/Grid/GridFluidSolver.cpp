@@ -272,9 +272,9 @@ void AddGridFluidSolver3(pybind11::module& m)
             "ResizeGrid",
             [](GridFluidSolver3& instance, pybind11::args args,
                pybind11::kwargs kwargs) {
-                Size3 resolution{ 1, 1 };
-                Vector3D gridSpacing{ 1, 1 };
-                Vector3D gridOrigin{ 0, 0 };
+                Size3 resolution{ 1, 1, 1 };
+                Vector3D gridSpacing{ 1, 1, 1 };
+                Vector3D gridOrigin{ 0, 0, 0 };
 
                 ParseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                       gridOrigin);

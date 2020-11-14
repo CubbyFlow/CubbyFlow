@@ -34,86 +34,96 @@ struct SurfaceRayIntersection2
 class Surface2
 {
  public:
+    //! Constructs a surface with normal direction.
+    Surface2(Transform2 _transform = Transform2{},
+             bool _isNormalFlipped = false);
+
+    //! Default copy constructor.
+    Surface2(const Surface2&) = default;
+
+    //! Default move constructor.
+    Surface2(Surface2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~Surface2() = default;
+
+    //! Default copy assignment operator.
+    Surface2& operator=(const Surface2&) = default;
+
+    //! Default move assignment operator.
+    Surface2& operator=(Surface2&&) noexcept = default;
+
+    //! Returns the closest point from the given point \p otherPoint to the
+    //! surface.
+    [[nodiscard]] Vector2D ClosestPoint(const Vector2D& otherPoint) const;
+
+    //! Returns the bounding box of this surface object.
+    [[nodiscard]] BoundingBox2D BoundingBox() const;
+
+    //! Returns true if the given \p ray intersects with this surface object.
+    [[nodiscard]] bool Intersects(const Ray2D& ray) const;
+
+    //! Returns the closest distance from the given point \p otherPoint to the
+    //! point on the surface.
+    [[nodiscard]] double ClosestDistance(const Vector2D& otherPoint) const;
+
+    //! Returns the closest intersection point for given \p ray.
+    [[nodiscard]] SurfaceRayIntersection2 ClosestIntersection(
+        const Ray2D& ray) const;
+
+    //! Returns the normal to the closest point on the surface from the given
+    //! point \p otherPoint.
+    [[nodiscard]] Vector2D ClosestNormal(const Vector2D& otherPoint) const;
+
+    //! Updates internal spatial query engine.
+    virtual void UpdateQueryEngine();
+
+    //! Returns true if bounding box can be defined.
+    [[nodiscard]] virtual bool IsBounded() const;
+
+    //! Returns true if the surface is a valid geometry.
+    [[nodiscard]] virtual bool IsValidGeometry() const;
+
+    //! Returns true if \p otherPoint is inside the volume defined by the
+    //! surface.
+    [[nodiscard]] bool IsInside(const Vector2D& otherPoint) const;
+
     //! Local-to-world transform.
     Transform2 transform;
 
     //! Flips normal.
     bool isNormalFlipped = false;
 
-    //! Constructs a surface with normal direction.
-    Surface2(const Transform2& transform = Transform2(),
-             bool isNormalFlipped = false);
-
-    //! Copy constructor.
-    Surface2(const Surface2& other);
-
-    //! Default copy assignment operator.
-    Surface2& operator=(const Surface2& other) = default;
-
-    //! Default destructor.
-    virtual ~Surface2();
-
-    //! Returns the closest point from the given point \p otherPoint to the
-    //! surface.
-    Vector2D ClosestPoint(const Vector2D& otherPoint) const;
-
-    //! Returns the bounding box of this surface object.
-    BoundingBox2D BoundingBox() const;
-
-    //! Returns true if the given \p ray intersects with this surface object.
-    bool Intersects(const Ray2D& ray) const;
-
-    //! Returns the closest distance from the given point \p otherPoint to the
-    //! point on the surface.
-    double ClosestDistance(const Vector2D& otherPoint) const;
-
-    //! Returns the closest intersection point for given \p ray.
-    SurfaceRayIntersection2 ClosestIntersection(const Ray2D& ray) const;
-
-    //! Returns the normal to the closest point on the surface from the given
-    //! point \p otherPoint.
-    Vector2D ClosestNormal(const Vector2D& otherPoint) const;
-
-    //! Updates internal spatial query engine.
-    virtual void UpdateQueryEngine();
-
-    //! Returns true if bounding box can be defined.
-    virtual bool IsBounded() const;
-
-    //! Returns true if the surface is a valid geometry.
-    virtual bool IsValidGeometry() const;
-
-    //! Returns true if \p otherPoint is inside the volume defined by the
-    //! surface.
-    bool IsInside(const Vector2D& otherPoint) const;
-
  protected:
     //! Returns the closest point from the given point \p otherPoint to the
     //! surface in local frame.
-    virtual Vector2D ClosestPointLocal(const Vector2D& otherPoint) const = 0;
+    [[nodiscard]] virtual Vector2D ClosestPointLocal(
+        const Vector2D& otherPoint) const = 0;
 
     //! Returns the bounding box of this surface object in local frame.
-    virtual BoundingBox2D BoundingBoxLocal() const = 0;
+    [[nodiscard]] virtual BoundingBox2D BoundingBoxLocal() const = 0;
 
     //! Returns the closest intersection point for given \p ray in local frame.
-    virtual SurfaceRayIntersection2 ClosestIntersectionLocal(
+    [[nodiscard]] virtual SurfaceRayIntersection2 ClosestIntersectionLocal(
         const Ray2D& ray) const = 0;
 
     //! Returns the normal to the closest point on the surface from the given
     //! point \p otherPoint in local frame.
-    virtual Vector2D ClosestNormalLocal(const Vector2D& otherPoint) const = 0;
+    [[nodiscard]] virtual Vector2D ClosestNormalLocal(
+        const Vector2D& otherPoint) const = 0;
 
     //! Returns true if the given \p ray intersects with this surface object
     //! in local frame.
-    virtual bool IntersectsLocal(const Ray2D& ray) const;
+    [[nodiscard]] virtual bool IntersectsLocal(const Ray2D& ray) const;
 
     //! Returns the closest distance from the given point \p otherPoint to the
     //! point on the surface in local frame.
-    virtual double ClosestDistanceLocal(const Vector2D& otherPoint) const;
+    [[nodiscard]] virtual double ClosestDistanceLocal(
+        const Vector2D& otherPoint) const;
 
     //! Returns true if \p otherPoint is inside by given \p depth the volume
     //! defined by the surface in local frame.
-    virtual bool IsInsideLocal(const Vector2D& otherPoint) const;
+    [[nodiscard]] virtual bool IsInsideLocal(const Vector2D& otherPoint) const;
 };
 
 //! Shared pointer for the Surface2 type.
@@ -127,16 +137,16 @@ class SurfaceBuilderBase2
 {
  public:
     //! Returns builder with flipped normal flag.
-    DerivedBuilder& WithIsNormalFlipped(bool isNormalFlipped);
+    [[nodiscard]] DerivedBuilder& WithIsNormalFlipped(bool isNormalFlipped);
 
     //! Returns builder with translation.
-    DerivedBuilder& WithTranslation(const Vector2D& translation);
+    [[nodiscard]] DerivedBuilder& WithTranslation(const Vector2D& translation);
 
     //! Returns builder with orientation.
-    DerivedBuilder& WithOrientation(double orientation);
+    [[nodiscard]] DerivedBuilder& WithOrientation(double orientation);
 
     //! Returns builder with transform.
-    DerivedBuilder& WithTransform(const Transform2& transform);
+    [[nodiscard]] DerivedBuilder& WithTransform(const Transform2& transform);
 
  protected:
     bool m_isNormalFlipped = false;

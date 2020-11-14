@@ -30,16 +30,16 @@ class FDMJacobiSolver3 final : public FDMLinearSystemSolver3
     bool SolveCompressed(FDMCompressedLinearSystem3* system) override;
 
     //! Returns the max number of Jacobi iterations.
-    unsigned int GetMaxNumberOfIterations() const;
+    [[nodiscard]] unsigned int GetMaxNumberOfIterations() const;
 
     //! Returns the last number of Jacobi iterations the solver made.
-    unsigned int GetLastNumberOfIterations() const;
+    [[nodiscard]] unsigned int GetLastNumberOfIterations() const;
 
     //! Returns the max residual tolerance for the Jacobi method.
-    double GetTolerance() const;
+    [[nodiscard]] double GetTolerance() const;
 
     //! Returns the last residual after the Jacobi iterations.
-    double GetLastResidual() const;
+    [[nodiscard]] double GetLastResidual() const;
 
     //! Performs single Jacobi relaxation step.
     static void Relax(const FDMMatrix3& A, const FDMVector3& b, FDMVector3* x,
@@ -50,11 +50,8 @@ class FDMJacobiSolver3 final : public FDMLinearSystemSolver3
                       VectorND* xTemp);
 
  private:
-    unsigned int m_maxNumberOfIterations;
-    unsigned int m_lastNumberOfIterations;
-    unsigned int m_residualCheckInterval;
-    double m_tolerance;
-    double m_lastResidual;
+    void ClearUncompressedVectors();
+    void ClearCompressedVectors();
 
     // Uncompressed vectors
     FDMVector3 m_xTemp;
@@ -64,8 +61,11 @@ class FDMJacobiSolver3 final : public FDMLinearSystemSolver3
     VectorND m_xTempComp;
     VectorND m_residualComp;
 
-    void ClearUncompressedVectors();
-    void ClearCompressedVectors();
+    unsigned int m_maxNumberOfIterations;
+    unsigned int m_lastNumberOfIterations;
+    unsigned int m_residualCheckInterval;
+    double m_tolerance;
+    double m_lastResidual;
 };
 
 //! Shared pointer type for the FDMJacobiSolver3.

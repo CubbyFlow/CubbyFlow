@@ -16,13 +16,13 @@ FDMGaussSeidelSolver2::FDMGaussSeidelSolver2(unsigned int maxNumberOfIterations,
                                              unsigned int residualCheckInterval,
                                              double tolerance, double sorFactor,
                                              bool useRedBlackOrdering)
-    : m_maxNumberOfIterations(maxNumberOfIterations),
-      m_lastNumberOfIterations(0),
-      m_residualCheckInterval(residualCheckInterval),
-      m_tolerance(tolerance),
-      m_lastResidual(std::numeric_limits<double>::max()),
-      m_sorFactor(sorFactor),
-      m_useRedBlackOrdering(useRedBlackOrdering)
+    : m_maxNumberOfIterations{ maxNumberOfIterations },
+      m_lastNumberOfIterations{ 0 },
+      m_residualCheckInterval{ residualCheckInterval },
+      m_tolerance{ tolerance },
+      m_lastResidual{ std::numeric_limits<double>::max() },
+      m_sorFactor{ sorFactor },
+      m_useRedBlackOrdering{ useRedBlackOrdering }
 {
     // Do nothing
 }
@@ -133,10 +133,11 @@ void FDMGaussSeidelSolver2::Relax(const FDMMatrix2& A, const FDMVector2& b,
     FDMVector2& refX = *x;
 
     A.ForEachIndex([&](size_t i, size_t j) {
-        double r = ((i > 0) ? A(i - 1, j).right * refX(i - 1, j) : 0.0) +
-                   ((i + 1 < size.x) ? A(i, j).right * refX(i + 1, j) : 0.0) +
-                   ((j > 0) ? A(i, j - 1).up * refX(i, j - 1) : 0.0) +
-                   ((j + 1 < size.y) ? A(i, j).up * refX(i, j + 1) : 0.0);
+        const double r =
+            ((i > 0) ? A(i - 1, j).right * refX(i - 1, j) : 0.0) +
+            ((i + 1 < size.x) ? A(i, j).right * refX(i + 1, j) : 0.0) +
+            ((j > 0) ? A(i, j - 1).up * refX(i, j - 1) : 0.0) +
+            ((j + 1 < size.y) ? A(i, j).up * refX(i, j + 1) : 0.0);
 
         refX(i, j) = (1.0 - sorFactor) * refX(i, j) +
                      sorFactor * (b(i, j) - r) / A(i, j).center;
@@ -144,13 +145,13 @@ void FDMGaussSeidelSolver2::Relax(const FDMMatrix2& A, const FDMVector2& b,
 }
 
 void FDMGaussSeidelSolver2::Relax(const MatrixCSRD& A, const VectorND& b,
-                                  double sorFactor, VectorND* x_)
+                                  double sorFactor, VectorND* x)
 {
     const auto rp = A.RowPointersBegin();
     const auto ci = A.ColumnIndicesBegin();
     const auto nnz = A.NonZeroBegin();
 
-    VectorND& x = *x_;
+    VectorND& xRef = *x;
 
     b.ForEachIndex([&](size_t i) {
         const size_t rowBegin = rp[i];
@@ -160,7 +161,7 @@ void FDMGaussSeidelSolver2::Relax(const MatrixCSRD& A, const VectorND& b,
         double diag = 1.0;
         for (size_t jj = rowBegin; jj < rowEnd; ++jj)
         {
-            size_t j = ci[jj];
+            const size_t j = ci[jj];
 
             if (i == j)
             {
@@ -168,11 +169,11 @@ void FDMGaussSeidelSolver2::Relax(const MatrixCSRD& A, const VectorND& b,
             }
             else
             {
-                r += nnz[jj] * x[j];
+                r += nnz[jj] * xRef[j];
             }
         }
 
-        x[i] = (1.0 - sorFactor) * x[i] + sorFactor * (b[i] - r) / diag;
+        xRef[i] = (1.0 - sorFactor) * xRef[i] + sorFactor * (b[i] - r) / diag;
     });
 }
 
@@ -181,7 +182,7 @@ void FDMGaussSeidelSolver2::RelaxRedBlack(const FDMMatrix2& A,
                                           FDMVector2* x)
 {
     Size2 size = A.size();
-    FDMVector2& refX = *x;
+    FDMVector2& xRef = *x;
 
     // Red update
     ParallelRangeFor(
@@ -194,14 +195,14 @@ void FDMGaussSeidelSolver2::RelaxRedBlack(const FDMMatrix2& A,
 
                 for (; i < iEnd; i += 2)
                 {
-                    double r =
-                        ((i > 0) ? A(i - 1, j).right * refX(i - 1, j) : 0.0) +
-                        ((i + 1 < size.x) ? A(i, j).right * refX(i + 1, j)
+                    const double r =
+                        ((i > 0) ? A(i - 1, j).right * xRef(i - 1, j) : 0.0) +
+                        ((i + 1 < size.x) ? A(i, j).right * xRef(i + 1, j)
                                           : 0.0) +
-                        ((j > 0) ? A(i, j - 1).up * refX(i, j - 1) : 0.0) +
-                        ((j + 1 < size.y) ? A(i, j).up * refX(i, j + 1) : 0.0);
+                        ((j > 0) ? A(i, j - 1).up * xRef(i, j - 1) : 0.0) +
+                        ((j + 1 < size.y) ? A(i, j).up * xRef(i, j + 1) : 0.0);
 
-                    refX(i, j) = (1.0 - sorFactor) * refX(i, j) +
+                    xRef(i, j) = (1.0 - sorFactor) * xRef(i, j) +
                                  sorFactor * (b(i, j) - r) / A(i, j).center;
                 }
             }
@@ -217,14 +218,14 @@ void FDMGaussSeidelSolver2::RelaxRedBlack(const FDMMatrix2& A,
 
                 for (; i < iEnd; i += 2)
                 {
-                    double r =
-                        ((i > 0) ? A(i - 1, j).right * refX(i - 1, j) : 0.0) +
-                        ((i + 1 < size.x) ? A(i, j).right * refX(i + 1, j)
+                    const double r =
+                        ((i > 0) ? A(i - 1, j).right * xRef(i - 1, j) : 0.0) +
+                        ((i + 1 < size.x) ? A(i, j).right * xRef(i + 1, j)
                                           : 0.0) +
-                        ((j > 0) ? A(i, j - 1).up * refX(i, j - 1) : 0.0) +
-                        ((j + 1 < size.y) ? A(i, j).up * refX(i, j + 1) : 0.0);
+                        ((j > 0) ? A(i, j - 1).up * xRef(i, j - 1) : 0.0) +
+                        ((j + 1 < size.y) ? A(i, j).up * xRef(i, j + 1) : 0.0);
 
-                    refX(i, j) = (1.0 - sorFactor) * refX(i, j) +
+                    xRef(i, j) = (1.0 - sorFactor) * xRef(i, j) +
                                  sorFactor * (b(i, j) - r) / A(i, j).center;
                 }
             }

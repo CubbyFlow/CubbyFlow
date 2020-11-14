@@ -35,29 +35,41 @@ class Grid3 : public Serializable
     //! Function type for mapping data index to actual position.
     using DataPositionFunc = std::function<Vector3D(size_t, size_t, size_t)>;
 
-    //! Constructs an empty grid.
-    Grid3();
+    //! Default constructor.
+    Grid3() = default;
 
-    //! Default destructor.
-    virtual ~Grid3();
+    //! Default copy constructor.
+    Grid3(const Grid3&) = default;
+
+    //! Default move constructor.
+    Grid3(Grid3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~Grid3() override = default;
+
+    //! Default copy assignment operator.
+    Grid3& operator=(const Grid3&) = default;
+
+    //! Default move assignment operator.
+    Grid3& operator=(Grid3&&) noexcept = default;
 
     //! Returns the type name of derived grid.
-    virtual std::string TypeName() const = 0;
+    [[nodiscard]] virtual std::string TypeName() const = 0;
 
     //! Returns the grid resolution.
-    const Size3& Resolution() const;
+    [[nodiscard]] const Size3& Resolution() const;
 
     //! Returns the grid origin.
-    const Vector3D& Origin() const;
+    [[nodiscard]] const Vector3D& Origin() const;
 
     //! Returns the grid spacing.
-    const Vector3D& GridSpacing() const;
+    [[nodiscard]] const Vector3D& GridSpacing() const;
 
     //! Returns the bounding box of the grid.
-    const BoundingBox3D& BoundingBox() const;
+    [[nodiscard]] const BoundingBox3D& BoundingBox() const;
 
     //! Returns the function that maps grid index to the cell-center position.
-    DataPositionFunc CellCenterPosition() const;
+    [[nodiscard]] DataPositionFunc CellCenterPosition() const;
 
     //!
     //! \brief Invokes the given function \p func for each grid cell.
@@ -82,13 +94,13 @@ class Grid3 : public Serializable
         const std::function<void(size_t, size_t, size_t)>& func) const;
 
     //! Serializes the grid instance to the output buffer.
-    virtual void Serialize(std::vector<uint8_t>* buffer) const = 0;
+    void Serialize(std::vector<uint8_t>* buffer) const override = 0;
 
     //! Deserializes the input buffer to the grid instance.
-    virtual void Deserialize(const std::vector<uint8_t>& buffer) = 0;
+    void Deserialize(const std::vector<uint8_t>& buffer) override = 0;
 
     //! Returns true if resolution, grid-spacing and origin are same.
-    bool HasSameShape(const Grid3& other) const;
+    [[nodiscard]] bool HasSameShape(const Grid3& other) const;
 
     //! Swaps the data with other grid.
     virtual void Swap(Grid3* other) = 0;

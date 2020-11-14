@@ -24,11 +24,24 @@ class CollocatedVectorGrid2 : public VectorGrid2
     //! Constructs an empty grid.
     CollocatedVectorGrid2();
 
-    //! Default destructor.
-    virtual ~CollocatedVectorGrid2();
+    //! Default copy constructor.
+    CollocatedVectorGrid2(const CollocatedVectorGrid2&) = default;
+
+    //! Default move constructor.
+    CollocatedVectorGrid2(CollocatedVectorGrid2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~CollocatedVectorGrid2() override = default;
+
+    //! Default copy assignment operator.
+    CollocatedVectorGrid2& operator=(const CollocatedVectorGrid2&) = default;
+
+    //! Default move assignment operator.
+    CollocatedVectorGrid2& operator=(CollocatedVectorGrid2&&) noexcept =
+        default;
 
     //! Returns the actual data point size.
-    virtual Size2 GetDataSize() const = 0;
+    [[nodiscard]] virtual Size2 GetDataSize() const = 0;
 
     //!
     //! \brief Returns data position for the grid point at (0, 0).
@@ -36,7 +49,7 @@ class CollocatedVectorGrid2 : public VectorGrid2
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
     //!
-    virtual Vector2D GetDataOrigin() const = 0;
+    [[nodiscard]] virtual Vector2D GetDataOrigin() const = 0;
 
     //! Returns the grid data at given data point.
     const Vector2D& operator()(size_t i, size_t j) const;
@@ -45,19 +58,19 @@ class CollocatedVectorGrid2 : public VectorGrid2
     Vector2D& operator()(size_t i, size_t j);
 
     //! Returns divergence at data point location.
-    double DivergenceAtDataPoint(size_t i, size_t j) const;
+    [[nodiscard]] double DivergenceAtDataPoint(size_t i, size_t j) const;
 
     //! Returns curl at data point location.
-    double CurlAtDataPoint(size_t i, size_t j) const;
+    [[nodiscard]] double CurlAtDataPoint(size_t i, size_t j) const;
 
     //! Returns the read-write data array accessor.
-    VectorDataAccessor GetDataAccessor();
+    [[nodiscard]] VectorDataAccessor GetDataAccessor();
 
     //! Returns the read-only data array accessor.
-    ConstVectorDataAccessor GetConstDataAccessor() const;
+    [[nodiscard]] ConstVectorDataAccessor GetConstDataAccessor() const;
 
     //! Returns the function that maps data point to its position.
-    DataPositionFunc GetDataPosition() const;
+    [[nodiscard]] DataPositionFunc GetDataPosition() const;
 
     //!
     //! \brief Invokes the given function \p func for each data point.
@@ -83,13 +96,13 @@ class CollocatedVectorGrid2 : public VectorGrid2
 
     // VectorField2 implementations
     //! Returns sampled value at given position \p x.
-    Vector2D Sample(const Vector2D& x) const override;
+    [[nodiscard]] Vector2D Sample(const Vector2D& x) const override;
 
     //! Returns divergence at given position \p x.
-    double Divergence(const Vector2D& x) const override;
+    [[nodiscard]] double Divergence(const Vector2D& x) const override;
 
     //! Returns curl at given position \p x.
-    double Curl(const Vector2D& x) const override;
+    [[nodiscard]] double Curl(const Vector2D& x) const override;
 
     //!
     //! \brief Returns the sampler function.
@@ -97,7 +110,8 @@ class CollocatedVectorGrid2 : public VectorGrid2
     //! This function returns the data sampler function object. The sampling
     //! function is linear.
     //!
-    std::function<Vector2D(const Vector2D&)> Sampler() const override;
+    [[nodiscard]] std::function<Vector2D(const Vector2D&)> Sampler()
+        const override;
 
  protected:
     //! Swaps the data storage and predefined samplers with given grid.
@@ -113,14 +127,14 @@ class CollocatedVectorGrid2 : public VectorGrid2
     void SetData(const std::vector<double>& data) override;
 
  private:
-    Array2<Vector2D> m_data;
-    LinearArraySampler2<Vector2D, double> m_linearSampler;
-    std::function<Vector2D(const Vector2D&)> m_sampler;
-
     void OnResize(const Size2& resolution, const Vector2D& gridSpacing,
                   const Vector2D& origin, const Vector2D& initialValue) final;
 
     void ResetSampler();
+
+    Array2<Vector2D> m_data;
+    LinearArraySampler2<Vector2D, double> m_linearSampler;
+    std::function<Vector2D(const Vector2D&)> m_sampler;
 };
 
 //! Shared pointer for the CollocatedVectorGrid2 type.

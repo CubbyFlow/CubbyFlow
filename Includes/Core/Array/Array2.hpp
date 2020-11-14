@@ -48,8 +48,8 @@ class Array<T, 2> final
     using Iterator = typename ContainerType::iterator;
     using ConstIterator = typename ContainerType::const_iterator;
 
-    //! Constructs zero-sized 2-D array.
-    Array();
+    //! Default constructor.
+    Array() = default;
 
     //! Constructs 2-D array with given \p size and fill it with \p initVal.
     //! \param size Initial size of the array.
@@ -88,7 +88,10 @@ class Array<T, 2> final
     Array(const Array& other);
 
     //! Move constructor.
-    Array(Array&& other);
+    Array(Array&& other) noexcept;
+
+    //! Default destructor.
+    ~Array() = default;
 
     //! Sets entire array with given \p value.
     void Set(const T& value);
@@ -143,28 +146,28 @@ class Array<T, 2> final
     //! array where i is the index of linearly mapped elements such that
     //! i = x + (width * y) (x and y are the 2-D coordinates of the element).
     //!
-    const T& At(size_t i) const;
+    [[nodiscard]] const T& At(size_t i) const;
 
     //! Returns the reference to the element at (pt.x, pt.y).
     T& At(const Point2UI& pt);
 
     //! Returns the const reference to the element at (pt.x, pt.y).
-    const T& At(const Point2UI& pt) const;
+    [[nodiscard]] const T& At(const Point2UI& pt) const;
 
     //! Returns the reference to the element at (i, j).
     T& At(size_t i, size_t j);
 
     //! Returns the const reference to the element at (i, j).
-    const T& At(size_t i, size_t j) const;
+    [[nodiscard]] const T& At(size_t i, size_t j) const;
 
     //! Returns the size of the array.
-    Size2 size() const;
+    [[nodiscard]] Size2 size() const;
 
     //! Returns the width of the array.
-    size_t Width() const;
+    [[nodiscard]] size_t Width() const;
 
     //! Returns the height of the array.
-    size_t Height() const;
+    [[nodiscard]] size_t Height() const;
 
     //! Returns the raw pointer to the array data.
     T* data();
@@ -176,13 +179,13 @@ class Array<T, 2> final
     Iterator begin();
 
     //! Returns the begin const iterator of the array.
-    ConstIterator begin() const;
+    [[nodiscard]] ConstIterator begin() const;
 
     //! Returns the end iterator of the array.
     Iterator end();
 
     //! Returns the end const iterator of the array.
-    ConstIterator end() const;
+    [[nodiscard]] ConstIterator end() const;
 
     //! Returns the array accessor.
     ArrayAccessor2<T> Accessor();
@@ -335,14 +338,14 @@ class Array<T, 2> final
     //! Returns the const reference to the element at (i, j).
     const T& operator()(size_t i, size_t j) const;
 
-    //! Sets entire array with given \p value.
+    //! Sets entire array with given \p other.
     Array& operator=(const T& other);
 
     //! Copies given array \p other to this array.
     Array& operator=(const Array& other);
 
     //! Moves given array \p other to this array.
-    Array& operator=(Array&& other);
+    Array& operator=(Array&& other) noexcept;
 
     //!
     //! Copies given initializer list \p list to this array.

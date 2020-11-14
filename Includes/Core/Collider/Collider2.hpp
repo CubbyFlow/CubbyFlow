@@ -39,13 +39,25 @@ class Collider2
         std::function<void(Collider2*, double, double)>;
 
     //! Default constructor.
-    Collider2();
+    Collider2() = default;
 
-    //! Default destructor.
-    virtual ~Collider2();
+    //! Default copy constructor.
+    Collider2(const Collider2&) = default;
+
+    //! Default move constructor.
+    Collider2(Collider2&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~Collider2() = default;
+
+    //! Default copy assignment operator.
+    Collider2& operator=(const Collider2&) = default;
+
+    //! Default move assignment operator.
+    Collider2& operator=(Collider2&&) noexcept = default;
 
     //! Returns the velocity of the collider at given \p point.
-    virtual Vector2D VelocityAt(const Vector2D& point) const = 0;
+    [[nodiscard]] virtual Vector2D VelocityAt(const Vector2D& point) const = 0;
 
     //!
     //! Resolves collision for given point.
@@ -56,10 +68,10 @@ class Collider2
     //! \param velocity Input and output velocity of the point.
     //!
     void ResolveCollision(double radius, double restitutionCoefficient,
-                          Vector2D* position, Vector2D* velocity);
+                          Vector2D* position, Vector2D* velocity) const;
 
     //! Returns friction coefficient.
-    double GetFrictionCoefficient() const;
+    [[nodiscard]] double GetFrictionCoefficient() const;
 
     //!
     //! \brief Sets the friction coefficient.
@@ -67,10 +79,10 @@ class Collider2
     //! This function assigns the friction coefficient to the collider. Any
     //! negative inputs will be clamped to zero.
     //!
-    void SetFrictionCoefficient(double newFrictionCoeffient);
+    void SetFrictionCoefficient(double newFrictionCoefficient);
 
     //! Returns the surface instance.
-    const Surface2Ptr& GetSurface() const;
+    [[nodiscard]] const Surface2Ptr& GetSurface() const;
 
     //! Updates the collider state.
     void Update(double currentTimeInSeconds, double timeIntervalInSeconds);
@@ -91,7 +103,7 @@ class Collider2
     //! Internal query result structure.
     struct ColliderQueryResult final
     {
-        double distance;
+        double distance = 0.0;
         Vector2D point;
         Vector2D normal;
         Vector2D velocity;
@@ -105,12 +117,13 @@ class Collider2
                          ColliderQueryResult* result) const;
 
     //! Returns true if given point is in the opposite side of the surface.
-    bool IsPenetrating(const ColliderQueryResult& colliderPoint,
-                       const Vector2D& position, double radius);
+    [[nodiscard]] bool IsPenetrating(const ColliderQueryResult& colliderPoint,
+                                     const Vector2D& position,
+                                     double radius) const;
 
  private:
     Surface2Ptr m_surface;
-    double m_frictionCoeffient = 0.0;
+    double m_frictionCoefficient = 0.0;
     OnBeginUpdateCallback m_onUpdateCallback;
 };
 

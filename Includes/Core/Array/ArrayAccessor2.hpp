@@ -39,25 +39,31 @@ class ArrayAccessor<T, 2> final
     //! Constructs an array accessor that wraps given array.
     //! \param size Size of the 2-D array.
     //! \param data Raw array pointer.
-    ArrayAccessor(const Size2& size, T* const data);
+    ArrayAccessor(const Size2& size, T* data);
 
     //! Constructs an array accessor that wraps given array.
     //! \param width Width of the 2-D array.
     //! \param height Height of the 2-D array.
     //! \param data Raw array pointer.
-    ArrayAccessor(size_t width, size_t height, T* const data);
+    ArrayAccessor(size_t width, size_t height, T* data);
 
     //! Copy constructor.
     ArrayAccessor(const ArrayAccessor& other);
+
+    //! Move constructor.
+    ArrayAccessor(ArrayAccessor&& other) noexcept;
+
+    //! Default destructor.
+    ~ArrayAccessor() = default;
 
     //! Replaces the content with given \p other array accessor.
     void Set(const ArrayAccessor& other);
 
     //! Resets the array.
-    void Reset(const Size2& size, T* const data);
+    void Reset(const Size2& size, T* data);
 
     //! Resets the array.
-    void Reset(size_t width, size_t height, T* const data);
+    void Reset(size_t width, size_t height, T* data);
 
     //! Returns the reference to the i-th element.
     T& At(size_t i);
@@ -90,13 +96,13 @@ class ArrayAccessor<T, 2> final
     T* end();
 
     //! Returns the size of the array.
-    Size2 size() const;
+    [[nodiscard]] Size2 size() const;
 
     //! Returns the width of the array.
-    size_t Width() const;
+    [[nodiscard]] size_t Width() const;
 
     //! Returns the height of the array.
-    size_t Height() const;
+    [[nodiscard]] size_t Height() const;
 
     //! Returns the raw pointer to the array data.
     T* data() const;
@@ -211,10 +217,10 @@ class ArrayAccessor<T, 2> final
     void ParallelForEachIndex(Callback func) const;
 
     //! Returns the linear index of the given 2-D coordinate (pt.x, pt.y).
-    size_t Index(const Point2UI& pt) const;
+    [[nodiscard]] size_t Index(const Point2UI& pt) const;
 
     //! Returns the linear index of the given 2-D coordinate (i, j).
-    size_t Index(size_t i, size_t j) const;
+    [[nodiscard]] size_t Index(size_t i, size_t j) const;
 
     //! Returns the reference to the i-th element.
     T& operator[](size_t i);
@@ -236,6 +242,9 @@ class ArrayAccessor<T, 2> final
 
     //! Copies given array accessor \p other.
     ArrayAccessor& operator=(const ArrayAccessor& other);
+
+    //! Moves given array accessor \p other.
+    ArrayAccessor& operator=(ArrayAccessor&& other) noexcept;
 
     //! Casts type to ConstArrayAccessor.
     operator ConstArrayAccessor<T, 2>() const;
@@ -270,19 +279,25 @@ class ConstArrayAccessor<T, 2>
     //! Constructs a read-only array accessor that wraps given array.
     //! \param size Size of the 2-D array.
     //! \param data Raw array pointer.
-    ConstArrayAccessor(const Size2& size, const T* const data);
+    ConstArrayAccessor(const Size2& size, const T* data);
 
     //! Constructs a read-only array accessor that wraps given array.
     //! \param width Width of the 2-D array.
     //! \param height Height of the 2-D array.
     //! \param data Raw array pointer.
-    ConstArrayAccessor(size_t width, size_t height, const T* const data);
+    ConstArrayAccessor(size_t width, size_t height, const T* data);
 
     //! Constructs a read-only array accessor from read/write accessor.
     explicit ConstArrayAccessor(const ArrayAccessor<T, 2>& other);
 
+    //! Default destructor.
+    ~ConstArrayAccessor() = default;
+
     //! Copy constructor.
     ConstArrayAccessor(const ConstArrayAccessor& other);
+
+    //! Move constructor.
+    ConstArrayAccessor(ConstArrayAccessor&& other) noexcept;
 
     //! Returns the reference to the i-th element.
     const T& At(size_t i) const;
@@ -300,13 +315,13 @@ class ConstArrayAccessor<T, 2>
     const T* end() const;
 
     //! Returns the size of the array.
-    Size2 size() const;
+    [[nodiscard]] Size2 size() const;
 
     //! Returns the width of the array.
-    size_t Width() const;
+    [[nodiscard]] size_t Width() const;
 
     //! Returns the height of the array.
-    size_t Height() const;
+    [[nodiscard]] size_t Height() const;
 
     //! Returns the raw pointer to the array data.
     const T* data() const;
@@ -395,10 +410,10 @@ class ConstArrayAccessor<T, 2>
     void ParallelForEachIndex(Callback func) const;
 
     //! Returns the linear index of the given 2-D coordinate (pt.x, pt.y).
-    size_t Index(const Point2UI& pt) const;
+    [[nodiscard]] size_t Index(const Point2UI& pt) const;
 
     //! Returns the linear index of the given 2-D coordinate (i, j).
-    size_t Index(size_t i, size_t j) const;
+    [[nodiscard]] size_t Index(size_t i, size_t j) const;
 
     //! Returns the const reference to the i-th element.
     const T& operator[](size_t i) const;
@@ -411,6 +426,9 @@ class ConstArrayAccessor<T, 2>
 
     //! Copies given read-only array accessor \p other.
     ConstArrayAccessor& operator=(const ConstArrayAccessor& other);
+
+    //! Moves given read-only array accessor \p other.
+    ConstArrayAccessor& operator=(ConstArrayAccessor&& other) noexcept;
 
  private:
     Size2 m_size;

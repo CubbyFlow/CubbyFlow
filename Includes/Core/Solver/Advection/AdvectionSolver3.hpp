@@ -28,9 +28,23 @@ namespace CubbyFlow
 class AdvectionSolver3
 {
  public:
-    AdvectionSolver3();
+    //! Default constructor.
+    AdvectionSolver3() = default;
 
-    virtual ~AdvectionSolver3();
+    //! Default copy constructor.
+    AdvectionSolver3(const AdvectionSolver3&) = default;
+
+    //! Default move constructor.
+    AdvectionSolver3(AdvectionSolver3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~AdvectionSolver3() = default;
+
+    //! Default copy assignment operator.
+    AdvectionSolver3& operator=(const AdvectionSolver3&) = default;
+
+    //! Default move assignment operator.
+    AdvectionSolver3& operator=(AdvectionSolver3&&) noexcept = default;
 
     //!
     //! \brief Solves advection equation for given scalar grid.

@@ -26,6 +26,7 @@
 #include <Core/Geometry/MarchingSquaresTable.hpp>
 #include <Core/LevelSet/LevelSetUtils.hpp>
 
+#include <algorithm>
 #include <unordered_map>
 
 namespace CubbyFlow
@@ -39,7 +40,7 @@ inline bool QueryVertexID(const MarchingCubeVertexMap& vertexMap,
                           MarchingCubeVertexHashKey vKey,
                           MarchingCubeVertexID* vID)
 {
-    auto vIter = vertexMap.find(vKey);
+    const auto vIter = vertexMap.find(vKey);
     if (vIter != vertexMap.end())
     {
         *vID = vIter->second;
@@ -59,12 +60,12 @@ inline Vector3D Grad(const ConstArrayAccessor3<double>& grid, ssize_t i,
     ssize_t jm = j - 1;
     ssize_t kp = k + 1;
     ssize_t km = k - 1;
-    Size3 dim = grid.size();
-    ssize_t dimx = static_cast<ssize_t>(dim.x);
-    ssize_t dimy = static_cast<ssize_t>(dim.y);
-    ssize_t dimz = static_cast<ssize_t>(dim.z);
+    const Size3 dim = grid.size();
+    const ssize_t dimX = static_cast<ssize_t>(dim.x);
+    const ssize_t dimY = static_cast<ssize_t>(dim.y);
+    const ssize_t dimZ = static_cast<ssize_t>(dim.z);
 
-    if (i > dimx - 2)
+    if (i > dimX - 2)
     {
         ip = i;
     }
@@ -72,7 +73,7 @@ inline Vector3D Grad(const ConstArrayAccessor3<double>& grid, ssize_t i,
     {
         im = 0;
     }
-    if (j > dimy - 2)
+    if (j > dimY - 2)
     {
         jp = j;
     }
@@ -80,7 +81,7 @@ inline Vector3D Grad(const ConstArrayAccessor3<double>& grid, ssize_t i,
     {
         jm = 0;
     }
-    if (k > dimz - 2)
+    if (k > dimZ - 2)
     {
         kp = k;
     }
@@ -89,9 +90,9 @@ inline Vector3D Grad(const ConstArrayAccessor3<double>& grid, ssize_t i,
         km = 0;
     }
 
-    ret.x = 0.5f * invGridSize.x * (grid(ip, j, k) - grid(im, j, k));
-    ret.y = 0.5f * invGridSize.y * (grid(i, jp, k) - grid(i, jm, k));
-    ret.z = 0.5f * invGridSize.z * (grid(i, j, kp) - grid(i, j, km));
+    ret.x = 0.5 * invGridSize.x * (grid(ip, j, k) - grid(im, j, k));
+    ret.y = 0.5 * invGridSize.y * (grid(i, jp, k) - grid(i, jm, k));
+    ret.z = 0.5 * invGridSize.z * (grid(i, j, kp) - grid(i, j, km));
 
     return ret;
 }
@@ -185,7 +186,7 @@ static void SingleSquare(const std::array<double, 4>& data,
     // Which edges intersect the surface?
     // If i-th edge intersects the surface, mark '1' at i-th bit of
     // 'idxEdgeFlags'
-    int idxEdgeFlags = squareEdgeFlags[idxFlags];
+    const int idxEdgeFlags = squareEdgeFlags[idxFlags];
 
     // Find the point of intersection of the surface with each edge
     for (size_t iterEdge = 0; iterEdge < 4; ++iterEdge)
@@ -200,8 +201,8 @@ static void SingleSquare(const std::array<double, 4>& data,
             Vector3D pos0 = corners[idxVertexOfTheEdge[0]];
             Vector3D pos1 = corners[idxVertexOfTheEdge[1]];
 
-            double phi0 = data[idxVertexOfTheEdge[0]] - isoValue;
-            double phi1 = data[idxVertexOfTheEdge[1]] - isoValue;
+            const double phi0 = data[idxVertexOfTheEdge[0]] - isoValue;
+            const double phi1 = data[idxVertexOfTheEdge[1]] - isoValue;
 
             // I think it needs perturbation a little bit.
             if (std::fabs(phi0) + std::fabs(phi1) > 1e-12)
@@ -210,19 +211,12 @@ static void SingleSquare(const std::array<double, 4>& data,
             }
             else
             {
-                alpha = 0.5f;
+                alpha = 0.5;
             }
 
-            if (alpha < 0.000001f)
-            {
-                alpha = 0.000001f;
-            }
-            if (alpha > 0.999999f)
-            {
-                alpha = 0.999999f;
-            }
+            alpha = std::clamp(alpha, 0.000001, 0.999999);
 
-            Vector3D pos = ((1.f - alpha) * pos0 + alpha * pos1);
+            const Vector3D pos = ((1.0 - alpha) * pos0 + alpha * pos1);
 
             // What is the position of this vertex of the edge?
             e[iterEdge] = pos;
@@ -242,7 +236,7 @@ static void SingleSquare(const std::array<double, 4>& data,
 
         for (int j = 0; j < 3; ++j)
         {
-            int idxVertex =
+            const int idxVertex =
                 triangleConnectionTable2D[idxFlags][3 * iterTri + j];
 
             MarchingCubeVertexHashKey vKey = vertAndEdgeIds[idxVertex];
@@ -268,7 +262,7 @@ static void SingleSquare(const std::array<double, 4>& data,
                 }
 
                 // empty texture coordinate...
-                mesh->AddUV(Vector2D());
+                mesh->AddUV(Vector2D{});
                 vertexMap->insert(std::make_pair(vKey, face[j]));
             }
         }
@@ -311,7 +305,7 @@ static void SingleCube(const std::array<double, 8>& data,
     // If there are vertices which is inside the surface...
     // Which edges intersect the surface? If i-th edge intersects the surface,
     // mark '1' at i-th bit of 'itrEdgeFlags'
-    int idxEdgeFlags = cubeEdgeFlags[idxFlagSize];
+    const int idxEdgeFlags = cubeEdgeFlags[idxFlagSize];
 
     // Find the point of intersection of the surface with each edge
     for (int iterEdge = 0; iterEdge < 12; ++iterEdge)
@@ -332,22 +326,15 @@ static void SingleCube(const std::array<double, 8>& data,
             Vector3D normal0 = normals[idxVertexOfTheEdge[0]];
             Vector3D normal1 = normals[idxVertexOfTheEdge[1]];
 
-            double phi0 = data[idxVertexOfTheEdge[0]] - isoValue;
-            double phi1 = data[idxVertexOfTheEdge[1]] - isoValue;
+            const double phi0 = data[idxVertexOfTheEdge[0]] - isoValue;
+            const double phi1 = data[idxVertexOfTheEdge[1]] - isoValue;
 
             double alpha = DistanceToZeroLevelSet(phi0, phi1);
 
-            if (alpha < 0.000001)
-            {
-                alpha = 0.000001;
-            }
-            if (alpha > 0.999999)
-            {
-                alpha = 0.999999;
-            }
+            alpha = std::clamp(alpha, 0.000001, 0.999999);
 
-            Vector3D pos = (1.0 - alpha) * pos0 + alpha * pos1;
-            Vector3D normal = (1.0 - alpha) * normal0 + alpha * normal1;
+            const Vector3D pos = (1.0 - alpha) * pos0 + alpha * pos1;
+            const Vector3D normal = (1.0 - alpha) * normal0 + alpha * normal1;
 
             e[iterEdge] = pos;
             n[iterEdge] = normal;
@@ -383,7 +370,7 @@ static void SingleCube(const std::array<double, 8>& data,
                 mesh->AddNormal(SafeNormalize(
                     n[triangleConnectionTable3D[idxFlagSize][k]]));
                 mesh->AddPoint(e[triangleConnectionTable3D[idxFlagSize][k]]);
-                mesh->AddUV(Vector2D());
+                mesh->AddUV(Vector2D{});
                 vertexMap->insert(std::make_pair(vKey, face[j]));
             }
         }
@@ -405,12 +392,12 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
     const Vector3D invGridSize = 1.0 / gridSize;
 
     auto pos = [origin, gridSize](ssize_t i, ssize_t j, ssize_t k) {
-        return origin + gridSize * Vector3D({ i, j, k });
+        return origin + gridSize * Vector3D{ { i, j, k } };
     };
 
-    ssize_t dimX = static_cast<ssize_t>(dim.x);
-    ssize_t dimY = static_cast<ssize_t>(dim.y);
-    ssize_t dimZ = static_cast<ssize_t>(dim.z);
+    const ssize_t dimX = static_cast<ssize_t>(dim.x);
+    const ssize_t dimY = static_cast<ssize_t>(dim.y);
+    const ssize_t dimZ = static_cast<ssize_t>(dim.z);
 
     for (ssize_t k = 0; k < dimZ - 1; ++k)
     {
@@ -418,8 +405,8 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
         {
             for (ssize_t i = 0; i < dimX - 1; ++i)
             {
-                std::array<double, 8> data;
-                std::array<size_t, 12> edgeIDs;
+                std::array<double, 8> data{};
+                std::array<size_t, 12> edgeIDs{};
                 std::array<Vector3D, 8> normals;
                 BoundingBox3D bound;
 
@@ -467,8 +454,8 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
             {
                 ssize_t k = 0;
 
-                std::array<double, 4> data;
-                std::array<size_t, 8> vertexAndEdgeIDs;
+                std::array<double, 4> data{};
+                std::array<size_t, 8> vertexAndEdgeIDs{};
                 std::array<Vector3D, 4> corners;
                 Vector3D normal;
 
@@ -479,7 +466,7 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
 
                 if (bndClose & DIRECTION_BACK)
                 {
-                    normal = Vector3D(0, 0, -1);
+                    normal = Vector3D{ 0, 0, -1 };
 
                     vertexAndEdgeIDs[0] = GlobalVertexID(i, j, k, dim, 1);
                     vertexAndEdgeIDs[1] = GlobalVertexID(i, j, k, dim, 0);
@@ -510,7 +497,7 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
 
                 if (bndClose & DIRECTION_FRONT)
                 {
-                    normal = Vector3D(0, 0, 1);
+                    normal = Vector3D{ 0, 0, 1 };
 
                     vertexAndEdgeIDs[0] = GlobalVertexID(i, j, k, dim, 3);
                     vertexAndEdgeIDs[1] = GlobalVertexID(i, j, k, dim, 2);
@@ -548,8 +535,8 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
             {
                 ssize_t i = 0;
 
-                std::array<double, 4> data;
-                std::array<size_t, 8> vertexAndEdgeIDs;
+                std::array<double, 4> data{};
+                std::array<size_t, 8> vertexAndEdgeIDs{};
                 std::array<Vector3D, 4> corners;
                 Vector3D normal;
 
@@ -560,7 +547,7 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
 
                 if (bndClose & DIRECTION_LEFT)
                 {
-                    normal = Vector3D(-1, 0, 0);
+                    normal = Vector3D{ -1, 0, 0 };
 
                     vertexAndEdgeIDs[0] = GlobalVertexID(i, j, k, dim, 0);
                     vertexAndEdgeIDs[1] = GlobalVertexID(i, j, k, dim, 3);
@@ -591,7 +578,7 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
 
                 if (bndClose & DIRECTION_RIGHT)
                 {
-                    normal = Vector3D(1, 0, 0);
+                    normal = Vector3D{ 1, 0, 0 };
 
                     vertexAndEdgeIDs[0] = GlobalVertexID(i, j, k, dim, 2);
                     vertexAndEdgeIDs[1] = GlobalVertexID(i, j, k, dim, 1);
@@ -629,8 +616,8 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
             {
                 ssize_t j = 0;
 
-                std::array<double, 4> data;
-                std::array<size_t, 8> vertexAndEdgeIDs;
+                std::array<double, 4> data{};
+                std::array<size_t, 8> vertexAndEdgeIDs{};
                 std::array<Vector3D, 4> corners;
                 Vector3D normal;
 
@@ -641,7 +628,7 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
 
                 if (bndClose & DIRECTION_DOWN)
                 {
-                    normal = Vector3D(0, -1, 0);
+                    normal = Vector3D{ 0, -1, 0 };
 
                     vertexAndEdgeIDs[0] = GlobalVertexID(i, j, k, dim, 0);
                     vertexAndEdgeIDs[1] = GlobalVertexID(i, j, k, dim, 1);
@@ -672,7 +659,7 @@ void MarchingCubes(const ConstArrayAccessor3<double>& grid,
 
                 if (bndClose & DIRECTION_UP)
                 {
-                    normal = Vector3D(0, 1, 0);
+                    normal = Vector3D{ 0, 1, 0 };
 
                     vertexAndEdgeIDs[0] = GlobalVertexID(i, j, k, dim, 5);
                     vertexAndEdgeIDs[1] = GlobalVertexID(i, j, k, dim, 4);

@@ -38,11 +38,23 @@ class FLIPSolver3 : public PICSolver3
     FLIPSolver3(const Size3& resolution, const Vector3D& gridSpacing,
                 const Vector3D& gridOrigin);
 
-    //! Default destructor.
-    virtual ~FLIPSolver3();
+    //! Deleted copy constructor.
+    FLIPSolver3(const FLIPSolver3&) = delete;
+
+    //! Deleted move constructor.
+    FLIPSolver3(FLIPSolver3&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    ~FLIPSolver3() override = default;
+
+    //! Deleted copy assignment operator.
+    FLIPSolver3& operator=(const FLIPSolver3&) = delete;
+
+    //! Deleted move assignment operator.
+    FLIPSolver3& operator=(FLIPSolver3&&) noexcept = delete;
 
     //! Returns the PIC blending factor.
-    double GetPICBlendingFactor() const;
+    [[nodiscard]] double GetPICBlendingFactor() const;
 
     //!
     //! \brief  Sets the PIC blending factor.
@@ -57,7 +69,7 @@ class FLIPSolver3 : public PICSolver3
     void SetPICBlendingFactor(double factor);
 
     //! Returns builder fox FLIPSolver3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  protected:
     //! Transfers velocity field from particles to grids.
@@ -68,9 +80,9 @@ class FLIPSolver3 : public PICSolver3
 
  private:
     double m_picBlendingFactor = 0.0;
-    Array3<float> m_uDelta;
-    Array3<float> m_vDelta;
-    Array3<float> m_wDelta;
+    Array3<double> m_uDelta;
+    Array3<double> m_vDelta;
+    Array3<double> m_wDelta;
 };
 
 //! Shared pointer type for the FLIPSolver3.
@@ -79,15 +91,14 @@ using FLIPSolver3Ptr = std::shared_ptr<FLIPSolver3>;
 //!
 //! \brief Front-end to create FLIPSolver3 objects step by step.
 //!
-class FLIPSolver3::Builder final
-    : public GridFluidSolverBuilderBase3<FLIPSolver3::Builder>
+class FLIPSolver3::Builder final : public GridFluidSolverBuilderBase3<Builder>
 {
  public:
     //! Builds FLIPSolver3.
-    FLIPSolver3 Build() const;
+    [[nodiscard]] FLIPSolver3 Build() const;
 
     //! Builds shared pointer of FLIPSolver3 instance.
-    FLIPSolver3Ptr MakeShared() const;
+    [[nodiscard]] FLIPSolver3Ptr MakeShared() const;
 };
 }  // namespace CubbyFlow
 

@@ -13,16 +13,6 @@
 
 namespace CubbyFlow
 {
-Grid3::Grid3()
-{
-    // Do nothing
-}
-
-Grid3::~Grid3()
-{
-    // Do nothing
-}
-
 const Size3& Grid3::Resolution() const
 {
     return m_resolution;
@@ -48,8 +38,10 @@ Grid3::DataPositionFunc Grid3::CellCenterPosition() const
     Vector3D h = m_gridSpacing;
     Vector3D o = m_origin;
 
-    return [h, o](size_t i, size_t j, size_t k) {
-        return o + h * Vector3D(i + 0.5, j + 0.5, k + 0.5);
+    return [h, o](const size_t i, const size_t j, const size_t k) {
+        return o + h * Vector3D{ static_cast<double>(i) + 0.5,
+                                 static_cast<double>(j) + 0.5,
+                                 static_cast<double>(k) + 0.5 };
     };
 }
 
@@ -58,7 +50,9 @@ void Grid3::ForEachCellIndex(
 {
     SerialFor(ZERO_SIZE, m_resolution.x, ZERO_SIZE, m_resolution.y, ZERO_SIZE,
               m_resolution.z,
-              [&func](size_t i, size_t j, size_t k) { func(i, j, k); });
+              [&func](const size_t i, const size_t j, const size_t k) {
+                  func(i, j, k);
+              });
 }
 
 void Grid3::ParallelForEachCellIndex(
@@ -66,7 +60,9 @@ void Grid3::ParallelForEachCellIndex(
 {
     ParallelFor(ZERO_SIZE, m_resolution.x, ZERO_SIZE, m_resolution.y, ZERO_SIZE,
                 m_resolution.z,
-                [&func](size_t i, size_t j, size_t k) { func(i, j, k); });
+                [&func](const size_t i, const size_t j, const size_t k) {
+                    func(i, j, k);
+                });
 }
 
 bool Grid3::HasSameShape(const Grid3& other) const
@@ -90,11 +86,11 @@ void Grid3::SetSizeParameters(const Size3& resolution,
     m_origin = origin;
     m_gridSpacing = gridSpacing;
 
-    Vector3D resolutionD = Vector3D(static_cast<double>(resolution.x),
-                                    static_cast<double>(resolution.y),
-                                    static_cast<double>(resolution.z));
+    const Vector3D resolutionD = Vector3D{ static_cast<double>(resolution.x),
+                                           static_cast<double>(resolution.y),
+                                           static_cast<double>(resolution.z) };
 
-    m_boundingBox = BoundingBox3D(origin, origin + gridSpacing * resolutionD);
+    m_boundingBox = BoundingBox3D{ origin, origin + gridSpacing * resolutionD };
 }
 
 void Grid3::SwapGrid(Grid3* other)

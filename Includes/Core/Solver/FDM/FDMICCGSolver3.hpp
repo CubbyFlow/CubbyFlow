@@ -32,44 +32,42 @@ class FDMICCGSolver3 final : public FDMLinearSystemSolver3
     bool SolveCompressed(FDMCompressedLinearSystem3* system) override;
 
     //! Returns the max number of Jacobi iterations.
-    unsigned int GetMaxNumberOfIterations() const;
+    [[nodiscard]] unsigned int GetMaxNumberOfIterations() const;
 
     //! Returns the last number of Jacobi iterations the solver made.
-    unsigned int GetLastNumberOfIterations() const;
+    [[nodiscard]] unsigned int GetLastNumberOfIterations() const;
 
     //! Returns the max residual tolerance for the Jacobi method.
-    double GetTolerance() const;
+    [[nodiscard]] double GetTolerance() const;
 
     //! Returns the last residual after the Jacobi iterations.
-    double GetLastResidual() const;
+    [[nodiscard]] double GetLastResidual() const;
 
  private:
     struct Preconditioner final
     {
-        ConstArrayAccessor3<FDMMatrixRow3> A;
-        FDMVector3 d;
-        FDMVector3 y;
-
         void Build(const FDMMatrix3& matrix);
 
         void Solve(const FDMVector3& b, FDMVector3* x);
+
+        ConstArrayAccessor3<FDMMatrixRow3> A;
+        FDMVector3 d;
+        FDMVector3 y;
     };
 
     struct PreconditionerCompressed final
     {
-        const MatrixCSRD* A;
-        VectorND d;
-        VectorND y;
-
         void Build(const MatrixCSRD& matrix);
 
         void Solve(const VectorND& b, VectorND* x);
+
+        const MatrixCSRD* A = nullptr;
+        VectorND d;
+        VectorND y;
     };
 
-    unsigned int m_maxNumberOfIterations;
-    unsigned int m_lastNumberOfIterations;
-    double m_tolerance;
-    double m_lastResidualNorm;
+    void ClearUncompressedVectors();
+    void ClearCompressedVectors();
 
     // Uncompressed vectors and preconditioner
     FDMVector3 m_r;
@@ -85,8 +83,10 @@ class FDMICCGSolver3 final : public FDMLinearSystemSolver3
     VectorND m_sComp;
     PreconditionerCompressed m_precondComp;
 
-    void ClearUncompressedVectors();
-    void ClearCompressedVectors();
+    unsigned int m_maxNumberOfIterations;
+    unsigned int m_lastNumberOfIterations;
+    double m_tolerance;
+    double m_lastResidualNorm;
 };
 
 //! Shared pointer type for the FDMICCGSolver3.

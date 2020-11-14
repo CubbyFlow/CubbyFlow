@@ -10,34 +10,37 @@
 
 #include <Core/Field/CustomVectorField2.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
 CustomVectorField2::CustomVectorField2(
-    const std::function<Vector2D(const Vector2D&)>& customFunction,
+    std::function<Vector2D(const Vector2D&)> customFunction,
     double derivativeResolution)
-    : m_customFunction(customFunction), m_resolution(derivativeResolution)
-{
-    // Do nothing
-}
-
-CustomVectorField2::CustomVectorField2(
-    const std::function<Vector2D(const Vector2D&)>& customFunction,
-    const std::function<double(const Vector2D&)>& customDivergenceFunction,
-    double derivativeResolution)
-    : m_customFunction(customFunction),
-      m_customDivergenceFunction(customDivergenceFunction),
+    : m_customFunction(std::move(customFunction)),
       m_resolution(derivativeResolution)
 {
     // Do nothing
 }
 
 CustomVectorField2::CustomVectorField2(
-    const std::function<Vector2D(const Vector2D&)>& customFunction,
-    const std::function<double(const Vector2D&)>& customDivergenceFunction,
-    const std::function<double(const Vector2D&)>& customCurlFunction)
-    : m_customFunction(customFunction),
-      m_customDivergenceFunction(customDivergenceFunction),
-      m_customCurlFunction(customCurlFunction)
+    std::function<Vector2D(const Vector2D&)> customFunction,
+    std::function<double(const Vector2D&)> customDivergenceFunction,
+    double derivativeResolution)
+    : m_customFunction(std::move(customFunction)),
+      m_customDivergenceFunction(std::move(customDivergenceFunction)),
+      m_resolution(derivativeResolution)
+{
+    // Do nothing
+}
+
+CustomVectorField2::CustomVectorField2(
+    std::function<Vector2D(const Vector2D&)> customFunction,
+    std::function<double(const Vector2D&)> customDivergenceFunction,
+    std::function<double(const Vector2D&)> customCurlFunction)
+    : m_customFunction(std::move(customFunction)),
+      m_customDivergenceFunction(std::move(customDivergenceFunction)),
+      m_customCurlFunction(std::move(customCurlFunction))
 {
     // Do nothing
 }
@@ -59,10 +62,14 @@ double CustomVectorField2::Divergence(const Vector2D& x) const
         return m_customDivergenceFunction(x);
     }
 
-    double left = m_customFunction(x - Vector2D(0.5 * m_resolution, 0.0)).x;
-    double right = m_customFunction(x + Vector2D(0.5 * m_resolution, 0.0)).x;
-    double bottom = m_customFunction(x - Vector2D(0.0, 0.5 * m_resolution)).y;
-    double top = m_customFunction(x + Vector2D(0.0, 0.5 * m_resolution)).y;
+    const double left =
+        m_customFunction(x - Vector2D{ 0.5 * m_resolution, 0.0 }).x;
+    const double right =
+        m_customFunction(x + Vector2D{ 0.5 * m_resolution, 0.0 }).x;
+    const double bottom =
+        m_customFunction(x - Vector2D{ 0.0, 0.5 * m_resolution }).y;
+    const double top =
+        m_customFunction(x + Vector2D{ 0.0, 0.5 * m_resolution }).y;
 
     return (right - left + top - bottom) / m_resolution;
 }
@@ -74,17 +81,21 @@ double CustomVectorField2::Curl(const Vector2D& x) const
         return m_customCurlFunction(x);
     }
 
-    double left = m_customFunction(x - Vector2D(0.5 * m_resolution, 0.0)).y;
-    double right = m_customFunction(x + Vector2D(0.5 * m_resolution, 0.0)).y;
-    double bottom = m_customFunction(x - Vector2D(0.0, 0.5 * m_resolution)).x;
-    double top = m_customFunction(x + Vector2D(0.0, 0.5 * m_resolution)).x;
+    const double left =
+        m_customFunction(x - Vector2D{ 0.5 * m_resolution, 0.0 }).y;
+    const double right =
+        m_customFunction(x + Vector2D{ 0.5 * m_resolution, 0.0 }).y;
+    const double bottom =
+        m_customFunction(x - Vector2D{ 0.0, 0.5 * m_resolution }).x;
+    const double top =
+        m_customFunction(x + Vector2D{ 0.0, 0.5 * m_resolution }).x;
 
     return (top - bottom - right + left) / m_resolution;
 }
 
 CustomVectorField2::Builder CustomVectorField2::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 CustomVectorField2::Builder& CustomVectorField2::Builder::WithFunction(
@@ -120,12 +131,12 @@ CustomVectorField2 CustomVectorField2::Builder::Build() const
 {
     if (m_customCurlFunction)
     {
-        return CustomVectorField2(m_customFunction, m_customDivergenceFunction,
-                                  m_customCurlFunction);
+        return CustomVectorField2{ m_customFunction, m_customDivergenceFunction,
+                                   m_customCurlFunction };
     }
 
-    return CustomVectorField2(m_customFunction, m_customDivergenceFunction,
-                              m_resolution);
+    return CustomVectorField2{ m_customFunction, m_customDivergenceFunction,
+                               m_resolution };
 }
 
 CustomVectorField2Ptr CustomVectorField2::Builder::MakeShared() const
@@ -133,14 +144,15 @@ CustomVectorField2Ptr CustomVectorField2::Builder::MakeShared() const
     if (m_customCurlFunction)
     {
         return std::shared_ptr<CustomVectorField2>(
-            new CustomVectorField2(m_customFunction, m_customDivergenceFunction,
-                                   m_customCurlFunction),
+            new CustomVectorField2{ m_customFunction,
+                                    m_customDivergenceFunction,
+                                    m_customCurlFunction },
             [](CustomVectorField2* obj) { delete obj; });
     }
 
     return std::shared_ptr<CustomVectorField2>(
-        new CustomVectorField2(m_customFunction, m_customDivergenceFunction,
-                               m_resolution),
+        new CustomVectorField2{ m_customFunction, m_customDivergenceFunction,
+                                m_resolution },
         [](CustomVectorField2* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

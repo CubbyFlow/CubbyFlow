@@ -34,14 +34,14 @@ void SPHPointsToImplicit3::Convert(const ConstArrayAccessor1<Vector3D>& points,
         return;
     }
 
-    const auto res = output->Resolution();
+    const Size3& res = output->Resolution();
     if (res.x * res.y * res.z == 0)
     {
         CUBBYFLOW_WARN << "Empty grid is provided.";
         return;
     }
 
-    const auto bbox = output->BoundingBox();
+    const BoundingBox3D& bbox = output->BoundingBox();
     if (bbox.IsEmpty())
     {
         CUBBYFLOW_WARN << "Empty domain is provided.";
@@ -55,9 +55,9 @@ void SPHPointsToImplicit3::Convert(const ConstArrayAccessor1<Vector3D>& points,
     sphParticles.UpdateDensities();
 
     Array1<double> constData(sphParticles.GetNumberOfParticles(), 1.0);
-    auto temp = output->Clone();
+    std::shared_ptr<ScalarGrid3> temp = output->Clone();
     temp->Fill([&](const Vector3D& x) {
-        double d = sphParticles.Interpolate(x, constData);
+        const double d = sphParticles.Interpolate(x, constData);
         return m_cutOffDensity - d;
     });
 

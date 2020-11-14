@@ -30,10 +30,22 @@ class GridPressureSolver3
 {
  public:
     //! Default constructor.
-    GridPressureSolver3();
+    GridPressureSolver3() = default;
 
-    //! Default destructor.
-    virtual ~GridPressureSolver3();
+    //! Deleted copy constructor.
+    GridPressureSolver3(const GridPressureSolver3&) = delete;
+
+    //! Deleted move constructor.
+    GridPressureSolver3(GridPressureSolver3&&) noexcept = delete;
+
+    //! Default virtual destructor.
+    virtual ~GridPressureSolver3() = default;
+
+    //! Deleted copy assignment operator.
+    GridPressureSolver3& operator=(const GridPressureSolver3&) = delete;
+
+    //! Deleted move assignment operator.
+    GridPressureSolver3& operator=(GridPressureSolver3&&) noexcept = delete;
 
     //!
     //! \brief Solves the pressure term and apply it to the velocity field.
@@ -50,23 +62,24 @@ class GridPressureSolver3
     //! will be used for \p fluidSDF which means it's fully occupied with fluid
     //! without any atmosphere.
     //!
-    //! \param[in]    input                 The input velocity field.
-    //! \param[in]    timeIntervalInSeconds The time interval for the sim.
-    //! \param[inout] output                The output velocity field.
-    //! \param[in]    boundarySDF           The SDF of the boundary.
-    //! \param[in]    boundaryVelocity      The velocity of the boundary.
-    //! \param[in]    fluidSDF              The SDF of the fluid/atmosphere.
-    //! \param[in]    useCompressed         True if it uses compressed system.
+    //! \param[in]     input                 The input velocity field.
+    //! \param[in]     timeIntervalInSeconds The time interval for the sim.
+    //! \param[in,out] output                The output velocity field.
+    //! \param[in]     boundarySDF           The SDF of the boundary.
+    //! \param[in]     boundaryVelocity      The velocity of the boundary.
+    //! \param[in]     fluidSDF              The SDF of the fluid/atmosphere.
+    //! \param[in]     useCompressed         True if it uses compressed system.
     //!
-    virtual void Solve(const FaceCenteredGrid3& input,
-                       double timeIntervalInSeconds, FaceCenteredGrid3* output,
-                       const ScalarField3& boundarySDF = ConstantScalarField3(
-                           std::numeric_limits<double>::max()),
-                       const VectorField3& boundaryVelocity =
-                           ConstantVectorField3({ 0, 0, 0 }),
-                       const ScalarField3& fluidSDF = ConstantScalarField3(
-                           -std::numeric_limits<double>::max()),
-                       bool useCompressed = false) = 0;
+    virtual void Solve(
+        const FaceCenteredGrid3& input, double timeIntervalInSeconds,
+        FaceCenteredGrid3* output,
+        const ScalarField3& boundarySDF =
+            ConstantScalarField3{ std::numeric_limits<double>::max() },
+        const VectorField3& boundaryVelocity = ConstantVectorField3{ { 0, 0,
+                                                                       0 } },
+        const ScalarField3& fluidSDF =
+            ConstantScalarField3{ -std::numeric_limits<double>::max() },
+        bool useCompressed = false) = 0;
 
     //!
     //! \brief Returns the best boundary condition solver for this solver.
@@ -75,8 +88,8 @@ class GridPressureSolver3
     //! with this pressure solver. Depending on the pressure solver
     //! implementation, different boundary condition solver might be used.
     //!
-    virtual GridBoundaryConditionSolver3Ptr SuggestedBoundaryConditionSolver()
-        const = 0;
+    [[nodiscard]] virtual GridBoundaryConditionSolver3Ptr
+    SuggestedBoundaryConditionSolver() const = 0;
 };
 
 //! Shared pointer type for the GridPressureSolver3.

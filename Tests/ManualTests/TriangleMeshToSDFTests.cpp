@@ -79,7 +79,7 @@ CUBBYFLOW_BEGIN_TEST_F(TriangleMeshToSDF, Bunny)
     std::ifstream file(RESOURCES_DIR "/bunny.obj");
     if (file)
     {
-        triMesh.ReadObj(&file);
+        [[maybe_unused]] bool isLoaded = triMesh.ReadObj(&file);
         file.close();
     }
 
@@ -110,7 +110,7 @@ CUBBYFLOW_BEGIN_TEST_F(TriangleMeshToSDF, Dragon)
     std::ifstream file(RESOURCES_DIR "/dragon.obj");
     if (file)
     {
-        triMesh.ReadObj(&file);
+        [[maybe_unused]] bool isLoaded = triMesh.ReadObj(&file);
         file.close();
     }
 

@@ -12,37 +12,27 @@
 
 namespace CubbyFlow
 {
-AdvectionSolver3::AdvectionSolver3()
-{
-    // Do nothing
-}
-
-AdvectionSolver3::~AdvectionSolver3()
-{
-    // Do nothing
-}
-
-void AdvectionSolver3::Advect(const CollocatedVectorGrid3& source,
+void AdvectionSolver3::Advect(const CollocatedVectorGrid3& input,
                               const VectorField3& flow, double dt,
-                              CollocatedVectorGrid3* target,
+                              CollocatedVectorGrid3* output,
                               const ScalarField3& boundarySDF)
 {
-    UNUSED_VARIABLE(source);
+    UNUSED_VARIABLE(input);
     UNUSED_VARIABLE(flow);
     UNUSED_VARIABLE(dt);
-    UNUSED_VARIABLE(target);
+    UNUSED_VARIABLE(output);
     UNUSED_VARIABLE(boundarySDF);
 }
 
-void AdvectionSolver3::Advect(const FaceCenteredGrid3& source,
+void AdvectionSolver3::Advect(const FaceCenteredGrid3& input,
                               const VectorField3& flow, double dt,
-                              FaceCenteredGrid3* target,
+                              FaceCenteredGrid3* output,
                               const ScalarField3& boundarySDF)
 {
-    UNUSED_VARIABLE(source);
+    UNUSED_VARIABLE(input);
     UNUSED_VARIABLE(flow);
     UNUSED_VARIABLE(dt);
-    UNUSED_VARIABLE(target);
+    UNUSED_VARIABLE(output);
     UNUSED_VARIABLE(boundarySDF);
 }
 }  // namespace CubbyFlow

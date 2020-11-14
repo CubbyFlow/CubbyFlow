@@ -17,7 +17,7 @@ namespace CubbyFlow
 {
 PointHashGridSearcher2::PointHashGridSearcher2(const Size2& resolution,
                                                double gridSpacing)
-    : PointHashGridSearcher2(resolution.x, resolution.y, gridSpacing)
+    : PointHashGridSearcher2{ resolution.x, resolution.y, gridSpacing }
 {
     // Do nothing
 }
@@ -39,6 +39,13 @@ PointHashGridSearcher2::PointHashGridSearcher2(
     Set(other);
 }
 
+PointHashGridSearcher2& PointHashGridSearcher2::operator=(
+    const PointHashGridSearcher2& other)
+{
+    Set(other);
+    return *this;
+}
+
 void PointHashGridSearcher2::Build(const ConstArrayAccessor1<Vector2D>& points)
 {
     m_buckets.clear();
@@ -48,7 +55,7 @@ void PointHashGridSearcher2::Build(const ConstArrayAccessor1<Vector2D>& points)
     m_buckets.resize(m_resolution.x * m_resolution.y);
     m_points.resize(points.size());
 
-    if (m_points.size() == 0)
+    if (m_points.empty())
     {
         return;
     }
@@ -57,7 +64,7 @@ void PointHashGridSearcher2::Build(const ConstArrayAccessor1<Vector2D>& points)
     for (size_t i = 0; i < points.size(); ++i)
     {
         m_points[i] = points[i];
-        size_t key = GetHashKeyFromPosition(points[i]);
+        const size_t key = GetHashKeyFromPosition(points[i]);
         m_buckets[key].push_back(i);
     }
 }
@@ -76,15 +83,16 @@ void PointHashGridSearcher2::ForEachNearbyPoint(
 
     const double queryRadiusSquared = radius * radius;
 
-    for (size_t i = 0; i < 4; ++i)
+    for (const auto& nearByKey : nearByKeys)
     {
-        const auto& bucket = m_buckets[nearByKeys[i]];
-        size_t numberOfPointsInBucket = bucket.size();
+        const std::vector<size_t>& bucket = m_buckets[nearByKey];
+        const size_t numberOfPointsInBucket = bucket.size();
 
         for (size_t j = 0; j < numberOfPointsInBucket; ++j)
         {
-            size_t pointIndex = bucket[j];
-            double rSquared = (m_points[pointIndex] - origin).LengthSquared();
+            const size_t pointIndex = bucket[j];
+            const double rSquared =
+                (m_points[pointIndex] - origin).LengthSquared();
             if (rSquared <= queryRadiusSquared)
             {
                 callback(pointIndex, m_points[pointIndex]);
@@ -106,15 +114,16 @@ bool PointHashGridSearcher2::HasNearbyPoint(const Vector2D& origin,
 
     const double queryRadiusSquared = radius * radius;
 
-    for (size_t i = 0; i < 4; ++i)
+    for (const auto& key : nearbyKeys)
     {
-        const auto& bucket = m_buckets[nearbyKeys[i]];
-        size_t numberOfPointsInBucket = bucket.size();
+        const std::vector<size_t>& bucket = m_buckets[key];
+        const size_t numberOfPointsInBucket = bucket.size();
 
         for (size_t j = 0; j < numberOfPointsInBucket; ++j)
         {
-            size_t pointIndex = bucket[j];
-            double rSquared = (m_points[pointIndex] - origin).LengthSquared();
+            const size_t pointIndex = bucket[j];
+            const double rSquared =
+                (m_points[pointIndex] - origin).LengthSquared();
             if (rSquared <= queryRadiusSquared)
             {
                 return true;
@@ -129,14 +138,14 @@ void PointHashGridSearcher2::Add(const Vector2D& point)
 {
     if (m_buckets.empty())
     {
-        Array1<Vector2D> arr = { point };
+        const Array1<Vector2D> arr = { point };
         Build(arr);
     }
     else
     {
-        size_t i = m_points.size();
+        const size_t i = m_points.size();
         m_points.push_back(point);
-        size_t key = GetHashKeyFromPosition(point);
+        const size_t key = GetHashKeyFromPosition(point);
         m_buckets[key].push_back(i);
     }
 }
@@ -182,15 +191,8 @@ Point2I PointHashGridSearcher2::GetBucketIndex(const Vector2D& position) const
 PointNeighborSearcher2Ptr PointHashGridSearcher2::Clone() const
 {
     return std::shared_ptr<PointNeighborSearcher2>(
-        new PointHashGridSearcher2(*this),
+        new PointHashGridSearcher2{ *this },
         [](PointHashGridSearcher2* obj) { delete obj; });
-}
-
-PointHashGridSearcher2& PointHashGridSearcher2::operator=(
-    const PointHashGridSearcher2& other)
-{
-    Set(other);
-    return *this;
 }
 
 void PointHashGridSearcher2::Set(const PointHashGridSearcher2& other)
@@ -203,7 +205,7 @@ void PointHashGridSearcher2::Set(const PointHashGridSearcher2& other)
 
 void PointHashGridSearcher2::Serialize(std::vector<uint8_t>* buffer) const
 {
-    flatbuffers::FlatBufferBuilder builder(1024);
+    flatbuffers::FlatBufferBuilder builder{ 1024 };
 
     // Copy simple data
     auto fbsResolution = fbs::Size2(m_resolution.x, m_resolution.y);
@@ -215,14 +217,14 @@ void PointHashGridSearcher2::Serialize(std::vector<uint8_t>* buffer) const
         points.push_back(CubbyFlowToFlatbuffers(pt));
     }
 
-    auto fbsPoints =
-        builder.CreateVectorOfStructs(points.data(), points.size());
+    const flatbuffers::Offset<flatbuffers::Vector<const fbs::Vector2D*>>
+        fbsPoints = builder.CreateVectorOfStructs(points.data(), points.size());
 
     // Copy buckets
     std::vector<flatbuffers::Offset<fbs::PointHashGridSearcherBucket2>> buckets;
     for (const auto& bucket : m_buckets)
     {
-        std::vector<uint64_t> bucket64(bucket.begin(), bucket.end());
+        std::vector<uint64_t> bucket64{ bucket.begin(), bucket.end() };
         flatbuffers::Offset<fbs::PointHashGridSearcherBucket2> fbsBucket =
             fbs::CreatePointHashGridSearcherBucket2(
                 builder,
@@ -230,16 +232,19 @@ void PointHashGridSearcher2::Serialize(std::vector<uint8_t>* buffer) const
         buckets.push_back(fbsBucket);
     }
 
-    auto fbsBuckets = builder.CreateVector(buckets);
+    const flatbuffers::Offset<flatbuffers::Vector<
+        flatbuffers::Offset<fbs::PointHashGridSearcherBucket2>>>
+        fbsBuckets = builder.CreateVector(buckets);
 
     // Copy the searcher
-    auto fbsSearcher = fbs::CreatePointHashGridSearcher2(
-        builder, m_gridSpacing, &fbsResolution, fbsPoints, fbsBuckets);
+    const flatbuffers::Offset<fbs::PointHashGridSearcher2> fbsSearcher =
+        CreatePointHashGridSearcher2(builder, m_gridSpacing, &fbsResolution,
+                                     fbsPoints, fbsBuckets);
 
     builder.Finish(fbsSearcher);
 
     uint8_t* buf = builder.GetBufferPointer();
-    size_t size = builder.GetSize();
+    const size_t size = builder.GetSize();
 
     buffer->resize(size);
     memcpy(buffer->data(), buf, size);
@@ -247,15 +252,17 @@ void PointHashGridSearcher2::Serialize(std::vector<uint8_t>* buffer) const
 
 void PointHashGridSearcher2::Deserialize(const std::vector<uint8_t>& buffer)
 {
-    auto fbsSearcher = fbs::GetPointHashGridSearcher2(buffer.data());
+    const fbs::PointHashGridSearcher2* fbsSearcher =
+        fbs::GetPointHashGridSearcher2(buffer.data());
 
     // Copy simple data
-    auto res = FlatbuffersToCubbyFlow(*fbsSearcher->resolution());
+    const Size2 res = FlatbuffersToCubbyFlow(*fbsSearcher->resolution());
     m_resolution.Set({ res.x, res.y });
     m_gridSpacing = fbsSearcher->gridSpacing();
 
     // Copy points
-    auto fbsPoints = fbsSearcher->points();
+    const flatbuffers::Vector<const fbs::Vector2D*>* fbsPoints =
+        fbsSearcher->points();
     m_points.resize(fbsPoints->size());
     for (uint32_t i = 0; i < fbsPoints->size(); ++i)
     {
@@ -263,11 +270,15 @@ void PointHashGridSearcher2::Deserialize(const std::vector<uint8_t>& buffer)
     }
 
     // Copy buckets
-    auto fbsBuckets = fbsSearcher->buckets();
+    const flatbuffers::Vector<
+        flatbuffers::Offset<fbs::PointHashGridSearcherBucket2>>* fbsBuckets =
+        fbsSearcher->buckets();
     m_buckets.resize(fbsBuckets->size());
     for (uint32_t i = 0; i < fbsBuckets->size(); ++i)
     {
-        auto fbsBucket = fbsBuckets->Get(i);
+        const flatbuffers::Vector<
+            flatbuffers::Offset<fbs::PointHashGridSearcherBucket2>>::return_type
+            fbsBucket = fbsBuckets->Get(i);
         m_buckets[i].resize(fbsBucket->data()->size());
         std::transform(fbsBucket->data()->begin(), fbsBucket->data()->end(),
                        m_buckets[i].begin(),
@@ -277,27 +288,29 @@ void PointHashGridSearcher2::Deserialize(const std::vector<uint8_t>& buffer)
 
 PointHashGridSearcher2::Builder PointHashGridSearcher2::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 size_t PointHashGridSearcher2::GetHashKeyFromPosition(
     const Vector2D& position) const
 {
-    Point2I bucketIndex = GetBucketIndex(position);
+    const Point2I bucketIndex = GetBucketIndex(position);
     return GetHashKeyFromBucketIndex(bucketIndex);
 }
 
 void PointHashGridSearcher2::GetNearbyKeys(const Vector2D& position,
                                            size_t* nearbyKeys) const
 {
-    Point2I originIndex = GetBucketIndex(position), nearbyBucketIndices[4];
+    const Point2I originIndex = GetBucketIndex(position);
+    Point2I nearbyBucketIndices[4];
 
-    for (size_t i = 0; i < 4; ++i)
+    for (auto& bucketIndex : nearbyBucketIndices)
     {
-        nearbyBucketIndices[i] = originIndex;
+        bucketIndex = originIndex;
     }
 
-    if ((originIndex.x + 0.5f) * m_gridSpacing <= position.x)
+    if ((static_cast<double>(originIndex.x) + 0.5) * m_gridSpacing <=
+        position.x)
     {
         nearbyBucketIndices[2].x += 1;
         nearbyBucketIndices[3].x += 1;
@@ -308,7 +321,8 @@ void PointHashGridSearcher2::GetNearbyKeys(const Vector2D& position,
         nearbyBucketIndices[3].x -= 1;
     }
 
-    if ((originIndex.y + 0.5f) * m_gridSpacing <= position.y)
+    if ((static_cast<double>(originIndex.y) + 0.5) * m_gridSpacing <=
+        position.y)
     {
         nearbyBucketIndices[1].y += 1;
         nearbyBucketIndices[3].y += 1;
@@ -341,7 +355,7 @@ PointHashGridSearcher2::Builder::WithGridSpacing(double gridSpacing)
 
 PointHashGridSearcher2 PointHashGridSearcher2::Builder::Build() const
 {
-    return PointHashGridSearcher2(m_resolution, m_gridSpacing);
+    return PointHashGridSearcher2{ m_resolution, m_gridSpacing };
 }
 
 PointHashGridSearcher2Ptr PointHashGridSearcher2::Builder::MakeShared() const

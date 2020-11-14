@@ -43,12 +43,24 @@ class NearestArraySampler<T, R, 2> final
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit NearestArraySampler(const ConstArrayAccessor2<T>& accessor,
+    explicit NearestArraySampler(ConstArrayAccessor2<T> accessor,
                                  const Vector2<R>& gridSpacing,
                                  const Vector2<R>& gridOrigin);
 
     //! Copy constructor.
     NearestArraySampler(const NearestArraySampler& other);
+
+    //! Move constructor.
+    NearestArraySampler(NearestArraySampler&& other) noexcept;
+
+    //! Default destructor.
+    ~NearestArraySampler() = default;
+
+    //! Copy assignment operator.
+    NearestArraySampler& operator=(const NearestArraySampler& other);
+
+    //! Move assignment operator.
+    NearestArraySampler& operator=(NearestArraySampler&& other) noexcept;
 
     //! Returns sampled value at point \p pt.
     T operator()(const Vector2<R>& pt) const;
@@ -57,7 +69,7 @@ class NearestArraySampler<T, R, 2> final
     void GetCoordinate(const Vector2<R>& pt, Point2UI* index) const;
 
     //! Returns a function object that wraps this instance.
-    std::function<T(const Vector2<R>&)> Functor() const;
+    [[nodiscard]] std::function<T(const Vector2<R>&)> Functor() const;
 
  private:
     Vector2<R> m_gridSpacing;
@@ -93,15 +105,24 @@ class LinearArraySampler<T, R, 2> final
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit LinearArraySampler(const ConstArrayAccessor2<T>& accessor,
+    explicit LinearArraySampler(ConstArrayAccessor2<T> accessor,
                                 const Vector2<R>& gridSpacing,
                                 const Vector2<R>& gridOrigin);
 
     //! Copy constructor.
     LinearArraySampler(const LinearArraySampler& other);
 
+    //! Move constructor.
+    LinearArraySampler(LinearArraySampler&& other) noexcept;
+
+    //! Default destructor.
+    ~LinearArraySampler() = default;
+
     //! Copy assignment operator.
     LinearArraySampler& operator=(const LinearArraySampler& other);
+
+    //! Move assignment operator.
+    LinearArraySampler& operator=(LinearArraySampler&& other) noexcept;
 
     //! Returns sampled value at point \p pt.
     T operator()(const Vector2<R>& pt) const;
@@ -118,7 +139,7 @@ class LinearArraySampler<T, R, 2> final
         std::array<Vector2<R>, 4>* weights) const;
 
     //! Returns a function object that wraps this instance.
-    std::function<T(const Vector2<R>&)> Functor() const;
+    [[nodiscard]] std::function<T(const Vector2<R>&)> Functor() const;
 
  private:
     Vector2<R> m_gridSpacing;
@@ -155,21 +176,30 @@ class CubicArraySampler<T, R, 2> final
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit CubicArraySampler(const ConstArrayAccessor2<T>& accessor,
+    explicit CubicArraySampler(ConstArrayAccessor2<T> accessor,
                                const Vector2<R>& gridSpacing,
                                const Vector2<R>& gridOrigin);
 
     //! Copy constructor.
     CubicArraySampler(const CubicArraySampler& other);
 
+    //! Move constructor.
+    CubicArraySampler(CubicArraySampler&& other) noexcept;
+
+    //! Default destructor.
+    ~CubicArraySampler() = default;
+
     //! Copy assignment operator.
     CubicArraySampler& operator=(const CubicArraySampler& other);
+
+    //! Move assignment operator.
+    CubicArraySampler& operator=(CubicArraySampler&& other) noexcept;
 
     //! Returns sampled value at point \p pt.
     T operator()(const Vector2<R>& pt) const;
 
     //! Returns a function object that wraps this instance.
-    std::function<T(const Vector2<R>&)> Functor() const;
+    [[nodiscard]] std::function<T(const Vector2<R>&)> Functor() const;
 
  private:
     Vector2<R> m_gridSpacing;

@@ -34,7 +34,22 @@ class BVH3 final : public IntersectionQueryEngine3<T>,
     using ConstIterator = typename ContainerType::const_iterator;
 
     //! Default constructor.
-    BVH3();
+    BVH3() = default;
+
+    //! Default copy constructor.
+    BVH3(const BVH3&) = default;
+
+    //! Default move constructor.
+    BVH3(BVH3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~BVH3() = default;
+
+    //! Default copy assignment operator.
+    BVH3& operator=(const BVH3&) = default;
+
+    //! Default move assignment operator.
+    BVH3& operator=(BVH3&&) noexcept = default;
 
     //! Builds bounding volume hierarchy.
     void Build(const std::vector<T>& items,
@@ -45,17 +60,17 @@ class BVH3 final : public IntersectionQueryEngine3<T>,
 
     //! Returns the nearest neighbor for given point and distance measure
     //! function.
-    NearestNeighborQueryResult3<T> GetNearestNeighbor(
+    [[nodiscard]] NearestNeighborQueryResult3<T> GetNearestNeighbor(
         const Vector3D& pt,
         const NearestNeighborDistanceFunc3<T>& distanceFunc) const override;
 
     //! Returns true if given \p box intersects with any of the stored items.
-    bool IsIntersects(
+    [[nodiscard]] bool IsIntersects(
         const BoundingBox3D& box,
         const BoxIntersectionTestFunc3<T>& testFunc) const override;
 
     //! Returns true if given \p ray intersects with any of the stored items.
-    bool IsIntersects(
+    [[nodiscard]] bool IsIntersects(
         const Ray3D& ray,
         const RayIntersectionTestFunc3<T>& testFunc) const override;
 
@@ -70,48 +85,48 @@ class BVH3 final : public IntersectionQueryEngine3<T>,
         const IntersectionVisitorFunc3<T>& visitorFunc) const override;
 
     //! Returns the closest intersection for given \p ray.
-    ClosestIntersectionQueryResult3<T> GetClosestIntersection(
+    [[nodiscard]] ClosestIntersectionQueryResult3<T> GetClosestIntersection(
         const Ray3D& ray,
         const GetRayIntersectionFunc3<T>& testFunc) const override;
 
     //! Returns bounding box of every items.
-    const BoundingBox3D& GetBoundingBox() const;
+    [[nodiscard]] const BoundingBox3D& GetBoundingBox() const;
 
     //! Returns the begin iterator of the item.
-    Iterator begin();
+    [[nodiscard]] Iterator begin();
 
     //! Returns the end iterator of the item.
-    Iterator end();
+    [[nodiscard]] Iterator end();
 
     //! Returns the immutable begin iterator of the item.
-    ConstIterator begin() const;
+    [[nodiscard]] ConstIterator begin() const;
 
     //! Returns the immutable end iterator of the item.
-    ConstIterator end() const;
+    [[nodiscard]] ConstIterator end() const;
 
     //! Returns the number of items.
-    size_t GetNumberOfItems() const;
+    [[nodiscard]] size_t GetNumberOfItems() const;
 
     //! Returns the item at \p i.
-    const T& GetItem(size_t i) const;
+    [[nodiscard]] const T& GetItem(size_t i) const;
 
     //! Returns the number of nodes.
-    size_t GetNumberOfNodes() const;
+    [[nodiscard]] size_t GetNumberOfNodes() const;
 
     //! Returns the children indices of \p i-th node.
-    std::pair<size_t, size_t> GetChildren(size_t i) const;
+    [[nodiscard]] std::pair<size_t, size_t> GetChildren(size_t i) const;
 
     //! Returns true if \p i-th node is a leaf node.
-    bool IsLeaf(size_t i) const;
+    [[nodiscard]] bool IsLeaf(size_t i) const;
 
     //! Returns bounding box of \p i-th node.
-    const BoundingBox3D& GetNodeBound(size_t i) const;
+    [[nodiscard]] const BoundingBox3D& GetNodeBound(size_t i) const;
 
     //! Returns item of \p i-th node.
-    Iterator GetItemOfNode(size_t i);
+    [[nodiscard]] Iterator GetItemOfNode(size_t i);
 
     //! Returns item of \p i-th node.
-    ConstIterator GetItemOfNode(size_t i) const;
+    [[nodiscard]] ConstIterator GetItemOfNode(size_t i) const;
 
  private:
     struct Node
@@ -127,19 +142,19 @@ class BVH3 final : public IntersectionQueryEngine3<T>,
         Node();
         void InitLeaf(size_t it, const BoundingBox3D& b);
         void InitInternal(uint8_t axis, size_t c, const BoundingBox3D& b);
-        bool IsLeaf() const;
+        [[nodiscard]] bool IsLeaf() const;
     };
+
+    [[nodiscard]] size_t Build(size_t nodeIndex, size_t* itemIndices,
+                               size_t nItems, size_t currentDepth);
+
+    [[nodiscard]] size_t QSplit(size_t* itemIndices, size_t numItems,
+                                double pivot, uint8_t axis);
 
     BoundingBox3D m_bound;
     ContainerType m_items;
     std::vector<BoundingBox3D> m_itemBounds;
     std::vector<Node> m_nodes;
-
-    size_t Build(size_t nodeIndex, size_t* itemIndices, size_t nItems,
-                 size_t currentDepth);
-
-    size_t QSplit(size_t* itemIndices, size_t numItems, double pivot,
-                  uint8_t axis);
 };
 }  // namespace CubbyFlow
 

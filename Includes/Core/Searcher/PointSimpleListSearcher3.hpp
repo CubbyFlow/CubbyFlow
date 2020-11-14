@@ -30,10 +30,23 @@ class PointSimpleListSearcher3 final : public PointNeighborSearcher3
     class Builder;
 
     //! Default constructor.
-    PointSimpleListSearcher3();
+    PointSimpleListSearcher3() = default;
 
     //! Copy constructor.
     PointSimpleListSearcher3(const PointSimpleListSearcher3& other);
+
+    //! Default move constructor.
+    PointSimpleListSearcher3(PointSimpleListSearcher3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~PointSimpleListSearcher3() override = default;
+
+    //! Copy assignment operator.
+    PointSimpleListSearcher3& operator=(const PointSimpleListSearcher3& other);
+
+    //! Move assignment operator.
+    PointSimpleListSearcher3& operator=(PointSimpleListSearcher3&&) noexcept =
+        default;
 
     //!
     //! \brief      Builds internal structure for given points list.
@@ -66,7 +79,8 @@ class PointSimpleListSearcher3 final : public PointNeighborSearcher3
     //!
     //! \return     True if has nearby point, false otherwise.
     //!
-    bool HasNearbyPoint(const Vector3D& origin, double radius) const override;
+    [[nodiscard]] bool HasNearbyPoint(const Vector3D& origin,
+                                      double radius) const override;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -74,10 +88,7 @@ class PointSimpleListSearcher3 final : public PointNeighborSearcher3
     //!
     //! \return     Copy of this object.
     //!
-    PointNeighborSearcher3Ptr Clone() const override;
-
-    //! Assignment operator.
-    PointSimpleListSearcher3& operator=(const PointSimpleListSearcher3& other);
+    [[nodiscard]] PointNeighborSearcher3Ptr Clone() const override;
 
     //! Copy from the other instance.
     void Set(const PointSimpleListSearcher3& other);
@@ -89,7 +100,7 @@ class PointSimpleListSearcher3 final : public PointNeighborSearcher3
     void Deserialize(const std::vector<uint8_t>& buffer) override;
 
     //! Returns builder fox PointSimpleListSearcher3.
-    static Builder GetBuilder();
+    [[nodiscard]] static Builder GetBuilder();
 
  private:
     std::vector<Vector3D> m_points;
@@ -106,13 +117,14 @@ class PointSimpleListSearcher3::Builder final
 {
  public:
     //! Builds PointSimpleListSearcher3 instance.
-    PointSimpleListSearcher3 Build() const;
+    [[nodiscard]] static PointSimpleListSearcher3 Build();
 
     //! Builds shared pointer of PointSimpleListSearcher3 instance.
-    PointSimpleListSearcher3Ptr MakeShared() const;
+    [[nodiscard]] static PointSimpleListSearcher3Ptr MakeShared();
 
     //! Returns shared pointer of PointNeighborSearcher3 type.
-    PointNeighborSearcher3Ptr BuildPointNeighborSearcher() const override;
+    [[nodiscard]] PointNeighborSearcher3Ptr BuildPointNeighborSearcher()
+        const override;
 };
 }  // namespace CubbyFlow
 

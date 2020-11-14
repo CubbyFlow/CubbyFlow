@@ -34,8 +34,17 @@ class SPHSystemData3 : public ParticleSystemData3
     //! Copy constructor.
     SPHSystemData3(const SPHSystemData3& other);
 
-    //! Destructor.
-    virtual ~SPHSystemData3();
+    //! Default move constructor.
+    SPHSystemData3(SPHSystemData3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    ~SPHSystemData3() override = default;
+
+    //! Copy assignment operator.
+    SPHSystemData3& operator=(const SPHSystemData3& other);
+
+    //! Default move assignment operator.
+    SPHSystemData3& operator=(SPHSystemData3&&) noexcept = default;
 
     //!
     //! \brief Sets the radius.
@@ -55,16 +64,16 @@ class SPHSystemData3 : public ParticleSystemData3
     void SetMass(double newMass) override;
 
     //! Returns the density array accessor (immutable).
-    ConstArrayAccessor1<double> GetDensities() const;
+    [[nodiscard]] ConstArrayAccessor1<double> GetDensities() const;
 
     //! Returns the density array accessor (mutable).
-    ArrayAccessor1<double> GetDensities();
+    [[nodiscard]] ArrayAccessor1<double> GetDensities();
 
     //! Returns the pressure array accessor (immutable).
-    ConstArrayAccessor1<double> GetPressures() const;
+    [[nodiscard]] ConstArrayAccessor1<double> GetPressures() const;
 
     //! Returns the pressure array accessor (mutable).
-    ArrayAccessor1<double> GetPressures();
+    [[nodiscard]] ArrayAccessor1<double> GetPressures();
 
     //! Updates the density array with the latest particle positions.
     void UpdateDensities();
@@ -73,7 +82,7 @@ class SPHSystemData3 : public ParticleSystemData3
     void SetTargetDensity(double targetDensity);
 
     //! Returns the target density of this particle system.
-    double GetTargetDensity() const;
+    [[nodiscard]] double GetTargetDensity() const;
 
     //!
     //! \brief Sets the target particle spacing in meters.
@@ -84,7 +93,7 @@ class SPHSystemData3 : public ParticleSystemData3
     void SetTargetSpacing(double spacing);
 
     //! Returns the target particle spacing in meters.
-    double GetTargetSpacing() const;
+    [[nodiscard]] double GetTargetSpacing() const;
 
     //!
     //! \brief Sets the relative kernel radius.
@@ -102,7 +111,7 @@ class SPHSystemData3 : public ParticleSystemData3
     //! Returns the relative kernel radius compared to the target particle
     //! spacing (i.e. kernel radius / target spacing).
     //!
-    double GetRelativeKernelRadius() const;
+    [[nodiscard]] double GetRelativeKernelRadius() const;
 
     //!
     //! \brief Sets the absolute kernel radius.
@@ -115,10 +124,10 @@ class SPHSystemData3 : public ParticleSystemData3
     void SetKernelRadius(double kernelRadius);
 
     //! Returns the kernel radius in meters unit.
-    double GetKernelRadius() const;
+    [[nodiscard]] double GetKernelRadius() const;
 
     //! Returns sum of kernel function evaluation for each nearby particle.
-    double SumOfKernelNearby(const Vector3D& position) const;
+    [[nodiscard]] double SumOfKernelNearby(const Vector3D& origin) const;
 
     //!
     //! \brief Returns interpolated value at given origin point.
@@ -128,8 +137,9 @@ class SPHSystemData3 : public ParticleSystemData3
     //! particle layout. For example, density or pressure arrays can be
     //! used.
     //!
-    double Interpolate(const Vector3D& origin,
-                       const ConstArrayAccessor1<double>& values) const;
+    [[nodiscard]] double Interpolate(
+        const Vector3D& origin,
+        const ConstArrayAccessor1<double>& values) const;
 
     //!
     //! \brief Returns interpolated vector value at given origin point.
@@ -139,20 +149,21 @@ class SPHSystemData3 : public ParticleSystemData3
     //! particle layout. For example, velocity or acceleration arrays can be
     //! used.
     //!
-    Vector3D Interpolate(const Vector3D& origin,
-                         const ConstArrayAccessor1<Vector3D>& values) const;
+    [[nodiscard]] Vector3D Interpolate(
+        const Vector3D& origin,
+        const ConstArrayAccessor1<Vector3D>& values) const;
 
     //! Returns the gradient of the given values at i-th particle.
-    Vector3D GradientAt(size_t i,
-                        const ConstArrayAccessor1<double>& values) const;
+    [[nodiscard]] Vector3D GradientAt(
+        size_t i, const ConstArrayAccessor1<double>& values) const;
 
     //! Returns the Laplacian of the given values at i-th particle.
-    double LaplacianAt(size_t i,
-                       const ConstArrayAccessor1<double>& values) const;
+    [[nodiscard]] double LaplacianAt(
+        size_t i, const ConstArrayAccessor1<double>& values) const;
 
     //! Returns the Laplacian of the given values at i-th particle.
-    Vector3D LaplacianAt(size_t i,
-                         const ConstArrayAccessor1<Vector3D>& values) const;
+    [[nodiscard]] Vector3D LaplacianAt(
+        size_t i, const ConstArrayAccessor1<Vector3D>& values) const;
 
     //! Builds neighbor searcher with kernel radius.
     void BuildNeighborSearcher();
@@ -169,9 +180,6 @@ class SPHSystemData3 : public ParticleSystemData3
     //! Copies from other SPH system data.
     void Set(const SPHSystemData3& other);
 
-    //! Copies from other SPH system data.
-    SPHSystemData3& operator=(const SPHSystemData3& other);
-
  private:
     //! Target density of this particle system in kg/m^3.
     double m_targetDensity = WATER_DENSITY;
@@ -184,11 +192,11 @@ class SPHSystemData3 : public ParticleSystemData3
     double m_kernelRadiusOverTargetSpacing = 1.8;
 
     //! SPH kernel radius in meters.
-    double m_kernelRadius;
+    double m_kernelRadius = 1.0;
 
-    size_t m_pressureIdx;
+    size_t m_pressureIdx = 0;
 
-    size_t m_densityIdx;
+    size_t m_densityIdx = 0;
 
     //! Computes the mass based on the target density and spacing.
     void ComputeMass();

@@ -12,7 +12,7 @@
 
 namespace CubbyFlow
 {
-FLIPSolver2::FLIPSolver2() : FLIPSolver2({ 1, 1 }, { 1, 1 }, { 0, 0 })
+FLIPSolver2::FLIPSolver2() : FLIPSolver2{ { 1, 1 }, { 1, 1 }, { 0, 0 } }
 {
     // Do nothing
 }
@@ -20,11 +20,6 @@ FLIPSolver2::FLIPSolver2() : FLIPSolver2({ 1, 1 }, { 1, 1 }, { 0, 0 })
 FLIPSolver2::FLIPSolver2(const Size2& resolution, const Vector2D& gridSpacing,
                          const Vector2D& gridOrigin)
     : PICSolver2(resolution, gridSpacing, gridOrigin)
-{
-    // Do nothing
-}
-
-FLIPSolver2::~FLIPSolver2()
 {
     // Do nothing
 }
@@ -44,48 +39,53 @@ void FLIPSolver2::TransferFromParticlesToGrids()
     PICSolver2::TransferFromParticlesToGrids();
 
     // Store snapshot
-    auto vel = GetGridSystemData()->GetVelocity();
-    auto u = GetGridSystemData()->GetVelocity()->GetUConstAccessor();
-    auto v = GetGridSystemData()->GetVelocity()->GetVConstAccessor();
+    const FaceCenteredGrid2Ptr vel = GetGridSystemData()->GetVelocity();
+    ConstArrayAccessor2<double> u =
+        GetGridSystemData()->GetVelocity()->GetUConstAccessor();
+    ConstArrayAccessor2<double> v =
+        GetGridSystemData()->GetVelocity()->GetVConstAccessor();
     m_uDelta.Resize(u.size());
     m_vDelta.Resize(v.size());
 
-    vel->ParallelForEachUIndex([&](size_t i, size_t j) {
-        m_uDelta(i, j) = static_cast<float>(u(i, j));
-    });
-    vel->ParallelForEachVIndex([&](size_t i, size_t j) {
-        m_vDelta(i, j) = static_cast<float>(v(i, j));
-    });
+    vel->ParallelForEachUIndex(
+        [&](size_t i, size_t j) { m_uDelta(i, j) = u(i, j); });
+    vel->ParallelForEachVIndex(
+        [&](size_t i, size_t j) { m_vDelta(i, j) = v(i, j); });
 }
 
 void FLIPSolver2::TransferFromGridsToParticles()
 {
-    auto flow = GetGridSystemData()->GetVelocity();
-    auto positions = GetParticleSystemData()->GetPositions();
-    auto velocities = GetParticleSystemData()->GetVelocities();
-    size_t numberOfParticles = GetParticleSystemData()->GetNumberOfParticles();
+    FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
+    ArrayAccessor1<Vector2<double>> positions =
+        GetParticleSystemData()->GetPositions();
+    ArrayAccessor1<Vector2<double>> velocities =
+        GetParticleSystemData()->GetVelocities();
+    const size_t numberOfParticles =
+        GetParticleSystemData()->GetNumberOfParticles();
 
     // Compute delta
     flow->ParallelForEachUIndex([&](size_t i, size_t j) {
-        m_uDelta(i, j) = static_cast<float>(flow->GetU(i, j)) - m_uDelta(i, j);
+        m_uDelta(i, j) = flow->GetU(i, j) - m_uDelta(i, j);
     });
 
     flow->ParallelForEachVIndex([&](size_t i, size_t j) {
-        m_vDelta(i, j) = static_cast<float>(flow->GetV(i, j)) - m_vDelta(i, j);
+        m_vDelta(i, j) = flow->GetV(i, j) - m_vDelta(i, j);
     });
 
-    LinearArraySampler2<float, float> uSampler(
-        m_uDelta.ConstAccessor(), flow->GridSpacing().CastTo<float>(),
-        flow->GetUOrigin().CastTo<float>());
-    LinearArraySampler2<float, float> vSampler(
-        m_vDelta.ConstAccessor(), flow->GridSpacing().CastTo<float>(),
-        flow->GetVOrigin().CastTo<float>());
+    LinearArraySampler2<double, double> uSampler{
+        m_uDelta.ConstAccessor(), flow->GridSpacing().CastTo<double>(),
+        flow->GetUOrigin().CastTo<double>()
+    };
+    LinearArraySampler2<double, double> vSampler{
+        m_vDelta.ConstAccessor(), flow->GridSpacing().CastTo<double>(),
+        flow->GetVOrigin().CastTo<double>()
+    };
 
     auto sampler = [uSampler, vSampler](const Vector2D& x) {
-        const auto xf = x.CastTo<float>();
-        double u = uSampler(xf);
-        double v = vSampler(xf);
-        return Vector2D(u, v);
+        const Vector2<double> xf = x.CastTo<double>();
+        const double u = uSampler(xf);
+        const double v = vSampler(xf);
+        return Vector2D{ u, v };
     };
 
     // Transfer delta to the particles
@@ -94,7 +94,7 @@ void FLIPSolver2::TransferFromGridsToParticles()
 
         if (m_picBlendingFactor > 0.0)
         {
-            Vector2D picVel = flow->Sample(positions[i]);
+            const Vector2D picVel = flow->Sample(positions[i]);
             flipVel = Lerp(flipVel, picVel, m_picBlendingFactor);
         }
 
@@ -104,18 +104,18 @@ void FLIPSolver2::TransferFromGridsToParticles()
 
 FLIPSolver2::Builder FLIPSolver2::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 FLIPSolver2 FLIPSolver2::Builder::Build() const
 {
-    return FLIPSolver2(m_resolution, GetGridSpacing(), m_gridOrigin);
+    return FLIPSolver2{ m_resolution, GetGridSpacing(), m_gridOrigin };
 }
 
 FLIPSolver2Ptr FLIPSolver2::Builder::MakeShared() const
 {
     return std::shared_ptr<FLIPSolver2>(
-        new FLIPSolver2(m_resolution, GetGridSpacing(), m_gridOrigin),
+        new FLIPSolver2{ m_resolution, GetGridSpacing(), m_gridOrigin },
         [](FLIPSolver2* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

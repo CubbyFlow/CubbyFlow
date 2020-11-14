@@ -39,26 +39,32 @@ class ArrayAccessor<T, 3> final
     //! Constructs an array accessor that wraps given array.
     //! \param size Size of the 3-D array.
     //! \param data Raw array pointer.
-    ArrayAccessor(const Size3& size, T* const data);
+    ArrayAccessor(const Size3& size, T* data);
 
     //! Constructs an array accessor that wraps given array.
     //! \param width Width of the 3-D array.
     //! \param height Height of the 3-D array.
     //! \param depth Depth of the 3-D array.
     //! \param data Raw array pointer.
-    ArrayAccessor(size_t width, size_t height, size_t depth, T* const data);
+    ArrayAccessor(size_t width, size_t height, size_t depth, T* data);
 
     //! Copy constructor.
     ArrayAccessor(const ArrayAccessor& other);
+
+    //! Move constructor.
+    ArrayAccessor(ArrayAccessor&& other) noexcept;
+
+    //! Default destructor.
+    ~ArrayAccessor() = default;
 
     //! Replaces the content with given \p other array accessor.
     void Set(const ArrayAccessor& other);
 
     //! Resets the array.
-    void Reset(const Size3& size, T* const data);
+    void Reset(const Size3& size, T* data);
 
     //! Resets the array.
-    void Reset(size_t width, size_t height, size_t depth, T* const data);
+    void Reset(size_t width, size_t height, size_t depth, T* data);
 
     //! Returns the reference to the i-th element.
     T& At(size_t i);
@@ -91,16 +97,16 @@ class ArrayAccessor<T, 3> final
     T* end();
 
     //! Returns the size of the array.
-    Size3 size() const;
+    [[nodiscard]] Size3 size() const;
 
     //! Returns the width of the array.
-    size_t Width() const;
+    [[nodiscard]] size_t Width() const;
 
     //! Returns the height of the array.
-    size_t Height() const;
+    [[nodiscard]] size_t Height() const;
 
     //! Returns the depth of the array.
-    size_t Depth() const;
+    [[nodiscard]] size_t Depth() const;
 
     //! Returns the raw pointer to the array data.
     T* data() const;
@@ -219,10 +225,10 @@ class ArrayAccessor<T, 3> final
     void ParallelForEachIndex(Callback func) const;
 
     //! Returns the linear index of the given 3-D coordinate (pt.x, pt.y, pt.z).
-    size_t Index(const Point3UI& pt) const;
+    [[nodiscard]] size_t Index(const Point3UI& pt) const;
 
     //! Returns the linear index of the given =3-D coordinate (i, j, k).
-    size_t Index(size_t i, size_t j, size_t k) const;
+    [[nodiscard]] size_t Index(size_t i, size_t j, size_t k) const;
 
     //! Returns the reference to the i-th element.
     T& operator[](size_t i);
@@ -244,6 +250,9 @@ class ArrayAccessor<T, 3> final
 
     //! Copies given array \p other to this array.
     ArrayAccessor& operator=(const ArrayAccessor& other);
+
+    //! Moves given array accessor \p other.
+    ArrayAccessor& operator=(ArrayAccessor&& other) noexcept;
 
     //! Casts type to ConstArrayAccessor.
     operator ConstArrayAccessor<T, 3>() const;
@@ -278,7 +287,7 @@ class ConstArrayAccessor<T, 3>
     //! Constructs a read-only array accessor that wraps given array.
     //! \param size Size of the 3-D array.
     //! \param data Raw array pointer.
-    ConstArrayAccessor(const Size3& size, const T* const data);
+    ConstArrayAccessor(const Size3& size, const T* data);
 
     //! Constructs a read-only array accessor that wraps given array.
     //! \param width Width of the 3-D array.
@@ -286,13 +295,19 @@ class ConstArrayAccessor<T, 3>
     //! \param depth Depth of the 3-D array.
     //! \param data Raw array pointer.
     ConstArrayAccessor(size_t width, size_t height, size_t depth,
-                       const T* const data);
+                       const T* data);
 
     //! Constructs a read-only array accessor from read/write accessor.
     explicit ConstArrayAccessor(const ArrayAccessor<T, 3>& other);
 
+    //! Default destructor.
+    ~ConstArrayAccessor() = default;
+
     //! Copy constructor.
     ConstArrayAccessor(const ConstArrayAccessor& other);
+
+    //! Move constructor.
+    ConstArrayAccessor(ConstArrayAccessor&& other) noexcept;
 
     //! Returns the const reference to the i-th element.
     const T& At(size_t i) const;
@@ -310,16 +325,16 @@ class ConstArrayAccessor<T, 3>
     const T* end() const;
 
     //! Returns the size of the array.
-    Size3 size() const;
+    [[nodiscard]] Size3 size() const;
 
     //! Returns the width of the array.
-    size_t Width() const;
+    [[nodiscard]] size_t Width() const;
 
     //! Returns the height of the array.
-    size_t Height() const;
+    [[nodiscard]] size_t Height() const;
 
     //! Returns the depth of the array.
-    size_t Depth() const;
+    [[nodiscard]] size_t Depth() const;
 
     //! Returns the raw pointer to the array data.
     const T* data() const;
@@ -412,10 +427,10 @@ class ConstArrayAccessor<T, 3>
     void ParallelForEachIndex(Callback func) const;
 
     //! Returns the linear index of the given 3-D coordinate (pt.x, pt.y, pt.z).
-    size_t Index(const Point3UI& pt) const;
+    [[nodiscard]] size_t Index(const Point3UI& pt) const;
 
     //! Returns the linear index of the given =3-D coordinate (i, j, k).
-    size_t Index(size_t i, size_t j, size_t k) const;
+    [[nodiscard]] size_t Index(size_t i, size_t j, size_t k) const;
 
     //! Returns the const reference to the i-th element.
     const T& operator[](size_t i) const;
@@ -428,6 +443,9 @@ class ConstArrayAccessor<T, 3>
 
     //! Copies given read-only array accessor \p other.
     ConstArrayAccessor& operator=(const ConstArrayAccessor& other);
+
+    //! Moves given read-only array accessor \p other.
+    ConstArrayAccessor& operator=(ConstArrayAccessor&& other) noexcept;
 
  private:
     Size3 m_size;

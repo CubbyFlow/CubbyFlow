@@ -24,7 +24,7 @@ namespace CubbyFlow
 {
 static const size_t DEFAULT_HASH_GRID_RESOLUTION = 64;
 
-ParticleSystemData3::ParticleSystemData3() : ParticleSystemData3(0)
+ParticleSystemData3::ParticleSystemData3() : ParticleSystemData3{ 0 }
 {
     // Do nothing
 }
@@ -48,9 +48,11 @@ ParticleSystemData3::ParticleSystemData3(const ParticleSystemData3& other)
     Set(other);
 }
 
-ParticleSystemData3::~ParticleSystemData3()
+ParticleSystemData3& ParticleSystemData3::operator=(
+    const ParticleSystemData3& other)
 {
-    // Do nothing
+    Set(other);
+    return *this;
 }
 
 void ParticleSystemData3::Resize(size_t newNumberOfParticles)
@@ -64,7 +66,7 @@ void ParticleSystemData3::Resize(size_t newNumberOfParticles)
 
     for (auto& attr : m_vectorDataList)
     {
-        attr.Resize(newNumberOfParticles, Vector3D());
+        attr.Resize(newNumberOfParticles, Vector3D{});
     }
 }
 
@@ -75,14 +77,14 @@ size_t ParticleSystemData3::GetNumberOfParticles() const
 
 size_t ParticleSystemData3::AddScalarData(double initialVal)
 {
-    size_t attrIdx = m_scalarDataList.size();
+    const size_t attrIdx = m_scalarDataList.size();
     m_scalarDataList.emplace_back(GetNumberOfParticles(), initialVal);
     return attrIdx;
 }
 
 size_t ParticleSystemData3::AddVectorData(const Vector3D& initialVal)
 {
-    size_t attrIdx = m_vectorDataList.size();
+    const size_t attrIdx = m_vectorDataList.size();
     m_vectorDataList.emplace_back(GetNumberOfParticles(), initialVal);
     return attrIdx;
 }
@@ -162,9 +164,9 @@ void ParticleSystemData3::AddParticle(const Vector3D& newPosition,
                                       const Vector3D& newVelocity,
                                       const Vector3D& newForce)
 {
-    Array1<Vector3D> newPositions = { newPosition };
-    Array1<Vector3D> newVelocities = { newVelocity };
-    Array1<Vector3D> newForces = { newForce };
+    const Array1<Vector3D> newPositions = { newPosition };
+    const Array1<Vector3D> newVelocities = { newVelocity };
+    const Array1<Vector3D> newForces = { newForce };
 
     AddParticles(newPositions.ConstAccessor(), newVelocities.ConstAccessor(),
                  newForces.ConstAccessor());
@@ -177,19 +179,22 @@ void ParticleSystemData3::AddParticles(
 {
     if (newVelocities.size() > 0 && newVelocities.size() != newPositions.size())
     {
-        throw std::invalid_argument(
+        throw std::invalid_argument{
             "newVelocities.size() > 0 && newVelocities.size() != "
-            "newPositions.size()");
+            "newPositions.size()"
+        };
     }
 
     if (newForces.size() > 0 && newForces.size() != newPositions.size())
     {
-        throw std::invalid_argument(
-            "newForces.size() > 0 && newForces.size() != newPositions.size()");
+        throw std::invalid_argument{
+            "newForces.size() > 0 && newForces.size() != newPositions.size()"
+        };
     }
 
     size_t oldNumberOfParticles = GetNumberOfParticles();
-    size_t newNumberOfParticles = oldNumberOfParticles + newPositions.size();
+    const size_t newNumberOfParticles =
+        oldNumberOfParticles + newPositions.size();
 
     Resize(newNumberOfParticles);
 
@@ -236,7 +241,7 @@ const std::vector<std::vector<size_t>>& ParticleSystemData3::GetNeighborLists()
 
 void ParticleSystemData3::BuildNeighborSearcher(double maxSearchRadius)
 {
-    Timer timer;
+    const Timer timer;
 
     // Use PointParallelHashGridSearcher3 by default
     m_neighborSearcher = std::make_shared<PointParallelHashGridSearcher3>(
@@ -251,7 +256,7 @@ void ParticleSystemData3::BuildNeighborSearcher(double maxSearchRadius)
 
 void ParticleSystemData3::BuildNeighborLists(double maxSearchRadius)
 {
-    Timer timer;
+    const Timer timer;
 
     m_neighborLists.resize(GetNumberOfParticles());
 
@@ -277,7 +282,7 @@ void ParticleSystemData3::BuildNeighborLists(double maxSearchRadius)
 
 void ParticleSystemData3::Serialize(std::vector<uint8_t>* buffer) const
 {
-    flatbuffers::FlatBufferBuilder builder(1024);
+    flatbuffers::FlatBufferBuilder builder{ 1024 };
     flatbuffers::Offset<fbs::ParticleSystemData3> fbsParticleSystemData;
 
     SerializeParticleSystemData(&builder, &fbsParticleSystemData);
@@ -285,7 +290,7 @@ void ParticleSystemData3::Serialize(std::vector<uint8_t>* buffer) const
     builder.Finish(fbsParticleSystemData);
 
     uint8_t* buf = builder.GetBufferPointer();
-    size_t size = builder.GetSize();
+    const size_t size = builder.GetSize();
 
     buffer->resize(size);
     memcpy(buffer->data(), buf, size);
@@ -293,7 +298,8 @@ void ParticleSystemData3::Serialize(std::vector<uint8_t>* buffer) const
 
 void ParticleSystemData3::Deserialize(const std::vector<uint8_t>& buffer)
 {
-    auto fbsParticleSystemData = fbs::GetParticleSystemData3(buffer.data());
+    const fbs::ParticleSystemData3* fbsParticleSystemData =
+        fbs::GetParticleSystemData3(buffer.data());
     DeserializeParticleSystemData(fbsParticleSystemData);
 }
 
@@ -306,25 +312,18 @@ void ParticleSystemData3::Set(const ParticleSystemData3& other)
     m_forceIdx = other.m_forceIdx;
     m_numberOfParticles = other.m_numberOfParticles;
 
-    for (auto& attr : other.m_scalarDataList)
+    for (const auto& attr : other.m_scalarDataList)
     {
         m_scalarDataList.emplace_back(attr);
     }
 
-    for (auto& attr : other.m_vectorDataList)
+    for (const auto& attr : other.m_vectorDataList)
     {
         m_vectorDataList.emplace_back(attr);
     }
 
     m_neighborSearcher = other.m_neighborSearcher->Clone();
     m_neighborLists = other.m_neighborLists;
-}
-
-ParticleSystemData3& ParticleSystemData3::operator=(
-    const ParticleSystemData3& other)
-{
-    Set(other);
-    return *this;
 }
 
 void ParticleSystemData3::SerializeParticleSystemData(
@@ -335,12 +334,15 @@ void ParticleSystemData3::SerializeParticleSystemData(
     std::vector<flatbuffers::Offset<fbs::ScalarParticleData3>> scalarDataList;
     for (const auto& scalarData : m_scalarDataList)
     {
-        auto fbsScalarData = fbs::CreateScalarParticleData3(
-            *builder,
-            builder->CreateVector(scalarData.data(), scalarData.size()));
+        flatbuffers::Offset<fbs::ScalarParticleData3> fbsScalarData =
+            fbs::CreateScalarParticleData3(
+                *builder,
+                builder->CreateVector(scalarData.data(), scalarData.size()));
         scalarDataList.push_back(fbsScalarData);
     }
-    auto fbsScalarDataList = builder->CreateVector(scalarDataList);
+    const flatbuffers::Offset<
+        flatbuffers::Vector<flatbuffers::Offset<fbs::ScalarParticleData3>>>
+        fbsScalarDataList = builder->CreateVector(scalarDataList);
 
     std::vector<flatbuffers::Offset<fbs::VectorParticleData3>> vectorDataList;
     for (const auto& vectorData : m_vectorDataList)
@@ -351,22 +353,26 @@ void ParticleSystemData3::SerializeParticleSystemData(
             newVectorData.push_back(CubbyFlowToFlatbuffers(v));
         }
 
-        auto fbsVectorData = fbs::CreateVectorParticleData3(
-            *builder, builder->CreateVectorOfStructs(newVectorData.data(),
-                                                     newVectorData.size()));
+        flatbuffers::Offset<fbs::VectorParticleData3> fbsVectorData =
+            CreateVectorParticleData3(
+                *builder, builder->CreateVectorOfStructs(newVectorData.data(),
+                                                         newVectorData.size()));
         vectorDataList.push_back(fbsVectorData);
     }
-    auto fbsVectorDataList = builder->CreateVector(vectorDataList);
+    const flatbuffers::Offset<
+        flatbuffers::Vector<flatbuffers::Offset<fbs::VectorParticleData3>>>
+        fbsVectorDataList = builder->CreateVector(vectorDataList);
 
     // Copy neighbor searcher
-    auto neighborSearcherType =
+    const flatbuffers::Offset<flatbuffers::String> neighborSearcherType =
         builder->CreateString(m_neighborSearcher->TypeName());
     std::vector<uint8_t> neighborSearcherSerialized;
     m_neighborSearcher->Serialize(&neighborSearcherSerialized);
-    auto fbsNeighborSearcher = fbs::CreatePointNeighborSearcherSerialized3(
-        *builder, neighborSearcherType,
-        builder->CreateVector(neighborSearcherSerialized.data(),
-                              neighborSearcherSerialized.size()));
+    const flatbuffers::Offset<fbs::PointNeighborSearcherSerialized3>
+        fbsNeighborSearcher = fbs::CreatePointNeighborSearcherSerialized3(
+            *builder, neighborSearcherType,
+            builder->CreateVector(neighborSearcherSerialized.data(),
+                                  neighborSearcherSerialized.size()));
 
     // Copy neighbor lists
     std::vector<flatbuffers::Offset<fbs::ParticleNeighborList3>> neighborLists;
@@ -380,7 +386,9 @@ void ParticleSystemData3::SerializeParticleSystemData(
         neighborLists.push_back(fbsNeighborList);
     }
 
-    auto fbsNeighborLists = builder->CreateVector(neighborLists);
+    const flatbuffers::Offset<
+        flatbuffers::Vector<flatbuffers::Offset<fbs::ParticleNeighborList3>>>
+        fbsNeighborLists = builder->CreateVector(neighborLists);
 
     // Copy the searcher
     *fbsParticleSystemData = fbs::CreateParticleSystemData3(
@@ -403,14 +411,15 @@ void ParticleSystemData3::DeserializeParticleSystemData(
     m_forceIdx = static_cast<size_t>(fbsParticleSystemData->forceIdx());
 
     // Copy data
-    auto fbsScalarDataList = fbsParticleSystemData->scalarDataList();
-    for (const auto& fbsScalarData : (*fbsScalarDataList))
+    const flatbuffers::Vector<flatbuffers::Offset<fbs::ScalarParticleData3>>*
+        fbsScalarDataList = fbsParticleSystemData->scalarDataList();
+    for (const auto fbsScalarData : (*fbsScalarDataList))
     {
-        auto data = fbsScalarData->data();
+        const flatbuffers::Vector<double>* data = fbsScalarData->data();
 
-        m_scalarDataList.push_back(ScalarData(data->size()));
+        m_scalarDataList.emplace_back(data->size());
 
-        auto& newData = *(m_scalarDataList.rbegin());
+        Array<double, 1>& newData = *(m_scalarDataList.rbegin());
 
         for (uint32_t i = 0; i < data->size(); ++i)
         {
@@ -418,13 +427,17 @@ void ParticleSystemData3::DeserializeParticleSystemData(
         }
     }
 
-    auto fbsVectorDataList = fbsParticleSystemData->vectorDataList();
-    for (const auto& fbsVectorData : (*fbsVectorDataList))
+    const flatbuffers::Vector<flatbuffers::Offset<fbs::VectorParticleData3>>*
+        fbsVectorDataList = fbsParticleSystemData->vectorDataList();
+    for (const auto fbsVectorData : (*fbsVectorDataList))
     {
-        auto data = fbsVectorData->data();
+        const flatbuffers::Vector<const fbs::Vector3D*>* data =
+            fbsVectorData->data();
 
-        m_vectorDataList.push_back(VectorData(data->size()));
-        auto& newData = *(m_vectorDataList.rbegin());
+        m_vectorDataList.emplace_back(data->size());
+
+        Array<Vector<double, 3>, 1>& newData = *(m_vectorDataList.rbegin());
+
         for (uint32_t i = 0; i < data->size(); ++i)
         {
             newData[i] = FlatbuffersToCubbyFlow(*data->Get(i));
@@ -434,21 +447,25 @@ void ParticleSystemData3::DeserializeParticleSystemData(
     m_numberOfParticles = m_vectorDataList[0].size();
 
     // Copy neighbor searcher
-    auto fbsNeighborSearcher = fbsParticleSystemData->neighborSearcher();
+    const fbs::PointNeighborSearcherSerialized3* fbsNeighborSearcher =
+        fbsParticleSystemData->neighborSearcher();
     m_neighborSearcher = Factory::BuildPointNeighborSearcher3(
         fbsNeighborSearcher->type()->c_str());
-    std::vector<uint8_t> neighborSearcherSerialized(
-        fbsNeighborSearcher->data()->begin(),
-        fbsNeighborSearcher->data()->end());
+    const std::vector<uint8_t> neighborSearcherSerialized{
+        fbsNeighborSearcher->data()->begin(), fbsNeighborSearcher->data()->end()
+    };
     m_neighborSearcher->Deserialize(neighborSearcherSerialized);
 
     // Copy neighbor list
-    auto fbsNeighborLists = fbsParticleSystemData->neighborLists();
+    const flatbuffers::Vector<flatbuffers::Offset<fbs::ParticleNeighborList3>>*
+        fbsNeighborLists = fbsParticleSystemData->neighborLists();
     m_neighborLists.resize(fbsNeighborLists->size());
 
     for (uint32_t i = 0; i < fbsNeighborLists->size(); ++i)
     {
-        auto fbsNeighborList = fbsNeighborLists->Get(i);
+        const flatbuffers::Vector<
+            flatbuffers::Offset<fbs::ParticleNeighborList3>>::return_type
+            fbsNeighborList = fbsNeighborLists->Get(i);
         m_neighborLists[i].resize(fbsNeighborList->data()->size());
         std::transform(fbsNeighborList->data()->begin(),
                        fbsNeighborList->data()->end(),

@@ -32,9 +32,9 @@ FDMMGSolver2::FDMMGSolver2(size_t maxNumberOfLevels,
     {
         m_mgParams.relaxFunc =
             [sorFactor](const FDMMatrix2& A, const FDMVector2& b,
-                        unsigned int numberOfIterations, double maxTolerance,
+                        unsigned int numberOfIterations, double _maxTolerance,
                         FDMVector2* x, FDMVector2* buffer) {
-                UNUSED_VARIABLE(maxTolerance);
+                UNUSED_VARIABLE(_maxTolerance);
                 UNUSED_VARIABLE(buffer);
 
                 for (unsigned int iter = 0; iter < numberOfIterations; ++iter)
@@ -47,9 +47,9 @@ FDMMGSolver2::FDMMGSolver2(size_t maxNumberOfLevels,
     {
         m_mgParams.relaxFunc =
             [sorFactor](const FDMMatrix2& A, const FDMVector2& b,
-                        unsigned int numberOfIterations, double maxTolerance,
+                        unsigned int numberOfIterations, double _maxTolerance,
                         FDMVector2* x, FDMVector2* buffer) {
-                UNUSED_VARIABLE(maxTolerance);
+                UNUSED_VARIABLE(_maxTolerance);
                 UNUSED_VARIABLE(buffer);
 
                 for (unsigned int iter = 0; iter < numberOfIterations; ++iter)
@@ -90,7 +90,7 @@ bool FDMMGSolver2::Solve(FDMLinearSystem2* system)
 bool FDMMGSolver2::Solve(FDMMGLinearSystem2* system)
 {
     FDMMGVector2 buffer = system->x;
-    const auto result =
+    const MGResult result =
         MGVCycle(system->A, m_mgParams, &system->x, &system->b, &buffer);
     return result.lastResidualNorm < m_mgParams.maxTolerance;
 }

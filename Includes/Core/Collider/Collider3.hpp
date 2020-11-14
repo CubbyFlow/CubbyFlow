@@ -39,13 +39,25 @@ class Collider3
         std::function<void(Collider3*, double, double)>;
 
     //! Default constructor.
-    Collider3();
+    Collider3() = default;
 
-    //! Default destructor.
-    virtual ~Collider3();
+    //! Default copy constructor.
+    Collider3(const Collider3&) = default;
+
+    //! Default move constructor.
+    Collider3(Collider3&&) noexcept = default;
+
+    //! Default virtual destructor.
+    virtual ~Collider3() = default;
+
+    //! Default copy assignment operator.
+    Collider3& operator=(const Collider3&) = default;
+
+    //! Default move assignment operator.
+    Collider3& operator=(Collider3&&) noexcept = default;
 
     //! Returns the velocity of the collider at given \p point.
-    virtual Vector3D VelocityAt(const Vector3D& point) const = 0;
+    [[nodiscard]] virtual Vector3D VelocityAt(const Vector3D& point) const = 0;
 
     //!
     //! Resolves collision for given point.
@@ -56,10 +68,10 @@ class Collider3
     //! \param velocity Input and output velocity of the point.
     //!
     void ResolveCollision(double radius, double restitutionCoefficient,
-                          Vector3D* position, Vector3D* velocity);
+                          Vector3D* position, Vector3D* velocity) const;
 
     //! Returns friction coefficient.
-    double GetFrictionCoefficient() const;
+    [[nodiscard]] double GetFrictionCoefficient() const;
 
     //!
     //! \brief Sets the friction coefficient.
@@ -67,10 +79,10 @@ class Collider3
     //! This function assigns the friction coefficient to the collider. Any
     //! negative inputs will be clamped to zero.
     //!
-    void SetFrictionCoefficient(double newFrictionCoeffient);
+    void SetFrictionCoefficient(double newFrictionCoefficient);
 
     //! Returns the surface instance.
-    const Surface3Ptr& GetSurface() const;
+    [[nodiscard]] const Surface3Ptr& GetSurface() const;
 
     //! Updates the collider state.
     void Update(double currentTimeInSeconds, double timeIntervalInSeconds);
@@ -91,7 +103,7 @@ class Collider3
     //! Internal query result structure.
     struct ColliderQueryResult final
     {
-        double distance;
+        double distance = 0.0;
         Vector3D point;
         Vector3D normal;
         Vector3D velocity;
@@ -105,12 +117,13 @@ class Collider3
                          ColliderQueryResult* result) const;
 
     //! Returns true if given point is in the opposite side of the surface.
-    bool IsPenetrating(const ColliderQueryResult& colliderPoint,
-                       const Vector3D& position, double radius);
+    [[nodiscard]] bool IsPenetrating(const ColliderQueryResult& colliderPoint,
+                                     const Vector3D& position,
+                                     double radius) const;
 
  private:
     Surface3Ptr m_surface;
-    double m_frictionCoeffient = 0.0;
+    double m_frictionCoefficient = 0.0;
     OnBeginUpdateCallback m_onUpdateCallback;
 };
 

@@ -12,11 +12,6 @@
 
 namespace CubbyFlow
 {
-VertexCenteredScalarGrid3::VertexCenteredScalarGrid3()
-{
-    // Do nothing
-}
-
 VertexCenteredScalarGrid3::VertexCenteredScalarGrid3(
     size_t resolutionX, size_t resolutionY, size_t resolutionZ,
     double gridSpacingX, double gridSpacingY, double gridSpacingZ,
@@ -35,18 +30,26 @@ VertexCenteredScalarGrid3::VertexCenteredScalarGrid3(
 
 VertexCenteredScalarGrid3::VertexCenteredScalarGrid3(
     const VertexCenteredScalarGrid3& other)
+    : ScalarGrid3{ other }
 {
     Set(other);
 }
 
+VertexCenteredScalarGrid3& VertexCenteredScalarGrid3::operator=(
+    const VertexCenteredScalarGrid3& other)
+{
+    Set(other);
+    return *this;
+}
+
 Size3 VertexCenteredScalarGrid3::GetDataSize() const
 {
-    if (Resolution() != Size3(0, 0, 0))
+    if (Resolution() != Size3{ 0, 0, 0 })
     {
-        return Resolution() + Size3(1, 1, 1);
+        return Resolution() + Size3{ 1, 1, 1 };
     }
 
-    return Size3(0, 0, 0);
+    return Size3{ 0, 0, 0 };
 }
 
 Vector3D VertexCenteredScalarGrid3::GetDataOrigin() const
@@ -57,14 +60,13 @@ Vector3D VertexCenteredScalarGrid3::GetDataOrigin() const
 std::shared_ptr<ScalarGrid3> VertexCenteredScalarGrid3::Clone() const
 {
     return std::shared_ptr<VertexCenteredScalarGrid3>(
-        new VertexCenteredScalarGrid3(*this),
+        new VertexCenteredScalarGrid3{ *this },
         [](VertexCenteredScalarGrid3* obj) { delete obj; });
 }
 
 void VertexCenteredScalarGrid3::Swap(Grid3* other)
 {
-    VertexCenteredScalarGrid3* sameType =
-        dynamic_cast<VertexCenteredScalarGrid3*>(other);
+    auto sameType = dynamic_cast<VertexCenteredScalarGrid3*>(other);
     if (sameType != nullptr)
     {
         SwapScalarGrid(sameType);
@@ -76,16 +78,9 @@ void VertexCenteredScalarGrid3::Set(const VertexCenteredScalarGrid3& other)
     SetScalarGrid(other);
 }
 
-VertexCenteredScalarGrid3& VertexCenteredScalarGrid3::operator=(
-    const VertexCenteredScalarGrid3& other)
-{
-    Set(other);
-    return *this;
-}
-
 VertexCenteredScalarGrid3::Builder VertexCenteredScalarGrid3::GetBuilder()
 {
-    return Builder();
+    return Builder{};
 }
 
 VertexCenteredScalarGrid3::Builder&
@@ -151,16 +146,16 @@ VertexCenteredScalarGrid3::Builder::WithInitialValue(double initialVal)
 
 VertexCenteredScalarGrid3 VertexCenteredScalarGrid3::Builder::Build() const
 {
-    return VertexCenteredScalarGrid3(m_resolution, m_gridSpacing, m_gridOrigin,
-                                     m_initialVal);
+    return VertexCenteredScalarGrid3{ m_resolution, m_gridSpacing, m_gridOrigin,
+                                      m_initialVal };
 }
 
 VertexCenteredScalarGrid3Ptr VertexCenteredScalarGrid3::Builder::MakeShared()
     const
 {
     return std::shared_ptr<VertexCenteredScalarGrid3>(
-        new VertexCenteredScalarGrid3(m_resolution, m_gridSpacing, m_gridOrigin,
-                                      m_initialVal),
+        new VertexCenteredScalarGrid3{ m_resolution, m_gridSpacing,
+                                       m_gridOrigin, m_initialVal },
         [](VertexCenteredScalarGrid3* obj) { delete obj; });
 }
 
@@ -169,8 +164,8 @@ ScalarGrid3Ptr VertexCenteredScalarGrid3::Builder::Build(
     const Vector3D& gridOrigin, double initialVal) const
 {
     return std::shared_ptr<VertexCenteredScalarGrid3>(
-        new VertexCenteredScalarGrid3(resolution, gridSpacing, gridOrigin,
-                                      initialVal),
+        new VertexCenteredScalarGrid3{ resolution, gridSpacing, gridOrigin,
+                                       initialVal },
         [](VertexCenteredScalarGrid3* obj) { delete obj; });
 }
 }  // namespace CubbyFlow

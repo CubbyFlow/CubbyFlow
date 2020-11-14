@@ -13,20 +13,9 @@
 
 namespace CubbyFlow
 {
-ImplicitSurface2::ImplicitSurface2(const Transform2& transform,
-                                   bool isNormalFlipped)
-    : Surface2(transform, isNormalFlipped)
-{
-    // Do nothing
-}
-
-ImplicitSurface2::ImplicitSurface2(const ImplicitSurface2& other)
-    : Surface2(other)
-{
-    // Do nothing
-}
-
-ImplicitSurface2::~ImplicitSurface2()
+ImplicitSurface2::ImplicitSurface2(const Transform2& _transform,
+                                   bool _isNormalFlipped)
+    : Surface2{ _transform, _isNormalFlipped }
 {
     // Do nothing
 }
