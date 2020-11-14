@@ -253,14 +253,36 @@ template <typename T>
 const T& Point<T, 3>::At(size_t i) const
 {
     assert(i < 3);
-    return i == 0 ? x : i == 1 ? y : z;
+
+    if (i == 0)
+    {
+        return x;
+    }
+
+    if (i == 1)
+    {
+        return y;
+    }
+
+    return z;
 }
 
 template <typename T>
 T& Point<T, 3>::At(size_t i)
 {
     assert(i < 3);
-    return i == 0 ? x : i == 1 ? y : z;
+
+    if (i == 0)
+    {
+        return x;
+    }
+
+    if (i == 1)
+    {
+        return y;
+    }
+
+    return z;
 }
 
 template <typename T>
@@ -326,14 +348,36 @@ template <typename T>
 T& Point<T, 3>::operator[](size_t i)
 {
     assert(i < 3);
-    return i == 0 ? x : i == 1 ? y : z;
+
+    if (i == 0)
+    {
+        return x;
+    }
+
+    if (i == 1)
+    {
+        return y;
+    }
+
+    return z;
 }
 
 template <typename T>
 const T& Point<T, 3>::operator[](size_t i) const
 {
     assert(i < 3);
-    return i == 0 ? x : i == 1 ? y : z;
+
+    if (i == 0)
+    {
+        return x;
+    }
+
+    if (i == 1)
+    {
+        return y;
+    }
+
+    return z;
 }
 
 template <typename T>
