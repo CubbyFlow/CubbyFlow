@@ -8,8 +8,8 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Solver/Grid/GridBlockedBoundaryConditionSolver3.hpp>
+#include <Core/Utils/LevelSetUtils.hpp>
 
 namespace CubbyFlow
 {

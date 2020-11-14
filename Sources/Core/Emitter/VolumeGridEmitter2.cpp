@@ -11,8 +11,8 @@
 #include <Core/Emitter/VolumeGridEmitter2.hpp>
 #include <Core/Grid/CollocatedVectorGrid2.hpp>
 #include <Core/Grid/FaceCenteredGrid2.hpp>
-#include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Surface/SurfaceToImplicit2.hpp>
+#include <Core/Utils/LevelSetUtils.hpp>
 #include <Core/Utils/Macros.hpp>
 
 #include <utility>

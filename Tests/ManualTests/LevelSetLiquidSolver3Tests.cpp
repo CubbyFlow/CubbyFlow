@@ -3,9 +3,9 @@
 #include <Core/Array/Array2.hpp>
 #include <Core/Geometry/MarchingCubes.hpp>
 #include <Core/Geometry/Plane3.hpp>
-#include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver3.hpp>
 #include <Core/Surface/ImplicitSurfaceSet3.hpp>
+#include <Core/Utils/LevelSetUtils.hpp>
 
 #include <ManualTests.hpp>
 

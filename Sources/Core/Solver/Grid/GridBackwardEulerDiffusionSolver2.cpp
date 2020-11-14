@@ -8,9 +8,9 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Solver/FDM/FDMICCGSolver2.hpp>
 #include <Core/Solver/Grid/GridBackwardEulerDiffusionSolver2.hpp>
+#include <Core/Utils/LevelSetUtils.hpp>
 
 namespace CubbyFlow
 {

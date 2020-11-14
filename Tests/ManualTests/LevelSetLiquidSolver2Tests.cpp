@@ -5,11 +5,11 @@
 #include <Core/Geometry/Plane2.hpp>
 #include <Core/Geometry/RigidBodyCollider2.hpp>
 #include <Core/Geometry/Sphere2.hpp>
-#include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver2.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver2.hpp>
 #include <Core/Surface/ImplicitSurfaceSet2.hpp>
 #include <Core/Surface/SurfaceToImplicit2.hpp>
+#include <Core/Utils/LevelSetUtils.hpp>
 
 #include <ManualTests.hpp>
 

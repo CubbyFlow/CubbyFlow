@@ -104,6 +104,6 @@ T FractionInside(T phiBottomLeft, T phiBottomRight, T phiTopLeft,
                  T phiTopRight);
 }  // namespace CubbyFlow
 
-#include <Core/LevelSet/LevelSetUtils-Impl.hpp>
+#include <Core/Utils/LevelSetUtils-Impl.hpp>
 
 #endif

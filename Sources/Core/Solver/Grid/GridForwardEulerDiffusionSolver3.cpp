@@ -9,8 +9,8 @@
 // property of any third parties.
 
 #include <Core/FDM/FDMUtils.hpp>
-#include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Solver/Grid/GridForwardEulerDiffusionSolver3.hpp>
+#include <Core/Utils/LevelSetUtils.hpp>
 
 namespace CubbyFlow
 {
