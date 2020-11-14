@@ -53,12 +53,12 @@
 #include <API/Python/Grid/VertexCenteredVectorGrid.hpp>
 #include <API/Python/Math/Quaternion.hpp>
 #include <API/Python/Particle/ParticleSystemData.hpp>
+#include <API/Python/Particle/SPH/SPHSystemData.hpp>
 #include <API/Python/PointsToImplicit/AnisotropicPointsToImplicit.hpp>
 #include <API/Python/PointsToImplicit/PointsToImplicit.hpp>
 #include <API/Python/PointsToImplicit/SPHPointsToImplicit.hpp>
 #include <API/Python/PointsToImplicit/SphericalPointsToImplicit.hpp>
 #include <API/Python/PointsToImplicit/ZhuBridsonPointsToImplicit.hpp>
-#include <API/Python/SPH/SPHSystemData.hpp>
 #include <API/Python/Solver/Advection/AdvectionSolver.hpp>
 #include <API/Python/Solver/Advection/CubicSemiLagrangian.hpp>
 #include <API/Python/Solver/Advection/SemiLagrangian.hpp>

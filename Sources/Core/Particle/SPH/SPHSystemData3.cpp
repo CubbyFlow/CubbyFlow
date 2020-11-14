@@ -9,9 +9,9 @@
 // property of any third parties.
 
 #include <Core/Geometry/BoundingBox3.hpp>
+#include <Core/Particle/SPH/SPHStdKernel3.hpp>
+#include <Core/Particle/SPH/SPHSystemData3.hpp>
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>
-#include <Core/SPH/SPHStdKernel3.hpp>
-#include <Core/SPH/SPHSystemData3.hpp>
 
 #include <Flatbuffers/generated/SPHSystemData3_generated.h>
 

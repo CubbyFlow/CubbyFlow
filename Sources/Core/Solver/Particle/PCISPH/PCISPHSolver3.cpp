@@ -8,8 +8,8 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
+#include <Core/Particle/SPH/SPHStdKernel3.hpp>
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>
-#include <Core/SPH/SPHStdKernel3.hpp>
 #include <Core/Solver/Particle/PCISPH/PCISPHSolver3.hpp>
 #include <Core/Utils/Logging.hpp>
 
