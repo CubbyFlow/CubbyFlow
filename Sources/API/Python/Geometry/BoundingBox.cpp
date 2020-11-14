@@ -8,10 +8,10 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <API/Python/BoundingBox/BoundingBox.hpp>
+#include <API/Python/Geometry/BoundingBox.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/BoundingBox/BoundingBox2.hpp>
-#include <Core/BoundingBox/BoundingBox3.hpp>
+#include <Core/Geometry/BoundingBox2.hpp>
+#include <Core/Geometry/BoundingBox3.hpp>
 
 #include <pybind11/pybind11.h>
 

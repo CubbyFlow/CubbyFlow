@@ -11,7 +11,7 @@
 #include <../ClaraUtils.hpp>
 
 #include <Core/Array/Array1.hpp>
-#include <Core/BoundingBox/BoundingBox3.hpp>
+#include <Core/Geometry/BoundingBox3.hpp>
 #include <Core/Geometry/MarchingCubes.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>

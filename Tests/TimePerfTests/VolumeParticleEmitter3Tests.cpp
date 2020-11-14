@@ -1,7 +1,7 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/BoundingBox/BoundingBox3.hpp>
 #include <Core/Emitter/VolumeParticleEmitter3.hpp>
+#include <Core/Geometry/BoundingBox3.hpp>
 #include <Core/Geometry/Box3.hpp>
 #include <Core/Particle/ParticleSystemData3.hpp>
 #include <Core/Surface/ImplicitSurfaceSet3.hpp>

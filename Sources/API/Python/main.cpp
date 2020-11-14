@@ -12,7 +12,7 @@
 #include <API/Python/Animation/Frame.hpp>
 #include <API/Python/Animation/PhysicsAnimation.hpp>
 #include <API/Python/Array/ArrayAccessor.hpp>
-#include <API/Python/BoundingBox/BoundingBox.hpp>
+#include <API/Python/Geometry/BoundingBox.hpp>
 #include <API/Python/Collider/Collider.hpp>
 #include <API/Python/Collider/ColliderSet.hpp>
 #include <API/Python/Collider/RigidbodyCollider.hpp>
@@ -128,12 +128,6 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddRay3D(m);
     AddRay3F(m);
 
-    // Bounding boxes
-    AddBoundingBox2D(m);
-    AddBoundingBox2F(m);
-    AddBoundingBox3D(m);
-    AddBoundingBox3F(m);
-
     // Frames
     AddFrame(m);
 
@@ -204,6 +198,10 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddSurfaceSet3(m);
 
     // Geometries, part 1
+    AddBoundingBox2D(m);
+    AddBoundingBox2F(m);
+    AddBoundingBox3D(m);
+    AddBoundingBox3F(m);
     AddBox2(m);
     AddBox3(m);
     AddCylinder3(m);

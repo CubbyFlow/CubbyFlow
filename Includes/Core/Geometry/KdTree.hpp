@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_KDTREE_HPP
 #define CUBBYFLOW_KDTREE_HPP
 
-#include <Core/BoundingBox/BoundingBox.hpp>
+#include <Core/Geometry/BoundingBox.hpp>
 #include <Core/Vector/Vector.hpp>
 
 namespace CubbyFlow

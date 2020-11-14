@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_SURFACE2_HPP
 #define CUBBYFLOW_SURFACE2_HPP
 
-#include <Core/BoundingBox/BoundingBox2.hpp>
+#include <Core/Geometry/BoundingBox2.hpp>
 #include <Core/Ray/Ray2.hpp>
 #include <Core/Transform/Transform2.hpp>
 #include <Core/Vector/Vector2.hpp>

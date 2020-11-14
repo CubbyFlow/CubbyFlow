@@ -8,24 +8,24 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef CUBBYFLOW_BOUNDING_BOX2_HPP
-#define CUBBYFLOW_BOUNDING_BOX2_HPP
+#ifndef CUBBYFLOW_BOUNDING_BOX3_HPP
+#define CUBBYFLOW_BOUNDING_BOX3_HPP
 
-#include <Core/BoundingBox/BoundingBox.hpp>
-#include <Core/Ray/Ray2.hpp>
-#include <Core/Vector/Vector2.hpp>
+#include <Core/Geometry/BoundingBox.hpp>
+#include <Core/Ray/Ray3.hpp>
+#include <Core/Vector/Vector3.hpp>
 
 #include <limits>
 
 namespace CubbyFlow
 {
 //!
-//! \brief 2-D box-ray intersection result.
+//! \brief 3-D box-ray intersection result.
 //!
 //! \tparam T - The value type.
 //!
 template <typename T>
-struct BoundingBoxRayIntersection2
+struct BoundingBoxRayIntersection3
 {
     //! True if the box and ray intersects.
     bool isIntersecting = false;
@@ -38,19 +38,19 @@ struct BoundingBoxRayIntersection2
 };
 
 //!
-//! \brief 2-D axis-aligned bounding box class.
+//! \brief 3-D axis-aligned bounding box class.
 //!
 //! \tparam T - Real number type.
 //!
 template <typename T>
-class BoundingBox<T, 2>
+class BoundingBox<T, 3>
 {
  public:
     //! Default constructor.
     BoundingBox();
 
     //! Constructs a box that tightly covers two points.
-    BoundingBox(const Vector2<T>& point1, const Vector2<T>& point2);
+    BoundingBox(const Vector3<T>& point1, const Vector3<T>& point2);
 
     //! Copy constructor.
     BoundingBox(const BoundingBox& other);
@@ -64,7 +64,7 @@ class BoundingBox<T, 2>
     //! Copy assignment operator.
     BoundingBox& operator=(const BoundingBox& other);
 
-    //! Move assignment operator.
+    //! Copy assignment operator.
     BoundingBox& operator=(BoundingBox&& other) noexcept;
 
     //! Returns width of the box.
@@ -73,27 +73,30 @@ class BoundingBox<T, 2>
     //! Returns height of the box.
     [[nodiscard]] T GetHeight() const;
 
+    //! Returns depth of the box.
+    [[nodiscard]] T GetDepth() const;
+
     //! Returns length of the box in given axis.
     [[nodiscard]] T Length(size_t axis);
 
     //! Returns true of this box and other box overlaps.
     [[nodiscard]] bool Overlaps(const BoundingBox& other) const;
 
-    //! Returns true if the input point is inside of this box.
-    [[nodiscard]] bool Contains(const Vector2<T>& point) const;
+    //! Returns true if the input vector is inside of this box.
+    [[nodiscard]] bool Contains(const Vector3<T>& point) const;
 
     //! Returns true if the input ray is intersecting with this box.
-    [[nodiscard]] bool Intersects(const Ray2<T>& ray) const;
+    [[nodiscard]] bool Intersects(const Ray3<T>& ray) const;
 
     //! Returns intersection.isIntersecting = true if the input ray is
     //! intersecting with this box. If intersects, intersection.tNear is
     //! assigned with distant to the closest intersecting point, and
     //! intersection.tFar with furthest.
-    [[nodiscard]] BoundingBoxRayIntersection2<T> ClosestIntersection(
-        const Ray2<T>& ray) const;
+    [[nodiscard]] BoundingBoxRayIntersection3<T> ClosestIntersection(
+        const Ray3<T>& ray) const;
 
     //! Returns the mid-point of this box.
-    [[nodiscard]] Vector2<T> MidPoint() const;
+    [[nodiscard]] Vector3<T> MidPoint() const;
 
     //! Returns diagonal length of this box.
     [[nodiscard]] T DiagonalLength() const;
@@ -105,7 +108,7 @@ class BoundingBox<T, 2>
     void Reset();
 
     //! Merges this and other point.
-    void Merge(const Vector2<T>& point);
+    void Merge(const Vector3<T>& point);
 
     //! Merges this and other box.
     void Merge(const BoundingBox& other);
@@ -116,38 +119,38 @@ class BoundingBox<T, 2>
     void Expand(T delta);
 
     //! Returns corner position. Index starts from x-first order.
-    [[nodiscard]] Vector2<T> Corner(size_t idx) const;
+    [[nodiscard]] Vector3<T> Corner(size_t idx) const;
 
     //! Returns the clamped point.
-    [[nodiscard]] Vector2<T> Clamp(const Vector2<T>& pt) const;
+    [[nodiscard]] Vector3<T> Clamp(const Vector3<T>& pt) const;
 
     //! Returns true if the box is empty.
     [[nodiscard]] bool IsEmpty() const;
 
     //! Lower corner of the bounding box.
-    Vector2<T> lowerCorner;
+    Vector3<T> lowerCorner;
 
     //! Upper corner of the bounding box.
-    Vector2<T> upperCorner;
+    Vector3<T> upperCorner;
 };
 
-//! Type alias for 2-D BoundingBox.
+//! Type alias for 3-D BoundingBox.
 template <typename T>
-using BoundingBox2 = BoundingBox<T, 2>;
+using BoundingBox3 = BoundingBox<T, 3>;
 
-//! Float-type 2-D BoundingBox.
-using BoundingBox2F = BoundingBox2<float>;
+//! Float-type 3-D BoundingBox.
+using BoundingBox3F = BoundingBox3<float>;
 
-//! Double-type 2-D BoundingBox.
-using BoundingBox2D = BoundingBox2<double>;
+//! Double-type 3-D BoundingBox.
+using BoundingBox3D = BoundingBox3<double>;
 
-//! Float-type 2-D box-ray intersection result.
-using BoundingBoxRayIntersection2F = BoundingBoxRayIntersection2<float>;
+//! Float-type 3-D box-ray intersection result.
+using BoundingBoxRayIntersection3F = BoundingBoxRayIntersection3<float>;
 
-//! Double-type 2-D box-ray intersection result.
-using BoundingBoxRayIntersection2D = BoundingBoxRayIntersection2<double>;
+//! Double-type 3-D box-ray intersection result.
+using BoundingBoxRayIntersection3D = BoundingBoxRayIntersection3<double>;
 }  // namespace CubbyFlow
 
-#include <Core/BoundingBox/BoundingBox2-Impl.hpp>
+#include <Core/Geometry/BoundingBox3-Impl.hpp>
 
 #endif

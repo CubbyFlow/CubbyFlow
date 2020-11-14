@@ -88,6 +88,6 @@ class BoundingBox
 };
 }  // namespace CubbyFlow
 
-#include <Core/BoundingBox/BoundingBox-Impl.hpp>
+#include <Core/Geometry/BoundingBox-Impl.hpp>
 
 #endif

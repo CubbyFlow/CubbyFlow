@@ -12,7 +12,7 @@
 #define CUBBYFLOW_POINT_GENERATOR3_HPP
 
 #include <Core/Array/Array1.hpp>
-#include <Core/BoundingBox/BoundingBox3.hpp>
+#include <Core/Geometry/BoundingBox3.hpp>
 
 #include <functional>
 

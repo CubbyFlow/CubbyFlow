@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_GRID3_HPP
 #define CUBBYFLOW_GRID3_HPP
 
-#include <Core/BoundingBox/BoundingBox3.hpp>
+#include <Core/Geometry/BoundingBox3.hpp>
 #include <Core/Size/Size3.hpp>
 #include <Core/Utils/Serialization.hpp>
 #include <Core/Vector/Vector3.hpp>

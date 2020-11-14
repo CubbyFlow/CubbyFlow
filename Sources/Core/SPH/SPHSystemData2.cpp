@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/BoundingBox/BoundingBox2.hpp>
+#include <Core/Geometry/BoundingBox2.hpp>
 #include <Core/PointGenerator/TrianglePointGenerator.hpp>
 #include <Core/SPH/SPHStdKernel2.hpp>
 #include <Core/SPH/SPHSystemData2.hpp>
