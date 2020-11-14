@@ -8,10 +8,10 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <API/Python/Collider/RigidbodyCollider.hpp>
+#include <API/Python/Geometry/RigidbodyCollider.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Collider/RigidBodyCollider2.hpp>
-#include <Core/Collider/RigidBodyCollider3.hpp>
+#include <Core/Geometry/RigidBodyCollider2.hpp>
+#include <Core/Geometry/RigidBodyCollider3.hpp>
 
 #include <pybind11/pybind11.h>
 

@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_COLLIDER_SET3_HPP
 #define CUBBYFLOW_COLLIDER_SET3_HPP
 
-#include <Core/Collider/Collider3.hpp>
+#include <Core/Geometry/Collider3.hpp>
 
 #include <vector>
 

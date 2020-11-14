@@ -12,8 +12,8 @@
 #define CUBBYFLOW_GRID_FLUID_SOLVER3_HPP
 
 #include <Core/Animation/PhysicsAnimation.hpp>
-#include <Core/Collider/Collider3.hpp>
 #include <Core/Emitter/GridEmitter3.hpp>
+#include <Core/Geometry/Collider3.hpp>
 #include <Core/Grid/GridSystemData3.hpp>
 #include <Core/Solver/Advection/AdvectionSolver3.hpp>
 #include <Core/Solver/Grid/GridDiffusionSolver3.hpp>

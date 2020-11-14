@@ -11,13 +11,13 @@
 #include <../ClaraUtils.hpp>
 
 #include <Core/Array/ArrayUtils.hpp>
-#include <Core/Collider/RigidBodyCollider3.hpp>
 #include <Core/Emitter/ParticleEmitterSet3.hpp>
 #include <Core/Emitter/VolumeParticleEmitter3.hpp>
 #include <Core/Geometry/BoundingBox3.hpp>
 #include <Core/Geometry/Box3.hpp>
 #include <Core/Geometry/Cylinder3.hpp>
 #include <Core/Geometry/Plane3.hpp>
+#include <Core/Geometry/RigidBodyCollider3.hpp>
 #include <Core/Geometry/Sphere3.hpp>
 #include <Core/Particle/ParticleSystemData3.hpp>
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>

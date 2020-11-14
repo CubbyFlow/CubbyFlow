@@ -12,10 +12,6 @@
 #include <API/Python/Animation/Frame.hpp>
 #include <API/Python/Animation/PhysicsAnimation.hpp>
 #include <API/Python/Array/ArrayAccessor.hpp>
-#include <API/Python/Geometry/BoundingBox.hpp>
-#include <API/Python/Collider/Collider.hpp>
-#include <API/Python/Collider/ColliderSet.hpp>
-#include <API/Python/Collider/RigidbodyCollider.hpp>
 #include <API/Python/Emitter/GridEmitter.hpp>
 #include <API/Python/Emitter/ParticleEmitter.hpp>
 #include <API/Python/Emitter/ParticleEmitterSet.hpp>
@@ -29,11 +25,15 @@
 #include <API/Python/Field/Field.hpp>
 #include <API/Python/Field/ScalarField.hpp>
 #include <API/Python/Field/VectorField.hpp>
+#include <API/Python/Geometry/BoundingBox.hpp>
 #include <API/Python/Geometry/Box.hpp>
+#include <API/Python/Geometry/Collider.hpp>
+#include <API/Python/Geometry/ColliderSet.hpp>
 #include <API/Python/Geometry/Cylinder.hpp>
 #include <API/Python/Geometry/ImplicitTriangleMesh.hpp>
 #include <API/Python/Geometry/MarchingCubes.hpp>
 #include <API/Python/Geometry/Plane.hpp>
+#include <API/Python/Geometry/RigidbodyCollider.hpp>
 #include <API/Python/Geometry/Sphere.hpp>
 #include <API/Python/Geometry/Triangle.hpp>
 #include <API/Python/Geometry/TriangleMesh.hpp>
@@ -219,6 +219,12 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddSurfaceToImplicit3(m);
 
     // Geometries, part 2
+    AddCollider2(m);
+    AddCollider3(m);
+    AddColliderSet2(m);
+    AddColliderSet3(m);
+    AddRigidBodyCollider2(m);
+    AddRigidBodyCollider3(m);
     AddImplicitTriangleMesh3(m);
     AddMarchingCubes(m);
 
@@ -243,14 +249,6 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddPointParticleEmitter3(m);
     AddVolumeParticleEmitter2(m);
     AddVolumeParticleEmitter3(m);
-
-    // Colliders
-    AddCollider2(m);
-    AddCollider3(m);
-    AddColliderSet2(m);
-    AddColliderSet3(m);
-    AddRigidBodyCollider2(m);
-    AddRigidBodyCollider3(m);
 
     // Advection solvers
     AddAdvectionSolver2(m);

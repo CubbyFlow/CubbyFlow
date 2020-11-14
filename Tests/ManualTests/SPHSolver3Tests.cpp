@@ -2,10 +2,10 @@
 
 #include <ManualTests.hpp>
 
-#include <Core/Collider/RigidBodyCollider3.hpp>
 #include <Core/Emitter/VolumeParticleEmitter3.hpp>
 #include <Core/Geometry/Box3.hpp>
 #include <Core/Geometry/Plane3.hpp>
+#include <Core/Geometry/RigidBodyCollider3.hpp>
 #include <Core/Geometry/Sphere3.hpp>
 #include <Core/Solver/Particle/SPH/SPHSolver3.hpp>
 #include <Core/Surface/ImplicitSurfaceSet3.hpp>

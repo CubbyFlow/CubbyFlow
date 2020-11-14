@@ -8,10 +8,10 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <API/Python/Collider/ColliderSet.hpp>
+#include <API/Python/Geometry/ColliderSet.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Collider/ColliderSet2.hpp>
-#include <Core/Collider/ColliderSet3.hpp>
+#include <Core/Geometry/ColliderSet2.hpp>
+#include <Core/Geometry/ColliderSet3.hpp>
 
 #include <pybind11/pybind11.h>
 

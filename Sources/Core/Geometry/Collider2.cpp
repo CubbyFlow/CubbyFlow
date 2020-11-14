@@ -8,13 +8,13 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Collider/Collider3.hpp>
+#include <Core/Geometry/Collider2.hpp>
 
 namespace CubbyFlow
 {
-void Collider3::ResolveCollision(double radius, double restitutionCoefficient,
-                                 Vector3D* newPosition,
-                                 Vector3D* newVelocity) const
+void Collider2::ResolveCollision(double radius, double restitutionCoefficient,
+                                 Vector2D* newPosition,
+                                 Vector2D* newVelocity) const
 {
     assert(m_surface != nullptr);
 
@@ -32,16 +32,16 @@ void Collider3::ResolveCollision(double radius, double restitutionCoefficient,
     {
         // Target point is the closest non-penetrating position from the new
         // position.
-        const Vector3D targetNormal = colliderPoint.normal;
-        const Vector3D targetPoint =
+        const Vector2D targetNormal = colliderPoint.normal;
+        const Vector2D targetPoint =
             colliderPoint.point + radius * targetNormal;
-        const Vector3D colliderVelAtTargetPoint = colliderPoint.velocity;
+        const Vector2D colliderVelAtTargetPoint = colliderPoint.velocity;
 
         // Get new candidate relative velocity from the target point.
-        const Vector3D relativeVel = *newVelocity - colliderVelAtTargetPoint;
+        const Vector2D relativeVel = *newVelocity - colliderVelAtTargetPoint;
         const double normalDotRelativeVel = targetNormal.Dot(relativeVel);
-        Vector3D relativeVelN = normalDotRelativeVel * targetNormal;
-        Vector3D relativeVelT = relativeVel - relativeVelN;
+        Vector2D relativeVelN = normalDotRelativeVel * targetNormal;
+        Vector2D relativeVelT = relativeVel - relativeVelN;
 
         // Check if the velocity is facing opposite direction of the surface
         // normal
@@ -49,7 +49,7 @@ void Collider3::ResolveCollision(double radius, double restitutionCoefficient,
         {
             // Apply restitution coefficient to the surface normal component of
             // the velocity
-            const Vector3D deltaRelativeVelN =
+            const Vector2D deltaRelativeVelN =
                 (-restitutionCoefficient - 1.0) * relativeVelN;
             relativeVelN *= -restitutionCoefficient;
 
@@ -76,28 +76,28 @@ void Collider3::ResolveCollision(double radius, double restitutionCoefficient,
     }
 }
 
-double Collider3::GetFrictionCoefficient() const
+double Collider2::GetFrictionCoefficient() const
 {
     return m_frictionCoefficient;
 }
 
-void Collider3::SetFrictionCoefficient(double newFrictionCoefficient)
+void Collider2::SetFrictionCoefficient(double newFrictionCoefficient)
 {
     m_frictionCoefficient = std::max(newFrictionCoefficient, 0.0);
 }
 
-const Surface3Ptr& Collider3::GetSurface() const
+const Surface2Ptr& Collider2::GetSurface() const
 {
     return m_surface;
 }
 
-void Collider3::SetSurface(const Surface3Ptr& newSurface)
+void Collider2::SetSurface(const Surface2Ptr& newSurface)
 {
     m_surface = newSurface;
 }
 
-void Collider3::GetClosestPoint(const Surface3Ptr& surface,
-                                const Vector3D& queryPoint,
+void Collider2::GetClosestPoint(const Surface2Ptr& surface,
+                                const Vector2D& queryPoint,
                                 ColliderQueryResult* result) const
 {
     result->distance = surface->ClosestDistance(queryPoint);
@@ -106,8 +106,8 @@ void Collider3::GetClosestPoint(const Surface3Ptr& surface,
     result->velocity = VelocityAt(queryPoint);
 }
 
-bool Collider3::IsPenetrating(const ColliderQueryResult& colliderPoint,
-                              const Vector3D& position, double radius) const
+bool Collider2::IsPenetrating(const ColliderQueryResult& colliderPoint,
+                              const Vector2D& position, double radius) const
 {
     // If the new candidate position of the particle is inside
     // the volume defined by the surface OR the new distance to the surface is
@@ -115,7 +115,7 @@ bool Collider3::IsPenetrating(const ColliderQueryResult& colliderPoint,
     return m_surface->IsInside(position) || colliderPoint.distance < radius;
 }
 
-void Collider3::Update(double currentTimeInSeconds,
+void Collider2::Update(double currentTimeInSeconds,
                        double timeIntervalInSeconds)
 {
     assert(m_surface != nullptr);
@@ -133,7 +133,7 @@ void Collider3::Update(double currentTimeInSeconds,
     }
 }
 
-void Collider3::SetOnBeginUpdateCallback(const OnBeginUpdateCallback& callback)
+void Collider2::SetOnBeginUpdateCallback(const OnBeginUpdateCallback& callback)
 {
     m_onUpdateCallback = callback;
 }

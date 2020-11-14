@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Collider/RigidBodyCollider2.hpp>
+#include <Core/Geometry/RigidBodyCollider2.hpp>
 
 namespace CubbyFlow
 {

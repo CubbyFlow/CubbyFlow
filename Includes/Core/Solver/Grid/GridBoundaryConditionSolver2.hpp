@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_GRID_BOUNDARY_CONDITION_SOLVER2_HPP
 #define CUBBYFLOW_GRID_BOUNDARY_CONDITION_SOLVER2_HPP
 
-#include <Core/Collider/Collider2.hpp>
 #include <Core/Field/ScalarField2.hpp>
+#include <Core/Geometry/Collider2.hpp>
 #include <Core/Grid/FaceCenteredGrid2.hpp>
 #include <Core/Size/Size2.hpp>
 

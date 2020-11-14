@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Collider/ColliderSet2.hpp>
+#include <Core/Geometry/ColliderSet2.hpp>
 #include <Core/Surface/SurfaceSet2.hpp>
 
 namespace CubbyFlow
