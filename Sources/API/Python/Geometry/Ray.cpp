@@ -8,10 +8,10 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <API/Python/Ray/Ray.hpp>
+#include <API/Python/Geometry/Ray.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Ray/Ray2.hpp>
-#include <Core/Ray/Ray3.hpp>
+#include <Core/Geometry/Ray2.hpp>
+#include <Core/Geometry/Ray3.hpp>
 
 #include <pybind11/pybind11.h>
 

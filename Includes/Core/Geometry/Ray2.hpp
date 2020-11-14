@@ -8,31 +8,31 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef CUBBYFLOW_RAY3_HPP
-#define CUBBYFLOW_RAY3_HPP
+#ifndef CUBBYFLOW_RAY2_HPP
+#define CUBBYFLOW_RAY2_HPP
 
-#include <Core/Ray/Ray.hpp>
-#include <Core/Vector/Vector3.hpp>
+#include <Core/Geometry/Ray.hpp>
+#include <Core/Vector/Vector2.hpp>
 
 namespace CubbyFlow
 {
 //!
-//! \brief      Class for 3-D ray.
+//! \brief      Class for 2-D ray.
 //!
 //! \tparam     T     The value type.
 //!
 template <typename T>
-class Ray<T, 3> final
+class Ray<T, 2> final
 {
  public:
     static_assert(std::is_floating_point<T>::value,
                   "Ray only can be instantiated with floating point types");
 
-    //! Constructs an empty ray that points (1, 0, 0) from (0, 0, 0).
+    //! Constructs an empty ray that points (1, 0) from (0, 0).
     Ray();
 
     //! Constructs a ray with given origin and direction.
-    Ray(const Vector3<T>& newOrigin, const Vector3<T>& newDirection);
+    Ray(const Vector2<T>& newOrigin, const Vector2<T>& newDirection);
 
     //! Copy constructor.
     Ray(const Ray& other);
@@ -50,26 +50,26 @@ class Ray<T, 3> final
     Ray& operator=(Ray&& other) noexcept;
 
     //! Returns a point on the ray at distance \p t.
-    [[nodiscard]] Vector3<T> PointAt(T t) const;
+    Vector2<T> PointAt(T t) const;
 
     //! The origin of the ray.
-    Vector3<T> origin;
+    Vector2<T> origin;
 
     //! The direction of the ray.
-    Vector3<T> direction;
+    Vector2<T> direction;
 };
 
-//! Type alias for 3-D ray.
+//! Type alias for 2-D ray.
 template <typename T>
-using Ray3 = Ray<T, 3>;
+using Ray2 = Ray<T, 2>;
 
-//! Float-type 3-D ray.
-using Ray3F = Ray3<float>;
+//! Float-type 2-D ray.
+using Ray2F = Ray2<float>;
 
-//! Double-type 3-D ray.
-using Ray3D = Ray3<double>;
+//! Double-type 2-D ray.
+using Ray2D = Ray2<double>;
 }  // namespace CubbyFlow
 
-#include <Core/Ray/Ray3-Impl.hpp>
+#include <Core/Geometry/Ray2-Impl.hpp>
 
 #endif

@@ -12,8 +12,8 @@
 #define CUBBYFLOW_TRANSFORM3_HPP
 
 #include <Core/Geometry/BoundingBox3.hpp>
+#include <Core/Geometry/Ray3.hpp>
 #include <Core/Math/Quaternion.hpp>
-#include <Core/Ray/Ray3.hpp>
 #include <Core/Vector/Vector3.hpp>
 
 namespace CubbyFlow

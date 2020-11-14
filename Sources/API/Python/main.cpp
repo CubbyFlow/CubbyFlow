@@ -34,6 +34,7 @@
 #include <API/Python/Geometry/MarchingCubes.hpp>
 #include <API/Python/Geometry/Plane.hpp>
 #include <API/Python/Geometry/Point.hpp>
+#include <API/Python/Geometry/Ray.hpp>
 #include <API/Python/Geometry/RigidbodyCollider.hpp>
 #include <API/Python/Geometry/Sphere.hpp>
 #include <API/Python/Geometry/Triangle.hpp>
@@ -55,7 +56,6 @@
 #include <API/Python/PointsToImplicit/SPHPointsToImplicit.hpp>
 #include <API/Python/PointsToImplicit/SphericalPointsToImplicit.hpp>
 #include <API/Python/PointsToImplicit/ZhuBridsonPointsToImplicit.hpp>
-#include <API/Python/Ray/Ray.hpp>
 #include <API/Python/SPH/SPHSystemData.hpp>
 #include <API/Python/SemiLagrangian/CubicSemiLagrangian.hpp>
 #include <API/Python/SemiLagrangian/SemiLagrangian.hpp>
@@ -121,12 +121,6 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddVector2F(m);
     AddVector3D(m);
     AddVector3F(m);
-
-    // Rays
-    AddRay2D(m);
-    AddRay2F(m);
-    AddRay3D(m);
-    AddRay3F(m);
 
     // Frames
     AddFrame(m);
@@ -223,6 +217,10 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddColliderSet3(m);
     AddRigidBodyCollider2(m);
     AddRigidBodyCollider3(m);
+    AddRay2D(m);
+    AddRay2F(m);
+    AddRay3D(m);
+    AddRay3F(m);
     AddImplicitTriangleMesh3(m);
     AddMarchingCubes(m);
 

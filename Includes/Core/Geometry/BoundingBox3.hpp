@@ -12,7 +12,7 @@
 #define CUBBYFLOW_BOUNDING_BOX3_HPP
 
 #include <Core/Geometry/BoundingBox.hpp>
-#include <Core/Ray/Ray3.hpp>
+#include <Core/Geometry/Ray3.hpp>
 #include <Core/Vector/Vector3.hpp>
 
 #include <limits>
