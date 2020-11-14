@@ -38,6 +38,7 @@
 #include <API/Python/Geometry/RigidbodyCollider.hpp>
 #include <API/Python/Geometry/Size.hpp>
 #include <API/Python/Geometry/Sphere.hpp>
+#include <API/Python/Geometry/Transform.hpp>
 #include <API/Python/Geometry/Triangle.hpp>
 #include <API/Python/Geometry/TriangleMesh.hpp>
 #include <API/Python/Grid/CellCenteredScalarGrid.hpp>
@@ -95,7 +96,6 @@
 #include <API/Python/Surface/Surface.hpp>
 #include <API/Python/Surface/SurfaceSet.hpp>
 #include <API/Python/Surface/SurfaceToImplicit.hpp>
-#include <API/Python/Transform/Transform.hpp>
 #include <API/Python/Utils/Constants.hpp>
 #include <API/Python/Utils/Logging.hpp>
 #include <API/Python/Utils/Serializable.hpp>
@@ -128,10 +128,6 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     // Quaternions
     AddQuaternionD(m);
     AddQuaternionF(m);
-
-    // Transforms
-    AddTransform2(m);
-    AddTransform3(m);
 
     // Containers/helpers
     AddArrayAccessor1(m);
@@ -201,6 +197,8 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddSphere3(m);
     AddTriangle3(m);
     AddTriangleMesh3(m);
+    AddTransform2(m);
+    AddTransform3(m);
 
     // Implicit surfaces
     AddImplicitSurface2(m);

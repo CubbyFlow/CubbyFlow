@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Transform/Transform3.hpp>
+#include <Core/Geometry/Transform3.hpp>
 
 namespace CubbyFlow
 {

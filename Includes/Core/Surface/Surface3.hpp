@@ -13,7 +13,7 @@
 
 #include <Core/Geometry/BoundingBox3.hpp>
 #include <Core/Geometry/Ray3.hpp>
-#include <Core/Transform/Transform3.hpp>
+#include <Core/Geometry/Transform3.hpp>
 #include <Core/Vector/Vector3.hpp>
 
 #include <limits>

@@ -8,11 +8,11 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <API/Python/Transform/Transform.hpp>
+#include <API/Python/Geometry/Transform.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
+#include <Core/Geometry/Transform2.hpp>
+#include <Core/Geometry/Transform3.hpp>
 #include <Core/Math/Quaternion.hpp>
-#include <Core/Transform/Transform2.hpp>
-#include <Core/Transform/Transform3.hpp>
 #include <Core/Vector/Vector2.hpp>
 #include <Core/Vector/Vector3.hpp>
 
