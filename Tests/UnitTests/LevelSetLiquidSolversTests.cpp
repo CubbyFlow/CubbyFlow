@@ -1,9 +1,9 @@
 #include "pch.hpp"
 
+#include <Core/Geometry/Size2.hpp>
+#include <Core/Geometry/Size3.hpp>
 #include <Core/Geometry/Sphere2.hpp>
 #include <Core/Geometry/Sphere3.hpp>
-#include <Core/Size/Size2.hpp>
-#include <Core/Size/Size3.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver2.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver3.hpp>
 #include <Core/Surface/ImplicitSurface2.hpp>

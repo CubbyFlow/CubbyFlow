@@ -13,9 +13,9 @@
 
 #include <Core/Geometry/Point2.hpp>
 #include <Core/Geometry/Point3.hpp>
+#include <Core/Geometry/Size2.hpp>
+#include <Core/Geometry/Size3.hpp>
 #include <Core/Math/Quaternion.hpp>
-#include <Core/Size/Size2.hpp>
-#include <Core/Size/Size3.hpp>
 #include <Core/Vector/Vector2.hpp>
 #include <Core/Vector/Vector3.hpp>
 #include <Core/Vector/Vector4.hpp>

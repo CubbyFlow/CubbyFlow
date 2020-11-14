@@ -8,10 +8,10 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <API/Python/Size/Size.hpp>
+#include <API/Python/Geometry/Size.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Size/Size2.hpp>
-#include <Core/Size/Size3.hpp>
+#include <Core/Geometry/Size2.hpp>
+#include <Core/Geometry/Size3.hpp>
 
 #include <pybind11/pybind11.h>
 

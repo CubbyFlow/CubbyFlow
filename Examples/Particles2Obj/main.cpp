@@ -13,6 +13,7 @@
 #include <Core/Array/Array1.hpp>
 #include <Core/Geometry/BoundingBox3.hpp>
 #include <Core/Geometry/MarchingCubes.hpp>
+#include <Core/Geometry/Size3.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>
 #include <Core/Grid/VertexCenteredScalarGrid3.hpp>
@@ -20,7 +21,6 @@
 #include <Core/PointsToImplicit/SPHPointsToImplicit3.hpp>
 #include <Core/PointsToImplicit/SphericalPointsToImplicit3.hpp>
 #include <Core/PointsToImplicit/ZhuBridsonPointsToImplicit3.hpp>
-#include <Core/Size/Size3.hpp>
 #include <Core/Utils/Serialization.hpp>
 
 #include <pystring/pystring.h>

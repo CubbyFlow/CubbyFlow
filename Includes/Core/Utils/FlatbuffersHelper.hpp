@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_FLATBUFFERS_HELPER_HPP
 #define CUBBYFLOW_FLATBUFFERS_HELPER_HPP
 
-#include <Core/Size/Size2.hpp>
-#include <Core/Size/Size3.hpp>
+#include <Core/Geometry/Size2.hpp>
+#include <Core/Geometry/Size3.hpp>
 #include <Core/Vector/Vector2.hpp>
 #include <Core/Vector/Vector3.hpp>
 

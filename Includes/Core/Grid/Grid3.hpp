@@ -12,7 +12,7 @@
 #define CUBBYFLOW_GRID3_HPP
 
 #include <Core/Geometry/BoundingBox3.hpp>
-#include <Core/Size/Size3.hpp>
+#include <Core/Geometry/Size3.hpp>
 #include <Core/Utils/Serialization.hpp>
 #include <Core/Vector/Vector3.hpp>
 

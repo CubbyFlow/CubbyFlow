@@ -36,6 +36,7 @@
 #include <API/Python/Geometry/Point.hpp>
 #include <API/Python/Geometry/Ray.hpp>
 #include <API/Python/Geometry/RigidbodyCollider.hpp>
+#include <API/Python/Geometry/Size.hpp>
 #include <API/Python/Geometry/Sphere.hpp>
 #include <API/Python/Geometry/Triangle.hpp>
 #include <API/Python/Geometry/TriangleMesh.hpp>
@@ -59,7 +60,6 @@
 #include <API/Python/SPH/SPHSystemData.hpp>
 #include <API/Python/SemiLagrangian/CubicSemiLagrangian.hpp>
 #include <API/Python/SemiLagrangian/SemiLagrangian.hpp>
-#include <API/Python/Size/Size.hpp>
 #include <API/Python/Solver/Advection/AdvectionSolver.hpp>
 #include <API/Python/Solver/FDM/FDMCGSolver.hpp>
 #include <API/Python/Solver/FDM/FDMGaussSeidelSolver.hpp>
@@ -129,10 +129,6 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddQuaternionD(m);
     AddQuaternionF(m);
 
-    // Sizes
-    AddSize2(m);
-    AddSize3(m);
-
     // Transforms
     AddTransform2(m);
     AddTransform3(m);
@@ -190,6 +186,8 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     // Geometries, part 1
     AddPoint2UI(m);
     AddPoint3UI(m);
+    AddSize2(m);
+    AddSize3(m);
     AddBoundingBox2D(m);
     AddBoundingBox2F(m);
     AddBoundingBox3D(m);

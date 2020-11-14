@@ -13,8 +13,8 @@
 
 #include <Core/Field/ScalarField2.hpp>
 #include <Core/Geometry/Collider2.hpp>
+#include <Core/Geometry/Size2.hpp>
 #include <Core/Grid/FaceCenteredGrid2.hpp>
-#include <Core/Size/Size2.hpp>
 
 namespace CubbyFlow
 {

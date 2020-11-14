@@ -9,10 +9,10 @@
 // property of any third parties.
 
 #include <Core/Geometry/Point3.hpp>
+#include <Core/Geometry/Size3.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Geometry/TriangleMeshToSDF.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>
-#include <Core/Size/Size3.hpp>
 #include <Core/Vector/Vector3.hpp>
 
 namespace CubbyFlow

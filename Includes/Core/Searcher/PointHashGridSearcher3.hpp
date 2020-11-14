@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_POINT_HASH_GRID_SEARCHER3_HPP
 #define CUBBYFLOW_POINT_HASH_GRID_SEARCHER3_HPP
 
+#include <Core/Geometry/Size3.hpp>
 #include <Core/Searcher/PointNeighborSearcher3.hpp>
-#include <Core/Size/Size3.hpp>
 
 #include <vector>
 
