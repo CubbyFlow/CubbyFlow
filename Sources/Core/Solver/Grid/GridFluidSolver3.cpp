@@ -9,7 +9,7 @@
 // property of any third parties.
 
 #include <Core/Array/ArrayUtils.hpp>
-#include <Core/SemiLagrangian/CubicSemiLagrangian3.hpp>
+#include <Core/Solver/Advection/CubicSemiLagrangian3.hpp>
 #include <Core/Solver/Grid/GridBackwardEulerDiffusionSolver3.hpp>
 #include <Core/Solver/Grid/GridFluidSolver3.hpp>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.hpp>

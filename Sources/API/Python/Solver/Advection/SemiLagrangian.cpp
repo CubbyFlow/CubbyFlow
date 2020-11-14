@@ -8,9 +8,9 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <API/Python/SemiLagrangian/SemiLagrangian.hpp>
-#include <Core/SemiLagrangian/SemiLagrangian2.hpp>
-#include <Core/SemiLagrangian/SemiLagrangian3.hpp>
+#include <API/Python/Solver/Advection/SemiLagrangian.hpp>
+#include <Core/Solver/Advection/SemiLagrangian2.hpp>
+#include <Core/Solver/Advection/SemiLagrangian3.hpp>
 
 #include <pybind11/pybind11.h>
 

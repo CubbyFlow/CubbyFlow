@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/SemiLagrangian/SemiLagrangian2.hpp>
+#include <Core/Solver/Advection/SemiLagrangian2.hpp>
 
 namespace CubbyFlow
 {

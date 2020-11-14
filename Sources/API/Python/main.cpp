@@ -59,9 +59,9 @@
 #include <API/Python/PointsToImplicit/SphericalPointsToImplicit.hpp>
 #include <API/Python/PointsToImplicit/ZhuBridsonPointsToImplicit.hpp>
 #include <API/Python/SPH/SPHSystemData.hpp>
-#include <API/Python/SemiLagrangian/CubicSemiLagrangian.hpp>
-#include <API/Python/SemiLagrangian/SemiLagrangian.hpp>
 #include <API/Python/Solver/Advection/AdvectionSolver.hpp>
+#include <API/Python/Solver/Advection/CubicSemiLagrangian.hpp>
+#include <API/Python/Solver/Advection/SemiLagrangian.hpp>
 #include <API/Python/Solver/FDM/FDMCGSolver.hpp>
 #include <API/Python/Solver/FDM/FDMGaussSeidelSolver.hpp>
 #include <API/Python/Solver/FDM/FDMICCGSolver.hpp>
@@ -242,17 +242,13 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddVolumeParticleEmitter2(m);
     AddVolumeParticleEmitter3(m);
 
-    // Advection solvers
+    // Solvers, part 1
     AddAdvectionSolver2(m);
     AddAdvectionSolver3(m);
-
-    // Semi-lagrangians
     AddSemiLagrangian2(m);
     AddSemiLagrangian3(m);
     AddCubicSemiLagrangian2(m);
     AddCubicSemiLagrangian3(m);
-
-    // Solvers, part 1
     AddFDMLinearSystemSolver2(m);
     AddFDMLinearSystemSolver3(m);
     AddFDMJacobiSolver2(m);

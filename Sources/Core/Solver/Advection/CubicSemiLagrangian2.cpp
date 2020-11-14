@@ -8,44 +8,41 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/SemiLagrangian/CubicSemiLagrangian3.hpp>
+#include <Core/Solver/Advection/CubicSemiLagrangian2.hpp>
 
 namespace CubbyFlow
 {
-std::function<double(const Vector3D&)>
-CubicSemiLagrangian3::GetScalarSamplerFunc(const ScalarGrid3& source) const
+std::function<double(const Vector2D&)>
+CubicSemiLagrangian2::GetScalarSamplerFunc(const ScalarGrid2& source) const
 {
     const auto sourceSampler =
-        CubicArraySampler3<double, double>{ source.GetConstDataAccessor(),
+        CubicArraySampler2<double, double>{ source.GetConstDataAccessor(),
                                             source.GridSpacing(),
                                             source.GetDataOrigin() };
     return sourceSampler.Functor();
 }
 
-std::function<Vector3D(const Vector3D&)>
-CubicSemiLagrangian3::GetVectorSamplerFunc(
-    const CollocatedVectorGrid3& source) const
+std::function<Vector2D(const Vector2D&)>
+CubicSemiLagrangian2::GetVectorSamplerFunc(
+    const CollocatedVectorGrid2& source) const
 {
     const auto sourceSampler =
-        CubicArraySampler3<Vector3D, double>{ source.GetConstDataAccessor(),
+        CubicArraySampler2<Vector2D, double>{ source.GetConstDataAccessor(),
                                               source.GridSpacing(),
                                               source.GetDataOrigin() };
     return sourceSampler.Functor();
 }
 
-std::function<Vector3D(const Vector3D&)>
-CubicSemiLagrangian3::GetVectorSamplerFunc(
-    const FaceCenteredGrid3& source) const
+std::function<Vector2D(const Vector2D&)>
+CubicSemiLagrangian2::GetVectorSamplerFunc(
+    const FaceCenteredGrid2& source) const
 {
-    auto uSourceSampler = CubicArraySampler3<double, double>(
+    auto uSourceSampler = CubicArraySampler2<double, double>(
         source.GetUConstAccessor(), source.GridSpacing(), source.GetUOrigin());
-    auto vSourceSampler = CubicArraySampler3<double, double>(
+    auto vSourceSampler = CubicArraySampler2<double, double>(
         source.GetVConstAccessor(), source.GridSpacing(), source.GetVOrigin());
-    auto wSourceSampler = CubicArraySampler3<double, double>(
-        source.GetWConstAccessor(), source.GridSpacing(), source.GetWOrigin());
-    return [uSourceSampler, vSourceSampler, wSourceSampler](const Vector3D& x) {
-        return Vector3D{ uSourceSampler(x), vSourceSampler(x),
-                         wSourceSampler(x) };
+    return [uSourceSampler, vSourceSampler](const Vector2D& x) {
+        return Vector2D{ uSourceSampler(x), vSourceSampler(x) };
     };
 }
 }  // namespace CubbyFlow
