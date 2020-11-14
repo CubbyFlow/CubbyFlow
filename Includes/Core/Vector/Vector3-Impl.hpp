@@ -259,14 +259,14 @@ template <typename T>
 const T& Vector<T, 3>::At(size_t i) const
 {
     assert(i < 3);
-    return (&x)[i];
+    return i == 0 ? x : i == 1 ? y : z;
 }
 
 template <typename T>
 T& Vector<T, 3>::At(size_t i)
 {
     assert(i < 3);
-    return (&x)[i];
+    return i == 0 ? x : i == 1 ? y : z;
 }
 
 template <typename T>
@@ -404,14 +404,14 @@ template <typename T>
 T& Vector<T, 3>::operator[](size_t i)
 {
     assert(i < 3);
-    return (&x)[i];
+    return i == 0 ? x : i == 1 ? y : z;
 }
 
 template <typename T>
 const T& Vector<T, 3>::operator[](size_t i) const
 {
     assert(i < 3);
-    return (&x)[i];
+    return i == 0 ? x : i == 1 ? y : z;
 }
 
 template <typename T>
