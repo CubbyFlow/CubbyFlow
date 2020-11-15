@@ -7,17 +7,17 @@ def test_bounding_box2f_init():
     assert a.lowerCorner.y > a.upperCorner.y
 
     b = pyCubbyFlow.BoundingBox2D((-1, -2), (4, 2))
-    b.lowerCorner.x == -1.0
-    b.lowerCorner.y == -2.0
-    b.upperCorner.x == 4.0
-    b.upperCorner.y == 2.0
+    assert b.lowerCorner.x == -1.0
+    assert b.lowerCorner.y == -2.0
+    assert b.upperCorner.x == 4.0
+    assert b.upperCorner.y == 2.0
 
     l, c = pyCubbyFlow.Vector2D(-1, -2), pyCubbyFlow.Vector2D(4, 2)
     c = pyCubbyFlow.BoundingBox2D(l, c)
-    c.lowerCorner.x == -1.0
-    c.lowerCorner.y == -2.0
-    c.upperCorner.x == 4.0
-    c.upperCorner.y == 2.0
+    assert c.lowerCorner.x == -1.0
+    assert c.lowerCorner.y == -2.0
+    assert c.upperCorner.x == 4.0
+    assert c.upperCorner.y == 2.0
 
 
 def test_bounding_box2f_is_empty():
@@ -34,17 +34,17 @@ def test_bounding_box2d_init():
     assert a.lowerCorner.y > a.upperCorner.y
 
     b = pyCubbyFlow.BoundingBox2D((-1, -2), (4, 2))
-    b.lowerCorner.x == -1.0
-    b.lowerCorner.y == -2.0
-    b.upperCorner.x == 4.0
-    b.upperCorner.y == 2.0
+    assert b.lowerCorner.x == -1.0
+    assert b.lowerCorner.y == -2.0
+    assert b.upperCorner.x == 4.0
+    assert b.upperCorner.y == 2.0
 
     l, c = pyCubbyFlow.Vector2D(-1, -2), pyCubbyFlow.Vector2D(4, 2)
     c = pyCubbyFlow.BoundingBox2D(l, c)
-    c.lowerCorner.x == -1.0
-    c.lowerCorner.y == -2.0
-    c.upperCorner.x == 4.0
-    c.upperCorner.y == 2.0
+    assert c.lowerCorner.x == -1.0
+    assert c.lowerCorner.y == -2.0
+    assert c.upperCorner.x == 4.0
+    assert c.upperCorner.y == 2.0
 
 
 def test_bounding_box2d_is_empty():

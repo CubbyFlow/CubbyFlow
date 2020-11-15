@@ -17,10 +17,10 @@ def test_face_centered_grid2_Fill():
     a.Fill(filler)
     for j in range(10):
         for i in range(11):
-            a.GetU(i, j) == i
+            assert a.GetU(i, j) == i
     for j in range(11):
         for i in range(10):
-            a.GetV(i, j) == j
+            assert a.GetV(i, j) == j
 
 
 def test_face_centered_grid2_for_each():
@@ -29,8 +29,8 @@ def test_face_centered_grid2_for_each():
     d = {'ei': 0, 'ej': 0}
 
     def checkU(i, j):
-        i == d['ei']
-        j == d['ej']
+        assert i == d['ei']
+        assert j == d['ej']
         d['ei'] += 1
         if d['ei'] >= 11:
             d['ei'] = 0
@@ -40,8 +40,8 @@ def test_face_centered_grid2_for_each():
     d = {'ei': 0, 'ej': 0}
 
     def checkV(i, j):
-        i == d['ei']
-        j == d['ej']
+        assert i == d['ei']
+        assert j == d['ej']
         d['ei'] += 1
         if d['ei'] >= 10:
             d['ei'] = 0
@@ -65,7 +65,7 @@ def test_face_centered_grid2_serialization():
 
     for j in range(10):
         for i in range(11):
-            b.GetU(i, j) == i
+            assert b.GetU(i, j) == i
     for j in range(11):
         for i in range(10):
-            b.GetV(i, j) == i
+            assert b.GetV(i, j) == j

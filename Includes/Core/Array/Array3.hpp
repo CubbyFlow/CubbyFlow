@@ -13,7 +13,7 @@
 
 #include <Core/Array/Array.hpp>
 #include <Core/Array/ArrayAccessor3.hpp>
-#include <Core/Size/Size3.hpp>
+#include <Core/Geometry/Size3.hpp>
 
 #include <vector>
 

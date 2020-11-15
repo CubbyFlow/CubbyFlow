@@ -11,16 +11,16 @@
 #include <../ClaraUtils.hpp>
 
 #include <Core/Array/Array2.hpp>
-#include <Core/Collider/RigidBodyCollider3.hpp>
 #include <Core/Emitter/VolumeGridEmitter3.hpp>
 #include <Core/Geometry/Box3.hpp>
 #include <Core/Geometry/ImplicitTriangleMesh3.hpp>
+#include <Core/Geometry/RigidBodyCollider3.hpp>
 #include <Core/Geometry/Sphere3.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>
 #include <Core/Math/MathUtils.hpp>
-#include <Core/SemiLagrangian/CubicSemiLagrangian3.hpp>
-#include <Core/SemiLagrangian/SemiLagrangian3.hpp>
+#include <Core/Solver/Advection/CubicSemiLagrangian3.hpp>
+#include <Core/Solver/Advection/SemiLagrangian3.hpp>
 #include <Core/Solver/Grid/GridSmokeSolver3.hpp>
 #include <Core/Utils/Logging.hpp>
 

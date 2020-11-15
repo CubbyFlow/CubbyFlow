@@ -2,12 +2,12 @@
 
 #include <ManualTests.hpp>
 
-#include <Core/BoundingBox/BoundingBox3.hpp>
+#include <Core/Geometry/BoundingBox3.hpp>
 #include <Core/Grid/CellCenteredScalarGrid2.hpp>
+#include <Core/Particle/SPH/SPHSystemData2.hpp>
+#include <Core/Particle/SPH/SPHSystemData3.hpp>
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>
 #include <Core/PointGenerator/TrianglePointGenerator.hpp>
-#include <Core/SPH/SPHSystemData2.hpp>
-#include <Core/SPH/SPHSystemData3.hpp>
 #include <Core/Utils/Parallel.hpp>
 
 #include <random>
