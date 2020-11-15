@@ -122,12 +122,36 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddVector3D(m);
     AddVector3F(m);
 
+    // Rays
+    AddRay2D(m);
+    AddRay2F(m);
+    AddRay3D(m);
+    AddRay3F(m);
+
+    // Bounding boxes
+    AddBoundingBox2D(m);
+    AddBoundingBox2F(m);
+    AddBoundingBox3D(m);
+    AddBoundingBox3F(m);
+
     // Frames
     AddFrame(m);
 
     // Quaternions
     AddQuaternionD(m);
     AddQuaternionF(m);
+
+    // Points
+    AddPoint2UI(m);
+    AddPoint3UI(m);
+
+    // Sizes
+    AddSize2(m);
+    AddSize3(m);
+
+    // Transforms
+    AddTransform2(m);
+    AddTransform3(m);
 
     // Containers/helpers
     AddArrayAccessor1(m);
@@ -173,15 +197,13 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddFaceCenteredGrid2(m);
     AddFaceCenteredGrid3(m);
 
+    // Surfaces
+    AddSurface2(m);
+    AddSurface3(m);
+    AddSurfaceSet2(m);
+    AddSurfaceSet3(m);
+
     // Geometries, part 1
-    AddPoint2UI(m);
-    AddPoint3UI(m);
-    AddSize2(m);
-    AddSize3(m);
-    AddBoundingBox2D(m);
-    AddBoundingBox2F(m);
-    AddBoundingBox3D(m);
-    AddBoundingBox3F(m);
     AddBox2(m);
     AddBox3(m);
     AddCylinder3(m);
@@ -191,28 +213,14 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddSphere3(m);
     AddTriangle3(m);
     AddTriangleMesh3(m);
-    AddTransform2(m);
-    AddTransform3(m);
 
-    // Geometries, part 2
-    AddSurface2(m);
-    AddSurface3(m);
-    AddSurfaceSet2(m);
-    AddSurfaceSet3(m);
+    // Implicit surfaces
     AddImplicitSurface2(m);
     AddImplicitSurface3(m);
     AddSurfaceToImplicit2(m);
     AddSurfaceToImplicit3(m);
-    AddCollider2(m);
-    AddCollider3(m);
-    AddColliderSet2(m);
-    AddColliderSet3(m);
-    AddRigidBodyCollider2(m);
-    AddRigidBodyCollider3(m);
-    AddRay2D(m);
-    AddRay2F(m);
-    AddRay3D(m);
-    AddRay3F(m);
+
+    // Geometries, part 2
     AddImplicitTriangleMesh3(m);
     AddMarchingCubes(m);
 
@@ -238,13 +246,25 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddVolumeParticleEmitter2(m);
     AddVolumeParticleEmitter3(m);
 
-    // Solvers, part 1
+    // Colliders
+    AddCollider2(m);
+    AddCollider3(m);
+    AddColliderSet2(m);
+    AddColliderSet3(m);
+    AddRigidBodyCollider2(m);
+    AddRigidBodyCollider3(m);
+
+    // Advection solvers
     AddAdvectionSolver2(m);
     AddAdvectionSolver3(m);
+
+    // Semi-lagrangians
     AddSemiLagrangian2(m);
     AddSemiLagrangian3(m);
     AddCubicSemiLagrangian2(m);
     AddCubicSemiLagrangian3(m);
+
+    // Solvers, part 1
     AddFDMLinearSystemSolver2(m);
     AddFDMLinearSystemSolver3(m);
     AddFDMJacobiSolver2(m);
