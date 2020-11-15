@@ -2,8 +2,8 @@
 
 #include <Core/Geometry/Box3.hpp>
 #include <Core/Geometry/Plane3.hpp>
-#include <Core/Surface/SurfaceSet3.hpp>
-#include <Core/Surface/SurfaceToImplicit3.hpp>
+#include <Core/Geometry/SurfaceSet3.hpp>
+#include <Core/Geometry/SurfaceToImplicit3.hpp>
 
 using namespace CubbyFlow;
 

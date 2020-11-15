@@ -1,15 +1,15 @@
 #include "pch.hpp"
 
+#include <Core/Geometry/ImplicitSurface2.hpp>
+#include <Core/Geometry/ImplicitSurface3.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet2.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet3.hpp>
 #include <Core/Geometry/Size2.hpp>
 #include <Core/Geometry/Size3.hpp>
 #include <Core/Geometry/Sphere2.hpp>
 #include <Core/Geometry/Sphere3.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver2.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver3.hpp>
-#include <Core/Surface/ImplicitSurface2.hpp>
-#include <Core/Surface/ImplicitSurface3.hpp>
-#include <Core/Surface/ImplicitSurfaceSet2.hpp>
-#include <Core/Surface/ImplicitSurfaceSet3.hpp>
 
 using namespace CubbyFlow;
 

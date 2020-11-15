@@ -8,10 +8,10 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <API/Python/Surface/ImplicitSurface.hpp>
+#include <API/Python/Geometry/ImplicitSurface.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Surface/ImplicitSurface2.hpp>
-#include <Core/Surface/ImplicitSurface3.hpp>
+#include <Core/Geometry/ImplicitSurface2.hpp>
+#include <Core/Geometry/ImplicitSurface3.hpp>
 
 #include <pybind11/pybind11.h>
 

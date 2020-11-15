@@ -12,7 +12,7 @@
 #define CUBBYFLOW_IMPLICIT_SURFACE_SET3_HPP
 
 #include <Core/Geometry/BVH3.hpp>
-#include <Core/Surface/ImplicitSurface3.hpp>
+#include <Core/Geometry/ImplicitSurface3.hpp>
 
 #include <vector>
 

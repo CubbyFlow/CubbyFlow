@@ -2,10 +2,10 @@
 #include "pch.hpp"
 
 #include <Core/Geometry/Box3.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet3.hpp>
 #include <Core/Geometry/Plane3.hpp>
 #include <Core/Geometry/Sphere3.hpp>
-#include <Core/Surface/ImplicitSurfaceSet3.hpp>
-#include <Core/Surface/SurfaceToImplicit3.hpp>
+#include <Core/Geometry/SurfaceToImplicit3.hpp>
 
 using namespace CubbyFlow;
 

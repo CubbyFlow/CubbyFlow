@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Surface/ImplicitSurface3.hpp>
+#include <Core/Geometry/ImplicitSurface3.hpp>
 #include <Core/Utils/LevelSetUtils.hpp>
 
 namespace CubbyFlow

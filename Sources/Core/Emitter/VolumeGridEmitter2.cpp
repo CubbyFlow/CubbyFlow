@@ -9,9 +9,9 @@
 // property of any third parties.
 
 #include <Core/Emitter/VolumeGridEmitter2.hpp>
+#include <Core/Geometry/SurfaceToImplicit2.hpp>
 #include <Core/Grid/CollocatedVectorGrid2.hpp>
 #include <Core/Grid/FaceCenteredGrid2.hpp>
-#include <Core/Surface/SurfaceToImplicit2.hpp>
 #include <Core/Utils/LevelSetUtils.hpp>
 #include <Core/Utils/Macros.hpp>
 

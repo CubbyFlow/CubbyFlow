@@ -12,8 +12,8 @@
 #define CUBBYFLOW_VOLUME_PARTICLE_EMITTER2_HPP
 
 #include <Core/Emitter/ParticleEmitter2.hpp>
+#include <Core/Geometry/ImplicitSurface2.hpp>
 #include <Core/PointGenerator/PointGenerator2.hpp>
-#include <Core/Surface/ImplicitSurface2.hpp>
 
 #include <random>
 

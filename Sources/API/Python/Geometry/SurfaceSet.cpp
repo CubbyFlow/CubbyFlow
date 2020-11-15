@@ -8,9 +8,9 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <API/Python/Surface/SurfaceSet.hpp>
-#include <Core/Surface/SurfaceSet2.hpp>
-#include <Core/Surface/SurfaceSet3.hpp>
+#include <API/Python/Geometry/SurfaceSet.hpp>
+#include <Core/Geometry/SurfaceSet2.hpp>
+#include <Core/Geometry/SurfaceSet3.hpp>
 
 #include <pybind11/pybind11.h>
 

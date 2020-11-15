@@ -9,9 +9,9 @@
 // property of any third parties.
 
 #include <Core/Array/ArrayUtils.hpp>
+#include <Core/Geometry/ImplicitSurface3.hpp>
+#include <Core/Geometry/SurfaceToImplicit3.hpp>
 #include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver3.hpp>
-#include <Core/Surface/ImplicitSurface3.hpp>
-#include <Core/Surface/SurfaceToImplicit3.hpp>
 #include <Core/Utils/LevelSetUtils.hpp>
 #include <Core/Utils/PhysicsHelpers.hpp>
 

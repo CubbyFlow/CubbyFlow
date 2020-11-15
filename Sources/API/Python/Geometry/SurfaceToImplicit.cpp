@@ -8,9 +8,9 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <API/Python/Surface/SurfaceToImplicit.hpp>
-#include <Core/Surface/SurfaceToImplicit2.hpp>
-#include <Core/Surface/SurfaceToImplicit3.hpp>
+#include <API/Python/Geometry/SurfaceToImplicit.hpp>
+#include <Core/Geometry/SurfaceToImplicit2.hpp>
+#include <Core/Geometry/SurfaceToImplicit3.hpp>
 
 #include <pybind11/pybind11.h>
 

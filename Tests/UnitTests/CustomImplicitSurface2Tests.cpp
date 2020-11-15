@@ -1,9 +1,9 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
+#include <Core/Geometry/CustomImplicitSurface2.hpp>
 #include <Core/Geometry/Sphere2.hpp>
-#include <Core/Surface/CustomImplicitSurface2.hpp>
-#include <Core/Surface/SurfaceToImplicit2.hpp>
+#include <Core/Geometry/SurfaceToImplicit2.hpp>
 
 using namespace CubbyFlow;
 

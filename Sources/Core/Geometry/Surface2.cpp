@@ -8,41 +8,41 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Surface/Surface3.hpp>
+#include <Core/Geometry/Surface2.hpp>
 
 #include <utility>
 
 namespace CubbyFlow
 {
-Surface3::Surface3(Transform3 _transform, bool _isNormalFlipped)
+Surface2::Surface2(Transform2 _transform, bool _isNormalFlipped)
     : transform{ std::move(_transform) }, isNormalFlipped{ _isNormalFlipped }
 {
     // Do nothing
 }
 
-Vector3D Surface3::ClosestPoint(const Vector3D& otherPoint) const
+Vector2D Surface2::ClosestPoint(const Vector2D& otherPoint) const
 {
     return transform.ToWorld(ClosestPointLocal(transform.ToLocal(otherPoint)));
 }
 
-BoundingBox3D Surface3::BoundingBox() const
+BoundingBox2D Surface2::BoundingBox() const
 {
     return transform.ToWorld(BoundingBoxLocal());
 }
 
-bool Surface3::Intersects(const Ray3D& ray) const
+bool Surface2::Intersects(const Ray2D& ray) const
 {
     return IntersectsLocal(transform.ToLocal(ray));
 }
 
-double Surface3::ClosestDistance(const Vector3D& otherPoint) const
+double Surface2::ClosestDistance(const Vector2D& otherPoint) const
 {
     return ClosestDistanceLocal(transform.ToLocal(otherPoint));
 }
 
-SurfaceRayIntersection3 Surface3::ClosestIntersection(const Ray3D& ray) const
+SurfaceRayIntersection2 Surface2::ClosestIntersection(const Ray2D& ray) const
 {
-    SurfaceRayIntersection3 result =
+    SurfaceRayIntersection2 result =
         ClosestIntersectionLocal(transform.ToLocal(ray));
 
     result.point = transform.ToWorld(result.point);
@@ -52,49 +52,49 @@ SurfaceRayIntersection3 Surface3::ClosestIntersection(const Ray3D& ray) const
     return result;
 }
 
-Vector3D Surface3::ClosestNormal(const Vector3D& otherPoint) const
+Vector2D Surface2::ClosestNormal(const Vector2D& otherPoint) const
 {
-    Vector3D result = transform.ToWorldDirection(
+    Vector2D result = transform.ToWorldDirection(
         ClosestNormalLocal(transform.ToLocal(otherPoint)));
     result *= (isNormalFlipped) ? -1.0 : 1.0;
     return result;
 }
 
-bool Surface3::IntersectsLocal(const Ray3D& ray) const
-{
-    const SurfaceRayIntersection3 result = ClosestIntersectionLocal(ray);
-    return result.isIntersecting;
-}
-
-void Surface3::UpdateQueryEngine()
+void Surface2::UpdateQueryEngine()
 {
     // Do nothing
 }
 
-bool Surface3::IsBounded() const
+bool Surface2::IsBounded() const
 {
     return true;
 }
 
-bool Surface3::IsValidGeometry() const
+bool Surface2::IsValidGeometry() const
 {
     return true;
 }
 
-bool Surface3::IsInside(const Vector3D& otherPoint) const
+bool Surface2::IsInside(const Vector2D& otherPoint) const
 {
     return isNormalFlipped == !IsInsideLocal(transform.ToLocal(otherPoint));
 }
 
-double Surface3::ClosestDistanceLocal(const Vector3D& otherPoint) const
+bool Surface2::IntersectsLocal(const Ray2D& ray) const
+{
+    const SurfaceRayIntersection2 result = ClosestIntersectionLocal(ray);
+    return result.isIntersecting;
+}
+
+double Surface2::ClosestDistanceLocal(const Vector2D& otherPoint) const
 {
     return otherPoint.DistanceTo(ClosestPointLocal(otherPoint));
 }
 
-bool Surface3::IsInsideLocal(const Vector3D& otherPointLocal) const
+bool Surface2::IsInsideLocal(const Vector2D& otherPointLocal) const
 {
-    const Vector3D cpLocal = ClosestPointLocal(otherPointLocal);
-    const Vector3D normalLocal = ClosestNormalLocal(otherPointLocal);
+    const Vector2D cpLocal = ClosestPointLocal(otherPointLocal);
+    const Vector2D normalLocal = ClosestNormalLocal(otherPointLocal);
     return (otherPointLocal - cpLocal).Dot(normalLocal) < 0.0;
 }
 }  // namespace CubbyFlow

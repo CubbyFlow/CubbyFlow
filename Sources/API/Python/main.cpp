@@ -30,6 +30,7 @@
 #include <API/Python/Geometry/Collider.hpp>
 #include <API/Python/Geometry/ColliderSet.hpp>
 #include <API/Python/Geometry/Cylinder.hpp>
+#include <API/Python/Geometry/ImplicitSurface.hpp>
 #include <API/Python/Geometry/ImplicitTriangleMesh.hpp>
 #include <API/Python/Geometry/MarchingCubes.hpp>
 #include <API/Python/Geometry/Plane.hpp>
@@ -38,6 +39,9 @@
 #include <API/Python/Geometry/RigidbodyCollider.hpp>
 #include <API/Python/Geometry/Size.hpp>
 #include <API/Python/Geometry/Sphere.hpp>
+#include <API/Python/Geometry/Surface.hpp>
+#include <API/Python/Geometry/SurfaceSet.hpp>
+#include <API/Python/Geometry/SurfaceToImplicit.hpp>
 #include <API/Python/Geometry/Transform.hpp>
 #include <API/Python/Geometry/Triangle.hpp>
 #include <API/Python/Geometry/TriangleMesh.hpp>
@@ -92,10 +96,6 @@
 #include <API/Python/Solver/Particle/PCISPH/PCISPHSolver.hpp>
 #include <API/Python/Solver/Particle/ParticleSystemSolver.hpp>
 #include <API/Python/Solver/Particle/SPH/SPHSolver.hpp>
-#include <API/Python/Surface/ImplicitSurface.hpp>
-#include <API/Python/Surface/Surface.hpp>
-#include <API/Python/Surface/SurfaceSet.hpp>
-#include <API/Python/Surface/SurfaceToImplicit.hpp>
 #include <API/Python/Utils/Constants.hpp>
 #include <API/Python/Utils/Logging.hpp>
 #include <API/Python/Utils/Serializable.hpp>
@@ -173,12 +173,6 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddFaceCenteredGrid2(m);
     AddFaceCenteredGrid3(m);
 
-    // Surfaces
-    AddSurface2(m);
-    AddSurface3(m);
-    AddSurfaceSet2(m);
-    AddSurfaceSet3(m);
-
     // Geometries, part 1
     AddPoint2UI(m);
     AddPoint3UI(m);
@@ -200,13 +194,15 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddTransform2(m);
     AddTransform3(m);
 
-    // Implicit surfaces
+    // Geometries, part 2
+    AddSurface2(m);
+    AddSurface3(m);
+    AddSurfaceSet2(m);
+    AddSurfaceSet3(m);
     AddImplicitSurface2(m);
     AddImplicitSurface3(m);
     AddSurfaceToImplicit2(m);
     AddSurfaceToImplicit3(m);
-
-    // Geometries, part 2
     AddCollider2(m);
     AddCollider3(m);
     AddColliderSet2(m);

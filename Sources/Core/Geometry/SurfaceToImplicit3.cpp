@@ -9,7 +9,7 @@
 // property of any third parties.
 
 #include <Core/Geometry/TriangleMesh3.hpp>
-#include <Core/Surface/SurfaceToImplicit3.hpp>
+#include <Core/Geometry/SurfaceToImplicit3.hpp>
 #include <Core/Utils/Logging.hpp>
 
 namespace CubbyFlow

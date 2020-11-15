@@ -12,7 +12,7 @@
 #define CUBBYFLOW_SURFACE_SET3_HPP
 
 #include <Core/Geometry/BVH3.hpp>
-#include <Core/Surface/Surface3.hpp>
+#include <Core/Geometry/Surface3.hpp>
 
 #include <vector>
 

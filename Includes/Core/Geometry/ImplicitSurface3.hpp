@@ -8,54 +8,54 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef CUBBYFLOW_IMPLICIT_SURFACE2_HPP
-#define CUBBYFLOW_IMPLICIT_SURFACE2_HPP
+#ifndef CUBBYFLOW_IMPLICIT_SURFACE3_HPP
+#define CUBBYFLOW_IMPLICIT_SURFACE3_HPP
 
-#include <Core/Surface/Surface2.hpp>
+#include <Core/Geometry/Surface3.hpp>
 
 namespace CubbyFlow
 {
-//! Abstract base class for 2-D implicit surface.
-class ImplicitSurface2 : public Surface2
+//! Abstract base class for 3-D implicit surface.
+class ImplicitSurface3 : public Surface3
 {
  public:
     //! Default constructor.
-    ImplicitSurface2(const Transform2& _transform = Transform2{},
+    ImplicitSurface3(const Transform3& _transform = Transform3{},
                      bool _isNormalFlipped = false);
 
     //! Default copy constructor.
-    ImplicitSurface2(const ImplicitSurface2&) = default;
+    ImplicitSurface3(const ImplicitSurface3&) = default;
 
     //! Default move constructor.
-    ImplicitSurface2(ImplicitSurface2&&) noexcept = default;
+    ImplicitSurface3(ImplicitSurface3&&) noexcept = default;
 
     //! Default virtual destructor.
-    ~ImplicitSurface2() override = default;
+    ~ImplicitSurface3() override = default;
 
     //! Default copy assignment operator.
-    ImplicitSurface2& operator=(const ImplicitSurface2&) = default;
+    ImplicitSurface3& operator=(const ImplicitSurface3&) = default;
 
     //! Default move assignment operator.
-    ImplicitSurface2& operator=(ImplicitSurface2&&) noexcept = default;
+    ImplicitSurface3& operator=(ImplicitSurface3&&) noexcept = default;
 
     //! Returns signed distance from the given point \p otherPoint.
-    [[nodiscard]] double SignedDistance(const Vector2D& otherPoint) const;
+    [[nodiscard]] double SignedDistance(const Vector3D& otherPoint) const;
 
  protected:
     //! Returns signed distance from the given point \p otherPoint in local
     //! space.
     [[nodiscard]] virtual double SignedDistanceLocal(
-        const Vector2D& otherPoint) const = 0;
+        const Vector3D& otherPoint) const = 0;
 
  private:
     [[nodiscard]] double ClosestDistanceLocal(
-        const Vector2D& otherPoint) const override;
+        const Vector3D& otherPoint) const override;
 
-    [[nodiscard]] bool IsInsideLocal(const Vector2D& otherPoint) const override;
+    [[nodiscard]] bool IsInsideLocal(const Vector3D& otherPoint) const override;
 };
 
-//! Shared pointer type for the ImplicitSurface2.
-using ImplicitSurface2Ptr = std::shared_ptr<ImplicitSurface2>;
+//! Shared pointer type for the ImplicitSurface3.
+using ImplicitSurface3Ptr = std::shared_ptr<ImplicitSurface3>;
 }  // namespace CubbyFlow
 
 #endif

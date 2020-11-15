@@ -9,7 +9,7 @@
 // property of any third parties.
 
 #include <Core/Geometry/ColliderSet2.hpp>
-#include <Core/Surface/SurfaceSet2.hpp>
+#include <Core/Geometry/SurfaceSet2.hpp>
 
 namespace CubbyFlow
 {

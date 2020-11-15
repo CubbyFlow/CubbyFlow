@@ -8,8 +8,8 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Surface/ImplicitSurfaceSet3.hpp>
-#include <Core/Surface/SurfaceToImplicit3.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet3.hpp>
+#include <Core/Geometry/SurfaceToImplicit3.hpp>
 
 #include <utility>
 

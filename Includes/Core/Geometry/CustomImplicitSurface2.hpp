@@ -8,17 +8,17 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef CUBBYFLOW_CUSTOM_IMPLICIT_SURFACE3_HPP
-#define CUBBYFLOW_CUSTOM_IMPLICIT_SURFACE3_HPP
+#ifndef CUBBYFLOW_CUSTOM_IMPLICIT_SURFACE2_HPP
+#define CUBBYFLOW_CUSTOM_IMPLICIT_SURFACE2_HPP
 
-#include <Core/Surface/ImplicitSurface3.hpp>
+#include <Core/Geometry/ImplicitSurface2.hpp>
 
 #include <functional>
 
 namespace CubbyFlow
 {
-//! Custom 3-D implicit surface using arbitrary function.
-class CustomImplicitSurface3 final : public ImplicitSurface3
+//! Custom 2-D implicit surface using arbitrary function.
+class CustomImplicitSurface2 final : public ImplicitSurface2
 {
  public:
     class Builder;
@@ -35,59 +35,59 @@ class CustomImplicitSurface3 final : public ImplicitSurface3
     //! \param _transform Local-to-world transform.
     //! \param _isNormalFlipped True if normal is flipped.
     //!
-    explicit CustomImplicitSurface3(std::function<double(const Vector3D&)> func,
-                                    BoundingBox3D domain = BoundingBox3D{},
+    explicit CustomImplicitSurface2(std::function<double(const Vector2D&)> func,
+                                    BoundingBox2D domain = BoundingBox2D{},
                                     double resolution = 1e-3,
                                     double rayMarchingResolution = 1e-6,
                                     unsigned int maxNumberOfIterations = 5,
-                                    const Transform3& _transform = Transform3{},
+                                    const Transform2& _transform = Transform2{},
                                     bool _isNormalFlipped = false);
 
-    //! Returns builder for CustomImplicitSurface3.
+    //! Returns builder for CustomImplicitSurface2.
     [[nodiscard]] static Builder GetBuilder();
 
  private:
-    [[nodiscard]] Vector3D ClosestPointLocal(
-        const Vector3D& otherPoint) const override;
+    [[nodiscard]] Vector2D ClosestPointLocal(
+        const Vector2D& otherPoint) const override;
 
-    [[nodiscard]] bool IntersectsLocal(const Ray3D& ray) const override;
+    [[nodiscard]] bool IntersectsLocal(const Ray2D& ray) const override;
 
-    [[nodiscard]] BoundingBox3D BoundingBoxLocal() const override;
+    [[nodiscard]] BoundingBox2D BoundingBoxLocal() const override;
 
-    [[nodiscard]] Vector3D ClosestNormalLocal(
-        const Vector3D& otherPoint) const override;
+    [[nodiscard]] Vector2D ClosestNormalLocal(
+        const Vector2D& otherPoint) const override;
 
     [[nodiscard]] double SignedDistanceLocal(
-        const Vector3D& otherPoint) const override;
+        const Vector2D& otherPoint) const override;
 
-    [[nodiscard]] SurfaceRayIntersection3 ClosestIntersectionLocal(
-        const Ray3D& ray) const override;
+    [[nodiscard]] SurfaceRayIntersection2 ClosestIntersectionLocal(
+        const Ray2D& ray) const override;
 
-    [[nodiscard]] Vector3D GradientLocal(const Vector3D& x) const;
+    [[nodiscard]] Vector2D GradientLocal(const Vector2D& x) const;
 
-    std::function<double(const Vector3D&)> m_func;
-    BoundingBox3D m_domain;
+    std::function<double(const Vector2D&)> m_func;
+    BoundingBox2D m_domain;
     double m_resolution = 1e-3;
     double m_rayMarchingResolution = 1e-6;
     unsigned int m_maxNumberOfIterations = 5;
 };
 
-//! Shared pointer type for the CustomImplicitSurface3.
-using CustomImplicitSurface3Ptr = std::shared_ptr<CustomImplicitSurface3>;
+//! Shared pointer type for the CustomImplicitSurface2.
+using CustomImplicitSurface2Ptr = std::shared_ptr<CustomImplicitSurface2>;
 
 //!
-//! \brief Front-end to create CustomImplicitSurface3 objects step by step.
+//! \brief Front-end to create CustomImplicitSurface2 objects step by step.
 //!
-class CustomImplicitSurface3::Builder final
-    : public SurfaceBuilderBase3<Builder>
+class CustomImplicitSurface2::Builder final
+    : public SurfaceBuilderBase2<Builder>
 {
  public:
     //! Returns builder with custom signed-distance function
     [[nodiscard]] Builder& WithSignedDistanceFunction(
-        const std::function<double(const Vector3D&)>& func);
+        const std::function<double(const Vector2D&)>& func);
 
     //! Returns builder with domain.
-    [[nodiscard]] Builder& WithDomain(const BoundingBox3D& domain);
+    [[nodiscard]] Builder& WithDomain(const BoundingBox2D& domain);
 
     //! Returns builder with finite differencing resolution.
     [[nodiscard]] Builder& WithResolution(double resolution);
@@ -101,15 +101,15 @@ class CustomImplicitSurface3::Builder final
     //! searches.
     [[nodiscard]] Builder& WithMaxNumberOfIterations(unsigned int numIter);
 
-    //! Builds CustomImplicitSurface3.
-    [[nodiscard]] CustomImplicitSurface3 Build() const;
+    //! Builds CustomImplicitSurface2.
+    [[nodiscard]] CustomImplicitSurface2 Build() const;
 
-    //! Builds shared pointer of CustomImplicitSurface3 instance.
-    [[nodiscard]] CustomImplicitSurface3Ptr MakeShared() const;
+    //! Builds shared pointer of CustomImplicitSurface2 instance.
+    [[nodiscard]] CustomImplicitSurface2Ptr MakeShared() const;
 
  private:
-    std::function<double(const Vector3D&)> m_func;
-    BoundingBox3D m_domain;
+    std::function<double(const Vector2D&)> m_func;
+    BoundingBox2D m_domain;
     double m_resolution = 1e-3;
     double m_rayMarchingResolution = 1e-6;
     unsigned int m_maxNumberOfIterations = 5;
