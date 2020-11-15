@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['ray_2ehpp',['Ray.hpp',['../_a_p_i_2_python_2_ray_2_ray_8hpp.html',1,'(Global Namespace)'],['../_core_2_ray_2_ray_8hpp.html',1,'(Global Namespace)']]],
+  ['ray_2ehpp',['Ray.hpp',['../_a_p_i_2_python_2_geometry_2_ray_8hpp.html',1,'(Global Namespace)'],['../_core_2_geometry_2_ray_8hpp.html',1,'(Global Namespace)']]],
   ['ray2_2dimpl_2ehpp',['Ray2-Impl.hpp',['../_ray2-_impl_8hpp.html',1,'']]],
   ['ray2_2ehpp',['Ray2.hpp',['../_ray2_8hpp.html',1,'']]],
   ['ray3_2dimpl_2ehpp',['Ray3-Impl.hpp',['../_ray3-_impl_8hpp.html',1,'']]],

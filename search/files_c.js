@@ -28,7 +28,7 @@ var searchData=
   ['plane2_2ehpp',['Plane2.hpp',['../_plane2_8hpp.html',1,'']]],
   ['plane3_2ehpp',['Plane3.hpp',['../_plane3_8hpp.html',1,'']]],
   ['point_2dimpl_2ehpp',['Point-Impl.hpp',['../_point-_impl_8hpp.html',1,'']]],
-  ['point_2ehpp',['Point.hpp',['../_a_p_i_2_python_2_point_2_point_8hpp.html',1,'(Global Namespace)'],['../_core_2_point_2_point_8hpp.html',1,'(Global Namespace)']]],
+  ['point_2ehpp',['Point.hpp',['../_a_p_i_2_python_2_geometry_2_point_8hpp.html',1,'(Global Namespace)'],['../_core_2_geometry_2_point_8hpp.html',1,'(Global Namespace)']]],
   ['point2_2dimpl_2ehpp',['Point2-Impl.hpp',['../_point2-_impl_8hpp.html',1,'']]],
   ['point2_2ehpp',['Point2.hpp',['../_point2_8hpp.html',1,'']]],
   ['point3_2dimpl_2ehpp',['Point3-Impl.hpp',['../_point3-_impl_8hpp.html',1,'']]],

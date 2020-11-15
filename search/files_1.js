@@ -4,7 +4,7 @@ var searchData=
   ['blas_2dimpl_2ehpp',['BLAS-Impl.hpp',['../_b_l_a_s-_impl_8hpp.html',1,'']]],
   ['blas_2ehpp',['BLAS.hpp',['../_b_l_a_s_8hpp.html',1,'']]],
   ['boundingbox_2dimpl_2ehpp',['BoundingBox-Impl.hpp',['../_bounding_box-_impl_8hpp.html',1,'']]],
-  ['boundingbox_2ehpp',['BoundingBox.hpp',['../_a_p_i_2_python_2_bounding_box_2_bounding_box_8hpp.html',1,'(Global Namespace)'],['../_core_2_bounding_box_2_bounding_box_8hpp.html',1,'(Global Namespace)']]],
+  ['boundingbox_2ehpp',['BoundingBox.hpp',['../_a_p_i_2_python_2_geometry_2_bounding_box_8hpp.html',1,'(Global Namespace)'],['../_core_2_geometry_2_bounding_box_8hpp.html',1,'(Global Namespace)']]],
   ['boundingbox2_2dimpl_2ehpp',['BoundingBox2-Impl.hpp',['../_bounding_box2-_impl_8hpp.html',1,'']]],
   ['boundingbox2_2ehpp',['BoundingBox2.hpp',['../_bounding_box2_8hpp.html',1,'']]],
   ['boundingbox3_2dimpl_2ehpp',['BoundingBox3-Impl.hpp',['../_bounding_box3-_impl_8hpp.html',1,'']]],
