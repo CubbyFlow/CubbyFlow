@@ -41,5 +41,7 @@ var searchData=
   ['mgresult',['MGResult',['../struct_cubby_flow_1_1_m_g_result.html',1,'CubbyFlow']]],
   ['mgvector',['MGVector',['../struct_cubby_flow_1_1_m_g_vector.html',1,'CubbyFlow']]],
   ['mgvector_3c_20fdmblas2_20_3e',['MGVector&lt; FDMBLAS2 &gt;',['../struct_cubby_flow_1_1_m_g_vector.html',1,'CubbyFlow']]],
-  ['mgvector_3c_20fdmblas3_20_3e',['MGVector&lt; FDMBLAS3 &gt;',['../struct_cubby_flow_1_1_m_g_vector.html',1,'CubbyFlow']]]
+  ['mgvector_3c_20fdmblas3_20_3e',['MGVector&lt; FDMBLAS3 &gt;',['../struct_cubby_flow_1_1_m_g_vector.html',1,'CubbyFlow']]],
+  ['mpmsolver2',['MPMSolver2',['../class_cubby_flow_1_1_m_p_m_solver2.html',1,'CubbyFlow']]],
+  ['mpmsolver3',['MPMSolver3',['../class_cubby_flow_1_1_m_p_m_solver3.html',1,'CubbyFlow']]]
 ];

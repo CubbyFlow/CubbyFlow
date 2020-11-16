@@ -25,5 +25,7 @@ var searchData=
   ['matrixtypecast',['MatrixTypeCast',['../namespace_cubby_flow.html#a1cdc6095758ce2cffed2412405a5f7cb',1,'CubbyFlow']]],
   ['mgcorrectfunc',['MGCorrectFunc',['../namespace_cubby_flow.html#ae5eae0474fac8ac80459b3f9a45b49fd',1,'CubbyFlow']]],
   ['mgrelaxfunc',['MGRelaxFunc',['../namespace_cubby_flow.html#a4a2072e14a4564ea35f3fb30e5c567ec',1,'CubbyFlow']]],
-  ['mgrestrictfunc',['MGRestrictFunc',['../namespace_cubby_flow.html#a27745470cc50ebe7ff1384178c88c87a',1,'CubbyFlow']]]
+  ['mgrestrictfunc',['MGRestrictFunc',['../namespace_cubby_flow.html#a27745470cc50ebe7ff1384178c88c87a',1,'CubbyFlow']]],
+  ['mpmsolver2ptr',['MPMSolver2Ptr',['../namespace_cubby_flow.html#a4089dd57ae6f6e89b2250e651ce4ade6',1,'CubbyFlow']]],
+  ['mpmsolver3ptr',['MPMSolver3Ptr',['../namespace_cubby_flow.html#afd3f447a82d98e26b17f2d2d1b432953',1,'CubbyFlow']]]
 ];

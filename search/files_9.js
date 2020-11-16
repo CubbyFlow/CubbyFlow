@@ -22,5 +22,7 @@ var searchData=
   ['matrixmxn_2dimpl_2ehpp',['MatrixMxN-Impl.hpp',['../_matrix_mx_n-_impl_8hpp.html',1,'']]],
   ['matrixmxn_2ehpp',['MatrixMxN.hpp',['../_matrix_mx_n_8hpp.html',1,'']]],
   ['mg_2dimpl_2ehpp',['MG-Impl.hpp',['../_m_g-_impl_8hpp.html',1,'']]],
-  ['mg_2ehpp',['MG.hpp',['../_m_g_8hpp.html',1,'']]]
+  ['mg_2ehpp',['MG.hpp',['../_m_g_8hpp.html',1,'']]],
+  ['mpmsolver2_2ehpp',['MPMSolver2.hpp',['../_m_p_m_solver2_8hpp.html',1,'']]],
+  ['mpmsolver3_2ehpp',['MPMSolver3.hpp',['../_m_p_m_solver3_8hpp.html',1,'']]]
 ];
