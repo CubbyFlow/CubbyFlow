@@ -13,8 +13,8 @@
 #include <Vox/App.hpp>
 #include <Vox/Timer.hpp>
 #include <Core/Utils/Logging.hpp>
-#include <Core/Point/Point2.hpp>
-#include <Core/Size/Size2.hpp>
+#include <Core/Geometry/Point2.hpp>
+#include <Core/Geometry/Size2.hpp>
 #include <cassert>
 #include <cstdio>
 #include <cstring>
@@ -64,44 +64,46 @@ namespace Vox {
     {   
 		gApplication = app;
 
+        //! Create Window Context.
         CubbyFlow::Point2I wndSize = app->GetWindowSize();
         GLFWwindow* window = glfwCreateWindow(wndSize.x, wndSize.y, app->GetWindowTitle(), nullptr, nullptr);
         glfwMakeContextCurrent(window);
 
+        //! Execute OpenGL API Loader.
         VoxAssert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), CURRENT_SRC_PATH_TO_STR, "Failed to initialize OpenGL");
 
-		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
+        //! Check Essential OpenGL Extensions Support.
+		auto extensions = {"GL_ARB_debug_output", "GL_EXT_texture_compression_s3tc", "GL_EXT_texture_sRGB"};
+		VoxAssert(Device::CheckExtensionsSupported(extensions), CURRENT_SRC_PATH_TO_STR, "UnSupported OpenGL Extension");                      
+
+        //! Enable OpenGL API Debugging Extension.
+        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
         glDebugMessageCallbackARB(GLDebug::DebugLog, nullptr);
         glDebugMessageControlARB(GL_DEBUG_SOURCE_APPLICATION_ARB, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, true);
 	    glDebugMessageControlARB(GL_DEBUG_SOURCE_THIRD_PARTY_ARB, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, true);
         glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_LOW_ARB, 0, NULL, true);  
 
-		auto extensions = {"GL_ARB_debug_output", "GL_EXT_texture_compression_s3tc", "GL_EXT_texture_sRGB"};
-		VoxAssert(Device::CheckExtensionsSupported(extensions), CURRENT_SRC_PATH_TO_STR, "UnSupported OpenGL Extension");                      
-
+        //! Add Created Context to the Application.
 		auto ctx = std::make_shared<FrameContext>(window);        
 		RegisterCallbacks(ctx); 
 		app->PushFrameContextToQueue(ctx);
 
+        //! Initialize Fluid Simulation Application.
 		VoxAssert(app->Initialize(scenePath), CURRENT_SRC_PATH_TO_STR, "Application initialize failed");             
 
         HostTimer hostTimer;
         double startTime = hostTimer.DurationInSeconds();
         size_t frameCnt = 0;
-        //! main loop
-        for(;;) 
-        {
-			if (glfwWindowShouldClose(window))
-				break;
 
-            //! app->ProcessInput();
+        while (glfwWindowShouldClose(window) == GLFW_FALSE)
+        {
 			app->UpdateFrame();
             app->DrawFrame();
-            ++frameCnt;
 
             glfwSwapBuffers(window);
             glfwPollEvents();
 
+            ++frameCnt;
             double nowTime = hostTimer.DurationInSeconds();
             if (nowTime - startTime > 1.0)
             {

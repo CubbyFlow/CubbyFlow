@@ -28,8 +28,8 @@ namespace Vox {
         //! Destroy GLFW window configuration.
         void Terminate();
 
-        //! Init GLFW window with information from the given app and OpenGL.
-        //! Run loop to advance frame of the app.
+        //! Init GLFW window with information from the given app and scene file.
+        //! Run loop to advance the frame of the app.
         void RunApp(const std::shared_ptr<App>& app, const Vox::Path& scenePath);
 
         //! Check whether if given extensions are supported or not.
@@ -38,7 +38,7 @@ namespace Vox {
         //! Register callback functions to given context.
         void RegisterCallbacks(const std::shared_ptr<FrameContext>& ctx);
 
-        //! Apply modified render status compared two render status structure.
+        //! Apply only modified render status compared two render status structure.
         void ApplyRenderStatus(const FrameContext::RenderStatus& prevStat, const FrameContext::RenderStatus& newStat);
     };
 };
