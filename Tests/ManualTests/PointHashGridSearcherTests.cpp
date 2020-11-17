@@ -3,8 +3,8 @@
 #include <ManualTests.hpp>
 
 #include <Core/Array/Array2.hpp>
-#include <Core/BoundingBox/BoundingBox2.hpp>
-#include <Core/BoundingBox/BoundingBox3.hpp>
+#include <Core/Geometry/BoundingBox2.hpp>
+#include <Core/Geometry/BoundingBox3.hpp>
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>
 #include <Core/PointGenerator/TrianglePointGenerator.hpp>
 #include <Core/Searcher/PointHashGridSearcher2.hpp>

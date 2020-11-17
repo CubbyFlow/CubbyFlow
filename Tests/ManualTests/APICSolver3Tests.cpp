@@ -2,18 +2,18 @@
 
 #include <ManualTests.hpp>
 
-#include <Core/Collider/RigidBodyCollider3.hpp>
 #include <Core/Emitter/ParticleEmitterSet3.hpp>
 #include <Core/Emitter/VolumeParticleEmitter3.hpp>
 #include <Core/Geometry/Box3.hpp>
 #include <Core/Geometry/Cylinder3.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet3.hpp>
 #include <Core/Geometry/Plane3.hpp>
+#include <Core/Geometry/RigidBodyCollider3.hpp>
 #include <Core/Geometry/Sphere3.hpp>
 #include <Core/PointGenerator/GridPointGenerator3.hpp>
 #include <Core/Solver/Grid/GridSinglePhasePressureSolver3.hpp>
 #include <Core/Solver/Hybrid/APIC/APICSolver3.hpp>
 #include <Core/Solver/Hybrid/PIC/PICSolver3.hpp>
-#include <Core/Surface/ImplicitSurfaceSet3.hpp>
 
 using namespace CubbyFlow;
 

@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Ray/Ray2.hpp>
+#include <Core/Geometry/Ray2.hpp>
 
 using namespace CubbyFlow;
 

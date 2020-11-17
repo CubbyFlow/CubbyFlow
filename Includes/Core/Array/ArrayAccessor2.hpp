@@ -12,7 +12,7 @@
 #define CUBBYFLOW_ARRAY_ACCESSOR2_HPP
 
 #include <Core/Array/ArrayAccessor.hpp>
-#include <Core/Size/Size2.hpp>
+#include <Core/Geometry/Size2.hpp>
 
 namespace CubbyFlow
 {

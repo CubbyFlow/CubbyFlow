@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_INTERSECTION_QUERY_ENGINE2_HPP
 #define CUBBYFLOW_INTERSECTION_QUERY_ENGINE2_HPP
 
-#include <Core/BoundingBox/BoundingBox2.hpp>
+#include <Core/Geometry/BoundingBox2.hpp>
 #include <Core/Vector/Vector2.hpp>
 
 namespace CubbyFlow

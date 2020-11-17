@@ -9,10 +9,10 @@
 // property of any third parties.
 
 #include <Core/Emitter/VolumeParticleEmitter2.hpp>
+#include <Core/Geometry/SurfaceToImplicit2.hpp>
 #include <Core/Matrix/Matrix2x2.hpp>
 #include <Core/PointGenerator/TrianglePointGenerator.hpp>
 #include <Core/Searcher/PointHashGridSearcher2.hpp>
-#include <Core/Surface/SurfaceToImplicit2.hpp>
 #include <Core/Utils/Logging.hpp>
 
 #include <utility>

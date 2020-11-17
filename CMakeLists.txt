@@ -139,7 +139,6 @@ if (NOT BUILD_SONARCLOUD)
         set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${DEFAULT_CMAKE_LIBRARY_OUTPUT_DIRECTORY})
     endif()
     add_subdirectory(Sources/API/Python)
-
     # Experimental modules
     add_subdirectory(Experimental)
 endif()

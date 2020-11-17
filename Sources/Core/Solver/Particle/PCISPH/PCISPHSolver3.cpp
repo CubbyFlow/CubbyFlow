@@ -8,8 +8,8 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
+#include <Core/Particle/SPH/SPHStdKernel3.hpp>
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>
-#include <Core/SPH/SPHStdKernel3.hpp>
 #include <Core/Solver/Particle/PCISPH/PCISPHSolver3.hpp>
 #include <Core/Utils/Logging.hpp>
 
@@ -78,7 +78,7 @@ void PCISPHSolver3::AccumulatePressureForce(double timeIntervalInSeconds)
     });
 
     unsigned int maxNumIter = 0;
-    double maxDensityError;
+    double maxDensityError = 0.0;
     double densityErrorRatio = 0.0;
 
     for (unsigned int k = 0; k < m_maxNumberOfIterations; ++k)

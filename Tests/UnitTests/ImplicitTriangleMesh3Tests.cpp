@@ -3,7 +3,7 @@
 
 #include <Core/Geometry/Box3.hpp>
 #include <Core/Geometry/ImplicitTriangleMesh3.hpp>
-#include <Core/Surface/SurfaceToImplicit3.hpp>
+#include <Core/Geometry/SurfaceToImplicit3.hpp>
 
 #include <fstream>
 

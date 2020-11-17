@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_BOX2_HPP
 #define CUBBYFLOW_BOX2_HPP
 
-#include <Core/Surface/Surface2.hpp>
+#include <Core/Geometry/Surface2.hpp>
 
 namespace CubbyFlow
 {

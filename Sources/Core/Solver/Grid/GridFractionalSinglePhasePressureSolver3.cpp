@@ -15,10 +15,10 @@
 // https://github.com/christopherbatty/FluidRigidCoupling2D
 //
 
-#include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Solver/FDM/FDMICCGSolver3.hpp>
 #include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver3.hpp>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.hpp>
+#include <Core/Utils/LevelSetUtils.hpp>
 
 namespace CubbyFlow
 {

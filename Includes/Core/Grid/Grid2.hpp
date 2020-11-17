@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_GRID2_HPP
 #define CUBBYFLOW_GRID2_HPP
 
-#include <Core/BoundingBox/BoundingBox2.hpp>
-#include <Core/Size/Size2.hpp>
+#include <Core/Geometry/BoundingBox2.hpp>
+#include <Core/Geometry/Size2.hpp>
 #include <Core/Utils/Serialization.hpp>
 #include <Core/Vector/Vector2.hpp>
 

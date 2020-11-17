@@ -10,8 +10,8 @@
 
 #include <Core/Math/SVD.hpp>
 #include <Core/Matrix/Matrix3x3.hpp>
+#include <Core/Particle/SPH/SPHSystemData3.hpp>
 #include <Core/PointsToImplicit/AnisotropicPointsToImplicit3.hpp>
-#include <Core/SPH/SPHSystemData3.hpp>
 #include <Core/Searcher/PointKdTreeSearcher3.hpp>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver3.hpp>
 #include <Core/Utils/Logging.hpp>
