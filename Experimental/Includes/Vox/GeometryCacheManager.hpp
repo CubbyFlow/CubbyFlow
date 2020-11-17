@@ -13,7 +13,7 @@
 #include <Vox/VoxSceneObject.hpp>
 #include <Vox/FileSystem.hpp>
 #include <Core/Array/Array1.hpp>
-#include <Core/BoundingBox/BoundingBox3.hpp>
+#include <Core/Geometry/BoundingBox3.hpp>
 #include <string>
 
 namespace Vox {
