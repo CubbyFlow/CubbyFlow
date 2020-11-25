@@ -2434,6 +2434,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a41dc0c3214949891d8175a3de60b2f27"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a41dc0c3214949891d8175a3de60b2f27">WENO5</a> (T *v, T h, bool is_velocity_positive, T eps=1.0e-8)</td></tr>
 <tr class="memdesc:a41dc0c3214949891d8175a3de60b2f27"><td class="mdescLeft">&#160;</td><td class="mdescRight">5th order WENO. d0[3] is the origin.  <a href="#a41dc0c3214949891d8175a3de60b2f27">More...</a><br /></td></tr>
 <tr class="separator:a41dc0c3214949891d8175a3de60b2f27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05498eebd19a93e557b0e8a749bc0af6"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a05498eebd19a93e557b0e8a749bc0af6"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a05498eebd19a93e557b0e8a749bc0af6">PolarDecomposition</a> (const <a class="el" href="namespace_cubby_flow.html#a59215720df56fda6ed7ee7637870daf6">Matrix2x2</a>&lt; T &gt; &amp;m, <a class="el" href="namespace_cubby_flow.html#a59215720df56fda6ed7ee7637870daf6">Matrix2x2</a>&lt; T &gt; &amp;r, <a class="el" href="namespace_cubby_flow.html#a59215720df56fda6ed7ee7637870daf6">Matrix2x2</a>&lt; T &gt; &amp;s)</td></tr>
+<tr class="memdesc:a05498eebd19a93e557b0e8a749bc0af6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Polar decomposition.  <a href="#a05498eebd19a93e557b0e8a749bc0af6">More...</a><br /></td></tr>
+<tr class="separator:a05498eebd19a93e557b0e8a749bc0af6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48d3271335df6324083f0f7e1d477193"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a48d3271335df6324083f0f7e1d477193"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_quaternion.html">Quaternion</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a48d3271335df6324083f0f7e1d477193">Slerp</a> (const <a class="el" href="class_cubby_flow_1_1_quaternion.html">Quaternion</a>&lt; T &gt; &amp;a, const <a class="el" href="class_cubby_flow_1_1_quaternion.html">Quaternion</a>&lt; T &gt; &amp;b, T t)</td></tr>
 <tr class="memdesc:a48d3271335df6324083f0f7e1d477193"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes spherical linear interpolation.  <a href="#a48d3271335df6324083f0f7e1d477193">More...</a><br /></td></tr>
@@ -18469,6 +18473,59 @@ template&lt;&gt; </div>
 
 </div>
 </div>
+<a id="a05498eebd19a93e557b0e8a749bc0af6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05498eebd19a93e557b0e8a749bc0af6">&#9670;&nbsp;</a></span>PolarDecomposition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void CubbyFlow::PolarDecomposition </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a59215720df56fda6ed7ee7637870daf6">Matrix2x2</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_cubby_flow.html#a59215720df56fda6ed7ee7637870daf6">Matrix2x2</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_cubby_flow.html#a59215720df56fda6ed7ee7637870daf6">Matrix2x2</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Polar decomposition. </p>
+<p>This function decompose the input matrix <code>m</code> to <code>r</code> * <code>s</code>.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Real-value type.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">m</td><td>The input matrix to decompose. </td></tr>
+    <tr><td class="paramname">r</td><td>A unitary matrix. </td></tr>
+    <tr><td class="paramname">s</td><td>A positive-semidefinite Hermitian matrix, both square and of the same size. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="af0473f3d5fdb240d6926ccae6fe6b61e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af0473f3d5fdb240d6926ccae6fe6b61e">&#9670;&nbsp;</a></span>ProjectAndApplyFriction()</h2>
 
@@ -21810,7 +21867,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 24 2020 15:52:29 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Nov 25 2020 11:19:46 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
