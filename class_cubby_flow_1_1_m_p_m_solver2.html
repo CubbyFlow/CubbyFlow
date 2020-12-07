@@ -153,6 +153,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6f906f17c9e4891ed3b14010488cedfc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a054a2be00c5985d24e47a27620141ae9">ArrayAccessor1</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_m_p_m_solver2.html#a6f906f17c9e4891ed3b14010488cedfc">GetDetDeformationGradient</a> () const</td></tr>
 <tr class="memdesc:a6f906f17c9e4891ed3b14010488cedfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the determinant of the deformation gradient of particles.  <a href="#a6f906f17c9e4891ed3b14010488cedfc">More...</a><br /></td></tr>
 <tr class="separator:a6f906f17c9e4891ed3b14010488cedfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a131567aed2b01c528b418776955f97e8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a054a2be00c5985d24e47a27620141ae9">ArrayAccessor1</a>&lt; <a class="el" href="namespace_cubby_flow.html#ad82341ff6e84b8aa4b9f1d757f13aa59">Matrix2x2D</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_m_p_m_solver2.html#a131567aed2b01c528b418776955f97e8">GetAffineMomentum</a> () const</td></tr>
+<tr class="memdesc:a131567aed2b01c528b418776955f97e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the affine momentum of particles.  <a href="#a131567aed2b01c528b418776955f97e8">More...</a><br /></td></tr>
+<tr class="separator:a131567aed2b01c528b418776955f97e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad634247238a343b55286d7c8135c3ff1"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespace_cubby_flow.html#aae383dec28ff7fa695942e909131deb2">ParticleSystemData2Ptr</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_m_p_m_solver2.html#ad634247238a343b55286d7c8135c3ff1">GetParticleSystemData</a> () const</td></tr>
 <tr class="memdesc:ad634247238a343b55286d7c8135c3ff1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the particle system data.  <a href="#ad634247238a343b55286d7c8135c3ff1">More...</a><br /></td></tr>
 <tr class="separator:ad634247238a343b55286d7c8135c3ff1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -355,9 +358,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:aff6db63fb137176d8adfda6eebe94af9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_m_p_m_solver2.html#aff6db63fb137176d8adfda6eebe94af9">TransferFromParticlesToGrids</a> (double timeIntervalInSeconds)</td></tr>
 <tr class="memdesc:aff6db63fb137176d8adfda6eebe94af9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transfers velocity field from particles to grids.  <a href="#aff6db63fb137176d8adfda6eebe94af9">More...</a><br /></td></tr>
 <tr class="separator:aff6db63fb137176d8adfda6eebe94af9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb237df660d667cf03b3326985b25370"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_m_p_m_solver2.html#acb237df660d667cf03b3326985b25370">TransferFromGridsToParticles</a> ()</td></tr>
-<tr class="memdesc:acb237df660d667cf03b3326985b25370"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transfers velocity field from grids to particles.  <a href="#acb237df660d667cf03b3326985b25370">More...</a><br /></td></tr>
-<tr class="separator:acb237df660d667cf03b3326985b25370"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d34ffdda695416ec460d1306424a471"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_m_p_m_solver2.html#a1d34ffdda695416ec460d1306424a471">TransferFromGridsToParticles</a> (double timeIntervalInSeconds)</td></tr>
+<tr class="memdesc:a1d34ffdda695416ec460d1306424a471"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transfers velocity field from grids to particles.  <a href="#a1d34ffdda695416ec460d1306424a471">More...</a><br /></td></tr>
+<tr class="separator:a1d34ffdda695416ec460d1306424a471"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_class_cubby_flow_1_1_grid_fluid_solver2"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_cubby_flow_1_1_grid_fluid_solver2')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_cubby_flow_1_1_grid_fluid_solver2.html">CubbyFlow::GridFluidSolver2</a></td></tr>
 <tr class="memitem:ac6bb142792cb0a3e013ce94a3bf1196c inherit pro_methods_class_cubby_flow_1_1_grid_fluid_solver2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid_fluid_solver2.html#ac6bb142792cb0a3e013ce94a3bf1196c">OnAdvanceTimeStep</a> (double timeIntervalInSeconds) override</td></tr>
 <tr class="memdesc:ac6bb142792cb0a3e013ce94a3bf1196c inherit pro_methods_class_cubby_flow_1_1_grid_fluid_solver2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when advancing a single time-step.  <a href="class_cubby_flow_1_1_grid_fluid_solver2.html#ac6bb142792cb0a3e013ce94a3bf1196c">More...</a><br /></td></tr>
@@ -573,6 +576,25 @@ Protected Member Functions</h2></td></tr>
 <p>Computes the advection term of the fluid solver. </p>
 
 <p>Reimplemented from <a class="el" href="class_cubby_flow_1_1_grid_fluid_solver2.html#acf7193983844c79cc2d6156f3c91e356">CubbyFlow::GridFluidSolver2</a>.</p>
+
+</div>
+</div>
+<a id="a131567aed2b01c528b418776955f97e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a131567aed2b01c528b418776955f97e8">&#9670;&nbsp;</a></span>GetAffineMomentum()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_cubby_flow.html#a054a2be00c5985d24e47a27620141ae9">ArrayAccessor1</a>&lt;<a class="el" href="namespace_cubby_flow.html#ad82341ff6e84b8aa4b9f1d757f13aa59">Matrix2x2D</a>&gt; CubbyFlow::MPMSolver2::GetAffineMomentum </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the affine momentum of particles. </p>
 
 </div>
 </div>
@@ -931,8 +953,8 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="acb237df660d667cf03b3326985b25370"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acb237df660d667cf03b3326985b25370">&#9670;&nbsp;</a></span>TransferFromGridsToParticles()</h2>
+<a id="a1d34ffdda695416ec460d1306424a471"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d34ffdda695416ec460d1306424a471">&#9670;&nbsp;</a></span>TransferFromGridsToParticles()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -943,7 +965,8 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual void CubbyFlow::MPMSolver2::TransferFromGridsToParticles </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>timeIntervalInSeconds</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -998,7 +1021,7 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Nov 25 2020 16:02:57 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 7 2020 14:50:09 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
