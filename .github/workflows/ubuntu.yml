@@ -12,10 +12,10 @@ jobs:
       matrix:
         include:
           # Ubuntu 16.04 + gcc-7
-          - name: "Ubuntu 16.04 + gcc-7"
-            os: ubuntu-16.04
-            compiler: gcc
-            version: "7"
+          #- name: "Ubuntu 16.04 + gcc-7"
+          #  os: ubuntu-16.04
+          #  compiler: gcc
+          #  version: "7"
           # Ubuntu 18.04 + gcc-8
           - name: "Ubuntu 18.04 + gcc-8"
             os: ubuntu-18.04
@@ -27,10 +27,10 @@ jobs:
             compiler: gcc
             version: "9"
           # Ubuntu 16.04 + clang-8
-          - name: "Ubuntu 16.04 + clang-8"
-            os: ubuntu-16.04
-            compiler: clang
-            version: "8"
+          #- name: "Ubuntu 16.04 + clang-8"
+          #  os: ubuntu-16.04
+          #  compiler: clang
+          #  version: "8"
           # Ubuntu 18.04 + clang-9
           - name: "Ubuntu 18.04 + clang-9"
             os: ubuntu-18.04
@@ -54,11 +54,11 @@ jobs:
     - name: Configure Compiler
       run: |
         if [ "${{ matrix.compiler }}" = "gcc" ]; then
-          echo "::set-env name=CC::gcc-${{ matrix.version }}"
-          echo "::set-env name=CXX::g++-${{ matrix.version }}"
+          echo "CC=gcc-${{ matrix.version }}" >> $GITHUB_ENV
+          echo "CXX=g++-${{ matrix.version }}" >> $GITHUB_ENV
         else
-          echo "::set-env name=CC::clang-${{ matrix.version }}"
-          echo "::set-env name=CXX::clang++-${{ matrix.version }}"
+          echo "CC=clang-${{ matrix.version }}" >> $GITHUB_ENV
+          echo "CXX=clang++-${{ matrix.version }}" >> $GITHUB_ENV
         fi
     - name: Configure Build
       run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release ..
