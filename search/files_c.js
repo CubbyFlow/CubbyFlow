@@ -51,7 +51,5 @@ var searchData=
   ['pointstoimplicit_2ehpp',['PointsToImplicit.hpp',['../_points_to_implicit_8hpp.html',1,'']]],
   ['pointstoimplicit2_2ehpp',['PointsToImplicit2.hpp',['../_points_to_implicit2_8hpp.html',1,'']]],
   ['pointstoimplicit3_2ehpp',['PointsToImplicit3.hpp',['../_points_to_implicit3_8hpp.html',1,'']]],
-  ['polardecomposition_2dimpl_2ehpp',['PolarDecomposition-Impl.hpp',['../_polar_decomposition-_impl_8hpp.html',1,'']]],
-  ['polardecomposition_2ehpp',['PolarDecomposition.hpp',['../_polar_decomposition_8hpp.html',1,'']]],
   ['pybind11utils_2ehpp',['pybind11Utils.hpp',['../pybind11_utils_8hpp.html',1,'']]]
 ];

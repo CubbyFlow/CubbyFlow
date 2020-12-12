@@ -12,7 +12,6 @@ var searchData=
   ['matrixadd',['MatrixAdd',['../namespace_cubby_flow.html#a10bed19b26f2b9d2a5e0622227dc1000',1,'CubbyFlow']]],
   ['matrixcsrd',['MatrixCSRD',['../namespace_cubby_flow.html#a68f24ef9a05e5d67ac6f93a803f7126d',1,'CubbyFlow']]],
   ['matrixcsrf',['MatrixCSRF',['../namespace_cubby_flow.html#a3df04a8b8ffef73914aae897aadf9481',1,'CubbyFlow']]],
-  ['matrixdata',['MatrixData',['../class_cubby_flow_1_1_particle_system_data2.html#a7eb41fc8e1e9df9e74d909a13019f3cb',1,'CubbyFlow::ParticleSystemData2::MatrixData()'],['../class_cubby_flow_1_1_particle_system_data3.html#ae7ac5bc511f0e1b42fb527af2352fbba',1,'CubbyFlow::ParticleSystemData3::MatrixData()']]],
   ['matrixmxnd',['MatrixMxND',['../namespace_cubby_flow.html#abb18d76d1b85b7f30708448e4a9e3f37',1,'CubbyFlow']]],
   ['matrixmxnf',['MatrixMxNF',['../namespace_cubby_flow.html#a62d9de72768ade6a80403e63acb2d28c',1,'CubbyFlow']]],
   ['matrixscalaradd',['MatrixScalarAdd',['../namespace_cubby_flow.html#a0b22595bf4a9df6b4b0585c3f866e911',1,'CubbyFlow']]],
@@ -26,9 +25,5 @@ var searchData=
   ['matrixtypecast',['MatrixTypeCast',['../namespace_cubby_flow.html#a1cdc6095758ce2cffed2412405a5f7cb',1,'CubbyFlow']]],
   ['mgcorrectfunc',['MGCorrectFunc',['../namespace_cubby_flow.html#ae5eae0474fac8ac80459b3f9a45b49fd',1,'CubbyFlow']]],
   ['mgrelaxfunc',['MGRelaxFunc',['../namespace_cubby_flow.html#a4a2072e14a4564ea35f3fb30e5c567ec',1,'CubbyFlow']]],
-  ['mgrestrictfunc',['MGRestrictFunc',['../namespace_cubby_flow.html#a27745470cc50ebe7ff1384178c88c87a',1,'CubbyFlow']]],
-  ['mlsmpmsolver2ptr',['MLSMPMSolver2Ptr',['../namespace_cubby_flow.html#a859446ec5b5f9b66007971653ebc57d0',1,'CubbyFlow']]],
-  ['mlsmpmsolver3ptr',['MLSMPMSolver3Ptr',['../namespace_cubby_flow.html#a876e7ee8de30d1b1fe10423c35d10ab6',1,'CubbyFlow']]],
-  ['mpmsolver2ptr',['MPMSolver2Ptr',['../namespace_cubby_flow.html#a4089dd57ae6f6e89b2250e651ce4ade6',1,'CubbyFlow']]],
-  ['mpmsolver3ptr',['MPMSolver3Ptr',['../namespace_cubby_flow.html#afd3f447a82d98e26b17f2d2d1b432953',1,'CubbyFlow']]]
+  ['mgrestrictfunc',['MGRestrictFunc',['../namespace_cubby_flow.html#a27745470cc50ebe7ff1384178c88c87a',1,'CubbyFlow']]]
 ];
