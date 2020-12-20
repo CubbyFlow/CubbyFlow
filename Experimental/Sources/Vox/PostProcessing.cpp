@@ -31,7 +31,7 @@ namespace Vox {
     {
         GLuint vs = Renderer::CreateShaderFromSource(kScreenShaders[0], GL_VERTEX_SHADER);
         GLuint fs = Renderer::CreateShaderFromSource(kScreenShaders[1], GL_FRAGMENT_SHADER);
-        _postProcessingProgram = ctx->CreateProgram("P_PostProcessing", Renderer::CreateProgram(vs, 0, fs));
+        _postProcessingProgram = std::make_shared<Program>(Renderer::CreateProgram(vs, 0, fs));
 
         if (_screenQuad) glDeleteVertexArrays(1, &_screenQuad);
         glGenVertexArrays(1, &_screenQuad);
