@@ -1,5 +1,5 @@
 # Target name
-set(target ParticleViewer)
+set(target VoxRenderer)
 
 # Includes
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})

@@ -1,36 +1,35 @@
 /*************************************************************************
-> File Name: ParticleViewer.cpp
+> File Name: VoxRenderer.cpp
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
 > Purpose: Particle Viewer
-> Created Time: 2020/07/26
+> Created Time: 2020/08/11
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
-#ifndef CUBBYFLOW_PARTICLE_VIEWER
-#define CUBBYFLOW_PARTICLE_VIEWER
+#ifndef CUBBYFLOW_FLUID_MESH_VIEWER
+#define CUBBYFLOW_FLUID_MESH_VIEWER
 
 #include <Vox/App.hpp>
 #include <Vox/GLTypes.hpp>
 #include <memory>
 
 namespace Vox {
-    class RoundRobinAsyncBuffer;
-    class DebugDraw;
-    class PostProcessing;
     class GeometryCacheManager;
-    class FrameBuffer;
-    class Program;
+    class FluidBuffer;
+    class PostProcessing;
     class Texture;
+    class Program;
+    class FrameBuffer;
 };
 
-class ParticleViewer : public Vox::App
+class VoxRenderer : public Vox::App
 {
 public:
     //! Default Constructor
-    ParticleViewer();
+    VoxRenderer();
     //! Default Destructor
-    ~ParticleViewer();
+    ~VoxRenderer();
     
     //! Intiailize sample application.
     bool Initialize(const Vox::Path& scenePath) override;
@@ -38,16 +37,14 @@ public:
     const char* GetWindowTitle() override { return "Particle Viewer"; };
 
 protected:
+    void OnSetWindowSize() override;
 private:
-    std::unique_ptr<Vox::RoundRobinAsyncBuffer> _buffer;
-    std::unique_ptr<Vox::DebugDraw> _debugDraw;
-    std::unique_ptr<Vox::PostProcessing> _postProcessing;
+    std::unique_ptr<Vox::FluidBuffer> _buffer;
     std::shared_ptr<Vox::GeometryCacheManager> _cacheMgr;
-    std::shared_ptr<Vox::Program> _particleShader;
-    std::shared_ptr<Vox::Texture> _mainPassTexture;
-    std::shared_ptr<Vox::Texture> _screenTexture;
+    std::unique_ptr<Vox::PostProcessing> _postProcessing;
     std::shared_ptr<Vox::FrameBuffer> _mainPass;
-    std::shared_ptr<Vox::FrameBuffer> _intermediatePass;
+    std::shared_ptr<Vox::Program> _meshShader;
+    std::shared_ptr<Vox::Texture> _screenTexture;
 };
 
 #endif

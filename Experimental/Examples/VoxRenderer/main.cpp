@@ -3,12 +3,12 @@
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: Particle Renderer
+> Purpose: Fluid Mesh Renderer
 > Created Time: 2020/06/02
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
-#include "../Utils/ClaraUtils.h"
-#include "ObjViewer.hpp"
+#include "ClaraUtils.h"
+#include "VoxRenderer.hpp"
 
 #include <Vox/Device.hpp>
 #include <Vox/Renderer.hpp>
@@ -27,7 +27,7 @@
 #include <iostream>
 #include <fstream>
 
-#define APP_NAME "ObjViewer"
+#define APP_NAME "VoxRenderer"
 
 int main(int argc, const char** argv)
 {
@@ -71,7 +71,7 @@ int main(int argc, const char** argv)
     Vox::FileSystem::AddDirectory(outputDir);
 
     Vox::Device::Initialize();
-    Vox::Device::RunApp(std::make_shared<ObjViewer>(), "ObjViewer.json");
+    Vox::Device::RunApp(std::make_shared<VoxRenderer>(), "VoxRenderer.json");
     Vox::Device::Terminate();
 
     return EXIT_SUCCESS;
