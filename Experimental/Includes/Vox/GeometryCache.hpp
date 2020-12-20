@@ -14,7 +14,7 @@
 #include <Vox/VoxSceneObject.hpp>
 #include <Vox/Vertex.hpp>
 #include <Vox/Mesh.hpp>
-#include <Core/BoundingBox/BoundingBox3.hpp>
+#include <Core/Geometry/BoundingBox3.hpp>
 #include <Core/Vector/Vector3.hpp>
 #include <Core/Array/Array1.hpp>
 

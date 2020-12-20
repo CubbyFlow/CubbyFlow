@@ -13,8 +13,8 @@
 #include <Vox/App.hpp>
 #include <Vox/Timer.hpp>
 #include <Core/Utils/Logging.hpp>
-#include <Core/Point/Point2.hpp>
-#include <Core/Size/Size2.hpp>
+#include <Core/Geometry/Point2.hpp>
+#include <Core/Geometry/Size2.hpp>
 #include <cassert>
 #include <cstdio>
 #include <cstring>

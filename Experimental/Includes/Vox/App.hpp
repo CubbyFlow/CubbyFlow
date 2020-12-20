@@ -11,7 +11,7 @@
 #define CUBBYFLOW_VOX_APP_HPP
 
 #include <Vox/FileSystem.hpp>
-#include <Core/Point/Point2.hpp>
+#include <Core/Geometry/Point2.hpp>
 #include <Core/Vector/Vector4.hpp>
 #include <memory>
 #include <queue>
