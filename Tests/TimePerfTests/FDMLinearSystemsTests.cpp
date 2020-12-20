@@ -3,7 +3,7 @@
 #include <Core/Array/Array3.hpp>
 #include <Core/FDM/FDMLinearSystem2.hpp>
 #include <Core/FDM/FDMLinearSystem3.hpp>
-#include <Core/Size/Size3.hpp>
+#include <Core/Geometry/Size3.hpp>
 
 #include <random>
 

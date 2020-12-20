@@ -9,8 +9,8 @@
 // property of any third parties.
 
 #include <Core/FDM/FDMUtils.hpp>
-#include <Core/LevelSet/LevelSetUtils.hpp>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver3.hpp>
+#include <Core/Utils/LevelSetUtils.hpp>
 
 #include <queue>
 

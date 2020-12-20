@@ -1,7 +1,7 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
-#include <Core/Transform/Transform3.hpp>
+#include <Core/Geometry/Transform3.hpp>
 #include <Core/Utils/Constants.hpp>
 
 using namespace CubbyFlow;

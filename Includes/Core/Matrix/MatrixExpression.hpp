@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_MATRIX_EXPRESSION_HPP
 #define CUBBYFLOW_MATRIX_EXPRESSION_HPP
 
-#include <Core/Size/Size2.hpp>
+#include <Core/Geometry/Size2.hpp>
 #include <Core/Vector/VectorExpression.hpp>
 
 namespace CubbyFlow

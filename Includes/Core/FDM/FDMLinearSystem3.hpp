@@ -12,8 +12,8 @@
 #define CUBBYFLOW_FDM_LINEAR_SYSTEM3_HPP
 
 #include <Core/Array/Array3.hpp>
+#include <Core/Geometry/Size3.hpp>
 #include <Core/Matrix/MatrixCSR.hpp>
-#include <Core/Size/Size3.hpp>
 #include <Core/Vector/VectorN.hpp>
 
 namespace CubbyFlow

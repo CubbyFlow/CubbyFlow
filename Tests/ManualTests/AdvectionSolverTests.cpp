@@ -9,8 +9,8 @@
 #include <Core/Geometry/Box2.hpp>
 #include <Core/Grid/CellCenteredScalarGrid2.hpp>
 #include <Core/Grid/CellCenteredVectorGrid2.hpp>
-#include <Core/SemiLagrangian/CubicSemiLagrangian2.hpp>
-#include <Core/SemiLagrangian/SemiLagrangian2.hpp>
+#include <Core/Solver/Advection/CubicSemiLagrangian2.hpp>
+#include <Core/Solver/Advection/SemiLagrangian2.hpp>
 #include <Core/Utils/Constants.hpp>
 
 #include <algorithm>

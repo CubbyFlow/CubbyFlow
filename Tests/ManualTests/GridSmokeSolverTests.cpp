@@ -1,14 +1,14 @@
 #include "pch.hpp"
 
-#include <Core/Collider/RigidBodyCollider2.hpp>
-#include <Core/Collider/RigidBodyCollider3.hpp>
 #include <Core/Emitter/VolumeGridEmitter2.hpp>
 #include <Core/Emitter/VolumeGridEmitter3.hpp>
 #include <Core/Geometry/Box2.hpp>
 #include <Core/Geometry/Box3.hpp>
+#include <Core/Geometry/RigidBodyCollider2.hpp>
+#include <Core/Geometry/RigidBodyCollider3.hpp>
 #include <Core/Geometry/Sphere2.hpp>
 #include <Core/Geometry/Sphere3.hpp>
-#include <Core/SemiLagrangian/CubicSemiLagrangian3.hpp>
+#include <Core/Solver/Advection/CubicSemiLagrangian3.hpp>
 #include <Core/Solver/Grid/GridSinglePhasePressureSolver2.hpp>
 #include <Core/Solver/Grid/GridSmokeSolver2.hpp>
 #include <Core/Solver/Grid/GridSmokeSolver3.hpp>

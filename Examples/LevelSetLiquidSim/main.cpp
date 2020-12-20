@@ -11,19 +11,19 @@
 #include <../ClaraUtils.hpp>
 
 #include <Core/Array/Array2.hpp>
-#include <Core/Collider/RigidBodyCollider3.hpp>
 #include <Core/Emitter/VolumeGridEmitter3.hpp>
 #include <Core/Geometry/Box3.hpp>
 #include <Core/Geometry/Cylinder3.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet3.hpp>
 #include <Core/Geometry/ImplicitTriangleMesh3.hpp>
 #include <Core/Geometry/MarchingCubes.hpp>
 #include <Core/Geometry/Plane3.hpp>
+#include <Core/Geometry/RigidBodyCollider3.hpp>
 #include <Core/Geometry/Sphere3.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>
 #include <Core/Math/MathUtils.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver3.hpp>
-#include <Core/Surface/ImplicitSurfaceSet3.hpp>
 #include <Core/Utils/Logging.hpp>
 
 #include <pystring/pystring.h>

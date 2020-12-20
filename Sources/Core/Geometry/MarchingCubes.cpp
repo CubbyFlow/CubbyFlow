@@ -24,7 +24,7 @@
 #include <Core/Geometry/MarchingCubes.hpp>
 #include <Core/Geometry/MarchingCubesTable.hpp>
 #include <Core/Geometry/MarchingSquaresTable.hpp>
-#include <Core/LevelSet/LevelSetUtils.hpp>
+#include <Core/Utils/LevelSetUtils.hpp>
 
 #include <algorithm>
 #include <unordered_map>

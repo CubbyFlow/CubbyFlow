@@ -9,9 +9,9 @@
 // property of any third parties.
 
 #include <Core/Emitter/VolumeParticleEmitter3.hpp>
+#include <Core/Geometry/SurfaceToImplicit3.hpp>
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>
 #include <Core/Searcher/PointHashGridSearcher3.hpp>
-#include <Core/Surface/SurfaceToImplicit3.hpp>
 #include <Core/Utils/Logging.hpp>
 #include <Core/Utils/Samplers.hpp>
 

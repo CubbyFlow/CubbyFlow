@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_TRIANGLE3_HPP
 #define CUBBYFLOW_TRIANGLE3_HPP
 
-#include <Core/Surface/Surface3.hpp>
+#include <Core/Geometry/Surface3.hpp>
 
 namespace CubbyFlow
 {
