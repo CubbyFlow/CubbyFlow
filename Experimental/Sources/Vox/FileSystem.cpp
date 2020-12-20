@@ -91,7 +91,6 @@ namespace Vox {
         HANDLE hFind = INVALID_HANDLE_VALUE;
         WIN32_FIND_DATAA ffd;
         std::string filename;
-        std::string format = "." + extension;
 
         filename = dir.ToString() + "/*";
         hFind = FindFirstFileA(filename.c_str(), &ffd);
@@ -143,7 +142,7 @@ namespace Vox {
 
         //! Query file size without opening
         LARGE_INTEGER size;
-        VoxAssertFailCallback(GetFileSize(hFind, &size), CURRENT_SRC_PATH_TO_STR, "Cannot Query File Size [" + filename + "]", [&hFind](){ 
+        VoxAssertFailCallback(GetFileSize(hFind, &(size.LowPart)), CURRENT_SRC_PATH_TO_STR, "Cannot Query File Size [" + filename + "]", [&hFind](){ 
             CloseHandle(hFind); 
         }); 
 
@@ -151,7 +150,7 @@ namespace Vox {
         data.Resize(static_cast<size_t>(size.QuadPart));
 
         //! Read the buffer to the data argument.
-        VoxAssertFailCallback(ReadFile(hFind, data.data(), data.size() - 1, &dwBytesRead, NULL), 
+        VoxAssertFailCallback(::ReadFile(hFind, data.data(), data.size() - 1, &dwBytesRead, NULL), 
                   CURRENT_SRC_PATH_TO_STR, 
                   "Cannot Read File [" + filename + "]", 
                   [&hFind](){ CloseHandle(hFind); }
