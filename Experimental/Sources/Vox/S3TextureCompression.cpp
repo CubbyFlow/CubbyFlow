@@ -33,6 +33,7 @@ namespace Vox {
 
     void S3TextureCompression::Initialize(const std::shared_ptr<FrameContext>& ctx)
     {
+        UNUSED_VARIABLE(ctx);
         _texIm = std::make_shared<Texture>(GL_TEXTURE_2D, Renderer::CreateTexture((_width + 3)/4, (_height + 3)/4, PixelFmt::PF_RGBA32UI, nullptr));
         _texDXT = std::make_shared<Texture>(GL_TEXTURE_2D, Renderer::CreateTexture(_width, _height, PixelFmt::PF_DXT5, nullptr));
         _texFinal = std::make_shared<Texture>(GL_TEXTURE_2D, Renderer::CreateTexture(_width, _height, PixelFmt::PF_RGBA8, nullptr));

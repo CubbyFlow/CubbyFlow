@@ -31,7 +31,7 @@ namespace Vox {
 		virtual void Start(const std::shared_ptr<FrameContext>& ctx);
 
         //! Thread task implementation.
-    	virtual void Task(const std::shared_ptr<FrameContext>& ctx) {};
+    	virtual void Task(const std::shared_ptr<FrameContext>& ctx) { (void)ctx; };
 
         //! Stop the thread.
     	virtual void Stop() {};

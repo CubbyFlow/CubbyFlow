@@ -34,6 +34,7 @@ namespace Vox {
 
     void DebugDraw::Initialize(const std::shared_ptr<FrameContext>& ctx)
     {
+        UNUSED_VARIABLE(ctx);
         GLuint vs = Renderer::CreateShaderFromSource(kDebugDrawShaders[0], GL_VERTEX_SHADER);
         GLuint fs = Renderer::CreateShaderFromSource(kDebugDrawShaders[1], GL_FRAGMENT_SHADER);
         _debugShader = std::make_shared<Program>(Renderer::CreateProgram(vs, 0, fs));
@@ -49,6 +50,7 @@ namespace Vox {
 
     void DebugDraw::AddFloorGrid(const CubbyFlow::Point2I numCell, float cellSize, const CubbyFlow::Vector3F color)
     {
+        UNUSED_VARIABLE(color);
         MeshShape shape;
 
         const size_t nrPoints = (numCell.x + numCell.y + 2) * 2;
@@ -97,6 +99,7 @@ namespace Vox {
 
     void DebugDraw::AddBoundingBox(const CubbyFlow::BoundingBox3F& boundingBox, const CubbyFlow::Vector3F color)
     {
+        UNUSED_VARIABLE(color);
         MeshShape shape;
         const auto& bbMin = boundingBox.lowerCorner, bbMax = boundingBox.upperCorner;
         shape.interleaved = {

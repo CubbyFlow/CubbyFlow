@@ -52,9 +52,10 @@ namespace Vox {
         std::shared_ptr<Program> _decodingProgram;
         std::shared_ptr<FrameBuffer> _s3tcPass;
         std::shared_ptr<FrameBuffer> _decodingPass;
-        GLuint _vao;
-        GLuint _vboDXT;
-        GLsizei _width, _height;
+        GLuint _vao     { 0 };
+        GLuint _vboDXT  { 0 };
+        GLsizei _width  { 0 };
+        GLsizei _height { 0 };
     };
 
 };

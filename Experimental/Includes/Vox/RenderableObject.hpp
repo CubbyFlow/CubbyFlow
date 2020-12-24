@@ -44,7 +44,7 @@ namespace Vox {
         //! Draw this renderable object with configured settings.
         void DrawRenderableObject(const std::shared_ptr<FrameContext>& ctx);
     protected:
-        virtual void ConfigureRenderSettings(const std::shared_ptr<FrameContext>& ctx) {};
+        virtual void ConfigureRenderSettings(const std::shared_ptr<FrameContext>& ctx) {(void)ctx;};
         
         CubbyFlow::Array1<std::shared_ptr<Mesh>> _meshes;
         std::shared_ptr<Material> _material;

@@ -186,7 +186,8 @@ namespace Vox {
 	
 	void Renderer::ReadFrameBuffer(int width, int height, int mips, const PixelFmt pf, void* data)
 	{
-		const PixelFmtDesc* desc = GetPixelFmtDesc(pf);
+        UNUSED_VARIABLE(mips);
+        const PixelFmtDesc* desc = GetPixelFmtDesc(pf);
 		glReadPixels(0, 0, width, height, desc->format, desc->type, data);
 	}
 
