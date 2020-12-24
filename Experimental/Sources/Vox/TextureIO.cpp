@@ -13,8 +13,7 @@
 #include <Vox/DebugUtils.hpp>
 #include <Vox/PixelFmt.hpp>
 #include <Vox/Renderer.hpp>
-#include <cstdio>
-#include <cstring>
+#include <fstream>
 
 namespace Vox {
 
@@ -208,25 +207,20 @@ namespace Vox {
 
 		void* LoadTextureData(const char* file, int* w, int* h, int* mips, Vox::PixelFmt* pixfmt)
 		{
-    		FILE* fp = fopen(file, "rb");
-			VoxAssert(fp, CURRENT_SRC_PATH_TO_STR, "File not found");
+            std::ifstream f(file, std::ios::in | std::ios::binary);
+            VoxAssert(f.is_open(), CURRENT_SRC_PATH_TO_STR, std::string("Failed to open ") + file);
 
     		DDSHeader hdr;
-			size_t num_read;
-    		num_read = fread(&hdr, sizeof(hdr), 1, fp);
-			if (num_read != 1) return nullptr;
+            f.read(reinterpret_cast<char*>(&hdr), sizeof(hdr));
 
     		if(!DDS::GetTexture2DDesc(&hdr, w, h, mips, pixfmt))
         		return 0;
 
-    		int size = GetByteSize(*w, *h, *mips, *pixfmt);
-    		void* data = ::malloc(size);
+    		const size_t numBytes = GetByteSize(*w, *h, *mips, *pixfmt);
+            void* data = ::malloc(numBytes);
 
-    		num_read = fread(data, size, 1, fp);
-			if (num_read != 1) return nullptr;
-
-    		fclose(fp);
-
+            f.read(reinterpret_cast<char*>(data), numBytes);
+            f.close();
     		return data;
 		}
 
@@ -239,7 +233,7 @@ namespace Vox {
 			hdr.magic = DDS_MAGIC;
 			DDSURFACEDESC2* surf = &hdr.ddsd;
 
-			int size = GetByteSize(w, h, mips, fmt);
+			const size_t bytesSize = GetByteSize(w, h, mips, fmt);
 			memset(surf, 0, sizeof(DDSURFACEDESC2));
 			surf->dwSize = 124;
 			surf->dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH | DDSD_PIXELFORMAT | DDSD_LINEARSIZE;
@@ -247,7 +241,7 @@ namespace Vox {
 				surf->dwFlags |= DDSD_MIPMAPCOUNT;
 			surf->dwWidth = w;
 			surf->dwHeight = h;
-			surf->dwPitchOrLinearSize = size;
+            surf->dwPitchOrLinearSize = static_cast<unsigned int>(bytesSize);
 			surf->dwMipMapCount = mips;
 
 			if (!FillPixelFormat(&surf->ddpfPixelFormat, fmt))
@@ -257,10 +251,11 @@ namespace Vox {
 			if (mips > 1)
 				surf->ddsCaps.dwCaps1 |= DDSCAPS_MIPMAP | DDSCAPS_COMPLEX;
 
-			FILE* fp = fopen(file, "wb");
-			(void)fwrite(&hdr, sizeof(hdr), 1, fp);
-			(void)fwrite(data, 1, size, fp);
-			fclose(fp);
+			std::ofstream f(file, std::ios::out | std::ios::binary);
+            VoxAssert(f.is_open(), CURRENT_SRC_PATH_TO_STR, std::string("Failed to open ") + file);
+            f.write(reinterpret_cast<const char*>(&hdr), sizeof(hdr));
+            f.write(reinterpret_cast<const char*>(data), bytesSize);
+            f.close();
 
 			return true;
 		}
@@ -306,41 +301,44 @@ namespace Vox {
 		
 		void* LoadTextureData(const char* file, int* w, int* h, int* mips, Vox::PixelFmt* pixfmt)
 		{
-			FILE* fp = fopen(file, "rb");
-			//Vox::VoxAssert(fp, CURRENT_SRC_PATH_TO_STR, "File not found");
+            UNUSED_VARIABLE(pixfmt);
+            std::ifstream f(file, std::ios::in | std::ios::binary);
+
+            VoxAssert(f.is_open(), CURRENT_SRC_PATH_TO_STR, std::string("Failed to open ") + file);
 
     		TGAHeader hdr;
-			size_t numRead;
-    		numRead = fread(&hdr, sizeof(hdr), 1, fp);
-			(void)numRead;
+            f.read(reinterpret_cast<char*>(&hdr), sizeof(hdr));
 
     		VoxAssertFailCallback((hdr.bits == 32) && (hdr.imagetype == 2),
 						CURRENT_SRC_PATH_TO_STR,
 						"Unsupported TGA file format [" + std::string(file) + "]",
-						[&fp](){ fclose(fp); });
+						[&f](){ f.close(); });
+
+            *w = hdr.width;
+            *h = hdr.height;
+            *mips = 1;
 
     		const size_t numBytes = hdr.width * hdr.height * 4;
     		void* data = ::malloc(numBytes);
-
-    		numRead = fread(data, numBytes, 1, fp);
-			(void)numRead;
-
-    		fclose(fp);
+            f.read(static_cast<char*>(data), numBytes);
+    		f.close();
 			return data;
 		}
 
 		bool WriteTexture(const char* file, int w, int h, int mips, Vox::PixelFmt fmt, const void* data)
 		{
-			FILE* fp = fopen(file, "wb");
+            UNUSED_VARIABLE(mips);
+            std::ofstream f(file, std::ios::out | std::ios::binary);
+            VoxAssert(f.is_open(), CURRENT_SRC_PATH_TO_STR, std::string("Failed to open ") + file);
 
 			const PixelFmtDesc* desc = GetPixelFmtDesc(fmt);
 			//! 8 at the last of the below constructor mean byte size. maybe tricky.
 			TGAHeader hdr(static_cast<short>(w), static_cast<short>(h), desc->size * 8);
-			fwrite(static_cast<const void*>(&hdr), sizeof(hdr), 1, fp);
+            f.write(reinterpret_cast<const char*>(&hdr), sizeof(hdr));
 		
 			const unsigned int numBytes = GetByteSize(w, h, 1, fmt);
-			fwrite(data, sizeof(unsigned char), numBytes, fp);
-			fclose(fp);
+            f.write(reinterpret_cast<const char*>(&data), numBytes);
+            f.close();
 			return true;
 		}
 	};
