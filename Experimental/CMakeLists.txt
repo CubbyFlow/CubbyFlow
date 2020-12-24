@@ -104,7 +104,7 @@ if (USE_CUDA)
                 /wd4505
             )
         else()
-            list(APPEND CUDA_NVCC_FLAGS --std=c++14)
+            list(APPEND CUDA_NVCC_FLAGS --std=c++17)
         endif()
 
         add_subdirectory(Libraries/gvdb-voxels/gvdb_library)
