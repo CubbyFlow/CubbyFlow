@@ -65,7 +65,6 @@ target_compile_options(${target}
 
 target_link_libraries(${target}
     PRIVATE
-
     PUBLIC
     ${DEFAULT_LINKER_OPTIONS}
 	${DEFAULT_LIBRARIES}
@@ -78,7 +77,32 @@ target_link_libraries(${target}
 )
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_SYSTEM_NAME MATCHES "Linux")
-    target_link_libraries(${target} PUBLIC unwind})
+    target_link_libraries(${target}
+    PRIVATE
+    PUBLIC
+    ${DEFAULT_LINKER_OPTIONS}
+	${DEFAULT_LIBRARIES}
+    ${CMAKE_DL_LIBS}
+    ${OPENGL_LIBRARIES}
+    ${PNG_LIBRARIES}
+    CubbyFlow
+    pystring
+    unwind
+    INTERFACE
+)
+else()
+    target_link_libraries(${target}
+        PRIVATE
+        PUBLIC
+        ${DEFAULT_LINKER_OPTIONS}
+    	${DEFAULT_LIBRARIES}
+        ${CMAKE_DL_LIBS}
+        ${OPENGL_LIBRARIES}
+        ${PNG_LIBRARIES}
+        CubbyFlow
+        pystring
+        INTERFACE
+    )
 endif()
 
 # Install

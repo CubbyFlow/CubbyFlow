@@ -22,7 +22,7 @@
     {
         "type" : "geometry_cache",
         "name" : "FluidMeshCache",
-        "format" : "./LevelSetLiquidSim_output_ex3/frame_%06d.obj",
+        "format" : "./LevelSetLiquidSim_output/frame_%06d.obj",
         "translate" : [0, 0, 0],
         "scale" : 8.0,
         "count" : 100
