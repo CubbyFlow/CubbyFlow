@@ -17,17 +17,8 @@
 #include <string>
 #include <cassert>
 
-#if defined(CUBBYFLOW_WINDOWS)
-#include <windows.h>
-#include <DbgHelp.h>
-#pragma comment(lib,"Dbghelp")
-#define APIENTRY __stdcall
-#else
-#define APIENTRY
-#endif
-
 #if defined(CUBBYFLOW_LINUX)
-	extern const char *__progname;
+    extern const char *__progname;
 #endif
 
 namespace Vox {
@@ -47,7 +38,7 @@ namespace Vox {
     {
     public:
         //! Debug logging for opengl context with GL_ARB_debug_output extension.
-        static void APIENTRY DebugLog(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const GLvoid* userParam);
+        static void DebugLog(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const GLvoid* userParam);
     };
 };
 

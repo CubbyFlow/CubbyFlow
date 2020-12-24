@@ -10,11 +10,11 @@
 *************************************************************************/
 #include <Vox/DebugUtils.hpp>
 #include <Core/Utils/Logging.hpp>
-#include <glad/glad.h>
 #include <iostream>
 #include <cstdio>
 
 #if defined(CUBBYFLOW_WINDOWS)
+    #define NOMINMAX
 	#include <windows.h>
 	#include <DbgHelp.h>
 	#pragma comment(lib,"Dbghelp")
@@ -34,7 +34,10 @@
 	#include <execinfo.h>
 #endif
 
-namespace Vox {
+#include <glad/glad.h>
+
+namespace Vox
+{
 
 	// output the call stack
     #if defined(CUBBYFLOW_WINDOWS)
@@ -67,7 +70,7 @@ namespace Vox {
         	line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
         	if (!strstr(symbol->Name,"VSDebugLib::") && SymGetLineFromAddr64(process, ( DWORD64 )( stack[ i ] ), &dwDisplacement, &line)) 
 			{
-				printf("Function : %s - line : %lu", symbol->Name, line.LineNumber);
+				printf("Function : %s - line : %lu\n", symbol->Name, line.LineNumber);
         	}
 
         	if (0 == strcmp(symbol->Name,"main"))
@@ -174,6 +177,9 @@ namespace Vox {
 
     void GLDebug::DebugLog(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const GLvoid* userParam)
     {
+        UNUSED_VARIABLE(userParam);
+        UNUSED_VARIABLE(length);
+
         std::cerr << "[Type] : "       << Detail::GetStringForType(type)           << 
                 	 "[Source] : "     << Detail::GetStringForSource(source)       <<
                 	 "[ID] : "         <<              id                          <<
