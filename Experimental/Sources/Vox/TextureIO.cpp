@@ -14,6 +14,7 @@
 #include <Vox/PixelFmt.hpp>
 #include <Vox/Renderer.hpp>
 #include <fstream>
+#include <cstring>
 
 namespace Vox {
 
