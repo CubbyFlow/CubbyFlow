@@ -27,13 +27,13 @@ namespace Vox {
         GeometryCache();
 
         //! Constructor with path format and index.
-        GeometryCache(const Vox::Path& format, size_t index = 0);
+        GeometryCache(const Vox::Path& format, size_t index = 0, bool scaleToUnitBox = true);
 
         //! Default destructor
         ~GeometryCache();
 
         //! Load obj file from given path and indexing for opengl specification.
-        void LoadCache(const Vox::Path& format, size_t index = 0);
+        void LoadCache(const Vox::Path& format, size_t index = 0, bool scaleToUnitBox = true);
 
         //! Take Translation on the stored vertices.
         void TranslateCache(const CubbyFlow::Vector3F t);
@@ -57,10 +57,15 @@ namespace Vox {
     private:
         //! Load particle geometry cache from pos file.
         void LoadPosCache(const Vox::Path& format);
+
         //! Load particle geometry cache from xyz file.
         void LoadXyzCache(const Vox::Path& format);
+
         //! Load Obj geometry cache from obj file.
         void LoadObjCache(const Vox::Path& format);
+
+        //! Scale loaded shape to unit box 
+        void ScaleToUnitBox();
 
         CubbyFlow::Array1<MeshShape> _shapes;
         CubbyFlow::BoundingBox3F _boundingBox;

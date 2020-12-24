@@ -19,6 +19,7 @@
 #include <cmath>
 #include <array>
 #include <functional>
+#include <limits>
 
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <tiny_obj_loader.h>
@@ -125,10 +126,10 @@ namespace Vox {
         _boundingBox.Reset();
     }
 
-    GeometryCache::GeometryCache(const Vox::Path& format, size_t index)
+    GeometryCache::GeometryCache(const Vox::Path& format, size_t index, bool scaleToUnitBox)
         : GeometryCache()
     {
-        LoadCache(format, index);
+        LoadCache(format, index, scaleToUnitBox);
     }
 
     GeometryCache::~GeometryCache()
@@ -136,7 +137,7 @@ namespace Vox {
         //! Do nothing.
     }
 
-    void GeometryCache::LoadCache(const Vox::Path& format, size_t index)
+    void GeometryCache::LoadCache(const Vox::Path& format, size_t index, bool scaleToUnitBox)
     {
         const std::string formatStr = format.ToString();
         const size_t idx = formatStr.find_last_of('.');
@@ -149,6 +150,11 @@ namespace Vox {
 		else if (extension == "pos") LoadPosCache(baseName);
         else if (extension == "obj") LoadObjCache(baseName);
 		else VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Unknown Particle File Extension [" + extension + "]");
+
+        if (scaleToUnitBox)
+        {
+            ScaleToUnitBox();
+        }
     }
 
     void GeometryCache::TranslateCache(const CubbyFlow::Vector3F t)
@@ -219,7 +225,7 @@ namespace Vox {
         MeshShape newShape;
         newShape.format = VertexFormat::Position3;
 		std::string line;
-		register CubbyFlow::Vector3F pos;
+		CubbyFlow::Vector3F pos;
 		while (std::getline(file, line))
 		{
 			std::istringstream isstr(line);
@@ -444,5 +450,29 @@ namespace Vox {
                 }
             });
         }
+    }
+
+    void GeometryCache::ScaleToUnitBox()
+    {
+        const auto& minCorner = _boundingBox.lowerCorner;
+        const auto& maxCorner = _boundingBox.upperCorner;
+        const auto& delta = maxCorner - minCorner;
+        const float maxLengthHalf = std::max({ delta.x, delta.y, delta.z }) / 2.0f;
+
+        for (auto& shape : _shapes)
+        {
+            for (auto& vertex : shape.positions)
+            {
+                vertex -= minCorner;
+                vertex /= maxLengthHalf;
+                vertex -= 1.0f;
+
+                //! TODO(snowapril) : below code must be removed after camera modifying
+                vertex.z += 1.5f;
+            }
+        }
+
+        //! No need to recalculation normal vector.
+        //! because this is rigid-body transformation.
     }
 }
