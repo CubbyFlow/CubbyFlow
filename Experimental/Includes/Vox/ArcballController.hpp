@@ -27,7 +27,7 @@ class ArcballController : public CameraController
  protected:
      void OnSetMouseCursorPos(double x, double y) override;
 private:
-    CubbyFlow::Vector3D GetArcballVector(const CubbyFlow::Vector2D& cursorPos);
+    CubbyFlow::Vector3D GetArcballVector(const CubbyFlow::Point2I& pos);
 };
 
 };  // namespace Vox

@@ -30,14 +30,15 @@ namespace Vox
 	{
 		auto a = GetArcballVector(_lastCursorPos);
 		auto b = GetArcballVector(_cursorPos);
-		double angle = std::acos(std::min(1.0f, a.Dot(b)));
+		double angle = std::acos(std::min(1.0, a.Dot(b)));
 		CubbyFlow::Vector3D axisInCameraCoord = a.Cross(b);
-		
+		(void)angle;
+		(void)axisInCameraCoord;
 	}
 
-	CubbyFlow::Vector3D ArcballController::GetArcballVector(const CubbyFlow::Vector2D& cursorPos)
+	CubbyFlow::Vector3D ArcballController::GetArcballVector(const CubbyFlow::Point2I& pos)
 	{
-		CubbyFlow::Vector3D point{ cursorPos.x / _screenSize.x * 2 - 1.0, 1.0 - cursorPos.y / _screenSize.y * 2, 0.0 };
+		CubbyFlow::Vector3D point{ pos.x / _screenSize.x * 2 - 1.0, 1.0 - pos.y / _screenSize.y * 2, 0.0 };
 		double pointSquared = point.x * point.x + point.y * point.y;
 		if (pointSquared <= 1.0)
 		{
