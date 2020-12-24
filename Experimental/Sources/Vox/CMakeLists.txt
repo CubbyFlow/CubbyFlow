@@ -7,7 +7,8 @@ set(root_dir ${CMAKE_CURRENT_SOURCE_DIR}/../..)
 # Includes
 set(CUBBYRENDER_INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${root_dir}/../Libraries)
+    ${root_dir}/Libraries
+    ${root_dir}/../Includes)
 
 if (USE_GL)
     list(APPEND CUBBYRENDER_INCLUDE_DIRS
@@ -27,11 +28,10 @@ file(GLOB header_dir
     ${root_dir}/Includes/Vox)
 
 file(GLOB_RECURSE headers
-    ${header_dir}/*.h)
+    ${header_dir}/*.hpp)
 
 file(GLOB_RECURSE sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
-    ${root_dir}/Libraries/obj/*.cpp)
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 
 if (USE_GL)
     file(GLOB sources
@@ -74,9 +74,12 @@ target_link_libraries(${target}
     ${PNG_LIBRARIES}
     CubbyFlow
     pystring
-    unwind
     INTERFACE
 )
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_SYSTEM_NAME MATCHES "Linux")
+    target_link_libraries(${target} PUBLIC unwind})
+endif()
 
 # Install
 install(TARGETS ${target} DESTINATION lib)

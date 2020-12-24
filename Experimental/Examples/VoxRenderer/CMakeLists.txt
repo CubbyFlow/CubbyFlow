@@ -30,14 +30,22 @@ target_compile_options(${target}
 target_compile_definitions(${target}
     PRIVATE
     PUBLIC
-    RESOURCES_DIR="${CMAKE_CURRENT_SOURCE_DIR}/../../../../Resources/"
+    RESOURCES_DIR="${RESOURCES_DIR}"
 )
 
 # Link libraries
-target_link_libraries(${target}
-    PRIVATE
-    ${DEFAULT_LINKER_OPTIONS}
-    ${DEFAULT_LIBRARIES}
-    CubbyFlow
-    Vox
-    pystring)
+if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+    target_link_libraries(${target}
+        PRIVATE
+        ${DEFAULT_LINKER_OPTIONS}
+        CubbyFlow
+        pystring
+        Vox)
+else()
+    target_link_libraries(${target}
+        PRIVATE
+        ${DEFAULT_LINKER_OPTIONS}
+        CubbyFlow
+        pystring
+        Vox)
+endif()
