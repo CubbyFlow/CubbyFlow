@@ -29,10 +29,14 @@ namespace Vox {
 
     void PostProcessing::Initialize(const std::shared_ptr<FrameContext>& ctx)
     {
+        UNUSED_VARIABLE(ctx);
         GLuint vs = Renderer::CreateShaderFromSource(kScreenShaders[0], GL_VERTEX_SHADER);
         GLuint fs = Renderer::CreateShaderFromSource(kScreenShaders[1], GL_FRAGMENT_SHADER);
         _postProcessingProgram = std::make_shared<Program>(Renderer::CreateProgram(vs, 0, fs));
 
+        auto& params = _postProcessingProgram->GetParameters();
+        params.SetParameter("ScreenTexture", 0);
+        
         if (_screenQuad) glDeleteVertexArrays(1, &_screenQuad);
         glGenVertexArrays(1, &_screenQuad);
     }
@@ -41,8 +45,8 @@ namespace Vox {
     {
         _postProcessingProgram->BindProgram(ctx->GetContextScene());
         glBindVertexArray(_screenQuad);
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         screenTexture->BindTexture(0);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         glBindVertexArray(0);
     }
 
