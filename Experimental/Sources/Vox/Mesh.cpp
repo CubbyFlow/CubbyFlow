@@ -41,19 +41,19 @@ namespace Vox {
             if (static_cast<int>(format & VertexFormat::Position3))
             {
                 glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, VertexHelper::GetSizeInBytes(format), (void*)0);
+                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(VertexHelper::GetSizeInBytes(format)), (void*)0);
                 offset += 3; index += 1;
             }
             if (static_cast<int>(format & VertexFormat::Normal3))
             {
                 glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, VertexHelper::GetSizeInBytes(format), (void*)(offset * sizeof(float)));
+                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(VertexHelper::GetSizeInBytes(format)), (void*)(offset * sizeof(float)));
                 offset += 3; index += 1;
             }
             if (static_cast<int>(format & VertexFormat::TexCoord2))
             {
                 glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, VertexHelper::GetSizeInBytes(format), (void*)(offset * sizeof(float)));
+                glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(VertexHelper::GetSizeInBytes(format)), (void*)(offset * sizeof(float)));
             }
         }
         else
@@ -64,21 +64,21 @@ namespace Vox {
             {
                 glBufferSubData(GL_ARRAY_BUFFER, 0, shape.positions.size() * sizeof(CubbyFlow::Vector3F), shape.positions.data());
                 glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, VertexHelper::GetSizeInBytes(VertexFormat::Position3), (void*)0);
+                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(VertexHelper::GetSizeInBytes(VertexFormat::Position3)), (void*)0);
                 offset += shape.positions.size() * sizeof(CubbyFlow::Vector3F); index += 1;
             }
             if (static_cast<int>(format & VertexFormat::Normal3))
             {
                 glBufferSubData(GL_ARRAY_BUFFER, offset, shape.normals.size() * sizeof(CubbyFlow::Vector3F), shape.normals.data());
                 glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, VertexHelper::GetSizeInBytes(VertexFormat::Normal3), (void*)(offset));
+                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(VertexHelper::GetSizeInBytes(VertexFormat::Normal3)), (void*)(offset));
                 offset += shape.positions.size() * sizeof(CubbyFlow::Vector3F); index += 1;
             }
             if (static_cast<int>(format & VertexFormat::TexCoord2))
             {
                 glBufferSubData(GL_ARRAY_BUFFER, offset, shape.texCoords.size() * sizeof(CubbyFlow::Vector3F), shape.texCoords.data());
                 glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, VertexHelper::GetSizeInBytes(VertexFormat::TexCoord2), (void*)(offset));
+                glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(VertexHelper::GetSizeInBytes(VertexFormat::TexCoord2)), (void*)(offset));
             }
         }
         //! Bind index buffer and pass data.
@@ -86,7 +86,7 @@ namespace Vox {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, shape.indices.size() * sizeof(unsigned int), shape.indices.data(), GL_STATIC_DRAW);
         glBindVertexArray(0);
         //! Set the number of indices of given geometry shape.
-        _numVertices = shape.indices.size();
+        _numVertices = static_cast<unsigned int>(shape.indices.size());
     }
 
     void Mesh::ClearMeshObject()

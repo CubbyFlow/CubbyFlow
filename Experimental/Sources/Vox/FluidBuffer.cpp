@@ -23,7 +23,7 @@ namespace Vox {
     FluidBuffer::FluidBuffer(const size_t numBuffer)
     {
         Resize(numBuffer);
-    }
+    }   
 
     FluidBuffer::~FluidBuffer()
     {
@@ -37,7 +37,7 @@ namespace Vox {
             _vaos.resize(numBuffer);
             _vbos.resize(numBuffer);
             _ebos.resize(numBuffer);
-            const size_t numCreate = numBuffer - _numBuffer;
+            const GLsizei numCreate = static_cast<GLsizei>(numBuffer - _numBuffer);
             glGenVertexArrays(numCreate, &_vaos[_numBuffer]);
             glGenBuffers(numCreate, &_vbos[_numBuffer]);
             glGenBuffers(numCreate, &_ebos[_numBuffer]);
@@ -57,7 +57,7 @@ namespace Vox {
         }
         else //! In case, new number of the buffer is less than original. we need to destroy
         {
-            const size_t numDelete = _numBuffer - numBuffer;
+            const GLsizei numDelete = static_cast<GLsizei>(_numBuffer - numBuffer);
             glDeleteVertexArrays(numDelete, &_vaos[numBuffer]);
             glDeleteBuffers(numDelete, &_vbos[numBuffer]);
             glDeleteBuffers(numDelete, &_ebos[numBuffer]);
@@ -66,6 +66,7 @@ namespace Vox {
             _ebos.resize(numBuffer);
         }
         _numBuffer = numBuffer;
+        _fences.resize(_numBuffer);
     }
 
     bool FluidBuffer::CheckFence(GLuint64 timeout) 
