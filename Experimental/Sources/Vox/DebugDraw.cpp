@@ -36,7 +36,7 @@ namespace Vox {
     {
         GLuint vs = Renderer::CreateShaderFromSource(kDebugDrawShaders[0], GL_VERTEX_SHADER);
         GLuint fs = Renderer::CreateShaderFromSource(kDebugDrawShaders[1], GL_FRAGMENT_SHADER);
-        _debugShader = ctx->CreateProgram("P_DebugDraw", Renderer::CreateProgram(vs, 0, fs));
+        _debugShader = std::make_shared<Program>(Renderer::CreateProgram(vs, 0, fs));
         glDeleteShader(vs);
         glDeleteShader(fs);
 

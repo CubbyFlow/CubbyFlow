@@ -1,6 +1,5 @@
 codecov:
-  notify:
-    require_ci_to_pass: yes
+  require_ci_to_pass: yes
 
 coverage:
   precision: 2
@@ -13,21 +12,29 @@ coverage:
     patch: true
     changes: false
 
-  # We don't want statistics for the tests themselves and certainly not for the
-  # benchmarks and boost libraries. Note that while we exclude the gcov data for
-  # these patterns in the codecov call (codecov --gcov-glob ...), the fact that
-  # our code references these areas also means we need to tell codecov itself to
-  # ignore them from the stats.
-  ignore:
-  - 'Includes/API/**/*'
-  - 'Sources/API/**/*'
-  - 'Builds'
-  - 'Documents'
-  - 'Examples'
-  - 'Libraries'
-  - 'Medias'
-  - 'Resources'
-  - 'Tests'
+# We don't want statistics for the tests themselves and certainly not for the
+# benchmarks and boost libraries. Note that while we exclude the gcov data for
+# these patterns in the codecov call (codecov --gcov-glob ...), the fact that
+# our code references these areas also means we need to tell codecov itself to
+# ignore them from the stats.
+ignore:
+- "Builds/**/*"
+- "Documents/**/*"
+- "Examples/ClaraUtils.hpp"
+- "Examples/**/*"
+- "Includes/API/**/*"
+- "Libraries/**/*"
+- "Medias/**/*"
+- "Resources/**/*"
+- "Scripts/**/*"
+- "Sources/API/**/*"
+- "Tests/ManualTests/*.hpp"
+- "Tests/ManualTests/*.cpp"
+- "Tests/MemPerfTests/*.hpp"
+- "Tests/MemPerfTests/*.cpp"
+- "Tests/PythonTests/*.py"
+- "Tests/TimePerfTests/*.hpp"
+- "Tests/TimePerfTests/*.cpp"
 
 comment:
   layout: "header, diff, changes, uncovered"

@@ -37,7 +37,7 @@ namespace Vox {
         //! Attach shader program to this material.
         void AttachProgramShader(const std::shared_ptr<Program>& program);
         //! Set the texture to slot
-        void AttachTextureToSlot(const std::string& textureName, unsigned int slot);
+        void AttachTextureToSlot(const std::shared_ptr<Texture>& texture, unsigned int slot);
         //! Bind this material to the context
         void BindMaterial(const std::shared_ptr<FrameContext>& ctx);
         //! Get rvalue render status structure.
@@ -47,7 +47,7 @@ namespace Vox {
     private:
         std::shared_ptr<Program> _program;
         FrameContext::RenderStatus _renderStatus;
-        CubbyFlow::Array1<std::pair<std::string, unsigned int>> _texturePairs;
+        CubbyFlow::Array1<std::pair<std::shared_ptr<Texture>, unsigned int>> _texturePairs;
 
     };
 }

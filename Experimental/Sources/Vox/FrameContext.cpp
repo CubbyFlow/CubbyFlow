@@ -35,7 +35,7 @@ namespace Vox {
 	FrameContext::FrameContext(GLFWwindow* windowCtx)
 		: _windowCtx(windowCtx)
 	{
-		_defaultPass = CreateFrameBuffer("FB_DefaultPass", 0);
+		//! Do nothing
 	}
 
     FrameContext::~FrameContext()
@@ -58,85 +58,6 @@ namespace Vox {
 	{
 		return _windowCtx;
 	}
-	
-	std::shared_ptr<FrameBuffer> FrameContext::CreateFrameBuffer(const std::string& name, GLuint id)
-	{
-		const unsigned int sid = VoxStringID(name);
-		std::lock_guard<std::mutex> guard(_m);
-
-		auto instance = _frameBufferMap[sid].lock();
-		if (!instance) _frameBufferMap[sid] = instance = std::make_shared<FrameBuffer>(id);
-		return instance;
-	}
-
-    std::shared_ptr<Mesh> FrameContext::CreateMesh(const std::string& name, const MeshShape& shape, VertexFormat format, bool bInterleaved)
-	{
-		const unsigned int sid = VoxStringID(name);
-		std::lock_guard<std::mutex> guard(_m);
-
-		auto instance = _meshMap[sid].lock();
-		if (!instance) _meshMap[sid] = instance = std::make_shared<Mesh>(shape, format, bInterleaved);
-		return instance;
-	}
-
-    std::shared_ptr<Texture> FrameContext::CreateTexture(const std::string& name, GLuint target, GLuint id)
-	{
-		const unsigned int sid = VoxStringID(name);
-		std::lock_guard<std::mutex> guard(_m);
-
-		auto instance = _textureMap[sid].lock();
-		if (!instance) _textureMap[sid] = instance = std::make_shared<Texture>(target, id);
-		return instance;
-	}
-
-    std::shared_ptr<Program> FrameContext::CreateProgram(const std::string& name, GLuint program)
-	{
-		const unsigned int sid = VoxStringID(name);
-		std::lock_guard<std::mutex> guard(_m);
-
-		auto instance = _programMap[sid].lock();
-		if (!instance) _programMap[sid] = instance = std::make_shared<Program>(program);
-		return instance;
-	}
-	
-    std::shared_ptr<FrameBuffer> FrameContext::GetFrameBuffer(const std::string& name)
-	{
-		const unsigned int sid = VoxStringID(name);
-		std::lock_guard<std::mutex> guard(_m);
-	
-		std::shared_ptr<FrameBuffer> instance = _frameBufferMap[sid].lock();
-		VoxAssert(instance, CURRENT_SRC_PATH_TO_STR, "Unregistered Frame Buffer [" + name + "]");
-		return instance;
-	}
-
-    std::shared_ptr<Mesh> FrameContext::GetMesh(const std::string& name)
-	{
-		const unsigned int sid = VoxStringID(name);
-		std::lock_guard<std::mutex> guard(_m);
-
-		std::shared_ptr<Mesh> instance = _meshMap[sid].lock();
-		VoxAssert(instance, CURRENT_SRC_PATH_TO_STR, "Unregistered Mesh [" + name + "]");
-		return instance;
-	}
-    std::shared_ptr<Texture> FrameContext::GetTexture(const std::string& name)
-	{
-		const unsigned int sid = VoxStringID(name);
-		std::lock_guard<std::mutex> guard(_m);
-
-		std::shared_ptr<Texture> instance = _textureMap[sid].lock();
-		VoxAssert(instance, CURRENT_SRC_PATH_TO_STR, "Unregistered Texture [" + name + "]");
-		return instance;
-	}
-
-    std::shared_ptr<Program> FrameContext::GetProgram(const std::string& name)
-	{
-		const unsigned int sid = VoxStringID(name);
-		std::lock_guard<std::mutex> guard(_m);
-
-		std::shared_ptr<Program> instance = _programMap[sid].lock();
-		VoxAssert(instance, CURRENT_SRC_PATH_TO_STR, "Unregistered Program [" + name + "]");
-		return instance;
-	}
 
 	void FrameContext::BindSceneToContext(const std::shared_ptr<VoxScene>& scene)
 	{
@@ -145,7 +66,6 @@ namespace Vox {
 
     std::shared_ptr<VoxScene> FrameContext::GetContextScene()
 	{
-		std::lock_guard<std::mutex> guard(_m);
 		auto instance = _scene.lock();
 		VoxAssert(instance != nullptr, CURRENT_SRC_PATH_TO_STR, "Vox Scene expired");
 		return instance;

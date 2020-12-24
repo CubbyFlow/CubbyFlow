@@ -30,9 +30,9 @@ namespace Vox {
         _program = program;
     }
 
-    void Material::AttachTextureToSlot(const std::string& textureName, unsigned int slot)
+    void Material::AttachTextureToSlot(const std::shared_ptr<Texture>& texture, unsigned int slot)
     {
-        _texturePairs.Append(std::make_pair(textureName, slot));
+        _texturePairs.Append(std::make_pair(texture, slot));
     }
 
     FrameContext::RenderStatus Material::GetRenderStatus() const
@@ -52,8 +52,7 @@ namespace Vox {
          _program->BindProgram(ctx->GetContextScene());
 
         _texturePairs.ForEach([&](const auto& p){
-            auto& texture = ctx->GetTexture(p.first);
-            texture->BindTexture(p.second);
+            p.first->BindTexture(p.second);
         });
     }
 }

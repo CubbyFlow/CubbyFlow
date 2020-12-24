@@ -33,9 +33,9 @@ namespace Vox {
 
     void S3TextureCompression::Initialize(const std::shared_ptr<FrameContext>& ctx)
     {
-        _texIm = ctx->CreateTexture("T_Encoding", GL_TEXTURE_2D, Renderer::CreateTexture((_width + 3)/4, (_height + 3)/4, PixelFmt::PF_RGBA32UI, nullptr));
-        _texDXT = ctx->CreateTexture("T_DXT5", GL_TEXTURE_2D, Renderer::CreateTexture(_width, _height, PixelFmt::PF_DXT5, nullptr));
-        _texFinal = ctx->CreateTexture("T_Compressed", GL_TEXTURE_2D, Renderer::CreateTexture(_width, _height, PixelFmt::PF_RGBA8, nullptr));
+        _texIm = std::make_shared<Texture>(GL_TEXTURE_2D, Renderer::CreateTexture((_width + 3)/4, (_height + 3)/4, PixelFmt::PF_RGBA32UI, nullptr));
+        _texDXT = std::make_shared<Texture>(GL_TEXTURE_2D, Renderer::CreateTexture(_width, _height, PixelFmt::PF_DXT5, nullptr));
+        _texFinal = std::make_shared<Texture>(GL_TEXTURE_2D, Renderer::CreateTexture(_width, _height, PixelFmt::PF_RGBA8, nullptr));
 		
         auto param = _texFinal->GetParameters();
         param.minFilter = GL_NEAREST;
@@ -50,25 +50,25 @@ namespace Vox {
 
         GLuint vs = Renderer::CreateShaderFromSource(kS3TCShaders[0], GL_VERTEX_SHADER);
         GLuint fs = Renderer::CreateShaderFromSource(kS3TCShaders[1], GL_FRAGMENT_SHADER);
-        _s3tcProgram = ctx->CreateProgram("P_S3TC", Renderer::CreateProgram(vs, 0, fs));
+        _s3tcProgram = std::make_shared<Program>(Renderer::CreateProgram(vs, 0, fs));
         glDeleteShader(fs);
 
         auto& params = _s3tcProgram->GetParameters();
         params.SetParameter("ScreenTexture", 0);
 
         fs = Renderer::CreateShaderFromSource(kYCoCgDecodingShaders[1], GL_FRAGMENT_SHADER);
-        _decodingProgram = ctx->CreateProgram("P_YCoCgDecoding", Renderer::CreateProgram(vs, 0, fs));
+        _decodingProgram = std::make_shared<Program>(Renderer::CreateProgram(vs, 0, fs));
         glDeleteShader(vs);
         glDeleteShader(fs);
 
         params = _s3tcProgram->GetParameters();
         params.SetParameter("ScreenTexture", 0);
 
-        _s3tcPass = ctx->CreateFrameBuffer("FB_S3TCPass", Renderer::CreateFrameBuffer());
+        _s3tcPass = std::make_shared<FrameBuffer>(Renderer::CreateFrameBuffer());
         _s3tcPass->AttachTexture(0, _texIm, false);
         VoxAssert(_s3tcPass->ValidateFrameBufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
 
-        _decodingPass = ctx->CreateFrameBuffer("FB_YCoCgDecodingPass", Renderer::CreateFrameBuffer());
+        _decodingPass = std::make_shared<FrameBuffer>(Renderer::CreateFrameBuffer());
         _decodingPass->AttachTexture(0, _texFinal, false);
         VoxAssert(_decodingPass->ValidateFrameBufferStatus(), CURRENT_SRC_PATH_TO_STR, "Frame Buffer Status incomplete");
     }
@@ -95,7 +95,7 @@ namespace Vox {
 
     std::shared_ptr<Texture> S3TextureCompression::DecodingPass(const std::shared_ptr<FrameContext>& ctx)
     {
-        ctx->GetFrameBuffer("FB_DefaultPass")->BindFrameBuffer(GL_DRAW_FRAMEBUFFER);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
         {
             _texDXT->BindTexture(0);
             glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _vboDXT);

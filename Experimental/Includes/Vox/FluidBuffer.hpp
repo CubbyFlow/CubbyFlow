@@ -1,5 +1,5 @@
 /*************************************************************************
-> File Name: RoundRobinAsyncBuffer.hpp
+> File Name: FluidBuffer.hpp
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
@@ -23,16 +23,16 @@ namespace Vox {
      * Buffer for simulating which need huge effort for optimizing data transfer performance.
      * Implemented with multiple buffer technique (round-robin)
      **/
-    class RoundRobinAsyncBuffer
+    class FluidBuffer
     {
     public:
-        //! Default Constructor.
-        RoundRobinAsyncBuffer();
         //! Constructor with number of the buffers.
-        RoundRobinAsyncBuffer(const size_t numBuffer);
+        FluidBuffer(const size_t numBuffer);
         //! Default destructor.
-        virtual ~RoundRobinAsyncBuffer();
+        ~FluidBuffer();
     
+        //! Resize the buffer number.
+        void Resize(const size_t numBuffer);
         //! Draw one frame of the particles data.
         bool CheckFence(GLuint64 timeout);
         //! Asynchronously transfer scene data to vertex buffer.
@@ -44,14 +44,15 @@ namespace Vox {
 
         static const size_t kMaxBufferSize = 0x1000000; //! 2097 kB - This is GPU memory
         static const size_t kDefaultNumBuffer = 3;
-    protected:
-        virtual void OnAsyncBufferTransfer(const std::shared_ptr<GeometryCacheManager>& cacheManager) = 0;
-        virtual void OnDrawFrame(const std::shared_ptr<FrameContext>& ctx) = 0;
 
-        size_t _numBuffer { 0 };
-        size_t _frameIndex { 0 } ;
     private:
         std::vector<GLsync> _fences; 
+        std::vector<GLuint> _vaos;
+        std::vector<GLuint> _vbos;
+        std::vector<GLuint> _ebos;
+        size_t _numElements { 0 };
+        size_t _numBuffer { 0 };
+        size_t _frameIndex { 0 } ;
     };
 };
 
