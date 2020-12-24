@@ -37,8 +37,7 @@ public:
     const char* GetWindowTitle() override { return "Particle Viewer"; };
 
 protected:
-    void OnSetWindowSize() override;
-private:
+ private:
     std::unique_ptr<Vox::FluidBuffer> _buffer;
     std::shared_ptr<Vox::GeometryCacheManager> _cacheMgr;
     std::unique_ptr<Vox::PostProcessing> _postProcessing;

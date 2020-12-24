@@ -196,32 +196,56 @@ namespace Vox {
 
     void OnWindowResized(GLFWwindow* window, int width, int height)
 	{
+        UNUSED_VARIABLE(window);
 		VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
-		(void)width;(void)window;(void)height;
+        std::shared_ptr<App> app = gApplication.lock();
+        if (app)
+        {
+            app->SetWindowSize(width, height);
+        }
 	}
 
     void OnKey(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
-		VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
-		(void)window;(void)key;(void)scancode;(void)action;(void)mods;
+        UNUSED_VARIABLE(window);
+        VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
+        std::shared_ptr<App> app = gApplication.lock();
+        if (app)
+        {
+            app->SetKey(key, scancode, action, mods);
+        }
 	}
 
     void OnMouseButton(GLFWwindow* window, int button, int action, int mods)
 	{
-		VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
-		(void)window;(void)button;(void)action;(void)mods;
+        UNUSED_VARIABLE(window);
+        VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
+        std::shared_ptr<App> app = gApplication.lock();
+        if (app)
+        {
+            app->SetMouseButton(button, action, mods);
+        }
 	}
 
     void OnMouseCursorPos(GLFWwindow* window, double x, double y)
 	{
-		VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
-		(void)window;(void)x;(void)y;
+        UNUSED_VARIABLE(window);
+        VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
+        std::shared_ptr<App> app = gApplication.lock();
+        if (app)
+        {
+            app->SetMouseCursorPos(x, y);
+        }
 	}
 
     void OnMouseScroll(GLFWwindow* window, double deltaX, double deltaY)
 	{
-		VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
-		(void)window;(void)deltaX;(void)deltaY;
+        UNUSED_VARIABLE(window); 
+        VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
+        std::shared_ptr<App> app = gApplication.lock();
+        if (app)
+        {
+            app->SetMouseScroll(deltaX, deltaY);
+        }
 	}
-
 };

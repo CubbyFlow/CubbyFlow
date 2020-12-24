@@ -10,8 +10,8 @@
 #include "VoxRenderer.hpp"
 #include <Vox/FileSystem.hpp>
 #include <Vox/FrameContext.hpp>
-#include <Vox/VoxScene.hpp>
 #include <Vox/Renderer.hpp>
+#include <Vox/VoxScene.hpp>
 #include <Vox/Program.hpp>
 #include <Vox/FrameBuffer.hpp>
 #include <Vox/Texture.hpp>
@@ -70,6 +70,8 @@ bool VoxRenderer::Initialize(const Vox::Path& scenePath)
 
     auto status = ctx->GetRenderStatus();
     status.primitive = GL_TRIANGLES;
+    status.cullMode = GL_BACK;
+    status.isDepthTestEnabled = true;
     ctx->SetRenderStatus(status);
     
     Vox::App::PushFrameContextToQueue(ctx);
@@ -80,15 +82,12 @@ void VoxRenderer::DrawFrame()
 {
     std::shared_ptr<Vox::FrameContext> ctx = Vox::App::PopFrameContextFromQueue();
     ctx->MakeContextCurrent();
-
     //! Main RenderPass
+
     _mainPass->BindFrameBuffer(GL_FRAMEBUFFER);
     {
         Vox::App::BeginFrame(ctx);
         glViewport(0, 0, _windowSize.x, _windowSize.y);
-        glEnable(GL_DEPTH_TEST);
-        glDepthFunc(GL_LESS);
-        glEnable(GL_CULL_FACE);
 
         if (_buffer->CheckFence(50000))
         {
@@ -115,9 +114,4 @@ void VoxRenderer::DrawFrame()
     if (_frameCapture->GetCurrentFrameIndex() == _cacheMgr->GetNumberOfCache()) ctx->SetWindowContextShouldClose(true);
 
     Vox::App::PushFrameContextToQueue(ctx);
-}
-
-void VoxRenderer::OnSetWindowSize()
-{
-    App::OnSetWindowSize();
 }

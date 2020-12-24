@@ -21,6 +21,7 @@ namespace Vox {
     class FrameContext;
     class VoxScene;
     class PerspectiveCamera;
+    class CameraController;
     class SequentialFrameCapture;
     
     /**
@@ -66,19 +67,29 @@ namespace Vox {
             }
         }
         //! Push frame context to the stack.
-        void PushFrameContextToQueue(std::shared_ptr<Vox::FrameContext> ctx)
+        inline void PushFrameContextToQueue(std::shared_ptr<Vox::FrameContext> ctx)
         {
             _ctxQueue.push(ctx);
         }
+
         //! Set Window screen size.
-        void SetWindowSize(CubbyFlow::Point2I size);
+        void SetWindowSize(int width, int height);
+        void SetKey(int key, int scancode, int action, int mods);
+        void SetMouseButton(int button, int action, int mods);
+        void SetMouseCursorPos(double x, double y);
+        void SetMouseScroll(double deltaX, double deltaY);
         //! Set screen background color
         void SetBackgroundColor(CubbyFlow::Vector4F color);
     protected:
-        virtual void OnSetWindowSize();
+        virtual void OnSetWindowSize(int width, int height);
+        virtual void OnSetKey(int key, int scancode, int action, int mods);
+        virtual void OnSetMouseButton(int button, int action, int mods);
+        virtual void OnSetMouseCursorPos(double x, double y);
+        virtual void OnSetMouseScroll(double deltaX, double deltaY);
 
         std::shared_ptr<Vox::VoxScene> _scene;
         std::shared_ptr<Vox::PerspectiveCamera> _camera;
+        std::shared_ptr<Vox::CameraController> _camController;
         std::unique_ptr<SequentialFrameCapture> _frameCapture;
         CubbyFlow::Point2I _windowSize { 1200, 900 }; //! window size
         CubbyFlow::Vector4F _bgColor { 0.344f, 0.388f, 0.388f, 1.0f}; //! background color
