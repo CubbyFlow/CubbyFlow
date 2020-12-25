@@ -7,7 +7,7 @@
 > Created Time: 2020/12/22
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
-#include <Vox/Camera/OrthogonalCamera.hpp>
+#include <Vox/Camera/OrthographicCamera.hpp>
 #include <Vox/Core/FrameContext.hpp>
 #include <Vox/Core/Program.hpp>
 #include <Core/Math/Quaternion.hpp>
@@ -15,7 +15,7 @@
 
 using namespace CubbyFlow;
 namespace Vox {
-    void OrthogonalCamera::SetViewFrustum(const float left, const float right, const float top, const float bottom)
+    void OrthographicCamera::SetViewFrustum(const float left, const float right, const float top, const float bottom)
     {
         //TODO(snowapril) : must implement orthograpic projection
         static_assert("Not yet implemented");

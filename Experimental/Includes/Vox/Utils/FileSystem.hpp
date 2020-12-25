@@ -24,6 +24,8 @@ namespace Vox {
         Path(const char* path);
         //! Return string of the path;
         std::string ToString() const;
+        //! Return const char pointer of the path
+        const char* ToCStr() const;
         //! Return whether if path is nullptr or not.
         bool IsNullPath() const;
         //! operator bool() overloading for if(path) idiom.

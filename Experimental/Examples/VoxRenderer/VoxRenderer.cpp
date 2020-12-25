@@ -42,7 +42,7 @@ bool VoxRenderer::Initialize(const Vox::Path& scenePath)
     std::shared_ptr<Vox::FrameContext> ctx = Vox::App::PopFrameContextFromQueue();
     ctx->BindSceneToContext(_scene);
 
-    _cacheMgr = _scene->GetSceneObject<Vox::GeometryCacheManager>("FluidMeshCache");
+    _cacheMgr = _scene->GetSceneObject<Vox::GeometryCacheManager>("fluidAnim");
     for (size_t i = 0; i < _cacheMgr->GetNumberOfCache(); ++i)
     {
         auto& cache = _cacheMgr->GetGeometryCache(i);

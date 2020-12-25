@@ -42,6 +42,11 @@ namespace Vox {
         return std::string(_path);
     }
 
+    const char* Path::ToCStr() const
+    {
+        return _path.empty() ? nullptr : _path.c_str();
+    }
+
     bool Path::IsNullPath() const
     {
         return _path.empty();

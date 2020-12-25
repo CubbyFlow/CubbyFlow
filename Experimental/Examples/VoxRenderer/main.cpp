@@ -71,7 +71,7 @@ int main(int argc, const char** argv)
     Vox::FileSystem::AddDirectory(outputDir);
 
     Vox::Device::Initialize();
-    Vox::Device::RunApp(std::make_shared<VoxRenderer>(), "VoxRenderer.json");
+    Vox::Device::RunApp(std::make_shared<VoxRenderer>(), "VoxRenderer.xml");
     Vox::Device::Terminate();
 
     return EXIT_SUCCESS;

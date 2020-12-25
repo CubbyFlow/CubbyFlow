@@ -30,7 +30,8 @@ class Camera : public VoxSceneObject
 
     //! Set view matrix related elements such as origin, directoion
     void SetViewTransform(const CubbyFlow::Vector3F& origin,
-                          const CubbyFlow::Vector3F& point);
+                          const CubbyFlow::Vector3F& point,
+                          const CubbyFlow::Vector3F& up);
 
     //! Update viewProjection with new view matrix and new projection matrix.
     virtual void UpdateMatrix() {};
@@ -58,6 +59,7 @@ class Camera : public VoxSceneObject
     CubbyFlow::Matrix4x4F _viewProjection = CubbyFlow::Matrix4x4F::MakeIdentity();
     CubbyFlow::Vector3F _origin { 0.0f, 0.0f, 0.0f };
     CubbyFlow::Vector3F _dir { 0.0f, 0.0f, -1.0f };  //! Directon vector (MUST BE NORMALIZED)
+    CubbyFlow::Vector3F _up { 0.0f, 1.0f, 0.0f };
  private:
 };
 

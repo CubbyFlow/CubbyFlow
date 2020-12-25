@@ -19,7 +19,8 @@ endif()
 
 # include header-only stb library for image read & write
 include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries)
-include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/nlohmann)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/pugixml/src)
+add_subdirectory(Libraries/pugixml)
 
 set(OPENGL_LIBRARIES "")
 

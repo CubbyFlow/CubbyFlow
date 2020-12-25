@@ -63,19 +63,6 @@ target_compile_options(${target}
     INTERFACE
 )
 
-target_link_libraries(${target}
-    PRIVATE
-    PUBLIC
-    ${DEFAULT_LINKER_OPTIONS}
-	${DEFAULT_LIBRARIES}
-    ${CMAKE_DL_LIBS}
-    ${OPENGL_LIBRARIES}
-    ${PNG_LIBRARIES}
-    CubbyFlow
-    pystring
-    INTERFACE
-)
-
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_SYSTEM_NAME MATCHES "Linux")
     target_link_libraries(${target}
     PRIVATE
@@ -88,6 +75,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_SYSTEM_NAME MATCHES "Linux")
     CubbyFlow
     pystring
     unwind
+    pugixml
     INTERFACE
 )
 else()
@@ -101,6 +89,7 @@ else()
         ${PNG_LIBRARIES}
         CubbyFlow
         pystring
+        pugixml
         INTERFACE
     )
 endif()

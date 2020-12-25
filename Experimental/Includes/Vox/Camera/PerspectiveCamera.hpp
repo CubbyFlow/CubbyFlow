@@ -27,7 +27,7 @@ namespace Vox {
     class PerspectiveCamera : public Camera
     {
     public://! Set projection matrix related elements such as field of view
-        void SetViewFrustum(const float fov, const float near, const float far);
+        void SetViewFrustum(const float fov, const float far);
 
         //! Set Window screen aspect ratio
         void SetAspectRatio(const float aspectRatio);

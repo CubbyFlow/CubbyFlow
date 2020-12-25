@@ -31,7 +31,7 @@ namespace Vox {
         
         if (HasUniformVariable("ViewProjection"))
         {
-            const auto& camera = scene->GetSceneObject<PerspectiveCamera>("Camera");
+            const auto& camera = scene->GetSceneObject<PerspectiveCamera>("mainCam");
             if (camera)
             {
                 _parameters.SetParameter("ViewProjection", camera->GetViewProjectionMatrix());
@@ -40,7 +40,7 @@ namespace Vox {
 
         if (HasUniformVariable("ViewPos"))
         {
-            const auto& camera = scene->GetSceneObject<PerspectiveCamera>("Camera");
+            const auto& camera = scene->GetSceneObject<PerspectiveCamera>("mainCam");
             if (camera)
             {
                 _parameters.SetParameter("ViewPos", camera->GetCameraOrigin());
@@ -49,11 +49,11 @@ namespace Vox {
 
         if (HasUniformVariable("LightPosition"))
         {
-            const auto& light = scene->GetSceneObject<Light>("DirectionalLight");
-            if (light)
-            {
-                _parameters.SetParameter("LightPosition", light->GetCameraOrigin());
-            }
+            // const auto& light = scene->GetSceneObject<Light>("DirectionalLight");
+            // if (light)
+            // {
+            //     _parameters.SetParameter("LightPosition", light->GetCameraOrigin());
+            // }
         }
 
         SendParametersToGPU();

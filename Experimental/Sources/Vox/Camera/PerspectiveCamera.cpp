@@ -15,10 +15,9 @@
 
 using namespace CubbyFlow;
 namespace Vox {
-    void PerspectiveCamera::SetViewFrustum(const float fov, const float near, const float far)
+    void PerspectiveCamera::SetViewFrustum(const float fov, const float far)
     {
         _fov = fov;
-        _near = near;
         _far = far;
     }
 
@@ -29,8 +28,7 @@ namespace Vox {
 
     void PerspectiveCamera::UpdateMatrix()
     {
-        constexpr Vector3F up = Vector3F(0.0f, 1.0f, 0.0f);
-        const Vector3F right = (up.Cross(_dir)).Normalized();
+        const Vector3F right = (_up.Cross(_dir)).Normalized();
         const Vector3F cameraUp = (_dir.Cross(right)).Normalized();
 
         Matrix4x4F projection(0.0f);

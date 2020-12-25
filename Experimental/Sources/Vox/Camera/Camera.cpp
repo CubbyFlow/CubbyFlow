@@ -15,20 +15,20 @@
 using namespace CubbyFlow;
 namespace Vox {
     
-    void Camera::SetViewTransform(const CubbyFlow::Vector3F& origin, const CubbyFlow::Vector3F& point)
+    void Camera::SetViewTransform(const CubbyFlow::Vector3F& origin, const CubbyFlow::Vector3F& point, const CubbyFlow::Vector3F& up)
     {
         _origin = origin;
         _dir = (_origin - point).Normalized();
+        _up = up;
     }
 
     void Camera::OrbitRotation(const CubbyFlow::Vector3F& focusPoint, float yaw, float pitch, float distance)
     {
-        constexpr CubbyFlow::Vector3F kLookUp = CubbyFlow::Vector3F(0.0f, 1.0f, 0.0f);
         CubbyFlow::Vector3F camFocus = (_origin - focusPoint).Normalized();
         //! create quaternion matrix with up vector and yaw angle.
-        CubbyFlow::QuaternionF yawRotation(kLookUp, yaw); 
+        CubbyFlow::QuaternionF yawRotation(_up, yaw); 
         //! create quaternion matrix with right vector and pitch angle.
-        CubbyFlow::QuaternionF pitchRotation(_dir.Cross(kLookUp).Normalized(), pitch); 
+        CubbyFlow::QuaternionF pitchRotation(_dir.Cross(_up).Normalized(), pitch); 
 
         camFocus = (yawRotation * pitchRotation * camFocus);
         _origin = focusPoint + camFocus * distance;

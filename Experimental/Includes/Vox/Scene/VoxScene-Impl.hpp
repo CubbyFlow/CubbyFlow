@@ -12,6 +12,7 @@
 
 #include <Vox/Utils/DebugUtils.hpp>
 #include <Vox/Utils/FileSystem.hpp>
+#include <Vox/Utils/StringID.hpp>
 #include <Core/Vector/Vector2.hpp>
 #include <Core/Vector/Vector3.hpp>
 #include <cstring>
@@ -22,7 +23,8 @@ namespace Vox {
     template <typename Type>
     std::shared_ptr<Type> VoxScene::GetSceneObject(const std::string& objName)
     {
-        auto iter = _metadata.find(objName);
+        unsigned int key = VoxStringID(objName);
+        auto iter = _metadata.find(key);
         VoxAssert(iter != _metadata.end(), CURRENT_SRC_PATH_TO_STR, "Failed to find [" + objName + "] from the scene file");
 
         std::shared_ptr<VoxSceneObject> obj = iter->second;
@@ -34,7 +36,7 @@ namespace Vox {
     }
 
     template <typename Type>
-    void VoxScene::OnLoadSceneObject(const nlohmann::json& json)
+    void VoxScene::OnLoadSceneObject(const pugi::xml_node& node)
     {
         static_assert("No implementation exists.");
     }

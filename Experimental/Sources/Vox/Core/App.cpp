@@ -43,7 +43,7 @@ namespace Vox {
     bool App::Initialize(const Vox::Path& scenePath)
     {
         _scene = Vox::VoxScene::CreateScene(scenePath);
-        _camera = _scene->GetSceneObject<Vox::PerspectiveCamera>("Camera");
+        _camera = _scene->GetSceneObject<Vox::PerspectiveCamera>("mainCam");
         _camera->SetAspectRatio(static_cast<float>(_windowSize.x) / _windowSize.y);
         _camera->UpdateMatrix();
 

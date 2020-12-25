@@ -13,7 +13,7 @@
 #include <Vox/Utils/FileSystem.hpp>
 #include <memory>
 #include <vector>
-#include <nlohmann/json.hpp>
+#include <pugixml.hpp>
 #include <unordered_map>
 
 namespace Vox {
@@ -45,12 +45,12 @@ namespace Vox {
         std::shared_ptr<Type> GetSceneObject(const std::string& objName);
     protected:
     private:
-        void OnLoadScene(const nlohmann::json& json);
+        void OnLoadScene(const pugi::xml_document& document);
 
         template <typename Type>
-        void OnLoadSceneObject(const nlohmann::json& json);
+        void OnLoadSceneObject(const pugi::xml_node& node);
 
-        std::unordered_map<std::string, std::shared_ptr<VoxSceneObject>> _metadata;
+        std::unordered_map<unsigned int, std::shared_ptr<VoxSceneObject>> _metadata;
     };
 }
 
