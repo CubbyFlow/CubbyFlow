@@ -35,12 +35,8 @@ namespace Vox {
         //! Load obj file from given path and indexing for opengl specification.
         void LoadCache(const Vox::Path& format, size_t index = 0, bool scaleToUnitBox = true);
 
-        //! Take Translation on the stored vertices.
-        void TranslateCache(const CubbyFlow::Vector3F t);
-
-        //! Take Scaling on the stored vertices
-        //! Scaling must be a rigid-body transformation
-        void ScaleCache(const float s);
+        //! Take transform on the stored vertices.
+        void TransformCache(const CubbyFlow::Vector3F t, const CubbyFlow::Vector3F s, const CubbyFlow::Vector3F axis, const float rad);
 
         //! Returns the number of shapes
         size_t GetNumberOfShape() const;

@@ -157,29 +157,19 @@ namespace Vox {
         }
     }
 
-    void GeometryCache::TranslateCache(const CubbyFlow::Vector3F t)
+    void GeometryCache::TransformCache(const CubbyFlow::Vector3F t, const CubbyFlow::Vector3F s, const CubbyFlow::Vector3F axis, const float rad)
     {
-        const CubbyFlow::Matrix4x4F transform = CubbyFlow::Matrix4x4F::MakeTranslationMatrix(t);
+        const CubbyFlow::Matrix4x4F translate = CubbyFlow::Matrix4x4F::MakeTranslationMatrix(t);
+        const CubbyFlow::Matrix4x4F scale = CubbyFlow::Matrix4x4F::MakeScaleMatrix(s);
+        const CubbyFlow::Matrix4x4F rotate = CubbyFlow::Matrix4x4F::MakeRotationMatrix(axis, rad);
+
+        const CubbyFlow::Matrix4x4F srt = scale * rotate * translate;
 
         for (auto& shape : _shapes)
         {
             shape.positions.ParallelForEach([&](CubbyFlow::Vector3F& pos){
                 CubbyFlow::Vector4F hPos(pos.x, pos.y, pos.z, 1.0f);
-                hPos = transform * hPos;
-                pos = CubbyFlow::Vector3F(hPos.x, hPos.y, hPos.z);
-            });
-        }
-    }
-
-    void GeometryCache::ScaleCache(const float s)
-    {
-        const CubbyFlow::Matrix4x4F scale = CubbyFlow::Matrix4x4F::MakeScaleMatrix(CubbyFlow::Vector3F(s, s, s));
-
-        for (auto& shape : _shapes)
-        {
-            shape.positions.ParallelForEach([&](CubbyFlow::Vector3F& pos){
-                CubbyFlow::Vector4F hPos(pos.x, pos.y, pos.z, 1.0f);
-                hPos = scale * hPos;
+                hPos = srt * hPos;
                 pos = CubbyFlow::Vector3F(hPos.x, hPos.y, hPos.z);
             });
         }
