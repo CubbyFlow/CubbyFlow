@@ -10,10 +10,10 @@
 #include "ClaraUtils.h"
 #include "VoxRenderer.hpp"
 
-#include <Vox/Device.hpp>
-#include <Vox/Renderer.hpp>
-#include <Vox/App.hpp>
-#include <Vox/FileSystem.hpp>
+#include <Vox/Core/Device.hpp>
+#include <Vox/Core/Renderer.hpp>
+#include <Vox/Core/App.hpp>
+#include <Vox/Utils/FileSystem.hpp>
 
 #include <Core/Utils/Macros.hpp>
 #include <Core/Utils/Logging.hpp>

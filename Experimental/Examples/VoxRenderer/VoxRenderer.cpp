@@ -8,20 +8,20 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 #include "VoxRenderer.hpp"
-#include <Vox/FileSystem.hpp>
-#include <Vox/FrameContext.hpp>
-#include <Vox/Renderer.hpp>
-#include <Vox/VoxScene.hpp>
-#include <Vox/Program.hpp>
-#include <Vox/FrameBuffer.hpp>
-#include <Vox/Texture.hpp>
-#include <Vox/ShaderPreset.hpp>
-#include <Vox/FluidBuffer.hpp>
-#include <Vox/PostProcessing.hpp>
-#include <Vox/S3TextureCompression.hpp>
-#include <Vox/SequentialFrameCapture.hpp>
-#include <Vox/GeometryCache.hpp>
-#include <Vox/GeometryCacheManager.hpp>
+#include <Vox/Utils/FileSystem.hpp>
+#include <Vox/Core/FrameContext.hpp>
+#include <Vox/Core/Renderer.hpp>
+#include <Vox/Scene/VoxScene.hpp>
+#include <Vox/Core/Program.hpp>
+#include <Vox/Core/FrameBuffer.hpp>
+#include <Vox/Core/Texture.hpp>
+#include <Vox/Core/ShaderPreset.hpp>
+#include <Vox/Core/FluidBuffer.hpp>
+#include <Vox/Core/PostProcessing.hpp>
+#include <Vox/Core/S3TextureCompression.hpp>
+#include <Vox/Utils/SequentialFrameCapture.hpp>
+#include <Vox/Scene/GeometryCache.hpp>
+#include <Vox/Scene/GeometryCacheManager.hpp>
 #include <glad/glad.h>
 
 VoxRenderer::VoxRenderer()

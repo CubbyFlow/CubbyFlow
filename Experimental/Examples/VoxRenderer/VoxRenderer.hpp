@@ -10,8 +10,8 @@
 #ifndef CUBBYFLOW_FLUID_MESH_VIEWER
 #define CUBBYFLOW_FLUID_MESH_VIEWER
 
-#include <Vox/App.hpp>
-#include <Vox/GLTypes.hpp>
+#include <Vox/Core/App.hpp>
+#include <Vox/Utils/GLTypes.hpp>
 #include <memory>
 
 namespace Vox {
