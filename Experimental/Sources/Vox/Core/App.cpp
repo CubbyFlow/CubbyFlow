@@ -10,7 +10,7 @@
 #include <Vox/Core/App.hpp>
 #include <Vox/Core/FrameContext.hpp>
 #include <Vox/Camera/PerspectiveCamera.hpp>
-#include <Vox/Camera/CameraController.hpp>
+#include <Vox/Camera/FlycamController.hpp>
 #include <Vox/Scene/VoxScene.hpp>
 #include <Vox/Utils/SequentialFrameCapture.hpp>
 #include <Core/Utils/Macros.hpp>
@@ -47,7 +47,7 @@ namespace Vox {
         _camera->SetAspectRatio(static_cast<float>(_windowSize.x) / _windowSize.y);
         _camera->UpdateMatrix();
 
-        _camController = std::make_shared<Vox::CameraController>(_camera);
+        _camController = std::make_shared<Vox::FlycamController>(_camera);
 
         _frameCapture.reset(new SequentialFrameCapture());
 
@@ -77,12 +77,13 @@ namespace Vox {
 
     void App::SetKey(int key, int scancode, int action, int mods)
     {
+        _camController->SetKey(key, scancode, action, mods);
         OnSetKey(key, scancode, action, mods);
     }
 
     void App::SetMouseButton(int button, int action, int mods)
     {
-        _camController->SetMouseButton(button, action);
+        _camController->SetMouseButton(button, action, mods);
         OnSetMouseButton(button, action, mods);
     }
 
@@ -94,6 +95,7 @@ namespace Vox {
 
     void App::SetMouseScroll(double deltaX, double deltaY)
     {
+        _camController->SetMouseScroll(deltaX, deltaY);
         OnSetMouseScroll(deltaX, deltaY);
     }
 
