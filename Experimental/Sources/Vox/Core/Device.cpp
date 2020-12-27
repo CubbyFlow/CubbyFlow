@@ -80,7 +80,7 @@ namespace Vox {
         glDebugMessageCallbackARB(GLDebug::DebugLog, nullptr);
         glDebugMessageControlARB(GL_DEBUG_SOURCE_APPLICATION_ARB, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, true);
 	    glDebugMessageControlARB(GL_DEBUG_SOURCE_THIRD_PARTY_ARB, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, true);
-        glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_LOW_ARB, 0, NULL, true);  
+        glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_LOW_ARB, 0, NULL, false);  
 
         //! Add Created Context to the Application.
 		auto ctx = std::make_shared<FrameContext>(window);        
@@ -187,7 +187,7 @@ namespace Vox {
             glCullFace(newStat.cullMode);
         }
 
-        if ((prevStat.sourceBlendFactor != newStat.sourceBlendFactor) || (prevStat.destinationBlendFactor != newStat.isBlendEnabled))
+        if ((prevStat.sourceBlendFactor != newStat.sourceBlendFactor) || (prevStat.destinationBlendFactor != newStat.destinationBlendFactor))
         {
             glBlendFunc(newStat.sourceBlendFactor, newStat.destinationBlendFactor);
         }
