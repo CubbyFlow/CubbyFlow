@@ -24,35 +24,57 @@ namespace Vox
 		//! Do nothing
 	}
 
-	void CameraController::SetScreenSize(const CubbyFlow::Point2I& screenSize)
+	void CameraController::SetCameraSpeed(const float speed)
 	{
-		_screenSize = screenSize;
+		_camSpeed = speed;
+	}
+
+	void CameraController::SetMouseScroll(double deltaX, double deltaY)
+	{
+		OnSetMouseScroll(deltaX, deltaY);
 	}
 
 	void CameraController::SetMouseCursorPos(double x, double y)
 	{
 		_cursorPos = CubbyFlow::Point2I(static_cast<int>(x), static_cast<int>(y));
 
+		OnSetMouseCursorPos();
+
 		if (_isCursorPressed)
 		{
 			_lastCursorPos = _cursorPos;
-			_isCursorPressed = false;
 		}
-
-		OnSetMouseCursorPos(x, y);
 	}
 
-	void CameraController::SetMouseButton(int button, int action)
+	void CameraController::SetKey(int key, int scancode, int action, int mods)
 	{
-		if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+		UNUSED_VARIABLE(scancode);
+		UNUSED_VARIABLE(mods);
+		OnSetKey(key, action);
+	}
+
+	void CameraController::SetMouseButton(int button, int action, int mods)
+	{
+		UNUSED_VARIABLE(mods);
+		if (button == GLFW_MOUSE_BUTTON_LEFT)
 		{
-			_isCursorPressed = true;
+			if (action == GLFW_PRESS)
+				_isCursorPressed = true;
+			else if (action == GLFW_RELEASE)
+				_isCursorPressed = false;
 		}
 	}
 
-	void CameraController::OnSetMouseCursorPos(double x, double y)
+	void CameraController::OnSetMouseScroll(double deltaX, double deltaY)
 	{
-		UNUSED_VARIABLE(x);
-		UNUSED_VARIABLE(y);
+		UNUSED_VARIABLE(deltaX);
+		UNUSED_VARIABLE(deltaY);
 	}
+
+	void CameraController::OnSetKey(int key, int action)
+	{
+		UNUSED_VARIABLE(key);
+		UNUSED_VARIABLE(action);
+	}
+
 };  // namespace Vox
