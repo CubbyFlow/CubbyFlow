@@ -74,6 +74,9 @@ bool VoxRenderer::Initialize(const Vox::Path& scenePath)
     status.isDepthTestEnabled = true;
     ctx->SetRenderStatus(status);
     
+    _compressor.reset(new Vox::S3TextureCompression(static_cast<GLsizei>(_windowSize.x), static_cast<GLsizei>(_windowSize.y)));
+    _compressor->Initialize(ctx);
+
     Vox::App::PushFrameContextToQueue(ctx);
     return true;
 }
@@ -100,12 +103,15 @@ void VoxRenderer::DrawFrame()
         Vox::App::EndFrame(ctx);
     }
 
+    _compressor->CompressionPass(ctx, _screenTexture);
+    auto compressedScreen = _compressor->DecodingPass(ctx);
+        
     //! Screen Pass
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     {
         Vox::App::BeginFrame(ctx);
         glViewport(0, 0, _windowSize.x, _windowSize.y);
-        _postProcessing->DrawFrame(ctx, _screenTexture);
+        _postProcessing->DrawFrame(ctx, compressedScreen);
         _frameCapture->CaptureFrameBuffer(_windowSize.x, _windowSize.y, 1, Vox::PixelFmt::PF_BGRA8);
         _frameCapture->WriteCurrentCaptureToDDS("./VoxRenderer_output/result%06d.dds");
         Vox::App::EndFrame(ctx);
