@@ -155,7 +155,7 @@ namespace Vox {
         data.Resize(static_cast<size_t>(size.QuadPart));
 
         //! Read the buffer to the data argument.
-        VoxAssertFailCallback(::ReadFile(hFind, data.data(), data.size() - 1, &dwBytesRead, NULL), 
+        VoxAssertFailCallback(::ReadFile(hFind, data.data(), static_cast<DWORD>(data.size() - 1), &dwBytesRead, NULL), 
                   CURRENT_SRC_PATH_TO_STR, 
                   "Cannot Read File [" + filename + "]", 
                   [&hFind](){ CloseHandle(hFind); }
