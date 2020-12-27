@@ -1,14 +1,14 @@
 /*************************************************************************
-> File Name: ArcbalController.hpp
+> File Name: FlycamController.hpp
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: Arcball Camera controller
+> Purpose: Flying Camera controller
 > Created Time: 2020/12/22
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
-#ifndef CUBBYFLOW_VOX_ARCBALL_CONTROLLER_HPP
-#define CUBBYFLOW_VOX_ARCBALL_CONTROLLER_HPP
+#ifndef CUBBYFLOW_VOX_FLYCAM_CONTROLLER_HPP
+#define CUBBYFLOW_VOX_FLYCAM_CONTROLLER_HPP
 
 #include <Vox/Camera/CameraController.hpp>
 #include <Core/Vector/Vector3.hpp>
@@ -18,16 +18,15 @@ namespace Vox
 /**
  * Camera class with perspective projection
  */
-class ArcballController : public CameraController
+class FlycamController : public CameraController
 {
  public:
-     ArcballController(const std::shared_ptr<Camera>& camera);
-    ~ArcballController();
+     FlycamController(const std::shared_ptr<Camera>& camera);
+    ~FlycamController();
 
  protected:
-     void OnSetMouseCursorPos(double x, double y) override;
-private:
-    CubbyFlow::Vector3D GetArcballVector(const CubbyFlow::Point2I& pos);
+     void OnSetMouseCursorPos() override;
+     void OnSetKey(int key, int action) override;
 };
 
 };  // namespace Vox
