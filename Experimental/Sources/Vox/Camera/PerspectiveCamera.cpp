@@ -28,15 +28,15 @@ namespace Vox {
 
     void PerspectiveCamera::UpdateMatrix()
     {
-        const Vector3F right = (_up.Cross(_dir)).Normalized();
-        const Vector3F cameraUp = (_dir.Cross(right)).Normalized();
-
         Matrix4x4F projection(0.0f);
         projection(0, 0) = 1.0f / (std::tan(PI_FLOAT * _fov / 360.0f) * _aspectRatio);
         projection(1, 1) = 1.0f / (std::tan(PI_FLOAT * _fov / 360.0f));
         projection(2, 2) = (_far + _near) / (_near - _far);
         projection(2, 3) = (2 * _far * _near) / (_near - _far);
         projection(3, 2) = -1.0f;
+        
+        const Vector3F right = (_up.Cross(_dir)).Normalized();
+        const Vector3F cameraUp = (_dir.Cross(right)).Normalized();
 
         Matrix4x4F view = { {right.x,        right.y,        right.z,        0.0f},
                             {cameraUp.x,     cameraUp.y,     cameraUp.z,     0.0f},

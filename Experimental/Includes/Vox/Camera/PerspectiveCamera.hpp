@@ -33,7 +33,7 @@ namespace Vox {
         void SetAspectRatio(const float aspectRatio);
         
         //! Update viewProjection with new view matrix and new projection matrix.
-        void UpdateMatrix();
+        void UpdateMatrix() override;
     protected:
     private:
         float _fov { 45.0f };
