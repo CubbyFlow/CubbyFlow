@@ -35,6 +35,7 @@ namespace Vox {
 		glBindFramebuffer(GL_FRAMEBUFFER, _id);
         const GLenum target = bMultisample ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D;
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, target, texture->GetTextureID(), 0);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
         _textures.push_back(texture);
 	}
@@ -43,6 +44,7 @@ namespace Vox {
     {
 		glBindFramebuffer(GL_FRAMEBUFFER, _id);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
         _rbo = rbo;
     }
