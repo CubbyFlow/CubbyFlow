@@ -17,24 +17,9 @@ namespace Vox {
     
     void Camera::SetViewTransform(const CubbyFlow::Vector3F& origin, const CubbyFlow::Vector3F& point, const CubbyFlow::Vector3F& up)
     {
-        _origin = origin;
-        _dir = (_origin - point).Normalized();
+        SetOrigin(origin);
+        SetDirection(_origin - point);
         _up = up;
-    }
-
-    void Camera::OrbitRotation(const CubbyFlow::Vector3F& focusPoint, float yaw, float pitch, float distance)
-    {
-        CubbyFlow::Vector3F camFocus = (_origin - focusPoint).Normalized();
-        //! create quaternion matrix with up vector and yaw angle.
-        CubbyFlow::QuaternionF yawRotation(_up, yaw); 
-        //! create quaternion matrix with right vector and pitch angle.
-        CubbyFlow::QuaternionF pitchRotation(_dir.Cross(_up).Normalized(), pitch); 
-
-        camFocus = (yawRotation * pitchRotation * camFocus);
-        _origin = focusPoint + camFocus * distance;
-        _dir = (focusPoint - _origin).Normalized();
-
-        UpdateMatrix();
     }
 
     CubbyFlow::Matrix4x4F Camera::GetViewProjectionMatrix() const

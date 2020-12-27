@@ -28,17 +28,31 @@ class Camera : public VoxSceneObject
  public:
     Camera() = default;
 
-    //! Set view matrix related elements such as origin, directoion
+    //! Set view matrix related elements such as origin, directoion and up vectors.
     void SetViewTransform(const CubbyFlow::Vector3F& origin,
                           const CubbyFlow::Vector3F& point,
                           const CubbyFlow::Vector3F& up);
 
+    //! Set camera origin.
+    inline void SetOrigin(const CubbyFlow::Vector3F& origin)
+    {
+        _origin = origin;
+    }
+
+    //! Set camera direction.
+    inline void SetDirection(const CubbyFlow::Vector3F& direction)
+    {
+        _dir = direction.Normalized();
+    }
+
+    //! Set camera up vector.
+    inline void SetUp(const CubbyFlow::Vector3F& up)
+    {
+        _up = up;
+    }
+
     //! Update viewProjection with new view matrix and new projection matrix.
     virtual void UpdateMatrix() {};
-
-    //! Rotate camera with orbit
-    void OrbitRotation(const CubbyFlow::Vector3F& focusPoint, float yaw,
-                       float pitch, float distance);
 
     //! Returns View Projection Matrix.
     CubbyFlow::Matrix4x4F GetViewProjectionMatrix() const;
@@ -53,6 +67,12 @@ class Camera : public VoxSceneObject
     inline CubbyFlow::Vector3F GetCameraDirection() const
     {
         return _dir;
+    }
+
+    //! Returns the camera up vector
+    inline CubbyFlow::Vector3F GetCameraUp() const
+    {
+        return _up;
     }
 
  protected:
