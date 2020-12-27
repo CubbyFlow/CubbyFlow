@@ -14,7 +14,7 @@
 #include <Vox/Core/Program.hpp>
 #include <Vox/Core/Emitter.hpp>
 #include <Vox/Core/Material.hpp>
-#include <Vox/Utils/MathUtils.hpp>
+#include <Core/Math/MathUtils.hpp>
 #include <Vox/Utils/FileSystem.hpp>
 #include <Vox/Camera/PerspectiveCamera.hpp>
 #include <Vox/Camera/OrthographicCamera.hpp>
@@ -28,6 +28,7 @@
 #include <glad/glad.h>
 #include <fstream>
 #include <sstream>
+#include <iostream>
 
 namespace Vox {
 
@@ -72,16 +73,18 @@ namespace Vox {
         auto result = document.load_file(path.ToCStr());
         VoxAssert(result, CURRENT_SRC_PATH_TO_STR, "Cannot Open Scene File with Path [" + path.ToString() + "]");
 
+        std::cout << "Loading Scene : " << path.ToString() << " scene" << std::endl;
         OnLoadScene(document);
     }
 
+    //! Camera loader
     template <>
     void VoxScene::OnLoadSceneObject<Camera>(const pugi::xml_node& node)
     {
-        const auto& transform = node.child("transform");
-        const CubbyFlow::Vector3F origin = Detail::ParseFromString(transform.attribute("origin").value());
-        const CubbyFlow::Vector3F target = Detail::ParseFromString(transform.attribute("target").value());
-        const CubbyFlow::Vector3F up = Detail::ParseFromString(transform.attribute("up").value());
+        const auto& lookAt = node.child("transform").child("lookat");
+        const CubbyFlow::Vector3F origin = Detail::ParseFromString(lookAt.attribute("origin").value());
+        const CubbyFlow::Vector3F target = Detail::ParseFromString(lookAt.attribute("target").value());
+        const CubbyFlow::Vector3F up = Detail::ParseFromString(lookAt.attribute("up").value());
 
         const std::string type = node.attribute("type").value();
         std::shared_ptr<Camera> camera;
@@ -105,8 +108,10 @@ namespace Vox {
 
         camera->SetViewTransform(origin, target, up);
         _metadata.emplace(VoxStringID(node.attribute("name").value()), camera);
+        std::cout << "Loading Scene : " << node.attribute("name").value() << std::endl;
     }
 
+    //! Material Loader
     template <>
     void VoxScene::OnLoadSceneObject<Material>(const pugi::xml_node& node)
     {
@@ -121,8 +126,10 @@ namespace Vox {
         // material->AttachProgramShader(program);
 
         // _metadata.emplace(VoxStringID(node.attribute("name").value()), material);
+        //std::cout << "Loading Scene : " << node.attribute("name").value() << std::endl;
     }
 
+    //! Animation Loader
     template <>
     void VoxScene::OnLoadSceneObject<GeometryCacheManager>(const pugi::xml_node& node)
     {
@@ -138,12 +145,14 @@ namespace Vox {
 
         CubbyFlow::ParallelFor(CubbyFlow::ZERO_SIZE, manager->GetNumberOfCache(), [&](size_t index){
             const auto& cache = manager->GetGeometryCache(index);
-            cache->TransformCache(translate, scale, rotateAxis, DegreeToRadian(rotateDegree));
+            cache->TransformCache(translate, scale, rotateAxis, CubbyFlow::DegreesToRadians(rotateDegree));
         });
 
         _metadata.emplace(VoxStringID(node.attribute("name").value()), manager);
+        std::cout << "Loading Scene : " << node.attribute("name").value() << std::endl;
     }
 
+    //! Static Object Loader
     template <>
     void VoxScene::OnLoadSceneObject<GeometryCache>(const pugi::xml_node& node)
     {
@@ -158,14 +167,17 @@ namespace Vox {
         // object->ScaleCache(scale);
 
         // _metadata.emplace(VoxStringID(node.attribute("name").value()), manager);
+        //std::cout << "Loading Scene : " << node.attribute("name").value() << std::endl;
     }
 
+    //! Emitter Loader
     template <>
     void VoxScene::OnLoadSceneObject<Emitter>(const pugi::xml_node& node)
     {
         UNUSED_VARIABLE(node);
 
         // _metadata.emplace(VoxStringID(node.attribute("name").value()), manager);
+        //std::cout << "Loading Scene : " << node.attribute("name").value() << std::endl;
     }
 
     void VoxScene::OnLoadScene(const pugi::xml_document& document)
