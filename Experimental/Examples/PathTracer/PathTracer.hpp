@@ -1,14 +1,14 @@
 /*************************************************************************
-> File Name: VoxRenderer.cpp
+> File Name: PathTracer.cpp
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: Particle Viewer
-> Created Time: 2020/08/11
+> Purpose: Path tracing simulation sdf result.
+> Created Time: 2020/12/27
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
-#ifndef CUBBYFLOW_VOX_RENDERER
-#define CUBBYFLOW_VOX_RENDERER
+#ifndef CUBBYFLOW_PATH_TRACER
+#define CUBBYFLOW_PATH_TRACER
 
 #include <Vox/Core/App.hpp>
 #include <Vox/Utils/GLTypes.hpp>
@@ -24,13 +24,13 @@ namespace Vox {
     class S3TextureCompression;
 };
 
-class VoxRenderer : public Vox::App
+class PathTracer : public Vox::App
 {
 public:
     //! Default Constructor
-    VoxRenderer();
+    PathTracer();
     //! Default Destructor
-    ~VoxRenderer();
+    ~PathTracer();
     
     //! Intiailize sample application.
     bool Initialize(const Vox::Path& scenePath) override;

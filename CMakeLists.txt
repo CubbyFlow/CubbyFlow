@@ -79,7 +79,8 @@ set(RESOURCES_TEXTURES  textures/bricks2_disp.jpg
                         textures/metal.png
                         textures/wood.png)                    
 
-set(RESOURCES_SCENES    VoxRenderer.xml)
+set(RESOURCES_SCENES    VoxRenderer.xml
+                        PathTracer.xml)
 
 # we don't want to copy if we're building in the source dir
 if (NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
