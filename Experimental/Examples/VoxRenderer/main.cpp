@@ -7,7 +7,7 @@
 > Created Time: 2020/06/02
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
-#include "ClaraUtils.h"
+#include "../ClaraUtils.h"
 #include "VoxRenderer.hpp"
 
 #include <Vox/Core/Device.hpp>
