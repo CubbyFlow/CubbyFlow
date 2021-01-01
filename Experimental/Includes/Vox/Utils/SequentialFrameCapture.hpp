@@ -29,10 +29,8 @@ namespace Vox {
 
         //! Capture screen shot of the current framebuffer.
         void CaptureFrameBuffer(int width, int height, int mips, const PixelFmt pf);
-        //! Write current frame capture as dds file.
-        bool WriteCurrentCaptureToDDS(const char* format);
-        //! Write current frame capture as tga file.
-        bool WriteCurrentCaptureToTGA(const char* format);
+        //! Write current frame capture to image file
+        bool WriteCurrentCapture(const std::string& format);
 
         //! Returns the current frame index.
         inline size_t GetCurrentFrameIndex() const

@@ -61,17 +61,6 @@ namespace Vox {
 
     unsigned int GetByteSize(int w, int h, int mips, Vox::PixelFmt fmt);
 
-    namespace DDS
-    {
-        void* LoadTextureData(const char* f, int* w, int* h, int* mips, Vox::PixelFmt* pixmft);
-        bool WriteTexture(const char* file, int w, int h, int mips, Vox::PixelFmt fmt, const void* data);
-    };
-
-    namespace TGA
-    {
-        void* LoadTextureData(const char* f, int* w, int* h, int* mips, Vox::PixelFmt* pixmft);
-        bool WriteTexture(const char* file, int w, int h, int mips, Vox::PixelFmt fmt, const void* data);
-    };
 };
 
 #endif

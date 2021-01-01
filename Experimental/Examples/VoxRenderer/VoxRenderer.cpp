@@ -113,7 +113,7 @@ void VoxRenderer::DrawFrame()
         glViewport(0, 0, _windowSize.x, _windowSize.y);
         _postProcessing->DrawFrame(ctx, compressedScreen);
         _frameCapture->CaptureFrameBuffer(_windowSize.x, _windowSize.y, 1, Vox::PixelFmt::PF_BGRA8);
-        _frameCapture->WriteCurrentCaptureToDDS("./VoxRenderer_output/result%06d.dds");
+        _frameCapture->WriteCurrentCapture("./VoxRenderer_output/result%06d.jpg");
         Vox::App::EndFrame(ctx);
     }
 
