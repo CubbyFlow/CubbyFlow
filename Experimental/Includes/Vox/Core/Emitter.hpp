@@ -14,16 +14,16 @@
 
 namespace Vox
 {
-/**
- * Base Emitter class
- */
-class Emitter : public VoxSceneObject
-{
- public:
-    Emitter() = default;
- protected:
- private:
-};
+   /**
+    * Base Emitter class
+    */
+   class Emitter : public VoxSceneObject
+   {
+    public:
+       Emitter() = default;
+    protected:
+    private:
+   };
 
 };  // namespace Vox
 
