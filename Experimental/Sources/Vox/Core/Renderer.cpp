@@ -28,6 +28,48 @@
 
 namespace Vox {
 
+	namespace Detail
+	{
+		std::string GetPathDirectory(const std::string& path)
+		{
+			size_t pos = path.find_last_of('/');
+			return path.substr(0, pos + 1);
+		}
+
+		std::string PreprocessShaderInclude(const Vox::Path& path, std::string includePrefix = "#include")
+		{
+			includePrefix += ' ';
+
+			std::cout << GetPathDirectory(path.ToString());
+			//! Load shader source file.
+			std::ifstream file(path.ToString());
+			VoxAssert(file.is_open(), CURRENT_SRC_PATH_TO_STR, "Open Shader source file failed");
+
+			std::string fullSourceCode = "";
+			std::string temp;
+			while (std::getline(file, temp))
+			{
+				if (temp.find(includePrefix) != std::string::npos) //! temp string contain "#include "
+				{
+					temp.erase(0, includePrefix.length());
+
+					std::string filePath = GetPathDirectory(path.ToString());
+					filePath += temp;
+					std::string includeSrc = PreprocessShaderInclude(Vox::Path(temp));
+
+					fullSourceCode += includeSrc;
+					continue;
+				}
+
+				fullSourceCode += temp + '\n';
+			}
+
+			fullSourceCode += '\0';
+
+			return fullSourceCode;
+		}
+	}
+
 	GLuint Renderer::CreateTexture(GLsizei width, GLsizei height, const PixelFmt pf, const void* data, bool multisample)
 	{
 		const PixelFmtDesc* pfd = GetPixelFmtDesc(pf);
@@ -132,17 +174,8 @@ namespace Vox {
 
     GLuint Renderer::CreateShaderFromFile(const Path& path, GLenum shaderType)
     {
-		//! Load shader source file.
-		std::ifstream file(path.ToString());
-		VoxAssert(file.is_open(), CURRENT_SRC_PATH_TO_STR, "Open Shader source file failed");
-
-		//! Read file contents to string.
-		std::istringstream isstr;
-		isstr >> file.rdbuf();
-		const char* src = isstr.str().c_str();
-		VoxAssert(src, CURRENT_SRC_PATH_TO_STR, "Loaded Shader source file is empty");
-
-		return CreateShaderFromSource(src, shaderType);
+		std::string fullSourceCode = Detail::PreprocessShaderInclude(path);
+		return CreateShaderFromSource(fullSourceCode.c_str(), shaderType);
     }
 
     GLuint Renderer::CreateProgram(GLuint vs, GLuint gs, GLuint fs)
