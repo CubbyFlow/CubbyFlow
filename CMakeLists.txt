@@ -60,27 +60,24 @@ set(CMAKE_MACOSX_RPATH ON)
 # Set resources
 set(RESOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Resources)
 
-set(RESOURCES_SHADERS   shaders/vs_pbr_shader.glsl
-                        shaders/fs_pbr_shader.glsl)
+set(RESOURCES_SHADERS   shaders/mesh.glsl
+                        shaders/output.glsl
+                        shaders/s3tc.glsl
+                        shaders/vertex.glsl
+                        shaders/ycocg_decode.glsl
+                        shaders/common/brdf.glsl
+                        shaders/common/globals.glsl
+                        shaders/common/quad.glsl
+                        shaders/common/uniforms.glsl)
 
-set(RESOURCES_OBJS  bunny.obj 
-                    cube.obj 
-                    dragon.obj 
-                    sphere.obj)
+set(RESOURCES_OBJS  objects/bunny.obj 
+                    objects/cube.obj 
+                    objects/dragon.obj 
+                    objects/sphere.obj)     
+                    
+set(RESOURCES_HDRS  hdr/sunset.hdr) 
 
-set(RESOURCES_TEXTURES  textures/bricks2_disp.jpg
-                        textures/bricks2_normal.jpg
-                        textures/bricks2.jpg
-                        textures/container.jpg
-                        textures/container2_specular_colored.png
-                        textures/container2_specular.png
-                        textures/container2.png
-                        textures/grass.png
-                        textures/metal.png
-                        textures/wood.png)                    
-
-set(RESOURCES_SCENES    VoxRenderer.xml
-                        PathTracer.xml)
+set(RESOURCES_SCENES    VoxRenderer.xml)
 
 # we don't want to copy if we're building in the source dir
 if (NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
@@ -93,7 +90,7 @@ if (NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
         configure_file(${RESOURCES_DIR}/${item} ${CMAKE_CURRENT_BINARY_DIR}/bin/Resources/${item} COPYONLY)
     endforeach()
 
-    foreach(item IN LISTS RESOURCES_TEXTURES)
+    foreach(item IN LISTS RESOURCES_HDRS)
         configure_file(${RESOURCES_DIR}/${item} ${CMAKE_CURRENT_BINARY_DIR}/bin/Resources/${item} COPYONLY)
     endforeach()
 

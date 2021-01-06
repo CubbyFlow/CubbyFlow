@@ -49,7 +49,7 @@
     </anim>
 
     <shape type="obj" id="column1">
-        <string name="filename" value="Objects/cylinder.obj"/>
+        <string name="filename" value="objects/cylinder.obj"/>
         <transform name="toWorld">
             <rotate x="1" angle="90"/>
             <translate x="100" y="10" z="37.5"/>
