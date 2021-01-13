@@ -60,7 +60,6 @@ namespace Vox {
             stbi_write_tga(baseName, _width, _height, 4, _buffer);
         else
         {
-            
             VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Unknown image extension (only support png, jpg and tga)");
         }
 
