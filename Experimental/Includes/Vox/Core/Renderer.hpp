@@ -14,6 +14,7 @@
 #include <Vox/Core/PixelFmt.hpp>
 #include <Vox/Utils/GLTypes.hpp>
 #include <Vox/Utils/DebugUtils.hpp>
+#include <vector>
 #include <memory>
 #include <string>
 
@@ -27,8 +28,9 @@ namespace Vox {
         //! Create Texture with pixel format
         GLuint CreateTexture(GLsizei width, GLsizei height, const PixelFmt pf, const void* data, bool multisample=false);
 
-        //! Create Volume Texture (3D Texture)
-        GLuint CreateVolumeTexture(GLsizei width, GLsizei height, GLsizei depth, const PixelFmt pf, const void* data);
+        //! Create Cube Map with pixel format
+        //! faces order is { right, left, top, bottom, back, front }.
+        GLuint CreateCubeMap(GLsizei width, GLsizei height, const PixelFmt pf, const std::vector<const void*>& faces);
 
         //! Create Render Buffer
         GLuint CreateRenderBuffer(GLsizei width, GLsizei height, const PixelFmt pf, bool multisample=false);

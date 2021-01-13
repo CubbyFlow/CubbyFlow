@@ -40,7 +40,6 @@ namespace Vox {
 		{
 			includePrefix += ' ';
 
-			std::cout << GetPathDirectory(path.ToString());
 			//! Load shader source file.
 			std::ifstream file(path.ToString());
 			VoxAssert(file.is_open(), CURRENT_SRC_PATH_TO_STR, "Open Shader source file failed");
@@ -55,7 +54,7 @@ namespace Vox {
 
 					std::string filePath = GetPathDirectory(path.ToString());
 					filePath += temp;
-					std::string includeSrc = PreprocessShaderInclude(Vox::Path(temp));
+					std::string includeSrc = PreprocessShaderInclude(Vox::Path(filePath));
 
 					fullSourceCode += includeSrc;
 					continue;
@@ -64,8 +63,7 @@ namespace Vox {
 				fullSourceCode += temp + '\n';
 			}
 
-			fullSourceCode += '\0';
-
+			file.close();
 			return fullSourceCode;
 		}
 	}
@@ -112,21 +110,36 @@ namespace Vox {
 		return texture;
 	}
 
-	GLuint Renderer::CreateVolumeTexture(GLsizei width, GLsizei height, GLsizei depth, const PixelFmt pf, const void* data)
+	GLuint CreateCubeMap(GLsizei width, GLsizei height, const PixelFmt pf, const std::vector<const void*>& faces)
 	{
 		const PixelFmtDesc* pfd = GetPixelFmtDesc(pf);
-		
+
 		GLuint texture;
 		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_3D, texture);
-		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexImage3D(GL_TEXTURE_3D, 0, pfd->internal, width, height, depth, 0, pfd->format, pfd->type, data);
-		glBindTexture(GL_TEXTURE_3D, 0);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
 		
+		if (pfd->compressed)
+		{
+			const int pitch = (width >> 2) * pfd->size;
+			const int rows = height >> 2;
+			for (int i = 0; i < 6; ++i)
+				glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, pfd->internal, 
+									   width, height, 0, pitch * rows, faces.empty() ? nullptr : faces[i]);
+		}
+		else
+		{
+			for (int i = 0; i < 6; ++i)
+				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, pfd->internal, 
+							 width, height, 0, pfd->format, pfd->type, faces.empty() ? nullptr : faces[i]);
+		}
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 		return texture;
 	}
 
