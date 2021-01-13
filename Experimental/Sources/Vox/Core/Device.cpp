@@ -92,11 +92,12 @@ namespace Vox {
 
         HostTimer hostTimer;
         double startTime = hostTimer.DurationInSeconds();
+        double dt = 0.0;
         size_t frameCnt = 0;
 
         while (glfwWindowShouldClose(window) == GLFW_FALSE)
         {
-			app->UpdateFrame();
+			app->UpdateFrame(dt);
             app->DrawFrame();
 
             glfwSwapBuffers(window);
@@ -104,9 +105,10 @@ namespace Vox {
 
             ++frameCnt;
             double nowTime = hostTimer.DurationInSeconds();
+            dt = nowTime - startTime;
             if (nowTime - startTime > 1.0)
             {
-                printf("HostTimer : %.6f ms/frame, %.3f fps\n", (nowTime - startTime) * 1000.0 / frameCnt, frameCnt / (nowTime - startTime));
+                printf("HostTimer : %.6f ms/frame, %.3f fps\n", (dt) * 1000.0 / frameCnt, frameCnt / (dt));
                 startTime = nowTime;
                 frameCnt = 0;
             }
