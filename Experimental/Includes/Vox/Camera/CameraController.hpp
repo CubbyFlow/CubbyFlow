@@ -12,7 +12,6 @@
 
 #include <Core/Vector/Vector3.hpp>
 #include <Core/Geometry/Point2.hpp>
-#include <Vox/Core/InputHandler.hpp>
 
 namespace Vox
 {
@@ -20,7 +19,7 @@ class Camera;
 /**
  * Camera controller which transform camera with given user input
  */
-class CameraController : public InputHandler
+class CameraController
 {
  public:
     //! Constructor with camera smart pointer
