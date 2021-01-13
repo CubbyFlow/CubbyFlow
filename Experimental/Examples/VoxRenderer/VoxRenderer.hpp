@@ -21,7 +21,7 @@ namespace Vox {
     class Texture;
     class Program;
     class FrameBuffer;
-    class S3TextureCompression;
+    class PointLight;
 };
 
 class VoxRenderer : public Vox::App
@@ -34,6 +34,7 @@ public:
     
     //! Intiailize sample application.
     bool Initialize(const Vox::Path& scenePath) override;
+    void UpdateFrame(double dt) override;
     void DrawFrame() override;
     const char* GetWindowTitle() override { return "Particle Viewer"; };
 
@@ -42,10 +43,10 @@ protected:
     std::unique_ptr<Vox::FluidBuffer> _buffer;
     std::shared_ptr<Vox::GeometryCacheManager> _cacheMgr;
     std::unique_ptr<Vox::PostProcessing> _postProcessing;
-    std::unique_ptr<Vox::S3TextureCompression> _compressor;
     std::shared_ptr<Vox::FrameBuffer> _mainPass;
     std::shared_ptr<Vox::Program> _meshShader;
     std::shared_ptr<Vox::Texture> _screenTexture;
+    std::shared_ptr<Vox::PointLight> _light;
 };
 
 #endif
