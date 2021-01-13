@@ -42,14 +42,33 @@ namespace Vox {
     
     bool App::Initialize(const Vox::Path& scenePath)
     {
+        std::shared_ptr<Vox::FrameContext> ctx = Vox::App::PopFrameContextFromQueue();
+
+        //! Initialize renderer scene from file.
         _scene = Vox::VoxScene::CreateScene(scenePath);
+        ctx->BindSceneToContext(_scene);
+
+        //! Get camera instance from the scene.
         _camera = _scene->GetSceneObject<Vox::PerspectiveCamera>("mainCam");
         _camera->SetAspectRatio(static_cast<float>(_windowSize.x) / _windowSize.y);
         _camera->UpdateMatrix();
 
+        //! Create camera controller.
         _camController = std::make_shared<Vox::FlycamController>(_camera);
 
+        //! Initialize frame recorder.
         _frameCapture.reset(new SequentialFrameCapture());
+
+        //! Set render status of the current context.
+        auto status = ctx->GetRenderStatus();
+        status.primitive = GL_TRIANGLES;
+        status.cullMode = GL_BACK;
+        status.isDepthTestEnabled = true;
+        ctx->SetRenderStatus(status);
+        
+        glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+
+        Vox::App::PushFrameContextToQueue(ctx);
 
         return true;
     }
