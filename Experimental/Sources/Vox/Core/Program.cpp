@@ -28,34 +28,6 @@ namespace Vox {
     void Program::BindProgram(const std::shared_ptr<VoxScene>& scene)
     {
         glUseProgram(_program);
-        
-        if (HasUniformVariable("ViewProjection"))
-        {
-            const auto& camera = scene->GetSceneObject<PerspectiveCamera>("mainCam");
-            if (camera)
-            {
-                _parameters.SetParameter("ViewProjection", camera->GetViewProjectionMatrix());
-            }
-        }
-
-        if (HasUniformVariable("ViewPos"))
-        {
-            const auto& camera = scene->GetSceneObject<PerspectiveCamera>("mainCam");
-            if (camera)
-            {
-                _parameters.SetParameter("ViewPos", camera->GetCameraOrigin());
-            }
-        }
-
-        if (HasUniformVariable("LightPosition"))
-        {
-            // const auto& light = scene->GetSceneObject<Light>("DirectionalLight");
-            // if (light)
-            // {
-            //     _parameters.SetParameter("LightPosition", light->GetCameraOrigin());
-            // }
-        }
-
         SendParametersToGPU();
     }
     
