@@ -41,10 +41,10 @@ namespace Vox {
     class Mesh : public NonCopyable
     {
     public:
-        //! Constructor with geometry cache.
-        Mesh(const MeshShape& geometryShape, VertexFormat format, bool bInterleaved=false);
+        //! Default Constructor
+        Mesh() = default;
         //! Default destructor
-        ~Mesh();
+        virtual ~Mesh();
 
         //! Generate opengl resources with given geometry shape.
         void GenerateMeshObject(const MeshShape& geometryShape, VertexFormat format, bool bInterleaved=false);

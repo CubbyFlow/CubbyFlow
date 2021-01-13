@@ -7,16 +7,11 @@
 > Created Time: 2020/08/18
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
-#include <Vox/Core/Mesh.hpp>
+#include <Vox/Mesh/Mesh.hpp>
 #include <Vox/Core/FrameContext.hpp>
 #include <glad/glad.h>
 
 namespace Vox {
-
-    Mesh::Mesh(const MeshShape& shape, VertexFormat format, bool bInterleaved)
-    {
-        GenerateMeshObject(shape, format, bInterleaved);
-    }
 
     Mesh::~Mesh()
     {
