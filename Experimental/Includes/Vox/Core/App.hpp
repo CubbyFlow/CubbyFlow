@@ -40,7 +40,7 @@ namespace Vox {
         //! Initialize the base application.
         virtual bool Initialize(const Vox::Path& scenePath);
         //! Update the physical step of the frame.
-        virtual void UpdateFrame() {};
+        virtual void UpdateFrame(double dt) {(void)dt;};
         //! OpenGL Commands or other tasks collection for 
         //! preparing call DrawFrame.
         void BeginFrame(std::shared_ptr<FrameContext>& ctx);
