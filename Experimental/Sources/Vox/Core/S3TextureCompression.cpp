@@ -31,7 +31,7 @@ namespace Vox {
         if (_vboDXT) glDeleteBuffers(1, &_vboDXT);
     }
 
-    void S3TextureCompression::Initialize(const std::shared_ptr<FrameContext>& ctx)
+    void S3TextureCompression::Initialize(const std::shared_ptr<FrameContext>& ctx, GLuint s3tcProgramID, GLuint decodingProgramID)
     {
         UNUSED_VARIABLE(ctx);
         _texIm = std::make_shared<Texture>(GL_TEXTURE_2D, Renderer::CreateTexture((_width + 3)/4, (_height + 3)/4, PixelFmt::PF_RGBA32UI, nullptr));
@@ -49,19 +49,11 @@ namespace Vox {
         glBufferData(GL_ARRAY_BUFFER, _width * _height, nullptr, GL_STREAM_COPY);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-        GLuint vs = Renderer::CreateShaderFromSource(kS3TCShaders[0], GL_VERTEX_SHADER);
-        GLuint fs = Renderer::CreateShaderFromSource(kS3TCShaders[1], GL_FRAGMENT_SHADER);
-        _s3tcProgram = std::make_shared<Program>(Renderer::CreateProgram(vs, 0, fs));
-        glDeleteShader(fs);
-
+        _s3tcProgram = std::make_shared<Program>(s3tcProgramID);
         auto& params = _s3tcProgram->GetParameters();
         params.SetParameter("ScreenTexture", 0);
 
-        fs = Renderer::CreateShaderFromSource(kYCoCgDecodingShaders[1], GL_FRAGMENT_SHADER);
-        _decodingProgram = std::make_shared<Program>(Renderer::CreateProgram(vs, 0, fs));
-        glDeleteShader(vs);
-        glDeleteShader(fs);
-
+        _decodingProgram = std::make_shared<Program>(decodingProgramID);
         params = _s3tcProgram->GetParameters();
         params.SetParameter("ScreenTexture", 0);
 

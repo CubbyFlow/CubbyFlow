@@ -35,7 +35,7 @@ namespace Vox {
         //! After initializing resources, add them to frame context.
         //! initialized textures : DXTexture5, EncodingTexture, CompressedTexture
         //! initialzied frame buffer : S3TCPass, YCoCgDecodingPass
-        void Initialize(const std::shared_ptr<FrameContext>& ctx);
+        void Initialize(const std::shared_ptr<FrameContext>& ctx, GLuint s3tcProgramID, GLuint decodingProgramID);
 
         //! Compress given texture argument with S3TC_DXT5.
         void CompressionPass(const std::shared_ptr<FrameContext>& ctx, const std::shared_ptr<Texture>& compressTarget);

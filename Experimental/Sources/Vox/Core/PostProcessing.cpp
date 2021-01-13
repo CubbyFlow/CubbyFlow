@@ -27,12 +27,10 @@ namespace Vox {
         if (_screenQuad) glDeleteVertexArrays(1, &_screenQuad);
     }
 
-    void PostProcessing::Initialize(const std::shared_ptr<FrameContext>& ctx)
+    void PostProcessing::Initialize(const std::shared_ptr<FrameContext>& ctx, GLuint programID)
     {
         UNUSED_VARIABLE(ctx);
-        GLuint vs = Renderer::CreateShaderFromSource(kScreenShaders[0], GL_VERTEX_SHADER);
-        GLuint fs = Renderer::CreateShaderFromSource(kScreenShaders[1], GL_FRAGMENT_SHADER);
-        _postProcessingProgram = std::make_shared<Program>(Renderer::CreateProgram(vs, 0, fs));
+        _postProcessingProgram = std::make_shared<Program>(programID);
 
         auto& params = _postProcessingProgram->GetParameters();
         params.SetParameter("ScreenTexture", 0);
