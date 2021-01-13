@@ -27,4 +27,11 @@ namespace Vox {
         return _viewProjection;
     }
 
+    void Camera::UploadToProgram(const std::shared_ptr<Program>& program)
+    {   
+        auto& params = program->GetParameters();
+        params.SetParameter("camera.viewProjection", _viewProjection);
+        params.SetParameter("camera.position", _origin);
+    }
+
 };

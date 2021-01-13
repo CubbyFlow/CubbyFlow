@@ -10,6 +10,7 @@
 #include <Vox/Camera/PerspectiveCamera.hpp>
 #include <Vox/Core/FrameContext.hpp>
 #include <Vox/Core/Program.hpp>
+#include <Vox/Utils/MatrixUtils.hpp>
 #include <Core/Math/Quaternion.hpp>
 #include <iostream>
 
@@ -28,26 +29,6 @@ namespace Vox {
 
     void PerspectiveCamera::UpdateMatrix()
     {
-        Matrix4x4F projection(0.0f);
-        projection(0, 0) = 1.0f / (std::tan(PI_FLOAT * _fov / 360.0f) * _aspectRatio);
-        projection(1, 1) = 1.0f / (std::tan(PI_FLOAT * _fov / 360.0f));
-        projection(2, 2) = (_far + _near) / (_near - _far);
-        projection(2, 3) = (2 * _far * _near) / (_near - _far);
-        projection(3, 2) = -1.0f;
-        
-        const Vector3F right = (_up.Cross(_dir)).Normalized();
-        const Vector3F cameraUp = (_dir.Cross(right)).Normalized();
-
-        Matrix4x4F view = { {right.x,        right.y,        right.z,        0.0f},
-                            {cameraUp.x,     cameraUp.y,     cameraUp.z,     0.0f},
-                            {_dir.x,         _dir.y,         _dir.z,         0.0f},
-                            {0.0f,           0.0f,           0.0f,           1.0f} };
-
-        Matrix4x4F translation = { {1.0f, 0.0f, 0.0f, -_origin.x},
-                                   {0.0f, 1.0f, 0.0f, -_origin.y},
-                                   {0.0f, 0.0f, 1.0f, -_origin.z},
-                                   {0.0f, 0.0f, 0.0f,   1.0f  } };
-
-        _viewProjection = projection * view * translation;
+        _viewProjection = Perspective(_aspectRatio, _near, _far, _fov) * LookAt(_origin, _dir, _up);
     }
 };
