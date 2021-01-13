@@ -75,6 +75,9 @@ class Camera : public VoxSceneObject
         return _up;
     }
 
+    //! Upload uniform variables to given program.
+    void UploadToProgram(const std::shared_ptr<Program>& program);
+
  protected:
     CubbyFlow::Matrix4x4F _viewProjection = CubbyFlow::Matrix4x4F::MakeIdentity();
     CubbyFlow::Vector3F _origin { 0.0f, 0.0f, 0.0f };

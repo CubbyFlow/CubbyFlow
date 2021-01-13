@@ -11,6 +11,7 @@
 #define CUBBYFLOW_VOX_EMITTER_HPP
 
 #include <Vox/Scene/VoxSceneObject.hpp>
+#include <Vox/Core/Program.hpp>
 
 namespace Vox
 {
@@ -21,7 +22,10 @@ namespace Vox
    {
     public:
        Emitter() = default;
+        
+       void UploadToProgram(const std::shared_ptr<Program>& program);
     protected:
+       virtual void OnUploadProgram(ShaderParameters& params);
     private:
    };
 
