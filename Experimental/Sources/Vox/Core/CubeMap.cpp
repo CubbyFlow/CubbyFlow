@@ -11,7 +11,9 @@
 
 namespace Vox
 {
-    
-    
+    void CubeMap::OnUploadProgram(ShaderParameters& params)
+    {
+        UNUSED_VARIABLE(params);
+    }
     
 };  // namespace Vox

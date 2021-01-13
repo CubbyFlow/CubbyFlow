@@ -22,6 +22,7 @@ namespace Vox
      public:
         CubeMap() = default;
      protected:
+        void OnUploadProgram(ShaderParameters& params) override;
      private:
     };
 
