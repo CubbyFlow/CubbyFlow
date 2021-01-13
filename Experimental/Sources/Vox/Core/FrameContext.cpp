@@ -14,7 +14,7 @@
 #include <Vox/Core/Texture.hpp>
 #include <Vox/Core/Program.hpp>
 #include <Vox/Utils/FileSystem.hpp>
-#include <Vox/Core/Mesh.hpp>
+#include <Vox/Mesh/Mesh.hpp>
 #include <Vox/Scene/VoxScene.hpp>
 #include <Vox/Core/Device.hpp>
 #include <Vox/Utils/StringID.hpp>

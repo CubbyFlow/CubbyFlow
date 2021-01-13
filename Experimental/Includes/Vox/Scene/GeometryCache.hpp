@@ -13,7 +13,7 @@
 #include <Vox/Utils/FileSystem.hpp>
 #include <Vox/Scene/VoxSceneObject.hpp>
 #include <Vox/Core/Vertex.hpp>
-#include <Vox/Core/Mesh.hpp>
+#include <Vox/Mesh/Mesh.hpp>
 #include <Core/Geometry/BoundingBox3.hpp>
 #include <Core/Vector/Vector3.hpp>
 #include <Core/Array/Array1.hpp>

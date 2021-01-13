@@ -12,7 +12,7 @@
 #include <Vox/Utils/FileSystem.hpp>
 #include <Vox/Core/Material.hpp>
 #include <Vox/Core/FrameContext.hpp>
-#include <Vox/Core/Mesh.hpp>
+#include <Vox/Mesh/Mesh.hpp>
 #include <glad/glad.h>
 
 namespace Vox {
