@@ -13,6 +13,7 @@
 #include <Vox/Core/Renderer.hpp>
 #include <Vox/Core/Program.hpp>
 #include <Vox/Core/Emitter.hpp>
+#include <Vox/Core/FluidBuffer.hpp>
 #include <Vox/Core/Material.hpp>
 #include <Core/Math/MathUtils.hpp>
 #include <Vox/Utils/FileSystem.hpp>
@@ -73,7 +74,7 @@ namespace Vox {
         auto result = document.load_file(path.ToCStr());
         VoxAssert(result, CURRENT_SRC_PATH_TO_STR, "Cannot Open Scene File with Path [" + path.ToString() + "]");
 
-        std::cout << "Loading Scene : " << path.ToString() << " scene" << std::endl;
+        std::cout << "Loading " << path.ToString() << " scene" << std::endl;
         OnLoadScene(document);
     }
 
@@ -81,6 +82,8 @@ namespace Vox {
     template <>
     void VoxScene::OnLoadSceneObject<Camera>(const pugi::xml_node& node)
     {
+        std::cout << "Loading " << node.attribute("name").value();
+
         const auto& lookAt = node.child("transform").child("lookat");
         const CubbyFlow::Vector3F origin = Detail::ParseFromString(lookAt.attribute("origin").value());
         const CubbyFlow::Vector3F target = Detail::ParseFromString(lookAt.attribute("target").value());
@@ -108,31 +111,103 @@ namespace Vox {
 
         camera->SetViewTransform(origin, target, up);
         _metadata.emplace(VoxStringID(node.attribute("name").value()), camera);
-        std::cout << "Loading Scene : " << node.attribute("name").value() << std::endl;
+
+        std::cout << " done" << std::endl;
+    }
+
+    //! Shader program Loader
+    template <>
+    void VoxScene::OnLoadSceneObject<Program>(const pugi::xml_node& node)
+    {
+        std::cout << "Loading " << node.attribute("name").value();
+
+        GLuint vs{ 0 }, fs{ 0 }, gs{ 0 };
+        for (const auto& shader : node.child("shader"))
+        {
+            const std::string type = shader.name();
+            const auto& path = FileSystem::FindPath(shader.attribute("value").value()).ToString();
+            
+            if (type == "vs")
+            {
+                vs = Renderer::CreateShaderFromFile(path, GL_VERTEX_SHADER);
+            }
+            else if (type == "fs")
+            {
+                fs = Renderer::CreateShaderFromFile(path, GL_FRAGMENT_SHADER);
+            }
+            else if (type == "gs")
+            {
+                gs = Renderer::CreateShaderFromFile(path, GL_GEOMETRY_SHADER);
+            }
+            else
+            {
+                VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Unknown shader type : " + type);
+            }
+        }
+        
+        auto program = std::make_shared<Program>(Renderer::CreateProgram(vs, gs, fs));
+        if (vs) glDeleteShader(vs);
+        if (fs) glDeleteShader(fs);
+        if (gs) glDeleteShader(gs);
+
+        auto& shaderParams = program->GetParameters();
+        for (const auto& uniform : node.child("uniform"))
+        {
+            const std::string name = uniform.attribute("name").value();
+            const std::string type = uniform.name();
+
+            const auto& valueNode = uniform.attribute("value");
+            if (type == "integer")
+            {
+                shaderParams.SetParameter(name, valueNode.as_int());
+            }
+            else if (type == "float")
+            {
+                shaderParams.SetParameter(name, valueNode.as_float());
+            }
+            else if (type == "rgb" || type == "xyz")
+            {
+                shaderParams.SetParameter(name, Detail::ParseFromString(valueNode.value()));
+            }
+            else
+            {
+                VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Unknown shader uniform variable type : " + type);
+            }
+        }
+
+        _metadata.emplace(VoxStringID(node.attribute("name").value()), program);
+        std::cout << " done" << std::endl;
     }
 
     //! Material Loader
     template <>
     void VoxScene::OnLoadSceneObject<Material>(const pugi::xml_node& node)
     {
-        UNUSED_VARIABLE(node);
-        // GLuint vs = Renderer::CreateShaderFromFile(json["vs"].get<std::string>(), GL_VERTEX_SHADER);
-        // GLuint fs = Renderer::CreateShaderFromFile(json["fs"].get<std::string>(), GL_FRAGMENT_SHADER);
+        std::cout << "Loading " << node.attribute("name").value();
 
-        // auto program = std::make_shared<Program>(Renderer::CreateProgram(vs, 0, fs));
+        auto material = std::make_shared<Material>();
 
-        // const std::string name = json["name"].get<std::string>();
-        // auto material = std::make_shared<Material>();
-        // material->AttachProgramShader(program);
+        const auto& program = GetSceneObject<Program>(node.child("program").attribute("value").value());
+        material->AttachProgramShader(program);
 
-        // _metadata.emplace(VoxStringID(node.attribute("name").value()), material);
-        //std::cout << "Loading Scene : " << node.attribute("name").value() << std::endl;
+        Material::BRDF brdf;
+        brdf.albedo = Detail::ParseFromString(node.child("brdf").child("albedo").attribute("value").value());
+        brdf.metallic = node.child("brdf").child("metallic").attribute("value").as_float();
+        brdf.roughness = node.child("brdf").child("roughness").attribute("value").as_float();
+        brdf.ao = node.child("brdf").child("ao").attribute("value").as_float();
+        
+        material->SetBRDF(brdf);
+
+        _metadata.emplace(VoxStringID(node.attribute("name").value()), material);
+        std::cout << " done" << std::endl;
     }
 
     //! Animation Loader
     template <>
-    void VoxScene::OnLoadSceneObject<GeometryCacheManager>(const pugi::xml_node& node)
+    void VoxScene::OnLoadSceneObject<FluidBuffer>(const pugi::xml_node& node)
     {
+        std::cout << "Loading " << node.attribute("name").value();
+
         const std::string format = node.find_child_by_attribute("string", "name", "format").attribute("value").value();
         const int count = node.find_child_by_attribute("integer", "name", "count").attribute("value").as_int();
         auto manager = std::make_shared<GeometryCacheManager>(format, count);
@@ -146,16 +221,27 @@ namespace Vox {
         CubbyFlow::ParallelFor(CubbyFlow::ZERO_SIZE, manager->GetNumberOfCache(), [&](size_t index){
             const auto& cache = manager->GetGeometryCache(index);
             cache->TransformCache(translate, scale, rotateAxis, CubbyFlow::DegreesToRadians(rotateDegree));
+            cache->InterleaveData(Vox::VertexFormat::Position3Normal3);
         });
 
-        _metadata.emplace(VoxStringID(node.attribute("name").value()), manager);
-        std::cout << "Loading Scene : " << node.attribute("name").value() << std::endl;
+        const std::string materialName = node.child("material").attribute("value").value();
+        const auto& material = GetSceneObject<Material>(materialName);
+        
+        auto fluidBuffer = std::make_shared<FluidBuffer>();
+        fluidBuffer->AttachGeometryCacheManager(manager);
+        fluidBuffer->AttachMaterial(material);
+
+        _metadata.emplace(VoxStringID(node.attribute("name").value()), fluidBuffer);
+
+        std::cout << " done" << std::endl;
     }
 
     //! Static Object Loader
     template <>
     void VoxScene::OnLoadSceneObject<GeometryCache>(const pugi::xml_node& node)
     {
+        std::cout << "Loading " << node.attribute("name").value();
+
         UNUSED_VARIABLE(node);
         // const std::string name = json["name"].get<std::string>();
         // const std::string format = json["format"].get<std::string>();
@@ -167,17 +253,19 @@ namespace Vox {
         // object->ScaleCache(scale);
 
         // _metadata.emplace(VoxStringID(node.attribute("name").value()), manager);
-        //std::cout << "Loading Scene : " << node.attribute("name").value() << std::endl;
+
+        std::cout << " done" << std::endl;
     }
 
     //! Emitter Loader
     template <>
     void VoxScene::OnLoadSceneObject<Emitter>(const pugi::xml_node& node)
     {
+        std::cout << "Loading " << node.attribute("name").value();
         UNUSED_VARIABLE(node);
 
         // _metadata.emplace(VoxStringID(node.attribute("name").value()), manager);
-        //std::cout << "Loading Scene : " << node.attribute("name").value() << std::endl;
+        std::cout << " done" << std::endl;
     }
 
     void VoxScene::OnLoadScene(const pugi::xml_document& document)
@@ -188,7 +276,8 @@ namespace Vox {
 
             if (objectType == "sensor") OnLoadSceneObject<Camera>(data);
             else if (objectType == "material") OnLoadSceneObject<Material>(data);
-            else if (objectType == "anim") OnLoadSceneObject<GeometryCacheManager>(data);
+            else if (objectType == "program") OnLoadSceneObject<Program>(data);
+            else if (objectType == "anim") OnLoadSceneObject<FluidBuffer>(data);
             else if (objectType == "shape") OnLoadSceneObject<GeometryCache>(data);
             else if (objectType == "emitter") OnLoadSceneObject<Emitter>(data);
             else VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Unknown Scene Object Type [" + objectType + "]");
