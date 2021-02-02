@@ -10,12 +10,14 @@
 #ifndef CUBBYFLOW_VOX_SCENE_OBJECT_HPP
 #define CUBBYFLOW_VOX_SCENE_OBJECT_HPP
 
+#include <Vox/Core/NonCopyable.hpp>
+
 namespace Vox {
     
     //!
     //! \brief Abstract base class for scene object
     //!
-    class VoxSceneObject
+    class VoxSceneObject : public NonCopyable
     {
     public:
         //! Default constructor.
