@@ -11,8 +11,9 @@
 #define CUBBYFLOW_VOX_PROGRAM_HPP
 
 #include <Vox/Core/NonCopyable.hpp>
-#include <Vox/Utils/GLTypes.hpp>
 #include <Vox/Core/ShaderParameters.hpp>
+#include <Vox/Utils/GLTypes.hpp>
+#include <Vox/Scene/VoxSceneObject.hpp>
 #include <string>
 #include <unordered_map>
 
@@ -23,7 +24,7 @@ namespace Vox {
     /**
      * OpenGL Program wrapper class 
      */
-    class Program : public NonCopyable
+    class Program : public VoxSceneObject
     {
     public:
         //! Default Constructor

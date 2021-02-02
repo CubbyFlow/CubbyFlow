@@ -27,6 +27,7 @@ namespace Vox {
 
     void Program::BindProgram(const std::shared_ptr<VoxScene>& scene)
     {
+        UNUSED_VARIABLE(scene);
         glUseProgram(_program);
         SendParametersToGPU();
     }
