@@ -40,8 +40,7 @@ public:
 
 protected:
  private:
-    std::unique_ptr<Vox::FluidBuffer> _buffer;
-    std::shared_ptr<Vox::GeometryCacheManager> _cacheMgr;
+    std::shared_ptr<Vox::FluidBuffer> _buffer;
     std::unique_ptr<Vox::PostProcessing> _postProcessing;
     std::shared_ptr<Vox::FrameBuffer> _mainPass;
     std::shared_ptr<Vox::Program> _meshShader;
