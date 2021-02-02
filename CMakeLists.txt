@@ -59,47 +59,9 @@ set(CMAKE_MACOSX_RPATH ON)
 
 # Set resources
 set(RESOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Resources)
-
-set(RESOURCES_SHADERS   shaders/mesh.glsl
-                        shaders/output.glsl
-                        shaders/s3tc.glsl
-                        shaders/vertex.glsl
-                        shaders/ycocg_decode.glsl
-                        shaders/common/brdf.glsl
-                        shaders/common/globals.glsl
-                        shaders/common/quad.glsl
-                        shaders/common/uniforms.glsl)
-
 set(RESOURCES_OBJS  objects/bunny.obj 
                     objects/cube.obj 
-                    objects/dragon.obj 
-                    objects/sphere.obj)     
-                    
-set(RESOURCES_HDRS  hdr/sunset.hdr) 
-
-set(RESOURCES_SCENES    VoxRenderer.xml)
-
-# we don't want to copy if we're building in the source dir
-if (NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
-    # Copy all resoucre objs to binary directory.
-    foreach(item IN LISTS RESOURCES_SHADERS)
-        configure_file(${RESOURCES_DIR}/${item} ${CMAKE_CURRENT_BINARY_DIR}/bin/Resources/${item} COPYONLY)
-    endforeach()
-
-    foreach(item IN LISTS RESOURCES_OBJS)
-        configure_file(${RESOURCES_DIR}/${item} ${CMAKE_CURRENT_BINARY_DIR}/bin/Resources/${item} COPYONLY)
-    endforeach()
-
-    foreach(item IN LISTS RESOURCES_HDRS)
-        configure_file(${RESOURCES_DIR}/${item} ${CMAKE_CURRENT_BINARY_DIR}/bin/Resources/${item} COPYONLY)
-    endforeach()
-
-    foreach(item IN LISTS RESOURCES_SCENES)
-        configure_file(${RESOURCES_DIR}/${item} ${CMAKE_CURRENT_BINARY_DIR}/bin/Resources/${item} COPYONLY)
-    endforeach()
-endif()
-
-#add_custom_target(data-target ALL DEPENDS ${RESOURCES_DIR}/${RESOURCES_OBJS})
+                    objects/dragon.obj)
 
 # Project modules
 set(BUILD_GTEST ON CACHE BOOL "" FORCE)

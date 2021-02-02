@@ -5,7 +5,7 @@
         <float name="focusDistance" value="10000"/>
         <float name="fov" value="50"/>
         <transform name="toWorld">
-            <lookat target="0 0 -1" origin="0 0 4" up="0 1 0"/>
+            <lookat target="0 0 -1" origin="0 0 10" up="0 1 0"/>
         </transform>
 
         <film type="ldrfilm">
@@ -22,30 +22,42 @@
         </film>
     </sensor>
 
-    <emitter type="envmap" id="envmapLight">
-        <string name="filename" value="Textures/envmap.exr"/>
+    <program type="shader" name="meshShader">
+      <shader>
+        <vs value="vertex.glsl"/>
+        <fs value="mesh.glsl"/>
+      </shader>
+      <uniform>
+      </uniform>
+    </program>
+
+    <emitter type="envmap" id="envmapLight" name="envmap">
+        <string name="filename" value="hdr/sunset.hdr"/>
         <transform name="toWorld">
             <rotate y="1" angle="75"/>
         </transform>
         <float name="scale" value="2.75"/>
     </emitter>
 
-    <material type="diffuse" id="diffmat">
-        <rgb name="reflectance" value="0.4 0.4 0.4"/>
+    <material type="diffuse" id="diffmat" name="watermat">
+        <program value="meshShader"/>
+        <brdf type="dielectric">
+            <albedo value="1.0 0.423 1.0"/>
+            <metallic value="0.5"/>
+            <roughness value="0.0"/>
+            <ao value="0.0"/>
+        </brdf>
     </material>
 
     <anim type="obj" id="water" name="fluidAnim">
         <string name="format" value="LevelSetLiquidSim_output/frame_%06d.obj"/>
         <integer name="count" value="100"/>
-        <bsdf type="dielectric">
-            <float name="intIOR" value="1.2"/>
-            <float name="extIOR" value="1.0"/>
-        </bsdf>
         <transform name="toWorld">
             <translate value="0 0 0"/>
             <rotate axis="1 0 0" degree="0"/>
             <scale value="8 8 8"/>
         </transform>
+        <material type="brdf" value="watermat"/>
     </anim>
 
     <shape type="obj" id="column1">

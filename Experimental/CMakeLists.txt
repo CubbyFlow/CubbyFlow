@@ -127,6 +127,9 @@ else()
     set(USR_LOCAL_INCLUDE_DIR /usr/local/include)
 endif()
 
+# Set Renderer Resources Dir
+set(VOX_RESOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Resources)
+
 # Project modules
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Sources/Vox)
 if (USE_GL)
@@ -135,7 +138,6 @@ endif()
 if (APPLE)
     # add_subdirectory(src/examples/metal_examples)
 endif()
-
 
 if(CMAKE_BUILD_TYPE MATCHES Debug AND CMAKE_COMPILER_IS_GNUCXX)
     include(CodeCoverage)
