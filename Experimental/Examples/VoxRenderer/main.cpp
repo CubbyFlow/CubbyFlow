@@ -67,7 +67,9 @@ int main(int argc, const char** argv)
 
     CubbyFlow::Logging::SetAllStream(&std::cout);
 
-    Vox::FileSystem::AddDirectory("./Resources");
+    Vox::FileSystem::AddDirectory(RESOURCES_DIR);
+    Vox::FileSystem::AddDirectory(VOX_RESOURCES_DIR);
+    Vox::FileSystem::AddDirectory(".");
     Vox::FileSystem::AddDirectory(outputDir);
 
     Vox::Device::Initialize();
