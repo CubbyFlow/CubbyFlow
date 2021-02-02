@@ -51,6 +51,11 @@ namespace Vox {
         void SetRenderStatus(FrameContext::RenderStatus newRenderStatus);
         //! Set BRDF properties of the material
         void SetBRDF(const BRDF& brdf);
+        //! Returns the program.
+        inline const std::shared_ptr<Program> GetProgram()
+        {
+            return _program;
+        }
     private:
         std::shared_ptr<Program> _program;
         FrameContext::RenderStatus _renderStatus;
