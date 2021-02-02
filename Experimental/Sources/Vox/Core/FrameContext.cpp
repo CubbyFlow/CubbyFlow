@@ -30,7 +30,7 @@ namespace Vox {
 		  cullMode(GL_BACK),
 		  sourceBlendFactor(GL_SRC_ALPHA),
 		  destinationBlendFactor(GL_ONE_MINUS_SRC_ALPHA),
-		  primitive(GL_TRIANGLE_STRIP) {};
+		  primitive(GL_TRIANGLES) {};
 
 	FrameContext::FrameContext(GLFWwindow* windowCtx)
 		: _windowCtx(windowCtx)
