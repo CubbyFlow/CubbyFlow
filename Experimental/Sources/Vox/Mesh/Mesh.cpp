@@ -9,13 +9,25 @@
 *************************************************************************/
 #include <Vox/Mesh/Mesh.hpp>
 #include <Vox/Core/FrameContext.hpp>
+#include <Vox/Core/Material.hpp>
 #include <glad/glad.h>
 
 namespace Vox {
 
+    Mesh::Mesh()
+        : _usage(GL_STATIC_DRAW), _vao(0), _vbo(0), _ebo(0), _numVertices(0)
+    {
+        //! Do nothing.
+    }
+
     Mesh::~Mesh()
     {
         ClearMeshObject();
+    }
+
+    void Mesh::SetBufferUsage(GLuint usage)
+    {
+        _usage = usage;
     }
 
     void Mesh::GenerateMeshObject(const MeshShape& shape, VertexFormat format, bool bInterleaved)
@@ -32,7 +44,7 @@ namespace Vox {
         //! Pass Buffer data and set attributes according to whether if it is interleaved or not. 
         if (bInterleaved)
         {
-            glBufferData(GL_ARRAY_BUFFER, shape.interleaved.size() * sizeof(float), shape.interleaved.data(), GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, shape.interleaved.size() * sizeof(float), shape.interleaved.size() == 0 ? nullptr : shape.interleaved.data(), _usage);
             if (static_cast<int>(format & VertexFormat::Position3))
             {
                 glEnableVertexAttribArray(index);
@@ -78,7 +90,7 @@ namespace Vox {
         }
         //! Bind index buffer and pass data.
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, shape.indices.size() * sizeof(unsigned int), shape.indices.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, shape.indices.size() * sizeof(unsigned int), shape.indices.data(), _usage);
         glBindVertexArray(0);
         //! Set the number of indices of given geometry shape.
         _numVertices = static_cast<unsigned int>(shape.indices.size());
@@ -94,8 +106,73 @@ namespace Vox {
     void Mesh::DrawMesh(const std::shared_ptr<FrameContext>& ctx)
     {
         glBindVertexArray(_vao);
+        if (_material) _material->BindMaterial(ctx);
         glDrawElements(ctx->GetRenderStatus().primitive, _numVertices, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
     }
 
+    void Mesh::AttachMaterial(const std::shared_ptr<Material>& material)
+    {
+        _material = material;
+    }
+
+    void Mesh::AsyncTransfer(const void* src, const size_t numBytes, bool isIndices)
+    {
+        //! Set the target and the buffer variable.
+        const GLenum target = isIndices ? GL_ELEMENT_ARRAY_BUFFER : GL_ARRAY_BUFFER;
+        const GLuint buffer = isIndices ? _ebo : _vbo;
+
+        //! Bind the buffer which will be asynchronously transfered.
+        glBindBuffer(target, buffer);
+        void* ptr = glMapBufferRange(target, 0, numBytes, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+        //! Pass pointer for the memcpy
+        std::memcpy(ptr, src, numBytes);
+        //! Unmap the pointer after transfer finished.
+        glUnmapBuffer(target);
+
+        if (isIndices)
+        {
+            _numVertices = static_cast<unsigned int>(numBytes / sizeof(unsigned int));
+        }
+    }
+
+    void Mesh::GenerateEmptyMesh(VertexFormat format, const size_t verticesBytes, const size_t indicesBytes)
+    {
+        //! Genetry opengl resources.
+        glGenVertexArrays(1, &_vao);
+        glGenBuffers(1, &_vbo);
+        glGenBuffers(1, &_ebo);
+        //! Bind input layout vertex array.
+        glBindVertexArray(_vao);
+        glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+        GLuint index = 0;
+        size_t offset = 0;
+
+        //! Pass Buffer data and set attributes according to whether if it is interleaved or not. 
+        glBufferData(GL_ARRAY_BUFFER, verticesBytes, nullptr, _usage);
+        if (static_cast<int>(format & VertexFormat::Position3))
+        {
+            glEnableVertexAttribArray(index);
+            glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(VertexHelper::GetSizeInBytes(format)), (void*)0);
+            offset += 3; index += 1;
+        }
+        if (static_cast<int>(format & VertexFormat::Normal3))
+        {
+            glEnableVertexAttribArray(index);
+            glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(VertexHelper::GetSizeInBytes(format)), (void*)(offset * sizeof(float)));
+            offset += 3; index += 1;
+        }
+        if (static_cast<int>(format & VertexFormat::TexCoord2))
+        {
+            glEnableVertexAttribArray(index);
+            glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(VertexHelper::GetSizeInBytes(format)), (void*)(offset * sizeof(float)));
+        }
+         
+        //! Bind index buffer and pass data.
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBytes, nullptr, _usage);
+        glBindVertexArray(0);
+        //! Set the number of indices of given geometry shape.
+        _numVertices = static_cast<unsigned int>(indicesBytes / sizeof(unsigned int));
+    }
 }

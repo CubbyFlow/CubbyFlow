@@ -30,6 +30,7 @@ target_compile_options(${target}
 target_compile_definitions(${target}
     PRIVATE
     PUBLIC
+    VOX_RESOURCES_DIR="${VOX_RESOURCES_DIR}"
     RESOURCES_DIR="${RESOURCES_DIR}"
 )
 
