@@ -32,7 +32,7 @@
 int main(int argc, const char** argv)
 {
     bool showHelp = false;
-    size_t width = 1200, height = 900;
+    int width = 1200, height = 900;
     std::string logFileName = APP_NAME ".log";
     std::string outputDir = APP_NAME "_output";
 
@@ -73,7 +73,7 @@ int main(int argc, const char** argv)
     Vox::FileSystem::AddDirectory(outputDir);
 
     Vox::Device::Initialize();
-    Vox::Device::RunApp(std::make_shared<VoxRenderer>(), "VoxRenderer.xml");
+    Vox::Device::RunApp(std::make_shared<VoxRenderer>(width, height), "VoxRenderer.xml");
     Vox::Device::Terminate();
 
     return EXIT_SUCCESS;

@@ -31,6 +31,12 @@ VoxRenderer::VoxRenderer()
     //! Do nothing.
 }
 
+VoxRenderer::VoxRenderer(const int width, const int height)
+    : App(width, height)
+{
+    //! Do nothing.
+}
+
 VoxRenderer::~VoxRenderer()
 {
     //! Do nothing.

@@ -26,6 +26,12 @@ namespace Vox {
         //! Do nothing
     }
 
+    App::App(const int width, const int height)
+        : _windowSize(width, height)
+    {
+        //! Do nothing
+    }
+
     App::~App()
     {
         //! Remove All Contained Contexts 
@@ -76,7 +82,6 @@ namespace Vox {
     void App::BeginFrame(std::shared_ptr<FrameContext>& ctx)
     {
         UNUSED_VARIABLE(ctx);
-        glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(_bgColor.x, _bgColor.y, _bgColor.z, _bgColor.w);
     }
@@ -85,6 +90,16 @@ namespace Vox {
     {
         UNUSED_VARIABLE(ctx);
         //! On screen draw stuffs like GUI
+    }
+
+    void App::SetFPSLimit(const float limit)
+    {
+        _fpsLimit = limit;
+    }
+
+    float App::GetFPSLimit() const
+    {
+        return _fpsLimit;
     }
 
     void App::SetWindowSize(int width, int height)

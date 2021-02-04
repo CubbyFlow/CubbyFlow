@@ -32,6 +32,8 @@ namespace Vox {
     public:
         //! Default Constructor.
         App();
+        //! Constructor with window size
+        App(const int width, const int height);
         //! Default Destructor.
         virtual ~App();
 
@@ -48,7 +50,10 @@ namespace Vox {
         virtual void DrawFrame() {};
         //! End tasks after drawing call.
         void EndFrame(std::shared_ptr<FrameContext>& ctx);
-
+        //! Set the limit of the frame per seconds.
+        void SetFPSLimit(const float limit);
+        //! Return the fps limit of the application
+        float GetFPSLimit() const;
         //! Return window title.
         virtual const char* GetWindowTitle() { return nullptr; };
 
@@ -93,6 +98,7 @@ namespace Vox {
         std::unique_ptr<SequentialFrameCapture> _frameCapture;
         CubbyFlow::Point2I _windowSize { 1200, 900 }; //! window size
         CubbyFlow::Vector4F _bgColor { 0.344f, 0.388f, 0.388f, 1.0f}; //! background color
+        float _fpsLimit { 60.0f };
     private:
         std::queue<std::shared_ptr<FrameContext>> _ctxQueue;
     };

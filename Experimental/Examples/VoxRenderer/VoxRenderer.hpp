@@ -29,6 +29,8 @@ class VoxRenderer : public Vox::App
 public:
     //! Default Constructor
     VoxRenderer();
+    //! Constructor with window size
+    VoxRenderer(const int width, const int height);
     //! Default Destructor
     ~VoxRenderer();
     
