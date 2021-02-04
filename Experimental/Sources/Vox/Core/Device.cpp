@@ -91,25 +91,26 @@ namespace Vox {
         //! Initialize Fluid Simulation Application.
 		VoxAssert(app->Initialize(scenePath), CURRENT_SRC_PATH_TO_STR, "Application initialize failed");             
 
+        const double secondsPerFrame = 1.0 / app->GetFPSLimit();
+
         HostTimer hostTimer;
         double startTime = hostTimer.DurationInSeconds();
         double dt = 0.0;
         size_t frameCnt = 0;
-
+        
         while (glfwWindowShouldClose(window) == GLFW_FALSE)
         {
-			app->UpdateFrame(dt);
-            app->DrawFrame();
-
-            glfwSwapBuffers(window);
-            glfwPollEvents();
-
             ++frameCnt;
             double nowTime = hostTimer.DurationInSeconds();
             dt = nowTime - startTime;
-            if (nowTime - startTime > 1.0)
+
+			app->UpdateFrame(dt);
+            glfwPollEvents();
+
+            if (nowTime - startTime > secondsPerFrame)
             {
-                printf("HostTimer : %.6f ms/frame, %.3f fps\n", (dt) * 1000.0 / frameCnt, frameCnt / (dt));
+                app->DrawFrame();
+                glfwSwapBuffers(window);
                 startTime = nowTime;
                 frameCnt = 0;
             }
@@ -177,6 +178,14 @@ namespace Vox {
                 glDisable(GL_DEPTH_TEST);
         }
 
+        if (prevStat.isCullingEnabled != newStat.isCullingEnabled)
+        {
+            if (newStat.isCullingEnabled)
+                glEnable(GL_CULL_FACE);
+            else
+                glDisable(GL_CULL_FACE);
+        }
+
         if (prevStat.isFrontFaceClockWise != newStat.isFrontFaceClockWise)
         {
             if (newStat.isFrontFaceClockWise)
@@ -184,6 +193,7 @@ namespace Vox {
             else
                 glFrontFace(GL_CCW);
         }
+
 
         if (prevStat.cullMode != newStat.cullMode)
         {
