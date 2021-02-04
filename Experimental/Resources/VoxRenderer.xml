@@ -3,9 +3,9 @@
 <scene version="0.5.0">
     <sensor type="perspective" name="mainCam">
         <float name="focusDistance" value="10000"/>
-        <float name="fov" value="50"/>
+        <float name="fov" value="30"/>
         <transform name="toWorld">
-            <lookat target="0 0 -1" origin="0 0 10" up="0 1 0"/>
+            <lookat target="0 0 0" origin="0 0 10" up="0 1 0"/>
         </transform>
 
         <film type="ldrfilm">
@@ -42,7 +42,7 @@
     <material type="diffuse" id="diffmat" name="watermat">
         <program value="meshShader"/>
         <brdf type="dielectric">
-            <albedo value="1.0 0.423 1.0"/>
+            <albedo value="0.0 0.223 1.0"/>
             <metallic value="0.5"/>
             <roughness value="0.0"/>
             <ao value="0.0"/>
@@ -51,11 +51,11 @@
 
     <anim type="obj" id="water" name="fluidAnim">
         <string name="format" value="LevelSetLiquidSim_output/frame_%06d.obj"/>
-        <integer name="count" value="100"/>
+        <integer name="count" value="200"/>
         <transform name="toWorld">
             <translate value="0 0 0"/>
             <rotate axis="1 0 0" degree="0"/>
-            <scale value="8 8 8"/>
+            <scale value="1 1 1"/>
         </transform>
         <material type="brdf" value="watermat"/>
     </anim>
