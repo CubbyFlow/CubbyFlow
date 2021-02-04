@@ -106,7 +106,7 @@ namespace Vox {
                 }            
                 case ParameterType::FLOAT4X4 :
                 {
-                    glUniformMatrix4fv(location, 1, GL_FALSE, reinterpret_cast<const GLfloat*>(data));
+                    glUniformMatrix4fv(location, 1, GL_TRUE, reinterpret_cast<const GLfloat*>(data));
                     break;
                 }                   
                 default:
