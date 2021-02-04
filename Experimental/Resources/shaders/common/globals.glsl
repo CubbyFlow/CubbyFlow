@@ -6,20 +6,20 @@
 
 struct Material
 {
-    vec3 albedo; 
+    vec3 albedo;
     float metallic;
     float roughness;
     float ao;
 };
 
-struct Camera 
-{ 
+struct Camera
+{
     mat4 viewProjection;
     vec3 position;
 };
 
-struct Light 
-{ 
-    vec3 position; 
+struct Light
+{
+    vec3 position;
     vec3 color;
 };
