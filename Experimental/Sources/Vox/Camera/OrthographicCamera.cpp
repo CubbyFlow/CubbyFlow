@@ -24,4 +24,9 @@ namespace Vox {
         UNUSED_VARIABLE(top);
         UNUSED_VARIABLE(bottom);
     }
+  
+    void OrthographicCamera::UpdateMatrix()
+    {
+        static_assert("Not yet implemented");
+    }
 };

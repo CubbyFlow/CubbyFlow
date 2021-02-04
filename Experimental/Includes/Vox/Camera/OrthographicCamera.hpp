@@ -29,6 +29,8 @@ namespace Vox {
     public://! Set projection matrix related elements
         void SetViewFrustum(const float left, const float right, const float top, const float bottom);
 
+        //! Update viewProjection with new view matrix and new projection matrix.
+        void UpdateMatrix() override;
     protected:
     private:
     };
