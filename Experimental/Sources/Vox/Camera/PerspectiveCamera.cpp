@@ -12,7 +12,6 @@
 #include <Vox/Core/Program.hpp>
 #include <Vox/Utils/MatrixUtils.hpp>
 #include <Core/Math/Quaternion.hpp>
-#include <iostream>
 
 using namespace CubbyFlow;
 namespace Vox {

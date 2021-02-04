@@ -39,11 +39,7 @@ namespace Vox
 		_cursorPos = CubbyFlow::Point2I(static_cast<int>(x), static_cast<int>(y));
 
 		OnSetMouseCursorPos();
-
-		if (_isCursorPressed)
-		{
-			_lastCursorPos = _cursorPos;
-		}
+		_lastCursorPos = _cursorPos;
 	}
 
 	void CameraController::SetKey(int key, int scancode, int action, int mods)
