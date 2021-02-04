@@ -19,3 +19,6 @@
 [submodule "Experimental/Libraries/pugixml"]
 	path = Experimental/Libraries/pugixml
 	url = https://github.com/zeux/pugixml
+[submodule "Experimental/Libraries/stb_image"]
+	path = Experimental/Libraries/stb_image
+	url = https://github.com/nothings/stb
