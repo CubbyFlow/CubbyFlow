@@ -27,6 +27,7 @@ namespace Vox {
 		: isFrontFaceClockWise(true),
 		  isBlendEnabled(true),
 		  isDepthTestEnabled(true),
+		  isCullingEnabled(true),
 		  cullMode(GL_BACK),
 		  sourceBlendFactor(GL_SRC_ALPHA),
 		  destinationBlendFactor(GL_ONE_MINUS_SRC_ALPHA),

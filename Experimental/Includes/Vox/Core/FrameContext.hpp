@@ -64,6 +64,8 @@ namespace Vox {
             bool isBlendEnabled;
             //! True if depth test is enabled.
             bool isDepthTestEnabled;
+            //! True if face culling is enabled
+            bool isCullingEnabled;
             //! The cull mode.
             GLuint cullMode;
             //! The blend factor for the source.
