@@ -162,7 +162,9 @@ namespace Vox {
 
     void Device::ApplyRenderStatus(const FrameContext::RenderStatus& prevStat, const FrameContext::RenderStatus& newStat)
     {
-        if (prevStat.isBlendEnabled != newStat.isBlendEnabled)
+        static bool isFirstApplying = true;
+
+        if (isFirstApplying || prevStat.isBlendEnabled != newStat.isBlendEnabled)
         {
             if (newStat.isBlendEnabled)
                 glEnable(GL_BLEND);
@@ -170,7 +172,7 @@ namespace Vox {
                 glDisable(GL_BLEND);
         }
 
-        if (prevStat.isDepthTestEnabled != newStat.isDepthTestEnabled)
+        if (isFirstApplying || prevStat.isDepthTestEnabled != newStat.isDepthTestEnabled)
         {
             if (newStat.isDepthTestEnabled)
                 glEnable(GL_DEPTH_TEST);
@@ -178,7 +180,7 @@ namespace Vox {
                 glDisable(GL_DEPTH_TEST);
         }
 
-        if (prevStat.isCullingEnabled != newStat.isCullingEnabled)
+        if (isFirstApplying || prevStat.isCullingEnabled != newStat.isCullingEnabled)
         {
             if (newStat.isCullingEnabled)
                 glEnable(GL_CULL_FACE);
@@ -186,7 +188,7 @@ namespace Vox {
                 glDisable(GL_CULL_FACE);
         }
 
-        if (prevStat.isFrontFaceClockWise != newStat.isFrontFaceClockWise)
+        if (isFirstApplying || prevStat.isFrontFaceClockWise != newStat.isFrontFaceClockWise)
         {
             if (newStat.isFrontFaceClockWise)
                 glFrontFace(GL_CW);
@@ -195,15 +197,17 @@ namespace Vox {
         }
 
 
-        if (prevStat.cullMode != newStat.cullMode)
+        if (isFirstApplying || prevStat.cullMode != newStat.cullMode)
         {
             glCullFace(newStat.cullMode);
         }
 
-        if ((prevStat.sourceBlendFactor != newStat.sourceBlendFactor) || (prevStat.destinationBlendFactor != newStat.destinationBlendFactor))
+        if (isFirstApplying || (prevStat.sourceBlendFactor != newStat.sourceBlendFactor) || (prevStat.destinationBlendFactor != newStat.destinationBlendFactor))
         {
             glBlendFunc(newStat.sourceBlendFactor, newStat.destinationBlendFactor);
         }
+
+        isFirstApplying = false;
     }
 
     void OnWindowResized(GLFWwindow* window, int width, int height)
