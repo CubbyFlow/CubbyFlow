@@ -24,7 +24,7 @@
 namespace Vox {
 
 	FrameContext::RenderStatus::RenderStatus()
-		: isFrontFaceClockWise(true),
+		: isFrontFaceClockWise(false),
 		  isBlendEnabled(true),
 		  isDepthTestEnabled(true),
 		  isCullingEnabled(true),

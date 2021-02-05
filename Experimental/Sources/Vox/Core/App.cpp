@@ -50,6 +50,10 @@ namespace Vox {
     {
         std::shared_ptr<Vox::FrameContext> ctx = Vox::App::PopFrameContextFromQueue();
 
+        //! Set render status of the current context with default values.
+        ctx->SetRenderStatus(FrameContext::RenderStatus());
+        glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+
         //! Initialize renderer scene from file.
         _scene = Vox::VoxScene::CreateScene(scenePath);
         ctx->BindSceneToContext(_scene);
@@ -64,16 +68,7 @@ namespace Vox {
 
         //! Initialize frame recorder.
         _frameCapture.reset(new SequentialFrameCapture());
-
-        //! Set render status of the current context.
-        auto status = ctx->GetRenderStatus();
-        status.primitive = GL_TRIANGLES;
-        status.cullMode = GL_BACK;
-        status.isDepthTestEnabled = true;
-        ctx->SetRenderStatus(status);
         
-        glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-
         Vox::App::PushFrameContextToQueue(ctx);
 
         return true;
