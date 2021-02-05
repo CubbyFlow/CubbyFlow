@@ -26,7 +26,7 @@ script:
   - lcov --gcov-tool /usr/bin/gcov -r coverage.info '/usr/*' -o coverage.info
   - lcov --gcov-tool /usr/bin/gcov -r coverage.info '*/Examples/*' -o coverage.info
   - lcov --gcov-tool /usr/bin/gcov -r coverage.info '*/Libraries/*' -o coverage.info
-  - locv --gcov-tool /usr/bin/gcov -r coverage.info '*/Tests/*' -o coverage.info
+  - lcov --gcov-tool /usr/bin/gcov -r coverage.info '*/Tests/*' -o coverage.info
   - lcov --gcov-tool /usr/bin/gcov -l coverage.info
   # And finally run the SonarQube analysis - read the "sonar-project.properties"
   # file to see the specific configuration
