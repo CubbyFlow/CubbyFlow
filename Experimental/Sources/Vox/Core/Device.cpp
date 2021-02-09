@@ -91,6 +91,7 @@ namespace Vox {
         //! Initialize Fluid Simulation Application.
 		VoxAssert(app->Initialize(scenePath), CURRENT_SRC_PATH_TO_STR, "Application initialize failed");             
 
+        //! Get seconds per frame from the application FPS limit.
         const double secondsPerFrame = 1.0 / app->GetFPSLimit();
 
         HostTimer hostTimer;
