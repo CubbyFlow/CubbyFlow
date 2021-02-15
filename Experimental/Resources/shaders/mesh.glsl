@@ -9,6 +9,8 @@ in VSOUT {
     vec3 worldPos;
 } fs_in;
 
+uniform samplerCube irradianceMap;
+
 out vec4 fragColor;
 
 void main() {
@@ -35,6 +37,7 @@ void main() {
     vec3 kS = F;
     vec3 kD = vec3(1.0) - kS;
     kD *= 1.0 - material.metallic;
+    vec3 irradiance = texture(irradianceMap, N).rgb;
 
     vec3 numerator = NDF * G * F;
     float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0);
@@ -44,7 +47,8 @@ void main() {
     float NdotL = max(dot(N, L), 0.0);
     Lo += (kD * material.albedo / PI + specular) * radiance * NdotL;
 
-    vec3 ambient = vec3(0.03) * material.albedo * material.ao;
+    vec3 diffuse = irradiance * material.albedo;
+    vec3 ambient = (kD * diffuse) * material.ao;
     vec3 color = ambient + Lo;
 
     fragColor = vec4(color, 1.0f);
