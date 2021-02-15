@@ -36,6 +36,23 @@ namespace Vox {
     }
 
     template <typename Type>
+    CubbyFlow::Array1<std::shared_ptr<Type>> VoxScene::GetSceneObjects()
+    {
+        CubbyFlow::Array1<std::shared_ptr<Type>> instances;
+
+        for (auto& data : _metadata)
+        {
+            std::shared_ptr<Type> temp = std::dynamic_pointer_cast<Type>(data.second);
+            if (temp)
+            {
+                instances.Append(temp);
+            }
+        }
+
+        return std::move(instances);
+    }
+
+    template <typename Type>
     void VoxScene::OnLoadSceneObject(const pugi::xml_node& node)
     {
         static_assert("No implementation exists.");

@@ -11,6 +11,7 @@
 #define CUBBYFLOW_VOX_SCENE_HPP
 
 #include <Vox/Utils/FileSystem.hpp>
+#include <Core/Array/Array1.hpp>
 #include <memory>
 #include <vector>
 #include <pugixml.hpp>
@@ -43,6 +44,16 @@ namespace Vox {
         //! Create scene object instance and copy parsed data.
         template <typename Type>
         std::shared_ptr<Type> GetSceneObject(const std::string& objName);
+
+        //! Get all object instances with given template type
+        //! This makes application slow. Be careful of that.
+        //! Loop whole scene instances and check dynamic_pointer_cast.
+        //! Collect all instances which dont return nullptr when checking dynamic_pointer_cast.
+        template <typename Type>
+        CubbyFlow::Array1<std::shared_ptr<Type>> GetSceneObjects();
+
+        //! Deallocate scene object which is no more need.
+        void DeallocateObject(const std::string& objName);
     protected:
     private:
         void OnLoadScene(const pugi::xml_document& document);
