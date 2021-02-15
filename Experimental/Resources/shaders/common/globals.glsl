@@ -10,11 +10,14 @@ struct Material
     float metallic;
     float roughness;
     float ao;
+    float refractionRatio;
 };
 
 struct Camera
 {
-    mat4 viewProjection;
+    mat4 view;
+    mat4 projection;
+    mat4 model;
     vec3 position;
 };
 
