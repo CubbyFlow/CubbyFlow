@@ -10,7 +10,7 @@
 #ifndef CUBBYFLOW_VOX_TEXTURE_HPP
 #define CUBBYFLOW_VOX_TEXTURE_HPP
 
-#include <Vox/Core/NonCopyable.hpp>
+#include <Vox/Scene/VoxSceneObject.hpp>
 #include <Vox/Core/PixelFmt.hpp>
 #include <Vox/Utils/GLTypes.hpp>
 
@@ -31,7 +31,7 @@ namespace Vox {
     /**
      * OpenGL Texture wrapper class 
      */
-    class Texture : public NonCopyable
+    class Texture : public VoxSceneObject
     {
     public:
         //! Default Constructor
