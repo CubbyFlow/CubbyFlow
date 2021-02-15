@@ -29,15 +29,10 @@ namespace Vox {
     {
         _program = program;
     }
-
-    void Material::SetBRDF(const BRDF& brdf)
+    
+    void Material::AttachTextureToSlot(const std::shared_ptr<Texture>& texture, unsigned int slot)
     {
-        _brdfProperties = brdf;
-        auto& params = _program->GetParameters();
-        params.SetParameter("material.albedo", _brdfProperties.albedo);
-        params.SetParameter("material.metallic", _brdfProperties.metallic);
-        params.SetParameter("material.roughness", _brdfProperties.roughness);
-        params.SetParameter("material.ao", _brdfProperties.ao);
+        _textures.emplace(slot, texture);
     }
 
     FrameContext::RenderStatus Material::GetRenderStatus() const
@@ -52,7 +47,19 @@ namespace Vox {
 
     void Material::BindMaterial(const std::shared_ptr<FrameContext>& ctx)
     {
+        //! Set the render status of the material to the current context.
         ctx->SetRenderStatus(_renderStatus);
-        _program->BindProgram(ctx->GetContextScene());
+
+        //! Bind the shader program to the current context.
+        _program->BindProgram(ctx);
+        
+        //! Upload the shader parameters to the current bound context.
+        ConfigureShaderParameters(_program->GetParameters());
+
+        //! Bind all attached textures to the specified slot.
+        for (const auto& texturePair : _textures)
+        {
+            texturePair.second->BindTexture(texturePair.first);
+        }
     }
 }

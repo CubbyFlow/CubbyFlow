@@ -16,50 +16,47 @@
 #include <Vox/Core/Program.hpp>
 #include <Vox/Core/ShaderParameters.hpp>
 #include <Core/Vector/Vector3.hpp>
-#include <string>
+#include <unordered_map>
 #include <memory>
+#include <string>
 
 namespace Vox {
 
     class Program;
+    class Texture;
 
     /**
      */
     class Material : public VoxSceneObject
     {
     public:
-        struct BRDF
-        {
-            CubbyFlow::Vector3F albedo;
-            float metallic;
-            float roughness;
-            float ao;
-        };
-
-        //! Constructor with geometry cache.
+        //! Default constructor
         Material();
         //! Default destructor
-        ~Material();
+        virtual ~Material();
 
         //! Attach shader program to this material.
         void AttachProgramShader(const std::shared_ptr<Program>& program);
+        //! Attach shader program to this material.
+        void AttachTextureToSlot(const std::shared_ptr<Texture>& texture, unsigned int slot);
         //! Bind this material to the context
         void BindMaterial(const std::shared_ptr<FrameContext>& ctx);
         //! Get rvalue render status structure.
         FrameContext::RenderStatus GetRenderStatus() const;
         //! Set the render status for the material.
         void SetRenderStatus(FrameContext::RenderStatus newRenderStatus);
-        //! Set BRDF properties of the material
-        void SetBRDF(const BRDF& brdf);
         //! Returns the program.
         inline const std::shared_ptr<Program> GetProgram()
         {
             return _program;
         }
+    protected:
+        virtual void ConfigureShaderParameters(ShaderParameters& params) { (void)params; };
+
     private:
         std::shared_ptr<Program> _program;
+        std::unordered_map<unsigned int, std::shared_ptr<Texture>> _textures;
         FrameContext::RenderStatus _renderStatus;
-        Material::BRDF _brdfProperties;
     };
 }
 
