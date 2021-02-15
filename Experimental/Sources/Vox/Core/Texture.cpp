@@ -65,7 +65,6 @@ namespace Vox {
 		glTexParameteri(_target, GL_TEXTURE_WRAP_R, _params.wrapR);
 		glTexParameteri(_target, GL_TEXTURE_MIN_FILTER, _params.minFilter);
 		glTexParameteri(_target, GL_TEXTURE_MAG_FILTER, _params.magFilter);
-        glBindTexture(_target, 0);
     }
 
     GLuint Texture::GetTextureID() const
