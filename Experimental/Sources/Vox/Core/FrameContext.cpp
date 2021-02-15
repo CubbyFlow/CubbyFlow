@@ -27,11 +27,12 @@ namespace Vox {
 		: isFrontFaceClockWise(false),
 		  isBlendEnabled(true),
 		  isDepthTestEnabled(true),
-		  isCullingEnabled(true),
+		  isCullingEnabled(false),
 		  cullMode(GL_BACK),
 		  sourceBlendFactor(GL_SRC_ALPHA),
 		  destinationBlendFactor(GL_ONE_MINUS_SRC_ALPHA),
-		  primitive(GL_TRIANGLES) {};
+		  primitive(GL_TRIANGLES),
+		  depthFunc(GL_LEQUAL) {};
 
 	FrameContext::FrameContext(GLFWwindow* windowCtx)
 		: _windowCtx(windowCtx)

@@ -74,6 +74,8 @@ namespace Vox {
             GLuint destinationBlendFactor;
             //! The render primitive
             GLuint primitive;
+            //! The depth test compare function
+            GLuint depthFunc;
 
             RenderStatus();
         };
