@@ -105,12 +105,10 @@ namespace Vox {
 			}
 		}
 
-		glBindTexture(target, 0);
-
 		return texture;
 	}
 
-	GLuint CreateCubeMap(GLsizei width, GLsizei height, const PixelFmt pf, const std::vector<const void*>& faces)
+	GLuint Renderer::CreateCubeMap(GLsizei width, GLsizei height, const PixelFmt pf, const std::vector<const void*>& faces)
 	{
 		const PixelFmtDesc* pfd = GetPixelFmtDesc(pf);
 
@@ -133,13 +131,12 @@ namespace Vox {
 							 width, height, 0, pfd->format, pfd->type, faces.empty() ? nullptr : faces[i]);
 		}
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 		return texture;
 	}
 
@@ -158,7 +155,6 @@ namespace Vox {
 		}
 		else
 			glRenderbufferStorage(GL_RENDERBUFFER, pfd->internal, width, height);
-		glBindRenderbuffer(GL_RENDERBUFFER, 0);
 		return rbo;
     }
 
