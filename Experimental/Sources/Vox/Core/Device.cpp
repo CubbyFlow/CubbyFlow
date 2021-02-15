@@ -181,6 +181,11 @@ namespace Vox {
                 glDisable(GL_DEPTH_TEST);
         }
 
+        if (isFirstApplying || prevStat.depthFunc != newStat.depthFunc)
+        {
+            glDepthFunc(newStat.depthFunc);
+        }
+
         if (isFirstApplying || prevStat.isCullingEnabled != newStat.isCullingEnabled)
         {
             if (newStat.isCullingEnabled)
