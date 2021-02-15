@@ -19,7 +19,7 @@
 
 namespace Vox {
 
-    class VoxScene;
+    class FrameContext;
 
     /**
      * OpenGL Program wrapper class 
@@ -33,7 +33,7 @@ namespace Vox {
         ~Program();
 
         //! Use this program in current context.
-        void BindProgram(const std::shared_ptr<VoxScene>& scene);
+        void BindProgram(const std::shared_ptr<FrameContext>& ctx);
 
         //! get immutable shader parameters which will be sent to program.
         const ShaderParameters& GetParameters() const;

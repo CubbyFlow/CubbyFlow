@@ -8,6 +8,7 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 #include <Vox/Core/Program.hpp>
+#include <Vox/Core/FrameContext.hpp>
 #include <Vox/Scene/VoxScene.hpp>
 #include <Vox/Camera/PerspectiveCamera.hpp>
 #include <glad/glad.h>
@@ -25,9 +26,9 @@ namespace Vox {
         if(_program) glDeleteProgram(_program);
     }
 
-    void Program::BindProgram(const std::shared_ptr<VoxScene>& scene)
+    void Program::BindProgram(const std::shared_ptr<FrameContext>& ctx)
     {
-        UNUSED_VARIABLE(scene);
+        UNUSED_VARIABLE(ctx);
         glUseProgram(_program);
         SendParametersToGPU();
     }
