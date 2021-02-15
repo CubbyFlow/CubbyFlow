@@ -22,16 +22,28 @@ namespace Vox {
         _up = up;
     }
 
-    CubbyFlow::Matrix4x4F Camera::GetViewProjectionMatrix() const
+    CubbyFlow::Matrix4x4F Camera::GetViewMatrix() const
     {
-        return _viewProjection;
+        return _view;
+    }
+
+    CubbyFlow::Matrix4x4F Camera::GetProjectionMatrix() const
+    {
+        return _projection;
     }
 
     void Camera::UploadToProgram(const std::shared_ptr<Program>& program)
     {   
         auto& params = program->GetParameters();
-        params.SetParameter("camera.viewProjection", _viewProjection);
-        params.SetParameter("camera.position", _origin);
+
+        if (program->HasUniformVariable("camera.position"))
+            params.SetParameter("camera.position", _origin);
+        
+        if (program->HasUniformVariable("camera.view"))
+            params.SetParameter("camera.view", _view);
+        
+        if (program->HasUniformVariable("camera.projection"))
+            params.SetParameter("camera.projection", _projection);
     }
 
 };

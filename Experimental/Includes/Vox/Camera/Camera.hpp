@@ -54,8 +54,11 @@ class Camera : public VoxSceneObject
     //! Update viewProjection with new view matrix and new projection matrix.
     virtual void UpdateMatrix() {};
 
-    //! Returns View Projection Matrix.
-    CubbyFlow::Matrix4x4F GetViewProjectionMatrix() const;
+    //! Returns View Matrix.
+    CubbyFlow::Matrix4x4F Camera::GetViewMatrix() const;
+
+    //! Returns Projection Matrix.
+    CubbyFlow::Matrix4x4F Camera::GetProjectionMatrix() const;
 
     //! Returns the camera origin position.
     inline CubbyFlow::Vector3F GetCameraOrigin() const
@@ -79,7 +82,8 @@ class Camera : public VoxSceneObject
     void UploadToProgram(const std::shared_ptr<Program>& program);
 
  protected:
-    CubbyFlow::Matrix4x4F _viewProjection = CubbyFlow::Matrix4x4F::MakeIdentity();
+    CubbyFlow::Matrix4x4F _view = CubbyFlow::Matrix4x4F::MakeIdentity();
+    CubbyFlow::Matrix4x4F _projection = CubbyFlow::Matrix4x4F::MakeIdentity();
     CubbyFlow::Vector3F _origin { 0.0f, 0.0f, 0.0f };
     CubbyFlow::Vector3F _dir { 0.0f, 0.0f, -1.0f };  //! Directon vector (MUST BE NORMALIZED)
     CubbyFlow::Vector3F _up { 0.0f, 1.0f, 0.0f };
