@@ -12,16 +12,18 @@
 
 #include <Vox/Core/App.hpp>
 #include <Vox/Utils/GLTypes.hpp>
+#include <Core/Array/Array1.hpp>
 #include <memory>
 
 namespace Vox {
     class GeometryCacheManager;
-    class FluidBuffer;
+    class FluidRenderable;
+    class StaticRenderable;
     class PostProcessing;
     class Texture;
     class Program;
     class FrameBuffer;
-    class PointLight;
+    class CubeMesh;
 };
 
 class VoxRenderer : public Vox::App
@@ -41,13 +43,16 @@ public:
     const char* GetWindowTitle() override { return "Particle Viewer"; };
 
 protected:
- private:
-    std::shared_ptr<Vox::FluidBuffer> _buffer;
+    void OnSetKey(int key, int scancode, int action, int mods) override;
+private:
+    std::shared_ptr<Vox::FluidRenderable> _buffer;
+    CubbyFlow::Array1<std::shared_ptr<Vox::StaticRenderable>> _obstacles;
     std::unique_ptr<Vox::PostProcessing> _postProcessing;
     std::shared_ptr<Vox::FrameBuffer> _mainPass;
-    std::shared_ptr<Vox::Program> _meshShader;
     std::shared_ptr<Vox::Texture> _screenTexture;
-    std::shared_ptr<Vox::PointLight> _light;
+    std::shared_ptr<Vox::StaticRenderable> _skybox;
+    bool _animStopped = false;
+    GLenum _polygonMode;
 };
 
 #endif
