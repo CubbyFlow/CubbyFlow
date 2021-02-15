@@ -41,7 +41,8 @@ namespace Vox {
         //! Bind material to the context.
         _material->BindMaterial(ctx);
 
-        auto& params = _material->GetProgram()->GetParameters();
-        params.SetParameter("camera.model", _modelMatrix);
+        auto& program = _material->GetProgram();
+        if (program->HasUniformVariable("camera.model"))
+            program->GetParameters().SetParameter("camera.model", _modelMatrix);
     }
 };
