@@ -11,6 +11,7 @@
 #define CUBBYFLOW_VOX_RENDERABLE_OBJECT_HPP
 
 #include <Vox/Scene/VoxSceneObject.hpp>
+#include <Core/Matrix/Matrix4x4.hpp>
 #include <Core/Array/Array1.hpp>
 #include <string>
 #include <memory>
@@ -27,8 +28,10 @@ namespace Vox {
         //! Default Constructor
         RenderableObject();
         //! Default Destructor.
-        ~RenderableObject();
+        virtual ~RenderableObject();
         
+        //! Set model matrix
+        void SetModelMatrix(const CubbyFlow::Matrix4x4F& model);
         //! Append Geometry mesh instance to the array..
         void AddGeometryMesh(const std::shared_ptr<Mesh> mesh);
         //! Returns the geometry mesh of the object with given index.
@@ -42,10 +45,11 @@ namespace Vox {
         //! Returns the material of the object.
         const std::shared_ptr<Material> GetMaterial() const;
         //! Draw this renderable object with configured settings.
-        void DrawRenderableObject(const std::shared_ptr<FrameContext>& ctx);
+        virtual void DrawRenderableObject(const std::shared_ptr<FrameContext>& ctx) {(void)ctx;};
     protected:
         virtual void ConfigureRenderSettings(const std::shared_ptr<FrameContext>& ctx) {(void)ctx;};
         
+        CubbyFlow::Matrix4x4F _modelMatrix;
         CubbyFlow::Array1<std::shared_ptr<Mesh>> _meshes;
         std::shared_ptr<Material> _material;
     private:

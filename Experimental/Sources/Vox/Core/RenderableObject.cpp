@@ -27,6 +27,11 @@ namespace Vox {
         //! Do nothing.
     }
 
+    void RenderableObject::SetModelMatrix(const CubbyFlow::Matrix4x4F& model)
+    {
+        this->_modelMatrix = model;
+    }
+
     void RenderableObject::AddGeometryMesh(const std::shared_ptr<Mesh> mesh)
     {
         _meshes.Append(mesh);
@@ -57,17 +62,4 @@ namespace Vox {
     {
         return _material;
     }
-
-    void RenderableObject::DrawRenderableObject(const std::shared_ptr<FrameContext>& ctx)
-    {
-        _material->BindMaterial(ctx);
-
-        //! Configure rendering settings such as uniform variables.
-        ConfigureRenderSettings(ctx);
-
-        _meshes.ForEach([&](auto& mesh){
-            mesh->DrawMesh(ctx);
-        });
-    }
-
 }
