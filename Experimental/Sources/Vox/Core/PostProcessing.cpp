@@ -27,9 +27,8 @@ namespace Vox {
         if (_screenQuad) glDeleteVertexArrays(1, &_screenQuad);
     }
 
-    void PostProcessing::Initialize(const std::shared_ptr<FrameContext>& ctx, GLuint programID)
+    void PostProcessing::Initialize(GLuint programID)
     {
-        UNUSED_VARIABLE(ctx);
         _postProcessingProgram = std::make_shared<Program>(programID);
 
         auto& params = _postProcessingProgram->GetParameters();
@@ -41,7 +40,7 @@ namespace Vox {
 
     void PostProcessing::DrawFrame(const std::shared_ptr<FrameContext>& ctx, const std::shared_ptr<Texture>& screenTexture) const
     {
-        _postProcessingProgram->BindProgram(ctx->GetContextScene());
+        _postProcessingProgram->BindProgram(ctx);
         glBindVertexArray(_screenQuad);
         screenTexture->BindTexture(0);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);

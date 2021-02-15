@@ -31,7 +31,7 @@ namespace Vox {
         ~PostProcessing();
 
         //! Add debug drawing shader program to frame context.
-        void Initialize(const std::shared_ptr<FrameContext>& ctx, GLuint programID);
+        void Initialize(GLuint programID);
 
         //! Draw the Debug wire frame.
         void DrawFrame(const std::shared_ptr<FrameContext>& ctx, const std::shared_ptr<Texture>& screenTexture) const;
