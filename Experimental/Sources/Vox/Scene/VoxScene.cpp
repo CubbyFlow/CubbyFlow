@@ -12,10 +12,13 @@
 #include <Vox/Utils/StringID.hpp>
 #include <Vox/Core/Renderer.hpp>
 #include <Vox/Core/Program.hpp>
-#include <Vox/Core/CubeMap.hpp>
 #include <Vox/Core/Emitter.hpp>
-#include <Vox/Core/FluidBuffer.hpp>
+#include <Vox/Core/FluidRenderable.hpp>
+#include <Vox/Core/StaticRenderable.hpp>
+#include <Vox/Core/Texture.hpp>
 #include <Vox/Core/Material.hpp>
+#include <Vox/Core/TransparentMaterial.hpp>
+#include <Vox/Core/BRDFMaterial.hpp>
 #include <Core/Math/MathUtils.hpp>
 #include <Vox/Utils/FileSystem.hpp>
 #include <Vox/Camera/PerspectiveCamera.hpp>
@@ -69,6 +72,15 @@ namespace Vox {
         const auto& filename = FileSystem::FindPath(path);
         VoxAssert(filename.IsNullPath() == false, CURRENT_SRC_PATH_TO_STR, "No Scene File with Path[" + path.ToString() + "]");
         return std::make_shared<VoxScene>(filename);
+    }
+
+    void VoxScene::DeallocateObject(const std::string& objName)
+    {
+        unsigned int key = VoxStringID(objName);
+        auto iter = _metadata.find(key);
+        VoxAssert(iter != _metadata.end(), CURRENT_SRC_PATH_TO_STR, "Failed to find [" + objName + "] from the scene file");
+
+        _metadata.erase(iter);
     }
 
     void VoxScene::LoadScene(const Vox::Path& path)
@@ -200,22 +212,48 @@ namespace Vox {
     template <>
     void VoxScene::OnLoadSceneObject<Material>(const pugi::xml_node& node)
     {
-        auto material = std::make_shared<Material>();
-
+        //! Parse the type of the material
+        const std::string materialType = node.attribute("type").value();
+        
         //! Get already parsed shader program from this VoxScene instance.
         //! **The required program must precede material.**
         const auto& program = GetSceneObject<Program>(node.child("program").attribute("value").value());
-        material->AttachProgramShader(program);
 
-        //! Parse brdf material properties
-        Material::BRDF brdf;
-        brdf.albedo = Detail::ParseFromString(node.child("brdf").child("albedo").attribute("value").value());
-        brdf.metallic = node.child("brdf").child("metallic").attribute("value").as_float();
-        brdf.roughness = node.child("brdf").child("roughness").attribute("value").as_float();
-        brdf.ao = node.child("brdf").child("ao").attribute("value").as_float();
+        std::shared_ptr<Material> material;
+        if (materialType == "brdf")
+        {
+            auto temp = std::make_shared<BRDFMaterial>();
+            temp->AttachProgramShader(program);
+
+            //! Parse brdf material properties
+            BRDFMaterial::BRDF brdf;
+            brdf.albedo = Detail::ParseFromString(node.child("brdf").child("albedo").attribute("value").value());
+            brdf.metallic = node.child("brdf").child("metallic").attribute("value").as_float();
+            brdf.roughness = node.child("brdf").child("roughness").attribute("value").as_float();
+            brdf.ao = node.child("brdf").child("ao").attribute("value").as_float();
+
+            //! Send brdf properties to the material
+            temp->SetBRDF(brdf);
+
+            material = temp;
+        }
+        else if (materialType == "envmapping")
+        {
+            auto temp = std::make_shared<TransparentMaterial>();
+            temp->AttachProgramShader(program);
+
+            //! Parse refraction ratio
+            const float refractionRatio = node.child("refraction").attribute("value").as_float();
+            temp->SetRefractionRatio(refractionRatio);
+
+            material = temp;
+        }
+        else
+        {
+            VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Unknown material type [" + materialType + "]");
+        }
+
         
-        //! Send brdf properties to the material
-        material->SetBRDF(brdf);
 
         //! Push parsed material to the unordered_map.
         _metadata.emplace(VoxStringID(node.attribute("name").value()), material);
@@ -223,7 +261,7 @@ namespace Vox {
 
     //! Animation Loader
     template <>
-    void VoxScene::OnLoadSceneObject<FluidBuffer>(const pugi::xml_node& node)
+    void VoxScene::OnLoadSceneObject<FluidRenderable>(const pugi::xml_node& node)
     {
         //! Parse fluid animation(which is sequential list of the obj files) path format and count of the obj files.
         //! path format looks like this : path%06d.obj 
@@ -233,17 +271,9 @@ namespace Vox {
         //! Loading obj files from format and count.
         auto manager = std::make_shared<GeometryCacheManager>(format, count);
 
-        //! Parse transform information of total animation bound
-        const auto& transform = node.find_child_by_attribute("transform", "name", "toWorld");
-        const CubbyFlow::Vector3F translate = Detail::ParseFromString(transform.child("translate").attribute("value").value());
-        const CubbyFlow::Vector3F scale = Detail::ParseFromString(transform.child("scale").attribute("value").value());
-        const CubbyFlow::Vector3F rotateAxis = Detail::ParseFromString(transform.child("rotate").attribute("axis").value());
-        const float rotateDegree = transform.child("rotate").attribute("degree").as_float();
-
-        //! Apply transformation to each object files.
+        //! interleaving each geometry cache vertex data.
         CubbyFlow::ParallelFor(CubbyFlow::ZERO_SIZE, manager->GetNumberOfCache(), [&](size_t index){
             const auto& cache = manager->GetGeometryCache(index);
-            cache->TransformCache(translate, scale, rotateAxis, CubbyFlow::DegreesToRadians(rotateDegree));
             cache->InterleaveData(Vox::VertexFormat::Position3Normal3);
         });
 
@@ -253,9 +283,21 @@ namespace Vox {
         const auto& material = GetSceneObject<Material>(materialName);
         
         //! Create fluid buffer from the parsed material, program and geometry cache.
-        auto fluidBuffer = std::make_shared<FluidBuffer>();
+        auto fluidBuffer = std::make_shared<FluidRenderable>();
         fluidBuffer->AttachGeometryCacheManager(manager);
         fluidBuffer->AttachMaterial(material);
+
+        //! Parse transform information of total animation bound
+        const auto& transform = node.find_child_by_attribute("transform", "name", "toWorld");
+        const CubbyFlow::Vector3F translate = Detail::ParseFromString(transform.child("translate").attribute("value").value());
+        const CubbyFlow::Vector3F scale = Detail::ParseFromString(transform.child("scale").attribute("value").value());
+        const CubbyFlow::Vector3F rotateAxis = Detail::ParseFromString(transform.child("rotate").attribute("axis").value());
+        const float rotateDegree = transform.child("rotate").attribute("degree").as_float();
+
+        //! Multiply Scale * Ratation * Model matrices and pass.
+        fluidBuffer->SetModelMatrix(CubbyFlow::Matrix4x4F::MakeScaleMatrix(scale) *
+                                    CubbyFlow::Matrix4x4F::MakeRotationMatrix(rotateAxis, CubbyFlow::DegreesToRadians(rotateDegree)) *
+                                    CubbyFlow::Matrix4x4F::MakeTranslationMatrix(translate));
 
         //! Push parsed fluid animation to the unordered_map.
         _metadata.emplace(VoxStringID(node.attribute("name").value()), fluidBuffer);
@@ -263,51 +305,94 @@ namespace Vox {
 
     //! Static Object Loader
     template <>
-    void VoxScene::OnLoadSceneObject<GeometryCache>(const pugi::xml_node& node)
+    void VoxScene::OnLoadSceneObject<StaticRenderable>(const pugi::xml_node& node)
     {
-        UNUSED_VARIABLE(node);
-        // const std::string name = json["name"].get<std::string>();
-        // const std::string format = json["format"].get<std::string>();
-        // const CubbyFlow::Vector3F translate = {json["translate"][0].get<float>(), json["translate"][1].get<float>(), json["translate"][2].get<float>() };
-        // const float scale = json["scale"].get<float>();
+        //! Parse fluid animation(which is sequential list of the obj files) path format and count of the obj files.
+        //! path format looks like this : path%06d.obj 
+        const std::string filename = node.find_child_by_attribute("string", "name", "filename").attribute("value").value();
 
-        // auto object = std::make_shared<GeometryCache>(format);
-        // object->TranslateCache(translate);
-        // object->ScaleCache(scale);
+        //! Loading obj files from format and count.
+        auto cache = std::make_shared<GeometryCache>(FileSystem::FindPath(filename).ToString());
 
-        //! Push parsed static scene object to the unordered_map.
-        // _metadata.emplace(VoxStringID(node.attribute("name").value()), manager);
+        //! interleaving the geometry cache vertex data.
+        cache->InterleaveData(Vox::VertexFormat::Position3Normal3);
+
+        //! Generate the mesh from the geometry cache.
+        auto mesh = std::make_shared<Mesh>();
+        mesh->GenerateMeshObject(cache->GetShape(0), VertexFormat::Position3Normal3, true);
+
+        //! Get already parsed material instance from this VoxScene instance.
+        //! **The required material must precede FluidAnim.**
+        const std::string materialName = node.child("material").attribute("value").value();
+        const auto& material = GetSceneObject<Material>(materialName);
+
+        //! Create fluid buffer from the parsed material, program and geometry cache.
+        auto staticObject = std::make_shared<StaticRenderable>();
+        staticObject->AttachMaterial(material);
+
+        //! Parse transform information of total animation bound
+        const auto& transform = node.find_child_by_attribute("transform", "name", "toWorld");
+        const CubbyFlow::Vector3F translate = Detail::ParseFromString(transform.child("translate").attribute("value").value());
+        const CubbyFlow::Vector3F scale = Detail::ParseFromString(transform.child("scale").attribute("value").value());
+        const CubbyFlow::Vector3F rotateAxis = Detail::ParseFromString(transform.child("rotate").attribute("axis").value());
+        const float rotateDegree = transform.child("rotate").attribute("degree").as_float();
+
+        //! Multiply Scale * Ratation * Model matrices and pass.
+        staticObject->SetModelMatrix(CubbyFlow::Matrix4x4F::MakeTranslationMatrix(translate) *
+            CubbyFlow::Matrix4x4F::MakeRotationMatrix(rotateAxis, CubbyFlow::DegreesToRadians(rotateDegree)) *
+            CubbyFlow::Matrix4x4F::MakeScaleMatrix(scale));
+
+        //! Add mesh to the static object
+        staticObject->AddGeometryMesh(mesh);
+
+        //! Push parsed fluid animation to the unordered_map.
+        _metadata.emplace(VoxStringID(node.attribute("name").value()), staticObject);
     }
 
     //! Emitter Loader
     template <>
     void VoxScene::OnLoadSceneObject<Emitter>(const pugi::xml_node& node)
     {
+        UNUSED_VARIABLE(node);
+        //! Push parsed light emitter to the unordered_map.
+        // _metadata.emplace(VoxStringID(node.attribute("name").value()), std::make_shared<Texture>(GL_TEXTURE_2D, textureID));
+    }
+
+    //! Texture Loader
+    template <>
+    void VoxScene::OnLoadSceneObject<Texture>(const pugi::xml_node& node)
+    {
         stbi_set_flip_vertically_on_load(true);
 
-        //! Get hdr image filename
-        const char* filename = node.find_child("hdr").attribute("value").value();
+        //! Get texture image filename
+        const std::string filename = FileSystem::FindPath(node.attribute("filename").value()).ToString();
 
-        //! Get floating point data pointer from the hdr image.
+        //! Get texture image type
+        const std::string type = node.attribute("type").value();
+
         int width, height, numChannel;
-        float* data = stbi_loadf(filename, &width, &height, &numChannel, 0);
-
-        //! Create texture with floating point format.
-        GLuint hdrTexture = Renderer::CreateTexture(width, height, PixelFmt::PF_RGB16F, data);
-
-        //! Deallocates the image data.
-        stbi_image_free(data);
-
-        //! Parse the baking resolution
-        const auto& resolution = node.find_child("resolution");
-        GLsizei resolutionX = resolution.attribute("x").as_uint();
-        GLsizei resolutionY = resolution.attribute("y").as_uint();
-
-        //! Baking cubemap from the hdr texture     
-        std::shared_ptr<Emitter> cubemap = std::make_shared<CubeMap>(hdrTexture, resolutionX, resolutionY);
+        GLuint textureID;
+        if (type == "hdr")
+        {
+            //! Get floating point data pointer from the hdr image.
+            float* data = stbi_loadf(filename.c_str(), &width, &height, &numChannel, 0);
+            //! Create texture with floating point format.
+            textureID = Renderer::CreateTexture(width, height, PixelFmt::PF_RGB32F, data);
+            //! Deallocates the image data.
+            stbi_image_free(data);
+        }
+        else
+        {
+            //! Get data pointer from the hdr image.
+            unsigned char* data = stbi_load(filename.c_str(), &width, &height, &numChannel, 0);
+            //! Create texture with floating point format.
+            textureID = Renderer::CreateTexture(width, height, PixelFmt::PF_RGB8, data);
+            //! Deallocates the image data.
+            stbi_image_free(data);
+        }
 
         //! Push parsed light emitter to the unordered_map.
-         _metadata.emplace(VoxStringID(node.attribute("name").value()), cubemap);
+        _metadata.emplace(VoxStringID(node.attribute("name").value()), std::make_shared<Texture>(GL_TEXTURE_2D, textureID));
     }
 
     void VoxScene::OnLoadScene(const pugi::xml_document& document)
@@ -322,9 +407,10 @@ namespace Vox {
             if (objectType == "sensor") OnLoadSceneObject<Camera>(data);
             else if (objectType == "material") OnLoadSceneObject<Material>(data);
             else if (objectType == "program") OnLoadSceneObject<Program>(data);
-            else if (objectType == "anim") OnLoadSceneObject<FluidBuffer>(data);
-            else if (objectType == "shape") OnLoadSceneObject<GeometryCache>(data);
+            else if (objectType == "anim") OnLoadSceneObject<FluidRenderable>(data);
+            else if (objectType == "shape") OnLoadSceneObject<StaticRenderable>(data);
             else if (objectType == "emitter") OnLoadSceneObject<Emitter>(data);
+            else if (objectType == "texture") OnLoadSceneObject<Texture>(data);
             else VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Unknown Scene Object Type [" + objectType + "]");
             std::cout << " done" << std::endl;
         };
