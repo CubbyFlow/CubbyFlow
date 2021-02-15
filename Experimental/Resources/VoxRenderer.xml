@@ -3,7 +3,7 @@
 <scene version="0.5.0">
     <sensor type="perspective" name="mainCam">
         <float name="focusDistance" value="10000"/>
-        <float name="fov" value="30"/>
+        <float name="fov" value="60"/>
         <transform name="toWorld">
             <lookat target="0 0 0" origin="0 3 10" up="0 1 0"/>
         </transform>
@@ -22,53 +22,81 @@
         </film>
     </sensor>
 
-    <program type="shader" name="meshShader">
-      <shader>
-        <vs value="vertex.glsl"/>
-        <fs value="mesh.glsl"/>
-      </shader>
-      <uniform>
-      </uniform>
-    </program>
+  <texture type="hdr" name="cubeMap" filename="ice_lake.hdr"/>
+  <texture type="hdr" name="irradianceMap" filename="ice_lake_convolution.hdr"/>
 
-    <emitter type="envmap" id="envmapLight" name="envmap">
-        <string name="filename" value="hdr/sunset.hdr"/>
-        <transform name="toWorld">
-            <rotate y="1" angle="75"/>
-        </transform>
-        <float name="scale" value="2.75"/>
-    </emitter>
+  <program type="shader" name="refractionShader">
+    <shader>
+      <vs value="vertex.glsl"/>
+      <fs value="refraction.glsl"/>
+    </shader>
+    <uniform>
+    </uniform>
+  </program>
 
-    <material type="diffuse" id="diffmat" name="watermat">
-        <program value="meshShader"/>
-        <brdf type="dielectric">
-            <albedo value="0.0 0.223 1.0"/>
-            <metallic value="0.5"/>
-            <roughness value="0.0"/>
-            <ao value="0.0"/>
-        </brdf>
-    </material>
+  <program type="shader" name="meshShader">
+    <shader>
+      <vs value="vertex.glsl"/>
+      <fs value="mesh.glsl"/>
+    </shader>
+    <uniform>
+    </uniform>
+  </program>
 
-    <anim type="obj" id="water" name="fluidAnim">
-        <string name="format" value="LevelSetLiquidSim_output/frame_%06d.obj"/>
-        <integer name="count" value="200"/>
-        <transform name="toWorld">
-            <translate value="0 0 0"/>
-            <rotate axis="1 0 0" degree="0"/>
-            <scale value="1 1 1"/>
-        </transform>
-        <material type="brdf" value="watermat"/>
-    </anim>
+  <material type="envmapping" id="refraction" name="watermat">
+    <program value="refractionShader"/>
+    <refraction value="1.33"/>
+  </material>
 
-    <shape type="obj" id="column1" name="cylinder1">
-        <string name="filename" value="objects/cylinder.obj"/>
-        <transform name="toWorld">
-            <rotate x="1" angle="90"/>
-            <translate x="100" y="10" z="37.5"/>
-            <scale x="0.01" y="0.075" z="0.01"/>
-        </transform>
-        <bsdf type="diffuse">
-            <rgb name="reflectance" value="0.35 0.0 0.0"/>
-        </bsdf>
-    </shape>
+  <material type="brdf" id="diffmat" name="obstaclemat">
+    <program value="meshShader"/>
+    <brdf type="dielectric">
+      <albedo value="0.0 0.223 1.0"/>
+      <metallic value="0.5"/>
+      <roughness value="0.0"/>
+      <ao value="1.0"/>
+    </brdf>
+  </material>
+
+  <anim type="obj" id="water" name="fluidAnim">
+    <string name="format" value="levelset_bunny_high_viscosity/frame_%06d.obj"/>
+    <integer name="count" value="180"/>
+    <transform name="toWorld">
+      <translate value="0 0 0"/>
+      <rotate axis="1 0 0" degree="0"/>
+      <scale value="1 1 1"/>
+    </transform>
+    <material type="envmapping" value="watermat"/>
+  </anim>
+
+  <shape type="obj" id="column1" name="cylinder1">
+    <string name="filename" value="sphere.obj"/>
+    <transform name="toWorld">
+      <translate value="0 0 0"/>
+      <rotate axis="1 0 0" degree="0"/>
+      <scale value="0.3 0.3 0.3"/>
+    </transform>
+    <material type="brdf" value="obstaclemat"/>
+  </shape>
+
+  <shape type="obj" id="column1" name="cylinder2">
+    <string name="filename" value="sphere.obj"/>
+    <transform name="toWorld">
+      <translate value="0 1 0"/>
+      <rotate axis="1 0 0" degree="0"/>
+      <scale value="0.3 0.3 0.3"/>
+    </transform>
+    <material type="brdf" value="obstaclemat"/>
+  </shape>
+
+  <shape type="obj" id="column1" name="cylinder3">
+    <string name="filename" value="sphere.obj"/>
+    <transform name="toWorld">
+      <translate value="1 0 0"/>
+      <rotate axis="1 0 0" degree="0"/>
+      <scale value="0.3 0.3 0.3"/>
+    </transform>
+    <material type="brdf" value="obstaclemat"/>
+  </shape>
 </scene>
+	
