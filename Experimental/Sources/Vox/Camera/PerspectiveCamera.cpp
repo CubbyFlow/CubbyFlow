@@ -28,6 +28,7 @@ namespace Vox {
 
     void PerspectiveCamera::UpdateMatrix()
     {
-        _viewProjection = Perspective(_aspectRatio, _near, _far, _fov) * LookAt(_origin, _dir, _up);
+        _view = LookAt(_origin, _dir, _up);
+        _projection = Perspective(_aspectRatio, _near, _far, _fov);
     }
 };
