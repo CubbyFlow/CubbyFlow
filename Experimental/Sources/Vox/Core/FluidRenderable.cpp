@@ -1,5 +1,5 @@
 /*************************************************************************
-> File Name: FluidBuffer.cpp
+> File Name: FluidRenderable.cpp
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
@@ -7,7 +7,7 @@
 > Created Time: 2020/07/26
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
-#include <Vox/Core/FluidBuffer.hpp>
+#include <Vox/Core/FluidRenderable.hpp>
 #include <Vox/Core/FrameContext.hpp>
 #include <Vox/Mesh/Mesh.hpp>
 #include <Vox/Scene/GeometryCacheManager.hpp>
@@ -22,19 +22,19 @@ using namespace CubbyFlow;
 
 namespace Vox {
 
-    FluidBuffer::FluidBuffer(const size_t numBuffer)
+    FluidRenderable::FluidRenderable(const size_t numBuffer)
     {
         Resize(numBuffer);
     }   
 
-    FluidBuffer::~FluidBuffer()
+    FluidRenderable::~FluidRenderable()
     {
         _fences.clear();
     }
 
-    void FluidBuffer::Resize(const size_t numBuffer)
+    void FluidRenderable::Resize(const size_t numBuffer)
     {
-        _meshes.resize(numBuffer, std::make_shared<Mesh>());
+        _meshes.Resize(numBuffer, std::make_shared<Mesh>());
         if (_numBuffer <= numBuffer) //! In case new number of the buffer is larger than original.
         {
             const GLsizei numCreate = static_cast<GLsizei>(numBuffer - _numBuffer);
@@ -49,7 +49,7 @@ namespace Vox {
         _fences.resize(_numBuffer);
     }
 
-    bool FluidBuffer::CheckFence(GLuint64 timeout) 
+    bool FluidRenderable::CheckFence(GLuint64 timeout) 
     {
         const size_t bufferNum = _frameIndex % _numBuffer;
         const GLsync& fence = _fences[bufferNum];
@@ -62,7 +62,7 @@ namespace Vox {
         return true;
     }
 
-    void FluidBuffer::AsyncBufferTransfer()
+    void FluidRenderable::AsyncBufferTransfer()
     {
         const size_t bufferNum = _frameIndex % _numBuffer;
 
@@ -77,31 +77,35 @@ namespace Vox {
         _meshes[bufferNum]->AsyncTransfer(shape.indices.data(), shape.indices.size() * sizeof(unsigned int), true);
     }
 
-    void FluidBuffer::DrawFrame(const std::shared_ptr<FrameContext>& ctx)
+    void FluidRenderable::ConfigureRenderSettings(const std::shared_ptr<FrameContext>& ctx)
     {
-        const size_t bufferNum = _frameIndex % _numBuffer;
-
         //! Bind material to the context.
         _material->BindMaterial(ctx);
+
+        auto& params = _material->GetProgram()->GetParameters();
+        params.SetParameter("camera.model", _modelMatrix);
+    }
+
+    void FluidRenderable::DrawRenderableObject(const std::shared_ptr<FrameContext>& ctx)
+    {
+        //! Configure render settings before rendering.
+        ConfigureRenderSettings(ctx);
+
         //! Render the mesh.
+        const size_t bufferNum = _frameIndex % _numBuffer;
         _meshes[bufferNum]->DrawMesh(ctx);
         
         //! Make fence to draw call.
         _fences[bufferNum] = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0); 
     }
 
-    void FluidBuffer::AdvanceFrame()
+    void FluidRenderable::AdvanceFrame()
     {
         ++_frameIndex; //! Advance frame index;
     }
 
-    void FluidBuffer::AttachGeometryCacheManager(const std::shared_ptr<GeometryCacheManager>& manager)
+    void FluidRenderable::AttachGeometryCacheManager(const std::shared_ptr<GeometryCacheManager>& manager)
     {
         _cacheManager = manager;
-    }
-
-    void FluidBuffer::AttachMaterial(const std::shared_ptr<Material>& material)
-    {
-        _material = material;
     }
 };
