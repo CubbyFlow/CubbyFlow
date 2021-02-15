@@ -13,6 +13,7 @@
 #include <Vox/Core/NonCopyable.hpp>
 #include <Vox/Core/PixelFmt.hpp>
 #include <Vox/Utils/GLTypes.hpp>
+#include <unordered_map>
 #include <memory>
 
 namespace Vox {
@@ -34,7 +35,7 @@ namespace Vox {
         void BindFrameBuffer(GLuint target);
 
         //! Attach Color Texture to the framebuffer.
-        void AttachTexture(GLsizei index, const std::shared_ptr<Texture>& texture, bool bMultisample=false);
+        void AttachTexture(GLsizei index, GLuint target, const std::shared_ptr<Texture>& texture);
 
         //! Attach Render Buffer Object to the framebuffer.
         void AttachRenderBuffer(GLuint rbo);
@@ -44,7 +45,7 @@ namespace Vox {
 
     private:
         GLuint _id;
-        std::vector<std::shared_ptr<Texture>> _textures;
+        std::unordered_map<unsigned int, std::shared_ptr<Texture>> _textures;
         GLuint _rbo;
     };
 

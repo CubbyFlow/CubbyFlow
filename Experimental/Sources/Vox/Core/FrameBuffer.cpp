@@ -30,22 +30,15 @@ namespace Vox {
         glBindFramebuffer(target, _id);
     }
 
-    void FrameBuffer::AttachTexture(GLsizei index, const std::shared_ptr<Texture>& texture, bool bMultisample)
+    void FrameBuffer::AttachTexture(GLsizei index, GLuint target, const std::shared_ptr<Texture>& texture)
     {
-		glBindFramebuffer(GL_FRAMEBUFFER, _id);
-        const GLenum target = bMultisample ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D;
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, target, texture->GetTextureID(), 0);
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-        _textures.push_back(texture);
+        _textures[index] = texture;
 	}
 
     void FrameBuffer::AttachRenderBuffer(GLuint rbo)
     {
-		glBindFramebuffer(GL_FRAMEBUFFER, _id);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rbo);
         _rbo = rbo;
     }
 
