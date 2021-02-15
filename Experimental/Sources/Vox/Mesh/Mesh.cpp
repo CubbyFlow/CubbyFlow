@@ -106,14 +106,8 @@ namespace Vox {
     void Mesh::DrawMesh(const std::shared_ptr<FrameContext>& ctx)
     {
         glBindVertexArray(_vao);
-        if (_material) _material->BindMaterial(ctx);
         glDrawElements(ctx->GetRenderStatus().primitive, _numVertices, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
-    }
-
-    void Mesh::AttachMaterial(const std::shared_ptr<Material>& material)
-    {
-        _material = material;
     }
 
     void Mesh::AsyncTransfer(const void* src, const size_t numBytes, bool isIndices)
@@ -167,7 +161,7 @@ namespace Vox {
             glEnableVertexAttribArray(index);
             glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(VertexHelper::GetSizeInBytes(format)), (void*)(offset * sizeof(float)));
         }
-         
+
         //! Bind index buffer and pass data.
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBytes, nullptr, _usage);

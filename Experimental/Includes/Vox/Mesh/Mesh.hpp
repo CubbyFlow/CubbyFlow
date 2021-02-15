@@ -54,15 +54,12 @@ namespace Vox {
         void ClearMeshObject();
         //! Draw mesh with configured opengl resources.
         void DrawMesh(const std::shared_ptr<FrameContext>& ctx);
-        //! Attach material to this mesh.
-        void AttachMaterial(const std::shared_ptr<Material>& material);
         //! Asynchronously transfer new data ptr.
         //! But, set the fences need to be done outside the class.
         void AsyncTransfer(const void* src, const size_t numBytes, bool isIndices=false);
         //! Generate empty interleaved buffers
         void GenerateEmptyMesh(VertexFormat format, const size_t verticesBytes, const size_t indicesBytes);
     protected:
-        std::shared_ptr<Material> _material;
         GLuint _usage;
         GLuint _vao, _vbo, _ebo; 
         unsigned int _numVertices;
