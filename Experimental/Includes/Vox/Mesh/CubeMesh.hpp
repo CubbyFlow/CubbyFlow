@@ -21,7 +21,7 @@ namespace Vox {
     {
     public:
         //! Constructor with geometry cache.
-        CubeMesh(const float width, const float height, const float depth);
+        CubeMesh(const float width, const float height, const float depth, VertexFormat format);
     };
 }
 
