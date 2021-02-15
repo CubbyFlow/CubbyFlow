@@ -20,7 +20,7 @@ out VSOUT {
 
 void main()
 {
-    gl_Position = camera.viewProjection * vec4(position, 1.0);
+    gl_Position = camera.projection * camera.view * camera.model * vec4(position, 1.0);
     vs_out.worldPos = position;
     vs_out.normal = normal;
 }
