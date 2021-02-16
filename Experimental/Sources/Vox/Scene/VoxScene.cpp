@@ -299,6 +299,23 @@ namespace Vox {
                                     CubbyFlow::Matrix4x4F::MakeRotationMatrix(rotateAxis, CubbyFlow::DegreesToRadians(rotateDegree)) *
                                     CubbyFlow::Matrix4x4F::MakeTranslationMatrix(translate));
 
+        auto renderStatus = material->GetRenderStatus();
+        //! Get animation geometry type (mesh or particle)
+        const std::string type = node.attribute("type").value();
+        if (type == "mesh")
+        {
+            renderStatus.primitive = GL_TRIANGLES;
+        }
+        else if (type == "particle")
+        {
+            renderStatus.primitive = GL_POINTS;
+        }
+        else
+        {
+            VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Unknown fluid animation geometry type.");
+        }
+        material->SetRenderStatus(renderStatus);
+
         //! Push parsed fluid animation to the unordered_map.
         _metadata.emplace(VoxStringID(node.attribute("name").value()), fluidBuffer);
     }
