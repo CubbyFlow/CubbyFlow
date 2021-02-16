@@ -11,6 +11,7 @@
 #include <Vox/Scene/GeometryCache.hpp>
 #include <Vox/Utils/DebugUtils.hpp>
 #include <Vox/Utils/VectorUtils.hpp>
+#include <Vox/Utils/ArrayUtils.hpp>
 #include <Core/Utils/Serialization.hpp>
 #include <Core/Matrix/Matrix4x4.hpp>
 #include <fstream>
@@ -204,6 +205,8 @@ namespace Vox {
 			newShape.positions[index] = particle;
             newShape.boundingBox.Merge(particle);
 		});
+        IncreasingNumToArray<unsigned int>(&(newShape.indices), newShape.positions.size());
+
         _shapes.Append(newShape);
 	}
 
@@ -224,6 +227,7 @@ namespace Vox {
 			newShape.boundingBox.Merge(pos);
 		}
 	    file.close();
+        IncreasingNumToArray<unsigned int>(&(newShape.indices), newShape.positions.size());
         _shapes.Append(newShape);
 	}
 
