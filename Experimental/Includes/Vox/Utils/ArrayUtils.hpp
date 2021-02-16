@@ -19,6 +19,9 @@
 
 namespace Vox {
 
+    template <typename T>
+    void IncreasingNumToArray(CubbyFlow::Array1<T>* dest, size_t num, T startNum = 0);
+
     template <typename U, typename T, size_t N>
     void ArrayCast(CubbyFlow::Array<U, N>& dest, const CubbyFlow::Array<T, N>& src);
     
@@ -30,5 +33,5 @@ namespace Vox {
 
 };
 
-#include <Vox/ArrayUtils-Impl.hpp>
+#include <Vox/Utils/ArrayUtils-Impl.hpp>
 #endif

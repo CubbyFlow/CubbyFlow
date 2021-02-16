@@ -11,6 +11,7 @@
 #define CUBBYFLOW_VOX_ARRAY_UTILS_IMPL_HPP
 
 #include <iterator>
+#include <numeric>
 
 namespace Vox {
 
@@ -25,6 +26,13 @@ namespace Vox {
                 dest[index] = static_cast<U>(src[index]);
             });
         }
+    }
+
+    template <typename T>
+    void IncreasingNumToArray(CubbyFlow::Array1<T>* dest, size_t num, T startNum)
+    {
+        dest->Resize(num);
+        std::iota(dest->begin(), dest->end(), startNum);
     }
 
     template <typename U, typename T, size_t N>
