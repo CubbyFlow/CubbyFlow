@@ -53,6 +53,7 @@ namespace Vox {
         //! Set render status of the current context with default values.
         ctx->SetRenderStatus(FrameContext::RenderStatus());
         glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+        glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 
         //! Initialize renderer scene from file.
         _scene = Vox::VoxScene::CreateScene(scenePath);
