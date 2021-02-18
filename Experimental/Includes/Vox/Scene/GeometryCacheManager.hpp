@@ -28,14 +28,14 @@ namespace Vox {
         GeometryCacheManager();
 
         //! Constructor with geometry cache path format and count
-        GeometryCacheManager(const Vox::Path& format, size_t count);
+        GeometryCacheManager(const Vox::Path& format, size_t count, bool scaleToUnitBox = true);
 
         //! Default Destructor.
         ~GeometryCacheManager();
 
         //! Make geometry cache with the given count argument,
         //! call cache loading method to them
-        void PoolingGeometryCache(const Vox::Path& format, size_t count);
+        void PoolingGeometryCache(const Vox::Path& format, size_t count, bool scaleToUnitBox = true);
 
         //! return the number of the resources.
         size_t GetNumberOfCache() const;

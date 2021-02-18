@@ -20,10 +20,10 @@ namespace Vox {
         _boundingBox.Reset();
     }
 
-    GeometryCacheManager::GeometryCacheManager(const Vox::Path& format, size_t count)
+    GeometryCacheManager::GeometryCacheManager(const Vox::Path& format, size_t count, bool scaleToUnitBox)
         : GeometryCacheManager()
     {
-        PoolingGeometryCache(format, count);
+        PoolingGeometryCache(format, count, scaleToUnitBox);
     }
 
     GeometryCacheManager::~GeometryCacheManager()
@@ -31,16 +31,43 @@ namespace Vox {
         //! Do nothing.
     }
 
-    void GeometryCacheManager::PoolingGeometryCache(const Vox::Path& format, size_t count)
+    void GeometryCacheManager::PoolingGeometryCache(const Vox::Path& format, size_t count, bool scaleToUnitBox)
     {
         _caches.Resize(count);
+
+        //! Turn off the scaling to unit box for calculating the bounding box of the total animation, not for one cache.
         CubbyFlow::ParallelFor(CubbyFlow::ZERO_SIZE, count, [&](size_t index){
-            _caches[index] = std::make_shared<GeometryCache>(format, index);
+            _caches[index] = std::make_shared<GeometryCache>(format, index, false);
         });
 
         for (const auto& cache : _caches)
         {
             _boundingBox.Merge(cache->GetBoundingBox());
+        }
+
+        if (scaleToUnitBox)
+        {
+            const auto& minCorner = _boundingBox.lowerCorner;
+            const auto& maxCorner = _boundingBox.upperCorner;
+            const auto& delta = maxCorner - minCorner;
+            const float maxLengthHalf = std::max({ delta.x, delta.y, delta.z }) / 2.0f;
+
+            CubbyFlow::ParallelFor(CubbyFlow::ZERO_SIZE, count, [&](size_t index) {
+                auto& cache = _caches[index];
+                for (size_t i = 0; i < cache->GetNumberOfShape(); ++i)
+                {
+                    auto& shape = cache->GetShape(i);
+                    for (auto& vertex : shape.positions)
+                    {
+                        vertex -= minCorner;
+                        vertex /= maxLengthHalf;
+                        vertex -= 1.0f;
+
+                        //! TODO(snowapril) : below code must be removed after camera modifying
+                        vertex.z += 1.5f;
+                    }
+                }
+            });
         }
     }
 
