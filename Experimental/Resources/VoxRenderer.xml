@@ -1,25 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 
 <scene version="0.5.0">
+  
     <sensor type="perspective" name="mainCam">
         <float name="focusDistance" value="10000"/>
         <float name="fov" value="60"/>
         <transform name="toWorld">
             <lookat target="0 0 0" origin="0 3 10" up="0 1 0"/>
         </transform>
-
-        <film type="ldrfilm">
-            <boolean name="banner" value="false"/>
-            <float name="exposure" value="0"/>
-            <float name="gamma" value="-1"/>
-            <integer name="height" value="800"/>
-            <string name="pixelFormat" value="rgb"/>
-            <string name="toneMappingMethod" value="gamma"/>
-            <string name="tonemapMethod" value="gamma"/>
-            <integer name="width" value="1024"/>
-
-            <rfilter type="catmullrom"/>
-        </film>
     </sensor>
 
   <light type="point" name="point_lights">
@@ -32,7 +20,7 @@
   <texture type="hdr" name="cubeMap" filename="ice_lake.hdr"/>
   <texture type="hdr" name="irradianceMap" filename="ice_lake_convolution.hdr"/>
 
-  <program type="shader" name="refractionShader">
+  <program name="refractionShader">
     <shader>
       <vs value="vertex.glsl"/>
       <fs value="refraction.glsl"/>
@@ -41,7 +29,7 @@
     </uniform>
   </program>
 
-  <program type="shader" name="meshShader">
+  <program name="meshShader">
     <shader>
       <vs value="vertex.glsl"/>
       <fs value="mesh.glsl"/>
@@ -50,7 +38,7 @@
     </uniform>
   </program>
 
-  <program type="shader" name="pointSpriteShader">
+  <program name="pointSpriteShader">
     <shader>
       <vs value="point_input.glsl"/>
       <fs value="point_sprite.glsl"/>
@@ -59,12 +47,12 @@
     </uniform>
   </program>
 
-  <material type="envmapping" id="refraction" name="watermat">
+  <material type="envmapping" name="watermat">
     <program value="refractionShader"/>
     <refraction value="1.33"/>
   </material>
 
-  <material type="brdf" id="diffmat" name="particlemat">
+  <material type="brdf" name="particlemat">
     <program value="pointSpriteShader"/>
     <brdf type="dielectric">
       <albedo value="0.1 0.4 1.0"/>
@@ -74,7 +62,7 @@
     </brdf>
   </material>
 
-  <material type="brdf" id="diffmat" name="obstaclemat">
+  <material type="brdf" name="obstaclemat">
     <program value="meshShader"/>
     <brdf type="dielectric">
       <albedo value="0.5 0.223 1.0"/>
@@ -84,7 +72,7 @@
     </brdf>
   </material>
 
-  <anim type="mesh" id="water" name="fluidAnim">
+  <anim type="mesh" name="fluidAnim">
     <string name="format" value="levelset_bunny_high_viscosity/frame_%06d.obj"/>
     <integer name="count" value="144"/>
     <transform name="toWorld">
@@ -92,19 +80,18 @@
       <rotate axis="1 0 0" degree="0"/>
       <scale value="2 2 2"/>
     </transform>
-    <material type="brdf" value="watermat"/>
+    <material value="watermat"/>
   </anim>
 
 
-  <shape type="obj" id="column1" name="cylinder">
+  <shape type="obj" name="cylinder">
     <string name="filename" value="sphere.obj"/>
     <transform name="toWorld">
       <translate value="0 1.5 0"/>
       <rotate axis="1 0 0" degree="0"/>
       <scale value="0.3 0.3 0.3"/>
     </transform>
-    <material type="brdf" value="obstaclemat"/>
+    <material value="obstaclemat"/>
   </shape>
 
 </scene>
-	
