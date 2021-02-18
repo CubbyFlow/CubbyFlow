@@ -60,5 +60,13 @@ namespace Vox {
         return _boundingBox;
     }
 
+    void GeometryCacheManager::SetVertexFormat(VertexFormat format)
+    {
+        this->_format = format;
+    }
 
+    VertexFormat GeometryCacheManager::GetVertexFormat() const
+    {
+        return this->_format;
+    }
 };

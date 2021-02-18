@@ -11,6 +11,7 @@
 #define CUBBYFLOW_VOX_GEOMETRY_CACHE_MANAGER_HPP
 
 #include <Vox/Scene/VoxSceneObject.hpp>
+#include <Vox/Core/Vertex.hpp>
 #include <Vox/Utils/FileSystem.hpp>
 #include <Core/Array/Array1.hpp>
 #include <Core/Geometry/BoundingBox3.hpp>
@@ -45,10 +46,17 @@ namespace Vox {
         //! Return the bounding box of the whole geometry caches
         const CubbyFlow::BoundingBox3F& GetBoundingBox() const;
 
+        //! Set vertex format of the geometry caches.
+        void SetVertexFormat(VertexFormat format);
+
+        //! Get vertex format of the geometry caches.
+        VertexFormat GetVertexFormat() const;
+
     protected:
     private:
         CubbyFlow::Array1<std::shared_ptr<Vox::GeometryCache>> _caches;
         CubbyFlow::BoundingBox3F _boundingBox;
+        VertexFormat _format;
     };
 };
 
