@@ -21,32 +21,36 @@ void main() {
     F0 = mix(F0, material.albedo, material.metallic);
 
     vec3 Lo = vec3(0.0);
+    for (int i = 0; i < numLights; ++i)
+    {
+        //! Calculate per-light radiance
+        vec3 L = normalize(light[i].position - fs_in.worldPos);
+        vec3 H = normalize(L + V);
+        float distance = length(light[i].position - fs_in.worldPos);
+        float attenuation = 1.0 / (distance * distance);
+        vec3 radiance = light[i].color * attenuation;
 
-    //! Calculate per-light radiance
-    vec3 L = normalize(light.position - fs_in.worldPos);
-    vec3 H = normalize(L + V);
-    float distance = length(light.position - fs_in.worldPos);
-    float attenuation = 1.0 / (distance * distance);
-    vec3 radiance = light.color * attenuation;
+        //! Cook-Torrance BRDF
+        float NDF = DistributionGGX(N, H, material.roughness);
+        float G = GeometrySmith(N, V, L, material.roughness);
+        vec3 F = fresnelSchlick(max(dot(H, V), 0.0), F0);
 
-    //! Cook-Torrance BRDF
-    float NDF = DistributionGGX(N, H, material.roughness);
-    float G = GeometrySmith(N, V, L, material.roughness);
-    vec3 F = fresnelSchlick(max(dot(H, V), 0.0), F0);
+        vec3 kS = F;
+        vec3 kD = vec3(1.0) - kS;
+        kD *= 1.0 - material.metallic;
 
-    vec3 kS = F;
-    vec3 kD = vec3(1.0) - kS;
-    kD *= 1.0 - material.metallic;
+        vec3 numerator = NDF * G * F;
+        float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0);
+        vec3 specular = numerator / max(denominator, EPS);
+
+        //! Add to outgoing radiance Lo.
+        float NdotL = max(dot(N, L), 0.0);
+        Lo += (kD * material.albedo / PI + specular) * radiance * NdotL;
+    }
+
+    vec3 kS = fresnelSchlick(max(dot(N, V), 0.0), F0);
+    vec3 kD = 1.0 - kS;
     vec3 irradiance = texture(irradianceMap, N).rgb;
-
-    vec3 numerator = NDF * G * F;
-    float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0);
-    vec3 specular = numerator / max(denominator, EPS);
-
-    //! Add to outgoing radiance Lo.
-    float NdotL = max(dot(N, L), 0.0);
-    Lo += (kD * material.albedo / PI + specular) * radiance * NdotL;
-
     vec3 diffuse = irradiance * material.albedo;
     vec3 ambient = (kD * diffuse) * material.ao;
     vec3 color = ambient + Lo;

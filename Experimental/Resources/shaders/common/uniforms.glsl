@@ -27,7 +27,9 @@
  * SOFTWARE.
  */
 
+#define MAX_NUM_LIGHTS 8
+
 uniform int numLights;
 uniform Camera camera;
-uniform Light light;
+uniform Light light[MAX_NUM_LIGHTS];
 uniform Material material;
