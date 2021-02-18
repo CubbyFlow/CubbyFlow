@@ -43,6 +43,7 @@ namespace Vox {
 
         //! Return the shape struct of the loaded data.
         const MeshShape& GetShape(size_t index) const;
+        MeshShape& GetShape(size_t index);
 
         //! Return the bounding box of the geometry cache
         const CubbyFlow::BoundingBox3F& GetBoundingBox() const;
