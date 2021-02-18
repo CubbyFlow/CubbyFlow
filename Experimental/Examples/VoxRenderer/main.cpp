@@ -32,7 +32,7 @@
 int main(int argc, const char** argv)
 {
     bool showHelp = false;
-    int width = 1200, height = 900;
+    int width = 1600, height = 1200;
     std::string logFileName = APP_NAME ".log";
     std::string outputDir = APP_NAME "_output";
 
