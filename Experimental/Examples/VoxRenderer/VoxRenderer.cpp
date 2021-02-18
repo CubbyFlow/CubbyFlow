@@ -84,20 +84,27 @@ bool VoxRenderer::Initialize(const Vox::Path& scenePath)
     //! deallocate irradiance map texture because no need to store irradiance map equirectangular texture as already we have baked texture irradiance map.
     _scene->DeallocateObject("irradianceMap");
 
-    //! Get loaded fluid animation buffer which implemented with round-robin async technique.
-    _buffer = _scene->GetSceneObject<Vox::FluidRenderable>("fluidAnim");
+    //! Get point light instance which manage whole point light datum
+    _pointLight = _scene->GetSceneObject<Vox::PointLight>("point_lights");
 
-    //! uniform variables to mesh shader.
-    //! And add irradiance map texture to fluid anim material.
-    auto waterMaterial = _scene->GetSceneObject<Vox::Material>("watermat");
-    auto& waterShader = waterMaterial->GetProgram();
-    waterMaterial->AttachTextureToSlot(bakedCubeMap, 0);
-    waterShader->GetParameters().SetParameter("cubeMap", 0);
-
-    //! Create light source
-    auto light = std::make_shared<Vox::PointLight>();
-    light->SetPosition(CubbyFlow::Vector3F(3.0f, 3.0f, 10.0f));
-    light->SetColor(CubbyFlow::Vector3F(150.0f, 150.0f, 150.0f));
+    //! Get loaded fluid animation buffers which implemented with round-robin async technique.
+    _fluidAnims = _scene->GetSceneObjects<Vox::FluidRenderable>();
+    for (auto& anim : _fluidAnims)
+    {
+        //! uniform variables to mesh shader.
+        //! And add irradiance map texture to fluid anim material.
+        auto animMaterial = anim->GetMaterial();
+        auto& animShader = animMaterial->GetProgram();
+        if (animShader->HasUniformVariable("cubeMap"))
+        {
+            animMaterial->AttachTextureToSlot(bakedCubeMap, 0);
+            animShader->GetParameters().SetParameter("cubeMap", 0);
+        }
+        else
+        {
+            _pointLight->UploadToProgram(animShader);
+        }
+    }
 
     //! Get all loaded static objects.
     _obstacles = _scene->GetSceneObjects<Vox::StaticRenderable>();
@@ -107,7 +114,7 @@ bool VoxRenderer::Initialize(const Vox::Path& scenePath)
         auto& program = material->GetProgram();
         program->GetParameters().SetParameter("irradianceMap", 0);
         material->AttachTextureToSlot(bakedIrradianceMap, 0);
-        light->UploadToProgram(program);
+        _pointLight->UploadToProgram(program);
     }
 
     //! Create Material for cube map rendering.
@@ -146,8 +153,9 @@ bool VoxRenderer::Initialize(const Vox::Path& scenePath)
 void VoxRenderer::UpdateFrame(double dt)
 {
     //! Upload view projection and cam position to mesh shader.
-    _camera->UploadToProgram(_buffer->GetMaterial()->GetProgram());
     _camera->UploadToProgram(_skybox->GetMaterial()->GetProgram());
+    for (auto& anim : _fluidAnims)
+        _camera->UploadToProgram(anim->GetMaterial()->GetProgram());
     for (auto& obstacle : _obstacles)
         _camera->UploadToProgram(obstacle->GetMaterial()->GetProgram());
 
@@ -181,14 +189,18 @@ void VoxRenderer::DrawFrame()
         _skybox->DrawRenderableObject(ctx);
 
         glPolygonMode(GL_FRONT_AND_BACK, _polygonMode);
+
         //! Render fluid animation buffer with brdf mesh shader.
-        if (_buffer->CheckFence(50000))
+        for (auto& anim : _fluidAnims)
         {
-            _buffer->AsyncBufferTransfer();
-            _buffer->DrawRenderableObject(ctx);
-            
-            if (!_animStopped)
-                _buffer->AdvanceFrame();
+            if (anim->CheckFence(50000))
+            {
+                anim->AsyncBufferTransfer();
+                anim->DrawRenderableObject(ctx);
+
+                if (!_animStopped)
+                    anim->AdvanceFrame();
+            }
         }
 
         for (auto& obstacle : _obstacles)

@@ -23,6 +23,7 @@ namespace Vox {
     class Texture;
     class Program;
     class FrameBuffer;
+    class PointLight;
     class CubeMesh;
 };
 
@@ -45,8 +46,9 @@ public:
 protected:
     void OnSetKey(int key, int scancode, int action, int mods) override;
 private:
-    std::shared_ptr<Vox::FluidRenderable> _buffer;
+    CubbyFlow::Array1<std::shared_ptr<Vox::FluidRenderable>> _fluidAnims;
     CubbyFlow::Array1<std::shared_ptr<Vox::StaticRenderable>> _obstacles;
+    std::shared_ptr<Vox::PointLight> _pointLight;
     std::unique_ptr<Vox::PostProcessing> _postProcessing;
     std::shared_ptr<Vox::FrameBuffer> _mainPass;
     std::shared_ptr<Vox::Texture> _screenTexture;
