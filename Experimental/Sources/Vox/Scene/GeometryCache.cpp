@@ -181,6 +181,12 @@ namespace Vox {
         return _shapes.size();
     }
 
+    MeshShape& GeometryCache::GetShape(size_t index)
+    {
+        VoxAssert((index < _shapes.size()), CURRENT_SRC_PATH_TO_STR, "Out Of Range Error");
+        return _shapes[index];
+    }
+
     const MeshShape& GeometryCache::GetShape(size_t index) const
     {
         VoxAssert((index < _shapes.size()), CURRENT_SRC_PATH_TO_STR,"Out Of Range Error");
