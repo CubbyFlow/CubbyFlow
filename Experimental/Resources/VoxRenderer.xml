@@ -22,6 +22,13 @@
         </film>
     </sensor>
 
+  <light type="point" name="point_lights">
+    <source pos="3 3 10" color="1 1 1"/>
+    <source pos="-3 3 10" color="1 1 1"/>
+    <source pos="-3 -3 10" color="1 1 1"/>
+    <source pos="3 -3 10" color="1 1 1"/>
+  </light>
+
   <texture type="hdr" name="cubeMap" filename="ice_lake.hdr"/>
   <texture type="hdr" name="irradianceMap" filename="ice_lake_convolution.hdr"/>
 
@@ -43,60 +50,61 @@
     </uniform>
   </program>
 
+  <program type="shader" name="pointSpriteShader">
+    <shader>
+      <vs value="point_input.glsl"/>
+      <fs value="point_sprite.glsl"/>
+    </shader>
+    <uniform>
+    </uniform>
+  </program>
+
   <material type="envmapping" id="refraction" name="watermat">
     <program value="refractionShader"/>
     <refraction value="1.33"/>
   </material>
 
-  <material type="brdf" id="diffmat" name="obstaclemat">
-    <program value="meshShader"/>
+  <material type="brdf" id="diffmat" name="particlemat">
+    <program value="pointSpriteShader"/>
     <brdf type="dielectric">
-      <albedo value="0.0 0.223 1.0"/>
-      <metallic value="0.5"/>
+      <albedo value="0.1 0.4 1.0"/>
+      <metallic value="0.3"/>
       <roughness value="0.0"/>
       <ao value="1.0"/>
     </brdf>
   </material>
 
-  <anim type="obj" id="water" name="fluidAnim">
+  <material type="brdf" id="diffmat" name="obstaclemat">
+    <program value="meshShader"/>
+    <brdf type="dielectric">
+      <albedo value="0.5 0.223 1.0"/>
+      <metallic value="0.5"/>
+      <roughness value="0.0"/>
+      <ao value="0.5"/>
+    </brdf>
+  </material>
+
+  <anim type="mesh" id="water" name="fluidAnim">
     <string name="format" value="levelset_bunny_high_viscosity/frame_%06d.obj"/>
-    <integer name="count" value="180"/>
+    <integer name="count" value="144"/>
     <transform name="toWorld">
       <translate value="0 0 0"/>
       <rotate axis="1 0 0" degree="0"/>
-      <scale value="1 1 1"/>
+      <scale value="2 2 2"/>
     </transform>
-    <material type="envmapping" value="watermat"/>
+    <material type="brdf" value="watermat"/>
   </anim>
 
-  <shape type="obj" id="column1" name="cylinder1">
+
+  <shape type="obj" id="column1" name="cylinder">
     <string name="filename" value="sphere.obj"/>
     <transform name="toWorld">
-      <translate value="0 0 0"/>
+      <translate value="0 1.5 0"/>
       <rotate axis="1 0 0" degree="0"/>
       <scale value="0.3 0.3 0.3"/>
     </transform>
     <material type="brdf" value="obstaclemat"/>
   </shape>
 
-  <shape type="obj" id="column1" name="cylinder2">
-    <string name="filename" value="sphere.obj"/>
-    <transform name="toWorld">
-      <translate value="0 1 0"/>
-      <rotate axis="1 0 0" degree="0"/>
-      <scale value="0.3 0.3 0.3"/>
-    </transform>
-    <material type="brdf" value="obstaclemat"/>
-  </shape>
-
-  <shape type="obj" id="column1" name="cylinder3">
-    <string name="filename" value="sphere.obj"/>
-    <transform name="toWorld">
-      <translate value="1 0 0"/>
-      <rotate axis="1 0 0" degree="0"/>
-      <scale value="0.3 0.3 0.3"/>
-    </transform>
-    <material type="brdf" value="obstaclemat"/>
-  </shape>
 </scene>
 	

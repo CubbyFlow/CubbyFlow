@@ -12,7 +12,7 @@
 #include <Vox/Utils/StringID.hpp>
 #include <Vox/Core/Renderer.hpp>
 #include <Vox/Core/Program.hpp>
-#include <Vox/Core/Emitter.hpp>
+#include <Vox/Core/PointLight.hpp>
 #include <Vox/Core/FluidRenderable.hpp>
 #include <Vox/Core/StaticRenderable.hpp>
 #include <Vox/Core/Texture.hpp>
@@ -263,30 +263,6 @@ namespace Vox {
     template <>
     void VoxScene::OnLoadSceneObject<FluidRenderable>(const pugi::xml_node& node)
     {
-        //! Parse fluid animation(which is sequential list of the obj files) path format and count of the obj files.
-        //! path format looks like this : path%06d.obj 
-        const std::string format = node.find_child_by_attribute("string", "name", "format").attribute("value").value();
-        const int count = node.find_child_by_attribute("integer", "name", "count").attribute("value").as_int();
-
-        //! Loading obj files from format and count.
-        auto manager = std::make_shared<GeometryCacheManager>(format, count);
-
-        //! interleaving each geometry cache vertex data.
-        CubbyFlow::ParallelFor(CubbyFlow::ZERO_SIZE, manager->GetNumberOfCache(), [&](size_t index){
-            const auto& cache = manager->GetGeometryCache(index);
-            cache->InterleaveData(Vox::VertexFormat::Position3Normal3);
-        });
-
-        //! Get already parsed material instance from this VoxScene instance.
-        //! **The required material must precede FluidAnim.**
-        const std::string materialName = node.child("material").attribute("value").value();
-        const auto& material = GetSceneObject<Material>(materialName);
-        
-        //! Create fluid buffer from the parsed material, program and geometry cache.
-        auto fluidBuffer = std::make_shared<FluidRenderable>();
-        fluidBuffer->AttachGeometryCacheManager(manager);
-        fluidBuffer->AttachMaterial(material);
-
         //! Parse transform information of total animation bound
         const auto& transform = node.find_child_by_attribute("transform", "name", "toWorld");
         const CubbyFlow::Vector3F translate = Detail::ParseFromString(transform.child("translate").attribute("value").value());
@@ -295,26 +271,56 @@ namespace Vox {
         const float rotateDegree = transform.child("rotate").attribute("degree").as_float();
 
         //! Multiply Scale * Ratation * Model matrices and pass.
-        fluidBuffer->SetModelMatrix(CubbyFlow::Matrix4x4F::MakeScaleMatrix(scale) *
+        CubbyFlow::Matrix4x4F mvp = CubbyFlow::Matrix4x4F::MakeScaleMatrix(scale) *
                                     CubbyFlow::Matrix4x4F::MakeRotationMatrix(rotateAxis, CubbyFlow::DegreesToRadians(rotateDegree)) *
-                                    CubbyFlow::Matrix4x4F::MakeTranslationMatrix(translate));
+                                    CubbyFlow::Matrix4x4F::MakeTranslationMatrix(translate);
+
+        //! Get already parsed material instance from this VoxScene instance.
+        //! **The required material must precede FluidAnim.**
+        const std::string materialName = node.child("material").attribute("value").value();
+        const auto& material = GetSceneObject<Material>(materialName);
 
         auto renderStatus = material->GetRenderStatus();
         //! Get animation geometry type (mesh or particle)
         const std::string type = node.attribute("type").value();
+        VertexFormat interleavingFormat;
         if (type == "mesh")
         {
+            interleavingFormat = VertexFormat::Position3Normal3;
             renderStatus.primitive = GL_TRIANGLES;
         }
         else if (type == "particle")
         {
+            interleavingFormat = VertexFormat::Position3;
             renderStatus.primitive = GL_POINTS;
+            //! renderStatus.sourceBlendFactor = GL_SRC_ALPHA;
+            //! renderStatus.destinationBlendFactor = GL_ONE;
         }
         else
         {
             VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Unknown fluid animation geometry type.");
         }
         material->SetRenderStatus(renderStatus);
+
+        //! Parse fluid animation(which is sequential list of the obj files) path format and count of the obj files.
+        //! path format looks like this : path%06d.obj 
+        const std::string format = node.find_child_by_attribute("string", "name", "format").attribute("value").value();
+        const int count = node.find_child_by_attribute("integer", "name", "count").attribute("value").as_int();
+
+        //! Loading obj files from format and count.
+        auto manager = std::make_shared<GeometryCacheManager>(format, count);
+        manager->SetVertexFormat(interleavingFormat);
+
+        //! interleaving each geometry cache vertex data.
+        CubbyFlow::ParallelFor(CubbyFlow::ZERO_SIZE, manager->GetNumberOfCache(), [&](size_t index) {
+            const auto& cache = manager->GetGeometryCache(index);
+            cache->InterleaveData(interleavingFormat);
+        });
+
+        //! Create fluid buffer from the parsed material, program and geometry cache.
+        auto fluidBuffer = std::make_shared<FluidRenderable>(manager);
+        fluidBuffer->AttachMaterial(material);
+        fluidBuffer->SetModelMatrix(mvp);
 
         //! Push parsed fluid animation to the unordered_map.
         _metadata.emplace(VoxStringID(node.attribute("name").value()), fluidBuffer);
@@ -366,13 +372,21 @@ namespace Vox {
         _metadata.emplace(VoxStringID(node.attribute("name").value()), staticObject);
     }
 
-    //! Emitter Loader
+    //! PointLight Loader
     template <>
-    void VoxScene::OnLoadSceneObject<Emitter>(const pugi::xml_node& node)
+    void VoxScene::OnLoadSceneObject<PointLight>(const pugi::xml_node& node)
     {
-        UNUSED_VARIABLE(node);
-        //! Push parsed light emitter to the unordered_map.
-        // _metadata.emplace(VoxStringID(node.attribute("name").value()), std::make_shared<Texture>(GL_TEXTURE_2D, textureID));
+        auto light = std::make_shared<PointLight>();
+
+        for (const auto& source : node)
+        {
+            const CubbyFlow::Vector3F position = Detail::ParseFromString(source.attribute("pos").value());
+            const CubbyFlow::Vector3F color = Detail::ParseFromString(source.attribute("color").value());
+            light->AddLight(position, color);
+        }
+
+        //! Push parsed point light to the unordered_map.
+        _metadata.emplace(VoxStringID(node.attribute("name").value()), light);
     }
 
     //! Texture Loader
@@ -426,7 +440,7 @@ namespace Vox {
             else if (objectType == "program") OnLoadSceneObject<Program>(data);
             else if (objectType == "anim") OnLoadSceneObject<FluidRenderable>(data);
             else if (objectType == "shape") OnLoadSceneObject<StaticRenderable>(data);
-            else if (objectType == "emitter") OnLoadSceneObject<Emitter>(data);
+            else if (objectType == "light") OnLoadSceneObject<PointLight>(data);
             else if (objectType == "texture") OnLoadSceneObject<Texture>(data);
             else VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Unknown Scene Object Type [" + objectType + "]");
             std::cout << " done" << std::endl;
