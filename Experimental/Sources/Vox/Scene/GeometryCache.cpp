@@ -206,7 +206,7 @@ namespace Vox {
             newShape.boundingBox.Merge(particle);
 		});
         IncreasingNumToArray<unsigned int>(&(newShape.indices), newShape.positions.size());
-
+        _boundingBox.Merge(newShape.boundingBox);
         _shapes.Append(newShape);
 	}
 
@@ -228,6 +228,7 @@ namespace Vox {
 		}
 	    file.close();
         IncreasingNumToArray<unsigned int>(&(newShape.indices), newShape.positions.size());
+        _boundingBox.Merge(newShape.boundingBox);
         _shapes.Append(newShape);
 	}
 
