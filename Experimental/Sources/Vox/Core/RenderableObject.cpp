@@ -35,6 +35,7 @@ namespace Vox {
     void RenderableObject::AddGeometryMesh(const std::shared_ptr<Mesh> mesh)
     {
         _meshes.Append(mesh);
+        _boundingBox.Merge(mesh->GetBoundingBox());
     }
 
     const std::shared_ptr<Mesh> RenderableObject::GetGeometryMesh(size_t index) const
@@ -61,5 +62,10 @@ namespace Vox {
     const std::shared_ptr<Material> RenderableObject::GetMaterial() const
     {
         return _material;
+    }
+
+    CubbyFlow::BoundingBox3F RenderableObject::GetBoundingBox() const
+    {
+        return _boundingBox;
     }
 }

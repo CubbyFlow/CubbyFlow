@@ -11,6 +11,7 @@
 #define CUBBYFLOW_VOX_RENDERABLE_OBJECT_HPP
 
 #include <Vox/Scene/VoxSceneObject.hpp>
+#include <Core/Geometry/BoundingBox3.hpp>
 #include <Core/Matrix/Matrix4x4.hpp>
 #include <Core/Array/Array1.hpp>
 #include <string>
@@ -46,10 +47,13 @@ namespace Vox {
         const std::shared_ptr<Material> GetMaterial() const;
         //! Draw this renderable object with configured settings.
         virtual void DrawRenderableObject(const std::shared_ptr<FrameContext>& ctx) {(void)ctx;};
+        //! Returns the bounding box of this renderable object.
+        CubbyFlow::BoundingBox3F GetBoundingBox() const;
     protected:
         virtual void ConfigureRenderSettings(const std::shared_ptr<FrameContext>& ctx) {(void)ctx;};
         
         CubbyFlow::Matrix4x4F _modelMatrix;
+        CubbyFlow::BoundingBox3F _boundingBox;
         CubbyFlow::Array1<std::shared_ptr<Mesh>> _meshes;
         std::shared_ptr<Material> _material;
     private:
