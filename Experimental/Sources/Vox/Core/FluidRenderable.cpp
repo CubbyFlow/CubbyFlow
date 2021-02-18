@@ -22,14 +22,15 @@ using namespace CubbyFlow;
 
 namespace Vox {
 
-    FluidRenderable::FluidRenderable(const size_t numBuffer)
+    FluidRenderable::FluidRenderable(const std::shared_ptr<GeometryCacheManager>& manager, const size_t numBuffer)
     {
+        SetGeometryCacheManager(manager);
         Resize(numBuffer);
     }   
 
     FluidRenderable::~FluidRenderable()
     {
-        _fences.clear();
+        CleanUp();
     }
 
     void FluidRenderable::Resize(const size_t numBuffer)
@@ -41,12 +42,12 @@ namespace Vox {
             for (size_t i = _numBuffer; i < numBuffer; ++i)
             {
                 _meshes[i]->SetBufferUsage(GL_STREAM_DRAW);
-                _meshes[i]->GenerateEmptyMesh(VertexFormat::Position3Normal3, kMaxBufferSize, kMaxBufferSize);
+                _meshes[i]->GenerateEmptyMesh(_cacheManager->GetVertexFormat(), kMaxBufferSize, kMaxBufferSize);
             }
             glBindVertexArray(0);
         }
         _numBuffer = numBuffer;
-        _fences.resize(_numBuffer);
+        _fences.Resize(_numBuffer);
     }
 
     bool FluidRenderable::CheckFence(GLuint64 timeout) 
@@ -71,10 +72,10 @@ namespace Vox {
         const auto& shape = _cacheManager->GetGeometryCache(index)->GetShape(0);
 
         //! Transfer the vertices data
-        _meshes[bufferNum]->AsyncTransfer(shape.interleaved.data(), shape.interleaved.size() * sizeof(float));
+        _meshes[bufferNum]->AsyncTransfer(shape, shape.interleaved.size() * sizeof(float));
 
         //! Transfer the indices data
-        _meshes[bufferNum]->AsyncTransfer(shape.indices.data(), shape.indices.size() * sizeof(unsigned int), true);
+        _meshes[bufferNum]->AsyncTransfer(shape, shape.indices.size() * sizeof(unsigned int), true);
     }
 
     void FluidRenderable::ConfigureRenderSettings(const std::shared_ptr<FrameContext>& ctx)
@@ -104,8 +105,26 @@ namespace Vox {
         ++_frameIndex; //! Advance frame index;
     }
 
-    void FluidRenderable::AttachGeometryCacheManager(const std::shared_ptr<GeometryCacheManager>& manager)
+    void FluidRenderable::SetGeometryCacheManager(const std::shared_ptr<GeometryCacheManager>& manager)
     {
+        if (_cacheManager && _cacheManager->GetVertexFormat() != manager->GetVertexFormat())
+        {
+            CleanUp();
+            Resize();
+        }
+
         _cacheManager = manager;
+    }
+
+    void FluidRenderable::CleanUp()
+    {
+        //! Wait whole fences finished
+        for (const auto& fence : _fences)
+        {
+            glClientWaitSync(fence, 0, 1000000);
+            glDeleteSync(fence);
+        }
+        _fences.Clear();
+        _meshes.Clear();
     }
 };

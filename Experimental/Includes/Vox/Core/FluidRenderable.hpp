@@ -27,12 +27,12 @@ namespace Vox {
     {
     public:
         //! Constructor with number of the buffers.
-        FluidRenderable(const size_t numBuffer = kDefaultNumBuffer);
+        FluidRenderable(const std::shared_ptr<GeometryCacheManager>& manager, const size_t numBuffer = kDefaultNumBuffer);
         //! Default destructor.
         ~FluidRenderable();
 
         //! Resize the buffer number.
-        void Resize(const size_t numBuffer);
+        void Resize(const size_t numBuffer = kDefaultNumBuffer);
         //! Draw one frame of the particles data.
         bool CheckFence(GLuint64 timeout);
         //! Asynchronously transfer scene data to vertex buffer.
@@ -42,7 +42,9 @@ namespace Vox {
         //! Advance the frame index.
         void AdvanceFrame();
         //! Attach geometry cache manager
-        void AttachGeometryCacheManager(const std::shared_ptr<GeometryCacheManager>& manager);
+        void SetGeometryCacheManager(const std::shared_ptr<GeometryCacheManager>& manager);
+        //! Clean-up the meshes.
+        void CleanUp();
 
         static const size_t kMaxBufferSize = 0x1000000; //! 2097 kB - This is GPU memory
         static const size_t kDefaultNumBuffer = 3;
@@ -50,7 +52,7 @@ namespace Vox {
         void ConfigureRenderSettings(const std::shared_ptr<FrameContext>& ctx) override;
     private:
         std::shared_ptr<GeometryCacheManager> _cacheManager;
-        std::vector<GLsync> _fences;
+        CubbyFlow::Array1<GLsync> _fences;
         size_t _numBuffer{ 0 };
         size_t _frameIndex{ 0 };
     };
