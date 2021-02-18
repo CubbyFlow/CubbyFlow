@@ -38,7 +38,7 @@ namespace Vox {
     private:
         float _fov { 45.0f };
         float _aspectRatio { 1.0f };
-        float _near { 0.01f };
+        float _near { 0.1f };
         float _far { 10000.0f };
     };
 
