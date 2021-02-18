@@ -94,6 +94,8 @@ namespace Vox {
         glBindVertexArray(0);
         //! Set the number of indices of given geometry shape.
         _numVertices = static_cast<unsigned int>(shape.indices.size());
+        //! Merge the bounding box.
+        _boundingBox.Merge(shape.boundingBox);
     }
 
     void Mesh::ClearMeshObject()
@@ -110,7 +112,7 @@ namespace Vox {
         glBindVertexArray(0);
     }
 
-    void Mesh::AsyncTransfer(const void* src, const size_t numBytes, bool isIndices)
+    void Mesh::AsyncTransfer(const MeshShape& shape, const size_t numBytes, bool isIndices)
     {
         //! Set the target and the buffer variable.
         const GLenum target = isIndices ? GL_ELEMENT_ARRAY_BUFFER : GL_ARRAY_BUFFER;
@@ -119,15 +121,23 @@ namespace Vox {
         //! Bind the buffer which will be asynchronously transfered.
         glBindBuffer(target, buffer);
         void* ptr = glMapBufferRange(target, 0, numBytes, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+
         //! Pass pointer for the memcpy
-        std::memcpy(ptr, src, numBytes);
+        if (isIndices)
+        {
+            std::memcpy(ptr, shape.indices.data(), numBytes);
+            _numVertices = static_cast<unsigned int>(numBytes / sizeof(unsigned int));
+        }
+        else
+        {
+            std::memcpy(ptr, shape.interleaved.data(), numBytes);
+        }
+
         //! Unmap the pointer after transfer finished.
         glUnmapBuffer(target);
 
-        if (isIndices)
-        {
-            _numVertices = static_cast<unsigned int>(numBytes / sizeof(unsigned int));
-        }
+        //! Merge the bounding box.
+        _boundingBox.Merge(shape.boundingBox);
     }
 
     void Mesh::GenerateEmptyMesh(VertexFormat format, const size_t verticesBytes, const size_t indicesBytes)
@@ -168,5 +178,10 @@ namespace Vox {
         glBindVertexArray(0);
         //! Set the number of indices of given geometry shape.
         _numVertices = static_cast<unsigned int>(indicesBytes / sizeof(unsigned int));
+    }
+
+    CubbyFlow::BoundingBox3F Mesh::GetBoundingBox() const
+    {
+        return _boundingBox;
     }
 }

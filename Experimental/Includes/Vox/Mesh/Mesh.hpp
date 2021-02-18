@@ -49,6 +49,7 @@ namespace Vox {
         //! Set buffer storage usage
         void SetBufferUsage(GLuint usage);
         //! Generate opengl resources with given geometry shape.
+        //! Bounding box will be merged with given geometry shape.
         void GenerateMeshObject(const MeshShape& geometryShape, VertexFormat format, bool bInterleaved=true);
         //! Clear and Reset contained opengl resources.
         void ClearMeshObject();
@@ -56,10 +57,14 @@ namespace Vox {
         void DrawMesh(const std::shared_ptr<FrameContext>& ctx);
         //! Asynchronously transfer new data ptr.
         //! But, set the fences need to be done outside the class.
-        void AsyncTransfer(const void* src, const size_t numBytes, bool isIndices=false);
+        void AsyncTransfer(const MeshShape& cache, const size_t numBytes, bool isIndices=false);
         //! Generate empty interleaved buffers
+        //! Because it is empty mesh, the bounding box must be merged in the **AsyncTransfer** method.
         void GenerateEmptyMesh(VertexFormat format, const size_t verticesBytes, const size_t indicesBytes);
+        //! Returns the bounding box of the mesh
+        CubbyFlow::BoundingBox3F GetBoundingBox() const;
     protected:
+        CubbyFlow::BoundingBox3F _boundingBox;
         GLuint _usage;
         GLuint _vao, _vbo, _ebo; 
         unsigned int _numVertices;
