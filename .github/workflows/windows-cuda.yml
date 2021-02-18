@@ -15,8 +15,18 @@ jobs:
           #- name: "Windows Server 2016 + Visual Studio 2017"
           #  os: windows-2016
           # Windows Server 2019 + Visual Studio 2019
-          - name: "Windows Server 2019 + Visual Studio 2019"
+          - name: "Windows Server 2019 + Visual Studio 2019 + CUDA 10.1.243"
             os: windows-2019
+            cuda: "10.1.243"
+            visual_studio: "Visual Studio 16 2019"
+          - name: "Windows Server 2019 + Visual Studio 2019 + CUDA 10.2.89"
+            os: windows-2019
+            cuda: "10.2.89"
+            visual_studio: "Visual Studio 16 2019"
+          - name: "Windows Server 2019 + Visual Studio 2019 + CUDA 11.0.167"
+            os: windows-2019
+            cuda: "11.0.167"
+            visual_studio: "Visual Studio 16 2019"
             
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.name }}
