@@ -40,7 +40,7 @@ public:
     bool Initialize(const Vox::Path& scenePath) override;
     void UpdateFrame(double dt) override;
     void DrawFrame() override;
-    const char* GetWindowTitle() override { return "Particle Viewer"; };
+    const char* GetWindowTitle() override { return "CubbyFlow Fluid Renderer"; };
 
 protected:
     void OnSetKey(int key, int scancode, int action, int mods) override;
