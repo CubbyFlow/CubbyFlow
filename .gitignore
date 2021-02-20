@@ -27,3 +27,7 @@ CppDependOut/
 
 # Visual Studio 2017 cache/options directory
 .vs/
+
+# CLion
+cmake-build-debug
+.idea
