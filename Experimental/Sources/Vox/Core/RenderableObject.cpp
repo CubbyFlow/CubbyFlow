@@ -13,7 +13,6 @@
 #include <Vox/Core/Material.hpp>
 #include <Vox/Core/FrameContext.hpp>
 #include <Vox/Mesh/Mesh.hpp>
-#include <glad/glad.h>
 
 namespace Vox {
 
