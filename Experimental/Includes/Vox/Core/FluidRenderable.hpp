@@ -27,12 +27,11 @@ namespace Vox {
     {
     public:
         //! Constructor with number of the buffers.
-        FluidRenderable(const std::shared_ptr<GeometryCacheManager>& manager, const size_t numBuffer = kDefaultNumBuffer);
+        FluidRenderable(const std::shared_ptr<GeometryCacheManager>& manager, const size_t numBuffer = 3);
         //! Default destructor.
         ~FluidRenderable();
-
         //! Resize the buffer number.
-        void Resize(const size_t numBuffer = kDefaultNumBuffer);
+        void Resize(const size_t numBuffer = 3);
         //! Draw one frame of the particles data.
         bool CheckFence(GLuint64 timeout);
         //! Asynchronously transfer scene data to vertex buffer.
@@ -46,13 +45,12 @@ namespace Vox {
         //! Clean-up the meshes.
         void CleanUp();
 
-        static const size_t kMaxBufferSize = 0x1000000; //! 2097 kB - This is GPU memory
-        static const size_t kDefaultNumBuffer = 3;
+        static const size_t kMaxBufferSize = 0x1000000; // 2097 kB - This is GPU memory
     protected:
         void ConfigureRenderSettings(const std::shared_ptr<FrameContext>& ctx) override;
     private:
-        std::shared_ptr<GeometryCacheManager> _cacheManager;
-        CubbyFlow::Array1<GLsync> _fences;
+        std::shared_ptr<GeometryCacheManager> _cacheManager; // geometry cache manager which will be used for data transfer while simulating anim
+        CubbyFlow::Array1<GLsync> _fences; // barrier for not interfering draw call and asnyc data transfer
         size_t _numBuffer{ 0 };
         size_t _frameIndex{ 0 };
     };

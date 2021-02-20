@@ -14,8 +14,6 @@
 #include <Vox/Scene/GeometryCache.hpp>
 #include <Vox/Core/Material.hpp>
 #include <Vox/Core/Vertex.hpp>
-#include <Vox/Scene/VoxScene.hpp>
-#include <Core/Utils/Logging.hpp>
 #include <glad/glad.h>
 
 using namespace CubbyFlow;
@@ -38,16 +36,16 @@ namespace Vox {
         _meshes.Resize(numBuffer, std::make_shared<Mesh>());
         if (_numBuffer <= numBuffer) //! In case new number of the buffer is larger than original.
         {
-            const GLsizei numCreate = static_cast<GLsizei>(numBuffer - _numBuffer);
             for (size_t i = _numBuffer; i < numBuffer; ++i)
             {
                 _meshes[i]->SetBufferUsage(GL_STREAM_DRAW);
+                //! generate mesh with given vertex format and pre-allocates 2096kB for each buffer(vertex, index buffer)
                 _meshes[i]->GenerateEmptyMesh(_cacheManager->GetVertexFormat(), kMaxBufferSize, kMaxBufferSize);
             }
             glBindVertexArray(0);
         }
+        _fences.Resize(numBuffer);
         _numBuffer = numBuffer;
-        _fences.Resize(_numBuffer);
     }
 
     bool FluidRenderable::CheckFence(GLuint64 timeout) 
@@ -83,8 +81,8 @@ namespace Vox {
         //! Bind material to the context.
         _material->BindMaterial(ctx);
 
-        auto& params = _material->GetProgram()->GetParameters();
-        params.SetParameter("camera.model", _modelMatrix);
+        //! Send model matrix to the program
+        _material->GetProgram()->GetParameters().SetParameter("camera.model", _modelMatrix);
     }
 
     void FluidRenderable::DrawRenderableObject(const std::shared_ptr<FrameContext>& ctx)
@@ -118,9 +116,9 @@ namespace Vox {
 
     void FluidRenderable::CleanUp()
     {
-        //! Wait whole fences finished
         for (const auto& fence : _fences)
         {
+            //! Wait whole fences finished
             glClientWaitSync(fence, 0, 1000000);
             glDeleteSync(fence);
         }
