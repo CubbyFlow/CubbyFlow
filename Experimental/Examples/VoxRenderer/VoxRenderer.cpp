@@ -19,7 +19,6 @@
 #include <Vox/Core/FrameBuffer.hpp>
 #include <Vox/Core/TextureBaker.hpp>
 #include <Vox/Core/Texture.hpp>
-#include <Vox/Core/ShaderPreset.hpp>
 #include <Vox/Core/StaticRenderable.hpp>
 #include <Vox/Core/FluidRenderable.hpp>
 #include <Vox/Core/PointLight.hpp>
@@ -31,7 +30,7 @@
 #include <glfw/glfw3.h>
 
 VoxRenderer::VoxRenderer()
-    : _polygonMode(GL_FILL)
+    : App(), _polygonMode(GL_FILL)
 {
     //! Do nothing.
 }
@@ -91,7 +90,7 @@ bool VoxRenderer::Initialize(const Vox::Path& scenePath)
     _fluidAnims = _scene->GetSceneObjects<Vox::FluidRenderable>();
     for (auto& anim : _fluidAnims)
     {
-        //! uniform variables to mesh shader.
+        //! upload uniform variables to fluid shader
         //! And add irradiance map texture to fluid anim material.
         auto animMaterial = anim->GetMaterial();
         auto& animShader = animMaterial->GetProgram();
@@ -212,7 +211,6 @@ void VoxRenderer::DrawFrame()
     {
         //! Clear the screen.
         Vox::App::BeginFrame(ctx);
-        glViewport(0, 0, _windowSize.x, _windowSize.y);
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
         //! Post-processing the screen.
