@@ -8,9 +8,7 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 #include <Vox/Core/PostProcessing.hpp>
-#include <Vox/Core/Renderer.hpp>
 #include <Vox/Core/Texture.hpp>
-#include <Vox/Core/ShaderPreset.hpp>
 #include <Vox/Core/FrameContext.hpp>
 #include <Vox/Core/Program.hpp>
 #include <glad/glad.h>
