@@ -15,10 +15,8 @@
 #include <Vox/Scene/VoxSceneObject.hpp>
 #include <Vox/Core/Program.hpp>
 #include <Vox/Core/ShaderParameters.hpp>
-#include <Core/Vector/Vector3.hpp>
 #include <unordered_map>
 #include <memory>
-#include <string>
 
 namespace Vox {
 
@@ -34,7 +32,6 @@ namespace Vox {
         Material();
         //! Default destructor
         virtual ~Material();
-
         //! Attach shader program to this material.
         void AttachProgramShader(const std::shared_ptr<Program>& program);
         //! Attach shader program to this material.
@@ -51,6 +48,7 @@ namespace Vox {
             return _program;
         }
     protected:
+        //! Send material attributes to shader program.
         virtual void ConfigureShaderParameters(ShaderParameters& params) { (void)params; };
 
     private:

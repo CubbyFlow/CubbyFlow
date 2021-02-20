@@ -10,7 +10,6 @@
 *************************************************************************/
 #include <Vox/Core/Material.hpp>
 #include <Vox/Core/FrameContext.hpp>
-#include <Vox/Core/Program.hpp>
 #include <Vox/Core/Texture.hpp>
 
 namespace Vox {
@@ -32,7 +31,7 @@ namespace Vox {
     
     void Material::AttachTextureToSlot(const std::shared_ptr<Texture>& texture, unsigned int slot)
     {
-        _textures.emplace(slot, texture);
+        _textures[slot] = texture;
     }
 
     FrameContext::RenderStatus Material::GetRenderStatus() const
