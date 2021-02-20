@@ -32,7 +32,7 @@ namespace Vox {
 
     void Mesh::GenerateMeshObject(const MeshShape& shape, VertexFormat format, bool bInterleaved)
     {
-        //! Genetry opengl resources.
+        //! Generate opengl resources.
         glGenVertexArrays(1, &_vao);
         glGenBuffers(1, &_vbo);
         glGenBuffers(1, &_ebo);
@@ -176,8 +176,6 @@ namespace Vox {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBytes, nullptr, _usage);
         glBindVertexArray(0);
-        //! Set the number of indices of given geometry shape.
-        _numVertices = static_cast<unsigned int>(indicesBytes / sizeof(unsigned int));
     }
 
     CubbyFlow::BoundingBox3F Mesh::GetBoundingBox() const
