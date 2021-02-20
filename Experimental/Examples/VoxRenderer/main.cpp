@@ -27,7 +27,7 @@
 #include <iostream>
 #include <fstream>
 
-#define APP_NAME "VoxRenderer"
+#define APP_NAME "CubbyFlow Fluid Renderer"
 
 int main(int argc, const char** argv)
 {
@@ -60,7 +60,7 @@ int main(int argc, const char** argv)
     }
 
 #ifdef CUBBYFLOW_WINDOWS
-    _mkdir(outputDir.c_str());
+    [[maybe_unused]] bool isCreated = _mkdir(outputDir.c_str());
 #else
     mkdir(outputDir.c_str(), S_IRWXU | S_IRWXG | S_IRWXO);
 #endif
