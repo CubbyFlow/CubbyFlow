@@ -64,6 +64,13 @@ include(Builds/CMake/TaskingSystemOptions.cmake)
 # Compile options
 include(Builds/CMake/CompileOptions.cmake)
 
+# Modify project options for CUDA build
+if (ENABLE_CUDA)
+    enable_language(CUDA)
+    set(DEFAULT_PROJECT_OPTIONS ${DEFAULT_PROJECT_OPTIONS}
+            CUDA_SEPARABLE_COMPILATION ON)
+endif()
+
 # Code coverage - Debug only
 # NOTE: Code coverage results with an optimized (non-Debug) build may be misleading
 option(BUILD_COVERAGE "Build code coverage" OFF)
