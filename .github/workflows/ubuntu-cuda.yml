@@ -14,29 +14,19 @@ jobs:
       matrix:
         include:
           # Ubuntu 18.04 supports CUDA 10.1+ (gxx <= 8)
+          - name: "Ubuntu 20.04 + gcc-9 + CUDA 11.0"
+            os: ubuntu-20.04
+            cuda: "11.0"
+            compiler: gcc
+            version: "9"
           - name: "Ubuntu 18.04 + gcc-8 + CUDA 11.0"
             os: ubuntu-18.04
             cuda: "11.0"
             compiler: gcc
             version: "8"
-          - name: "Ubuntu 18.04 + gcc-8 + CUDA 10.2"
-            os: ubuntu-18.04
-            cuda: "10.2"
-            compiler: gcc
-            version: "8"
-          - name: "Ubuntu 18.04 + gcc-8 + CUDA 10.1"
-            os: ubuntu-18.04
-            cuda: "10.1"
-            compiler: gcc
-            version: "8"
           - name: "Ubuntu 16.04 + gcc-7 + CUDA 11.0"
             os: ubuntu-16.04
             cuda: "11.0"
-            compiler: gcc
-            version: "7"
-          - name: "Ubuntu 16.04 + gcc-7 + CUDA 10.0"
-            os: ubuntu-16.04
-            cuda: "10.0"
             compiler: gcc
             version: "7"
     steps:
