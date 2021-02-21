@@ -34,6 +34,26 @@ elseif(CMAKE_BUILD_TYPE MATCHES "Debug")
     add_definitions(-DDEBUG)
 endif()
 
+# Configuration for CUDA build
+set(ENABLE_CUDA OFF CACHE BOOL "")
+
+if (ENABLE_CUDA)
+    if (APPLE)
+        message("CUDA build is not available on macOS")
+        message("Turning ENABLE_CUDA OFF")
+        set(ENABLE_CUDA OFF)
+    else(MSVC OR LINUX)
+        find_package(CUDA)
+        if (CUDA_FOUND)
+            message("Found CUDA")
+        else()
+            message("Could not find CUDA")
+            message("Turning ENABLE_CUDA OFF")
+            set(ENABLE_CUDA OFF)
+        endif()
+    endif()
+endif()
+
 # Find TBB
 include(Builds/CMake/FindTBB.cmake)
 
