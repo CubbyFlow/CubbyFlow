@@ -43,7 +43,7 @@ if (ENABLE_CUDA)
         message("Turning ENABLE_CUDA OFF")
         set(ENABLE_CUDA OFF)
     else(MSVC OR LINUX)
-        find_package(CUDA 11.0...)  # CXX 17 supports CUDA 11+
+        find_package(CUDA 11.0)  # CXX 17 supports CUDA 11+
         if (CUDA_FOUND)
             message("Found CUDA ${CUDA_VERSION}")
             message("Turning ENABLE_CUDA ON")
