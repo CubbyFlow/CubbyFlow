@@ -59,6 +59,7 @@ jobs:
 
       - name: Install Packages
         run: sudo apt-get install -yq python3-setuptools
+
       - name: Configure Compiler
         run: |
           if [ "${{ matrix.compiler }}" = "gcc" ]; then
@@ -68,3 +69,14 @@ jobs:
             echo "CC=clang-${{ matrix.version }}" >> $GITHUB_ENV
             echo "CXX=clang++-${{ matrix.version }}" >> $GITHUB_ENV
           fi
+      - name: Configure Build
+        run: mkdir build && cd build && cmake -DENABLE_CUDA=ON -DCMAKE_BUILD_TYPE=Release ..
+      - name: Build
+        run: cd build && make
+      - name: Run Unit Test
+        run: /home/runner/work/CubbyFlow/CubbyFlow/build/bin/UnitTests
+      - name: Run Python Test
+        run: |
+          pip3 install -r requirements.txt
+          pip3 install .
+          python3 -m pytest Tests/PythonTests/
