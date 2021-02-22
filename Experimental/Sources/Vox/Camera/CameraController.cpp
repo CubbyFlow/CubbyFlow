@@ -24,6 +24,11 @@ namespace Vox
 		//! Do nothing
 	}
 
+	void CameraController::UpdateCamera(double dt)
+	{
+		UNUSED_VARIABLE(dt);
+	}
+
 	void CameraController::SetCameraSpeed(const float speed)
 	{
 		_camSpeed = speed;
@@ -46,7 +51,25 @@ namespace Vox
 	{
 		UNUSED_VARIABLE(scancode);
 		UNUSED_VARIABLE(mods);
-		OnSetKey(key, action);
+		
+		if (action == GLFW_PRESS || action == GLFW_RELEASE)
+		{
+			switch (key)
+			{
+			case GLFW_KEY_W:
+				_pressedKeys[KeyMoveInput::UP] = action;
+				break;
+			case GLFW_KEY_A:
+				_pressedKeys[KeyMoveInput::LEFT] = action;
+				break;
+			case GLFW_KEY_S:
+				_pressedKeys[KeyMoveInput::DOWN] = action;
+				break;
+			case GLFW_KEY_D:
+				_pressedKeys[KeyMoveInput::RIGHT] = action;
+				break;
+			}
+		}
 	}
 
 	void CameraController::SetMouseButton(int button, int action, int mods)
@@ -66,11 +89,4 @@ namespace Vox
 		UNUSED_VARIABLE(deltaX);
 		UNUSED_VARIABLE(deltaY);
 	}
-
-	void CameraController::OnSetKey(int key, int action)
-	{
-		UNUSED_VARIABLE(key);
-		UNUSED_VARIABLE(action);
-	}
-
 };  // namespace Vox

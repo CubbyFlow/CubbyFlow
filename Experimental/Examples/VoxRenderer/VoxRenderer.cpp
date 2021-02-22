@@ -151,6 +151,8 @@ bool VoxRenderer::Initialize(const Vox::Path& scenePath)
 
 void VoxRenderer::UpdateFrame(double dt)
 {
+    App::UpdateFrame(dt);
+
     //! Upload view projection and cam position to mesh shader.
     _camera->UploadToProgram(_skybox->GetMaterial()->GetProgram());
     for (auto& anim : _fluidAnims)

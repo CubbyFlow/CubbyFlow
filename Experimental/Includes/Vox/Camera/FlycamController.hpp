@@ -23,10 +23,12 @@ class FlycamController : public CameraController
  public:
      FlycamController(const std::shared_ptr<Camera>& camera);
     ~FlycamController();
+    
+    //! Update the camera like position and direction and etc...
+    void UpdateCamera(double dt) override;
 
  protected:
      void OnSetMouseCursorPos() override;
-     void OnSetKey(int key, int action) override;
 };
 
 };  // namespace Vox

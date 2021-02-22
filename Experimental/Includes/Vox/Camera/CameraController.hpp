@@ -26,7 +26,8 @@ class CameraController
     CameraController(const std::shared_ptr<Camera>& camera);
     //! Default Destructor
     virtual ~CameraController();
-    
+    //! Update the camera like position and direction and etc...
+    virtual void UpdateCamera(double dt);
     //! Set camera speed(default is 0.08)
     void SetCameraSpeed(const float speed);
     //! Input processing methods
@@ -34,17 +35,26 @@ class CameraController
     void SetMouseButton(int button, int action, int mods);
     void SetMouseCursorPos(double x, double y);
     void SetMouseScroll(double deltaX, double deltaY);
+
+    enum KeyMoveInput
+    {
+        LEFT = 0,
+        RIGHT,
+        UP,
+        DOWN,
+        MAX_KEY_MOVE_INPUT
+    };
  protected:
     //! Implementations of the SetMouseCursorPos and SetMouseScroll
     //! which will be used for camera translation.
      virtual void OnSetMouseCursorPos() {};
      virtual void OnSetMouseScroll(double deltaX, double deltaY);
-     virtual void OnSetKey(int key, int action);
 
     std::shared_ptr<Camera> _camera;
     CubbyFlow::Point2I _lastCursorPos{ 0, 0 };
     CubbyFlow::Point2I _cursorPos{ 0, 0 };
-    float _camSpeed { 0.08f };
+    float _camSpeed { 0.03f };
+    bool _pressedKeys[MAX_KEY_MOVE_INPUT] { false, };
     bool _isCursorPressed{ false };
 private:
 };

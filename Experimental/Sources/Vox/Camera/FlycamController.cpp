@@ -14,7 +14,7 @@
 #include <Core/Vector/Vector2.hpp>
 #include <Core/Vector/Vector3.hpp>
 #include <Core/Math/Quaternion.hpp>
-
+#include <algorithm>
 namespace Vox
 {
 	FlycamController::FlycamController(const std::shared_ptr<Camera>& camera)
@@ -28,12 +28,40 @@ namespace Vox
 		//! Do nothing
 	}
 
+	void FlycamController::UpdateCamera(double dt)
+	{
+		const CubbyFlow::Vector3F direction = _camera->GetCameraDirection();
+		const CubbyFlow::Vector3F up		= _camera->GetCameraUp();
+		const CubbyFlow::Vector3F right		= direction.Cross(up).Normalized();
+
+		const float speed = _camSpeed * static_cast<float>(dt);
+		CubbyFlow::Vector3F origin = _camera->GetCameraOrigin();
+
+		if (_pressedKeys[KeyMoveInput::UP])
+			origin = origin - direction * speed;
+
+		if (_pressedKeys[KeyMoveInput::DOWN])
+			origin = origin + direction * speed;
+
+		if (_pressedKeys[KeyMoveInput::LEFT])
+			origin = origin + right * speed;
+
+		if (_pressedKeys[KeyMoveInput::RIGHT])
+			origin = origin - right * speed;
+
+		if (std::any_of(std::begin(_pressedKeys), std::end(_pressedKeys), [](bool b) { return b; }))
+		{
+			_camera->SetOrigin(origin);
+			_camera->UpdateMatrix();
+		}
+	}
+
 	void FlycamController::OnSetMouseCursorPos()
 	{
 		if (_isCursorPressed == false)
 			return;
 
-		constexpr double sensitivity = 0.001;
+		constexpr double sensitivity = 8e-4;
 		const double xoffset = (_cursorPos.x - _lastCursorPos.x) * sensitivity;
 		const double yoffset = (_lastCursorPos.y - _cursorPos.y) * sensitivity;
 
@@ -48,36 +76,6 @@ namespace Vox
 		direction = (yawRotation * pitchRotation * direction);
 		_camera->SetDirection(direction);
 		_camera->UpdateMatrix();
-	}
-
-	void FlycamController::OnSetKey(int key, int action)
-	{
-		const CubbyFlow::Vector3F direction = _camera->GetCameraDirection();
-		const CubbyFlow::Vector3F up = _camera->GetCameraUp();
-		const CubbyFlow::Vector3F right = direction.Cross(up).Normalized();
-
-		CubbyFlow::Vector3F origin = _camera->GetCameraOrigin();
-		if (action == GLFW_PRESS)
-		{
-			switch (key)
-			{
-			case GLFW_KEY_W:
-				origin = origin - direction * _camSpeed;
-				break;
-			case GLFW_KEY_A:
-				origin = origin - right * _camSpeed;
-				break;
-			case GLFW_KEY_S:
-				origin = origin + direction * _camSpeed;
-				break;
-			case GLFW_KEY_D:
-				origin = origin + right * _camSpeed;
-				break;
-			}
-
-			_camera->SetOrigin(origin);
-			_camera->UpdateMatrix();
-		}
 	}
 
 };  // namespace Vox

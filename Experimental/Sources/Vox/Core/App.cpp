@@ -75,6 +75,11 @@ namespace Vox {
         return true;
     }
 
+    void App::UpdateFrame(double dt)
+    {
+        _camController->UpdateCamera(dt);
+    }
+
     void App::BeginFrame(std::shared_ptr<FrameContext>& ctx)
     {
         UNUSED_VARIABLE(ctx);
