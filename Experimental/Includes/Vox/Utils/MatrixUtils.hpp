@@ -17,6 +17,7 @@ namespace Vox {
 
 	//!
 	//! \brief Return perspective projection matrix.
+	//! fov must be provided as **DEGREE** not radian.
 	//!
     template <typename T>
 	CubbyFlow::Matrix4x4<T> Perspective(const T aspect, const T near, const T far, const T fov);

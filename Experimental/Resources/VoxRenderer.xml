@@ -4,9 +4,9 @@
   
     <sensor type="perspective" name="mainCam">
         <float name="focusDistance" value="10000"/>
-        <float name="fov" value="60"/>
+        <float name="fov" value="45"/>
         <transform name="toWorld">
-            <lookat target="0 0 0" origin="0 3 10" up="0 1 0"/>
+            <lookat target="0 0 0" origin="0 3 8" up="0 1 0"/>
         </transform>
     </sensor>
 
@@ -17,8 +17,8 @@
     <source pos="3 -3 10" color="1 1 1"/>
   </light>
 
-  <texture type="hdr" name="cubeMap" filename="ice_lake.hdr"/>
-  <texture type="hdr" name="irradianceMap" filename="ice_lake_convolution.hdr"/>
+  <texture type="hdr" name="cubeMap" filename="newport_loft.hdr"/>
+  <texture type="hdr" name="irradianceMap" filename="newport_loft_convolution.hdr"/>
 
   <program name="refractionShader">
     <shader>
@@ -78,7 +78,7 @@
     <transform name="toWorld">
       <translate value="0 0 0"/>
       <rotate axis="1 0 0" degree="0"/>
-      <scale value="2 2 2"/>
+      <scale value="1 1 1"/>
     </transform>
     <material value="watermat"/>
   </anim>

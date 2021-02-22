@@ -33,19 +33,19 @@ namespace Vox
         captureFramebuffer->AttachRenderBuffer(Renderer::CreateRenderBuffer(resolutionX, resolutionY, PixelFmt::PF_DEPTH_COMPONENT24));
 
         //! Empty brackets mean we will not pass any data for generating cube map.
-        auto cubeMap = std::make_shared<Texture>(GL_TEXTURE_CUBE_MAP, Renderer::CreateCubeMap(resolutionX, resolutionY, PixelFmt::PF_RGB16F, {}));
+        auto cubeMap = std::make_shared<Texture>(GL_TEXTURE_CUBE_MAP, Renderer::CreateCubeMap(resolutionX, resolutionY, PixelFmt::PF_RGB32F, {}));
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
         //! Generate cube mesh for baking
         auto cubeMesh = std::make_shared<CubeMesh>(2.0f, 2.0f, 2.0f, VertexFormat::Position3);
-
+        
         //! Create view and projection matrices for capturing
         CubbyFlow::Matrix4x4F projection = Perspective(1.0f, 0.1f, 10.0f, 90.0f);
         CubbyFlow::Matrix4x4F views[] = {
             LookAt(CubbyFlow::Vector3F(0.0f, 0.0f, 0.0f), CubbyFlow::Vector3F( 1.0f,  0.0f,  0.0f), CubbyFlow::Vector3F(0.0f, -1.0f,  0.0f)),
             LookAt(CubbyFlow::Vector3F(0.0f, 0.0f, 0.0f), CubbyFlow::Vector3F(-1.0f,  0.0f,  0.0f), CubbyFlow::Vector3F(0.0f, -1.0f,  0.0f)),
-            LookAt(CubbyFlow::Vector3F(0.0f, 0.0f, 0.0f), CubbyFlow::Vector3F( 0.0f,  1.0f,  0.0f), CubbyFlow::Vector3F(0.0f,  0.0f,  1.0f)),
             LookAt(CubbyFlow::Vector3F(0.0f, 0.0f, 0.0f), CubbyFlow::Vector3F( 0.0f, -1.0f,  0.0f), CubbyFlow::Vector3F(0.0f,  0.0f, -1.0f)),
+            LookAt(CubbyFlow::Vector3F(0.0f, 0.0f, 0.0f), CubbyFlow::Vector3F( 0.0f,  1.0f,  0.0f), CubbyFlow::Vector3F(0.0f,  0.0f,  1.0f)),
             LookAt(CubbyFlow::Vector3F(0.0f, 0.0f, 0.0f), CubbyFlow::Vector3F( 0.0f,  0.0f,  1.0f), CubbyFlow::Vector3F(0.0f, -1.0f,  0.0f)),
             LookAt(CubbyFlow::Vector3F(0.0f, 0.0f, 0.0f), CubbyFlow::Vector3F( 0.0f,  0.0f, -1.0f), CubbyFlow::Vector3F(0.0f, -1.0f,  0.0f))
         };

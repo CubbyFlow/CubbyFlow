@@ -18,14 +18,12 @@ namespace Vox {
 	CubbyFlow::Matrix4x4<T> Perspective(const T aspect, const T near, const T far, const T fov)
     {
         CubbyFlow::Matrix4x4<T> projection(0.0f);
-        const float sx = static_cast<T>(std::tan(CubbyFlow::DegreesToRadians(fov) / 2.0f) * near);
-        const float sy = sx / aspect;
-        projection(0, 0) = 2.0 * near / sx;
-        projection(1, 1) = 2.0 * near / sy;
-        projection(2, 2) = -(near + far) / (far - near);
-        projection(2, 3) = -(2.0 * far * near) / (far - near);
+        projection(0, 0) = 1.0f / (std::tan(CubbyFlow::DegreesToRadians(fov) * 0.5f) * aspect);
+        projection(1, 1) = 1.0f / (std::tan(CubbyFlow::DegreesToRadians(fov) * 0.5f));
+        projection(2, 2) = (far + near) / (near - far);
+        projection(2, 3) = (2 * far * near) / (near - far);
         projection(3, 2) = -static_cast<T>(1.0);
-        
+
         return projection;
     }
 
