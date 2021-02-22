@@ -1,4 +1,4 @@
-#version 330 core
+#version 430 core
 
 #include common/globals.glsl
 #include common/uniforms.glsl
