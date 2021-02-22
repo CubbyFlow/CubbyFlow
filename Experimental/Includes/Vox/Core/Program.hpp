@@ -42,7 +42,7 @@ namespace Vox {
         ShaderParameters& GetParameters();
 
         //! Returns whether if this object have uniform variable with name.
-        bool HasUniformVariable(const std::string& name);
+        [[nodiscard]] bool HasUniformVariable(const std::string& name);
 
     private:
         //! return shader uniform location id.
@@ -53,7 +53,7 @@ namespace Vox {
         //!
         //! \param name of the shader uniform want to know
         //! \return shader uniform location.
-        GLint GetUniformLocation(const std::string& name);
+        [[nodiscard]] GLint GetUniformLocation(const std::string& name);
 
         void SendParametersToGPU();
 

@@ -33,7 +33,7 @@ namespace Vox {
         //! Resize the buffer number.
         void Resize(const size_t numBuffer = 3);
         //! Draw one frame of the particles data.
-        bool CheckFence(GLuint64 timeout);
+        [[nodiscard]] bool CheckFence(GLuint64 timeout);
         //! Asynchronously transfer scene data to vertex buffer.
         void AsyncBufferTransfer();
         //! Draw the frmae with the transferred vertex buffer.

@@ -30,13 +30,13 @@ namespace Vox {
         //! Default Destructor.
         virtual ~RenderableObject();
         //! Returns the geometry mesh of the object with given index.
-        [[nodiscard]] const std::shared_ptr<Mesh> GetGeometryMesh(size_t index) const;
+        const std::shared_ptr<Mesh> GetGeometryMesh(size_t index) const;
         //! Returns the number of the contained geometry mesh.
-        [[nodiscard]] size_t GetNumberOfGeometryMesh() const;
+        size_t GetNumberOfGeometryMesh() const;
         //! Returns the material of the object.
-        [[nodiscard]] const std::shared_ptr<Material> GetMaterial() const;
+        const std::shared_ptr<Material> GetMaterial() const;
         //! Returns the bounding box of this renderable object.
-        [[nodiscard]] CubbyFlow::BoundingBox3F GetBoundingBox() const;
+        CubbyFlow::BoundingBox3F GetBoundingBox() const;
         //! Set model matrix
         void SetModelMatrix(const CubbyFlow::Matrix4x4F& model);
         //! Append Geometry mesh instance to the array..

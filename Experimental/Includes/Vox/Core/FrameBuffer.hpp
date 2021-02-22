@@ -41,7 +41,7 @@ namespace Vox {
         void AttachRenderBuffer(GLuint rbo);
 
         //! Validate framebuffer status
-        bool ValidateFrameBufferStatus();
+        [[nodiscard]] bool ValidateFrameBufferStatus();
 
     private:
         GLuint _id;

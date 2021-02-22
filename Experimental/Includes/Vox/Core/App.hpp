@@ -40,7 +40,7 @@ namespace Vox {
         //! Return the window screen size.
         CubbyFlow::Point2I GetWindowSize();
         //! Initialize the base application.
-        virtual bool Initialize(const Vox::Path& scenePath);
+        [[nodiscard]] virtual bool Initialize(const Vox::Path& scenePath);
         //! Update the physical step of the frame.
         virtual void UpdateFrame(double dt) {(void)dt;};
         //! OpenGL Commands or other tasks collection for 
@@ -58,7 +58,7 @@ namespace Vox {
         virtual const char* GetWindowTitle() { return nullptr; };
 
         //! Pop frame context from top of the stack.
-        std::shared_ptr<Vox::FrameContext> PopFrameContextFromQueue()
+        [[nodiscard]] std::shared_ptr<Vox::FrameContext> PopFrameContextFromQueue()
         {
             if (_ctxQueue.empty())
             {

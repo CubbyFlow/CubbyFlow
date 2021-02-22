@@ -33,7 +33,7 @@ namespace Vox {
         void RunApp(const std::shared_ptr<App>& app, const Vox::Path& scenePath);
 
         //! Check whether if given extensions are supported or not.
-        bool CheckExtensionsSupported(const std::initializer_list<const char*>& exts);
+        [[nodiscard]] bool CheckExtensionsSupported(const std::initializer_list<const char*>& exts);
 
         //! Register callback functions to given context.
         void RegisterCallbacks(const std::shared_ptr<FrameContext>& ctx);

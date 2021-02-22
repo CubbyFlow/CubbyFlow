@@ -24,8 +24,9 @@ namespace Vox
     class TextureBaker
     {
      public:
-         static std::shared_ptr<Texture> BakingCubeMap(const std::shared_ptr<FrameContext>& ctx, const std::shared_ptr<Texture>& equirect,
-                                                       GLsizei resolutionX, GLsizei resolutionY);
+         [[nodiscard]] static std::shared_ptr<Texture> BakingCubeMap(const std::shared_ptr<FrameContext>& ctx, 
+                                                                     const std::shared_ptr<Texture>& equirect,
+                                                                     GLsizei resolutionX, GLsizei resolutionY);
     };
 
 };  // namespace Vox
