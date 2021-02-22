@@ -22,9 +22,6 @@ namespace Vox {
 
     namespace Renderer {
 
-        //! Check whether if given extensions are supported or not.
-        bool CheckExtensionsSupported(const std::initializer_list<const char*>& exts);
-
         //! Create Texture with pixel format
         GLuint CreateTexture(GLsizei width, GLsizei height, const PixelFmt pf, const void* data, bool multisample=false);
 
