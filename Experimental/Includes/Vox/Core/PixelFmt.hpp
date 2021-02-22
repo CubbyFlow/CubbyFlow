@@ -95,7 +95,7 @@ namespace Vox {
         unsigned int size;		//< byte size of one pixel (4)
         int components;		    //< number of components (4)
         bool rt;				//< true if it can be used as render target
-        PixelFmt sRGB;				//< sRGB pixel format alternative
+        PixelFmt sRGB;			//< sRGB pixel format alternative
         const char *txt;		//< readable description
         bool compressed;		//< true if it is compressed format
     };
