@@ -19,15 +19,19 @@
 
 namespace Vox {
 
+    //! fill the given array with the increasing numbers like startNum ~ (startNum + num - 1).
     template <typename T>
     void IncreasingNumToArray(CubbyFlow::Array1<T>* dest, size_t num, T startNum = 0);
 
+    //! Casting array with T type to an array with U type.
     template <typename U, typename T, size_t N>
     void ArrayCast(CubbyFlow::Array<U, N>& dest, const CubbyFlow::Array<T, N>& src);
     
+    //! Casting array with T type to an array with U type.
     template <typename U, typename T, size_t N>
     void ArrayCast(CubbyFlow::Array<U, N>& dest, const CubbyFlow::ArrayAccessor<T, N>& src);
 
+    //! Casting array with T type to an array with U type.
     template <typename U, typename T, size_t N>
     void ArrayCast(CubbyFlow::Array<U, N>& dest, const CubbyFlow::ConstArrayAccessor<T, N>& src);
 

@@ -17,14 +17,18 @@ namespace Vox {
 
 	//!
 	//! \brief Return perspective projection matrix.
-	//! fov must be provided as **DEGREE** not radian.
-	//!
-    template <typename T>
+	//! \param aspect - (window width) / (window height) 
+	//! \param near - camera near value which is frustum culling min z value
+	//! \param far - camera far value which is frustum culling max z value
+	//! \param fov - field of view, must be degree value, not radian.
+	template <typename T>
 	CubbyFlow::Matrix4x4<T> Perspective(const T aspect, const T near, const T far, const T fov);
 
     //!
 	//! \brief Return view matrix.
-	//!
+	//! \param origin - camera position
+	//! \param dir - camera looking direction vector
+	//! \param up - camera up vector
     template <typename T>
 	CubbyFlow::Matrix4x4<T> LookAt(const CubbyFlow::Vector3<T>& origin, const CubbyFlow::Vector3<T>& dir, const CubbyFlow::Vector3<T>& up);
 
