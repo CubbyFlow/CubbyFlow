@@ -3,7 +3,7 @@
 > Project Name: CubbyFlow
 > This code is based on Jet Framework that was created by Doyub Kim.
 > References: https://github.com/doyubkim/fluid-engine-dev
-> Purpose: Base emitter class
+> Purpose: point light emitter class
 > Created Time: 2021/01/06
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
