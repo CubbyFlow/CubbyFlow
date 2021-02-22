@@ -121,17 +121,17 @@ namespace Vox
         std::string GetStringForSource(GLenum source) {
         
         	switch(source) {
-        		case GL_DEBUG_SOURCE_API_ARB: 
+        		case GL_DEBUG_SOURCE_API: 
         			return("API");
-        		case GL_DEBUG_SOURCE_WINDOW_SYSTEM_ARB:
+        		case GL_DEBUG_SOURCE_WINDOW_SYSTEM:
         			return("Window System");
-        		case GL_DEBUG_SOURCE_SHADER_COMPILER_ARB:
+        		case GL_DEBUG_SOURCE_SHADER_COMPILER:
         			return("Shader Compiler");
-        		case GL_DEBUG_SOURCE_THIRD_PARTY_ARB:
+        		case GL_DEBUG_SOURCE_THIRD_PARTY:
         			return("Third Party");
-        		case GL_DEBUG_SOURCE_APPLICATION_ARB:
+        		case GL_DEBUG_SOURCE_APPLICATION:
         			return("Application");
-        		case GL_DEBUG_SOURCE_OTHER_ARB:
+        		case GL_DEBUG_SOURCE_OTHER:
         			return("Other");
         		default:
         			return("");
@@ -142,11 +142,11 @@ namespace Vox
         std::string GetStringForSeverity(GLenum severity) {
         
         	switch(severity) {
-        		case GL_DEBUG_SEVERITY_HIGH_ARB: 
+        		case GL_DEBUG_SEVERITY_HIGH: 
         			return("High");
-        		case GL_DEBUG_SEVERITY_MEDIUM_ARB:
+        		case GL_DEBUG_SEVERITY_MEDIUM:
         			return("Medium");
-        		case GL_DEBUG_SEVERITY_LOW_ARB:
+        		case GL_DEBUG_SEVERITY_LOW:
         			return("Low");
         		default:
         			return("");
@@ -157,17 +157,17 @@ namespace Vox
         std::string GetStringForType(GLenum type) {
         
         	switch(type) {
-        		case GL_DEBUG_TYPE_ERROR_ARB: 
+        		case GL_DEBUG_TYPE_ERROR: 
         			return("Error");
-        		case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR_ARB:
+        		case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
         			return("Deprecated Behaviour");
-        		case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR_ARB:
+        		case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
         			return("Undefined Behaviour");
-        		case GL_DEBUG_TYPE_PORTABILITY_ARB:
+        		case GL_DEBUG_TYPE_PORTABILITY:
         			return("Portability Issue");
-        		case GL_DEBUG_TYPE_PERFORMANCE_ARB:
+        		case GL_DEBUG_TYPE_PERFORMANCE:
         			return("Performance Issue");
-        		case GL_DEBUG_TYPE_OTHER_ARB:
+        		case GL_DEBUG_TYPE_OTHER:
         			return("Other");
         		default:
         			return("");
