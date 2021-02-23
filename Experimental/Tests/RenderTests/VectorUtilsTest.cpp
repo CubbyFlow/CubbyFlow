@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 #include <Core/Vector/Vector3.hpp>
-#include <Vox/VectorUtils.hpp>
+#include <Vox/Utils/VectorUtils.hpp>
 
 #include "RenderTestsUtils.hpp"
 

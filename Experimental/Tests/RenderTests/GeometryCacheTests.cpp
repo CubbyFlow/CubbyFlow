@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
-#include <Vox/FileSystem.hpp>
-#include <Vox/GeometryCache.hpp>
+#include <Vox/Utils/FileSystem.hpp>
+#include <Vox/Scene/GeometryCache.hpp>
 
 #include "RenderTestsUtils.hpp"
 

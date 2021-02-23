@@ -32,7 +32,8 @@ target_compile_options(${target}
 )
 target_compile_definitions(${target}
     PRIVATE
-    RESOURCES_DIR="./Resources"
+    VOX_RESOURCES_DIR="${VOX_RESOURCES_DIR}"
+    RESOURCES_DIR="${RESOURCES_DIR}"
 )
 
 # Link libraries
@@ -41,6 +42,5 @@ target_link_libraries(${target}
     ${DEFAULT_LINKER_OPTIONS}
     CubbyFlow
     pystring
-    unwind
     Vox
     gtest)

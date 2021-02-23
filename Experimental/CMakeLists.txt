@@ -132,6 +132,7 @@ set(VOX_RESOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Resources)
 
 # Project modules
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Sources/Vox)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Tests/RenderTests)
 if (USE_GL)
     add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Examples/VoxRenderer)
 endif()

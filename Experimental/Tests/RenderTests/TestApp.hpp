@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Vox/App.hpp>
-#include <Vox/GLTypes.hpp>
+#include <Vox/Core/App.hpp>
+#include <Vox/Utils/GLTypes.hpp>
 
 namespace Vox {
 };

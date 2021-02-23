@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include <Vox/FileSystem.hpp>
+#include <Vox/Utils/FileSystem.hpp>
 
 #include "RenderTestsUtils.hpp"
 

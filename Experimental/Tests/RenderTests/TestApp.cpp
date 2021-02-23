@@ -1,6 +1,6 @@
 #include "TestApp.hpp"
-#include <Vox/FileSystem.hpp>
-#include <Vox/FrameContext.hpp>
+#include <Vox/Utils/FileSystem.hpp>
+#include <Vox/Core/FrameContext.hpp>
 #include <glad/glad.h>
 
 TestApp::TestApp(size_t shutdownTimer)

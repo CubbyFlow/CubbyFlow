@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<scene version="0.5.0">
+    <sensor type="perspective" name="mainCam">
+        <float name="focusDistance" value="10000"/>
+        <float name="fov" value="45"/>
+        <transform name="toWorld">
+            <lookat target="0 0 -1" origin="0 0 0" up="0 1 0"/>
+        </transform>
+    </sensor>
+</scene>
