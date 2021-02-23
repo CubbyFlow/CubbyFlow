@@ -1,7 +1,7 @@
 #define PI        3.14159265358979323
 #define TWO_PI    6.28318530717958648
 #define INFINITY  1000000.0
-#define EPS 0.00001
+#define EPS 0.001
 
 
 struct Material
