@@ -34,6 +34,27 @@ elseif(CMAKE_BUILD_TYPE MATCHES "Debug")
     add_definitions(-DDEBUG)
 endif()
 
+# Configuration for CUDA build
+set(ENABLE_CUDA OFF CACHE BOOL "")
+
+if (ENABLE_CUDA)
+    if (APPLE)
+        message("CUDA build is not available on macOS")
+        message("Turning ENABLE_CUDA OFF")
+        set(ENABLE_CUDA OFF)
+    else(MSVC OR LINUX)
+        find_package(CUDA 11.0)  # CXX 17 supports CUDA 11+
+        if (CUDA_FOUND)
+            message("Found CUDA ${CUDA_VERSION}")
+            message("Turning ENABLE_CUDA ON")
+        else()
+            message("Could not find CUDA")
+            message("Turning ENABLE_CUDA OFF")
+            set(ENABLE_CUDA OFF)
+        endif()
+    endif()
+endif()
+
 # Find TBB
 include(Builds/CMake/FindTBB.cmake)
 
@@ -42,6 +63,13 @@ include(Builds/CMake/TaskingSystemOptions.cmake)
 
 # Compile options
 include(Builds/CMake/CompileOptions.cmake)
+
+# Modify project options for CUDA build
+if (ENABLE_CUDA)
+    enable_language(CUDA)
+    set(DEFAULT_PROJECT_OPTIONS ${DEFAULT_PROJECT_OPTIONS}
+            CUDA_SEPARABLE_COMPILATION ON)
+endif()
 
 # Code coverage - Debug only
 # NOTE: Code coverage results with an optimized (non-Debug) build may be misleading

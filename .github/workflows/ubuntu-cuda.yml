@@ -1,0 +1,67 @@
+name: Ubuntu-CUDA
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Ubuntu 18.04 supports CUDA 10.1+ (gxx <= 8)
+          - name: "Ubuntu 20.04 + gcc-9 + CUDA 11.0"
+            os: ubuntu-20.04
+            cuda: "11.0"
+            compiler: gcc
+            version: "9"
+          - name: "Ubuntu 18.04 + gcc-8 + CUDA 11.0"
+            os: ubuntu-18.04
+            cuda: "11.0"
+            compiler: gcc
+            version: "8"
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          submodules: true
+      - name: Install CUDA
+        env:
+          cuda: ${{ matrix.cuda }}
+        run: |
+          source ./.github/workflows/scripts/actions/install_cuda_ubuntu.sh
+          if [[ $? -eq 0 ]]; then
+            # Set paths for subsequent steps, using ${CUDA_PATH}
+            echo "Adding CUDA to CUDA_PATH, PATH and LD_LIBRARY_PATH"
+            echo "CUDA_PATH=${CUDA_PATH}" >> $GITHUB_ENV
+            echo "${CUDA_PATH}/bin" >> $GITHUB_PATH
+            echo "LD_LIBRARY_PATH=${CUDA_PATH}/lib:${LD_LIBRARY_PATH}" >> $GITHUB_ENV
+          fi
+        shell: bash
+
+      - name: Install Packages
+        run: sudo apt-get install -yq python3-setuptools
+
+      - name: Configure Compiler
+        run: |
+          if [ "${{ matrix.compiler }}" = "gcc" ]; then
+            echo "CC=gcc-${{ matrix.version }}" >> $GITHUB_ENV
+            echo "CXX=g++-${{ matrix.version }}" >> $GITHUB_ENV
+          else
+            echo "CC=clang-${{ matrix.version }}" >> $GITHUB_ENV
+            echo "CXX=clang++-${{ matrix.version }}" >> $GITHUB_ENV
+          fi
+      - name: Configure Build
+        run: mkdir build && cd build && cmake -DENABLE_CUDA=ON -DCMAKE_BUILD_TYPE=Release ..
+      - name: Build
+        run: cd build && make
+      - name: Run Unit Test
+        run: /home/runner/work/CubbyFlow/CubbyFlow/build/bin/UnitTests
+      - name: Run Python Test
+        run: |
+          pip3 install -r requirements.txt
+          pip3 install .
+          python3 -m pytest Tests/PythonTests/
