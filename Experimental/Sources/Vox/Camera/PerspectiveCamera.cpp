@@ -10,6 +10,8 @@
 #include <Vox/Camera/PerspectiveCamera.hpp>
 #include <Vox/Core/FrameContext.hpp>
 #include <Vox/Core/Program.hpp>
+#include <Vox/Scene/VoxScene.hpp>
+#include <Vox/Utils/VectorUtils.hpp>
 #include <Vox/Utils/MatrixUtils.hpp>
 #include <Core/Math/Quaternion.hpp>
 
@@ -30,5 +32,28 @@ namespace Vox {
     {
         _view = LookAt(_origin, _dir, _up);
         _projection = Perspective(_aspectRatio, _near, _far, _fov);
+    }
+
+    void PerspectiveCamera::LoadXMLNode(VoxScene* scene, const pugi::xml_node& node)
+    {
+        UNUSED_VARIABLE(scene);
+        //! Get transform information of the camera.
+        const auto& lookAt = node.child("transform").child("lookat");
+        const CubbyFlow::Vector3F origin = ParseFromString<float, 3>(lookAt.attribute("origin").value());
+        const CubbyFlow::Vector3F target = ParseFromString<float, 3>(lookAt.attribute("target").value());
+        const CubbyFlow::Vector3F up = ParseFromString<float, 3>(lookAt.attribute("up").value());
+
+        //! Create camera with given camera type.
+        const float fov = node.find_child_by_attribute("float", "name", "fov").attribute("value").as_float();
+        const float far = node.find_child_by_attribute("float", "name", "focusDistance").attribute("value").as_float();
+        SetViewFrustum(fov, far);
+
+        //! Set transform to the camera.
+        SetViewTransform(origin, target, up);
+    }
+
+    void PerspectiveCamera::WriteXMLNode(pugi::xml_node& node)
+    {
+        UNUSED_VARIABLE(node);
     }
 };

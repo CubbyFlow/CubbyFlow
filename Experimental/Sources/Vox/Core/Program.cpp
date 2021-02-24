@@ -9,7 +9,9 @@
 *************************************************************************/
 #include <Vox/Core/Program.hpp>
 #include <Vox/Core/FrameContext.hpp>
+#include <Vox/Core/Renderer.hpp>
 #include <Vox/Scene/VoxScene.hpp>
+#include <Vox/Utils/VectorUtils.hpp>
 #include <Vox/Camera/PerspectiveCamera.hpp>
 #include <glad/glad.h>
 
@@ -117,4 +119,76 @@ namespace Vox {
             }
         }
     }    
+
+    void Program::LoadXMLNode(VoxScene* scene, const pugi::xml_node& node)
+    {
+        UNUSED_VARIABLE(scene);
+        //! At first, vs, fs and gs are initialized by zero.
+        GLuint vs{ 0 }, fs{ 0 }, gs{ 0 };
+        for (const auto& shader : node.child("shader"))
+        {
+            //! Parse shader type. It would be vs, fs or gs.
+            const std::string type = shader.name();
+            const auto& path = FileSystem::FindPath(shader.attribute("value").value()).ToString();
+
+            //! Create shader resource with given shader type.
+            if (type == "vs")
+            {
+                vs = Renderer::CreateShaderFromFile(path, GL_VERTEX_SHADER);
+            }
+            else if (type == "fs")
+            {
+                fs = Renderer::CreateShaderFromFile(path, GL_FRAGMENT_SHADER);
+            }
+            else if (type == "gs")
+            {
+                gs = Renderer::CreateShaderFromFile(path, GL_GEOMETRY_SHADER);
+            }
+            else
+            {
+                VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Unknown shader type : " + type);
+            }
+        }
+
+        //! Assign linked program ID to the member variable.
+        this->_program = Renderer::CreateProgram(vs, gs, fs);
+
+        //! After program generation, delete shaders because they are out of need anymore.
+        if (vs) glDeleteShader(vs);
+        if (fs) glDeleteShader(fs);
+        if (gs) glDeleteShader(gs);
+
+        //! Get reference of the shader parameters.
+        auto& shaderParams = this->GetParameters();
+
+        //! Store uniform variables which will be passed at once in the render loop.
+        for (const auto& uniform : node.child("uniform"))
+        {
+            const std::string name = uniform.attribute("name").value();
+            const std::string type = uniform.name();
+
+            const auto& valueNode = uniform.attribute("value");
+            if (type == "integer")
+            {
+                shaderParams.SetParameter(name, valueNode.as_int());
+            }
+            else if (type == "float")
+            {
+                shaderParams.SetParameter(name, valueNode.as_float());
+            }
+            else if (type == "rgb" || type == "xyz")
+            {
+                shaderParams.SetParameter(name, ParseFromString<float, 3>(valueNode.value()));
+            }
+            else
+            {
+                VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Unknown shader uniform variable type : " + type);
+            }
+        }
+    }
+
+    void Program::WriteXMLNode(pugi::xml_node& node)
+    {
+        UNUSED_VARIABLE(node);
+    }
 };

@@ -15,7 +15,6 @@
 namespace Vox {
 
     GeometryCacheManager::GeometryCacheManager()
-        : VoxSceneObject()
     {
         _boundingBox.Reset();
     }

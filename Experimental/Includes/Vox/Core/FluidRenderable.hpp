@@ -26,6 +26,8 @@ namespace Vox {
     class FluidRenderable : public RenderableObject
     {
     public:
+        //! Default constructor
+        FluidRenderable() = default;
         //! Constructor with number of the buffers.
         FluidRenderable(const std::shared_ptr<GeometryCacheManager>& manager, const size_t numBuffer = 3);
         //! Default destructor.
@@ -44,6 +46,10 @@ namespace Vox {
         void SetGeometryCacheManager(const std::shared_ptr<GeometryCacheManager>& manager);
         //! Clean-up the meshes.
         void CleanUp();
+        //! Load scene object attributes from the xml node
+        void LoadXMLNode(VoxScene* scene, const pugi::xml_node& node) override;
+        //! Write this scene object attributes to the given documents.
+        void WriteXMLNode(pugi::xml_node& node) override;
 
         static const size_t kMaxBufferSize = 0x1000000; // 2097 kB - This is GPU memory
     protected:

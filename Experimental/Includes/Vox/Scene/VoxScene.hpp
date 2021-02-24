@@ -23,7 +23,7 @@ namespace Vox {
     //!
     //! Vox Scene Object Manager class.
     //!
-    class VoxScene final
+    class VoxScene final : public std::enable_shared_from_this<VoxScene>
     {
     public: 
         //! Default Constructor
@@ -40,6 +40,9 @@ namespace Vox {
 
         //! Load Scene
         void LoadScene(const Vox::Path& path);
+
+        //! Write Scene
+        void WriteScene(const Vox::Path& path);
 
         //! Create scene object instance and copy parsed data.
         template <typename Type>
@@ -61,7 +64,9 @@ namespace Vox {
         template <typename Type>
         void OnLoadSceneObject(const pugi::xml_node& node);
 
+        pugi::xml_document _document;
         std::unordered_map<unsigned int, std::shared_ptr<VoxSceneObject>> _metadata;
+        std::unordered_map<unsigned int, pugi::xml_node> _xmlCache;
     };
 }
 

@@ -34,7 +34,9 @@ namespace Vox {
     class Texture : public VoxSceneObject
     {
     public:
-        //! Default Constructor
+        //! Default constructor
+        Texture() = default;
+        //! Constructor with texture target and generated texture ID
         Texture(GLuint target, GLuint textureID);
         //! Default Destructor
         ~Texture();
@@ -49,7 +51,10 @@ namespace Vox {
         void SetParameters(const TextureParameters& params);
         //! Returns texture id
         GLuint GetTextureID() const;
-
+        //! Load scene object attributes from the xml node
+        void LoadXMLNode(VoxScene* scene, const pugi::xml_node& node) override;
+        //! Write this scene object attributes to the given documents.
+        void WriteXMLNode(pugi::xml_node& node) override;
     private:
         //! Pass texture parameters to the driver setting.
         void OnSetParameters();

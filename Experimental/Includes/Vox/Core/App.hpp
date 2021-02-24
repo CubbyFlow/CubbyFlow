@@ -43,13 +43,8 @@ namespace Vox {
         [[nodiscard]] virtual bool Initialize(const Vox::Path& scenePath);
         //! Update the physical step of the frame.
         virtual void UpdateFrame(double dt);
-        //! OpenGL Commands or other tasks collection for 
-        //! preparing call DrawFrame.
-        void BeginFrame(std::shared_ptr<FrameContext>& ctx);
         //! Actual Drawing Call
         virtual void DrawFrame() {};
-        //! End tasks after drawing call.
-        void EndFrame(std::shared_ptr<FrameContext>& ctx);
         //! Set the limit of the frame per seconds.
         void SetFPSLimit(const float limit);
         //! Return the fps limit of the application
@@ -86,6 +81,12 @@ namespace Vox {
         //! Set screen background color
         void SetBackgroundColor(CubbyFlow::Vector4F color);
     protected:
+        //! OpenGL Commands or other tasks collection for 
+        //! preparing call DrawFrame.
+        void BeginFrame(std::shared_ptr<FrameContext>& ctx);
+        //! End tasks after drawing call.
+        virtual void EndFrame(std::shared_ptr<FrameContext>& ctx);
+
         virtual void OnSetWindowSize(int width, int height);
         virtual void OnSetKey(int key, int scancode, int action, int mods);
         virtual void OnSetMouseButton(int button, int action, int mods);

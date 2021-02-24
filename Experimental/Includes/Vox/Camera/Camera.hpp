@@ -81,6 +81,10 @@ class Camera : public VoxSceneObject
     //! Upload uniform variables to given program.
     void UploadToProgram(const std::shared_ptr<Program>& program);
 
+    //! Load scene object attributes from the xml node
+    virtual void LoadXMLNode(VoxScene* scene, const pugi::xml_node& node) override = 0;
+    //! Write this scene object attributes to the given documents.
+    virtual void WriteXMLNode(pugi::xml_node& node) override = 0;
  protected:
     CubbyFlow::Matrix4x4F _view = CubbyFlow::Matrix4x4F::MakeIdentity();
     CubbyFlow::Matrix4x4F _projection = CubbyFlow::Matrix4x4F::MakeIdentity();

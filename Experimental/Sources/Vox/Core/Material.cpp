@@ -11,6 +11,7 @@
 #include <Vox/Core/Material.hpp>
 #include <Vox/Core/FrameContext.hpp>
 #include <Vox/Core/Texture.hpp>
+#include <Vox/Scene/VoxScene.hpp>
 
 namespace Vox {
 
@@ -60,5 +61,21 @@ namespace Vox {
         {
             texturePair.second->BindTexture(texturePair.first);
         }
+    }
+
+    void Material::LoadXMLNode(VoxScene* scene, const pugi::xml_node& node)
+    {
+        //! Parse the type of the material
+        const std::string materialType = node.attribute("type").value();
+
+        //! Get already parsed shader program from this VoxScene instance.
+        //! **The required program must precede material.**
+        const auto& program = scene->GetSceneObject<Program>(node.child("program").attribute("value").value());
+        AttachProgramShader(program);
+    }
+
+    void Material::WriteXMLNode(pugi::xml_node& node)
+    {
+        UNUSED_VARIABLE(node);
     }
 }

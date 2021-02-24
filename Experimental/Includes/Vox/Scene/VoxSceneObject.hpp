@@ -11,9 +11,13 @@
 #define CUBBYFLOW_VOX_SCENE_OBJECT_HPP
 
 #include <Vox/Core/NonCopyable.hpp>
+#include <pugixml.hpp>
+#include <memory>
 
 namespace Vox {
     
+    class VoxScene;
+
     //!
     //! \brief Abstract base class for scene object
     //!
@@ -25,6 +29,12 @@ namespace Vox {
 
         //! Default destructor.
         virtual ~VoxSceneObject() {};
+        
+        //! Load scene object attributes from the xml node
+        virtual void LoadXMLNode(VoxScene* scene, const pugi::xml_node& node) = 0;
+
+        //! Write this scene object attributes to the given documents.
+        virtual void WriteXMLNode(pugi::xml_node& node) = 0;
     };
 } 
 

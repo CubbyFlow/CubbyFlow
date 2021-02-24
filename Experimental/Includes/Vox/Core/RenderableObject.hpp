@@ -47,6 +47,10 @@ namespace Vox {
         void AttachMaterial(std::shared_ptr<Material> material);
         //! Draw this renderable object with configured settings.
         virtual void DrawRenderableObject(const std::shared_ptr<FrameContext>& ctx) { (void)ctx; };
+        //! Load scene object attributes from the xml node
+        virtual void LoadXMLNode(VoxScene* scene, const pugi::xml_node& node) override = 0;
+        //! Write this scene object attributes to the given documents.
+        virtual void WriteXMLNode(pugi::xml_node& node) override = 0;
     protected:
         //! Configure render settings, such as material bounding, buffer binding and etc..
         virtual void ConfigureRenderSettings(const std::shared_ptr<FrameContext>& ctx) {(void)ctx;};

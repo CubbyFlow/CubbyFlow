@@ -26,7 +26,8 @@ namespace Vox {
      */
     class PerspectiveCamera : public Camera
     {
-    public://! Set projection matrix related elements such as field of view
+    public:
+        //! Set projection matrix related elements such as field of view
         void SetViewFrustum(const float fov, const float far);
 
         //! Set Window screen aspect ratio
@@ -34,6 +35,12 @@ namespace Vox {
         
         //! Update viewProjection with new view matrix and new projection matrix.
         void UpdateMatrix() override;
+
+        //! Load scene object attributes from the xml node
+        void LoadXMLNode(VoxScene* scene, const pugi::xml_node& node) override;
+
+        //! Write this scene object attributes to the given documents.
+        void WriteXMLNode(pugi::xml_node& node) override;
     protected:
     private:
         float _fov { 45.0f };

@@ -11,6 +11,7 @@
 #define CUBBYFLOW_VOX_VECTOR_UTILS_HPP
 
 #include <Core/Vector/Vector.hpp>
+#include <string>
 
 namespace Vox {
 
@@ -48,6 +49,12 @@ namespace Vox {
 	//!
     template <typename T, size_t N>
     CubbyFlow::Vector<T, N> CalculateNormal(const CubbyFlow::Vector<T, N>& v1, const CubbyFlow::Vector<T, N>& v2, const CubbyFlow::Vector<T, N>& v3);
+
+	//!
+	//! \brief Parse vector elements from the string and return
+	//!
+	template <typename T, size_t N>
+	CubbyFlow::Vector<T, N> ParseFromString(const std::string& val);
 }
 
 #include <Vox/Utils/VectorUtils-Impl.hpp>

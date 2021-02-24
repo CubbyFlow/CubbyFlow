@@ -9,6 +9,8 @@
 *************************************************************************/
 #include <Vox/Core/PointLight.hpp>
 #include <Vox/Core/Program.hpp>
+#include <Vox/Utils/VectorUtils.hpp>
+#include <Vox/Scene/VoxScene.hpp>
 
 namespace Vox
 {
@@ -28,6 +30,22 @@ namespace Vox
 			params.SetParameter("light[" + std::to_string(i) +"].position", _positions[i]);
 			params.SetParameter("light[" + std::to_string(i) +"].color", _colors[i]);
 		}
+	}
+
+	void PointLight::LoadXMLNode(VoxScene* scene, const pugi::xml_node& node)
+	{
+		UNUSED_VARIABLE(scene);
+		for (const auto& source : node)
+		{
+			const CubbyFlow::Vector3F position = ParseFromString<float, 3>(source.attribute("pos").value());
+			const CubbyFlow::Vector3F color = ParseFromString<float, 3>(source.attribute("color").value());
+			AddLight(position, color);
+		}
+	}
+
+	void PointLight::WriteXMLNode(pugi::xml_node& node)
+	{
+		UNUSED_VARIABLE(node);
 	}
 
 };  // namespace Vox

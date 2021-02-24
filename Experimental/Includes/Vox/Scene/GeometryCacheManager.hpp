@@ -21,7 +21,7 @@ namespace Vox {
 
     class GeometryCache;
 
-    class GeometryCacheManager : public VoxSceneObject
+    class GeometryCacheManager
     {
     public:
         //! Default Constructor.

@@ -26,7 +26,10 @@ namespace Vox {
 
         //! Set the refraction ratio (water is 1.33)
         void SetRefractionRatio(const float ratio);
-
+        //! Load scene object attributes from the xml node
+        void LoadXMLNode(VoxScene* scene, const pugi::xml_node& node) override;
+        //! Write this scene object attributes to the given documents.
+        void WriteXMLNode(pugi::xml_node& node) override;
     protected:
         void ConfigureShaderParameters(ShaderParameters& params) override;
 

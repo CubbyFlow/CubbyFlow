@@ -8,11 +8,15 @@
 > Copyright (c) 2020, Ji-Hong snowapril
 *************************************************************************/
 #include <Vox/Core/Texture.hpp>
+#include <Vox/Core/Renderer.hpp>
 #include <Vox/Utils/FileSystem.hpp>
 #include <Vox/Utils/DebugUtils.hpp>
 #include <glad/glad.h>
 #include <fstream>
 #include <cstring>
+
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 
 namespace Vox {
 
@@ -88,5 +92,46 @@ namespace Vox {
     	const Vox::PixelFmtDesc* pf = Vox::GetPixelFmtDesc(fmt);
         
         return size * pf->size;
+    }
+
+    void Texture::LoadXMLNode(VoxScene* scene, const pugi::xml_node& node)
+    {
+        UNUSED_VARIABLE(scene);
+        stbi_set_flip_vertically_on_load(true);
+
+        //! Get texture image filename
+        const std::string filename = FileSystem::FindPath(node.attribute("filename").value()).ToString();
+
+        //! Get texture image type
+        const std::string type = node.attribute("type").value();
+
+        int width, height, numChannel;
+        GLuint textureID;
+        if (type == "hdr")
+        {
+            //! Get floating point data pointer from the hdr image.
+            float* data = stbi_loadf(filename.c_str(), &width, &height, &numChannel, 0);
+            //! Create texture with floating point format.
+            textureID = Renderer::CreateTexture(width, height, PixelFmt::PF_RGB32F, data);
+            //! Deallocates the image data.
+            stbi_image_free(data);
+        }
+        else
+        {
+            //! Get data pointer from the hdr image.
+            unsigned char* data = stbi_load(filename.c_str(), &width, &height, &numChannel, 0);
+            //! Create texture with floating point format.
+            textureID = Renderer::CreateTexture(width, height, PixelFmt::PF_RGB8, data);
+            //! Deallocates the image data.
+            stbi_image_free(data);
+        }
+
+        this->_target = GL_TEXTURE_2D;
+        this->_id = textureID;
+    }
+
+    void Texture::WriteXMLNode(pugi::xml_node& node)
+    {
+        UNUSED_VARIABLE(node);
     }
 };

@@ -31,6 +31,10 @@ namespace Vox
 
        //! Upload all added light imformations to given program shader.
        void UploadToProgram(const std::shared_ptr<Program>& program);
+       //! Load scene object attributes from the xml node
+       void LoadXMLNode(VoxScene* scene, const pugi::xml_node& node) override;
+       //! Write this scene object attributes to the given documents.
+       void WriteXMLNode(pugi::xml_node& node) override;
     private:
       CubbyFlow::Array1<CubbyFlow::Vector3F> _positions;
       CubbyFlow::Array1<CubbyFlow::Vector3F> _colors;

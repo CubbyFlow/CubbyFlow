@@ -47,6 +47,10 @@ namespace Vox {
         {
             return _program;
         }
+        //! Load scene object attributes from the xml node
+        virtual void LoadXMLNode(VoxScene* scene, const pugi::xml_node& node) override;
+        //! Write this scene object attributes to the given documents.
+        virtual void WriteXMLNode(pugi::xml_node& node) override;
     protected:
         //! Send material attributes to shader program.
         virtual void ConfigureShaderParameters(ShaderParameters& params) { (void)params; };

@@ -10,8 +10,10 @@
 #include <Vox/Core/FluidRenderable.hpp>
 #include <Vox/Core/FrameContext.hpp>
 #include <Vox/Mesh/Mesh.hpp>
+#include <Vox/Utils/VectorUtils.hpp>
 #include <Vox/Scene/GeometryCacheManager.hpp>
 #include <Vox/Scene/GeometryCache.hpp>
+#include <Vox/Scene/VoxScene.hpp>
 #include <Vox/Core/Material.hpp>
 #include <Vox/Core/Vertex.hpp>
 #include <glad/glad.h>
@@ -124,5 +126,74 @@ namespace Vox {
         }
         _fences.Clear();
         _meshes.Clear();
+    }
+
+    void FluidRenderable::LoadXMLNode(VoxScene* scene, const pugi::xml_node& node)
+    {
+        //! Parse transform information of total animation bound
+        const auto& transform = node.find_child_by_attribute("transform", "name", "toWorld");
+        const CubbyFlow::Vector3F translate = ParseFromString<float, 3>(transform.child("translate").attribute("value").value());
+        const CubbyFlow::Vector3F scale = ParseFromString<float, 3>(transform.child("scale").attribute("value").value());
+        const CubbyFlow::Vector3F rotateAxis = ParseFromString<float, 3>(transform.child("rotate").attribute("axis").value());
+        const float rotateDegree = transform.child("rotate").attribute("degree").as_float();
+
+        //! Multiply Scale * Ratation * Model matrices and pass.
+        CubbyFlow::Matrix4x4F mvp = CubbyFlow::Matrix4x4F::MakeScaleMatrix(scale) *
+            CubbyFlow::Matrix4x4F::MakeRotationMatrix(rotateAxis, CubbyFlow::DegreesToRadians(rotateDegree)) *
+            CubbyFlow::Matrix4x4F::MakeTranslationMatrix(translate);
+
+        //! Get already parsed material instance from this VoxScene instance.
+        //! **The required material must precede FluidAnim.**
+        const std::string materialName = node.child("material").attribute("value").value();
+        const auto& material = scene->GetSceneObject<Material>(materialName);
+
+        auto renderStatus = material->GetRenderStatus();
+        //! Get animation geometry type (mesh or particle)
+        const std::string type = node.attribute("type").value();
+        VertexFormat interleavingFormat;
+        if (type == "mesh")
+        {
+            interleavingFormat = VertexFormat::Position3Normal3;
+            renderStatus.primitive = GL_TRIANGLES;
+        }
+        else if (type == "particle")
+        {
+            interleavingFormat = VertexFormat::Position3;
+            renderStatus.primitive = GL_POINTS;
+            //! renderStatus.sourceBlendFactor = GL_SRC_ALPHA;
+            //! renderStatus.destinationBlendFactor = GL_ONE;
+        }
+        else
+        {
+            VoxAssert(false, CURRENT_SRC_PATH_TO_STR, "Unknown fluid animation geometry type.");
+        }
+
+        material->SetRenderStatus(renderStatus);
+
+        //! Parse fluid animation(which is sequential list of the obj files) path format and count of the obj files.
+        //! path format looks like this : path%06d.obj 
+        const std::string format = node.find_child_by_attribute("string", "name", "format").attribute("value").value();
+        const int count = node.find_child_by_attribute("integer", "name", "count").attribute("value").as_int();
+
+        //! Loading obj files from format and count.
+        auto manager = std::make_shared<GeometryCacheManager>(format, count);
+        manager->SetVertexFormat(interleavingFormat);
+
+        //! interleaving each geometry cache vertex data.
+        CubbyFlow::ParallelFor(CubbyFlow::ZERO_SIZE, manager->GetNumberOfCache(), [&](size_t index) {
+            const auto& cache = manager->GetGeometryCache(index);
+            cache->InterleaveData(interleavingFormat);
+            });
+
+        //! Create fluid buffer from the parsed material, program and geometry cache.
+        this->SetGeometryCacheManager(manager);
+        this->Resize();
+        this->AttachMaterial(material);
+        this->SetModelMatrix(mvp);
+    }
+
+    void FluidRenderable::WriteXMLNode(pugi::xml_node& node)
+    {
+        UNUSED_VARIABLE(node);
     }
 };

@@ -28,6 +28,8 @@ namespace Vox {
     {
     public:
         //! Default Constructor
+        Program() = default;
+        //! Constructor with external linked shader program ID
         Program(GLuint program);
         //! Default Destructor
         ~Program();
@@ -44,6 +46,11 @@ namespace Vox {
         //! Returns whether if this object have uniform variable with name.
         [[nodiscard]] bool HasUniformVariable(const std::string& name);
 
+        //! Load scene object attributes from the xml node
+        void LoadXMLNode(VoxScene* scene, const pugi::xml_node& node) override;
+
+        //! Write this scene object attributes to the given documents.
+        void WriteXMLNode(pugi::xml_node& node) override;
     private:
         //! return shader uniform location id.
         //!

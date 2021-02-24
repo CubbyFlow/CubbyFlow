@@ -10,6 +10,8 @@
 #ifndef CUBBYFLOW_VOX_VECTOR_UTILS_IMPL_HPP
 #define CUBBYFLOW_VOX_VECTOR_UTILS_IMPL_HPP
 
+#include <sstream>
+
 using namespace CubbyFlow;
 namespace Vox {
 
@@ -32,6 +34,18 @@ namespace Vox {
         Vector<T, N> edge2 = v3 - v2;
 
         return edge1.Cross(edge2).Normalized();
+    }
+
+    template <typename T, size_t N>
+    CubbyFlow::Vector<T, N> ParseFromString(const std::string& val)
+    {
+        std::istringstream isstr(val);
+
+        CubbyFlow::Vector<T, N> ret;
+        for (size_t i = 0; i < N; ++i)
+            isstr >> ret.At(i);
+
+        return ret;
     }
 }
 

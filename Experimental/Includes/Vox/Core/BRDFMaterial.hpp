@@ -31,9 +31,12 @@ namespace Vox {
         BRDFMaterial();
         //! Default destructor
         ~BRDFMaterial();
-
         //! Set BRDF properties of the material
         void SetBRDF(const BRDF& brdf);
+        //! Load scene object attributes from the xml node
+        void LoadXMLNode(VoxScene* scene, const pugi::xml_node& node) override;
+        //! Write this scene object attributes to the given documents.
+        void WriteXMLNode(pugi::xml_node& node) override;
     protected:
         void ConfigureShaderParameters(ShaderParameters& params) override;
         

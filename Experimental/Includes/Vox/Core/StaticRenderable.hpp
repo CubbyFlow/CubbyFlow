@@ -31,7 +31,10 @@ namespace Vox {
 
         //! Draw the frmae with the transferred vertex buffer.
         void DrawRenderableObject(const std::shared_ptr<FrameContext>& ctx) override;
-
+        //! Load scene object attributes from the xml node
+        void LoadXMLNode(VoxScene* scene, const pugi::xml_node& node) override;
+        //! Write this scene object attributes to the given documents.
+        void WriteXMLNode(pugi::xml_node& node) override;
     protected:
         void ConfigureRenderSettings(const std::shared_ptr<FrameContext>& ctx) override;
     private:
