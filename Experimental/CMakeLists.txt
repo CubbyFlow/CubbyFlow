@@ -23,6 +23,11 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/stb_image)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/pugixml/src)
 add_subdirectory(Libraries/pugixml)
 
+# Include the other directories
+include_directories(${CMAKE_CURRENT_LIST_DIR}/Includes/Vox)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/Includes)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/glad)
+
 set(OPENGL_LIBRARIES "")
 
 # OpenGL
@@ -70,14 +75,15 @@ if (USE_GL)
             endif()
         endif()
         
+        # Add ImGUI
+        add_subdirectory(Libraries/imgui)
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/imgui)
+        set(IMGUI_LIBRARY imgui)
+
         set(OPENGL_LIBRARIES 
             ${GLFW_LIBRARY}
-            ${COREFOUNDATION_LIB})
-
-        # Include the other directories
-        include_directories(${CMAKE_CURRENT_LIST_DIR}/Includes/Vox)
-        include_directories(${CMAKE_CURRENT_LIST_DIR}/Includes)
-        include_directories(${CMAKE_CURRENT_LIST_DIR}/Libraries/glad)
+            ${COREFOUNDATION_LIB}
+            ${IMGUI_LIBRARY})
 
     else()
         set(USE_GL OFF)
