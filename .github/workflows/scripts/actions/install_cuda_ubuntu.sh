@@ -28,7 +28,12 @@ function version_ge() {
 # returns 0 (true) if a > b
 function version_gt() {
     [ "$#" != "2" ] && echo "${FUNCNAME[0]} requires exactly 2 arguments." && exit 1
-    [ "$1" = "$2" ] && return 1 || version_ge $1 $2
+    if [ "$1" = "$2" ]
+    then
+      return 1
+    else
+      version_ge $1 $2
+    fi
 }
 # returns 0 (true) if a <= b
 function version_le() {
@@ -38,7 +43,12 @@ function version_le() {
 # returns 0 (true) if a < b
 function version_lt() {
     [ "$#" != "2" ] && echo "${FUNCNAME[0]} requires exactly 2 arguments." && exit 1
-    [ "$1" = "$2" ] && return 1 || version_le $1 $2
+    if [ "$1" = "$2" ]
+    then
+      return 1
+    else
+      version_le $1 $2
+    fi
 }
 
 ## -------------------
