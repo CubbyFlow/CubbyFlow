@@ -28,40 +28,40 @@
 
 namespace Vox {
 
-	namespace {
-		std::weak_ptr<App> gApplication;
-	};
+    namespace {
+        std::weak_ptr<App> gApplication;
+    };
 
-	void OnWindowResized(GLFWwindow* window, int width, int height);
+    void OnWindowResized(GLFWwindow* window, int width, int height);
     void OnKey(GLFWwindow* window, int key, int scancode, int action, int mods);
     void OnMouseButton(GLFWwindow* window, int button, int action, int mods);
     void OnMouseCursorPos(GLFWwindow* window, double x, double y);
     void OnMouseScroll(GLFWwindow* window, double deltaX, double deltaY);
 
-	void Device::Initialize()
-	{
-		VoxAssert(glfwInit(), CURRENT_SRC_PATH_TO_STR, "GLFW initialization failed");
+    void Device::Initialize()
+    {
+        VoxAssert(glfwInit(), CURRENT_SRC_PATH_TO_STR, "GLFW initialization failed");
 
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	    glfwWindowHint(GLFW_SAMPLES, 4);
-	    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+        glfwWindowHint(GLFW_SAMPLES, 4);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
         glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
-		glfwSwapInterval(1); //! Turn on the VSync.
+        glfwSwapInterval(1); //! Turn on the VSync.
 #ifdef CUBBYFLOW_MACOSX
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
-	}
+    }
 
-	void Device::Terminate()
-	{
-		glfwTerminate();
-	}
+    void Device::Terminate()
+    {
+        glfwTerminate();
+    }
 
     void Device::RunApp(const std::shared_ptr<App>& app, const Vox::Path& scenePath)
-    {   
-		gApplication = app;
+    {
+        gApplication = app;
 
         //! Create Window Context.
         CubbyFlow::Point2I wndSize = app->GetWindowSize();
@@ -72,24 +72,24 @@ namespace Vox {
         VoxAssert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), CURRENT_SRC_PATH_TO_STR, "Failed to initialize OpenGL");
 
         //! Check Essential OpenGL Extensions Support.
-		auto extensions = {"GL_EXT_texture_compression_s3tc", "GL_EXT_texture_sRGB"};
-		VoxAssert(Device::CheckExtensionsSupported(extensions), CURRENT_SRC_PATH_TO_STR, "UnSupported OpenGL Extension");                      
+        auto extensions = { "GL_ARB_debug_output", "GL_EXT_texture_compression_s3tc", "GL_EXT_texture_sRGB" };
+        VoxAssert(Device::CheckExtensionsSupported(extensions), CURRENT_SRC_PATH_TO_STR, "UnSupported OpenGL Extension");
 
         //! Enable OpenGL API Debugging Extension.
-        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-        glDebugMessageCallback(GLDebug::DebugLog, nullptr);
-        glDebugMessageControl(GL_DEBUG_SOURCE_APPLICATION, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, true);
-	    glDebugMessageControl(GL_DEBUG_SOURCE_THIRD_PARTY, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, true);
-        glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_LOW, 0, NULL, false);  
-        glDebugMessageControl(GL_DONT_CARE, GL_DEBUG_TYPE_OTHER, GL_DONT_CARE, 0, NULL, false);
+        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
+        glDebugMessageCallbackARB(GLDebug::DebugLog, nullptr);
+        glDebugMessageControlARB(GL_DEBUG_SOURCE_APPLICATION_ARB, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, true);
+        glDebugMessageControlARB(GL_DEBUG_SOURCE_THIRD_PARTY_ARB, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, true);
+        glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_LOW_ARB, 0, NULL, false);
+        glDebugMessageControlARB(GL_DONT_CARE, GL_DEBUG_TYPE_OTHER_ARB, GL_DONT_CARE, 0, NULL, false);
 
         //! Add Created Context to the Application.
-		auto ctx = std::make_shared<FrameContext>(window);        
-		RegisterCallbacks(ctx); 
-		app->PushFrameContextToQueue(ctx);
+        auto ctx = std::make_shared<FrameContext>(window);
+        RegisterCallbacks(ctx);
+        app->PushFrameContextToQueue(ctx);
 
         //! Initialize Fluid Simulation Application.
-		VoxAssert(app->Initialize(scenePath), CURRENT_SRC_PATH_TO_STR, "Application initialize failed");             
+        VoxAssert(app->Initialize(scenePath), CURRENT_SRC_PATH_TO_STR, "Application initialize failed");
 
         //! Get seconds per frame from the application FPS limit.
         const double secondsPerFrame = 1.0 / app->GetFPSLimit();
@@ -98,14 +98,14 @@ namespace Vox {
         double startTime = hostTimer.DurationInSeconds();
         double dt = 0.0;
         size_t frameCnt = 0;
-        
+
         while (glfwWindowShouldClose(window) == GLFW_FALSE)
         {
             ++frameCnt;
             double nowTime = hostTimer.DurationInSeconds();
             dt = nowTime - startTime;
 
-			app->UpdateFrame(dt);
+            app->UpdateFrame(dt);
             glfwPollEvents();
 
             if (nowTime - startTime > secondsPerFrame)
@@ -120,30 +120,30 @@ namespace Vox {
 
     bool Device::CheckExtensionsSupported(const std::initializer_list<const char*>& exts)
     {
-		//! Get the number of extensions currently running physical device.
+        //! Get the number of extensions currently running physical device.
         int max;
         glGetIntegerv(GL_NUM_EXTENSIONS, &max);
-        std::list<const char*> extensionList (exts);
+        std::list<const char*> extensionList(exts);
 
-		//! Get extension name and compare with given arguments.
+        //! Get extension name and compare with given arguments.
         for (int i = 0; i < max; ++i)
         {
             const GLchar* temp = reinterpret_cast<const GLchar*>(glGetStringi(GL_EXTENSIONS, i));
             for (auto iter = begin(extensionList); iter != end(extensionList);)
             {
-				//! If current queried extension name mathced with extension argument, pop.
-                if (strcmp(temp, *iter) == 0) 
+                //! If current queried extension name mathced with extension argument, pop.
+                if (strcmp(temp, *iter) == 0)
                     iter = extensionList.erase(iter);
-                else 
+                else
                     ++iter;
             }
         }
-		//! If list is still not empty after looping over extension name list, exit the program.
+        //! If list is still not empty after looping over extension name list, exit the program.
         if (!extensionList.empty())
         {
             for (const auto& ext : extensionList)
             {
-				fprintf(stderr, "%s is not supported\n", ext);
+                fprintf(stderr, "%s is not supported\n", ext);
             }
             return false;
         }
@@ -151,15 +151,15 @@ namespace Vox {
         return true;
     }
 
-  	void Device::RegisterCallbacks(const std::shared_ptr<FrameContext>& ctx)
-	{
-		GLFWwindow* window = ctx->GetWindowContext();
-		glfwSetFramebufferSizeCallback(window, OnWindowResized);
-		glfwSetKeyCallback(window, OnKey);
-		glfwSetMouseButtonCallback(window, OnMouseButton);
-		glfwSetCursorPosCallback(window, OnMouseCursorPos);
-		glfwSetScrollCallback(window, OnMouseScroll);
-	}
+    void Device::RegisterCallbacks(const std::shared_ptr<FrameContext>& ctx)
+    {
+        GLFWwindow* window = ctx->GetWindowContext();
+        glfwSetFramebufferSizeCallback(window, OnWindowResized);
+        glfwSetKeyCallback(window, OnKey);
+        glfwSetMouseButtonCallback(window, OnMouseButton);
+        glfwSetCursorPosCallback(window, OnMouseCursorPos);
+        glfwSetScrollCallback(window, OnMouseScroll);
+    }
 
     void Device::ApplyRenderStatus(const FrameContext::RenderStatus& prevStat, const FrameContext::RenderStatus& newStat)
     {
@@ -217,18 +217,18 @@ namespace Vox {
     }
 
     void OnWindowResized(GLFWwindow* window, int width, int height)
-	{
+    {
         UNUSED_VARIABLE(window);
-		VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
+        VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
         std::shared_ptr<App> app = gApplication.lock();
         if (app)
         {
             app->SetWindowSize(width, height);
         }
-	}
+    }
 
     void OnKey(GLFWwindow* window, int key, int scancode, int action, int mods)
-	{
+    {
         UNUSED_VARIABLE(window);
         VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
         std::shared_ptr<App> app = gApplication.lock();
@@ -236,10 +236,10 @@ namespace Vox {
         {
             app->SetKey(key, scancode, action, mods);
         }
-	}
+    }
 
     void OnMouseButton(GLFWwindow* window, int button, int action, int mods)
-	{
+    {
         UNUSED_VARIABLE(window);
         VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
         std::shared_ptr<App> app = gApplication.lock();
@@ -247,10 +247,10 @@ namespace Vox {
         {
             app->SetMouseButton(button, action, mods);
         }
-	}
+    }
 
     void OnMouseCursorPos(GLFWwindow* window, double x, double y)
-	{
+    {
         UNUSED_VARIABLE(window);
         VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
         std::shared_ptr<App> app = gApplication.lock();
@@ -258,16 +258,16 @@ namespace Vox {
         {
             app->SetMouseCursorPos(x, y);
         }
-	}
+    }
 
     void OnMouseScroll(GLFWwindow* window, double deltaX, double deltaY)
-	{
-        UNUSED_VARIABLE(window); 
+    {
+        UNUSED_VARIABLE(window);
         VoxAssert(!gApplication.expired(), CURRENT_SRC_PATH_TO_STR, "Global Application is Expired");
         std::shared_ptr<App> app = gApplication.lock();
         if (app)
         {
             app->SetMouseScroll(deltaX, deltaY);
         }
-	}
+    }
 };
