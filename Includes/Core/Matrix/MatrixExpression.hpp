@@ -361,6 +361,26 @@ class MatrixTri
     bool m_isUpper;
     bool m_isStrict;
 };
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+class MatrixTranspose
+    : public MatrixExpression<T, Rows, Cols, MatrixTranspose<T, Rows, Cols, M1>>
+{
+ public:
+    constexpr MatrixTranspose(const M1& m_mat1) : m_mat1(m_mat1)
+    {
+        // Do nothing
+    }
+
+    constexpr size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
+    constexpr T operator()(size_t i, size_t j) const;
+
+ private:
+    M1 m_mat1;
+};
 }  // namespace CubbyFlow
 
 #include <Core/Matrix/MatrixExpression-Impl.hpp>

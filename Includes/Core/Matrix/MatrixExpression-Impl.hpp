@@ -978,6 +978,25 @@ T MatrixTri<T, Rows, Cols, M1>::operator()(size_t i, size_t j) const
 
     return (j <= i) ? m_mat1(i, j) : 0;
 }
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr size_t MatrixTranspose<T, Rows, Cols, M1>::GetRows() const
+{
+    return m_mat1.cols();
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr size_t MatrixTranspose<T, Rows, Cols, M1>::GetCols() const
+{
+    return m_mat1.rows();
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr T MatrixTranspose<T, Rows, Cols, M1>::operator()(size_t i,
+                                                           size_t j) const
+{
+    return m_mat1(j, i);
+}
 }  // namespace CubbyFlow
 
 #endif
