@@ -317,6 +317,27 @@ class MatrixDiagonal
  private:
     M1 m_mat1;
 };
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+class MatrixOffDiagonal
+    : public MatrixExpression<T, Rows, Cols,
+                              MatrixOffDiagonal<T, Rows, Cols, M1>>
+{
+ public:
+    constexpr MatrixOffDiagonal(const M1& mat1) : m_mat1(mat1)
+    {
+        // Do nothing
+    }
+
+    constexpr size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
+    T operator()(size_t i, size_t j) const;
+
+ private:
+    M1 m_mat1;
+};
 }  // namespace CubbyFlow
 
 #include <Core/Matrix/MatrixExpression-Impl.hpp>
