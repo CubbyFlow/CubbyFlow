@@ -881,6 +881,24 @@ void MatrixExpression<T, Rows, Cols, Derived>::Inverse(
         }
     }
 }
+
+template <typename T, size_t Rows, size_t Cols>
+constexpr size_t MatrixConstant<T, Rows, Cols>::GetRows() const
+{
+    return m_rows;
+}
+
+template <typename T, size_t Rows, size_t Cols>
+constexpr size_t MatrixConstant<T, Rows, Cols>::GetCols() const
+{
+    return m_cols;
+}
+
+template <typename T, size_t Rows, size_t Cols>
+constexpr T MatrixConstant<T, Rows, Cols>::operator()(size_t, size_t) const
+{
+    return m_val;
+}
 }  // namespace CubbyFlow
 
 #endif

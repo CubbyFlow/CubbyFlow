@@ -274,6 +274,29 @@ class MatrixExpression
                                              IsMatrixSizeDynamic<Rows, Cols>(),
                                          M>& result);
 };
+
+template <typename T, size_t Rows, size_t Cols>
+class MatrixConstant
+    : public MatrixExpression<T, Rows, Cols, MatrixConstant<T, Rows, Cols>>
+{
+ public:
+    constexpr MatrixConstant(size_t r, size_t c, const T& val)
+        : m_rows(r), m_cols(c), m_val(val)
+    {
+        // Do nothing
+    }
+
+    constexpr size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
+    constexpr T operator()(size_t, size_t) const;
+
+ private:
+    size_t m_rows;
+    size_t m_cols;
+    T m_val;
+};
 }  // namespace CubbyFlow
 
 #include <Core/Matrix/MatrixExpression-Impl.hpp>
