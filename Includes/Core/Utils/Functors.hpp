@@ -36,6 +36,20 @@ struct RDivides
     constexpr T operator()(const T& a, const T& b) const;
 };
 
+//! Takes absolute minimum value.
+template <typename T>
+struct AbsMin
+{
+    constexpr T operator()(const T& a, const T& b) const;
+};
+
+//! Takes absolute maximum value.
+template <typename T>
+struct AbsMax
+{
+    constexpr T operator()(const T& a, const T& b) const;
+};
+
 //! True if similar.
 template <typename T>
 struct SimilarTo
