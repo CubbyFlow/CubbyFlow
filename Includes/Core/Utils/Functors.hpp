@@ -11,6 +11,8 @@
 #ifndef CUBBYFLOW_FUNCTORS_HPP
 #define CUBBYFLOW_FUNCTORS_HPP
 
+#include <limits>
+
 namespace CubbyFlow
 {
 //! Type casting operator.
@@ -32,6 +34,22 @@ template <typename T>
 struct RDivides
 {
     constexpr T operator()(const T& a, const T& b) const;
+};
+
+//! True if similar.
+template <typename T>
+struct SimilarTo
+{
+    constexpr SimilarTo(
+        double _tolerance = std::numeric_limits<double>::epsilon())
+        : tolerance(_tolerance)
+    {
+        // Do nothing
+    }
+
+    constexpr bool operator()(const T& a, const T& b) const;
+
+    double tolerance;
 };
 }  // namespace CubbyFlow
 

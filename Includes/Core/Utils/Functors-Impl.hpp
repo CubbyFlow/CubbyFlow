@@ -11,6 +11,8 @@
 #ifndef CUBBYFLOW_FUNCTORS_IMPL_HPP
 #define CUBBYFLOW_FUNCTORS_IMPL_HPP
 
+#include <cmath>
+
 namespace CubbyFlow
 {
 template <typename T, typename U>
@@ -29,6 +31,12 @@ template <typename T>
 constexpr T RDivides<T>::operator()(const T& a, const T& b) const
 {
     return b / a;
+}
+
+template <typename T>
+constexpr bool SimilarTo<T>::operator()(const T& a, const T& b) const
+{
+    return std::fabs(a - b) <= tolerance;
 }
 }  // namespace CubbyFlow
 
