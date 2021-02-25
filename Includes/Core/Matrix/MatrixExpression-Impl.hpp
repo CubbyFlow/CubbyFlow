@@ -945,6 +945,39 @@ T MatrixOffDiagonal<T, Rows, Cols, M1>::operator()(size_t i, size_t j) const
 
     return T{};
 }
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr size_t MatrixTri<T, Rows, Cols, M1>::GetRows() const
+{
+    return m_mat1.GetRows();
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr size_t MatrixTri<T, Rows, Cols, M1>::GetCols() const
+{
+    return m_mat1.GetCols();
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+T MatrixTri<T, Rows, Cols, M1>::operator()(size_t i, size_t j) const
+{
+    if (m_isUpper)
+    {
+        if (m_isStrict)
+        {
+            return (j > i) ? m_mat1(i, j) : 0;
+        }
+
+        return (j >= i) ? m_mat1(i, j) : 0;
+    }
+
+    if (m_isStrict)
+    {
+        return (j < i) ? m_mat1(i, j) : 0;
+    }
+
+    return (j <= i) ? m_mat1(i, j) : 0;
+}
 }  // namespace CubbyFlow
 
 #endif
