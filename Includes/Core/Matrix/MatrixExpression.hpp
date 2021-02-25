@@ -297,6 +297,26 @@ class MatrixConstant
     size_t m_cols;
     T m_val;
 };
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+class MatrixDiagonal
+    : public MatrixExpression<T, Rows, Cols, MatrixDiagonal<T, Rows, Cols, M1>>
+{
+ public:
+    constexpr MatrixDiagonal(const M1& mat1) : m_mat1(mat1)
+    {
+        // Do nothing
+    }
+
+    constexpr size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
+    T operator()(size_t i, size_t j) const;
+
+ private:
+    M1 m_mat1;
+};
 }  // namespace CubbyFlow
 
 #include <Core/Matrix/MatrixExpression-Impl.hpp>

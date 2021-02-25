@@ -899,6 +899,29 @@ constexpr T MatrixConstant<T, Rows, Cols>::operator()(size_t, size_t) const
 {
     return m_val;
 }
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr size_t MatrixDiagonal<T, Rows, Cols, M1>::GetRows() const
+{
+    return m_mat1.GetRows();
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr size_t MatrixDiagonal<T, Rows, Cols, M1>::GetCols() const
+{
+    return m_mat1.GetCols();
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+T MatrixDiagonal<T, Rows, Cols, M1>::operator()(size_t i, size_t j) const
+{
+    if (i == j)
+    {
+        return m_mat1(i, j);
+    }
+
+    return T{};
+}
 }  // namespace CubbyFlow
 
 #endif
