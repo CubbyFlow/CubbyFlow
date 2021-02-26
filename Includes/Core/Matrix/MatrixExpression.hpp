@@ -30,27 +30,27 @@ constexpr bool IsMatrixSizeStatic()
 }
 
 template <size_t Rows, size_t Cols>
-constexpr bool isMatrixStaticSquare()
+constexpr bool IsMatrixStaticSquare()
 {
     return IsMatrixSizeStatic<Rows, Cols>() && (Rows == Cols);
 }
 
 template <size_t Rows, size_t Cols>
-struct IsMatrixSizeDynamic
+struct TraitIsMatrixSizeDynamic
 {
     static const bool value = IsMatrixSizeDynamic<Rows, Cols>();
 };
 
 template <size_t Rows, size_t Cols>
-struct IsMatrixSizeStatic
+struct TraitIsMatrixSizeStatic
 {
     static const bool value = IsMatrixSizeStatic<Rows, Cols>();
 };
 
 template <size_t Rows, size_t Cols>
-struct IsMatrixSizeSquare
+struct TraitIsMatrixSizeSquare
 {
-    static const bool value = isMatrixStaticSquare<Rows, Cols>();
+    static const bool value = IsMatrixStaticSquare<Rows, Cols>();
 };
 
 template <typename T, size_t Rows, size_t Cols>

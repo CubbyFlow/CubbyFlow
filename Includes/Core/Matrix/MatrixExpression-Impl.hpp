@@ -11,8 +11,6 @@
 #ifndef CUBBYFLOW_MATRIX_EXPRESSION_IMPL_HPP
 #define CUBBYFLOW_MATRIX_EXPRESSION_IMPL_HPP
 
-#include <Core/Matrix/MatrixExpression.hpp>
-
 namespace CubbyFlow
 {
 template <typename T, size_t Rows, size_t Cols, typename D>
@@ -472,7 +470,7 @@ MatrixExpression<T, Rows, Cols, D>::Projected(
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 template <typename U>
-std::enable_if_t<(isMatrixSizeDynamic<Rows, Cols>() ||
+std::enable_if_t<(IsMatrixSizeDynamic<Rows, Cols>() ||
                   (Rows == 2 && Cols == 1)),
                  Matrix<U, 2, 1>>
 MatrixExpression<T, Rows, Cols, D>::Tangential() const
