@@ -140,14 +140,14 @@ T MatrixExpression<T, Rows, Cols, D>::AbsMin() const
 
     for (size_t j = 1; j < GetCols(); ++j)
     {
-        s = CubbyFlow::AbsMin(s, Eval(0, j));
+        s = CubbyFlow::DoAbsMin(s, Eval(0, j));
     }
 
     for (size_t i = 1; i < GetRows(); ++i)
     {
         for (size_t j = 0; j < GetCols(); ++j)
         {
-            s = CubbyFlow::AbsMin(s, Eval(i, j));
+            s = CubbyFlow::DoAbsMin(s, Eval(i, j));
         }
     }
 
@@ -161,14 +161,14 @@ T MatrixExpression<T, Rows, Cols, D>::AbsMax() const
 
     for (size_t j = 1; j < GetCols(); ++j)
     {
-        s = CubbyFlow::AbsMax(s, Eval(0, j));
+        s = CubbyFlow::DoAbsMax(s, Eval(0, j));
     }
 
     for (size_t i = 1; i < GetRows(); ++i)
     {
         for (size_t j = 0; j < GetCols(); ++j)
         {
-            s = CubbyFlow::AbsMax(s, Eval(i, j));
+            s = CubbyFlow::DoAbsMax(s, Eval(i, j));
         }
     }
 

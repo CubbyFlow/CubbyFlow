@@ -66,14 +66,14 @@ struct DoMax
 
 //! Takes absolute minimum value.
 template <typename T>
-struct AbsMin
+struct DoAbsMin
 {
     constexpr T operator()(const T& a, const T& b) const;
 };
 
 //! Takes absolute maximum value.
 template <typename T>
-struct AbsMax
+struct DoAbsMax
 {
     constexpr T operator()(const T& a, const T& b) const;
 };

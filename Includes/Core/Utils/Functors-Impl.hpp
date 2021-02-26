@@ -58,13 +58,13 @@ constexpr T DoMax<T>::operator()(const T& a, const T& b) const
 }
 
 template <typename T>
-constexpr T AbsMin<T>::operator()(const T& a, const T& b) const
+constexpr T DoAbsMin<T>::operator()(const T& a, const T& b) const
 {
     return AbsMin(a, b);
 }
 
 template <typename T>
-constexpr T AbsMax<T>::operator()(const T& a, const T& b) const
+constexpr T DoAbsMax<T>::operator()(const T& a, const T& b) const
 {
     return AbsMax(a, b);
 }
