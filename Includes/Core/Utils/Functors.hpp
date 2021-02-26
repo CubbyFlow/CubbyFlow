@@ -93,6 +93,13 @@ struct SimilarTo
 
     double tolerance;
 };
+
+//! Clamps the input value with low/high.
+template <typename T>
+struct DoClamp
+{
+    constexpr T operator()(const T& a, const T& low, const T& high) const;
+};
 }  // namespace CubbyFlow
 
 #include <Core/Utils/Functors-Impl.hpp>

@@ -74,6 +74,13 @@ constexpr bool SimilarTo<T>::operator()(const T& a, const T& b) const
 {
     return std::fabs(a - b) <= tolerance;
 }
+
+template <typename T>
+constexpr T DoClamp<T>::operator()(const T& a, const T& low,
+                                   const T& high) const
+{
+    return Clamp(a, low, high);
+}
 }  // namespace CubbyFlow
 
 #endif
