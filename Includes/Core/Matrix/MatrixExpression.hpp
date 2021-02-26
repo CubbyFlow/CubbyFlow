@@ -632,6 +632,43 @@ constexpr auto operator*(const T& a,
 template <typename T, size_t Rows, size_t Cols, typename M2>
 constexpr auto operator/(const T& a,
                          const MatrixExpression<T, Rows, Cols, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2,
+          typename M3, typename TernaryOperation>
+class MatrixTernaryOp
+    : public MatrixExpression<
+          T, Rows, Cols,
+          MatrixTernaryOp<T, Rows, Cols, M1, M2, M3, TernaryOperation>>
+{
+ public:
+    constexpr MatrixTernaryOp(const M1& mat1, const M2& mat2, const M3& mat3)
+        : m_mat1(mat1), m_mat2(mat2), m_mat3(mat3)
+    {
+        // Do nothing
+    }
+
+    constexpr size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
+    constexpr T operator()(size_t i, size_t j) const;
+
+ private:
+    M1 m_mat1;
+    M2 m_mat2;
+    M3 m_mat3;
+    TernaryOperation m_op;
+};
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2,
+          typename M3>
+using MatrixClamp = MatrixTernaryOp<T, Rows, Cols, M1, M2, M3, DoClamp<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2,
+          typename M3>
+auto Clamp(const MatrixExpression<T, Rows, Cols, M1>& a,
+           const MatrixExpression<T, Rows, Cols, M2>& low,
+           const MatrixExpression<T, Rows, Cols, M3>& high);
 }  // namespace CubbyFlow
 
 #include <Core/Matrix/MatrixExpression-Impl.hpp>

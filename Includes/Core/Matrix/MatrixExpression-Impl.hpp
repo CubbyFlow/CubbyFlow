@@ -1218,6 +1218,44 @@ constexpr auto operator/(const T& a,
     return ScalarMatrixElemWiseDiv<T, Rows, Cols, const M2&>{ a,
                                                               b.GetDerived() };
 }
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2,
+          typename M3, typename TOp>
+constexpr size_t MatrixTernaryOp<T, Rows, Cols, M1, M2, M3, TOp>::GetRows()
+    const
+{
+    return m_mat1.GetRows();
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2,
+          typename M3, typename TOp>
+constexpr size_t MatrixTernaryOp<T, Rows, Cols, M1, M2, M3, TOp>::GetCols()
+    const
+{
+    return m_mat1.GetCols();
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2,
+          typename M3, typename TOp>
+constexpr T MatrixTernaryOp<T, Rows, Cols, M1, M2, M3, TOp>::operator()(
+    size_t i, size_t j) const
+{
+    return m_op(m_mat1(i, j), m_mat2(i, j), m_mat3(i, j));
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2,
+          typename M3>
+auto Clamp(const MatrixExpression<T, Rows, Cols, M1>& a,
+           const MatrixExpression<T, Rows, Cols, M2>& low,
+           const MatrixExpression<T, Rows, Cols, M3>& high)
+{
+    assert(a.GetRows() == low.GetRows() && a.GetRows() == high.GetRows());
+    assert(a.GetCols() == low.GetCols() && a.GetCols() == high.GetCols());
+
+    return MatrixClamp<T, Rows, Cols, const M1&, const M2&, const M3&>{
+        a.GetDerived(), low.GetDerived(), high.GetDerived()
+    };
+}
 }  // namespace CubbyFlow
 
 #endif
