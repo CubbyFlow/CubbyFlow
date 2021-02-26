@@ -381,6 +381,50 @@ class MatrixTranspose
  private:
     M1 m_mat1;
 };
+
+template <typename T, size_t Rows, size_t Cols, typename M1,
+          typename UnaryOperation>
+class MatrixUnaryOp
+    : public MatrixExpression<T, Rows, Cols,
+                              MatrixUnaryOp<T, Rows, Cols, M1, UnaryOperation>>
+{
+ public:
+    constexpr MatrixUnaryOp(const M1& mat1) : m_mat1(mat1)
+    {
+        // Do nothing
+    }
+
+    constexpr size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
+    constexpr T operator()(size_t i, size_t j) const;
+
+ private:
+    M1 m_mat1;
+    UnaryOperation m_op;
+};
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+using MatrixNegate = MatrixUnaryOp<T, Rows, Cols, M1, std::negate<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+using MatrixCeil = MatrixUnaryOp<T, Rows, Cols, M1, DoCeil<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+using MatrixFloor = MatrixUnaryOp<T, Rows, Cols, M1, DoFloor<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename U, typename M1>
+using MatrixTypeCast = MatrixUnaryOp<U, Rows, Cols, M1, TypeCast<T, U>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto Ceil(const MatrixExpression<T, Rows, Cols, M1>& a);
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto Floor(const MatrixExpression<T, Rows, Cols, M1>& a);
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto operator-(const MatrixExpression<T, Rows, Cols, M1>& m);
 }  // namespace CubbyFlow
 
 #include <Core/Matrix/MatrixExpression-Impl.hpp>

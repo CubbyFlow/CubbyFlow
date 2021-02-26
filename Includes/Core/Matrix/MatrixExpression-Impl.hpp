@@ -982,13 +982,13 @@ T MatrixTri<T, Rows, Cols, M1>::operator()(size_t i, size_t j) const
 template <typename T, size_t Rows, size_t Cols, typename M1>
 constexpr size_t MatrixTranspose<T, Rows, Cols, M1>::GetRows() const
 {
-    return m_mat1.cols();
+    return m_mat1.GetCols();
 }
 
 template <typename T, size_t Rows, size_t Cols, typename M1>
 constexpr size_t MatrixTranspose<T, Rows, Cols, M1>::GetCols() const
 {
-    return m_mat1.rows();
+    return m_mat1.GetRows();
 }
 
 template <typename T, size_t Rows, size_t Cols, typename M1>
@@ -996,6 +996,43 @@ constexpr T MatrixTranspose<T, Rows, Cols, M1>::operator()(size_t i,
                                                            size_t j) const
 {
     return m_mat1(j, i);
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename UOp>
+constexpr size_t MatrixUnaryOp<T, Rows, Cols, M1, UOp>::GetRows() const
+{
+    return m_mat1.GetRows();
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename UOp>
+constexpr size_t MatrixUnaryOp<T, Rows, Cols, M1, UOp>::GetCols() const
+{
+    return m_mat1.GetCols();
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename UOp>
+constexpr T MatrixUnaryOp<T, Rows, Cols, M1, UOp>::operator()(size_t i,
+                                                              size_t j) const
+{
+    return m_op(m_mat1(i, j));
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto Ceil(const MatrixExpression<T, Rows, Cols, M1>& a)
+{
+    return MatrixCeil<T, Rows, Cols, const M1&>{ a.GetDerived() };
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto Floor(const MatrixExpression<T, Rows, Cols, M1>& a)
+{
+    return MatrixFloor<T, Rows, Cols, const M1&>{ a.GetDerived() };
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto operator-(const MatrixExpression<T, Rows, Cols, M1>& m)
+{
+    return MatrixNegate<T, Rows, Cols, const M1&>{ m.GetDerived() };
 }
 }  // namespace CubbyFlow
 
