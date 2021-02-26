@@ -22,6 +22,18 @@ constexpr U TypeCast<T, U>::operator()(const T& a) const
 }
 
 template <typename T>
+constexpr T DoCeil<T>::operator()(const T& a) const
+{
+    return std::ceil(a);
+}
+
+template <typename T>
+constexpr T DoFloor<T>::operator()(const T& a) const
+{
+    return std::floor(a);
+}
+
+template <typename T>
 constexpr T RMinus<T>::operator()(const T& a, const T& b) const
 {
     return b - a;

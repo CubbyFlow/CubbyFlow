@@ -22,6 +22,20 @@ struct TypeCast
     constexpr U operator()(const T& a) const;
 };
 
+//! Performs std::ceil.
+template <typename T>
+struct DoCeil
+{
+    constexpr T operator()(const T& a) const;
+};
+
+//! Performs std::floor.
+template <typename T>
+struct DoFloor
+{
+    constexpr T operator()(const T& a) const;
+};
+
 //! Reverse minus operator.
 template <typename T>
 struct RMinus
