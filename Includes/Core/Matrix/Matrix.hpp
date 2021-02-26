@@ -421,7 +421,7 @@ class Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC> final
 
     Matrix(const Matrix& other);
 
-    Matrix(Matrix&& other);
+    Matrix(Matrix&& other) noexcept;
 
     void Fill(const T& val);
 
@@ -457,7 +457,7 @@ class Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC> final
 
     Matrix& operator=(const Matrix& other);
 
-    Matrix& operator=(Matrix&& other);
+    Matrix& operator=(Matrix&& other) noexcept;
 
  private:
     std::vector<T> m_elements;
@@ -496,7 +496,7 @@ class Matrix<T, MATRIX_SIZE_DYNAMIC, 1> final
 
     Matrix(const Matrix& other);
 
-    Matrix(Matrix&& other);
+    Matrix(Matrix&& other) noexcept;
 
     void Fill(const T& val);
 
@@ -536,7 +536,7 @@ class Matrix<T, MATRIX_SIZE_DYNAMIC, 1> final
 
     Matrix& operator=(const Matrix& other);
 
-    Matrix& operator=(Matrix&& other);
+    Matrix& operator=(Matrix&& other) noexcept;
 
  private:
     std::vector<T> m_elements;

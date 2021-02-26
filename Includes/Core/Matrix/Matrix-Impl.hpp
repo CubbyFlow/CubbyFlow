@@ -876,7 +876,8 @@ Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>::Matrix(const Matrix& other)
 }
 
 template <typename T>
-Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>::Matrix(Matrix&& other)
+Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>::Matrix(
+    Matrix&& other) noexcept
 {
     *this = std::move(other);
 }
@@ -1032,7 +1033,8 @@ Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>::operator=(
 
 template <typename T>
 Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>&
-Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>::operator=(Matrix&& other)
+Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>::operator=(
+    Matrix&& other) noexcept
 {
     m_elements = std::move(other.m_elements);
     m_rows = other.m_rows;
@@ -1099,7 +1101,7 @@ Matrix<T, MATRIX_SIZE_DYNAMIC, 1>::Matrix(const Matrix& other)
 }
 
 template <typename T>
-Matrix<T, MATRIX_SIZE_DYNAMIC, 1>::Matrix(Matrix&& other)
+Matrix<T, MATRIX_SIZE_DYNAMIC, 1>::Matrix(Matrix&& other) noexcept
 {
     *this = std::move(other);
 }
@@ -1244,7 +1246,7 @@ Matrix<T, MATRIX_SIZE_DYNAMIC, 1>& Matrix<T, MATRIX_SIZE_DYNAMIC, 1>::operator=(
 
 template <typename T>
 Matrix<T, MATRIX_SIZE_DYNAMIC, 1>& Matrix<T, MATRIX_SIZE_DYNAMIC, 1>::operator=(
-    Matrix&& other)
+    Matrix&& other) noexcept
 {
     m_elements = std::move(other.m_elements);
 
