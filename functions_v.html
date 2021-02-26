@@ -72,31 +72,33 @@ $(function() {
 
 <h3><a id="index_v"></a>- v -</h3><ul>
 <li>value
-: <a class="el" href="struct_cubby_flow_1_1_matrix_c_s_r_1_1_element.html#a40d1b9b2177d4a80577c762d35f640df">CubbyFlow::MatrixCSR&lt; T &gt;::Element</a>
-, <a class="el" href="struct_cubby_flow_1_1_scalar_type.html#a87dc4db046d72fb1376eee96e2a2ab70">CubbyFlow::ScalarType&lt; T &gt;</a>
-, <a class="el" href="struct_cubby_flow_1_1_scalar_type_3_01_vector_3_01_t_00_012_01_4_01_4.html#a07b92e65a12529754379db6d8c368e46">CubbyFlow::ScalarType&lt; Vector&lt; T, 2 &gt; &gt;</a>
-, <a class="el" href="struct_cubby_flow_1_1_scalar_type_3_01_vector_3_01_t_00_013_01_4_01_4.html#a4e3878de4626135a53e2428f1a3dac5a">CubbyFlow::ScalarType&lt; Vector&lt; T, 3 &gt; &gt;</a>
-, <a class="el" href="struct_cubby_flow_1_1_scalar_type_3_01_vector_3_01_t_00_014_01_4_01_4.html#a56b2eedc917ae851604bf73303e94723">CubbyFlow::ScalarType&lt; Vector&lt; T, 4 &gt; &gt;</a>
-, <a class="el" href="struct_cubby_flow_1_1_scalar_type_3_01_vector_3_01_t_00_01_n_01_4_01_4.html#a6b1359497fb6fff346abddc983e60a35">CubbyFlow::ScalarType&lt; Vector&lt; T, N &gt; &gt;</a>
+: <a class="el" href="struct_cubby_flow_1_1_get_scalar_type.html#aef3356697a24d077567f724838b38f17">CubbyFlow::GetScalarType&lt; T &gt;</a>
+, <a class="el" href="struct_cubby_flow_1_1_get_scalar_type_3_01_matrix_3_01_t_00_01_rows_00_01_cols_01_4_01_4.html#abbc9edf5e8b615d57c928ff749d35d39">CubbyFlow::GetScalarType&lt; Matrix&lt; T, Rows, Cols &gt; &gt;</a>
+, <a class="el" href="struct_cubby_flow_1_1_matrix_c_s_r_1_1_element.html#a40d1b9b2177d4a80577c762d35f640df">CubbyFlow::MatrixCSR&lt; T &gt;::Element</a>
+, <a class="el" href="struct_cubby_flow_1_1_trait_is_matrix_size_dynamic.html#ac4a9480fcfbb51858e446c4c2a0a4d4a">CubbyFlow::TraitIsMatrixSizeDynamic&lt; Rows, Cols &gt;</a>
+, <a class="el" href="struct_cubby_flow_1_1_trait_is_matrix_size_square.html#a577d7842db432f9241c1a808cd795e2c">CubbyFlow::TraitIsMatrixSizeSquare&lt; Rows, Cols &gt;</a>
+, <a class="el" href="struct_cubby_flow_1_1_trait_is_matrix_size_static.html#ae9edff3a406613127557bf2cfd0f536c">CubbyFlow::TraitIsMatrixSizeStatic&lt; Rows, Cols &gt;</a>
 </li>
 <li>ValueAtCellCenter()
 : <a class="el" href="class_cubby_flow_1_1_face_centered_grid2.html#a866b5199f768682aa8b56d8f69d42297">CubbyFlow::FaceCenteredGrid2</a>
 , <a class="el" href="class_cubby_flow_1_1_face_centered_grid3.html#a5295fd9dc403226f94429eda2eca4d26">CubbyFlow::FaceCenteredGrid3</a>
 </li>
-<li>Vector()
-: <a class="el" href="class_cubby_flow_1_1_vector.html#ab685aeae9310c0491782ceb87faf4d54">CubbyFlow::Vector&lt; T, N &gt;</a>
-, <a class="el" href="class_cubby_flow_1_1_vector_3_01_t_00_012_01_4.html#a65995c4b56f3479153bb64d458edcd5d">CubbyFlow::Vector&lt; T, 2 &gt;</a>
-, <a class="el" href="class_cubby_flow_1_1_vector_3_01_t_00_013_01_4.html#ae5cc7671f2cefbf25de6215707c4557d">CubbyFlow::Vector&lt; T, 3 &gt;</a>
-, <a class="el" href="class_cubby_flow_1_1_vector_3_01_t_00_014_01_4.html#a118db9e916033957df97d7539e52ad83">CubbyFlow::Vector&lt; T, 4 &gt;</a>
+<li>ValueType
+: <a class="el" href="class_cubby_flow_1_1_matrix.html#a07f589eb23ffefcf3ffa0b52a2426072">CubbyFlow::Matrix&lt; T, Rows, Cols &gt;</a>
+, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_011_00_011_01_4.html#a08f0b2c125c6b5d6688dfa108058f906">CubbyFlow::Matrix&lt; T, 1, 1 &gt;</a>
+, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_012_00_011_01_4.html#a97ab993f237e349aed34c82e919f4223">CubbyFlow::Matrix&lt; T, 2, 1 &gt;</a>
+, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_013_00_011_01_4.html#a892f9f9a03d739bf3a21ea4e45433fd3">CubbyFlow::Matrix&lt; T, 3, 1 &gt;</a>
+, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_014_00_011_01_4.html#a10482d68baf109b7bb6311301440ba7c">CubbyFlow::Matrix&lt; T, 4, 1 &gt;</a>
+, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_01_m_a_t_r_i_x___s_i_z_e___d_y_n_a_m_i_c_00_011_01_4.html#abb70c0130442b260e6d7b6655fbbfcdb">CubbyFlow::Matrix&lt; T, MATRIX_SIZE_DYNAMIC, 1 &gt;</a>
+, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_01_m_a_t_r_i_x___s_i_z_e___d_y_n_a_m_i_c_00_01_m_a_t_r_i_x___s_i_z_e___d_y_n_a_m_i_c_01_4.html#a6385bf7ae328f627863c7d7722858ed5">CubbyFlow::Matrix&lt; T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC &gt;</a>
+, <a class="el" href="class_cubby_flow_1_1_matrix_dense_base.html#a96d8f540c5985b8511336199055fea79">CubbyFlow::MatrixDenseBase&lt; T, Rows, Cols, Derived &gt;</a>
+, <a class="el" href="class_cubby_flow_1_1_matrix_expression.html#ae907955285ad93244cde0f190e55e4bd">CubbyFlow::MatrixExpression&lt; T, Rows, Cols, Derived &gt;</a>
 </li>
 <li>Vector2DArray
 : <a class="el" href="class_cubby_flow_1_1_triangle_mesh3.html#a2770d783acfa47bdc4fd6f8c21acbf46">CubbyFlow::TriangleMesh3</a>
 </li>
 <li>Vector3DArray
 : <a class="el" href="class_cubby_flow_1_1_triangle_mesh3.html#a49ef4350510e10275ac76e860dc033d0">CubbyFlow::TriangleMesh3</a>
-</li>
-<li>VectorBinaryOp()
-: <a class="el" href="class_cubby_flow_1_1_vector_binary_op.html#a42d3e5f6d95dfbf24b178088d7355526">CubbyFlow::VectorBinaryOp&lt; T, E1, E2, Op &gt;</a>
 </li>
 <li>VectorData
 : <a class="el" href="class_cubby_flow_1_1_particle_system_data2.html#adb13b4417591a2fd0ac8267da7677709">CubbyFlow::ParticleSystemData2</a>
@@ -114,7 +116,7 @@ $(function() {
 : <a class="el" href="class_cubby_flow_1_1_vector_field2.html#a375ded599e5968196761acf1b8ce7ba7">CubbyFlow::VectorField2</a>
 </li>
 <li>VectorField3()
-: <a class="el" href="class_cubby_flow_1_1_vector_field3.html#a923e7df11404fcbcda85029b5ab8ef68">CubbyFlow::VectorField3</a>
+: <a class="el" href="class_cubby_flow_1_1_vector_field3.html#a410813a5599de40fdec006ce64b5a199">CubbyFlow::VectorField3</a>
 </li>
 <li>VectorGrid2()
 : <a class="el" href="class_cubby_flow_1_1_vector_grid2.html#af36d338e16d0141a0045f5cf5ab17761">CubbyFlow::VectorGrid2</a>
@@ -132,12 +134,6 @@ $(function() {
 : <a class="el" href="class_cubby_flow_1_1_volume_grid_emitter2.html#ac2300e8bc903afdacd8fc5a24a47bff5">CubbyFlow::VolumeGridEmitter2</a>
 , <a class="el" href="class_cubby_flow_1_1_volume_grid_emitter3.html#a8f3d198c4209031281d872526bd4a844">CubbyFlow::VolumeGridEmitter3</a>
 </li>
-<li>VectorN()
-: <a class="el" href="class_cubby_flow_1_1_vector_n.html#a098085598ef422b53e1170a1307a7a58">CubbyFlow::VectorN&lt; T &gt;</a>
-</li>
-<li>VectorScalarBinaryOp()
-: <a class="el" href="class_cubby_flow_1_1_vector_scalar_binary_op.html#aad31fa517b8305c5d1f9f3c428991d37">CubbyFlow::VectorScalarBinaryOp&lt; T, E, Op &gt;</a>
-</li>
 <li>VectorType
 : <a class="el" href="struct_cubby_flow_1_1_b_l_a_s.html#a6a36515bac3fc6f2c56a3a3308039543">CubbyFlow::BLAS&lt; S, V, M &gt;</a>
 , <a class="el" href="class_cubby_flow_1_1_bounding_box.html#a8a27304d0444912f850da73b663468cc">CubbyFlow::BoundingBox&lt; T, N &gt;</a>
@@ -145,9 +141,6 @@ $(function() {
 , <a class="el" href="struct_cubby_flow_1_1_f_d_m_b_l_a_s3.html#acbbeedeb6bd7e721c2f7eecfc5a762ac">CubbyFlow::FDMBLAS3</a>
 , <a class="el" href="struct_cubby_flow_1_1_f_d_m_compressed_b_l_a_s2.html#a87f5eb61cd0fe8dc39e2e66a685bbdc4">CubbyFlow::FDMCompressedBLAS2</a>
 , <a class="el" href="struct_cubby_flow_1_1_f_d_m_compressed_b_l_a_s3.html#a569a4922bdb5092c35df0ae71aa5f6c7">CubbyFlow::FDMCompressedBLAS3</a>
-</li>
-<li>VectorUnaryOp()
-: <a class="el" href="class_cubby_flow_1_1_vector_unary_op.html#a91627e284948e7d963d4c4d022210520">CubbyFlow::VectorUnaryOp&lt; T, E, Op &gt;</a>
 </li>
 <li>velocity
 : <a class="el" href="struct_cubby_flow_1_1_collider2_1_1_collider_query_result.html#a24697120d1bf31971c5a7631c744c51f">CubbyFlow::Collider2::ColliderQueryResult</a>
@@ -162,25 +155,25 @@ $(function() {
 , <a class="el" href="class_cubby_flow_1_1_rigid_body_collider3.html#a42c53c49322119a3b310176e27ea047b">CubbyFlow::RigidBodyCollider3</a>
 </li>
 <li>VertexCenteredScalarGrid2()
-: <a class="el" href="class_cubby_flow_1_1_vertex_centered_scalar_grid2.html#a3ee1a625d192b399c6b0c90f9f36399c">CubbyFlow::VertexCenteredScalarGrid2</a>
+: <a class="el" href="class_cubby_flow_1_1_vertex_centered_scalar_grid2.html#a5a910c51a0fab097ee05252be2a467a7">CubbyFlow::VertexCenteredScalarGrid2</a>
 </li>
 <li>VertexCenteredScalarGrid3()
-: <a class="el" href="class_cubby_flow_1_1_vertex_centered_scalar_grid3.html#a4b46bcc272a9fa5219dec8a27d054d5f">CubbyFlow::VertexCenteredScalarGrid3</a>
+: <a class="el" href="class_cubby_flow_1_1_vertex_centered_scalar_grid3.html#ab494f532552ef1cc4e7d71b0e367803a">CubbyFlow::VertexCenteredScalarGrid3</a>
 </li>
 <li>VertexCenteredVectorGrid2()
-: <a class="el" href="class_cubby_flow_1_1_vertex_centered_vector_grid2.html#a2aaa57667009c203b0d683a6623d3f66">CubbyFlow::VertexCenteredVectorGrid2</a>
+: <a class="el" href="class_cubby_flow_1_1_vertex_centered_vector_grid2.html#a687f024a641d2f888935502be40e24a2">CubbyFlow::VertexCenteredVectorGrid2</a>
 </li>
 <li>VertexCenteredVectorGrid3()
-: <a class="el" href="class_cubby_flow_1_1_vertex_centered_vector_grid3.html#a042edc4ac85855e442a0706ec27bdc03">CubbyFlow::VertexCenteredVectorGrid3</a>
+: <a class="el" href="class_cubby_flow_1_1_vertex_centered_vector_grid3.html#afc47eb283fd7a92ec42fc23773ce41af">CubbyFlow::VertexCenteredVectorGrid3</a>
 </li>
 <li>Volume()
 : <a class="el" href="class_cubby_flow_1_1_triangle_mesh3.html#a774aa10a966a83e007de9dd43f5daad7">CubbyFlow::TriangleMesh3</a>
 </li>
 <li>VolumeGridEmitter2()
-: <a class="el" href="class_cubby_flow_1_1_volume_grid_emitter2.html#a56dc10547a14dfb7994e3e22048b602f">CubbyFlow::VolumeGridEmitter2</a>
+: <a class="el" href="class_cubby_flow_1_1_volume_grid_emitter2.html#a993654c8d7aa9565035b4e7acdd50053">CubbyFlow::VolumeGridEmitter2</a>
 </li>
 <li>VolumeGridEmitter3()
-: <a class="el" href="class_cubby_flow_1_1_volume_grid_emitter3.html#a2ca5e56102916d6fd44fcefa67bc324e">CubbyFlow::VolumeGridEmitter3</a>
+: <a class="el" href="class_cubby_flow_1_1_volume_grid_emitter3.html#acc3398400bdc88ad42c7326228c3c507">CubbyFlow::VolumeGridEmitter3</a>
 </li>
 <li>VolumeParticleEmitter2()
 : <a class="el" href="class_cubby_flow_1_1_volume_particle_emitter2.html#ade751da774221d74b5e79eca4c2daa98">CubbyFlow::VolumeParticleEmitter2</a>
@@ -198,7 +191,7 @@ $(function() {
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Feb 24 2021 11:38:10 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 26 2021 15:46:28 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
