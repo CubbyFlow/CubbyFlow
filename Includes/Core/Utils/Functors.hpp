@@ -15,6 +15,13 @@
 
 namespace CubbyFlow
 {
+//! No-op operator.
+template <typename T>
+struct NoOp
+{
+    constexpr T operator()(const T& a) const;
+};
+
 //! Type casting operator.
 template <typename T, typename U>
 struct TypeCast

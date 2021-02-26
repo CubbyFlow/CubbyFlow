@@ -15,6 +15,12 @@
 
 namespace CubbyFlow
 {
+template <typename T>
+constexpr T NoOp<T>::operator()(const T& a) const
+{
+    return a;
+}
+
 template <typename T, typename U>
 constexpr U TypeCast<T, U>::operator()(const T& a) const
 {
