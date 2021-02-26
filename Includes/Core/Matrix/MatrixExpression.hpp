@@ -493,8 +493,6 @@ template <typename T, size_t Rows, size_t Cols, typename E1, typename E2>
 using MatrixElemWiseMax =
     MatrixElemWiseBinaryOp<T, Rows, Cols, E1, E2, DoMax<T>>;
 
-////////////////////////////////////////////////////////////////////////////////
-
 template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
 constexpr auto operator+(const MatrixExpression<T, Rows, Cols, M1>& a,
                          const MatrixExpression<T, Rows, Cols, M2>& b);
@@ -518,6 +516,64 @@ constexpr auto Min(const MatrixExpression<T, Rows, Cols, M1>& a,
 template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
 constexpr auto Max(const MatrixExpression<T, Rows, Cols, M1>& a,
                    const MatrixExpression<T, Rows, Cols, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1,
+          typename BinaryOperation>
+class MatrixScalarElemWiseBinaryOp
+    : public MatrixExpression<
+          T, Rows, Cols,
+          MatrixScalarElemWiseBinaryOp<T, Rows, Cols, M1, BinaryOperation>>
+{
+ public:
+    constexpr MatrixScalarElemWiseBinaryOp(const M1& mat1, const T& scalar2)
+        : m_mat1(mat1), m_scalar2(scalar2)
+    {
+        // Do nothing
+    }
+
+    constexpr size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
+    constexpr T operator()(size_t i, size_t j) const;
+
+ private:
+    M1 m_mat1;
+    T m_scalar2;
+    BinaryOperation m_op;
+};
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+using MatrixScalarElemWiseAdd =
+    MatrixScalarElemWiseBinaryOp<T, Rows, Cols, M1, std::plus<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+using MatrixScalarElemWiseSub =
+    MatrixScalarElemWiseBinaryOp<T, Rows, Cols, M1, std::minus<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+using MatrixScalarElemWiseMul =
+    MatrixScalarElemWiseBinaryOp<T, Rows, Cols, M1, std::multiplies<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+using MatrixScalarElemWiseDiv =
+    MatrixScalarElemWiseBinaryOp<T, Rows, Cols, M1, std::divides<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto operator+(const MatrixExpression<T, Rows, Cols, M1>& a,
+                         const T& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto operator-(const MatrixExpression<T, Rows, Cols, M1>& a,
+                         const T& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto operator*(const MatrixExpression<T, Rows, Cols, M1>& a,
+                         const T& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto operator/(const MatrixExpression<T, Rows, Cols, M1>& a,
+                         const T& b);
 }  // namespace CubbyFlow
 
 #include <Core/Matrix/MatrixExpression-Impl.hpp>

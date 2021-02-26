@@ -11,6 +11,8 @@
 #ifndef CUBBYFLOW_MATRIX_EXPRESSION_IMPL_HPP
 #define CUBBYFLOW_MATRIX_EXPRESSION_IMPL_HPP
 
+#include <Core/Matrix/MatrixExpression.hpp>
+
 namespace CubbyFlow
 {
 template <typename T, size_t Rows, size_t Cols, typename D>
@@ -374,7 +376,7 @@ Matrix<T, Rows, Cols> MatrixExpression<T, Rows, Cols, D>::Inverse() const
 template <typename T, size_t Rows, size_t Cols, typename D>
 template <typename U>
 MatrixTypeCast<T, Rows, Cols, U, const D&>
-MatrixExpression<T, Rows, Cols, D>::castTo() const
+MatrixExpression<T, Rows, Cols, D>::CastTo() const
 {
     return MatrixTypeCast<T, Rows, Cols, U, const D&>{ GetDerived() };
 }
@@ -1111,6 +1113,59 @@ constexpr auto Max(const MatrixExpression<T, Rows, Cols, M1>& a,
     return MatrixElemWiseMax<T, Rows, Cols, const M1&, const M2&>{
         a.GetDerived(), b.GetDerived()
     };
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename BOp>
+constexpr size_t MatrixScalarElemWiseBinaryOp<T, Rows, Cols, M1, BOp>::GetRows()
+    const
+{
+    return m_mat1.GetRows();
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename BOp>
+constexpr size_t MatrixScalarElemWiseBinaryOp<T, Rows, Cols, M1, BOp>::GetCols()
+    const
+{
+    return m_mat1.GetCols();
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename BOp>
+constexpr T MatrixScalarElemWiseBinaryOp<T, Rows, Cols, M1, BOp>::operator()(
+    size_t i, size_t j) const
+{
+    return m_op(m_mat1(i, j), m_scalar2);
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto operator+(const MatrixExpression<T, Rows, Cols, M1>& a,
+                         const T& b)
+{
+    return MatrixScalarElemWiseAdd<T, Rows, Cols, const M1&>{ a.GetDerived(),
+                                                              b };
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto operator-(const MatrixExpression<T, Rows, Cols, M1>& a,
+                         const T& b)
+{
+    return MatrixScalarElemWiseSub<T, Rows, Cols, const M1&>{ a.GetDerived(),
+                                                              b };
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto operator*(const MatrixExpression<T, Rows, Cols, M1>& a,
+                         const T& b)
+{
+    return MatrixScalarElemWiseMul<T, Rows, Cols, const M1&>{ a.GetDerived(),
+                                                              b };
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto operator/(const MatrixExpression<T, Rows, Cols, M1>& a,
+                         const T& b)
+{
+    return MatrixScalarElemWiseDiv<T, Rows, Cols, const M1&>{ a.GetDerived(),
+                                                              b };
 }
 }  // namespace CubbyFlow
 
