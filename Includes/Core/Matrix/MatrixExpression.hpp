@@ -425,6 +425,99 @@ constexpr auto Floor(const MatrixExpression<T, Rows, Cols, M1>& a);
 
 template <typename T, size_t Rows, size_t Cols, typename M1>
 constexpr auto operator-(const MatrixExpression<T, Rows, Cols, M1>& m);
+
+//!
+//! \brief Matrix expression for element-wise binary operation.
+//!
+//! This matrix expression represents a binary matrix operation that takes
+//! two input matrix expressions.
+//!
+//! \tparam T                   Real number type.
+//! \tparam E1                  First input expression type.
+//! \tparam E2                  Second input expression type.
+//! \tparam BinaryOperation     Binary operation.
+//!
+template <typename T, size_t Rows, size_t Cols, typename E1, typename E2,
+          typename BinaryOperation>
+class MatrixElemWiseBinaryOp
+    : public MatrixExpression<
+          T, Rows, Cols,
+          MatrixElemWiseBinaryOp<T, Rows, Cols, E1, E2, BinaryOperation>>
+{
+ public:
+    constexpr MatrixElemWiseBinaryOp(const E1& mat1, const E2& mat2)
+        : m_mat1(mat1), m_mat2(mat2)
+    {
+        // Do nothing
+    }
+
+    constexpr size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
+    constexpr T operator()(size_t i, size_t j) const;
+
+ private:
+    E1 m_mat1;
+    E2 m_mat2;
+    BinaryOperation m_op;
+};
+
+//! Matrix expression for element-wise matrix-matrix addition.
+template <typename T, size_t Rows, size_t Cols, typename E1, typename E2>
+using MatrixElemWiseAdd =
+    MatrixElemWiseBinaryOp<T, Rows, Cols, E1, E2, std::plus<T>>;
+
+//! Matrix expression for element-wise matrix-matrix subtraction.
+template <typename T, size_t Rows, size_t Cols, typename E1, typename E2>
+using MatrixElemWiseSub =
+    MatrixElemWiseBinaryOp<T, Rows, Cols, E1, E2, std::minus<T>>;
+
+//! Matrix expression for element-wise matrix-matrix multiplication.
+template <typename T, size_t Rows, size_t Cols, typename E1, typename E2>
+using MatrixElemWiseMul =
+    MatrixElemWiseBinaryOp<T, Rows, Cols, E1, E2, std::multiplies<T>>;
+
+//! Matrix expression for element-wise matrix-matrix division.
+template <typename T, size_t Rows, size_t Cols, typename E1, typename E2>
+using MatrixElemWiseDiv =
+    MatrixElemWiseBinaryOp<T, Rows, Cols, E1, E2, std::divides<T>>;
+
+//! Matrix expression for element-wise matrix-matrix min operation.
+template <typename T, size_t Rows, size_t Cols, typename E1, typename E2>
+using MatrixElemWiseMin =
+    MatrixElemWiseBinaryOp<T, Rows, Cols, E1, E2, DoMin<T>>;
+
+//! Matrix expression for element-wise matrix-matrix max operation.
+template <typename T, size_t Rows, size_t Cols, typename E1, typename E2>
+using MatrixElemWiseMax =
+    MatrixElemWiseBinaryOp<T, Rows, Cols, E1, E2, DoMax<T>>;
+
+////////////////////////////////////////////////////////////////////////////////
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
+constexpr auto operator+(const MatrixExpression<T, Rows, Cols, M1>& a,
+                         const MatrixExpression<T, Rows, Cols, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
+constexpr auto operator-(const MatrixExpression<T, Rows, Cols, M1>& a,
+                         const MatrixExpression<T, Rows, Cols, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
+constexpr auto ElemMul(const MatrixExpression<T, Rows, Cols, M1>& a,
+                       const MatrixExpression<T, Rows, Cols, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
+constexpr auto ElemDiv(const MatrixExpression<T, Rows, Cols, M1>& a,
+                       const MatrixExpression<T, Rows, Cols, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
+constexpr auto Min(const MatrixExpression<T, Rows, Cols, M1>& a,
+                   const MatrixExpression<T, Rows, Cols, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
+constexpr auto Max(const MatrixExpression<T, Rows, Cols, M1>& a,
+                   const MatrixExpression<T, Rows, Cols, M2>& b);
 }  // namespace CubbyFlow
 
 #include <Core/Matrix/MatrixExpression-Impl.hpp>
