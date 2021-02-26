@@ -1274,7 +1274,7 @@ T MatrixMul<T, Rows, Cols, M1, M2>::operator()(size_t i, size_t j) const
 {
     T sum = m_mat1(i, 0) * m_mat2(0, j);
 
-    for (size_t k = 1; k < _m1.cols(); ++k)
+    for (size_t k = 1; k < m_mat1.cols(); ++k)
     {
         sum += m_mat1(i, k) * m_mat2(k, j);
     }
