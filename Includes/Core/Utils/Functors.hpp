@@ -50,6 +50,20 @@ struct RDivides
     constexpr T operator()(const T& a, const T& b) const;
 };
 
+//! Takes minimum value.
+template <typename T>
+struct DoMin
+{
+    constexpr T operator()(const T& a, const T& b) const;
+};
+
+//! Takes maximum value.
+template <typename T>
+struct DoMax
+{
+    constexpr T operator()(const T& a, const T& b) const;
+};
+
 //! Takes absolute minimum value.
 template <typename T>
 struct AbsMin

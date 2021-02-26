@@ -46,6 +46,18 @@ constexpr T RDivides<T>::operator()(const T& a, const T& b) const
 }
 
 template <typename T>
+constexpr T DoMin<T>::operator()(const T& a, const T& b) const
+{
+    return std::min(a, b);
+}
+
+template <typename T>
+constexpr T DoMax<T>::operator()(const T& a, const T& b) const
+{
+    return std::max(a, b);
+}
+
+template <typename T>
 constexpr T AbsMin<T>::operator()(const T& a, const T& b) const
 {
     return AbsMin(a, b);
