@@ -1165,6 +1165,59 @@ constexpr auto operator/(const MatrixExpression<T, Rows, Cols, M1>& a,
     return MatrixScalarElemWiseDiv<T, Rows, Cols, const M1&>{ a.GetDerived(),
                                                               b };
 }
+
+template <typename T, size_t Rows, size_t Cols, typename M2, typename BOp>
+constexpr size_t ScalarMatrixElemWiseBinaryOp<T, Rows, Cols, M2, BOp>::GetRows()
+    const
+{
+    return m_mat2.GetRows();
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M2, typename BOp>
+constexpr size_t ScalarMatrixElemWiseBinaryOp<T, Rows, Cols, M2, BOp>::GetCols()
+    const
+{
+    return m_mat2.GetCols();
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M2, typename BOp>
+constexpr T ScalarMatrixElemWiseBinaryOp<T, Rows, Cols, M2, BOp>::operator()(
+    size_t i, size_t j) const
+{
+    return m_op(m_scalar1, m_mat2(i, j));
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M2>
+constexpr auto operator+(const T& a,
+                         const MatrixExpression<T, Rows, Cols, M2>& b)
+{
+    return ScalarMatrixElemWiseAdd<T, Rows, Cols, const M2&>{ a,
+                                                              b.GetDerived() };
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M2>
+constexpr auto operator-(const T& a,
+                         const MatrixExpression<T, Rows, Cols, M2>& b)
+{
+    return ScalarMatrixElemWiseSub<T, Rows, Cols, const M2&>{ a,
+                                                              b.GetDerived() };
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M2>
+constexpr auto operator*(const T& a,
+                         const MatrixExpression<T, Rows, Cols, M2>& b)
+{
+    return ScalarMatrixElemWiseMul<T, Rows, Cols, const M2&>{ a,
+                                                              b.GetDerived() };
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M2>
+constexpr auto operator/(const T& a,
+                         const MatrixExpression<T, Rows, Cols, M2>& b)
+{
+    return ScalarMatrixElemWiseDiv<T, Rows, Cols, const M2&>{ a,
+                                                              b.GetDerived() };
+}
 }  // namespace CubbyFlow
 
 #endif
