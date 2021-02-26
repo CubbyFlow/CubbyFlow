@@ -1256,6 +1256,42 @@ auto Clamp(const MatrixExpression<T, Rows, Cols, M1>& a,
         a.GetDerived(), low.GetDerived(), high.GetDerived()
     };
 }
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
+constexpr size_t MatrixMul<T, Rows, Cols, M1, M2>::GetRows() const
+{
+    return m_mat1.GetRows();
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
+constexpr size_t MatrixMul<T, Rows, Cols, M1, M2>::GetCols() const
+{
+    return m_mat2.GetCols();
+}
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
+T MatrixMul<T, Rows, Cols, M1, M2>::operator()(size_t i, size_t j) const
+{
+    T sum = m_mat1(i, 0) * m_mat2(0, j);
+
+    for (size_t k = 1; k < _m1.cols(); ++k)
+    {
+        sum += m_mat1(i, k) * m_mat2(k, j);
+    }
+
+    return sum;
+}
+
+template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M1,
+          typename M2>
+auto operator*(const MatrixExpression<T, R1, C1, M1>& a,
+               const MatrixExpression<T, R2, C2, M2>& b)
+{
+    assert(a.GetCols() == b.GetRows());
+
+    return MatrixMul<T, R1, C2, const M1&, const M2&>{ a.GetDerived(),
+                                                       b.GetDerived() };
+}
 }  // namespace CubbyFlow
 
 #endif
