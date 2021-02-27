@@ -120,26 +120,26 @@ template <typename T, size_t N, typename D>
 template <typename... Args>
 T& ArrayBase<T, N, D>::At(size_t i, Args... args)
 {
-    return data()[index(i, args...)];
+    return data()[Index(i, args...)];
 }
 
 template <typename T, size_t N, typename D>
 template <typename... Args>
 const T& ArrayBase<T, N, D>::At(size_t i, Args... args) const
 {
-    return m_ptr[index(i, args...)];
+    return m_ptr[Index(i, args...)];
 }
 
 template <typename T, size_t N, typename D>
 T& ArrayBase<T, N, D>::At(const Vector<size_t, N>& idx)
 {
-    return data()[index(idx)];
+    return data()[Index(idx)];
 }
 
 template <typename T, size_t N, typename D>
 const T& ArrayBase<T, N, D>::At(const Vector<size_t, N>& idx) const
 {
-    return data()[index(idx)];
+    return data()[Index(idx)];
 }
 
 template <typename T, size_t N, typename D>

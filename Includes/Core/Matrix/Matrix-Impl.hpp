@@ -437,8 +437,8 @@ Matrix<T, 2, 1>::Matrix(const MatrixExpression<T, R, C, E>& expression)
 {
     assert(expression.GetRows() == 2 && expression.GetCols() == 1);
 
-    x = expression.eval(0, 0);
-    y = expression.eval(1, 0);
+    x = expression.Eval(0, 0);
+    y = expression.Eval(1, 0);
 }
 
 template <typename T>
@@ -549,9 +549,9 @@ Matrix<T, 3, 1>::Matrix(const MatrixExpression<T, R, C, E>& expression)
 {
     assert(expression.GetRows() == 3 && expression.GetCols() == 1);
 
-    x = expression.eval(0, 0);
-    y = expression.eval(1, 0);
-    z = expression.eval(2, 0);
+    x = expression.Eval(0, 0);
+    y = expression.Eval(1, 0);
+    z = expression.Eval(2, 0);
 }
 
 template <typename T>
