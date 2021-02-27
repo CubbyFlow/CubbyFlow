@@ -11,6 +11,9 @@
 #ifndef CUBBYFLOW_ARRAY_VIEW_IMPL_HPP
 #define CUBBYFLOW_ARRAY_VIEW_IMPL_HPP
 
+#include <Core/Array/Array.hpp>
+#include <Core/Array/ArrayView.hpp>
+
 namespace CubbyFlow
 {
 template <typename T, size_t N>
