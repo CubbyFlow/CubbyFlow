@@ -41,8 +41,8 @@ var searchData=
   ['matrix4x4z',['Matrix4x4Z',['../namespace_cubby_flow.html#a8f84b3cf757a81ee78cfe448bd1a802d',1,'CubbyFlow']]],
   ['matrixceil',['MatrixCeil',['../namespace_cubby_flow.html#a9945eaeffd44445bd2c4257004e49226',1,'CubbyFlow']]],
   ['matrixclamp',['MatrixClamp',['../namespace_cubby_flow.html#a905572b1c04d54523c2b8d8a2e2998f3',1,'CubbyFlow']]],
-  ['matrixcsrd',['MatrixCSRD',['../namespace_cubby_flow.html#a68f24ef9a05e5d67ac6f93a803f7126d',1,'CubbyFlow']]],
-  ['matrixcsrf',['MatrixCSRF',['../namespace_cubby_flow.html#a3df04a8b8ffef73914aae897aadf9481',1,'CubbyFlow']]],
+  ['matrixcsrd',['MatrixCSRD',['../namespace_cubby_flow.html#a963ed6e3f231df36d2bf5af73b7e8489',1,'CubbyFlow']]],
+  ['matrixcsrf',['MatrixCSRF',['../namespace_cubby_flow.html#aa4935f36ea81d5b6d09fc160d5b485a1',1,'CubbyFlow']]],
   ['matrixelemwiseadd',['MatrixElemWiseAdd',['../namespace_cubby_flow.html#a2157bd52309d4c28d79fe7c82cc09ec2',1,'CubbyFlow']]],
   ['matrixelemwisediv',['MatrixElemWiseDiv',['../namespace_cubby_flow.html#a813aa948845edbf9c27b098defae9157',1,'CubbyFlow']]],
   ['matrixelemwisemax',['MatrixElemWiseMax',['../namespace_cubby_flow.html#a7cd8b8db2bdfe0dc21394883f6e746db',1,'CubbyFlow']]],
@@ -72,5 +72,8 @@ var searchData=
   ['matrixtypecast',['MatrixTypeCast',['../namespace_cubby_flow.html#a4ccfad77ec421660936216cbaeb6d10b',1,'CubbyFlow']]],
   ['mgcorrectfunc',['MGCorrectFunc',['../namespace_cubby_flow.html#ae5eae0474fac8ac80459b3f9a45b49fd',1,'CubbyFlow']]],
   ['mgrelaxfunc',['MGRelaxFunc',['../namespace_cubby_flow.html#a4a2072e14a4564ea35f3fb30e5c567ec',1,'CubbyFlow']]],
-  ['mgrestrictfunc',['MGRestrictFunc',['../namespace_cubby_flow.html#a27745470cc50ebe7ff1384178c88c87a',1,'CubbyFlow']]]
+  ['mgrestrictfunc',['MGRestrictFunc',['../namespace_cubby_flow.html#a27745470cc50ebe7ff1384178c88c87a',1,'CubbyFlow']]],
+  ['monotoniccatmullromarraysampler1',['MonotonicCatmullRomArraySampler1',['../namespace_cubby_flow.html#afea9a0b9b96b2355a3bd7f1ac276bcbb',1,'CubbyFlow']]],
+  ['monotoniccatmullromarraysampler2',['MonotonicCatmullRomArraySampler2',['../namespace_cubby_flow.html#a85ee422bf8d2f28594acb4059fce0cc0',1,'CubbyFlow']]],
+  ['monotoniccatmullromarraysampler3',['MonotonicCatmullRomArraySampler3',['../namespace_cubby_flow.html#a89acc2e904f4ef9b315fdc1b3642a621',1,'CubbyFlow']]]
 ];

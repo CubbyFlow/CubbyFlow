@@ -74,25 +74,45 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle">
 <div class="title">Array.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="_array_base_8hpp_source.html">Core/Array/ArrayBase.hpp</a>&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;<a class="el" href="_array-_impl_8hpp_source.html">Core/Array/Array-Impl.hpp</a>&gt;</code><br />
 </div>
 <p><a href="_array_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array_view.html">CubbyFlow::ArrayView&lt; T, N &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic N-dimensional array class interface.  <a href="class_cubby_flow_1_1_array_view.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array.html">CubbyFlow::Array&lt; T, N &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic N-dimensional array class interface.  <a href="class_cubby_flow_1_1_array.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespace_cubby_flow"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html">CubbyFlow</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a2fbda7925084b71604339e885b8a6053"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a2fbda7925084b71604339e885b8a6053"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a2fbda7925084b71604339e885b8a6053">CubbyFlow::Array1</a> = Array&lt; T, 1 &gt;</td></tr>
+<tr class="separator:a2fbda7925084b71604339e885b8a6053"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a394dd521512ab234e41c897139f550ab"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a394dd521512ab234e41c897139f550ab"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a394dd521512ab234e41c897139f550ab">CubbyFlow::Array2</a> = Array&lt; T, 2 &gt;</td></tr>
+<tr class="separator:a394dd521512ab234e41c897139f550ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae08c8be94de3a8ce4f625e7d869ba1bd"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:ae08c8be94de3a8ce4f625e7d869ba1bd"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ae08c8be94de3a8ce4f625e7d869ba1bd">CubbyFlow::Array3</a> = Array&lt; T, 3 &gt;</td></tr>
+<tr class="separator:ae08c8be94de3a8ce4f625e7d869ba1bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5304ab5a99e799829221da9afe3d9115"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a5304ab5a99e799829221da9afe3d9115"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a5304ab5a99e799829221da9afe3d9115">CubbyFlow::Array4</a> = Array&lt; T, 4 &gt;</td></tr>
+<tr class="separator:a5304ab5a99e799829221da9afe3d9115"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
@@ -103,7 +123,7 @@ Namespaces</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 26 2021 15:46:25 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Feb 27 2021 14:58:09 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

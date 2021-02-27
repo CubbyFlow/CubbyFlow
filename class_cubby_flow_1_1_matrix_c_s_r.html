@@ -93,7 +93,7 @@ Inheritance diagram for CubbyFlow::MatrixCSR&lt; T &gt;:</div>
  <div class="center">
   <img src="class_cubby_flow_1_1_matrix_c_s_r.png" usemap="#CubbyFlow::MatrixCSR_3C_20T_20_3E_map" alt=""/>
   <map id="CubbyFlow::MatrixCSR_3C_20T_20_3E_map" name="CubbyFlow::MatrixCSR_3C_20T_20_3E_map">
-<area href="class_cubby_flow_1_1_matrix_expression.html" alt="CubbyFlow::MatrixExpression&lt; T, MatrixCSR&lt; T &gt; &gt;" shape="rect" coords="0,0,310,24"/>
+<area href="class_cubby_flow_1_1_matrix_expression.html" alt="CubbyFlow::MatrixExpression&lt; T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC, MatrixCSR&lt; T &gt; &gt;" shape="rect" coords="0,0,624,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -104,19 +104,19 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a41bf19ac8401383ba375a0c17771889f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a41bf19ac8401383ba375a0c17771889f">NonZeroContainerType</a> = std::vector&lt; T &gt;</td></tr>
-<tr class="separator:a41bf19ac8401383ba375a0c17771889f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afdcd4b92d03472ff5a7853d752d41559"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#afdcd4b92d03472ff5a7853d752d41559">NonZeroIterator</a> = typename NonZeroContainerType::iterator</td></tr>
-<tr class="separator:afdcd4b92d03472ff5a7853d752d41559"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ee4edcd7666471f32afe9def4be1a37"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a0ee4edcd7666471f32afe9def4be1a37">ConstNonZeroIterator</a> = typename NonZeroContainerType::const_iterator</td></tr>
-<tr class="separator:a0ee4edcd7666471f32afe9def4be1a37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5494668eda054ffd1146f1b3e3fb3bb"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ac5494668eda054ffd1146f1b3e3fb3bb">IndexContainerType</a> = std::vector&lt; size_t &gt;</td></tr>
-<tr class="separator:ac5494668eda054ffd1146f1b3e3fb3bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1420b8b271b9f443e6b64b027079d49f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a1420b8b271b9f443e6b64b027079d49f">IndexIterator</a> = IndexContainerType::iterator</td></tr>
-<tr class="separator:a1420b8b271b9f443e6b64b027079d49f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16589233270b763e148a85fbd3a819c6"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a16589233270b763e148a85fbd3a819c6">ConstIndexIterator</a> = IndexContainerType::const_iterator</td></tr>
-<tr class="separator:a16589233270b763e148a85fbd3a819c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_types_class_cubby_flow_1_1_matrix_expression"><td colspan="2" onclick="javascript:toggleInherit('pub_types_class_cubby_flow_1_1_matrix_expression')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">CubbyFlow::MatrixExpression&lt; T, MatrixCSR&lt; T &gt; &gt;</a></td></tr>
+<tr class="memitem:a6e74fc6bc82e337ebe65f1a4a6d169da"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a6e74fc6bc82e337ebe65f1a4a6d169da">NonZeroContainerType</a></td></tr>
+<tr class="separator:a6e74fc6bc82e337ebe65f1a4a6d169da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a916cab97de4a973beaa5fcecec1c5f3f"><td class="memItemLeft" align="right" valign="top">typedef NonZeroContainerType::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a916cab97de4a973beaa5fcecec1c5f3f">NonZeroIterator</a></td></tr>
+<tr class="separator:a916cab97de4a973beaa5fcecec1c5f3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a804e0f191e75f79861eb438f77ac4066"><td class="memItemLeft" align="right" valign="top">typedef NonZeroContainerType::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a804e0f191e75f79861eb438f77ac4066">ConstNonZeroIterator</a></td></tr>
+<tr class="separator:a804e0f191e75f79861eb438f77ac4066"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ef5a4e1fac16691e66afa20541e0f3c"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a3ef5a4e1fac16691e66afa20541e0f3c">IndexContainerType</a></td></tr>
+<tr class="separator:a3ef5a4e1fac16691e66afa20541e0f3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acedce39fe48ac72187ed777ec925dd01"><td class="memItemLeft" align="right" valign="top">typedef IndexContainerType::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#acedce39fe48ac72187ed777ec925dd01">IndexIterator</a></td></tr>
+<tr class="separator:acedce39fe48ac72187ed777ec925dd01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98e73878ce9f117016e9f614bf1f105d"><td class="memItemLeft" align="right" valign="top">typedef IndexContainerType::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a98e73878ce9f117016e9f614bf1f105d">ConstIndexIterator</a></td></tr>
+<tr class="separator:a98e73878ce9f117016e9f614bf1f105d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_class_cubby_flow_1_1_matrix_expression"><td colspan="2" onclick="javascript:toggleInherit('pub_types_class_cubby_flow_1_1_matrix_expression')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">CubbyFlow::MatrixExpression&lt; T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC, MatrixCSR&lt; T &gt; &gt;</a></td></tr>
 <tr class="memitem:ae907955285ad93244cde0f190e55e4bd inherit pub_types_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#ae907955285ad93244cde0f190e55e4bd">ValueType</a> = T</td></tr>
 <tr class="separator:ae907955285ad93244cde0f190e55e4bd inherit pub_types_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -125,28 +125,19 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a95346f9335ac1b8d89169f30eef1c54b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a95346f9335ac1b8d89169f30eef1c54b">MatrixCSR</a> ()</td></tr>
 <tr class="memdesc:a95346f9335ac1b8d89169f30eef1c54b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an empty matrix.  <a href="#a95346f9335ac1b8d89169f30eef1c54b">More...</a><br /></td></tr>
 <tr class="separator:a95346f9335ac1b8d89169f30eef1c54b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7dd0b617463ccf142d1ec95ea204d45"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ac7dd0b617463ccf142d1ec95ea204d45">MatrixCSR</a> (const std::initializer_list&lt; std::initializer_list&lt; T &gt;&gt; &amp;list, T epsilon=std::numeric_limits&lt; T &gt;::epsilon())</td></tr>
-<tr class="memdesc:ac7dd0b617463ccf142d1ec95ea204d45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compresses given initializer list <code>list</code> into a sparse matrix.  <a href="#ac7dd0b617463ccf142d1ec95ea204d45">More...</a><br /></td></tr>
-<tr class="separator:ac7dd0b617463ccf142d1ec95ea204d45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac14a36afebec01c201128d2b286c59f4"><td class="memTemplParams" colspan="2">template&lt;typename E &gt; </td></tr>
-<tr class="memitem:ac14a36afebec01c201128d2b286c59f4"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ac14a36afebec01c201128d2b286c59f4">MatrixCSR</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, E &gt; &amp;other, T epsilon=std::numeric_limits&lt; T &gt;::epsilon())</td></tr>
-<tr class="memdesc:ac14a36afebec01c201128d2b286c59f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compresses input (dense) matrix expression into a sparse matrix.  <a href="#ac14a36afebec01c201128d2b286c59f4">More...</a><br /></td></tr>
-<tr class="separator:ac14a36afebec01c201128d2b286c59f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a2b4e5f11e61a9474cdb095d697d27f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a6a2b4e5f11e61a9474cdb095d697d27f">MatrixCSR</a> (const std::initializer_list&lt; std::initializer_list&lt; T &gt;&gt; &amp;lst, T epsilon=std::numeric_limits&lt; T &gt;::epsilon())</td></tr>
+<tr class="memdesc:a6a2b4e5f11e61a9474cdb095d697d27f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compresses given initializer list <code>lst</code> into a sparse matrix.  <a href="#a6a2b4e5f11e61a9474cdb095d697d27f">More...</a><br /></td></tr>
+<tr class="separator:a6a2b4e5f11e61a9474cdb095d697d27f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a223794f39372903980ce7fa8563abc"><td class="memTemplParams" colspan="2">template&lt;size_t R, size_t C, typename E &gt; </td></tr>
+<tr class="memitem:a7a223794f39372903980ce7fa8563abc"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a7a223794f39372903980ce7fa8563abc">MatrixCSR</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, E &gt; &amp;other, T epsilon=std::numeric_limits&lt; T &gt;::epsilon())</td></tr>
+<tr class="memdesc:a7a223794f39372903980ce7fa8563abc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compresses input (dense) matrix expression into a sparse matrix.  <a href="#a7a223794f39372903980ce7fa8563abc">More...</a><br /></td></tr>
+<tr class="separator:a7a223794f39372903980ce7fa8563abc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d5fe0d54f21d1130fac33e09ea33e20"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a1d5fe0d54f21d1130fac33e09ea33e20">MatrixCSR</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> &amp;other)</td></tr>
 <tr class="memdesc:a1d5fe0d54f21d1130fac33e09ea33e20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <a href="#a1d5fe0d54f21d1130fac33e09ea33e20">More...</a><br /></td></tr>
 <tr class="separator:a1d5fe0d54f21d1130fac33e09ea33e20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30bb74d51cd08b28412a72865f16e071"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a30bb74d51cd08b28412a72865f16e071">MatrixCSR</a> (<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> &amp;&amp;other) noexcept</td></tr>
 <tr class="memdesc:a30bb74d51cd08b28412a72865f16e071"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor.  <a href="#a30bb74d51cd08b28412a72865f16e071">More...</a><br /></td></tr>
 <tr class="separator:a30bb74d51cd08b28412a72865f16e071"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2eeac65e84b4891086ef4a44632353e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ac2eeac65e84b4891086ef4a44632353e">~MatrixCSR</a> ()=default</td></tr>
-<tr class="memdesc:ac2eeac65e84b4891086ef4a44632353e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor.  <a href="#ac2eeac65e84b4891086ef4a44632353e">More...</a><br /></td></tr>
-<tr class="separator:ac2eeac65e84b4891086ef4a44632353e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea698a117cf5a9247106e1bf3f171eef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#aea698a117cf5a9247106e1bf3f171eef">operator=</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> &amp;other)</td></tr>
-<tr class="memdesc:aea698a117cf5a9247106e1bf3f171eef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment operator.  <a href="#aea698a117cf5a9247106e1bf3f171eef">More...</a><br /></td></tr>
-<tr class="separator:aea698a117cf5a9247106e1bf3f171eef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab37a6646ab7b254b5fe66606592e955b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ab37a6646ab7b254b5fe66606592e955b">operator=</a> (<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> &amp;&amp;other) noexcept</td></tr>
-<tr class="memdesc:ab37a6646ab7b254b5fe66606592e955b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move construct operator.  <a href="#ab37a6646ab7b254b5fe66606592e955b">More...</a><br /></td></tr>
-<tr class="separator:ab37a6646ab7b254b5fe66606592e955b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86c51c3ec7d306e61bb4a4b22fa9bc32"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a86c51c3ec7d306e61bb4a4b22fa9bc32">Clear</a> ()</td></tr>
 <tr class="memdesc:a86c51c3ec7d306e61bb4a4b22fa9bc32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears the matrix and make it zero-dimensional.  <a href="#a86c51c3ec7d306e61bb4a4b22fa9bc32">More...</a><br /></td></tr>
 <tr class="separator:a86c51c3ec7d306e61bb4a4b22fa9bc32"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -159,20 +150,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afb587fdf77f779ce4438afd039f61465"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#afb587fdf77f779ce4438afd039f61465">Reserve</a> (size_t rows, size_t cols, size_t numNonZeros)</td></tr>
 <tr class="memdesc:afb587fdf77f779ce4438afd039f61465"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserves memory space of this matrix.  <a href="#afb587fdf77f779ce4438afd039f61465">More...</a><br /></td></tr>
 <tr class="separator:afb587fdf77f779ce4438afd039f61465"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15898935802836af1d88eda1acdfc14c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a15898935802836af1d88eda1acdfc14c">Compress</a> (const std::initializer_list&lt; std::initializer_list&lt; T &gt;&gt; &amp;list, T epsilon=std::numeric_limits&lt; T &gt;::epsilon())</td></tr>
-<tr class="memdesc:a15898935802836af1d88eda1acdfc14c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compresses given initializer list <code>list</code> into a sparse matrix.  <a href="#a15898935802836af1d88eda1acdfc14c">More...</a><br /></td></tr>
-<tr class="separator:a15898935802836af1d88eda1acdfc14c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01346b4c17db925170a940fdd875d56c"><td class="memTemplParams" colspan="2">template&lt;typename E &gt; </td></tr>
-<tr class="memitem:a01346b4c17db925170a940fdd875d56c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a01346b4c17db925170a940fdd875d56c">Compress</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, E &gt; &amp;other, T epsilon=std::numeric_limits&lt; T &gt;::epsilon())</td></tr>
-<tr class="memdesc:a01346b4c17db925170a940fdd875d56c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compresses input (dense) matrix expression into a sparse matrix.  <a href="#a01346b4c17db925170a940fdd875d56c">More...</a><br /></td></tr>
-<tr class="separator:a01346b4c17db925170a940fdd875d56c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa1344749ab439bbb6f5cda906fc0c41"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#afa1344749ab439bbb6f5cda906fc0c41">Compress</a> (const std::initializer_list&lt; std::initializer_list&lt; T &gt;&gt; &amp;lst, T epsilon=std::numeric_limits&lt; T &gt;::epsilon())</td></tr>
+<tr class="memdesc:afa1344749ab439bbb6f5cda906fc0c41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compresses given initializer list <code>lst</code> into a sparse matrix.  <a href="#afa1344749ab439bbb6f5cda906fc0c41">More...</a><br /></td></tr>
+<tr class="separator:afa1344749ab439bbb6f5cda906fc0c41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8490ff17255d65f733105f5bd54b382"><td class="memTemplParams" colspan="2">template&lt;size_t R, size_t C, typename E &gt; </td></tr>
+<tr class="memitem:ac8490ff17255d65f733105f5bd54b382"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ac8490ff17255d65f733105f5bd54b382">Compress</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, E &gt; &amp;other, T epsilon=std::numeric_limits&lt; T &gt;::epsilon())</td></tr>
+<tr class="memdesc:ac8490ff17255d65f733105f5bd54b382"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compresses input (dense) matrix expression into a sparse matrix.  <a href="#ac8490ff17255d65f733105f5bd54b382">More...</a><br /></td></tr>
+<tr class="separator:ac8490ff17255d65f733105f5bd54b382"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b4278f29bb86d8d1cc754e2c7d9aa1a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a1b4278f29bb86d8d1cc754e2c7d9aa1a">AddElement</a> (size_t i, size_t j, const T &amp;value)</td></tr>
 <tr class="memdesc:a1b4278f29bb86d8d1cc754e2c7d9aa1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds non-zero element to (i, j).  <a href="#a1b4278f29bb86d8d1cc754e2c7d9aa1a">More...</a><br /></td></tr>
 <tr class="separator:a1b4278f29bb86d8d1cc754e2c7d9aa1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac55cd7da536ce4b639ea9e084ea4ed0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ac55cd7da536ce4b639ea9e084ea4ed0f">AddElement</a> (const <a class="el" href="struct_cubby_flow_1_1_matrix_c_s_r_1_1_element.html">Element</a> &amp;element)</td></tr>
 <tr class="memdesc:ac55cd7da536ce4b639ea9e084ea4ed0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds non-zero element.  <a href="#ac55cd7da536ce4b639ea9e084ea4ed0f">More...</a><br /></td></tr>
 <tr class="separator:ac55cd7da536ce4b639ea9e084ea4ed0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8493568d67f0ab59d11667f8bb06d398"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a8493568d67f0ab59d11667f8bb06d398">AddRow</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a41bf19ac8401383ba375a0c17771889f">NonZeroContainerType</a> &amp;nonZeros, const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ac5494668eda054ffd1146f1b3e3fb3bb">IndexContainerType</a> &amp;columnIndices)</td></tr>
+<tr class="memitem:a8493568d67f0ab59d11667f8bb06d398"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a8493568d67f0ab59d11667f8bb06d398">AddRow</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a6e74fc6bc82e337ebe65f1a4a6d169da">NonZeroContainerType</a> &amp;nonZeros, const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a3ef5a4e1fac16691e66afa20541e0f3c">IndexContainerType</a> &amp;columnIndices)</td></tr>
 <tr class="separator:a8493568d67f0ab59d11667f8bb06d398"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb2c8d4756ffdda9d3429f970db4ca72"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#abb2c8d4756ffdda9d3429f970db4ca72">SetElement</a> (size_t i, size_t j, const T &amp;value)</td></tr>
 <tr class="memdesc:abb2c8d4756ffdda9d3429f970db4ca72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets non-zero element to (i, j).  <a href="#abb2c8d4756ffdda9d3429f970db4ca72">More...</a><br /></td></tr>
@@ -187,15 +178,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5fda3ba7e0ceac44afb8208eedf65c7c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a5fda3ba7e0ceac44afb8208eedf65c7c">IsSquare</a> () const</td></tr>
 <tr class="memdesc:a5fda3ba7e0ceac44afb8208eedf65c7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if this matrix is a square matrix.  <a href="#a5fda3ba7e0ceac44afb8208eedf65c7c">More...</a><br /></td></tr>
 <tr class="separator:a5fda3ba7e0ceac44afb8208eedf65c7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a754505172142b7e6b02e4984578eeacc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a9952585eeca96a7396c1514b8ff5c3d3">Size2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a754505172142b7e6b02e4984578eeacc">size</a> () const</td></tr>
-<tr class="memdesc:a754505172142b7e6b02e4984578eeacc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of this matrix.  <a href="#a754505172142b7e6b02e4984578eeacc">More...</a><br /></td></tr>
-<tr class="separator:a754505172142b7e6b02e4984578eeacc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d9728c884cb84df1b17d81099c4488d"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a2d9728c884cb84df1b17d81099c4488d">Rows</a> () const</td></tr>
-<tr class="memdesc:a2d9728c884cb84df1b17d81099c4488d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns number of rows of this matrix.  <a href="#a2d9728c884cb84df1b17d81099c4488d">More...</a><br /></td></tr>
-<tr class="separator:a2d9728c884cb84df1b17d81099c4488d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af987798f3851151c09308539463088c1"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#af987798f3851151c09308539463088c1">Cols</a> () const</td></tr>
-<tr class="memdesc:af987798f3851151c09308539463088c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns number of columns of this matrix.  <a href="#af987798f3851151c09308539463088c1">More...</a><br /></td></tr>
-<tr class="separator:af987798f3851151c09308539463088c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab51da58dc32893f0e9291b5f7bedd19d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a9b998d7447a5b8cd6dbe09b9934691b1">Vector2UZ</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ab51da58dc32893f0e9291b5f7bedd19d">Size</a> () const</td></tr>
+<tr class="memdesc:ab51da58dc32893f0e9291b5f7bedd19d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of this matrix.  <a href="#ab51da58dc32893f0e9291b5f7bedd19d">More...</a><br /></td></tr>
+<tr class="separator:ab51da58dc32893f0e9291b5f7bedd19d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a247932696621af959808d91dbe25cfb5"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a247932696621af959808d91dbe25cfb5">GetRows</a> () const</td></tr>
+<tr class="memdesc:a247932696621af959808d91dbe25cfb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns number of rows of this matrix.  <a href="#a247932696621af959808d91dbe25cfb5">More...</a><br /></td></tr>
+<tr class="separator:a247932696621af959808d91dbe25cfb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac14ffca4495a342285e64e6f10e172fc"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ac14ffca4495a342285e64e6f10e172fc">GetCols</a> () const</td></tr>
+<tr class="memdesc:ac14ffca4495a342285e64e6f10e172fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns number of columns of this matrix.  <a href="#ac14ffca4495a342285e64e6f10e172fc">More...</a><br /></td></tr>
+<tr class="separator:ac14ffca4495a342285e64e6f10e172fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23075dcfcdea0105a197d850b9525c35"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a23075dcfcdea0105a197d850b9525c35">NumberOfNonZeros</a> () const</td></tr>
 <tr class="memdesc:a23075dcfcdea0105a197d850b9525c35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of non-zero elements.  <a href="#a23075dcfcdea0105a197d850b9525c35">More...</a><br /></td></tr>
 <tr class="separator:a23075dcfcdea0105a197d850b9525c35"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -214,49 +205,49 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a638a5e5cb246f68cfd8dd0c93b4683c8"><td class="memItemLeft" align="right" valign="top">T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a638a5e5cb246f68cfd8dd0c93b4683c8">NonZeroData</a> ()</td></tr>
 <tr class="memdesc:a638a5e5cb246f68cfd8dd0c93b4683c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns pointer of the non-zero elements data.  <a href="#a638a5e5cb246f68cfd8dd0c93b4683c8">More...</a><br /></td></tr>
 <tr class="separator:a638a5e5cb246f68cfd8dd0c93b4683c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeae24dd6370b452e5c32ce41c9f6af18"><td class="memItemLeft" align="right" valign="top">const T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#aeae24dd6370b452e5c32ce41c9f6af18">NonZeroData</a> () const</td></tr>
-<tr class="memdesc:aeae24dd6370b452e5c32ce41c9f6af18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns constant pointer of the non-zero elements data.  <a href="#aeae24dd6370b452e5c32ce41c9f6af18">More...</a><br /></td></tr>
-<tr class="separator:aeae24dd6370b452e5c32ce41c9f6af18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62cbc827eb1db0190a1ebf9b605cbaaf"><td class="memItemLeft" align="right" valign="top">const size_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a62cbc827eb1db0190a1ebf9b605cbaaf">RowPointersData</a> () const</td></tr>
-<tr class="memdesc:a62cbc827eb1db0190a1ebf9b605cbaaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns constant pointer of the row pointers data.  <a href="#a62cbc827eb1db0190a1ebf9b605cbaaf">More...</a><br /></td></tr>
-<tr class="separator:a62cbc827eb1db0190a1ebf9b605cbaaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf8b9e46c9222a82593a183acbc3c73f"><td class="memItemLeft" align="right" valign="top">const size_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#adf8b9e46c9222a82593a183acbc3c73f">ColumnIndicesData</a> () const</td></tr>
-<tr class="memdesc:adf8b9e46c9222a82593a183acbc3c73f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns constant pointer of the column indices data.  <a href="#adf8b9e46c9222a82593a183acbc3c73f">More...</a><br /></td></tr>
-<tr class="separator:adf8b9e46c9222a82593a183acbc3c73f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a770f5811c538f99da647803c536f5026"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#afdcd4b92d03472ff5a7853d752d41559">NonZeroIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a770f5811c538f99da647803c536f5026">NonZeroBegin</a> ()</td></tr>
+<tr class="memitem:ab9cb8b887e14ec02306cb2574b1f8ff5"><td class="memItemLeft" align="right" valign="top">const T *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ab9cb8b887e14ec02306cb2574b1f8ff5">NonZeroData</a> () const</td></tr>
+<tr class="memdesc:ab9cb8b887e14ec02306cb2574b1f8ff5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns constant pointer of the non-zero elements data.  <a href="#ab9cb8b887e14ec02306cb2574b1f8ff5">More...</a><br /></td></tr>
+<tr class="separator:ab9cb8b887e14ec02306cb2574b1f8ff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9589d79bfd7c835b453167b85ce3b35a"><td class="memItemLeft" align="right" valign="top">const size_t *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a9589d79bfd7c835b453167b85ce3b35a">RowPointersData</a> () const</td></tr>
+<tr class="memdesc:a9589d79bfd7c835b453167b85ce3b35a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns constant pointer of the row pointers data.  <a href="#a9589d79bfd7c835b453167b85ce3b35a">More...</a><br /></td></tr>
+<tr class="separator:a9589d79bfd7c835b453167b85ce3b35a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8f86f4ba24a051c668bafa97d160636"><td class="memItemLeft" align="right" valign="top">const size_t *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#aa8f86f4ba24a051c668bafa97d160636">ColumnIndicesData</a> () const</td></tr>
+<tr class="memdesc:aa8f86f4ba24a051c668bafa97d160636"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns constant pointer of the column indices data.  <a href="#aa8f86f4ba24a051c668bafa97d160636">More...</a><br /></td></tr>
+<tr class="separator:aa8f86f4ba24a051c668bafa97d160636"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a770f5811c538f99da647803c536f5026"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a916cab97de4a973beaa5fcecec1c5f3f">NonZeroIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a770f5811c538f99da647803c536f5026">NonZeroBegin</a> ()</td></tr>
 <tr class="memdesc:a770f5811c538f99da647803c536f5026"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the begin iterator of the non-zero elements.  <a href="#a770f5811c538f99da647803c536f5026">More...</a><br /></td></tr>
 <tr class="separator:a770f5811c538f99da647803c536f5026"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e33d054cdb55b67d7b4d9e864683069"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a0ee4edcd7666471f32afe9def4be1a37">ConstNonZeroIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a5e33d054cdb55b67d7b4d9e864683069">NonZeroBegin</a> () const</td></tr>
+<tr class="memitem:a5e33d054cdb55b67d7b4d9e864683069"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a804e0f191e75f79861eb438f77ac4066">ConstNonZeroIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a5e33d054cdb55b67d7b4d9e864683069">NonZeroBegin</a> () const</td></tr>
 <tr class="memdesc:a5e33d054cdb55b67d7b4d9e864683069"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the begin const iterator of the non-zero elements.  <a href="#a5e33d054cdb55b67d7b4d9e864683069">More...</a><br /></td></tr>
 <tr class="separator:a5e33d054cdb55b67d7b4d9e864683069"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9afcf62f532714dbcfe0ddfb0da841c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#afdcd4b92d03472ff5a7853d752d41559">NonZeroIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ae9afcf62f532714dbcfe0ddfb0da841c">NonZeroEnd</a> ()</td></tr>
+<tr class="memitem:ae9afcf62f532714dbcfe0ddfb0da841c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a916cab97de4a973beaa5fcecec1c5f3f">NonZeroIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ae9afcf62f532714dbcfe0ddfb0da841c">NonZeroEnd</a> ()</td></tr>
 <tr class="memdesc:ae9afcf62f532714dbcfe0ddfb0da841c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the end iterator of the non-zero elements.  <a href="#ae9afcf62f532714dbcfe0ddfb0da841c">More...</a><br /></td></tr>
 <tr class="separator:ae9afcf62f532714dbcfe0ddfb0da841c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf6aaa1da3de3b4cc7be523a482b58bb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a0ee4edcd7666471f32afe9def4be1a37">ConstNonZeroIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#acf6aaa1da3de3b4cc7be523a482b58bb">NonZeroEnd</a> () const</td></tr>
+<tr class="memitem:acf6aaa1da3de3b4cc7be523a482b58bb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a804e0f191e75f79861eb438f77ac4066">ConstNonZeroIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#acf6aaa1da3de3b4cc7be523a482b58bb">NonZeroEnd</a> () const</td></tr>
 <tr class="memdesc:acf6aaa1da3de3b4cc7be523a482b58bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the end const iterator of the non-zero elements.  <a href="#acf6aaa1da3de3b4cc7be523a482b58bb">More...</a><br /></td></tr>
 <tr class="separator:acf6aaa1da3de3b4cc7be523a482b58bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1da6f127bdf287508fee0bf6c0d01978"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a1420b8b271b9f443e6b64b027079d49f">IndexIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a1da6f127bdf287508fee0bf6c0d01978">RowPointersBegin</a> ()</td></tr>
+<tr class="memitem:a1da6f127bdf287508fee0bf6c0d01978"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#acedce39fe48ac72187ed777ec925dd01">IndexIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a1da6f127bdf287508fee0bf6c0d01978">RowPointersBegin</a> ()</td></tr>
 <tr class="memdesc:a1da6f127bdf287508fee0bf6c0d01978"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the begin iterator of the row pointers.  <a href="#a1da6f127bdf287508fee0bf6c0d01978">More...</a><br /></td></tr>
 <tr class="separator:a1da6f127bdf287508fee0bf6c0d01978"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab362da2cf9d6223f986c4b630330ed3b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a16589233270b763e148a85fbd3a819c6">ConstIndexIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ab362da2cf9d6223f986c4b630330ed3b">RowPointersBegin</a> () const</td></tr>
+<tr class="memitem:ab362da2cf9d6223f986c4b630330ed3b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a98e73878ce9f117016e9f614bf1f105d">ConstIndexIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ab362da2cf9d6223f986c4b630330ed3b">RowPointersBegin</a> () const</td></tr>
 <tr class="memdesc:ab362da2cf9d6223f986c4b630330ed3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the begin const iterator of the row pointers.  <a href="#ab362da2cf9d6223f986c4b630330ed3b">More...</a><br /></td></tr>
 <tr class="separator:ab362da2cf9d6223f986c4b630330ed3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3571015cb2ee27c925e434d50cc37a2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a1420b8b271b9f443e6b64b027079d49f">IndexIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ae3571015cb2ee27c925e434d50cc37a2">RowPointersEnd</a> ()</td></tr>
+<tr class="memitem:ae3571015cb2ee27c925e434d50cc37a2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#acedce39fe48ac72187ed777ec925dd01">IndexIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ae3571015cb2ee27c925e434d50cc37a2">RowPointersEnd</a> ()</td></tr>
 <tr class="memdesc:ae3571015cb2ee27c925e434d50cc37a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the end iterator of the row pointers.  <a href="#ae3571015cb2ee27c925e434d50cc37a2">More...</a><br /></td></tr>
 <tr class="separator:ae3571015cb2ee27c925e434d50cc37a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9913198d377de05a8bfd79e395bbb6fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a16589233270b763e148a85fbd3a819c6">ConstIndexIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a9913198d377de05a8bfd79e395bbb6fb">RowPointersEnd</a> () const</td></tr>
+<tr class="memitem:a9913198d377de05a8bfd79e395bbb6fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a98e73878ce9f117016e9f614bf1f105d">ConstIndexIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a9913198d377de05a8bfd79e395bbb6fb">RowPointersEnd</a> () const</td></tr>
 <tr class="memdesc:a9913198d377de05a8bfd79e395bbb6fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the end const iterator of the row pointers.  <a href="#a9913198d377de05a8bfd79e395bbb6fb">More...</a><br /></td></tr>
 <tr class="separator:a9913198d377de05a8bfd79e395bbb6fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aabfa4199e7f2821daed3df594c71244e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a1420b8b271b9f443e6b64b027079d49f">IndexIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#aabfa4199e7f2821daed3df594c71244e">ColumnIndicesBegin</a> ()</td></tr>
+<tr class="memitem:aabfa4199e7f2821daed3df594c71244e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#acedce39fe48ac72187ed777ec925dd01">IndexIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#aabfa4199e7f2821daed3df594c71244e">ColumnIndicesBegin</a> ()</td></tr>
 <tr class="memdesc:aabfa4199e7f2821daed3df594c71244e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the begin iterator of the column indices.  <a href="#aabfa4199e7f2821daed3df594c71244e">More...</a><br /></td></tr>
 <tr class="separator:aabfa4199e7f2821daed3df594c71244e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b60afbfebfa3b13cfcdd1a701d53ba2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a16589233270b763e148a85fbd3a819c6">ConstIndexIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a8b60afbfebfa3b13cfcdd1a701d53ba2">ColumnIndicesBegin</a> () const</td></tr>
+<tr class="memitem:a8b60afbfebfa3b13cfcdd1a701d53ba2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a98e73878ce9f117016e9f614bf1f105d">ConstIndexIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a8b60afbfebfa3b13cfcdd1a701d53ba2">ColumnIndicesBegin</a> () const</td></tr>
 <tr class="memdesc:a8b60afbfebfa3b13cfcdd1a701d53ba2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the begin const iterator of the column indices.  <a href="#a8b60afbfebfa3b13cfcdd1a701d53ba2">More...</a><br /></td></tr>
 <tr class="separator:a8b60afbfebfa3b13cfcdd1a701d53ba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d293d5c33cd210d74aa502f8641d547"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a1420b8b271b9f443e6b64b027079d49f">IndexIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a2d293d5c33cd210d74aa502f8641d547">ColumnIndicesEnd</a> ()</td></tr>
+<tr class="memitem:a2d293d5c33cd210d74aa502f8641d547"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#acedce39fe48ac72187ed777ec925dd01">IndexIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a2d293d5c33cd210d74aa502f8641d547">ColumnIndicesEnd</a> ()</td></tr>
 <tr class="memdesc:a2d293d5c33cd210d74aa502f8641d547"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the end iterator of the column indices.  <a href="#a2d293d5c33cd210d74aa502f8641d547">More...</a><br /></td></tr>
 <tr class="separator:a2d293d5c33cd210d74aa502f8641d547"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2950163c357eeb3c0ea824cb1dc23eeb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a16589233270b763e148a85fbd3a819c6">ConstIndexIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a2950163c357eeb3c0ea824cb1dc23eeb">ColumnIndicesEnd</a> () const</td></tr>
+<tr class="memitem:a2950163c357eeb3c0ea824cb1dc23eeb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a98e73878ce9f117016e9f614bf1f105d">ConstIndexIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a2950163c357eeb3c0ea824cb1dc23eeb">ColumnIndicesEnd</a> () const</td></tr>
 <tr class="memdesc:a2950163c357eeb3c0ea824cb1dc23eeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the end const iterator of the column indices.  <a href="#a2950163c357eeb3c0ea824cb1dc23eeb">More...</a><br /></td></tr>
 <tr class="separator:a2950163c357eeb3c0ea824cb1dc23eeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a178439391e55c00e2eb5c7b90f9dfc57"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a178439391e55c00e2eb5c7b90f9dfc57">Add</a> (const T &amp;s) const</td></tr>
@@ -274,14 +265,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aff18c3440ea33ccc14f681352e9605c7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#aff18c3440ea33ccc14f681352e9605c7">Mul</a> (const T &amp;s) const</td></tr>
 <tr class="memdesc:aff18c3440ea33ccc14f681352e9605c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns this matrix * input scalar.  <a href="#aff18c3440ea33ccc14f681352e9605c7">More...</a><br /></td></tr>
 <tr class="separator:aff18c3440ea33ccc14f681352e9605c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8384f9d2302d211f4883f0f27acad1e"><td class="memTemplParams" colspan="2">template&lt;typename VE &gt; </td></tr>
-<tr class="memitem:ae8384f9d2302d211f4883f0f27acad1e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r_vector_mul.html">MatrixCSRVectorMul</a>&lt; T, VE &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ae8384f9d2302d211f4883f0f27acad1e">Mul</a> (const VectorExpression&lt; T, VE &gt; &amp;v) const</td></tr>
-<tr class="memdesc:ae8384f9d2302d211f4883f0f27acad1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns this matrix * input vector.  <a href="#ae8384f9d2302d211f4883f0f27acad1e">More...</a><br /></td></tr>
-<tr class="separator:ae8384f9d2302d211f4883f0f27acad1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a039523169cab06fa119cba87fc751e9f"><td class="memTemplParams" colspan="2">template&lt;typename ME &gt; </td></tr>
-<tr class="memitem:a039523169cab06fa119cba87fc751e9f"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r_matrix_mul.html">MatrixCSRMatrixMul</a>&lt; T, ME &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a039523169cab06fa119cba87fc751e9f">Mul</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, ME &gt; &amp;m) const</td></tr>
-<tr class="memdesc:a039523169cab06fa119cba87fc751e9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns this matrix * input matrix.  <a href="#a039523169cab06fa119cba87fc751e9f">More...</a><br /></td></tr>
-<tr class="separator:a039523169cab06fa119cba87fc751e9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2f89fd6536e650a02b6934c5d7a37a7"><td class="memTemplParams" colspan="2">template&lt;size_t R, size_t C, typename ME &gt; </td></tr>
+<tr class="memitem:ad2f89fd6536e650a02b6934c5d7a37a7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r_matrix_mul.html">MatrixCSRMatrixMul</a>&lt; T, ME &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ad2f89fd6536e650a02b6934c5d7a37a7">Mul</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, ME &gt; &amp;m) const</td></tr>
+<tr class="memdesc:ad2f89fd6536e650a02b6934c5d7a37a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns this matrix * input matrix.  <a href="#ad2f89fd6536e650a02b6934c5d7a37a7">More...</a><br /></td></tr>
+<tr class="separator:ad2f89fd6536e650a02b6934c5d7a37a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac00dda8b9ec150acee5f5724ae25f0fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ac00dda8b9ec150acee5f5724ae25f0fb">Div</a> (const T &amp;s) const</td></tr>
 <tr class="memdesc:ac00dda8b9ec150acee5f5724ae25f0fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns this matrix / input scalar.  <a href="#ac00dda8b9ec150acee5f5724ae25f0fb">More...</a><br /></td></tr>
 <tr class="separator:ac00dda8b9ec150acee5f5724ae25f0fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -318,10 +305,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8bba96668403e778b5d3a2cc27c2d307"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a8bba96668403e778b5d3a2cc27c2d307">IMul</a> (const T &amp;s)</td></tr>
 <tr class="memdesc:a8bba96668403e778b5d3a2cc27c2d307"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiplies input scalar to this matrix.  <a href="#a8bba96668403e778b5d3a2cc27c2d307">More...</a><br /></td></tr>
 <tr class="separator:a8bba96668403e778b5d3a2cc27c2d307"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ec9501492e760a87b7aa9cdd4a313d1"><td class="memTemplParams" colspan="2">template&lt;typename ME &gt; </td></tr>
-<tr class="memitem:a7ec9501492e760a87b7aa9cdd4a313d1"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a7ec9501492e760a87b7aa9cdd4a313d1">IMul</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, ME &gt; &amp;m)</td></tr>
-<tr class="memdesc:a7ec9501492e760a87b7aa9cdd4a313d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiplies input matrix to this matrix.  <a href="#a7ec9501492e760a87b7aa9cdd4a313d1">More...</a><br /></td></tr>
-<tr class="separator:a7ec9501492e760a87b7aa9cdd4a313d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f8302cadce1bd808ceddc41eff50a8c"><td class="memTemplParams" colspan="2">template&lt;size_t R, size_t C, typename ME &gt; </td></tr>
+<tr class="memitem:a1f8302cadce1bd808ceddc41eff50a8c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a1f8302cadce1bd808ceddc41eff50a8c">IMul</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, ME &gt; &amp;m)</td></tr>
+<tr class="memdesc:a1f8302cadce1bd808ceddc41eff50a8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiplies input matrix to this matrix.  <a href="#a1f8302cadce1bd808ceddc41eff50a8c">More...</a><br /></td></tr>
+<tr class="separator:a1f8302cadce1bd808ceddc41eff50a8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56350a89a5e0f550a8607b7d08a9d7ea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a56350a89a5e0f550a8607b7d08a9d7ea">IDiv</a> (const T &amp;s)</td></tr>
 <tr class="memdesc:a56350a89a5e0f550a8607b7d08a9d7ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Divides this matrix with input scalar.  <a href="#a56350a89a5e0f550a8607b7d08a9d7ea">More...</a><br /></td></tr>
 <tr class="separator:a56350a89a5e0f550a8607b7d08a9d7ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -349,10 +336,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a06e174323fde19e4f9882a524d6a30bf"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; U &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a06e174323fde19e4f9882a524d6a30bf">CastTo</a> () const</td></tr>
 <tr class="memdesc:a06e174323fde19e4f9882a524d6a30bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type-casts to different value-typed matrix.  <a href="#a06e174323fde19e4f9882a524d6a30bf">More...</a><br /></td></tr>
 <tr class="separator:a06e174323fde19e4f9882a524d6a30bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f32c286b801b238af0f4f8e0c0935b8"><td class="memTemplParams" colspan="2">template&lt;typename E &gt; </td></tr>
-<tr class="memitem:a5f32c286b801b238af0f4f8e0c0935b8"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a5f32c286b801b238af0f4f8e0c0935b8">operator=</a> (const E &amp;m)</td></tr>
-<tr class="memdesc:a5f32c286b801b238af0f4f8e0c0935b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compresses input (dense) matrix expression into a sparse matrix.  <a href="#a5f32c286b801b238af0f4f8e0c0935b8">More...</a><br /></td></tr>
-<tr class="separator:a5f32c286b801b238af0f4f8e0c0935b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada8257d71906bea1052244ab93538b19"><td class="memTemplParams" colspan="2">template&lt;size_t R, size_t C, typename ME &gt; </td></tr>
+<tr class="memitem:ada8257d71906bea1052244ab93538b19"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ada8257d71906bea1052244ab93538b19">operator=</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, ME &gt; &amp;m)</td></tr>
+<tr class="memdesc:ada8257d71906bea1052244ab93538b19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compresses input (dense) matrix expression into a sparse matrix.  <a href="#ada8257d71906bea1052244ab93538b19">More...</a><br /></td></tr>
+<tr class="separator:ada8257d71906bea1052244ab93538b19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea698a117cf5a9247106e1bf3f171eef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#aea698a117cf5a9247106e1bf3f171eef">operator=</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> &amp;other)</td></tr>
+<tr class="memdesc:aea698a117cf5a9247106e1bf3f171eef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies to this matrix.  <a href="#aea698a117cf5a9247106e1bf3f171eef">More...</a><br /></td></tr>
+<tr class="separator:aea698a117cf5a9247106e1bf3f171eef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab37a6646ab7b254b5fe66606592e955b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ab37a6646ab7b254b5fe66606592e955b">operator=</a> (<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="memdesc:ab37a6646ab7b254b5fe66606592e955b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves to this matrix.  <a href="#ab37a6646ab7b254b5fe66606592e955b">More...</a><br /></td></tr>
+<tr class="separator:ab37a6646ab7b254b5fe66606592e955b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe1d0f37a7ba314790c34bea3a7555f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#afe1d0f37a7ba314790c34bea3a7555f4">operator+=</a> (const T &amp;s)</td></tr>
 <tr class="memdesc:afe1d0f37a7ba314790c34bea3a7555f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Addition assignment with input scalar.  <a href="#afe1d0f37a7ba314790c34bea3a7555f4">More...</a><br /></td></tr>
 <tr class="separator:afe1d0f37a7ba314790c34bea3a7555f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -368,10 +361,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a607147ce9032ea73d0e7628a050f4adb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a607147ce9032ea73d0e7628a050f4adb">operator*=</a> (const T &amp;s)</td></tr>
 <tr class="memdesc:a607147ce9032ea73d0e7628a050f4adb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiplication assignment with input scalar.  <a href="#a607147ce9032ea73d0e7628a050f4adb">More...</a><br /></td></tr>
 <tr class="separator:a607147ce9032ea73d0e7628a050f4adb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5027d2aeb4713bad94882611e7e54837"><td class="memTemplParams" colspan="2">template&lt;typename ME &gt; </td></tr>
-<tr class="memitem:a5027d2aeb4713bad94882611e7e54837"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a5027d2aeb4713bad94882611e7e54837">operator*=</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, ME &gt; &amp;m)</td></tr>
-<tr class="memdesc:a5027d2aeb4713bad94882611e7e54837"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiplication assignment with input matrix.  <a href="#a5027d2aeb4713bad94882611e7e54837">More...</a><br /></td></tr>
-<tr class="separator:a5027d2aeb4713bad94882611e7e54837"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abecc35b507de02cca61a0c0fa52ab959"><td class="memTemplParams" colspan="2">template&lt;size_t R, size_t C, typename ME &gt; </td></tr>
+<tr class="memitem:abecc35b507de02cca61a0c0fa52ab959"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#abecc35b507de02cca61a0c0fa52ab959">operator*=</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, ME &gt; &amp;m)</td></tr>
+<tr class="memdesc:abecc35b507de02cca61a0c0fa52ab959"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiplication assignment with input matrix.  <a href="#abecc35b507de02cca61a0c0fa52ab959">More...</a><br /></td></tr>
+<tr class="separator:abecc35b507de02cca61a0c0fa52ab959"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d5e6f1eac3e1021acb16791f0a50926"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a5d5e6f1eac3e1021acb16791f0a50926">operator/=</a> (const T &amp;s)</td></tr>
 <tr class="memdesc:a5d5e6f1eac3e1021acb16791f0a50926"><td class="mdescLeft">&#160;</td><td class="mdescRight">Division assignment with input scalar.  <a href="#a5d5e6f1eac3e1021acb16791f0a50926">More...</a><br /></td></tr>
 <tr class="separator:a5d5e6f1eac3e1021acb16791f0a50926"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -384,16 +377,19 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa39addf6e82233ca845d2e151b27b0b8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#aa39addf6e82233ca845d2e151b27b0b8">operator!=</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> &amp;m) const</td></tr>
 <tr class="memdesc:aa39addf6e82233ca845d2e151b27b0b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if is not equal to m.  <a href="#aa39addf6e82233ca845d2e151b27b0b8">More...</a><br /></td></tr>
 <tr class="separator:aa39addf6e82233ca845d2e151b27b0b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08bd9a6fdcbdbd4cbb27950b8f10218f"><td class="memTemplParams" colspan="2">template&lt;typename E &gt; </td></tr>
-<tr class="memitem:a08bd9a6fdcbdbd4cbb27950b8f10218f"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a08bd9a6fdcbdbd4cbb27950b8f10218f">operator=</a> (const E &amp;m)</td></tr>
-<tr class="separator:a08bd9a6fdcbdbd4cbb27950b8f10218f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc6c4de0bcdd3d21718b445104d66c74"><td class="memTemplParams" colspan="2">template&lt;typename ME &gt; </td></tr>
-<tr class="memitem:acc6c4de0bcdd3d21718b445104d66c74"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#acc6c4de0bcdd3d21718b445104d66c74">operator*=</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, ME &gt; &amp;m)</td></tr>
-<tr class="separator:acc6c4de0bcdd3d21718b445104d66c74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2dc862291dba741a49a49a84547f8b63"><td class="memTemplParams" colspan="2">template&lt;size_t R, size_t C, typename ME &gt; </td></tr>
+<tr class="memitem:a2dc862291dba741a49a49a84547f8b63"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a2dc862291dba741a49a49a84547f8b63">MatrixCSR</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, ME &gt; &amp;other, T epsilon)</td></tr>
+<tr class="separator:a2dc862291dba741a49a49a84547f8b63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a304051d636761f799b9930c13ae70488"><td class="memTemplParams" colspan="2">template&lt;size_t R, size_t C, typename E &gt; </td></tr>
+<tr class="memitem:a304051d636761f799b9930c13ae70488"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a304051d636761f799b9930c13ae70488">operator=</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, E &gt; &amp;m)</td></tr>
+<tr class="separator:a304051d636761f799b9930c13ae70488"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbe05af5781dea52f61d96bf53eadff6"><td class="memTemplParams" colspan="2">template&lt;size_t R, size_t C, typename ME &gt; </td></tr>
+<tr class="memitem:adbe05af5781dea52f61d96bf53eadff6"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#adbe05af5781dea52f61d96bf53eadff6">operator*=</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, ME &gt; &amp;m)</td></tr>
+<tr class="separator:adbe05af5781dea52f61d96bf53eadff6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3062b36669562289580e2ead1ba1d32"><td class="memTemplParams" colspan="2">template&lt;typename Op &gt; </td></tr>
 <tr class="memitem:ae3062b36669562289580e2ead1ba1d32"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ae3062b36669562289580e2ead1ba1d32">BinaryOp</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> &amp;m, Op op) const</td></tr>
 <tr class="separator:ae3062b36669562289580e2ead1ba1d32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_class_cubby_flow_1_1_matrix_expression"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_cubby_flow_1_1_matrix_expression')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">CubbyFlow::MatrixExpression&lt; T, MatrixCSR&lt; T &gt; &gt;</a></td></tr>
+<tr class="inherit_header pub_methods_class_cubby_flow_1_1_matrix_expression"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_cubby_flow_1_1_matrix_expression')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">CubbyFlow::MatrixExpression&lt; T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC, MatrixCSR&lt; T &gt; &gt;</a></td></tr>
 <tr class="memitem:a218c8decfce9fbe3d490f61450bbb736 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a218c8decfce9fbe3d490f61450bbb736">GetRows</a> () const</td></tr>
 <tr class="memdesc:a218c8decfce9fbe3d490f61450bbb736 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of rows.  <a href="class_cubby_flow_1_1_matrix_expression.html#a218c8decfce9fbe3d490f61450bbb736">More...</a><br /></td></tr>
 <tr class="separator:a218c8decfce9fbe3d490f61450bbb736 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -452,34 +448,34 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac175e86792f48e1c8dfc23dbed01c1f4 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac87fd719292e0f09b1efe0783551ed70 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#ac87fd719292e0f09b1efe0783551ed70">DistanceSquaredTo</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, E &gt; &amp;other) const</td></tr>
 <tr class="separator:ac87fd719292e0f09b1efe0783551ed70 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae483e6c54a6fcdaa2b483f54baf76940 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_scalar_elem_wise_binary_op.html">MatrixScalarElemWiseBinaryOp</a>&lt; T, Rows, Cols, const Derived &amp;, std::divides&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#ae483e6c54a6fcdaa2b483f54baf76940">Normalized</a> () const</td></tr>
+<tr class="memitem:ae483e6c54a6fcdaa2b483f54baf76940 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_scalar_elem_wise_binary_op.html">MatrixScalarElemWiseBinaryOp</a>&lt; T, Rows, Cols, const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;, std::divides&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#ae483e6c54a6fcdaa2b483f54baf76940">Normalized</a> () const</td></tr>
 <tr class="separator:ae483e6c54a6fcdaa2b483f54baf76940 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89c3cba42941e593c4d494b92949a7dd inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_diagonal.html">MatrixDiagonal</a>&lt; T, Rows, Cols, const Derived &amp;&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a89c3cba42941e593c4d494b92949a7dd">Diagonal</a> () const</td></tr>
+<tr class="memitem:a89c3cba42941e593c4d494b92949a7dd inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_diagonal.html">MatrixDiagonal</a>&lt; T, Rows, Cols, const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a89c3cba42941e593c4d494b92949a7dd">Diagonal</a> () const</td></tr>
 <tr class="memdesc:a89c3cba42941e593c4d494b92949a7dd inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns diagonal part of this matrix.  <a href="class_cubby_flow_1_1_matrix_expression.html#a89c3cba42941e593c4d494b92949a7dd">More...</a><br /></td></tr>
 <tr class="separator:a89c3cba42941e593c4d494b92949a7dd inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af08b22c41fda83e4271f22abd5f37af9 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_off_diagonal.html">MatrixOffDiagonal</a>&lt; T, Rows, Cols, const Derived &amp;&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#af08b22c41fda83e4271f22abd5f37af9">OffDiagonal</a> () const</td></tr>
+<tr class="memitem:af08b22c41fda83e4271f22abd5f37af9 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_off_diagonal.html">MatrixOffDiagonal</a>&lt; T, Rows, Cols, const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#af08b22c41fda83e4271f22abd5f37af9">OffDiagonal</a> () const</td></tr>
 <tr class="memdesc:af08b22c41fda83e4271f22abd5f37af9 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns off-diagonal part of this matrix.  <a href="class_cubby_flow_1_1_matrix_expression.html#af08b22c41fda83e4271f22abd5f37af9">More...</a><br /></td></tr>
 <tr class="separator:af08b22c41fda83e4271f22abd5f37af9 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3927a828c9a0732efbf476f4b3431f67 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_tri.html">MatrixTri</a>&lt; T, Rows, Cols, const Derived &amp;&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a3927a828c9a0732efbf476f4b3431f67">StrictLowerTri</a> () const</td></tr>
+<tr class="memitem:a3927a828c9a0732efbf476f4b3431f67 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_tri.html">MatrixTri</a>&lt; T, Rows, Cols, const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a3927a828c9a0732efbf476f4b3431f67">StrictLowerTri</a> () const</td></tr>
 <tr class="memdesc:a3927a828c9a0732efbf476f4b3431f67 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns strictly lower triangle part of this matrix.  <a href="class_cubby_flow_1_1_matrix_expression.html#a3927a828c9a0732efbf476f4b3431f67">More...</a><br /></td></tr>
 <tr class="separator:a3927a828c9a0732efbf476f4b3431f67 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4c8461331ca9d9470800e6ce392a273 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_tri.html">MatrixTri</a>&lt; T, Rows, Cols, const Derived &amp;&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#af4c8461331ca9d9470800e6ce392a273">StrictUpperTri</a> () const</td></tr>
+<tr class="memitem:af4c8461331ca9d9470800e6ce392a273 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_tri.html">MatrixTri</a>&lt; T, Rows, Cols, const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#af4c8461331ca9d9470800e6ce392a273">StrictUpperTri</a> () const</td></tr>
 <tr class="memdesc:af4c8461331ca9d9470800e6ce392a273 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns strictly upper triangle part of this matrix.  <a href="class_cubby_flow_1_1_matrix_expression.html#af4c8461331ca9d9470800e6ce392a273">More...</a><br /></td></tr>
 <tr class="separator:af4c8461331ca9d9470800e6ce392a273 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abdacc7f0f98bbe0c3475cd89b83d5318 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_tri.html">MatrixTri</a>&lt; T, Rows, Cols, const Derived &amp;&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#abdacc7f0f98bbe0c3475cd89b83d5318">LowerTri</a> () const</td></tr>
+<tr class="memitem:abdacc7f0f98bbe0c3475cd89b83d5318 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_tri.html">MatrixTri</a>&lt; T, Rows, Cols, const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#abdacc7f0f98bbe0c3475cd89b83d5318">LowerTri</a> () const</td></tr>
 <tr class="memdesc:abdacc7f0f98bbe0c3475cd89b83d5318 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns lower triangle part of this matrix (including the diagonal).  <a href="class_cubby_flow_1_1_matrix_expression.html#abdacc7f0f98bbe0c3475cd89b83d5318">More...</a><br /></td></tr>
 <tr class="separator:abdacc7f0f98bbe0c3475cd89b83d5318 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a890afc213fc7282758e25c7351e9b097 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_tri.html">MatrixTri</a>&lt; T, Rows, Cols, const Derived &amp;&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a890afc213fc7282758e25c7351e9b097">UpperTri</a> () const</td></tr>
+<tr class="memitem:a890afc213fc7282758e25c7351e9b097 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_tri.html">MatrixTri</a>&lt; T, Rows, Cols, const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a890afc213fc7282758e25c7351e9b097">UpperTri</a> () const</td></tr>
 <tr class="memdesc:a890afc213fc7282758e25c7351e9b097 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns upper triangle part of this matrix (including the diagonal).  <a href="class_cubby_flow_1_1_matrix_expression.html#a890afc213fc7282758e25c7351e9b097">More...</a><br /></td></tr>
 <tr class="separator:a890afc213fc7282758e25c7351e9b097 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94a9c8dbc230d4c1ec9f57a8dd1a147f inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_transpose.html">MatrixTranspose</a>&lt; T, Rows, Cols, const Derived &amp;&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a94a9c8dbc230d4c1ec9f57a8dd1a147f">Transposed</a> () const</td></tr>
+<tr class="memitem:a94a9c8dbc230d4c1ec9f57a8dd1a147f inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_transpose.html">MatrixTranspose</a>&lt; T, Rows, Cols, const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a94a9c8dbc230d4c1ec9f57a8dd1a147f">Transposed</a> () const</td></tr>
 <tr class="separator:a94a9c8dbc230d4c1ec9f57a8dd1a147f inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1696c36752ecaee7f4d482b4dfdd715c inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix.html">Matrix</a>&lt; T, Rows, Cols &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a1696c36752ecaee7f4d482b4dfdd715c">Inverse</a> () const</td></tr>
 <tr class="memdesc:a1696c36752ecaee7f4d482b4dfdd715c inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns inverse matrix.  <a href="class_cubby_flow_1_1_matrix_expression.html#a1696c36752ecaee7f4d482b4dfdd715c">More...</a><br /></td></tr>
 <tr class="separator:a1696c36752ecaee7f4d482b4dfdd715c inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a365940fc5f8dded2c9c75eceb24780b7 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a365940fc5f8dded2c9c75eceb24780b7">Inverse</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, Rows, Cols, Derived &gt; &amp;m, std::enable_if_t&lt;(Rows &gt; 4 &amp;&amp;Cols &gt; 4)||IsMatrixSizeDynamic&lt; Rows, Cols &gt;(), M &gt; &amp;result)</td></tr>
+<tr class="memitem:a365940fc5f8dded2c9c75eceb24780b7 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a365940fc5f8dded2c9c75eceb24780b7">Inverse</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, Rows, Cols, <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &gt; &amp;m, std::enable_if_t&lt;(Rows &gt; 4 &amp;&amp;Cols &gt; 4)||IsMatrixSizeDynamic&lt; Rows, Cols &gt;(), M &gt; &amp;result)</td></tr>
 <tr class="separator:a365940fc5f8dded2c9c75eceb24780b7 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa25c159453328248961fa6d6dbb180e2 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_unary_op.html">MatrixUnaryOp</a>&lt; U, Rows, Cols, const Derived &amp;, <a class="el" href="struct_cubby_flow_1_1_type_cast.html">TypeCast</a>&lt; T, U &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#aa25c159453328248961fa6d6dbb180e2">CastTo</a> () const</td></tr>
+<tr class="memitem:aa25c159453328248961fa6d6dbb180e2 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_unary_op.html">MatrixUnaryOp</a>&lt; U, Rows, Cols, const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;, <a class="el" href="struct_cubby_flow_1_1_type_cast.html">TypeCast</a>&lt; T, U &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#aa25c159453328248961fa6d6dbb180e2">CastTo</a> () const</td></tr>
 <tr class="separator:aa25c159453328248961fa6d6dbb180e2 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b3df2ccbc4d2876c711b2c47c84efe8 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a4ccfad77ec421660936216cbaeb6d10b">MatrixTypeCast</a>&lt; T, Rows, Cols, U, const D &amp;&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a8b3df2ccbc4d2876c711b2c47c84efe8">CastTo</a> () const</td></tr>
 <tr class="separator:a8b3df2ccbc4d2876c711b2c47c84efe8 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -501,10 +497,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afe55f4470df24581059e64706a8219b5 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">std::enable_if_t&lt;(IsMatrixSizeDynamic&lt; Rows, Cols &gt;)||(Rows==3 &amp;&amp;Cols==1)), std::tuple&lt; <a class="el" href="class_cubby_flow_1_1_matrix.html">Matrix</a>&lt; U, 3, 1 &gt;, <a class="el" href="class_cubby_flow_1_1_matrix.html">Matrix</a>&lt; U, 3, 1 &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#afe55f4470df24581059e64706a8219b5">Tangentials</a> () const</td></tr>
 <tr class="memdesc:afe55f4470df24581059e64706a8219b5 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the tangential vectors for this vector.  <a href="class_cubby_flow_1_1_matrix_expression.html#afe55f4470df24581059e64706a8219b5">More...</a><br /></td></tr>
 <tr class="separator:afe55f4470df24581059e64706a8219b5 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae19616ef2e0c1d019b96144be8dbfea9 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">Derived &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#ae19616ef2e0c1d019b96144be8dbfea9">GetDerived</a> ()</td></tr>
+<tr class="memitem:ae19616ef2e0c1d019b96144be8dbfea9 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#ae19616ef2e0c1d019b96144be8dbfea9">GetDerived</a> ()</td></tr>
 <tr class="memdesc:ae19616ef2e0c1d019b96144be8dbfea9 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns actual implementation (the subclass).  <a href="class_cubby_flow_1_1_matrix_expression.html#ae19616ef2e0c1d019b96144be8dbfea9">More...</a><br /></td></tr>
 <tr class="separator:ae19616ef2e0c1d019b96144be8dbfea9 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae9924b25231e97d6477d844359a37e5 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">const Derived &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#aae9924b25231e97d6477d844359a37e5">GetDerived</a> () const</td></tr>
+<tr class="memitem:aae9924b25231e97d6477d844359a37e5 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#aae9924b25231e97d6477d844359a37e5">GetDerived</a> () const</td></tr>
 <tr class="memdesc:aae9924b25231e97d6477d844359a37e5 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns actual implementation (the subclass).  <a href="class_cubby_flow_1_1_matrix_expression.html#aae9924b25231e97d6477d844359a37e5">More...</a><br /></td></tr>
 <tr class="separator:aae9924b25231e97d6477d844359a37e5 inherit pub_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -515,27 +511,27 @@ Static Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pro_methods_class_cubby_flow_1_1_matrix_expression"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_cubby_flow_1_1_matrix_expression')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">CubbyFlow::MatrixExpression&lt; T, MatrixCSR&lt; T &gt; &gt;</a></td></tr>
+<tr class="inherit_header pro_methods_class_cubby_flow_1_1_matrix_expression"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_cubby_flow_1_1_matrix_expression')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">CubbyFlow::MatrixExpression&lt; T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC, MatrixCSR&lt; T &gt; &gt;</a></td></tr>
 <tr class="memitem:a9cf878bef5166f57a07c9b0de9daa049 inherit pro_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a9cf878bef5166f57a07c9b0de9daa049">MatrixExpression</a> ()=default</td></tr>
 <tr class="separator:a9cf878bef5166f57a07c9b0de9daa049 inherit pro_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td colspan="2" onclick="javascript:toggleInherit('pro_static_methods_class_cubby_flow_1_1_matrix_expression')"><img src="closed.png" alt="-"/>&#160;Static Protected Member Functions inherited from <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">CubbyFlow::MatrixExpression&lt; T, MatrixCSR&lt; T &gt; &gt;</a></td></tr>
-<tr class="memitem:adcc283bf15750c30c80c886533ecc418 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">static constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#adcc283bf15750c30c80c886533ecc418">Determinant</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, 1, 1, Derived &gt; &amp;m)</td></tr>
+<tr class="inherit_header pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td colspan="2" onclick="javascript:toggleInherit('pro_static_methods_class_cubby_flow_1_1_matrix_expression')"><img src="closed.png" alt="-"/>&#160;Static Protected Member Functions inherited from <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">CubbyFlow::MatrixExpression&lt; T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC, MatrixCSR&lt; T &gt; &gt;</a></td></tr>
+<tr class="memitem:adcc283bf15750c30c80c886533ecc418 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">static constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#adcc283bf15750c30c80c886533ecc418">Determinant</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, 1, 1, <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &gt; &amp;m)</td></tr>
 <tr class="separator:adcc283bf15750c30c80c886533ecc418 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13820c2e638d7e37fd0aacd79be6ff89 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">static constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a13820c2e638d7e37fd0aacd79be6ff89">Determinant</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, 2, 2, Derived &gt; &amp;m)</td></tr>
+<tr class="memitem:a13820c2e638d7e37fd0aacd79be6ff89 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">static constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a13820c2e638d7e37fd0aacd79be6ff89">Determinant</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, 2, 2, <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &gt; &amp;m)</td></tr>
 <tr class="separator:a13820c2e638d7e37fd0aacd79be6ff89 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac751b4a51b780c58ec9a8cf6ad75f239 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">static constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#ac751b4a51b780c58ec9a8cf6ad75f239">Determinant</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, 3, 3, Derived &gt; &amp;m)</td></tr>
+<tr class="memitem:ac751b4a51b780c58ec9a8cf6ad75f239 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">static constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#ac751b4a51b780c58ec9a8cf6ad75f239">Determinant</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, 3, 3, <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &gt; &amp;m)</td></tr>
 <tr class="separator:ac751b4a51b780c58ec9a8cf6ad75f239 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acfd2ffb5b32e04429536768b72135c89 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">static constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#acfd2ffb5b32e04429536768b72135c89">Determinant</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, 4, 4, Derived &gt; &amp;m)</td></tr>
+<tr class="memitem:acfd2ffb5b32e04429536768b72135c89 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">static constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#acfd2ffb5b32e04429536768b72135c89">Determinant</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, 4, 4, <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &gt; &amp;m)</td></tr>
 <tr class="separator:acfd2ffb5b32e04429536768b72135c89 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa950724fda5cf6d25388d0033ca16e51 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">static std::enable_if_t&lt;(Rows &gt; 4 &amp;&amp;Cols &gt; 4)||IsMatrixSizeDynamic&lt; Rows, Cols &gt;), U &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#aa950724fda5cf6d25388d0033ca16e51">Determinant</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, Rows, Cols, Derived &gt; &amp;m)</td></tr>
+<tr class="memitem:aa950724fda5cf6d25388d0033ca16e51 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">static std::enable_if_t&lt;(Rows &gt; 4 &amp;&amp;Cols &gt; 4)||IsMatrixSizeDynamic&lt; Rows, Cols &gt;), U &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#aa950724fda5cf6d25388d0033ca16e51">Determinant</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, Rows, Cols, <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &gt; &amp;m)</td></tr>
 <tr class="separator:aa950724fda5cf6d25388d0033ca16e51 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a908ca4d2cd57c38af836cb31a2b68bf1 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a908ca4d2cd57c38af836cb31a2b68bf1">Inverse</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, 1, 1, Derived &gt; &amp;m, <a class="el" href="class_cubby_flow_1_1_matrix.html">Matrix</a>&lt; T, Rows, Cols &gt; &amp;result)</td></tr>
+<tr class="memitem:a908ca4d2cd57c38af836cb31a2b68bf1 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a908ca4d2cd57c38af836cb31a2b68bf1">Inverse</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, 1, 1, <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &gt; &amp;m, <a class="el" href="class_cubby_flow_1_1_matrix.html">Matrix</a>&lt; T, Rows, Cols &gt; &amp;result)</td></tr>
 <tr class="separator:a908ca4d2cd57c38af836cb31a2b68bf1 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a546b9a67524cf25c6f235f4bd69b685b inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a546b9a67524cf25c6f235f4bd69b685b">Inverse</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, 2, 2, Derived &gt; &amp;m, <a class="el" href="class_cubby_flow_1_1_matrix.html">Matrix</a>&lt; T, Rows, Cols &gt; &amp;result)</td></tr>
+<tr class="memitem:a546b9a67524cf25c6f235f4bd69b685b inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a546b9a67524cf25c6f235f4bd69b685b">Inverse</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, 2, 2, <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &gt; &amp;m, <a class="el" href="class_cubby_flow_1_1_matrix.html">Matrix</a>&lt; T, Rows, Cols &gt; &amp;result)</td></tr>
 <tr class="separator:a546b9a67524cf25c6f235f4bd69b685b inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aecbf1b6bb3caca236b6a30d4cdbb20d9 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#aecbf1b6bb3caca236b6a30d4cdbb20d9">Inverse</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, 3, 3, Derived &gt; &amp;m, <a class="el" href="class_cubby_flow_1_1_matrix.html">Matrix</a>&lt; T, Rows, Cols &gt; &amp;result)</td></tr>
+<tr class="memitem:aecbf1b6bb3caca236b6a30d4cdbb20d9 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#aecbf1b6bb3caca236b6a30d4cdbb20d9">Inverse</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, 3, 3, <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &gt; &amp;m, <a class="el" href="class_cubby_flow_1_1_matrix.html">Matrix</a>&lt; T, Rows, Cols &gt; &amp;result)</td></tr>
 <tr class="separator:aecbf1b6bb3caca236b6a30d4cdbb20d9 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b9d564a84adc2253c72014b18304cfc inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a8b9d564a84adc2253c72014b18304cfc">Inverse</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, 4, 4, Derived &gt; &amp;m, <a class="el" href="class_cubby_flow_1_1_matrix.html">Matrix</a>&lt; T, Rows, Cols &gt; &amp;result)</td></tr>
+<tr class="memitem:a8b9d564a84adc2253c72014b18304cfc inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a8b9d564a84adc2253c72014b18304cfc">Inverse</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, 4, 4, <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &gt; &amp;m, <a class="el" href="class_cubby_flow_1_1_matrix.html">Matrix</a>&lt; T, Rows, Cols &gt; &amp;result)</td></tr>
 <tr class="separator:a8b9d564a84adc2253c72014b18304cfc inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70d13de9dd10a9caaabb1a2ac228f375 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_expression.html#a70d13de9dd10a9caaabb1a2ac228f375">Inverse</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a> &amp;m, std::enable_if_t&lt;(Rows &gt; 4 &amp;&amp;Cols &gt; 4)||IsMatrixSizeDynamic&lt; Rows, Cols &gt;(), M &gt; &amp;result)</td></tr>
 <tr class="separator:a70d13de9dd10a9caaabb1a2ac228f375 inherit pro_static_methods_class_cubby_flow_1_1_matrix_expression"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -554,8 +550,8 @@ class CubbyFlow::MatrixCSR&lt; T &gt;</h3>
   </dd>
 </dl>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a16589233270b763e148a85fbd3a819c6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16589233270b763e148a85fbd3a819c6">&#9670;&nbsp;</a></span>ConstIndexIterator</h2>
+<a id="a98e73878ce9f117016e9f614bf1f105d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98e73878ce9f117016e9f614bf1f105d">&#9670;&nbsp;</a></span>ConstIndexIterator</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -563,15 +559,15 @@ class CubbyFlow::MatrixCSR&lt; T &gt;</h3>
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a16589233270b763e148a85fbd3a819c6">ConstIndexIterator</a> =  IndexContainerType::const_iterator</td>
+          <td class="memname">typedef IndexContainerType::const_iterator <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a98e73878ce9f117016e9f614bf1f105d">ConstIndexIterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a0ee4edcd7666471f32afe9def4be1a37"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ee4edcd7666471f32afe9def4be1a37">&#9670;&nbsp;</a></span>ConstNonZeroIterator</h2>
+<a id="a804e0f191e75f79861eb438f77ac4066"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a804e0f191e75f79861eb438f77ac4066">&#9670;&nbsp;</a></span>ConstNonZeroIterator</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -579,15 +575,15 @@ template&lt;typename T&gt; </div>
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a0ee4edcd7666471f32afe9def4be1a37">ConstNonZeroIterator</a> =  typename NonZeroContainerType::const_iterator</td>
+          <td class="memname">typedef NonZeroContainerType::const_iterator <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a804e0f191e75f79861eb438f77ac4066">ConstNonZeroIterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="ac5494668eda054ffd1146f1b3e3fb3bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5494668eda054ffd1146f1b3e3fb3bb">&#9670;&nbsp;</a></span>IndexContainerType</h2>
+<a id="a3ef5a4e1fac16691e66afa20541e0f3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ef5a4e1fac16691e66afa20541e0f3c">&#9670;&nbsp;</a></span>IndexContainerType</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -595,15 +591,15 @@ template&lt;typename T&gt; </div>
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ac5494668eda054ffd1146f1b3e3fb3bb">IndexContainerType</a> =  std::vector&lt;size_t&gt;</td>
+          <td class="memname">typedef std::vector&lt;size_t&gt; <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a3ef5a4e1fac16691e66afa20541e0f3c">IndexContainerType</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a1420b8b271b9f443e6b64b027079d49f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1420b8b271b9f443e6b64b027079d49f">&#9670;&nbsp;</a></span>IndexIterator</h2>
+<a id="acedce39fe48ac72187ed777ec925dd01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acedce39fe48ac72187ed777ec925dd01">&#9670;&nbsp;</a></span>IndexIterator</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -611,15 +607,15 @@ template&lt;typename T&gt; </div>
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a1420b8b271b9f443e6b64b027079d49f">IndexIterator</a> =  IndexContainerType::iterator</td>
+          <td class="memname">typedef IndexContainerType::iterator <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#acedce39fe48ac72187ed777ec925dd01">IndexIterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a41bf19ac8401383ba375a0c17771889f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a41bf19ac8401383ba375a0c17771889f">&#9670;&nbsp;</a></span>NonZeroContainerType</h2>
+<a id="a6e74fc6bc82e337ebe65f1a4a6d169da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e74fc6bc82e337ebe65f1a4a6d169da">&#9670;&nbsp;</a></span>NonZeroContainerType</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -627,15 +623,15 @@ template&lt;typename T&gt; </div>
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a41bf19ac8401383ba375a0c17771889f">NonZeroContainerType</a> =  std::vector&lt;T&gt;</td>
+          <td class="memname">typedef std::vector&lt;T&gt; <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a6e74fc6bc82e337ebe65f1a4a6d169da">NonZeroContainerType</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="afdcd4b92d03472ff5a7853d752d41559"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afdcd4b92d03472ff5a7853d752d41559">&#9670;&nbsp;</a></span>NonZeroIterator</h2>
+<a id="a916cab97de4a973beaa5fcecec1c5f3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a916cab97de4a973beaa5fcecec1c5f3f">&#9670;&nbsp;</a></span>NonZeroIterator</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -643,7 +639,7 @@ template&lt;typename T&gt; </div>
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#afdcd4b92d03472ff5a7853d752d41559">NonZeroIterator</a> =  typename NonZeroContainerType::iterator</td>
+          <td class="memname">typedef NonZeroContainerType::iterator <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a916cab97de4a973beaa5fcecec1c5f3f">NonZeroIterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -652,7 +648,7 @@ template&lt;typename T&gt; </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a95346f9335ac1b8d89169f30eef1c54b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95346f9335ac1b8d89169f30eef1c54b">&#9670;&nbsp;</a></span>MatrixCSR() <span class="overload">[1/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a95346f9335ac1b8d89169f30eef1c54b">&#9670;&nbsp;</a></span>MatrixCSR() <span class="overload">[1/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -672,8 +668,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ac7dd0b617463ccf142d1ec95ea204d45"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac7dd0b617463ccf142d1ec95ea204d45">&#9670;&nbsp;</a></span>MatrixCSR() <span class="overload">[2/5]</span></h2>
+<a id="a6a2b4e5f11e61a9474cdb095d697d27f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a2b4e5f11e61a9474cdb095d697d27f">&#9670;&nbsp;</a></span>MatrixCSR() <span class="overload">[2/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -684,7 +680,7 @@ template&lt;typename T&gt; </div>
           <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> </td>
           <td>(</td>
           <td class="paramtype">const std::initializer_list&lt; std::initializer_list&lt; T &gt;&gt; &amp;&#160;</td>
-          <td class="paramname"><em>list</em>, </td>
+          <td class="paramname"><em>lst</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -700,40 +696,39 @@ template&lt;typename T&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Compresses given initializer list <code>list</code> into a sparse matrix. </p>
-<p>This constructor will build a matrix with given initializer list <code>list</code> such as</p>
-<div class="fragment"><div class="line">MatrixCSR&lt;float&gt; mat =</div><div class="line">{</div><div class="line">    {1.f, 0.f, 0.f, 3.f},</div><div class="line">    {0.f, 3.f, 5.f, 1.f},</div><div class="line">    {4.f, 0.f, 1.f, 5.f}</div><div class="line">};</div></div><!-- fragment --><p>Note the initializer has 4x3 structure which will create 4x3 matrix. During the process, zero elements (less than <code>epsilon</code>) will not be stored.</p>
+<p>Compresses given initializer list <code>lst</code> into a sparse matrix. </p>
+<p>This constructor will build a matrix with given initializer list <code>lst</code> such as</p>
+<div class="fragment"><div class="line">MatrixCSR&lt;float&gt; mat = {</div><div class="line">    {1.f, 0.f, 0.f, 3.f},</div><div class="line">    {0.f, 3.f, 5.f, 1.f},</div><div class="line">    {4.f, 0.f, 1.f, 5.f}</div><div class="line">};</div></div><!-- fragment --><p>Note the initializer has 4x3 structure which will create 4x3 matrix. During the process, zero elements (less than <code>epsilon</code>) will not be stored.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">list</td><td>Initializer list that should be copy to the new matrix. </td></tr>
-    <tr><td class="paramname">epsilon</td><td>Epsilon to compare between values. </td></tr>
+    <tr><td class="paramname">lst</td><td>Initializer list that should be copy to the new matrix. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="ac14a36afebec01c201128d2b286c59f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac14a36afebec01c201128d2b286c59f4">&#9670;&nbsp;</a></span>MatrixCSR() <span class="overload">[3/5]</span></h2>
+<a id="a7a223794f39372903980ce7fa8563abc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a223794f39372903980ce7fa8563abc">&#9670;&nbsp;</a></span>MatrixCSR() <span class="overload">[3/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T&gt; </div>
 <div class="memtemplate">
-template&lt;typename E &gt; </div>
+template&lt;size_t R, size_t C, typename E &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, E &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, E &gt; &amp;&#160;</td>
           <td class="paramname"><em>other</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">T&#160;</td>
-          <td class="paramname"><em>epsilon</em> = <code>std::numeric_limits&lt;T&gt;::epsilon()</code>&#160;</td>
+          <td class="paramname"><em>epsilon</em> = <code>std::numeric_limits&lt;&#160;T&#160;&gt;::epsilon()</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -749,7 +744,7 @@ template&lt;typename E &gt; </div>
 </div>
 </div>
 <a id="a1d5fe0d54f21d1130fac33e09ea33e20"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d5fe0d54f21d1130fac33e09ea33e20">&#9670;&nbsp;</a></span>MatrixCSR() <span class="overload">[4/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d5fe0d54f21d1130fac33e09ea33e20">&#9670;&nbsp;</a></span>MatrixCSR() <span class="overload">[4/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -771,7 +766,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="a30bb74d51cd08b28412a72865f16e071"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30bb74d51cd08b28412a72865f16e071">&#9670;&nbsp;</a></span>MatrixCSR() <span class="overload">[5/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a30bb74d51cd08b28412a72865f16e071">&#9670;&nbsp;</a></span>MatrixCSR() <span class="overload">[5/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -800,32 +795,35 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="ac2eeac65e84b4891086ef4a44632353e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2eeac65e84b4891086ef4a44632353e">&#9670;&nbsp;</a></span>~MatrixCSR()</h2>
+<a id="a2dc862291dba741a49a49a84547f8b63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2dc862291dba741a49a49a84547f8b63">&#9670;&nbsp;</a></span>MatrixCSR() <span class="overload">[6/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+<div class="memtemplate">
+template&lt;size_t R, size_t C, typename ME &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::~<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> </td>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a> </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, ME &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>epsilon</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-
-<p>Default destructor. </p>
 
 </div>
 </div>
@@ -987,13 +985,13 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::AddRow </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a41bf19ac8401383ba375a0c17771889f">NonZeroContainerType</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a6e74fc6bc82e337ebe65f1a4a6d169da">NonZeroContainerType</a> &amp;&#160;</td>
           <td class="paramname"><em>nonZeros</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#ac5494668eda054ffd1146f1b3e3fb3bb">IndexContainerType</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a3ef5a4e1fac16691e66afa20541e0f3c">IndexContainerType</a> &amp;&#160;</td>
           <td class="paramname"><em>columnIndices</em>&#160;</td>
         </tr>
         <tr>
@@ -1006,8 +1004,8 @@ template&lt;typename T &gt; </div>
 <p>Adds a row to the sparse matrix.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">nonZeros</td><td>- <a class="el" href="class_cubby_flow_1_1_array.html" title="Generic N-dimensional array class interface. ">Array</a> of non-zero elements for the row. </td></tr>
-    <tr><td class="paramname">columnIndices</td><td>- <a class="el" href="class_cubby_flow_1_1_array.html" title="Generic N-dimensional array class interface. ">Array</a> of column indices for the row. </td></tr>
+    <tr><td class="paramname">nonZeros</td><td>- <a class="el" href="class_cubby_flow_1_1_array.html">Array</a> of non-zero elements for the row. </td></tr>
+    <tr><td class="paramname">columnIndices</td><td>- <a class="el" href="class_cubby_flow_1_1_array.html">Array</a> of column indices for the row. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1111,27 +1109,6 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="af987798f3851151c09308539463088c1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af987798f3851151c09308539463088c1">&#9670;&nbsp;</a></span>Cols()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::Cols </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns number of columns of this matrix. </p>
-
-</div>
-</div>
 <a id="a78c76ea484f34ac863fd241d9146db3e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a78c76ea484f34ac863fd241d9146db3e">&#9670;&nbsp;</a></span>ColumnIndex()</h2>
 
@@ -1163,7 +1140,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a1420b8b271b9f443e6b64b027079d49f">IndexIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::ColumnIndicesBegin </td>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#acedce39fe48ac72187ed777ec925dd01">IndexIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::ColumnIndicesBegin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1184,7 +1161,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a16589233270b763e148a85fbd3a819c6">ConstIndexIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::ColumnIndicesBegin </td>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a98e73878ce9f117016e9f614bf1f105d">ConstIndexIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::ColumnIndicesBegin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1196,8 +1173,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="adf8b9e46c9222a82593a183acbc3c73f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf8b9e46c9222a82593a183acbc3c73f">&#9670;&nbsp;</a></span>ColumnIndicesData()</h2>
+<a id="aa8f86f4ba24a051c668bafa97d160636"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8f86f4ba24a051c668bafa97d160636">&#9670;&nbsp;</a></span>ColumnIndicesData()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1205,7 +1182,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">const size_t * <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::ColumnIndicesData </td>
+          <td class="memname">const size_t *const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::ColumnIndicesData </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1226,7 +1203,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a1420b8b271b9f443e6b64b027079d49f">IndexIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::ColumnIndicesEnd </td>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#acedce39fe48ac72187ed777ec925dd01">IndexIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::ColumnIndicesEnd </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1247,7 +1224,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a16589233270b763e148a85fbd3a819c6">ConstIndexIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::ColumnIndicesEnd </td>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a98e73878ce9f117016e9f614bf1f105d">ConstIndexIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::ColumnIndicesEnd </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1259,8 +1236,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a15898935802836af1d88eda1acdfc14c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15898935802836af1d88eda1acdfc14c">&#9670;&nbsp;</a></span>Compress() <span class="overload">[1/2]</span></h2>
+<a id="afa1344749ab439bbb6f5cda906fc0c41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa1344749ab439bbb6f5cda906fc0c41">&#9670;&nbsp;</a></span>Compress() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1271,7 +1248,7 @@ template&lt;typename T&gt; </div>
           <td class="memname">void <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::Compress </td>
           <td>(</td>
           <td class="paramtype">const std::initializer_list&lt; std::initializer_list&lt; T &gt;&gt; &amp;&#160;</td>
-          <td class="paramname"><em>list</em>, </td>
+          <td class="paramname"><em>lst</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1287,33 +1264,32 @@ template&lt;typename T&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Compresses given initializer list <code>list</code> into a sparse matrix. </p>
-<p>This function will fill the matrix with given initializer list <code>list</code> such as</p>
-<div class="fragment"><div class="line">MatrixCSR&lt;float&gt; mat;</div><div class="line">mat.compress(</div><div class="line">{</div><div class="line">    {1.f, 0.f, 0.f, 3.f},</div><div class="line">    {0.f, 3.f, 5.f, 1.f},</div><div class="line">    {4.f, 0.f, 1.f, 5.f}</div><div class="line">});</div></div><!-- fragment --><p>Note the initializer has 4x3 structure which will resize to 4x3 matrix. During the process, zero elements (less than <code>epsilon</code>) will not be stored.</p>
+<p>Compresses given initializer list <code>lst</code> into a sparse matrix. </p>
+<p>This function will fill the matrix with given initializer list <code>lst</code> such as</p>
+<div class="fragment"><div class="line">MatrixCSR&lt;float&gt; mat;</div><div class="line">mat.compress({</div><div class="line">    {1.f, 0.f, 0.f, 3.f},</div><div class="line">    {0.f, 3.f, 5.f, 1.f},</div><div class="line">    {4.f, 0.f, 1.f, 5.f}</div><div class="line">});</div></div><!-- fragment --><p>Note the initializer has 4x3 structure which will resize to 4x3 matrix. During the process, zero elements (less than <code>epsilon</code>) will not be stored.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">list</td><td>Initializer list that should be copy to the new matrix. </td></tr>
-    <tr><td class="paramname">epsilon</td><td>Epsilon to compare between values. </td></tr>
+    <tr><td class="paramname">lst</td><td>Initializer list that should be copy to the new matrix. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a01346b4c17db925170a940fdd875d56c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01346b4c17db925170a940fdd875d56c">&#9670;&nbsp;</a></span>Compress() <span class="overload">[2/2]</span></h2>
+<a id="ac8490ff17255d65f733105f5bd54b382"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8490ff17255d65f733105f5bd54b382">&#9670;&nbsp;</a></span>Compress() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T&gt; </div>
 <div class="memtemplate">
-template&lt;typename E &gt; </div>
+template&lt;size_t R, size_t C, typename E &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::Compress </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, E &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, E &gt; &amp;&#160;</td>
           <td class="paramname"><em>other</em>, </td>
         </tr>
         <tr>
@@ -1354,6 +1330,48 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 
 <p>Returns this matrix / input scalar. </p>
+
+</div>
+</div>
+<a id="ac14ffca4495a342285e64e6f10e172fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac14ffca4495a342285e64e6f10e172fc">&#9670;&nbsp;</a></span>GetCols()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::GetCols </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns number of columns of this matrix. </p>
+
+</div>
+</div>
+<a id="a247932696621af959808d91dbe25cfb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a247932696621af959808d91dbe25cfb5">&#9670;&nbsp;</a></span>GetRows()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::GetRows </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns number of rows of this matrix. </p>
 
 </div>
 </div>
@@ -1445,20 +1463,20 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="a7ec9501492e760a87b7aa9cdd4a313d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7ec9501492e760a87b7aa9cdd4a313d1">&#9670;&nbsp;</a></span>IMul() <span class="overload">[2/2]</span></h2>
+<a id="a1f8302cadce1bd808ceddc41eff50a8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f8302cadce1bd808ceddc41eff50a8c">&#9670;&nbsp;</a></span>IMul() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T&gt; </div>
 <div class="memtemplate">
-template&lt;typename ME &gt; </div>
+template&lt;size_t R, size_t C, typename ME &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::IMul </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, ME &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, ME &gt; &amp;&#160;</td>
           <td class="paramname"><em>m</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1657,7 +1675,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="aff18c3440ea33ccc14f681352e9605c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff18c3440ea33ccc14f681352e9605c7">&#9670;&nbsp;</a></span>Mul() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aff18c3440ea33ccc14f681352e9605c7">&#9670;&nbsp;</a></span>Mul() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1678,44 +1696,20 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="ae8384f9d2302d211f4883f0f27acad1e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae8384f9d2302d211f4883f0f27acad1e">&#9670;&nbsp;</a></span>Mul() <span class="overload">[2/3]</span></h2>
+<a id="ad2f89fd6536e650a02b6934c5d7a37a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2f89fd6536e650a02b6934c5d7a37a7">&#9670;&nbsp;</a></span>Mul() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T&gt; </div>
 <div class="memtemplate">
-template&lt;typename VE &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r_vector_mul.html">MatrixCSRVectorMul</a>&lt; T, VE &gt; <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::Mul </td>
-          <td>(</td>
-          <td class="paramtype">const VectorExpression&lt; T, VE &gt; &amp;&#160;</td>
-          <td class="paramname"><em>v</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns this matrix * input vector. </p>
-
-</div>
-</div>
-<a id="a039523169cab06fa119cba87fc751e9f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a039523169cab06fa119cba87fc751e9f">&#9670;&nbsp;</a></span>Mul() <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<div class="memtemplate">
-template&lt;typename ME &gt; </div>
+template&lt;size_t R, size_t C, typename ME &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r_matrix_mul.html">MatrixCSRMatrixMul</a>&lt; T, ME &gt; <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::Mul </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, ME &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, ME &gt; &amp;&#160;</td>
           <td class="paramname"><em>m</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -1779,7 +1773,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#afdcd4b92d03472ff5a7853d752d41559">NonZeroIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::NonZeroBegin </td>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a916cab97de4a973beaa5fcecec1c5f3f">NonZeroIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::NonZeroBegin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1800,7 +1794,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a0ee4edcd7666471f32afe9def4be1a37">ConstNonZeroIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::NonZeroBegin </td>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a804e0f191e75f79861eb438f77ac4066">ConstNonZeroIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::NonZeroBegin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1833,8 +1827,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="aeae24dd6370b452e5c32ce41c9f6af18"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeae24dd6370b452e5c32ce41c9f6af18">&#9670;&nbsp;</a></span>NonZeroData() <span class="overload">[2/2]</span></h2>
+<a id="ab9cb8b887e14ec02306cb2574b1f8ff5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9cb8b887e14ec02306cb2574b1f8ff5">&#9670;&nbsp;</a></span>NonZeroData() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1842,7 +1836,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">const T * <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::NonZeroData </td>
+          <td class="memname">const T *const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::NonZeroData </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1863,7 +1857,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#afdcd4b92d03472ff5a7853d752d41559">NonZeroIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::NonZeroEnd </td>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a916cab97de4a973beaa5fcecec1c5f3f">NonZeroIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::NonZeroEnd </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1884,7 +1878,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a0ee4edcd7666471f32afe9def4be1a37">ConstNonZeroIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::NonZeroEnd </td>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a804e0f191e75f79861eb438f77ac4066">ConstNonZeroIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::NonZeroEnd </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1993,20 +1987,20 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="a5027d2aeb4713bad94882611e7e54837"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5027d2aeb4713bad94882611e7e54837">&#9670;&nbsp;</a></span>operator*=() <span class="overload">[2/3]</span></h2>
+<a id="abecc35b507de02cca61a0c0fa52ab959"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abecc35b507de02cca61a0c0fa52ab959">&#9670;&nbsp;</a></span>operator*=() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T&gt; </div>
 <div class="memtemplate">
-template&lt;typename ME &gt; </div>
+template&lt;size_t R, size_t C, typename ME &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&amp; <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::operator*= </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, ME &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, ME &gt; &amp;&#160;</td>
           <td class="paramname"><em>m</em></td><td>)</td>
           <td></td>
         </tr>
@@ -2017,20 +2011,20 @@ template&lt;typename ME &gt; </div>
 
 </div>
 </div>
-<a id="acc6c4de0bcdd3d21718b445104d66c74"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acc6c4de0bcdd3d21718b445104d66c74">&#9670;&nbsp;</a></span>operator*=() <span class="overload">[3/3]</span></h2>
+<a id="adbe05af5781dea52f61d96bf53eadff6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbe05af5781dea52f61d96bf53eadff6">&#9670;&nbsp;</a></span>operator*=() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T&gt; </div>
 <div class="memtemplate">
-template&lt;typename ME &gt; </div>
+template&lt;size_t R, size_t C, typename ME &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt;T&gt;&amp; <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::operator*= </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, ME &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, ME &gt; &amp;&#160;</td>
           <td class="paramname"><em>m</em></td><td>)</td>
           <td></td>
         </tr>
@@ -2149,8 +2143,33 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
+<a id="ada8257d71906bea1052244ab93538b19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada8257d71906bea1052244ab93538b19">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<div class="memtemplate">
+template&lt;size_t R, size_t C, typename ME &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&amp; <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, ME &gt; &amp;&#160;</td>
+          <td class="paramname"><em>m</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compresses input (dense) matrix expression into a sparse matrix. </p>
+<p>This function sets this sparse matrix with dense input matrix. During the process, zero elements (less than <code>epsilon</code>) will not be stored. </p>
+
+</div>
+</div>
 <a id="aea698a117cf5a9247106e1bf3f171eef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea698a117cf5a9247106e1bf3f171eef">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aea698a117cf5a9247106e1bf3f171eef">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2167,12 +2186,12 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Copy assignment operator. </p>
+<p>Copies to this matrix. </p>
 
 </div>
 </div>
 <a id="ab37a6646ab7b254b5fe66606592e955b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab37a6646ab7b254b5fe66606592e955b">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab37a6646ab7b254b5fe66606592e955b">&#9670;&nbsp;</a></span>operator=() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2197,49 +2216,24 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Move construct operator. </p>
+<p>Moves to this matrix. </p>
 
 </div>
 </div>
-<a id="a5f32c286b801b238af0f4f8e0c0935b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f32c286b801b238af0f4f8e0c0935b8">&#9670;&nbsp;</a></span>operator=() <span class="overload">[3/4]</span></h2>
+<a id="a304051d636761f799b9930c13ae70488"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a304051d636761f799b9930c13ae70488">&#9670;&nbsp;</a></span>operator=() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T&gt; </div>
 <div class="memtemplate">
-template&lt;typename E &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&amp; <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::operator= </td>
-          <td>(</td>
-          <td class="paramtype">const E &amp;&#160;</td>
-          <td class="paramname"><em>m</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Compresses input (dense) matrix expression into a sparse matrix. </p>
-<p>This function sets this sparse matrix with dense input matrix. During the process, zero elements (less than <code>epsilon</code>) will not be stored. </p>
-
-</div>
-</div>
-<a id="a08bd9a6fdcbdbd4cbb27950b8f10218f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08bd9a6fdcbdbd4cbb27950b8f10218f">&#9670;&nbsp;</a></span>operator=() <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<div class="memtemplate">
-template&lt;typename E &gt; </div>
+template&lt;size_t R, size_t C, typename E &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt;T&gt;&amp; <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::operator= </td>
           <td>(</td>
-          <td class="paramtype">const E &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, E &gt; &amp;&#160;</td>
           <td class="paramname"><em>m</em></td><td>)</td>
           <td></td>
         </tr>
@@ -2427,7 +2421,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a1420b8b271b9f443e6b64b027079d49f">IndexIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::RowPointersBegin </td>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#acedce39fe48ac72187ed777ec925dd01">IndexIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::RowPointersBegin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -2448,7 +2442,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a16589233270b763e148a85fbd3a819c6">ConstIndexIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::RowPointersBegin </td>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a98e73878ce9f117016e9f614bf1f105d">ConstIndexIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::RowPointersBegin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -2460,8 +2454,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a62cbc827eb1db0190a1ebf9b605cbaaf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a62cbc827eb1db0190a1ebf9b605cbaaf">&#9670;&nbsp;</a></span>RowPointersData()</h2>
+<a id="a9589d79bfd7c835b453167b85ce3b35a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9589d79bfd7c835b453167b85ce3b35a">&#9670;&nbsp;</a></span>RowPointersData()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2469,7 +2463,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">const size_t * <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::RowPointersData </td>
+          <td class="memname">const size_t *const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::RowPointersData </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -2490,7 +2484,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a1420b8b271b9f443e6b64b027079d49f">IndexIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::RowPointersEnd </td>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#acedce39fe48ac72187ed777ec925dd01">IndexIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::RowPointersEnd </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -2511,7 +2505,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a16589233270b763e148a85fbd3a819c6">ConstIndexIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::RowPointersEnd </td>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;::<a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a98e73878ce9f117016e9f614bf1f105d">ConstIndexIterator</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::RowPointersEnd </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -2520,27 +2514,6 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Returns the end const iterator of the row pointers. </p>
-
-</div>
-</div>
-<a id="a2d9728c884cb84df1b17d81099c4488d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2d9728c884cb84df1b17d81099c4488d">&#9670;&nbsp;</a></span>Rows()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::Rows </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns number of rows of this matrix. </p>
 
 </div>
 </div>
@@ -2692,8 +2665,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="a754505172142b7e6b02e4984578eeacc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a754505172142b7e6b02e4984578eeacc">&#9670;&nbsp;</a></span>size()</h2>
+<a id="ab51da58dc32893f0e9291b5f7bedd19d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab51da58dc32893f0e9291b5f7bedd19d">&#9670;&nbsp;</a></span>Size()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2701,7 +2674,7 @@ template&lt;typename T&gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_cubby_flow.html#a9952585eeca96a7396c1514b8ff5c3d3">Size2</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::size </td>
+          <td class="memname"><a class="el" href="namespace_cubby_flow.html#a9b998d7447a5b8cd6dbe09b9934691b1">Vector2UZ</a> <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">CubbyFlow::MatrixCSR</a>&lt; T &gt;::Size </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -2811,7 +2784,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 26 2021 15:46:26 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Feb 27 2021 14:58:10 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

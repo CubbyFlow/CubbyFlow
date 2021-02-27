@@ -80,8 +80,6 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;<a class="el" href="_cpp_utils_8hpp_source.html">Core/Utils/CppUtils.hpp</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="_parallel_8hpp_source.html">Core/Utils/Parallel.hpp</a>&gt;</code><br />
-<code>#include &lt;numeric&gt;</code><br />
 </div>
 <p><a href="_matrix_c_s_r-_impl_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -119,12 +117,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aaae54a59c0abde79744b37dd74f46223"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:aaae54a59c0abde79744b37dd74f46223"><td class="memTemplItemLeft" align="right" valign="top">MatrixCSR&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#aaae54a59c0abde79744b37dd74f46223">CubbyFlow::operator*</a> (T a, const MatrixCSR&lt; T &gt; &amp;b)</td></tr>
 <tr class="separator:aaae54a59c0abde79744b37dd74f46223"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a054e1bae9197f1d079d5128129166774"><td class="memTemplParams" colspan="2">template&lt;typename T , typename VE &gt; </td></tr>
-<tr class="memitem:a054e1bae9197f1d079d5128129166774"><td class="memTemplItemLeft" align="right" valign="top">MatrixCSRVectorMul&lt; T, VE &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a054e1bae9197f1d079d5128129166774">CubbyFlow::operator*</a> (const MatrixCSR&lt; T &gt; &amp;a, const VectorExpression&lt; T, VE &gt; &amp;b)</td></tr>
-<tr class="separator:a054e1bae9197f1d079d5128129166774"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91247db6b8fe3254da504aa9a3eac4f7"><td class="memTemplParams" colspan="2">template&lt;typename T , typename ME &gt; </td></tr>
-<tr class="memitem:a91247db6b8fe3254da504aa9a3eac4f7"><td class="memTemplItemLeft" align="right" valign="top">MatrixCSRMatrixMul&lt; T, ME &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a91247db6b8fe3254da504aa9a3eac4f7">CubbyFlow::operator*</a> (const MatrixCSR&lt; T &gt; &amp;a, const MatrixExpression&lt; T, ME &gt; &amp;b)</td></tr>
-<tr class="separator:a91247db6b8fe3254da504aa9a3eac4f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae676caffcb05fd28ae9af3f31bb13b0a"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t R, size_t C, typename ME &gt; </td></tr>
+<tr class="memitem:ae676caffcb05fd28ae9af3f31bb13b0a"><td class="memTemplItemLeft" align="right" valign="top">MatrixCSRMatrixMul&lt; T, ME &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ae676caffcb05fd28ae9af3f31bb13b0a">CubbyFlow::operator*</a> (const MatrixCSR&lt; T &gt; &amp;a, const MatrixExpression&lt; T, R, C, ME &gt; &amp;b)</td></tr>
+<tr class="separator:ae676caffcb05fd28ae9af3f31bb13b0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2631a82a3fd1726b44d4f3d37c2860f1"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a2631a82a3fd1726b44d4f3d37c2860f1"><td class="memTemplItemLeft" align="right" valign="top">MatrixCSR&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a2631a82a3fd1726b44d4f3d37c2860f1">CubbyFlow::operator/</a> (const MatrixCSR&lt; T &gt; &amp;a, T b)</td></tr>
 <tr class="separator:a2631a82a3fd1726b44d4f3d37c2860f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,7 +136,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 26 2021 15:46:25 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Feb 27 2021 14:58:09 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

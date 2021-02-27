@@ -109,10 +109,13 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-D Affine Particle-in-Cell (APIC) implementation  <a href="class_cubby_flow_1_1_a_p_i_c_solver3.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array.html">Array</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic N-dimensional array class interface.  <a href="class_cubby_flow_1_1_array.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array_accessor.html">ArrayAccessor</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic N-dimensional array accessor class interface.  <a href="class_cubby_flow_1_1_array_accessor.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array_base.html">ArrayBase</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic N-dimensional array class interface.  <a href="class_cubby_flow_1_1_array_view.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array_view_3_01const_01_t_00_01_n_01_4.html">ArrayView&lt; const T, N &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_bcc_lattice_point_generator.html">BccLatticePointGenerator</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Body-centered lattice points generator.  <a href="class_cubby_flow_1_1_bcc_lattice_point_generator.html#details">More...</a><br /></td></tr>
@@ -195,11 +198,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_constant_vector_field3.html">ConstantVectorField3</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-D constant vector field.  <a href="class_cubby_flow_1_1_constant_vector_field3.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_const_array_accessor.html">ConstArrayAccessor</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic N-dimensional read-only array accessor class interface.  <a href="class_cubby_flow_1_1_const_array_accessor.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_cubic_array_sampler.html">CubicArraySampler</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic N-D cubic array sampler class.  <a href="class_cubby_flow_1_1_cubic_array_sampler.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">N-D cubic array sampler class.  <a href="class_cubby_flow_1_1_cubic_array_sampler.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_cubic_semi_lagrangian2.html">CubicSemiLagrangian2</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation of 2-D cubic semi-Lagrangian advection solver.  <a href="class_cubby_flow_1_1_cubic_semi_lagrangian2.html#details">More...</a><br /></td></tr>
@@ -234,6 +234,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_cubby_flow_1_1_do_abs_min.html">DoAbsMin</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes absolute minimum value.  <a href="struct_cubby_flow_1_1_do_abs_min.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_cubby_flow_1_1_do_catmull_rom.html">DoCatmullRom</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_cubby_flow_1_1_do_ceil.html">DoCeil</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs std::ceil.  <a href="struct_cubby_flow_1_1_do_ceil.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -248,6 +250,8 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_cubby_flow_1_1_do_min.html">DoMin</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes minimum value.  <a href="struct_cubby_flow_1_1_do_min.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_cubby_flow_1_1_do_monotonic_catmull_rom.html">DoMonotonicCatmullRom</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_e_n_o_level_set_solver2.html">ENOLevelSetSolver2</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Two-dimensional third-order ENO-based iterative level set solver.  <a href="class_cubby_flow_1_1_e_n_o_level_set_solver2.html#details">More...</a><br /></td></tr>
@@ -518,7 +522,7 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract base class for 3-D level set solver.  <a href="class_cubby_flow_1_1_level_set_solver3.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_linear_array_sampler.html">LinearArraySampler</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic N-D linear array sampler class.  <a href="class_cubby_flow_1_1_linear_array_sampler.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">N-D array sampler using linear interpolation.  <a href="class_cubby_flow_1_1_linear_array_sampler.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_list_query_engine2.html">ListQueryEngine2</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ad-hoc list-based 2-D intersection/nearest-neighbor query engine.  <a href="class_cubby_flow_1_1_list_query_engine2.html#details">More...</a><br /></td></tr>
@@ -553,9 +557,6 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r_matrix_mul.html">MatrixCSRMatrixMul</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_cubby_flow_1_1_matrix.html">Matrix</a> expression for CSR matrix-matrix multiplication.  <a href="class_cubby_flow_1_1_matrix_c_s_r_matrix_mul.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r_vector_mul.html">MatrixCSRVectorMul</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector expression for CSR matrix-vector multiplication.  <a href="class_cubby_flow_1_1_matrix_c_s_r_vector_mul.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_matrix_dense_base.html">MatrixDenseBase</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -594,7 +595,7 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multi-grid vector wrapper.  <a href="struct_cubby_flow_1_1_m_g_vector.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_nearest_array_sampler.html">NearestArraySampler</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic N-D nearest array sampler class.  <a href="class_cubby_flow_1_1_nearest_array_sampler.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">N-D nearest array sampler class.  <a href="class_cubby_flow_1_1_nearest_array_sampler.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html">NearestNeighborQueryEngine2</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract base class for 2-D nearest neighbor query engine.  <a href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html#details">More...</a><br /></td></tr>
@@ -960,6 +961,78 @@ Typedefs</h2></td></tr>
 <tr class="separator:a1f10419319cd62b6281f54de6a900f14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a2e7dac14028e2a6363f4e0b97829cb"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a5a2e7dac14028e2a6363f4e0b97829cb">PhysicsAnimationPtr</a> = std::shared_ptr&lt; <a class="el" href="class_cubby_flow_1_1_physics_animation.html">PhysicsAnimation</a> &gt;</td></tr>
 <tr class="separator:a5a2e7dac14028e2a6363f4e0b97829cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fbda7925084b71604339e885b8a6053"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a2fbda7925084b71604339e885b8a6053"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a2fbda7925084b71604339e885b8a6053">Array1</a> = <a class="el" href="class_cubby_flow_1_1_array.html">Array</a>&lt; T, 1 &gt;</td></tr>
+<tr class="separator:a2fbda7925084b71604339e885b8a6053"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a394dd521512ab234e41c897139f550ab"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a394dd521512ab234e41c897139f550ab"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a394dd521512ab234e41c897139f550ab">Array2</a> = <a class="el" href="class_cubby_flow_1_1_array.html">Array</a>&lt; T, 2 &gt;</td></tr>
+<tr class="separator:a394dd521512ab234e41c897139f550ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae08c8be94de3a8ce4f625e7d869ba1bd"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:ae08c8be94de3a8ce4f625e7d869ba1bd"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ae08c8be94de3a8ce4f625e7d869ba1bd">Array3</a> = <a class="el" href="class_cubby_flow_1_1_array.html">Array</a>&lt; T, 3 &gt;</td></tr>
+<tr class="separator:ae08c8be94de3a8ce4f625e7d869ba1bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5304ab5a99e799829221da9afe3d9115"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a5304ab5a99e799829221da9afe3d9115"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a5304ab5a99e799829221da9afe3d9115">Array4</a> = <a class="el" href="class_cubby_flow_1_1_array.html">Array</a>&lt; T, 4 &gt;</td></tr>
+<tr class="separator:a5304ab5a99e799829221da9afe3d9115"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8043f3b3e67306d0fde75c5a5b94f16"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ae8043f3b3e67306d0fde75c5a5b94f16"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ae8043f3b3e67306d0fde75c5a5b94f16">NearestArraySampler1</a> = <a class="el" href="class_cubby_flow_1_1_nearest_array_sampler.html">NearestArraySampler</a>&lt; T, 1 &gt;</td></tr>
+<tr class="separator:ae8043f3b3e67306d0fde75c5a5b94f16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1561db5053d8ddc7d51b0e086641487b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a1561db5053d8ddc7d51b0e086641487b"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a1561db5053d8ddc7d51b0e086641487b">NearestArraySampler2</a> = <a class="el" href="class_cubby_flow_1_1_nearest_array_sampler.html">NearestArraySampler</a>&lt; T, 2 &gt;</td></tr>
+<tr class="separator:a1561db5053d8ddc7d51b0e086641487b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac433f0b105729482a6de83913632d4b6"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ac433f0b105729482a6de83913632d4b6"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ac433f0b105729482a6de83913632d4b6">NearestArraySampler3</a> = <a class="el" href="class_cubby_flow_1_1_nearest_array_sampler.html">NearestArraySampler</a>&lt; T, 3 &gt;</td></tr>
+<tr class="separator:ac433f0b105729482a6de83913632d4b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93d2ffb66c88df00b86e218ff83ed2c7"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a93d2ffb66c88df00b86e218ff83ed2c7"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a93d2ffb66c88df00b86e218ff83ed2c7">LinearArraySampler1</a> = <a class="el" href="class_cubby_flow_1_1_linear_array_sampler.html">LinearArraySampler</a>&lt; T, 1 &gt;</td></tr>
+<tr class="separator:a93d2ffb66c88df00b86e218ff83ed2c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7eec18024d4fe7399f8bc7249a700e88"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a7eec18024d4fe7399f8bc7249a700e88"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a7eec18024d4fe7399f8bc7249a700e88">LinearArraySampler2</a> = <a class="el" href="class_cubby_flow_1_1_linear_array_sampler.html">LinearArraySampler</a>&lt; T, 2 &gt;</td></tr>
+<tr class="separator:a7eec18024d4fe7399f8bc7249a700e88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad52debe2cd24545d54a8ce4d36cf4f0a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ad52debe2cd24545d54a8ce4d36cf4f0a"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ad52debe2cd24545d54a8ce4d36cf4f0a">LinearArraySampler3</a> = <a class="el" href="class_cubby_flow_1_1_linear_array_sampler.html">LinearArraySampler</a>&lt; T, 3 &gt;</td></tr>
+<tr class="separator:ad52debe2cd24545d54a8ce4d36cf4f0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ef655a4bbdbab5480307a8e8da6df4a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a6ef655a4bbdbab5480307a8e8da6df4a"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a6ef655a4bbdbab5480307a8e8da6df4a">CatmullRomArraySampler1</a> = <a class="el" href="class_cubby_flow_1_1_cubic_array_sampler.html">CubicArraySampler</a>&lt; T, 1, <a class="el" href="struct_cubby_flow_1_1_do_catmull_rom.html">DoCatmullRom</a>&lt; T &gt; &gt;</td></tr>
+<tr class="separator:a6ef655a4bbdbab5480307a8e8da6df4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac856c5eb03b43776c4d8e5d66ba0899e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ac856c5eb03b43776c4d8e5d66ba0899e"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ac856c5eb03b43776c4d8e5d66ba0899e">CatmullRomArraySampler2</a> = <a class="el" href="class_cubby_flow_1_1_cubic_array_sampler.html">CubicArraySampler</a>&lt; T, 2, <a class="el" href="struct_cubby_flow_1_1_do_catmull_rom.html">DoCatmullRom</a>&lt; T &gt; &gt;</td></tr>
+<tr class="separator:ac856c5eb03b43776c4d8e5d66ba0899e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d944944b774b8043cb15cdfff910e62"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a8d944944b774b8043cb15cdfff910e62"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a8d944944b774b8043cb15cdfff910e62">CatmullRomArraySampler3</a> = <a class="el" href="class_cubby_flow_1_1_cubic_array_sampler.html">CubicArraySampler</a>&lt; T, 3, <a class="el" href="struct_cubby_flow_1_1_do_catmull_rom.html">DoCatmullRom</a>&lt; T &gt; &gt;</td></tr>
+<tr class="separator:a8d944944b774b8043cb15cdfff910e62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afea9a0b9b96b2355a3bd7f1ac276bcbb"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:afea9a0b9b96b2355a3bd7f1ac276bcbb"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#afea9a0b9b96b2355a3bd7f1ac276bcbb">MonotonicCatmullRomArraySampler1</a> = <a class="el" href="class_cubby_flow_1_1_cubic_array_sampler.html">CubicArraySampler</a>&lt; T, 1, <a class="el" href="struct_cubby_flow_1_1_do_monotonic_catmull_rom.html">DoMonotonicCatmullRom</a>&lt; T &gt; &gt;</td></tr>
+<tr class="separator:afea9a0b9b96b2355a3bd7f1ac276bcbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85ee422bf8d2f28594acb4059fce0cc0"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a85ee422bf8d2f28594acb4059fce0cc0"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a85ee422bf8d2f28594acb4059fce0cc0">MonotonicCatmullRomArraySampler2</a> = <a class="el" href="class_cubby_flow_1_1_cubic_array_sampler.html">CubicArraySampler</a>&lt; T, 2, <a class="el" href="struct_cubby_flow_1_1_do_monotonic_catmull_rom.html">DoMonotonicCatmullRom</a>&lt; T &gt; &gt;</td></tr>
+<tr class="separator:a85ee422bf8d2f28594acb4059fce0cc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89acc2e904f4ef9b315fdc1b3642a621"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a89acc2e904f4ef9b315fdc1b3642a621"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a89acc2e904f4ef9b315fdc1b3642a621">MonotonicCatmullRomArraySampler3</a> = <a class="el" href="class_cubby_flow_1_1_cubic_array_sampler.html">CubicArraySampler</a>&lt; T, 3, <a class="el" href="struct_cubby_flow_1_1_do_monotonic_catmull_rom.html">DoMonotonicCatmullRom</a>&lt; T &gt; &gt;</td></tr>
+<tr class="separator:a89acc2e904f4ef9b315fdc1b3642a621"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f79070dc5c03d4845c7e510bd377a3a"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a5f79070dc5c03d4845c7e510bd377a3a"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a5f79070dc5c03d4845c7e510bd377a3a">ArrayView1</a> = <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; T, 1 &gt;</td></tr>
+<tr class="separator:a5f79070dc5c03d4845c7e510bd377a3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad75e0ae1b906fd164d031a5bdcdad61b"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:ad75e0ae1b906fd164d031a5bdcdad61b"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ad75e0ae1b906fd164d031a5bdcdad61b">ArrayView2</a> = <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; T, 2 &gt;</td></tr>
+<tr class="separator:ad75e0ae1b906fd164d031a5bdcdad61b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25fe07538a1dbb722162bdacd82d8bee"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a25fe07538a1dbb722162bdacd82d8bee"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a25fe07538a1dbb722162bdacd82d8bee">ArrayView3</a> = <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; T, 3 &gt;</td></tr>
+<tr class="separator:a25fe07538a1dbb722162bdacd82d8bee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2c25f6166a47ff9b614c31d44defab2"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:ac2c25f6166a47ff9b614c31d44defab2"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ac2c25f6166a47ff9b614c31d44defab2">ArrayView4</a> = <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; T, 4 &gt;</td></tr>
+<tr class="separator:ac2c25f6166a47ff9b614c31d44defab2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c7e5a4d20594fa6e144e3d10fc1c7de"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a6c7e5a4d20594fa6e144e3d10fc1c7de"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a6c7e5a4d20594fa6e144e3d10fc1c7de">ConstArrayView1</a> = <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; const T, 1 &gt;</td></tr>
+<tr class="separator:a6c7e5a4d20594fa6e144e3d10fc1c7de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb93428b82c688960010240220a749f8"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:abb93428b82c688960010240220a749f8"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#abb93428b82c688960010240220a749f8">ConstArrayView2</a> = <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; const T, 2 &gt;</td></tr>
+<tr class="separator:abb93428b82c688960010240220a749f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad262b39bf0201744ab5acc2e9bdab3e5"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:ad262b39bf0201744ab5acc2e9bdab3e5"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ad262b39bf0201744ab5acc2e9bdab3e5">ConstArrayView3</a> = <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; const T, 3 &gt;</td></tr>
+<tr class="separator:ad262b39bf0201744ab5acc2e9bdab3e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9888c20add20beb5b14c017bba771d14"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a9888c20add20beb5b14c017bba771d14"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a9888c20add20beb5b14c017bba771d14">ConstArrayView4</a> = <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; const T, 4 &gt;</td></tr>
+<tr class="separator:a9888c20add20beb5b14c017bba771d14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3d43aa4540f5a602ef7e970af8effed"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ad3d43aa4540f5a602ef7e970af8effed">GridEmitter2Ptr</a> = std::shared_ptr&lt; <a class="el" href="class_cubby_flow_1_1_grid_emitter2.html">GridEmitter2</a> &gt;</td></tr>
 <tr class="memdesc:ad3d43aa4540f5a602ef7e970af8effed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared pointer type for the <a class="el" href="class_cubby_flow_1_1_grid_emitter2.html" title="Abstract base class for 2-D grid-based emitters. ">GridEmitter2</a>.  <a href="#ad3d43aa4540f5a602ef7e970af8effed">More...</a><br /></td></tr>
 <tr class="separator:ad3d43aa4540f5a602ef7e970af8effed"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1002,16 +1075,16 @@ Typedefs</h2></td></tr>
 <tr class="memitem:afd135ac8e654767f6d7c8e8229de934a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#afd135ac8e654767f6d7c8e8229de934a">VolumeParticleEmitter3Ptr</a> = std::shared_ptr&lt; <a class="el" href="class_cubby_flow_1_1_volume_particle_emitter3.html">VolumeParticleEmitter3</a> &gt;</td></tr>
 <tr class="memdesc:afd135ac8e654767f6d7c8e8229de934a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared pointer for the <a class="el" href="class_cubby_flow_1_1_volume_particle_emitter3.html" title="3-D volumetric particle emitter. ">VolumeParticleEmitter3</a> type.  <a href="#afd135ac8e654767f6d7c8e8229de934a">More...</a><br /></td></tr>
 <tr class="separator:afd135ac8e654767f6d7c8e8229de934a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa399c549b850bb7d74ee00db425d13d8"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#aa399c549b850bb7d74ee00db425d13d8">FDMVector2</a> = Array2&lt; double &gt;</td></tr>
+<tr class="memitem:aa399c549b850bb7d74ee00db425d13d8"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#aa399c549b850bb7d74ee00db425d13d8">FDMVector2</a> = <a class="el" href="namespace_cubby_flow.html#a394dd521512ab234e41c897139f550ab">Array2</a>&lt; double &gt;</td></tr>
 <tr class="memdesc:aa399c549b850bb7d74ee00db425d13d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector type for 2-D finite differencing.  <a href="#aa399c549b850bb7d74ee00db425d13d8">More...</a><br /></td></tr>
 <tr class="separator:aa399c549b850bb7d74ee00db425d13d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a501b3a606c2bee0035e5e2946fb06fb0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a501b3a606c2bee0035e5e2946fb06fb0">FDMMatrix2</a> = Array2&lt; <a class="el" href="struct_cubby_flow_1_1_f_d_m_matrix_row2.html">FDMMatrixRow2</a> &gt;</td></tr>
+<tr class="memitem:a501b3a606c2bee0035e5e2946fb06fb0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a501b3a606c2bee0035e5e2946fb06fb0">FDMMatrix2</a> = <a class="el" href="namespace_cubby_flow.html#a394dd521512ab234e41c897139f550ab">Array2</a>&lt; <a class="el" href="struct_cubby_flow_1_1_f_d_m_matrix_row2.html">FDMMatrixRow2</a> &gt;</td></tr>
 <tr class="memdesc:a501b3a606c2bee0035e5e2946fb06fb0"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_cubby_flow_1_1_matrix.html">Matrix</a> type for 2-D finite differencing.  <a href="#a501b3a606c2bee0035e5e2946fb06fb0">More...</a><br /></td></tr>
 <tr class="separator:a501b3a606c2bee0035e5e2946fb06fb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4b7ad28ccc8a45e876bf2c631187603"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ac4b7ad28ccc8a45e876bf2c631187603">FDMVector3</a> = Array3&lt; double &gt;</td></tr>
+<tr class="memitem:ac4b7ad28ccc8a45e876bf2c631187603"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ac4b7ad28ccc8a45e876bf2c631187603">FDMVector3</a> = <a class="el" href="namespace_cubby_flow.html#ae08c8be94de3a8ce4f625e7d869ba1bd">Array3</a>&lt; double &gt;</td></tr>
 <tr class="memdesc:ac4b7ad28ccc8a45e876bf2c631187603"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector type for 3-D finite differencing.  <a href="#ac4b7ad28ccc8a45e876bf2c631187603">More...</a><br /></td></tr>
 <tr class="separator:ac4b7ad28ccc8a45e876bf2c631187603"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abcc5034ce087c0ebc5191085f1ebd6f9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#abcc5034ce087c0ebc5191085f1ebd6f9">FDMMatrix3</a> = Array3&lt; <a class="el" href="struct_cubby_flow_1_1_f_d_m_matrix_row3.html">FDMMatrixRow3</a> &gt;</td></tr>
+<tr class="memitem:abcc5034ce087c0ebc5191085f1ebd6f9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#abcc5034ce087c0ebc5191085f1ebd6f9">FDMMatrix3</a> = <a class="el" href="namespace_cubby_flow.html#ae08c8be94de3a8ce4f625e7d869ba1bd">Array3</a>&lt; <a class="el" href="struct_cubby_flow_1_1_f_d_m_matrix_row3.html">FDMMatrixRow3</a> &gt;</td></tr>
 <tr class="memdesc:abcc5034ce087c0ebc5191085f1ebd6f9"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_cubby_flow_1_1_matrix.html">Matrix</a> type for 3-D finite differencing.  <a href="#abcc5034ce087c0ebc5191085f1ebd6f9">More...</a><br /></td></tr>
 <tr class="separator:abcc5034ce087c0ebc5191085f1ebd6f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91619beb983871aa0326b5404d91a64f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a91619beb983871aa0326b5404d91a64f">FDMMGMatrix2</a> = <a class="el" href="struct_cubby_flow_1_1_m_g_matrix.html">MGMatrix</a>&lt; <a class="el" href="struct_cubby_flow_1_1_f_d_m_b_l_a_s2.html">FDMBLAS2</a> &gt;</td></tr>
@@ -1204,13 +1277,6 @@ Typedefs</h2></td></tr>
 <tr class="memitem:abeff1f833f90e7d67c6c50621fcad93b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#abeff1f833f90e7d67c6c50621fcad93b">RigidBodyCollider3Ptr</a> = std::shared_ptr&lt; <a class="el" href="class_cubby_flow_1_1_rigid_body_collider3.html">RigidBodyCollider3</a> &gt;</td></tr>
 <tr class="memdesc:abeff1f833f90e7d67c6c50621fcad93b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared pointer for the <a class="el" href="class_cubby_flow_1_1_rigid_body_collider3.html" title="3-D rigid body collider class. ">RigidBodyCollider3</a> type.  <a href="#abeff1f833f90e7d67c6c50621fcad93b">More...</a><br /></td></tr>
 <tr class="separator:abeff1f833f90e7d67c6c50621fcad93b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf27f462bf226eba34b7a8f4284c4fe2"><td class="memTemplParams" colspan="2">template&lt;size_t N&gt; </td></tr>
-<tr class="memitem:aaf27f462bf226eba34b7a8f4284c4fe2"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#aaf27f462bf226eba34b7a8f4284c4fe2">Size</a> = <a class="el" href="class_cubby_flow_1_1_point.html">Point</a>&lt; size_t, N &gt;</td></tr>
-<tr class="separator:aaf27f462bf226eba34b7a8f4284c4fe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9952585eeca96a7396c1514b8ff5c3d3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a9952585eeca96a7396c1514b8ff5c3d3">Size2</a> = <a class="el" href="namespace_cubby_flow.html#a27e2387618327b015a875f26f6b0b216">Point2</a>&lt; size_t &gt;</td></tr>
-<tr class="separator:a9952585eeca96a7396c1514b8ff5c3d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a005c008a76c94569e67bebf637d53b80"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a005c008a76c94569e67bebf637d53b80">Size3</a> = <a class="el" href="namespace_cubby_flow.html#ac7367eb8b2c4ce7a49edc38a3f333f73">Point3</a>&lt; size_t &gt;</td></tr>
-<tr class="separator:a005c008a76c94569e67bebf637d53b80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2caa4d29ba1ca1a69387a205c97dfe7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#af2caa4d29ba1ca1a69387a205c97dfe7">Sphere2Ptr</a> = std::shared_ptr&lt; <a class="el" href="class_cubby_flow_1_1_sphere2.html">Sphere2</a> &gt;</td></tr>
 <tr class="memdesc:af2caa4d29ba1ca1a69387a205c97dfe7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared pointer for the <a class="el" href="class_cubby_flow_1_1_sphere2.html" title="2-D sphere geometry. ">Sphere2</a> type.  <a href="#af2caa4d29ba1ca1a69387a205c97dfe7">More...</a><br /></td></tr>
 <tr class="separator:af2caa4d29ba1ca1a69387a205c97dfe7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1563,12 +1629,12 @@ Typedefs</h2></td></tr>
 <tr class="separator:a582ac693adb9a5c1ae171982c440da34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a117deec612af8b0ca4cbda37fa77f96e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a117deec612af8b0ca4cbda37fa77f96e">VectorNUZ</a> = <a class="el" href="namespace_cubby_flow.html#a237480cb9b49e48c3b6e5925d80a9786">VectorN</a>&lt; size_t &gt;</td></tr>
 <tr class="separator:a117deec612af8b0ca4cbda37fa77f96e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3df04a8b8ffef73914aae897aadf9481"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a3df04a8b8ffef73914aae897aadf9481">MatrixCSRF</a> = <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; float &gt;</td></tr>
-<tr class="memdesc:a3df04a8b8ffef73914aae897aadf9481"><td class="mdescLeft">&#160;</td><td class="mdescRight">Float-type CSR matrix.  <a href="#a3df04a8b8ffef73914aae897aadf9481">More...</a><br /></td></tr>
-<tr class="separator:a3df04a8b8ffef73914aae897aadf9481"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68f24ef9a05e5d67ac6f93a803f7126d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a68f24ef9a05e5d67ac6f93a803f7126d">MatrixCSRD</a> = <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; double &gt;</td></tr>
-<tr class="memdesc:a68f24ef9a05e5d67ac6f93a803f7126d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Double-type CSR matrix.  <a href="#a68f24ef9a05e5d67ac6f93a803f7126d">More...</a><br /></td></tr>
-<tr class="separator:a68f24ef9a05e5d67ac6f93a803f7126d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4935f36ea81d5b6d09fc160d5b485a1"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#aa4935f36ea81d5b6d09fc160d5b485a1">MatrixCSRF</a></td></tr>
+<tr class="memdesc:aa4935f36ea81d5b6d09fc160d5b485a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Float-type CSR matrix.  <a href="#aa4935f36ea81d5b6d09fc160d5b485a1">More...</a><br /></td></tr>
+<tr class="separator:aa4935f36ea81d5b6d09fc160d5b485a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a963ed6e3f231df36d2bf5af73b7e8489"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a963ed6e3f231df36d2bf5af73b7e8489">MatrixCSRD</a></td></tr>
+<tr class="memdesc:a963ed6e3f231df36d2bf5af73b7e8489"><td class="mdescLeft">&#160;</td><td class="mdescRight">Double-type CSR matrix.  <a href="#a963ed6e3f231df36d2bf5af73b7e8489">More...</a><br /></td></tr>
+<tr class="separator:a963ed6e3f231df36d2bf5af73b7e8489"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a89c39dd56a6c8061085ceb6571049edb"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t Rows, size_t Cols, typename M1 &gt; </td></tr>
 <tr class="memitem:a89c39dd56a6c8061085ceb6571049edb"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a89c39dd56a6c8061085ceb6571049edb">MatrixNegate</a> = <a class="el" href="class_cubby_flow_1_1_matrix_unary_op.html">MatrixUnaryOp</a>&lt; T, Rows, Cols, M1, std::negate&lt; T &gt; &gt;</td></tr>
 <tr class="separator:a89c39dd56a6c8061085ceb6571049edb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2000,13 +2066,13 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a4a0627806a52faaaa2eb189c087048ca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a9952585eeca96a7396c1514b8ff5c3d3">Size2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a4a0627806a52faaaa2eb189c087048ca">TupleToSize2</a> (pybind11::tuple tuple)</td></tr>
+<tr class="memitem:a4a0627806a52faaaa2eb189c087048ca"><td class="memItemLeft" align="right" valign="top">Size2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a4a0627806a52faaaa2eb189c087048ca">TupleToSize2</a> (pybind11::tuple tuple)</td></tr>
 <tr class="separator:a4a0627806a52faaaa2eb189c087048ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1010c6ac07ce6757b3330d1431cb33b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a9952585eeca96a7396c1514b8ff5c3d3">Size2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a1010c6ac07ce6757b3330d1431cb33b0">TupleToSize2</a> (pybind11::list list)</td></tr>
+<tr class="memitem:a1010c6ac07ce6757b3330d1431cb33b0"><td class="memItemLeft" align="right" valign="top">Size2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a1010c6ac07ce6757b3330d1431cb33b0">TupleToSize2</a> (pybind11::list list)</td></tr>
 <tr class="separator:a1010c6ac07ce6757b3330d1431cb33b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f9c465f2e3cbde681ce7cb708753620"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a005c008a76c94569e67bebf637d53b80">Size3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a2f9c465f2e3cbde681ce7cb708753620">TupleToSize3</a> (pybind11::tuple tuple)</td></tr>
+<tr class="memitem:a2f9c465f2e3cbde681ce7cb708753620"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a2f9c465f2e3cbde681ce7cb708753620">TupleToSize3</a> (pybind11::tuple tuple)</td></tr>
 <tr class="separator:a2f9c465f2e3cbde681ce7cb708753620"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad72a48342e54c9d985147369b6ae6adf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a005c008a76c94569e67bebf637d53b80">Size3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ad72a48342e54c9d985147369b6ae6adf">TupleToSize3</a> (pybind11::list list)</td></tr>
+<tr class="memitem:ad72a48342e54c9d985147369b6ae6adf"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ad72a48342e54c9d985147369b6ae6adf">TupleToSize3</a> (pybind11::list list)</td></tr>
 <tr class="separator:ad72a48342e54c9d985147369b6ae6adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6735d0adb6444284eaae8abb5009ad73"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#af35a5ff521876a65ad3c38fd22e5c579">Point2UI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a6735d0adb6444284eaae8abb5009ad73">TupleToPoint2UI</a> (pybind11::tuple tuple)</td></tr>
 <tr class="separator:a6735d0adb6444284eaae8abb5009ad73"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2016,9 +2082,9 @@ Functions</h2></td></tr>
 <tr class="separator:ad1769f78fc2d4cb99ff3e54043bb30ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a40d787ce462b81247808b0992ed52a98"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#ae390cab31ca3b41c3a1c086c8210d410">Point3UI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a40d787ce462b81247808b0992ed52a98">TupleToPoint3UI</a> (pybind11::list list)</td></tr>
 <tr class="separator:a40d787ce462b81247808b0992ed52a98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e19144fa931581d3db98d7302dd99cc"><td class="memItemLeft" align="right" valign="top">pybind11::tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a4e19144fa931581d3db98d7302dd99cc">Size2ToTuple</a> (const <a class="el" href="namespace_cubby_flow.html#a9952585eeca96a7396c1514b8ff5c3d3">Size2</a> &amp;size)</td></tr>
+<tr class="memitem:a4e19144fa931581d3db98d7302dd99cc"><td class="memItemLeft" align="right" valign="top">pybind11::tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a4e19144fa931581d3db98d7302dd99cc">Size2ToTuple</a> (const Size2 &amp;size)</td></tr>
 <tr class="separator:a4e19144fa931581d3db98d7302dd99cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9d77334dc1134f5f0926df14a1b2914"><td class="memItemLeft" align="right" valign="top">pybind11::tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ab9d77334dc1134f5f0926df14a1b2914">Size3ToTuple</a> (const <a class="el" href="namespace_cubby_flow.html#a005c008a76c94569e67bebf637d53b80">Size3</a> &amp;size)</td></tr>
+<tr class="memitem:ab9d77334dc1134f5f0926df14a1b2914"><td class="memItemLeft" align="right" valign="top">pybind11::tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ab9d77334dc1134f5f0926df14a1b2914">Size3ToTuple</a> (const Size3 &amp;size)</td></tr>
 <tr class="separator:ab9d77334dc1134f5f0926df14a1b2914"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae9a7569cfedbe8e0a16bf73fa197da34"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N&gt; </td></tr>
 <tr class="memitem:ae9a7569cfedbe8e0a16bf73fa197da34"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; T, N &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ae9a7569cfedbe8e0a16bf73fa197da34">TupleToVector</a> (pybind11::tuple tuple)</td></tr>
@@ -2073,9 +2139,9 @@ Functions</h2></td></tr>
 <tr class="separator:aa2cacc3cb492de283bda8971d7a02c58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69a5263b673488cf70a4cfd3bb83eabe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#afde25bbbacb3ff035a5e6df8d7d0b363">QuaternionD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a69a5263b673488cf70a4cfd3bb83eabe">TupleToQuaternionD</a> (pybind11::list list)</td></tr>
 <tr class="separator:a69a5263b673488cf70a4cfd3bb83eabe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04005dea47bc86627b3aea5a8b765a5d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a9952585eeca96a7396c1514b8ff5c3d3">Size2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a04005dea47bc86627b3aea5a8b765a5d">ObjectToSize2</a> (const pybind11::object &amp;obj)</td></tr>
+<tr class="memitem:a04005dea47bc86627b3aea5a8b765a5d"><td class="memItemLeft" align="right" valign="top">Size2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a04005dea47bc86627b3aea5a8b765a5d">ObjectToSize2</a> (const pybind11::object &amp;obj)</td></tr>
 <tr class="separator:a04005dea47bc86627b3aea5a8b765a5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef7dfc5feb23720066eda279da4da527"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a005c008a76c94569e67bebf637d53b80">Size3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#aef7dfc5feb23720066eda279da4da527">ObjectToSize3</a> (const pybind11::object &amp;obj)</td></tr>
+<tr class="memitem:aef7dfc5feb23720066eda279da4da527"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#aef7dfc5feb23720066eda279da4da527">ObjectToSize3</a> (const pybind11::object &amp;obj)</td></tr>
 <tr class="separator:aef7dfc5feb23720066eda279da4da527"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad753a2716795b79dc8d858499110c9fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#af35a5ff521876a65ad3c38fd22e5c579">Point2UI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ad753a2716795b79dc8d858499110c9fc">ObjectToPoint2UI</a> (const pybind11::object &amp;obj)</td></tr>
 <tr class="separator:ad753a2716795b79dc8d858499110c9fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2097,54 +2163,36 @@ Functions</h2></td></tr>
 <tr class="separator:a60d4c0b18c96053b96bd649ddfcff878"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada95f083d1aa947cdc7688f57aac6868"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#afde25bbbacb3ff035a5e6df8d7d0b363">QuaternionD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ada95f083d1aa947cdc7688f57aac6868">ObjectToQuaternionD</a> (const pybind11::object &amp;obj)</td></tr>
 <tr class="separator:ada95f083d1aa947cdc7688f57aac6868"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4648f1586325c8cf1e51cbfb609a367"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#aa4648f1586325c8cf1e51cbfb609a367">ParseGridResizeParams</a> (pybind11::args args, pybind11::kwargs kwargs, <a class="el" href="namespace_cubby_flow.html#a9952585eeca96a7396c1514b8ff5c3d3">Size2</a> &amp;resolution, <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;gridSpacing, <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;gridOrigin)</td></tr>
+<tr class="memitem:aa4648f1586325c8cf1e51cbfb609a367"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#aa4648f1586325c8cf1e51cbfb609a367">ParseGridResizeParams</a> (pybind11::args args, pybind11::kwargs kwargs, Size2 &amp;resolution, <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;gridSpacing, <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;gridOrigin)</td></tr>
 <tr class="separator:aa4648f1586325c8cf1e51cbfb609a367"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4eb3a3ab0093b8a6c4430419f5da79d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a4eb3a3ab0093b8a6c4430419f5da79d8">ParseGridResizeParams</a> (pybind11::args args, pybind11::kwargs kwargs, <a class="el" href="namespace_cubby_flow.html#a005c008a76c94569e67bebf637d53b80">Size3</a> &amp;resolution, <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;gridSpacing, <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;gridOrigin)</td></tr>
+<tr class="memitem:a4eb3a3ab0093b8a6c4430419f5da79d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a4eb3a3ab0093b8a6c4430419f5da79d8">ParseGridResizeParams</a> (pybind11::args args, pybind11::kwargs kwargs, Size3 &amp;resolution, <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;gridSpacing, <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;gridOrigin)</td></tr>
 <tr class="separator:a4eb3a3ab0093b8a6c4430419f5da79d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3420df6d3f5b4d14daa3258d01e8a942"><td class="memTemplParams" colspan="2">template&lt;typename ArrayType , typename T &gt; </td></tr>
-<tr class="memitem:a3420df6d3f5b4d14daa3258d01e8a942"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a3420df6d3f5b4d14daa3258d01e8a942">SetRange1</a> (size_t size, const T &amp;value, ArrayType *output)</td></tr>
-<tr class="memdesc:a3420df6d3f5b4d14daa3258d01e8a942"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns <code>value</code> to 1-D array <code>output</code> with <code>size</code>.  <a href="#a3420df6d3f5b4d14daa3258d01e8a942">More...</a><br /></td></tr>
-<tr class="separator:a3420df6d3f5b4d14daa3258d01e8a942"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a937d4e8940bb44beb0c38b152814d9f4"><td class="memTemplParams" colspan="2">template&lt;typename ArrayType , typename T &gt; </td></tr>
-<tr class="memitem:a937d4e8940bb44beb0c38b152814d9f4"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a937d4e8940bb44beb0c38b152814d9f4">SetRange1</a> (size_t begin, size_t end, const T &amp;value, ArrayType *output)</td></tr>
-<tr class="memdesc:a937d4e8940bb44beb0c38b152814d9f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns <code>value</code> to 1-D array <code>output</code> from <code>begin</code> to <code>end</code>.  <a href="#a937d4e8940bb44beb0c38b152814d9f4">More...</a><br /></td></tr>
-<tr class="separator:a937d4e8940bb44beb0c38b152814d9f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85d1519146d91c7d95740e5064cc77a2"><td class="memTemplParams" colspan="2">template&lt;typename ArrayType1 , typename ArrayType2 &gt; </td></tr>
-<tr class="memitem:a85d1519146d91c7d95740e5064cc77a2"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a85d1519146d91c7d95740e5064cc77a2">CopyRange1</a> (const ArrayType1 &amp;input, size_t size, ArrayType2 *output)</td></tr>
-<tr class="memdesc:a85d1519146d91c7d95740e5064cc77a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies <code>input</code> array to <code>output</code> array with <code>size</code>.  <a href="#a85d1519146d91c7d95740e5064cc77a2">More...</a><br /></td></tr>
-<tr class="separator:a85d1519146d91c7d95740e5064cc77a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89c930cf5b76ccc71b4b1f5900e2f294"><td class="memTemplParams" colspan="2">template&lt;typename ArrayType1 , typename ArrayType2 &gt; </td></tr>
-<tr class="memitem:a89c930cf5b76ccc71b4b1f5900e2f294"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a89c930cf5b76ccc71b4b1f5900e2f294">CopyRange1</a> (const ArrayType1 &amp;input, size_t begin, size_t end, ArrayType2 *output)</td></tr>
-<tr class="memdesc:a89c930cf5b76ccc71b4b1f5900e2f294"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies <code>input</code> array to <code>output</code> array from <code>begin</code> to <code>end</code>.  <a href="#a89c930cf5b76ccc71b4b1f5900e2f294">More...</a><br /></td></tr>
-<tr class="separator:a89c930cf5b76ccc71b4b1f5900e2f294"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0cd2ca4f5b0187a382ece11b4dd0b2f1"><td class="memTemplParams" colspan="2">template&lt;typename ArrayType1 , typename ArrayType2 &gt; </td></tr>
-<tr class="memitem:a0cd2ca4f5b0187a382ece11b4dd0b2f1"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a0cd2ca4f5b0187a382ece11b4dd0b2f1">CopyRange2</a> (const ArrayType1 &amp;input, size_t sizeX, size_t sizeY, ArrayType2 *output)</td></tr>
-<tr class="memdesc:a0cd2ca4f5b0187a382ece11b4dd0b2f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies 2-D <code>input</code> array to <code>output</code> array with <code>sizeX</code> and <code>sizeY</code>.  <a href="#a0cd2ca4f5b0187a382ece11b4dd0b2f1">More...</a><br /></td></tr>
-<tr class="separator:a0cd2ca4f5b0187a382ece11b4dd0b2f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13eac349bcffca41d20eb7413e6a925d"><td class="memTemplParams" colspan="2">template&lt;typename ArrayType1 , typename ArrayType2 &gt; </td></tr>
-<tr class="memitem:a13eac349bcffca41d20eb7413e6a925d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a13eac349bcffca41d20eb7413e6a925d">CopyRange2</a> (const ArrayType1 &amp;input, size_t beginX, size_t endX, size_t beginY, size_t endY, ArrayType2 *output)</td></tr>
-<tr class="memdesc:a13eac349bcffca41d20eb7413e6a925d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies 2-D <code>input</code> array to <code>output</code> array from (<code>beginX</code>, <code>beginY</code>) to (<code>endX</code>, <code>endY</code>).  <a href="#a13eac349bcffca41d20eb7413e6a925d">More...</a><br /></td></tr>
-<tr class="separator:a13eac349bcffca41d20eb7413e6a925d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79b4d4cf5acfc82e8def4f963f11a9f2"><td class="memTemplParams" colspan="2">template&lt;typename ArrayType1 , typename ArrayType2 &gt; </td></tr>
-<tr class="memitem:a79b4d4cf5acfc82e8def4f963f11a9f2"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a79b4d4cf5acfc82e8def4f963f11a9f2">CopyRange3</a> (const ArrayType1 &amp;input, size_t sizeX, size_t sizeY, size_t sizeZ, ArrayType2 *output)</td></tr>
-<tr class="memdesc:a79b4d4cf5acfc82e8def4f963f11a9f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies 3-D <code>input</code> array to <code>output</code> array with <code>sizeX</code> and <code>sizeY</code>.  <a href="#a79b4d4cf5acfc82e8def4f963f11a9f2">More...</a><br /></td></tr>
-<tr class="separator:a79b4d4cf5acfc82e8def4f963f11a9f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9450b8ae8c88645c8419b41cd7cab266"><td class="memTemplParams" colspan="2">template&lt;typename ArrayType1 , typename ArrayType2 &gt; </td></tr>
-<tr class="memitem:a9450b8ae8c88645c8419b41cd7cab266"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a9450b8ae8c88645c8419b41cd7cab266">CopyRange3</a> (const ArrayType1 &amp;input, size_t beginX, size_t endX, size_t beginY, size_t endY, size_t beginZ, size_t endZ, ArrayType2 *output)</td></tr>
-<tr class="memdesc:a9450b8ae8c88645c8419b41cd7cab266"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies 3-D <code>input</code> array to <code>output</code> array from (<code>beginX</code>, <code>beginY</code>, <code>beginZ</code>) to (<code>endX</code>, <code>endY</code>, <code>endZ</code>).  <a href="#a9450b8ae8c88645c8419b41cd7cab266">More...</a><br /></td></tr>
-<tr class="separator:a9450b8ae8c88645c8419b41cd7cab266"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3070ba15282988b9845aeb43e2f81e32"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a3070ba15282988b9845aeb43e2f81e32"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a3070ba15282988b9845aeb43e2f81e32">ExtrapolateToRegion</a> (const ConstArrayAccessor2&lt; T &gt; &amp;input, const ConstArrayAccessor2&lt; char &gt; &amp;valid, unsigned int numberOfIterations, ArrayAccessor2&lt; T &gt; output)</td></tr>
-<tr class="memdesc:a3070ba15282988b9845aeb43e2f81e32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extrapolates 2-D input data from 'valid' (1) to 'invalid' (0) region.  <a href="#a3070ba15282988b9845aeb43e2f81e32">More...</a><br /></td></tr>
-<tr class="separator:a3070ba15282988b9845aeb43e2f81e32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60d6a4eb2b528574103ebbe29972bfa8"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a60d6a4eb2b528574103ebbe29972bfa8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a60d6a4eb2b528574103ebbe29972bfa8">ExtrapolateToRegion</a> (const ConstArrayAccessor3&lt; T &gt; &amp;input, const ConstArrayAccessor3&lt; char &gt; &amp;valid, unsigned int numberOfIterations, ArrayAccessor3&lt; T &gt; output)</td></tr>
-<tr class="memdesc:a60d6a4eb2b528574103ebbe29972bfa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extrapolates 3-D input data from 'valid' (1) to 'invalid' (0) region.  <a href="#a60d6a4eb2b528574103ebbe29972bfa8">More...</a><br /></td></tr>
-<tr class="separator:a60d6a4eb2b528574103ebbe29972bfa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d38558c534295ea6f09b72b50df080d"><td class="memTemplParams" colspan="2">template&lt;typename ArrayType &gt; </td></tr>
-<tr class="memitem:a9d38558c534295ea6f09b72b50df080d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a9d38558c534295ea6f09b72b50df080d">ConvertToCSV</a> (const ArrayType &amp;data, std::ostream *stream)</td></tr>
-<tr class="memdesc:a9d38558c534295ea6f09b72b50df080d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts 2-D array to Comma Separated Value (CSV) stream.  <a href="#a9d38558c534295ea6f09b72b50df080d">More...</a><br /></td></tr>
-<tr class="separator:a9d38558c534295ea6f09b72b50df080d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22bd948331ca25bbf01a5f84ea9970ed"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N&gt; </td></tr>
+<tr class="memitem:a22bd948331ca25bbf01a5f84ea9970ed"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a22bd948331ca25bbf01a5f84ea9970ed">Fill</a> (<a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; T, N &gt; a, const <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; size_t, N &gt; &amp;begin, const <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; size_t, N &gt; &amp;end, const T &amp;val)</td></tr>
+<tr class="separator:a22bd948331ca25bbf01a5f84ea9970ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa8a8c1cf1f002b4831014206e0f9db2"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N&gt; </td></tr>
+<tr class="memitem:afa8a8c1cf1f002b4831014206e0f9db2"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#afa8a8c1cf1f002b4831014206e0f9db2">Fill</a> (<a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; T, N &gt; a, const T &amp;val)</td></tr>
+<tr class="separator:afa8a8c1cf1f002b4831014206e0f9db2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bba0796b77a351f8bda33a7b5e8cc60"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a4bba0796b77a351f8bda33a7b5e8cc60"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a4bba0796b77a351f8bda33a7b5e8cc60">Fill</a> (<a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; T, 1 &gt; a, size_t begin, size_t end, const T &amp;val)</td></tr>
+<tr class="separator:a4bba0796b77a351f8bda33a7b5e8cc60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a891577c58c915a4195ed1e8b6ea7460f"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U , size_t N&gt; </td></tr>
+<tr class="memitem:a891577c58c915a4195ed1e8b6ea7460f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a891577c58c915a4195ed1e8b6ea7460f">Copy</a> (<a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; T, N &gt; src, const <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; size_t, N &gt; &amp;begin, const <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; size_t, N &gt; &amp;end, <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; U, N &gt; dst)</td></tr>
+<tr class="separator:a891577c58c915a4195ed1e8b6ea7460f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac0ac6716b9dcdc255a5c7149ea72b6f"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U , size_t N&gt; </td></tr>
+<tr class="memitem:aac0ac6716b9dcdc255a5c7149ea72b6f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#aac0ac6716b9dcdc255a5c7149ea72b6f">Copy</a> (<a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; T, N &gt; src, <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; U, N &gt; dst)</td></tr>
+<tr class="separator:aac0ac6716b9dcdc255a5c7149ea72b6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa16e9aa86c30ad8135d4f2b9888f213c"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:aa16e9aa86c30ad8135d4f2b9888f213c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#aa16e9aa86c30ad8135d4f2b9888f213c">Copy</a> (<a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; T, 1 &gt; src, size_t begin, size_t end, <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; U, 1 &gt; dst)</td></tr>
+<tr class="separator:aa16e9aa86c30ad8135d4f2b9888f213c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8cdb2466b4591801dacc8f81884c6fe"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:ae8cdb2466b4591801dacc8f81884c6fe"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ae8cdb2466b4591801dacc8f81884c6fe">ExtrapolateToRegion</a> (<a class="el" href="namespace_cubby_flow.html#ad75e0ae1b906fd164d031a5bdcdad61b">ArrayView2</a>&lt; T &gt; input, <a class="el" href="namespace_cubby_flow.html#ad75e0ae1b906fd164d031a5bdcdad61b">ArrayView2</a>&lt; char &gt; valid, unsigned int numberOfIterations, <a class="el" href="namespace_cubby_flow.html#ad75e0ae1b906fd164d031a5bdcdad61b">ArrayView2</a>&lt; U &gt; output)</td></tr>
+<tr class="memdesc:ae8cdb2466b4591801dacc8f81884c6fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extrapolates 2-D input data from 'valid' (1) to 'invalid' (0) region.  <a href="#ae8cdb2466b4591801dacc8f81884c6fe">More...</a><br /></td></tr>
+<tr class="separator:ae8cdb2466b4591801dacc8f81884c6fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a609e95f9dd72bf4e02d855c8f18e77a8"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:a609e95f9dd72bf4e02d855c8f18e77a8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a609e95f9dd72bf4e02d855c8f18e77a8">ExtrapolateToRegion</a> (<a class="el" href="namespace_cubby_flow.html#a25fe07538a1dbb722162bdacd82d8bee">ArrayView3</a>&lt; T &gt; input, <a class="el" href="namespace_cubby_flow.html#a25fe07538a1dbb722162bdacd82d8bee">ArrayView3</a>&lt; char &gt; valid, unsigned int numberOfIterations, <a class="el" href="namespace_cubby_flow.html#a25fe07538a1dbb722162bdacd82d8bee">ArrayView3</a>&lt; U &gt; output)</td></tr>
+<tr class="memdesc:a609e95f9dd72bf4e02d855c8f18e77a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extrapolates 3-D input data from 'valid' (1) to 'invalid' (0) region.  <a href="#a609e95f9dd72bf4e02d855c8f18e77a8">More...</a><br /></td></tr>
+<tr class="separator:a609e95f9dd72bf4e02d855c8f18e77a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a513c05f2d9d47e47d5716ca37c8cd68e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a513c05f2d9d47e47d5716ca37c8cd68e">Gradient2</a> (const ConstArrayAccessor2&lt; double &gt; &amp;data, const <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;gridSpacing, size_t i, size_t j)</td></tr>
 <tr class="memdesc:a513c05f2d9d47e47d5716ca37c8cd68e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns 2-D gradient vector from given 2-D scalar grid-like array <code>data</code>, <code>gridSpacing</code>, and array index (<code>i</code>, <code>j</code>).  <a href="#a513c05f2d9d47e47d5716ca37c8cd68e">More...</a><br /></td></tr>
 <tr class="separator:a513c05f2d9d47e47d5716ca37c8cd68e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2548,12 +2596,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aaae54a59c0abde79744b37dd74f46223"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:aaae54a59c0abde79744b37dd74f46223"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#aaae54a59c0abde79744b37dd74f46223">operator*</a> (T a, const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;b)</td></tr>
 <tr class="separator:aaae54a59c0abde79744b37dd74f46223"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a054e1bae9197f1d079d5128129166774"><td class="memTemplParams" colspan="2">template&lt;typename T , typename VE &gt; </td></tr>
-<tr class="memitem:a054e1bae9197f1d079d5128129166774"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r_vector_mul.html">MatrixCSRVectorMul</a>&lt; T, VE &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a054e1bae9197f1d079d5128129166774">operator*</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;a, const VectorExpression&lt; T, VE &gt; &amp;b)</td></tr>
-<tr class="separator:a054e1bae9197f1d079d5128129166774"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91247db6b8fe3254da504aa9a3eac4f7"><td class="memTemplParams" colspan="2">template&lt;typename T , typename ME &gt; </td></tr>
-<tr class="memitem:a91247db6b8fe3254da504aa9a3eac4f7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r_matrix_mul.html">MatrixCSRMatrixMul</a>&lt; T, ME &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a91247db6b8fe3254da504aa9a3eac4f7">operator*</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;a, const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, ME &gt; &amp;b)</td></tr>
-<tr class="separator:a91247db6b8fe3254da504aa9a3eac4f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae676caffcb05fd28ae9af3f31bb13b0a"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t R, size_t C, typename ME &gt; </td></tr>
+<tr class="memitem:ae676caffcb05fd28ae9af3f31bb13b0a"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r_matrix_mul.html">MatrixCSRMatrixMul</a>&lt; T, ME &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ae676caffcb05fd28ae9af3f31bb13b0a">operator*</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;a, const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, ME &gt; &amp;b)</td></tr>
+<tr class="separator:ae676caffcb05fd28ae9af3f31bb13b0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2631a82a3fd1726b44d4f3d37c2860f1"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a2631a82a3fd1726b44d4f3d37c2860f1"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a2631a82a3fd1726b44d4f3d37c2860f1">operator/</a> (const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;a, T b)</td></tr>
 <tr class="separator:a2631a82a3fd1726b44d4f3d37c2860f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2749,15 +2794,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a0517174fa39b779bba4c7d77293080ff"><td class="memTemplParams" colspan="2">template&lt;class ForwardIter , class T , class Compare &gt; </td></tr>
 <tr class="memitem:a0517174fa39b779bba4c7d77293080ff"><td class="memTemplItemLeft" align="right" valign="top">ForwardIter&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a0517174fa39b779bba4c7d77293080ff">BinaryFind</a> (ForwardIter first, ForwardIter last, const T &amp;value, Compare comp)</td></tr>
 <tr class="separator:a0517174fa39b779bba4c7d77293080ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a1675777ad09d858f3d3e669729ddb1"><td class="memItemLeft" align="right" valign="top">fbs::Size2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a0a1675777ad09d858f3d3e669729ddb1">CubbyFlowToFlatbuffers</a> (const <a class="el" href="namespace_cubby_flow.html#a9952585eeca96a7396c1514b8ff5c3d3">Size2</a> &amp;vec)</td></tr>
+<tr class="memitem:a0a1675777ad09d858f3d3e669729ddb1"><td class="memItemLeft" align="right" valign="top">fbs::Size2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a0a1675777ad09d858f3d3e669729ddb1">CubbyFlowToFlatbuffers</a> (const Size2 &amp;vec)</td></tr>
 <tr class="separator:a0a1675777ad09d858f3d3e669729ddb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b77babe66e361bf831371fa55fd3d58"><td class="memItemLeft" align="right" valign="top">fbs::Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a4b77babe66e361bf831371fa55fd3d58">CubbyFlowToFlatbuffers</a> (const <a class="el" href="namespace_cubby_flow.html#a005c008a76c94569e67bebf637d53b80">Size3</a> &amp;vec)</td></tr>
+<tr class="memitem:a4b77babe66e361bf831371fa55fd3d58"><td class="memItemLeft" align="right" valign="top">fbs::Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a4b77babe66e361bf831371fa55fd3d58">CubbyFlowToFlatbuffers</a> (const Size3 &amp;vec)</td></tr>
 <tr class="separator:a4b77babe66e361bf831371fa55fd3d58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a775f5fb23ec3b0af4d52b7a68b2ec02c"><td class="memItemLeft" align="right" valign="top">fbs::Vector2D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a775f5fb23ec3b0af4d52b7a68b2ec02c">CubbyFlowToFlatbuffers</a> (const <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;vec)</td></tr>
 <tr class="separator:a775f5fb23ec3b0af4d52b7a68b2ec02c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae64e8f360b2a9d3d4f76ec93df98b786"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a9952585eeca96a7396c1514b8ff5c3d3">Size2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ae64e8f360b2a9d3d4f76ec93df98b786">FlatbuffersToCubbyFlow</a> (const fbs::Size2 &amp;vec)</td></tr>
+<tr class="memitem:ae64e8f360b2a9d3d4f76ec93df98b786"><td class="memItemLeft" align="right" valign="top">Size2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ae64e8f360b2a9d3d4f76ec93df98b786">FlatbuffersToCubbyFlow</a> (const fbs::Size2 &amp;vec)</td></tr>
 <tr class="separator:ae64e8f360b2a9d3d4f76ec93df98b786"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3043cf1db0f75d1e5f969aac21b549d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a005c008a76c94569e67bebf637d53b80">Size3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ab3043cf1db0f75d1e5f969aac21b549d">FlatbuffersToCubbyFlow</a> (const fbs::Size3 &amp;vec)</td></tr>
+<tr class="memitem:ab3043cf1db0f75d1e5f969aac21b549d"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ab3043cf1db0f75d1e5f969aac21b549d">FlatbuffersToCubbyFlow</a> (const fbs::Size3 &amp;vec)</td></tr>
 <tr class="separator:ab3043cf1db0f75d1e5f969aac21b549d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92b81255351905dccf75060c87e8c8ba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a92b81255351905dccf75060c87e8c8ba">FlatbuffersToCubbyFlow</a> (const fbs::Vector2D &amp;vec)</td></tr>
 <tr class="separator:a92b81255351905dccf75060c87e8c8ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2901,7 +2946,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a5b3625bc3f99774e9632ce7361bc2c2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes data chunk using common schema.  <a href="#a5b3625bc3f99774e9632ce7361bc2c2b">More...</a><br /></td></tr>
 <tr class="separator:a5b3625bc3f99774e9632ce7361bc2c2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f5107304712307d8a6aacf9f93af8fb"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a6f5107304712307d8a6aacf9f93af8fb"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a6f5107304712307d8a6aacf9f93af8fb">Deserialize</a> (const std::vector&lt; uint8_t &gt; &amp;buffer, Array1&lt; T &gt; *array)</td></tr>
+<tr class="memitem:a6f5107304712307d8a6aacf9f93af8fb"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a6f5107304712307d8a6aacf9f93af8fb">Deserialize</a> (const std::vector&lt; uint8_t &gt; &amp;buffer, <a class="el" href="namespace_cubby_flow.html#a2fbda7925084b71604339e885b8a6053">Array1</a>&lt; T &gt; *array)</td></tr>
 <tr class="memdesc:a6f5107304712307d8a6aacf9f93af8fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserializes buffer to data chunk using common schema.  <a href="#a6f5107304712307d8a6aacf9f93af8fb">More...</a><br /></td></tr>
 <tr class="separator:a6f5107304712307d8a6aacf9f93af8fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a3838857e4016b1e732e45b5edc6aea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a7a3838857e4016b1e732e45b5edc6aea">Serialize</a> (const <a class="el" href="class_cubby_flow_1_1_serializable.html">Serializable</a> *serializable, std::vector&lt; uint8_t &gt; *buffer)</td></tr>
@@ -3135,6 +3180,134 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Shared pointer type for the <a class="el" href="class_cubby_flow_1_1_a_p_i_c_solver3.html" title="3-D Affine Particle-in-Cell (APIC) implementation ">APICSolver3</a>. </p>
+
+</div>
+</div>
+<a id="a2fbda7925084b71604339e885b8a6053"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fbda7925084b71604339e885b8a6053">&#9670;&nbsp;</a></span>Array1</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a2fbda7925084b71604339e885b8a6053">CubbyFlow::Array1</a> = typedef <a class="el" href="class_cubby_flow_1_1_array.html">Array</a>&lt;T, 1&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a394dd521512ab234e41c897139f550ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a394dd521512ab234e41c897139f550ab">&#9670;&nbsp;</a></span>Array2</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a394dd521512ab234e41c897139f550ab">CubbyFlow::Array2</a> = typedef <a class="el" href="class_cubby_flow_1_1_array.html">Array</a>&lt;T, 2&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae08c8be94de3a8ce4f625e7d869ba1bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae08c8be94de3a8ce4f625e7d869ba1bd">&#9670;&nbsp;</a></span>Array3</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#ae08c8be94de3a8ce4f625e7d869ba1bd">CubbyFlow::Array3</a> = typedef <a class="el" href="class_cubby_flow_1_1_array.html">Array</a>&lt;T, 3&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5304ab5a99e799829221da9afe3d9115"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5304ab5a99e799829221da9afe3d9115">&#9670;&nbsp;</a></span>Array4</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a5304ab5a99e799829221da9afe3d9115">CubbyFlow::Array4</a> = typedef <a class="el" href="class_cubby_flow_1_1_array.html">Array</a>&lt;T, 4&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5f79070dc5c03d4845c7e510bd377a3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f79070dc5c03d4845c7e510bd377a3a">&#9670;&nbsp;</a></span>ArrayView1</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a5f79070dc5c03d4845c7e510bd377a3a">CubbyFlow::ArrayView1</a> = typedef <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt;T, 1&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad75e0ae1b906fd164d031a5bdcdad61b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad75e0ae1b906fd164d031a5bdcdad61b">&#9670;&nbsp;</a></span>ArrayView2</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#ad75e0ae1b906fd164d031a5bdcdad61b">CubbyFlow::ArrayView2</a> = typedef <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt;T, 2&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a25fe07538a1dbb722162bdacd82d8bee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25fe07538a1dbb722162bdacd82d8bee">&#9670;&nbsp;</a></span>ArrayView3</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a25fe07538a1dbb722162bdacd82d8bee">CubbyFlow::ArrayView3</a> = typedef <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt;T, 3&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac2c25f6166a47ff9b614c31d44defab2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2c25f6166a47ff9b614c31d44defab2">&#9670;&nbsp;</a></span>ArrayView4</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#ac2c25f6166a47ff9b614c31d44defab2">CubbyFlow::ArrayView4</a> = typedef <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt;T, 4&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -3383,6 +3556,54 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Box-item intersection test function. </p>
+
+</div>
+</div>
+<a id="a6ef655a4bbdbab5480307a8e8da6df4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ef655a4bbdbab5480307a8e8da6df4a">&#9670;&nbsp;</a></span>CatmullRomArraySampler1</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a6ef655a4bbdbab5480307a8e8da6df4a">CubbyFlow::CatmullRomArraySampler1</a> = typedef <a class="el" href="class_cubby_flow_1_1_cubic_array_sampler.html">CubicArraySampler</a>&lt;T, 1, <a class="el" href="struct_cubby_flow_1_1_do_catmull_rom.html">DoCatmullRom</a>&lt;T&gt; &gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac856c5eb03b43776c4d8e5d66ba0899e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac856c5eb03b43776c4d8e5d66ba0899e">&#9670;&nbsp;</a></span>CatmullRomArraySampler2</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#ac856c5eb03b43776c4d8e5d66ba0899e">CubbyFlow::CatmullRomArraySampler2</a> = typedef <a class="el" href="class_cubby_flow_1_1_cubic_array_sampler.html">CubicArraySampler</a>&lt;T, 2, <a class="el" href="struct_cubby_flow_1_1_do_catmull_rom.html">DoCatmullRom</a>&lt;T&gt; &gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8d944944b774b8043cb15cdfff910e62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d944944b774b8043cb15cdfff910e62">&#9670;&nbsp;</a></span>CatmullRomArraySampler3</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a8d944944b774b8043cb15cdfff910e62">CubbyFlow::CatmullRomArraySampler3</a> = typedef <a class="el" href="class_cubby_flow_1_1_cubic_array_sampler.html">CubicArraySampler</a>&lt;T, 3, <a class="el" href="struct_cubby_flow_1_1_do_catmull_rom.html">DoCatmullRom</a>&lt;T&gt; &gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -3643,6 +3864,70 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Shared pointer for the <a class="el" href="class_cubby_flow_1_1_constant_vector_field3.html" title="3-D constant vector field. ">ConstantVectorField3</a> type. </p>
+
+</div>
+</div>
+<a id="a6c7e5a4d20594fa6e144e3d10fc1c7de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c7e5a4d20594fa6e144e3d10fc1c7de">&#9670;&nbsp;</a></span>ConstArrayView1</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a6c7e5a4d20594fa6e144e3d10fc1c7de">CubbyFlow::ConstArrayView1</a> = typedef <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt;const T, 1&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abb93428b82c688960010240220a749f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb93428b82c688960010240220a749f8">&#9670;&nbsp;</a></span>ConstArrayView2</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#abb93428b82c688960010240220a749f8">CubbyFlow::ConstArrayView2</a> = typedef <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt;const T, 2&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad262b39bf0201744ab5acc2e9bdab3e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad262b39bf0201744ab5acc2e9bdab3e5">&#9670;&nbsp;</a></span>ConstArrayView3</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#ad262b39bf0201744ab5acc2e9bdab3e5">CubbyFlow::ConstArrayView3</a> = typedef <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt;const T, 3&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9888c20add20beb5b14c017bba771d14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9888c20add20beb5b14c017bba771d14">&#9670;&nbsp;</a></span>ConstArrayView4</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a9888c20add20beb5b14c017bba771d14">CubbyFlow::ConstArrayView4</a> = typedef <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt;const T, 4&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -4013,7 +4298,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a501b3a606c2bee0035e5e2946fb06fb0">CubbyFlow::FDMMatrix2</a> = typedef Array2&lt;<a class="el" href="struct_cubby_flow_1_1_f_d_m_matrix_row2.html">FDMMatrixRow2</a>&gt;</td>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a501b3a606c2bee0035e5e2946fb06fb0">CubbyFlow::FDMMatrix2</a> = typedef <a class="el" href="namespace_cubby_flow.html#a394dd521512ab234e41c897139f550ab">Array2</a>&lt;<a class="el" href="struct_cubby_flow_1_1_f_d_m_matrix_row2.html">FDMMatrixRow2</a>&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -4029,7 +4314,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#abcc5034ce087c0ebc5191085f1ebd6f9">CubbyFlow::FDMMatrix3</a> = typedef Array3&lt;<a class="el" href="struct_cubby_flow_1_1_f_d_m_matrix_row3.html">FDMMatrixRow3</a>&gt;</td>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#abcc5034ce087c0ebc5191085f1ebd6f9">CubbyFlow::FDMMatrix3</a> = typedef <a class="el" href="namespace_cubby_flow.html#ae08c8be94de3a8ce4f625e7d869ba1bd">Array3</a>&lt;<a class="el" href="struct_cubby_flow_1_1_f_d_m_matrix_row3.html">FDMMatrixRow3</a>&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -4173,7 +4458,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#aa399c549b850bb7d74ee00db425d13d8">CubbyFlow::FDMVector2</a> = typedef Array2&lt;double&gt;</td>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#aa399c549b850bb7d74ee00db425d13d8">CubbyFlow::FDMVector2</a> = typedef <a class="el" href="namespace_cubby_flow.html#a394dd521512ab234e41c897139f550ab">Array2</a>&lt;double&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -4189,7 +4474,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#ac4b7ad28ccc8a45e876bf2c631187603">CubbyFlow::FDMVector3</a> = typedef Array3&lt;double&gt;</td>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#ac4b7ad28ccc8a45e876bf2c631187603">CubbyFlow::FDMVector3</a> = typedef <a class="el" href="namespace_cubby_flow.html#ae08c8be94de3a8ce4f625e7d869ba1bd">Array3</a>&lt;double&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -5042,6 +5327,54 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a93d2ffb66c88df00b86e218ff83ed2c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93d2ffb66c88df00b86e218ff83ed2c7">&#9670;&nbsp;</a></span>LinearArraySampler1</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a93d2ffb66c88df00b86e218ff83ed2c7">CubbyFlow::LinearArraySampler1</a> = typedef <a class="el" href="class_cubby_flow_1_1_linear_array_sampler.html">LinearArraySampler</a>&lt;T, 1&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7eec18024d4fe7399f8bc7249a700e88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7eec18024d4fe7399f8bc7249a700e88">&#9670;&nbsp;</a></span>LinearArraySampler2</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a7eec18024d4fe7399f8bc7249a700e88">CubbyFlow::LinearArraySampler2</a> = typedef <a class="el" href="class_cubby_flow_1_1_linear_array_sampler.html">LinearArraySampler</a>&lt;T, 2&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad52debe2cd24545d54a8ce4d36cf4f0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad52debe2cd24545d54a8ce4d36cf4f0a">&#9670;&nbsp;</a></span>LinearArraySampler3</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#ad52debe2cd24545d54a8ce4d36cf4f0a">CubbyFlow::LinearArraySampler3</a> = typedef <a class="el" href="class_cubby_flow_1_1_linear_array_sampler.html">LinearArraySampler</a>&lt;T, 3&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a59215720df56fda6ed7ee7637870daf6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a59215720df56fda6ed7ee7637870daf6">&#9670;&nbsp;</a></span>Matrix2x2</h2>
 
@@ -5626,14 +5959,14 @@ template&lt;typename T , size_t Rows, size_t Cols, typename M1 , typename M2 , t
 
 </div>
 </div>
-<a id="a68f24ef9a05e5d67ac6f93a803f7126d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68f24ef9a05e5d67ac6f93a803f7126d">&#9670;&nbsp;</a></span>MatrixCSRD</h2>
+<a id="a963ed6e3f231df36d2bf5af73b7e8489"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a963ed6e3f231df36d2bf5af73b7e8489">&#9670;&nbsp;</a></span>MatrixCSRD</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a68f24ef9a05e5d67ac6f93a803f7126d">CubbyFlow::MatrixCSRD</a> = typedef <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt;double&gt;</td>
+          <td class="memname">typedef <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt;double&gt; <a class="el" href="namespace_cubby_flow.html#a963ed6e3f231df36d2bf5af73b7e8489">CubbyFlow::MatrixCSRD</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -5642,14 +5975,14 @@ template&lt;typename T , size_t Rows, size_t Cols, typename M1 , typename M2 , t
 
 </div>
 </div>
-<a id="a3df04a8b8ffef73914aae897aadf9481"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3df04a8b8ffef73914aae897aadf9481">&#9670;&nbsp;</a></span>MatrixCSRF</h2>
+<a id="aa4935f36ea81d5b6d09fc160d5b485a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4935f36ea81d5b6d09fc160d5b485a1">&#9670;&nbsp;</a></span>MatrixCSRF</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a3df04a8b8ffef73914aae897aadf9481">CubbyFlow::MatrixCSRF</a> = typedef <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt;float&gt;</td>
+          <td class="memname">typedef <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt;float&gt; <a class="el" href="namespace_cubby_flow.html#aa4935f36ea81d5b6d09fc160d5b485a1">CubbyFlow::MatrixCSRF</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -6113,6 +6446,102 @@ template&lt;typename BlasType &gt; </div>
 </div><div class="memdoc">
 
 <p>Multi-grid restriction function type. </p>
+
+</div>
+</div>
+<a id="afea9a0b9b96b2355a3bd7f1ac276bcbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afea9a0b9b96b2355a3bd7f1ac276bcbb">&#9670;&nbsp;</a></span>MonotonicCatmullRomArraySampler1</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#afea9a0b9b96b2355a3bd7f1ac276bcbb">CubbyFlow::MonotonicCatmullRomArraySampler1</a> = typedef <a class="el" href="class_cubby_flow_1_1_cubic_array_sampler.html">CubicArraySampler</a>&lt;T, 1, <a class="el" href="struct_cubby_flow_1_1_do_monotonic_catmull_rom.html">DoMonotonicCatmullRom</a>&lt;T&gt; &gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a85ee422bf8d2f28594acb4059fce0cc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85ee422bf8d2f28594acb4059fce0cc0">&#9670;&nbsp;</a></span>MonotonicCatmullRomArraySampler2</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a85ee422bf8d2f28594acb4059fce0cc0">CubbyFlow::MonotonicCatmullRomArraySampler2</a> = typedef <a class="el" href="class_cubby_flow_1_1_cubic_array_sampler.html">CubicArraySampler</a>&lt;T, 2, <a class="el" href="struct_cubby_flow_1_1_do_monotonic_catmull_rom.html">DoMonotonicCatmullRom</a>&lt;T&gt; &gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a89acc2e904f4ef9b315fdc1b3642a621"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89acc2e904f4ef9b315fdc1b3642a621">&#9670;&nbsp;</a></span>MonotonicCatmullRomArraySampler3</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a89acc2e904f4ef9b315fdc1b3642a621">CubbyFlow::MonotonicCatmullRomArraySampler3</a> = typedef <a class="el" href="class_cubby_flow_1_1_cubic_array_sampler.html">CubicArraySampler</a>&lt;T, 3, <a class="el" href="struct_cubby_flow_1_1_do_monotonic_catmull_rom.html">DoMonotonicCatmullRom</a>&lt;T&gt; &gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae8043f3b3e67306d0fde75c5a5b94f16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8043f3b3e67306d0fde75c5a5b94f16">&#9670;&nbsp;</a></span>NearestArraySampler1</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#ae8043f3b3e67306d0fde75c5a5b94f16">CubbyFlow::NearestArraySampler1</a> = typedef <a class="el" href="class_cubby_flow_1_1_nearest_array_sampler.html">NearestArraySampler</a>&lt;T, 1&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1561db5053d8ddc7d51b0e086641487b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1561db5053d8ddc7d51b0e086641487b">&#9670;&nbsp;</a></span>NearestArraySampler2</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a1561db5053d8ddc7d51b0e086641487b">CubbyFlow::NearestArraySampler2</a> = typedef <a class="el" href="class_cubby_flow_1_1_nearest_array_sampler.html">NearestArraySampler</a>&lt;T, 2&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac433f0b105729482a6de83913632d4b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac433f0b105729482a6de83913632d4b6">&#9670;&nbsp;</a></span>NearestArraySampler3</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#ac433f0b105729482a6de83913632d4b6">CubbyFlow::NearestArraySampler3</a> = typedef <a class="el" href="class_cubby_flow_1_1_nearest_array_sampler.html">NearestArraySampler</a>&lt;T, 3&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -7240,50 +7669,6 @@ template&lt;typename T , size_t Rows, size_t Cols, typename M2 &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a355d6b72bdc5c9978acd2f0d0865c19f">CubbyFlow::SemiLagrangian3Ptr</a> = typedef std::shared_ptr&lt;<a class="el" href="class_cubby_flow_1_1_semi_lagrangian3.html">SemiLagrangian3</a>&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aaf27f462bf226eba34b7a8f4284c4fe2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf27f462bf226eba34b7a8f4284c4fe2">&#9670;&nbsp;</a></span>Size</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#aaf27f462bf226eba34b7a8f4284c4fe2">CubbyFlow::Size</a> = typedef <a class="el" href="class_cubby_flow_1_1_point.html">Point</a>&lt;size_t, N&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a9952585eeca96a7396c1514b8ff5c3d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9952585eeca96a7396c1514b8ff5c3d3">&#9670;&nbsp;</a></span>Size2</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a9952585eeca96a7396c1514b8ff5c3d3">CubbyFlow::Size2</a> = typedef <a class="el" href="namespace_cubby_flow.html#a27e2387618327b015a875f26f6b0b216">Point2</a>&lt;size_t&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a005c008a76c94569e67bebf637d53b80"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a005c008a76c94569e67bebf637d53b80">&#9670;&nbsp;</a></span>Size3</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="namespace_cubby_flow.html#a005c008a76c94569e67bebf637d53b80">CubbyFlow::Size3</a> = typedef <a class="el" href="namespace_cubby_flow.html#ac7367eb8b2c4ce7a49edc38a3f333f73">Point3</a>&lt;size_t&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -9924,25 +10309,37 @@ template&lt;typename T , size_t Rows, size_t Cols, typename M1 , typename M2 , t
 
 </div>
 </div>
-<a id="a9d38558c534295ea6f09b72b50df080d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d38558c534295ea6f09b72b50df080d">&#9670;&nbsp;</a></span>ConvertToCSV()</h2>
+<a id="a891577c58c915a4195ed1e8b6ea7460f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a891577c58c915a4195ed1e8b6ea7460f">&#9670;&nbsp;</a></span>Copy() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename ArrayType &gt; </div>
+template&lt;typename T , typename U , size_t N&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void CubbyFlow::ConvertToCSV </td>
+          <td class="memname">void CubbyFlow::Copy </td>
           <td>(</td>
-          <td class="paramtype">const ArrayType &amp;&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
+          <td class="paramtype"><a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; T, N &gt;&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::ostream *&#160;</td>
-          <td class="paramname"><em>stream</em>&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; size_t, N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; size_t, N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; U, N &gt;&#160;</td>
+          <td class="paramname"><em>dst</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -9952,42 +10349,27 @@ template&lt;typename ArrayType &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Converts 2-D array to Comma Separated Value (CSV) stream. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">data</td><td>- data to convert </td></tr>
-    <tr><td class="paramname">stream</td><td>- stream object to write CSV </td></tr>
-  </table>
-  </dd>
-</dl>
-
 </div>
 </div>
-<a id="a85d1519146d91c7d95740e5064cc77a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a85d1519146d91c7d95740e5064cc77a2">&#9670;&nbsp;</a></span>CopyRange1() <span class="overload">[1/2]</span></h2>
+<a id="aac0ac6716b9dcdc255a5c7149ea72b6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac0ac6716b9dcdc255a5c7149ea72b6f">&#9670;&nbsp;</a></span>Copy() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename ArrayType1 , typename ArrayType2 &gt; </div>
+template&lt;typename T , typename U , size_t N&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void CubbyFlow::CopyRange1 </td>
+          <td class="memname">void CubbyFlow::Copy </td>
           <td>(</td>
-          <td class="paramtype">const ArrayType1 &amp;&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
+          <td class="paramtype"><a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; T, N &gt;&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ArrayType2 *&#160;</td>
-          <td class="paramname"><em>output</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; U, N &gt;&#160;</td>
+          <td class="paramname"><em>dst</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -9997,24 +10379,21 @@ template&lt;typename ArrayType1 , typename ArrayType2 &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Copies <code>input</code> array to <code>output</code> array with <code>size</code>. </p>
-<p>This function copies <code>input</code> array to <code>output</code> array with <code>size</code>. The input and output array must support random access operator []. </p>
-
 </div>
 </div>
-<a id="a89c930cf5b76ccc71b4b1f5900e2f294"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a89c930cf5b76ccc71b4b1f5900e2f294">&#9670;&nbsp;</a></span>CopyRange1() <span class="overload">[2/2]</span></h2>
+<a id="aa16e9aa86c30ad8135d4f2b9888f213c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa16e9aa86c30ad8135d4f2b9888f213c">&#9670;&nbsp;</a></span>Copy() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename ArrayType1 , typename ArrayType2 &gt; </div>
+template&lt;typename T , typename U &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void CubbyFlow::CopyRange1 </td>
+          <td class="memname">void CubbyFlow::Copy </td>
           <td>(</td>
-          <td class="paramtype">const ArrayType1 &amp;&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
+          <td class="paramtype"><a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; T, 1 &gt;&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -10031,8 +10410,8 @@ template&lt;typename ArrayType1 , typename ArrayType2 &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">ArrayType2 *&#160;</td>
-          <td class="paramname"><em>output</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; U, 1 &gt;&#160;</td>
+          <td class="paramname"><em>dst</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -10041,231 +10420,6 @@ template&lt;typename ArrayType1 , typename ArrayType2 &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Copies <code>input</code> array to <code>output</code> array from <code>begin</code> to <code>end</code>. </p>
-<p>This function copies <code>input</code> array to <code>output</code> array from <code>begin</code> to <code>end</code>. The input and output array must support random access operator []. </p>
-
-</div>
-</div>
-<a id="a0cd2ca4f5b0187a382ece11b4dd0b2f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0cd2ca4f5b0187a382ece11b4dd0b2f1">&#9670;&nbsp;</a></span>CopyRange2() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ArrayType1 , typename ArrayType2 &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void CubbyFlow::CopyRange2 </td>
-          <td>(</td>
-          <td class="paramtype">const ArrayType1 &amp;&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>sizeX</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>sizeY</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ArrayType2 *&#160;</td>
-          <td class="paramname"><em>output</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Copies 2-D <code>input</code> array to <code>output</code> array with <code>sizeX</code> and <code>sizeY</code>. </p>
-<p>This function copies 2-D <code>input</code> array to <code>output</code> array with <code>sizeX</code> and <code>sizeY</code>. The input and output array must support 2-D random access operator (i, j). </p>
-
-</div>
-</div>
-<a id="a13eac349bcffca41d20eb7413e6a925d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13eac349bcffca41d20eb7413e6a925d">&#9670;&nbsp;</a></span>CopyRange2() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ArrayType1 , typename ArrayType2 &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void CubbyFlow::CopyRange2 </td>
-          <td>(</td>
-          <td class="paramtype">const ArrayType1 &amp;&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>beginX</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>endX</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>beginY</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>endY</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ArrayType2 *&#160;</td>
-          <td class="paramname"><em>output</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Copies 2-D <code>input</code> array to <code>output</code> array from (<code>beginX</code>, <code>beginY</code>) to (<code>endX</code>, <code>endY</code>). </p>
-<p>This function copies 2-D <code>input</code> array to <code>output</code> array from (<code>beginX</code>, <code>beginY</code>) to (<code>endX</code>, <code>endY</code>). The input and output array must support 2-D random access operator (i, j). </p>
-
-</div>
-</div>
-<a id="a79b4d4cf5acfc82e8def4f963f11a9f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79b4d4cf5acfc82e8def4f963f11a9f2">&#9670;&nbsp;</a></span>CopyRange3() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ArrayType1 , typename ArrayType2 &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void CubbyFlow::CopyRange3 </td>
-          <td>(</td>
-          <td class="paramtype">const ArrayType1 &amp;&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>sizeX</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>sizeY</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>sizeZ</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ArrayType2 *&#160;</td>
-          <td class="paramname"><em>output</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Copies 3-D <code>input</code> array to <code>output</code> array with <code>sizeX</code> and <code>sizeY</code>. </p>
-<p>This function copies 3-D <code>input</code> array to <code>output</code> array with <code>sizeX</code> and <code>sizeY</code>. The input and output array must support 3-D random access operator (i, j, k). </p>
-
-</div>
-</div>
-<a id="a9450b8ae8c88645c8419b41cd7cab266"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9450b8ae8c88645c8419b41cd7cab266">&#9670;&nbsp;</a></span>CopyRange3() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ArrayType1 , typename ArrayType2 &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void CubbyFlow::CopyRange3 </td>
-          <td>(</td>
-          <td class="paramtype">const ArrayType1 &amp;&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>beginX</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>endX</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>beginY</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>endY</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>beginZ</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>endZ</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ArrayType2 *&#160;</td>
-          <td class="paramname"><em>output</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Copies 3-D <code>input</code> array to <code>output</code> array from (<code>beginX</code>, <code>beginY</code>, <code>beginZ</code>) to (<code>endX</code>, <code>endY</code>, <code>endZ</code>). </p>
-<p>This function copies 3-D <code>input</code> array to <code>output</code> array from (<code>beginX</code>, <code>beginY</code>, <code>beginZ</code>) to (<code>endX</code>, <code>endY</code>, <code>endZ</code>). The input and output array must support 3-D random access operator (i, j, k). </p>
 
 </div>
 </div>
@@ -10335,7 +10489,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">fbs::Size2 CubbyFlow::CubbyFlowToFlatbuffers </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a9952585eeca96a7396c1514b8ff5c3d3">Size2</a> &amp;&#160;</td>
+          <td class="paramtype">const Size2 &amp;&#160;</td>
           <td class="paramname"><em>vec</em></td><td>)</td>
           <td></td>
         </tr>
@@ -10361,7 +10515,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">fbs::Size3 CubbyFlow::CubbyFlowToFlatbuffers </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a005c008a76c94569e67bebf637d53b80">Size3</a> &amp;&#160;</td>
+          <td class="paramtype">const Size3 &amp;&#160;</td>
           <td class="paramname"><em>vec</em></td><td>)</td>
           <td></td>
         </tr>
@@ -10518,7 +10672,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Array1&lt; T &gt; *&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_cubby_flow.html#a2fbda7925084b71604339e885b8a6053">Array1</a>&lt; T &gt; *&#160;</td>
           <td class="paramname"><em>array</em>&#160;</td>
         </tr>
         <tr>
@@ -10850,24 +11004,24 @@ template&lt;typename T &gt; </div>
 <div class="fragment"><div class="line">  |------|------|------|------|------|------|</div><div class="line">d0[0]  d0[1]  d0[2]  d0[3]  d0[4]  d0[5]  d0[6]</div></div><!-- fragment --> 
 </div>
 </div>
-<a id="a3070ba15282988b9845aeb43e2f81e32"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3070ba15282988b9845aeb43e2f81e32">&#9670;&nbsp;</a></span>ExtrapolateToRegion() <span class="overload">[1/2]</span></h2>
+<a id="ae8cdb2466b4591801dacc8f81884c6fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8cdb2466b4591801dacc8f81884c6fe">&#9670;&nbsp;</a></span>ExtrapolateToRegion() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename U &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void CubbyFlow::ExtrapolateToRegion </td>
           <td>(</td>
-          <td class="paramtype">const ConstArrayAccessor2&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_cubby_flow.html#ad75e0ae1b906fd164d031a5bdcdad61b">ArrayView2</a>&lt; T &gt;&#160;</td>
           <td class="paramname"><em>input</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ConstArrayAccessor2&lt; char &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_cubby_flow.html#ad75e0ae1b906fd164d031a5bdcdad61b">ArrayView2</a>&lt; char &gt;&#160;</td>
           <td class="paramname"><em>valid</em>, </td>
         </tr>
         <tr>
@@ -10879,7 +11033,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">ArrayAccessor2&lt; T &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_cubby_flow.html#ad75e0ae1b906fd164d031a5bdcdad61b">ArrayView2</a>&lt; U &gt;&#160;</td>
           <td class="paramname"><em>output</em>&#160;</td>
         </tr>
         <tr>
@@ -10904,24 +11058,24 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a60d6a4eb2b528574103ebbe29972bfa8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60d6a4eb2b528574103ebbe29972bfa8">&#9670;&nbsp;</a></span>ExtrapolateToRegion() <span class="overload">[2/2]</span></h2>
+<a id="a609e95f9dd72bf4e02d855c8f18e77a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a609e95f9dd72bf4e02d855c8f18e77a8">&#9670;&nbsp;</a></span>ExtrapolateToRegion() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename U &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void CubbyFlow::ExtrapolateToRegion </td>
           <td>(</td>
-          <td class="paramtype">const ConstArrayAccessor3&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_cubby_flow.html#a25fe07538a1dbb722162bdacd82d8bee">ArrayView3</a>&lt; T &gt;&#160;</td>
           <td class="paramname"><em>input</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ConstArrayAccessor3&lt; char &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_cubby_flow.html#a25fe07538a1dbb722162bdacd82d8bee">ArrayView3</a>&lt; char &gt;&#160;</td>
           <td class="paramname"><em>valid</em>, </td>
         </tr>
         <tr>
@@ -10933,7 +11087,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">ArrayAccessor3&lt; T &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_cubby_flow.html#a25fe07538a1dbb722162bdacd82d8bee">ArrayView3</a>&lt; U &gt;&#160;</td>
           <td class="paramname"><em>output</em>&#160;</td>
         </tr>
         <tr>
@@ -10958,6 +11112,120 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a22bd948331ca25bbf01a5f84ea9970ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22bd948331ca25bbf01a5f84ea9970ed">&#9670;&nbsp;</a></span>Fill() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t N&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void CubbyFlow::Fill </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; T, N &gt;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; size_t, N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; size_t, N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afa8a8c1cf1f002b4831014206e0f9db2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa8a8c1cf1f002b4831014206e0f9db2">&#9670;&nbsp;</a></span>Fill() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t N&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void CubbyFlow::Fill </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; T, N &gt;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4bba0796b77a351f8bda33a7b5e8cc60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bba0796b77a351f8bda33a7b5e8cc60">&#9670;&nbsp;</a></span>Fill() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void CubbyFlow::Fill </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; T, 1 &gt;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ae64e8f360b2a9d3d4f76ec93df98b786"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae64e8f360b2a9d3d4f76ec93df98b786">&#9670;&nbsp;</a></span>FlatbuffersToCubbyFlow() <span class="overload">[1/4]</span></h2>
 
@@ -10968,7 +11236,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_cubby_flow.html#a9952585eeca96a7396c1514b8ff5c3d3">Size2</a> CubbyFlow::FlatbuffersToCubbyFlow </td>
+          <td class="memname">Size2 CubbyFlow::FlatbuffersToCubbyFlow </td>
           <td>(</td>
           <td class="paramtype">const fbs::Size2 &amp;&#160;</td>
           <td class="paramname"><em>vec</em></td><td>)</td>
@@ -10994,7 +11262,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_cubby_flow.html#a005c008a76c94569e67bebf637d53b80">Size3</a> CubbyFlow::FlatbuffersToCubbyFlow </td>
+          <td class="memname">Size3 CubbyFlow::FlatbuffersToCubbyFlow </td>
           <td>(</td>
           <td class="paramtype">const fbs::Size3 &amp;&#160;</td>
           <td class="paramname"><em>vec</em></td><td>)</td>
@@ -12664,7 +12932,7 @@ template&lt;typename T , size_t Rows, size_t Cols, typename M1 , typename M2 , t
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_cubby_flow.html#a9952585eeca96a7396c1514b8ff5c3d3">Size2</a> CubbyFlow::ObjectToSize2 </td>
+          <td class="memname">Size2 CubbyFlow::ObjectToSize2 </td>
           <td>(</td>
           <td class="paramtype">const pybind11::object &amp;&#160;</td>
           <td class="paramname"><em>obj</em></td><td>)</td>
@@ -12690,7 +12958,7 @@ template&lt;typename T , size_t Rows, size_t Cols, typename M1 , typename M2 , t
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_cubby_flow.html#a005c008a76c94569e67bebf637d53b80">Size3</a> CubbyFlow::ObjectToSize3 </td>
+          <td class="memname">Size3 CubbyFlow::ObjectToSize3 </td>
           <td>(</td>
           <td class="paramtype">const pybind11::object &amp;&#160;</td>
           <td class="paramname"><em>obj</em></td><td>)</td>
@@ -12956,7 +13224,7 @@ template&lt;typename T , size_t R1, size_t C1, size_t R2, size_t C2, typename M1
 </div>
 </div>
 <a id="abb6cfee921a79a5d0e8a53f26d18e468"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb6cfee921a79a5d0e8a53f26d18e468">&#9670;&nbsp;</a></span>operator*() <span class="overload">[1/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abb6cfee921a79a5d0e8a53f26d18e468">&#9670;&nbsp;</a></span>operator*() <span class="overload">[1/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -12988,7 +13256,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a431b6fe206d0456a97a690c7d7751f96"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a431b6fe206d0456a97a690c7d7751f96">&#9670;&nbsp;</a></span>operator*() <span class="overload">[2/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a431b6fe206d0456a97a690c7d7751f96">&#9670;&nbsp;</a></span>operator*() <span class="overload">[2/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -13020,7 +13288,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="ad4774d6d41edb49a1ee991d2bbb6f0f0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4774d6d41edb49a1ee991d2bbb6f0f0">&#9670;&nbsp;</a></span>operator*() <span class="overload">[3/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4774d6d41edb49a1ee991d2bbb6f0f0">&#9670;&nbsp;</a></span>operator*() <span class="overload">[3/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -13052,7 +13320,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a221d64b34276b037bc41eeb1bbe6d11a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a221d64b34276b037bc41eeb1bbe6d11a">&#9670;&nbsp;</a></span>operator*() <span class="overload">[4/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a221d64b34276b037bc41eeb1bbe6d11a">&#9670;&nbsp;</a></span>operator*() <span class="overload">[4/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -13084,7 +13352,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="ad1b82f28f630f0d3c333eea18419058b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad1b82f28f630f0d3c333eea18419058b">&#9670;&nbsp;</a></span>operator*() <span class="overload">[5/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1b82f28f630f0d3c333eea18419058b">&#9670;&nbsp;</a></span>operator*() <span class="overload">[5/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -13116,7 +13384,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a7bc00d721dcbf1fb3e02305372f67950"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7bc00d721dcbf1fb3e02305372f67950">&#9670;&nbsp;</a></span>operator*() <span class="overload">[6/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bc00d721dcbf1fb3e02305372f67950">&#9670;&nbsp;</a></span>operator*() <span class="overload">[6/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -13148,7 +13416,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="ad11ef5d79ef85f0db41524da9f8b3e34"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad11ef5d79ef85f0db41524da9f8b3e34">&#9670;&nbsp;</a></span>operator*() <span class="overload">[7/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad11ef5d79ef85f0db41524da9f8b3e34">&#9670;&nbsp;</a></span>operator*() <span class="overload">[7/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -13180,7 +13448,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a65d4b61f63bac809457292bf31f790e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a65d4b61f63bac809457292bf31f790e0">&#9670;&nbsp;</a></span>operator*() <span class="overload">[8/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a65d4b61f63bac809457292bf31f790e0">&#9670;&nbsp;</a></span>operator*() <span class="overload">[8/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -13212,7 +13480,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="abd6a57e760d870dbc10b6a742fe2bb04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd6a57e760d870dbc10b6a742fe2bb04">&#9670;&nbsp;</a></span>operator*() <span class="overload">[9/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abd6a57e760d870dbc10b6a742fe2bb04">&#9670;&nbsp;</a></span>operator*() <span class="overload">[9/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -13242,7 +13510,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="aaae54a59c0abde79744b37dd74f46223"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaae54a59c0abde79744b37dd74f46223">&#9670;&nbsp;</a></span>operator*() <span class="overload">[10/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aaae54a59c0abde79744b37dd74f46223">&#9670;&nbsp;</a></span>operator*() <span class="overload">[10/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -13271,43 +13539,13 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a054e1bae9197f1d079d5128129166774"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a054e1bae9197f1d079d5128129166774">&#9670;&nbsp;</a></span>operator*() <span class="overload">[11/15]</span></h2>
+<a id="ae676caffcb05fd28ae9af3f31bb13b0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae676caffcb05fd28ae9af3f31bb13b0a">&#9670;&nbsp;</a></span>operator*() <span class="overload">[11/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , typename VE &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r_vector_mul.html">MatrixCSRVectorMul</a>&lt;T, VE&gt; CubbyFlow::operator* </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const VectorExpression&lt; T, VE &gt; &amp;&#160;</td>
-          <td class="paramname"><em>b</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a91247db6b8fe3254da504aa9a3eac4f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a91247db6b8fe3254da504aa9a3eac4f7">&#9670;&nbsp;</a></span>operator*() <span class="overload">[12/15]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T , typename ME &gt; </div>
+template&lt;typename T , size_t R, size_t C, typename ME &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="class_cubby_flow_1_1_matrix_c_s_r_matrix_mul.html">MatrixCSRMatrixMul</a>&lt;T, ME&gt; CubbyFlow::operator* </td>
@@ -13318,7 +13556,7 @@ template&lt;typename T , typename ME &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, ME &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, R, C, ME &gt; &amp;&#160;</td>
           <td class="paramname"><em>b</em>&#160;</td>
         </tr>
         <tr>
@@ -13332,7 +13570,7 @@ template&lt;typename T , typename ME &gt; </div>
 </div>
 </div>
 <a id="a905d64831edb4b085f588599e4fa9fc9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a905d64831edb4b085f588599e4fa9fc9">&#9670;&nbsp;</a></span>operator*() <span class="overload">[13/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a905d64831edb4b085f588599e4fa9fc9">&#9670;&nbsp;</a></span>operator*() <span class="overload">[12/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -13362,7 +13600,7 @@ template&lt;typename T , size_t Rows, size_t Cols, typename M1 &gt; </div>
 </div>
 </div>
 <a id="ae7ff5f364c38bd09f39d7fd9e16c346b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae7ff5f364c38bd09f39d7fd9e16c346b">&#9670;&nbsp;</a></span>operator*() <span class="overload">[14/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7ff5f364c38bd09f39d7fd9e16c346b">&#9670;&nbsp;</a></span>operator*() <span class="overload">[13/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -13392,7 +13630,7 @@ template&lt;typename T , size_t Rows, size_t Cols, typename M2 &gt; </div>
 </div>
 </div>
 <a id="aa7542e1214a2d0bdc35116bd20a1a5cf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa7542e1214a2d0bdc35116bd20a1a5cf">&#9670;&nbsp;</a></span>operator*() <span class="overload">[15/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7542e1214a2d0bdc35116bd20a1a5cf">&#9670;&nbsp;</a></span>operator*() <span class="overload">[14/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -13713,38 +13951,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a0ec0407fd4c31a30d1c8771c6362bbd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ec0407fd4c31a30d1c8771c6362bbd1">&#9670;&nbsp;</a></span>operator+() <span class="overload">[9/14]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T , size_t Rows, size_t Cols, typename M1 , typename M2 &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto CubbyFlow::operator+ </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, Rows, Cols, M1 &gt; &amp;&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, Rows, Cols, M2 &gt; &amp;&#160;</td>
-          <td class="paramname"><em>b</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="ac2b3c48297010a969a9c465bd5d2d0b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2b3c48297010a969a9c465bd5d2d0b2">&#9670;&nbsp;</a></span>operator+() <span class="overload">[10/14]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2b3c48297010a969a9c465bd5d2d0b2">&#9670;&nbsp;</a></span>operator+() <span class="overload">[9/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -13774,7 +13982,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a89c71e5823a6f3e33539c07b87903745"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a89c71e5823a6f3e33539c07b87903745">&#9670;&nbsp;</a></span>operator+() <span class="overload">[11/14]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a89c71e5823a6f3e33539c07b87903745">&#9670;&nbsp;</a></span>operator+() <span class="overload">[10/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -13804,7 +14012,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a022b72cebaf3a6063218599416070750"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a022b72cebaf3a6063218599416070750">&#9670;&nbsp;</a></span>operator+() <span class="overload">[12/14]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a022b72cebaf3a6063218599416070750">&#9670;&nbsp;</a></span>operator+() <span class="overload">[11/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -13821,6 +14029,36 @@ template&lt;typename T &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0ec0407fd4c31a30d1c8771c6362bbd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ec0407fd4c31a30d1c8771c6362bbd1">&#9670;&nbsp;</a></span>operator+() <span class="overload">[12/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t Rows, size_t Cols, typename M1 , typename M2 &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto CubbyFlow::operator+ </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, Rows, Cols, M1 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, Rows, Cols, M2 &gt; &amp;&#160;</td>
           <td class="paramname"><em>b</em>&#160;</td>
         </tr>
         <tr>
@@ -14189,28 +14427,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a950cd83084973e7f92111ede849f89f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a950cd83084973e7f92111ede849f89f8">&#9670;&nbsp;</a></span>operator-() <span class="overload">[9/16]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T , size_t Rows, size_t Cols, typename M1 &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto CubbyFlow::operator- </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, Rows, Cols, M1 &gt; &amp;&#160;</td>
-          <td class="paramname"><em>m</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a143169c3eb5e5d559f103ad4313eb0fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a143169c3eb5e5d559f103ad4313eb0fe">&#9670;&nbsp;</a></span>operator-() <span class="overload">[10/16]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a143169c3eb5e5d559f103ad4313eb0fe">&#9670;&nbsp;</a></span>operator-() <span class="overload">[9/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -14229,30 +14447,20 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ab0488b52efedabe2572c73ffe2178e17"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0488b52efedabe2572c73ffe2178e17">&#9670;&nbsp;</a></span>operator-() <span class="overload">[11/16]</span></h2>
+<a id="a950cd83084973e7f92111ede849f89f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a950cd83084973e7f92111ede849f89f8">&#9670;&nbsp;</a></span>operator-() <span class="overload">[10/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , size_t Rows, size_t Cols, typename M1 , typename M2 &gt; </div>
+template&lt;typename T , size_t Rows, size_t Cols, typename M1 &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">constexpr auto CubbyFlow::operator- </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, Rows, Cols, M1 &gt; &amp;&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>m</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, Rows, Cols, M2 &gt; &amp;&#160;</td>
-          <td class="paramname"><em>b</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -14260,7 +14468,7 @@ template&lt;typename T , size_t Rows, size_t Cols, typename M1 , typename M2 &gt
 </div>
 </div>
 <a id="a5bc547230b72f2454d51f31077ac62be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5bc547230b72f2454d51f31077ac62be">&#9670;&nbsp;</a></span>operator-() <span class="overload">[12/16]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5bc547230b72f2454d51f31077ac62be">&#9670;&nbsp;</a></span>operator-() <span class="overload">[11/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -14290,7 +14498,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a3e4c0a57aac7d334477746dd127cb3d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3e4c0a57aac7d334477746dd127cb3d1">&#9670;&nbsp;</a></span>operator-() <span class="overload">[13/16]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e4c0a57aac7d334477746dd127cb3d1">&#9670;&nbsp;</a></span>operator-() <span class="overload">[12/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -14320,7 +14528,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a76363f39fededbd8af82a900065d6f7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a76363f39fededbd8af82a900065d6f7e">&#9670;&nbsp;</a></span>operator-() <span class="overload">[14/16]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a76363f39fededbd8af82a900065d6f7e">&#9670;&nbsp;</a></span>operator-() <span class="overload">[13/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -14337,6 +14545,36 @@ template&lt;typename T &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html">MatrixCSR</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab0488b52efedabe2572c73ffe2178e17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0488b52efedabe2572c73ffe2178e17">&#9670;&nbsp;</a></span>operator-() <span class="overload">[14/16]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t Rows, size_t Cols, typename M1 , typename M2 &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto CubbyFlow::operator- </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, Rows, Cols, M1 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_matrix_expression.html">MatrixExpression</a>&lt; T, Rows, Cols, M2 &gt; &amp;&#160;</td>
           <td class="paramname"><em>b</em>&#160;</td>
         </tr>
         <tr>
@@ -15596,7 +15834,7 @@ template&lt;typename RandomIterator , typename CompareFunction &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespace_cubby_flow.html#a9952585eeca96a7396c1514b8ff5c3d3">Size2</a> &amp;&#160;</td>
+          <td class="paramtype">Size2 &amp;&#160;</td>
           <td class="paramname"><em>resolution</em>, </td>
         </tr>
         <tr>
@@ -15650,7 +15888,7 @@ template&lt;typename RandomIterator , typename CompareFunction &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespace_cubby_flow.html#a005c008a76c94569e67bebf637d53b80">Size3</a> &amp;&#160;</td>
+          <td class="paramtype">Size3 &amp;&#160;</td>
           <td class="paramname"><em>resolution</em>, </td>
         </tr>
         <tr>
@@ -16517,90 +16755,6 @@ template&lt;typename RandomIterator , typename SortingFunction &gt; </div>
 
 </div>
 </div>
-<a id="a3420df6d3f5b4d14daa3258d01e8a942"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3420df6d3f5b4d14daa3258d01e8a942">&#9670;&nbsp;</a></span>SetRange1() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ArrayType , typename T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void CubbyFlow::SetRange1 </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const T &amp;&#160;</td>
-          <td class="paramname"><em>value</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ArrayType *&#160;</td>
-          <td class="paramname"><em>output</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Assigns <code>value</code> to 1-D array <code>output</code> with <code>size</code>. </p>
-<p>This function assigns <code>value</code> to 1-D array <code>output</code> with <code>size</code>. The output array must support random access operator []. </p>
-
-</div>
-</div>
-<a id="a937d4e8940bb44beb0c38b152814d9f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a937d4e8940bb44beb0c38b152814d9f4">&#9670;&nbsp;</a></span>SetRange1() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ArrayType , typename T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void CubbyFlow::SetRange1 </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>begin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>end</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const T &amp;&#160;</td>
-          <td class="paramname"><em>value</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ArrayType *&#160;</td>
-          <td class="paramname"><em>output</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Assigns <code>value</code> to 1-D array <code>output</code> from <code>begin</code> to <code>end</code>. </p>
-<p>This function assigns <code>value</code> to 1-D array <code>output</code> from <code>begin</code> to <code>end</code>. The output array must support random access operator []. </p>
-
-</div>
-</div>
 <a id="ad246704dc259cf63262441f465742a7a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad246704dc259cf63262441f465742a7a">&#9670;&nbsp;</a></span>Sign()</h2>
 
@@ -16701,7 +16855,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">pybind11::tuple CubbyFlow::Size2ToTuple </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a9952585eeca96a7396c1514b8ff5c3d3">Size2</a> &amp;&#160;</td>
+          <td class="paramtype">const Size2 &amp;&#160;</td>
           <td class="paramname"><em>size</em></td><td>)</td>
           <td></td>
         </tr>
@@ -16727,7 +16881,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">pybind11::tuple CubbyFlow::Size3ToTuple </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a005c008a76c94569e67bebf637d53b80">Size3</a> &amp;&#160;</td>
+          <td class="paramtype">const Size3 &amp;&#160;</td>
           <td class="paramname"><em>size</em></td><td>)</td>
           <td></td>
         </tr>
@@ -17403,7 +17557,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_cubby_flow.html#a9952585eeca96a7396c1514b8ff5c3d3">Size2</a> CubbyFlow::TupleToSize2 </td>
+          <td class="memname">Size2 CubbyFlow::TupleToSize2 </td>
           <td>(</td>
           <td class="paramtype">pybind11::tuple&#160;</td>
           <td class="paramname"><em>tuple</em></td><td>)</td>
@@ -17429,7 +17583,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_cubby_flow.html#a9952585eeca96a7396c1514b8ff5c3d3">Size2</a> CubbyFlow::TupleToSize2 </td>
+          <td class="memname">Size2 CubbyFlow::TupleToSize2 </td>
           <td>(</td>
           <td class="paramtype">pybind11::list&#160;</td>
           <td class="paramname"><em>list</em></td><td>)</td>
@@ -17455,7 +17609,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_cubby_flow.html#a005c008a76c94569e67bebf637d53b80">Size3</a> CubbyFlow::TupleToSize3 </td>
+          <td class="memname">Size3 CubbyFlow::TupleToSize3 </td>
           <td>(</td>
           <td class="paramtype">pybind11::tuple&#160;</td>
           <td class="paramname"><em>tuple</em></td><td>)</td>
@@ -17481,7 +17635,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_cubby_flow.html#a005c008a76c94569e67bebf637d53b80">Size3</a> CubbyFlow::TupleToSize3 </td>
+          <td class="memname">Size3 CubbyFlow::TupleToSize3 </td>
           <td>(</td>
           <td class="paramtype">pybind11::list&#160;</td>
           <td class="paramname"><em>list</em></td><td>)</td>
@@ -19014,7 +19168,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 26 2021 15:46:25 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Feb 27 2021 14:58:09 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

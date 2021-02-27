@@ -10,6 +10,8 @@ var searchData=
   ['semilagrangian2',['SemiLagrangian2',['../class_cubby_flow_1_1_semi_lagrangian2.html',1,'CubbyFlow']]],
   ['semilagrangian3',['SemiLagrangian3',['../class_cubby_flow_1_1_semi_lagrangian3.html',1,'CubbyFlow']]],
   ['serializable',['Serializable',['../class_cubby_flow_1_1_serializable.html',1,'CubbyFlow']]],
+  ['setarrayfrominitlist',['SetArrayFromInitList',['../struct_cubby_flow_1_1_internal_1_1_set_array_from_init_list.html',1,'CubbyFlow::Internal']]],
+  ['setarrayfrominitlist_3c_20t_2c_20n_2c_201_20_3e',['SetArrayFromInitList&lt; T, N, 1 &gt;',['../struct_cubby_flow_1_1_internal_1_1_set_array_from_init_list_3_01_t_00_01_n_00_011_01_4.html',1,'CubbyFlow::Internal']]],
   ['similarto',['SimilarTo',['../struct_cubby_flow_1_1_similar_to.html',1,'CubbyFlow']]],
   ['sphere2',['Sphere2',['../class_cubby_flow_1_1_sphere2.html',1,'CubbyFlow']]],
   ['sphere3',['Sphere3',['../class_cubby_flow_1_1_sphere3.html',1,'CubbyFlow']]],
