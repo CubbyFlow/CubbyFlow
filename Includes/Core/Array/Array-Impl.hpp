@@ -199,7 +199,7 @@ Array<T, N>::Array(const Array& other) : Array()
 }
 
 template <typename T, size_t N>
-Array<T, N>::Array(Array&& other) : Array()
+Array<T, N>::Array(Array&& other) noexcept : Array()
 {
     *this = std::move(other);
 }
@@ -327,7 +327,7 @@ Array<T, N>& Array<T, N>::operator=(const Array& other)
 }
 
 template <typename T, size_t N>
-Array<T, N>& Array<T, N>::operator=(Array&& other)
+Array<T, N>& Array<T, N>::operator=(Array&& other) noexcept
 {
     m_data = std::move(other.m_data);
 

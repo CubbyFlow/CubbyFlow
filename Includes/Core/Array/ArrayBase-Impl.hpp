@@ -193,7 +193,7 @@ ArrayBase<T, N, D>::ArrayBase(const ArrayBase& other)
 }
 
 template <typename T, size_t N, typename D>
-ArrayBase<T, N, D>::ArrayBase(ArrayBase&& other)
+ArrayBase<T, N, D>::ArrayBase(ArrayBase&& other) noexcept
 {
     *this = std::move(other);
 }
@@ -234,7 +234,7 @@ ArrayBase<T, N, D>& ArrayBase<T, N, D>::operator=(const ArrayBase& other)
 }
 
 template <typename T, size_t N, typename D>
-ArrayBase<T, N, D>& ArrayBase<T, N, D>::operator=(ArrayBase&& other)
+ArrayBase<T, N, D>& ArrayBase<T, N, D>::operator=(ArrayBase&& other) noexcept
 {
     SetPtrAndSize(other.data(), other.Size());
     other.SetPtrAndSize(nullptr, Vector<size_t, N>{});
