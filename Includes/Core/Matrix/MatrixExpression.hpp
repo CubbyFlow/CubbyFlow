@@ -13,6 +13,8 @@
 
 #include <Core/Utils/Functors.hpp>
 
+#include <functional>
+
 namespace CubbyFlow
 {
 static constexpr size_t MATRIX_SIZE_DYNAMIC = 0;
