@@ -12,61 +12,9 @@
 #define CUBBYFLOW_MATRIX_CSR_IMPL_HPP
 
 #include <Core/Utils/CppUtils.hpp>
-#include <Core/Utils/Parallel.hpp>
-
-#include <numeric>
 
 namespace CubbyFlow
 {
-template <typename T, typename VE>
-MatrixCSRVectorMul<T, VE>::MatrixCSRVectorMul(const MatrixCSR<T>& m,
-                                              const VE& v)
-    : m_m(m), m_v(v), m_v2(nullptr)
-{
-    assert(m_m.Cols() == m_v.size());
-}
-
-template <typename T, typename VE>
-MatrixCSRVectorMul<T, VE>::MatrixCSRVectorMul(const MatrixCSRVectorMul& other)
-    : m_m(other.m_m), m_v(other.m_v), m_v2(nullptr)
-{
-    // Do nothing
-}
-
-template <typename T, typename VE>
-MatrixCSRVectorMul<T, VE>::MatrixCSRVectorMul(
-    MatrixCSRVectorMul&& other) noexcept
-    : m_m(other.m_m), m_v(other.m_v), m_v2(nullptr)
-{
-    // Do nothing
-}
-
-template <typename T, typename VE>
-size_t MatrixCSRVectorMul<T, VE>::size() const
-{
-    return m_m.Rows();
-}
-
-template <typename T, typename VE>
-T MatrixCSRVectorMul<T, VE>::operator[](size_t i) const
-{
-    auto rp = m_m.RowPointersBegin();
-    auto ci = m_m.ColumnIndicesBegin();
-    auto nnz = m_m.NonZeroBegin();
-
-    const size_t colBegin = rp[i];
-    const size_t colEnd = rp[i + 1];
-
-    T sum = 0;
-    for (size_t jj = colBegin; jj < colEnd; ++jj)
-    {
-        size_t j = ci[jj];
-        sum += nnz[jj] * m_v[j];
-    }
-
-    return sum;
-}
-
 template <typename T, typename ME>
 MatrixCSRMatrixMul<T, ME>::MatrixCSRMatrixMul(const MatrixCSR<T>& m1,
                                               const ME& m2)
@@ -80,21 +28,15 @@ MatrixCSRMatrixMul<T, ME>::MatrixCSRMatrixMul(const MatrixCSR<T>& m1,
 }
 
 template <typename T, typename ME>
-Size2 MatrixCSRMatrixMul<T, ME>::size() const
+size_t MatrixCSRMatrixMul<T, ME>::GetRows() const
 {
-    return { Rows(), Cols() };
+    return m_m1.GetRows();
 }
 
 template <typename T, typename ME>
-size_t MatrixCSRMatrixMul<T, ME>::Rows() const
+size_t MatrixCSRMatrixMul<T, ME>::GetCols() const
 {
-    return m_m1.Rows();
-}
-
-template <typename T, typename ME>
-size_t MatrixCSRMatrixMul<T, ME>::Cols() const
-{
-    return m_m2.Cols();
+    return m_m2.GetCols();
 }
 
 template <typename T, typename ME>
@@ -104,6 +46,7 @@ T MatrixCSRMatrixMul<T, ME>::operator()(size_t i, size_t j) const
     const size_t colEnd = m_rp[i + 1];
 
     T sum = 0;
+
     for (size_t kk = colBegin; kk < colEnd; ++kk)
     {
         size_t k = m_ci[kk];
@@ -120,8 +63,8 @@ MatrixCSR<T>::Element::Element() : i(0), j(0), value(0)
 }
 
 template <typename T>
-MatrixCSR<T>::Element::Element(size_t _i, size_t _j, const T& _value)
-    : i(_i), j(_j), value(_value)
+MatrixCSR<T>::Element::Element(size_t i_, size_t j_, const T& value_)
+    : i(i_), j(j_), value(value_)
 {
     // Do nothing
 }
@@ -134,14 +77,14 @@ MatrixCSR<T>::MatrixCSR()
 
 template <typename T>
 MatrixCSR<T>::MatrixCSR(
-    const std::initializer_list<std::initializer_list<T>>& list, T epsilon)
+    const std::initializer_list<std::initializer_list<T>>& lst, T epsilon)
 {
-    Compress(list, epsilon);
+    Compress(lst, epsilon);
 }
 
 template <typename T>
-template <typename E>
-MatrixCSR<T>::MatrixCSR(const MatrixExpression<T, E>& other, T epsilon)
+template <size_t R, size_t C, typename ME>
+MatrixCSR<T>::MatrixCSR(const MatrixExpression<T, R, C, ME>& other, T epsilon)
 {
     Compress(other, epsilon);
 }
@@ -153,27 +96,9 @@ MatrixCSR<T>::MatrixCSR(const MatrixCSR& other)
 }
 
 template <typename T>
-MatrixCSR<T>::MatrixCSR(MatrixCSR&& other) noexcept
+MatrixCSR<T>::MatrixCSR(MatrixCSR&& other)
 {
     (*this) = std::move(other);
-}
-
-template <typename T>
-MatrixCSR<T>& MatrixCSR<T>::operator=(const MatrixCSR& other)
-{
-    Set(other);
-    return *this;
-}
-
-template <typename T>
-MatrixCSR<T>& MatrixCSR<T>::operator=(MatrixCSR&& other) noexcept
-{
-    m_size = other.m_size;
-    other.m_size = Size2{};
-    m_nonZeros = std::move(other.m_nonZeros);
-    m_rowPointers = std::move(other.m_rowPointers);
-    m_columnIndices = std::move(other.m_columnIndices);
-    return *this;
 }
 
 template <typename T>
@@ -204,7 +129,7 @@ void MatrixCSR<T>::Set(const MatrixCSR& other)
 template <typename T>
 void MatrixCSR<T>::Reserve(size_t rows, size_t cols, size_t numNonZeros)
 {
-    m_size = Size2(rows, cols);
+    m_size = Vector2UZ(rows, cols);
     m_rowPointers.resize(m_size.x + 1);
     m_nonZeros.resize(numNonZeros);
     m_columnIndices.resize(numNonZeros);
@@ -212,20 +137,21 @@ void MatrixCSR<T>::Reserve(size_t rows, size_t cols, size_t numNonZeros)
 
 template <typename T>
 void MatrixCSR<T>::Compress(
-    const std::initializer_list<std::initializer_list<T>>& list, T epsilon)
+    const std::initializer_list<std::initializer_list<T>>& lst, T epsilon)
 {
-    const size_t numRows = list.size();
-    const size_t numCols = (numRows > 0) ? list.begin()->size() : 0;
+    const size_t numRows = lst.size();
+    const size_t numCols = (numRows > 0) ? lst.begin()->size() : 0;
 
     m_size = { numRows, numCols };
     m_nonZeros.clear();
     m_rowPointers.clear();
     m_columnIndices.clear();
 
-    auto rowIter = list.begin();
+    auto rowIter = lst.begin();
     for (size_t i = 0; i < numRows; ++i)
     {
         assert(numCols == rowIter->size());
+
         m_rowPointers.push_back(m_nonZeros.size());
 
         auto colIter = rowIter->begin();
@@ -247,17 +173,18 @@ void MatrixCSR<T>::Compress(
 }
 
 template <typename T>
-template <typename E>
-void MatrixCSR<T>::Compress(const MatrixExpression<T, E>& other, T epsilon)
+template <size_t R, size_t C, typename E>
+void MatrixCSR<T>::Compress(const MatrixExpression<T, R, C, E>& other,
+                            T epsilon)
 {
-    const size_t numRows = other.Rows();
-    const size_t numCols = other.Cols();
+    const size_t numRows = other.GetRows();
+    const size_t numCols = other.GetCols();
 
     m_size = { numRows, numCols };
     m_nonZeros.clear();
     m_columnIndices.clear();
 
-    const E& expression = other();
+    const E& expression = other.GetDerived();
 
     for (size_t i = 0; i < numRows; ++i)
     {
@@ -289,6 +216,7 @@ void MatrixCSR<T>::AddElement(const Element& element)
 {
     const ssize_t numRowsToAdd =
         static_cast<ssize_t>(element.i) - static_cast<ssize_t>(m_size.x) + 1;
+
     if (numRowsToAdd > 0)
     {
         for (ssize_t i = 0; i < numRowsToAdd; ++i)
@@ -444,23 +372,23 @@ bool MatrixCSR<T>::IsSimilar(const MatrixCSR& other, double tol) const
 template <typename T>
 bool MatrixCSR<T>::IsSquare() const
 {
-    return Rows() == Cols();
+    return GetRows() == GetCols();
 }
 
 template <typename T>
-Size2 MatrixCSR<T>::size() const
+Vector2UZ MatrixCSR<T>::Size() const
 {
     return m_size;
 }
 
 template <typename T>
-size_t MatrixCSR<T>::Rows() const
+size_t MatrixCSR<T>::GetRows() const
 {
     return m_size.x;
 }
 
 template <typename T>
-size_t MatrixCSR<T>::Cols() const
+size_t MatrixCSR<T>::GetCols() const
 {
     return m_size.y;
 }
@@ -502,19 +430,19 @@ T* MatrixCSR<T>::NonZeroData()
 }
 
 template <typename T>
-const T* MatrixCSR<T>::NonZeroData() const
+const T* const MatrixCSR<T>::NonZeroData() const
 {
     return m_nonZeros.data();
 }
 
 template <typename T>
-const size_t* MatrixCSR<T>::RowPointersData() const
+const size_t* const MatrixCSR<T>::RowPointersData() const
 {
     return m_rowPointers.data();
 }
 
 template <typename T>
-const size_t* MatrixCSR<T>::ColumnIndicesData() const
+const size_t* const MatrixCSR<T>::ColumnIndicesData() const
 {
     return m_columnIndices.data();
 }
@@ -595,9 +523,11 @@ typename MatrixCSR<T>::ConstIndexIterator MatrixCSR<T>::ColumnIndicesEnd() const
 template <typename T>
 MatrixCSR<T> MatrixCSR<T>::Add(const T& s) const
 {
-    MatrixCSR ret{ *this };
-    ParallelFor(ZERO_SIZE, ret.m_nonZeros.size(),
+    MatrixCSR ret(*this);
+
+    ParallelFor(0, ret.m_nonZeros.size(),
                 [&](size_t i) { ret.m_nonZeros[i] += s; });
+
     return ret;
 }
 
@@ -610,9 +540,11 @@ MatrixCSR<T> MatrixCSR<T>::Add(const MatrixCSR& m) const
 template <typename T>
 MatrixCSR<T> MatrixCSR<T>::Sub(const T& s) const
 {
-    MatrixCSR ret{ *this };
-    ParallelFor(ZERO_SIZE, ret.m_nonZeros.size(),
+    MatrixCSR ret(*this);
+
+    ParallelFor(0, ret.m_nonZeros.size(),
                 [&](size_t i) { ret.m_nonZeros[i] -= s; });
+
     return ret;
 }
 
@@ -625,34 +557,30 @@ MatrixCSR<T> MatrixCSR<T>::Sub(const MatrixCSR& m) const
 template <typename T>
 MatrixCSR<T> MatrixCSR<T>::Mul(const T& s) const
 {
-    MatrixCSR ret{ *this };
-    ParallelFor(ZERO_SIZE, ret.m_nonZeros.size(),
+    MatrixCSR ret(*this);
+
+    ParallelFor(0, ret.m_nonZeros.size(),
                 [&](size_t i) { ret.m_nonZeros[i] *= s; });
+
     return ret;
 }
 
 template <typename T>
-template <typename VE>
-MatrixCSRVectorMul<T, VE> MatrixCSR<T>::Mul(
-    const VectorExpression<T, VE>& v) const
-{
-    return MatrixCSRVectorMul<T, VE>{ *this, v() };
-};
-
-template <typename T>
-template <typename ME>
+template <size_t R, size_t C, typename ME>
 MatrixCSRMatrixMul<T, ME> MatrixCSR<T>::Mul(
-    const MatrixExpression<T, ME>& m) const
+    const MatrixExpression<T, R, C, ME>& m) const
 {
-    return MatrixCSRMatrixMul<T, ME>{ *this, m() };
+    return MatrixCSRMatrixMul<T, ME>(*this, m.GetDerived());
 }
 
 template <typename T>
 MatrixCSR<T> MatrixCSR<T>::Div(const T& s) const
 {
-    MatrixCSR ret{ *this };
-    ParallelFor(ZERO_SIZE, ret.m_nonZeros.size(),
+    MatrixCSR ret(*this);
+
+    ParallelFor(0, ret.m_nonZeros.size(),
                 [&](size_t i) { ret.m_nonZeros[i] /= s; });
+
     return ret;
 }
 
@@ -671,9 +599,11 @@ MatrixCSR<T> MatrixCSR<T>::RAdd(const MatrixCSR& m) const
 template <typename T>
 MatrixCSR<T> MatrixCSR<T>::RSub(const T& s) const
 {
-    MatrixCSR ret{ *this };
-    ParallelFor(ZERO_SIZE, ret.m_nonZeros.size(),
+    MatrixCSR ret(*this);
+
+    ParallelFor(0, ret.m_nonZeros.size(),
                 [&](size_t i) { ret.m_nonZeros[i] = s - ret.m_nonZeros[i]; });
+
     return ret;
 }
 
@@ -692,17 +622,18 @@ MatrixCSR<T> MatrixCSR<T>::RMul(const T& s) const
 template <typename T>
 MatrixCSR<T> MatrixCSR<T>::RDiv(const T& s) const
 {
-    MatrixCSR ret{ *this };
-    ParallelFor(ZERO_SIZE, ret.m_nonZeros.size(),
+    MatrixCSR ret(*this);
+
+    ParallelFor(0, ret.m_nonZeros.size(),
                 [&](size_t i) { ret.m_nonZeros[i] = s / ret.m_nonZeros[i]; });
+
     return ret;
 }
 
 template <typename T>
 void MatrixCSR<T>::IAdd(const T& s)
 {
-    ParallelFor(ZERO_SIZE, m_nonZeros.size(),
-                [&](size_t i) { m_nonZeros[i] += s; });
+    ParallelFor(0, m_nonZeros.size(), [&](size_t i) { m_nonZeros[i] += s; });
 }
 
 template <typename T>
@@ -714,8 +645,7 @@ void MatrixCSR<T>::IAdd(const MatrixCSR& m)
 template <typename T>
 void MatrixCSR<T>::ISub(const T& s)
 {
-    ParallelFor(ZERO_SIZE, m_nonZeros.size(),
-                [&](size_t i) { m_nonZeros[i] -= s; });
+    ParallelFor(0, m_nonZeros.size(), [&](size_t i) { m_nonZeros[i] -= s; });
 }
 
 template <typename T>
@@ -727,30 +657,29 @@ void MatrixCSR<T>::ISub(const MatrixCSR& m)
 template <typename T>
 void MatrixCSR<T>::IMul(const T& s)
 {
-    ParallelFor(ZERO_SIZE, m_nonZeros.size(),
-                [&](size_t i) { m_nonZeros[i] *= s; });
+    ParallelFor(0, m_nonZeros.size(), [&](size_t i) { m_nonZeros[i] *= s; });
 }
 
 template <typename T>
-template <typename ME>
-void MatrixCSR<T>::IMul(const MatrixExpression<T, ME>& m)
+template <size_t R, size_t C, typename ME>
+void MatrixCSR<T>::IMul(const MatrixExpression<T, R, C, ME>& m)
 {
     MatrixCSRD result = Mul(m);
+
     *this = std::move(result);
 }
 
 template <typename T>
 void MatrixCSR<T>::IDiv(const T& s)
 {
-    ParallelFor(ZERO_SIZE, m_nonZeros.size(),
-                [&](size_t i) { m_nonZeros[i] /= s; });
+    ParallelFor(0, m_nonZeros.size(), [&](size_t i) { m_nonZeros[i] /= s; });
 }
 
 template <typename T>
 T MatrixCSR<T>::Sum() const
 {
     return ParallelReduce(
-        ZERO_SIZE, NumberOfNonZeros(), T(0),
+        0, NumberOfNonZeros(), T(0),
         [&](size_t start, size_t end, T init) {
             T result = init;
 
@@ -773,10 +702,10 @@ T MatrixCSR<T>::Avg() const
 template <typename T>
 T MatrixCSR<T>::Min() const
 {
-    const T& (*m_min)(const T&, const T&) = std::min<T>;
+    const T& (*_min)(const T&, const T&) = std::min<T>;
 
     return ParallelReduce(
-        ZERO_SIZE, NumberOfNonZeros(), std::numeric_limits<T>::max(),
+        0, NumberOfNonZeros(), std::numeric_limits<T>::max(),
         [&](size_t start, size_t end, T init) {
             T result = init;
 
@@ -787,16 +716,16 @@ T MatrixCSR<T>::Min() const
 
             return result;
         },
-        m_min);
+        _min);
 }
 
 template <typename T>
 T MatrixCSR<T>::Max() const
 {
-    const T& (*m_max)(const T&, const T&) = std::max<T>;
+    const T& (*_max)(const T&, const T&) = std::max<T>;
 
     return ParallelReduce(
-        ZERO_SIZE, NumberOfNonZeros(), std::numeric_limits<T>::min(),
+        0, NumberOfNonZeros(), std::numeric_limits<T>::min(),
         [&](size_t start, size_t end, T init) {
             T result = init;
 
@@ -807,14 +736,14 @@ T MatrixCSR<T>::Max() const
 
             return result;
         },
-        m_max);
+        _max);
 }
 
 template <typename T>
 T MatrixCSR<T>::AbsMin() const
 {
     return ParallelReduce(
-        ZERO_SIZE, NumberOfNonZeros(), std::numeric_limits<T>::max(),
+        0, NumberOfNonZeros(), std::numeric_limits<T>::max(),
         [&](size_t start, size_t end, T init) {
             T result = init;
 
@@ -822,6 +751,7 @@ T MatrixCSR<T>::AbsMin() const
             {
                 result = CubbyFlow::AbsMin(result, m_nonZeros[i]);
             }
+
             return result;
         },
         CubbyFlow::AbsMin<T>);
@@ -831,7 +761,7 @@ template <typename T>
 T MatrixCSR<T>::AbsMax() const
 {
     return ParallelReduce(
-        ZERO_SIZE, NumberOfNonZeros(), T(0),
+        0, NumberOfNonZeros(), T(0),
         [&](size_t start, size_t end, T init) {
             T result = init;
 
@@ -851,7 +781,7 @@ T MatrixCSR<T>::Trace() const
     assert(IsSquare());
 
     return ParallelReduce(
-        ZERO_SIZE, Rows(), T(0),
+        0, GetRows(), T(0),
         [&](size_t start, size_t end, T init) {
             T result = init;
 
@@ -870,28 +800,49 @@ template <typename U>
 MatrixCSR<U> MatrixCSR<T>::CastTo() const
 {
     MatrixCSR<U> ret;
-    ret.Reserve(Rows(), Cols(), NumberOfNonZeros());
+    ret.reserve(GetRows(), GetCols(), NumberOfNonZeros());
 
     auto nnz = ret.NonZeroBegin();
     auto ci = ret.ColumnIndicesBegin();
     auto rp = ret.RowPointersBegin();
 
-    ParallelFor(ZERO_SIZE, m_nonZeros.size(), [&](size_t i) {
+    ParallelFor(0, m_nonZeros.size(), [&](size_t i) {
         nnz[i] = static_cast<U>(m_nonZeros[i]);
         ci[i] = m_columnIndices[i];
     });
 
-    ParallelFor(ZERO_SIZE, m_rowPointers.size(),
+    ParallelFor(0, m_rowPointers.size(),
                 [&](size_t i) { rp[i] = m_rowPointers[i]; });
 
     return ret;
 }
 
 template <typename T>
-template <typename E>
-MatrixCSR<T>& MatrixCSR<T>::operator=(const E& m)
+template <size_t R, size_t C, typename E>
+MatrixCSR<T>& MatrixCSR<T>::operator=(const MatrixExpression<T, R, C, E>& m)
 {
     Set(m);
+
+    return *this;
+}
+
+template <typename T>
+MatrixCSR<T>& MatrixCSR<T>::operator=(const MatrixCSR& other)
+{
+    Set(other);
+
+    return *this;
+}
+
+template <typename T>
+MatrixCSR<T>& MatrixCSR<T>::operator=(MatrixCSR&& other)
+{
+    m_size = other.m_size;
+    other.m_size = Vector2UZ();
+    m_nonZeros = std::move(other.m_nonZeros);
+    m_rowPointers = std::move(other.m_rowPointers);
+    m_columnIndices = std::move(other.m_columnIndices);
+
     return *this;
 }
 
@@ -899,6 +850,7 @@ template <typename T>
 MatrixCSR<T>& MatrixCSR<T>::operator+=(const T& s)
 {
     IAdd(s);
+
     return *this;
 }
 
@@ -906,6 +858,7 @@ template <typename T>
 MatrixCSR<T>& MatrixCSR<T>::operator+=(const MatrixCSR& m)
 {
     IAdd(m);
+
     return *this;
 }
 
@@ -913,6 +866,7 @@ template <typename T>
 MatrixCSR<T>& MatrixCSR<T>::operator-=(const T& s)
 {
     ISub(s);
+
     return *this;
 }
 
@@ -920,6 +874,7 @@ template <typename T>
 MatrixCSR<T>& MatrixCSR<T>::operator-=(const MatrixCSR& m)
 {
     ISub(m);
+
     return *this;
 }
 
@@ -927,14 +882,16 @@ template <typename T>
 MatrixCSR<T>& MatrixCSR<T>::operator*=(const T& s)
 {
     IMul(s);
+
     return *this;
 }
 
 template <typename T>
-template <typename ME>
-MatrixCSR<T>& MatrixCSR<T>::operator*=(const MatrixExpression<T, ME>& m)
+template <size_t R, size_t C, typename ME>
+MatrixCSR<T>& MatrixCSR<T>::operator*=(const MatrixExpression<T, R, C, ME>& m)
 {
     IMul(m);
+
     return *this;
 }
 
@@ -942,6 +899,7 @@ template <typename T>
 MatrixCSR<T>& MatrixCSR<T>::operator/=(const T& s)
 {
     IDiv(s);
+
     return *this;
 }
 
@@ -974,13 +932,14 @@ template <typename T>
 MatrixCSR<T> MatrixCSR<T>::MakeIdentity(size_t m)
 {
     MatrixCSR ret;
-    ret.m_size = Size2{ m, m };
+
+    ret.m_size = Vector2UZ(m, m);
     ret.m_nonZeros.resize(m, 1.0);
     ret.m_columnIndices.resize(m);
-    std::iota(ret.m_columnIndices.begin(), ret.m_columnIndices.end(),
-              ZERO_SIZE);
+    std::iota(ret.m_columnIndices.begin(), ret.m_columnIndices.end(), 0);
     ret.m_rowPointers.resize(m + 1);
-    std::iota(ret.m_rowPointers.begin(), ret.m_rowPointers.end(), ZERO_SIZE);
+    std::iota(ret.m_rowPointers.begin(), ret.m_rowPointers.end(), 0);
+
     return ret;
 }
 
@@ -995,8 +954,8 @@ size_t MatrixCSR<T>::HasElement(size_t i, size_t j) const
     const size_t rowBegin = m_rowPointers[i];
     const size_t rowEnd = m_rowPointers[i + 1];
 
-    const auto iter = BinaryFind(m_columnIndices.begin() + rowBegin,
-                                 m_columnIndices.begin() + rowEnd, j);
+    auto iter = BinaryFind(m_columnIndices.begin() + rowBegin,
+                           m_columnIndices.begin() + rowEnd, j);
     if (iter != m_columnIndices.begin() + rowEnd)
     {
         return static_cast<size_t>(iter - m_columnIndices.begin());
@@ -1044,6 +1003,7 @@ MatrixCSR<T> MatrixCSR<T>::BinaryOp(const MatrixCSR& m, Op op) const
             else
             {
                 assert(*colIterA == *colIterB);
+
                 col.push_back(*colIterB);
                 nnz.push_back(op(*nnzIterA, *nnzIterB));
                 ++colIterA;
@@ -1113,16 +1073,9 @@ MatrixCSR<T> operator*(T a, const MatrixCSR<T>& b)
     return b.RMul(a);
 }
 
-template <typename T, typename VE>
-MatrixCSRVectorMul<T, VE> operator*(const MatrixCSR<T>& a,
-                                    const VectorExpression<T, VE>& b)
-{
-    return a.Mul(b);
-}
-
-template <typename T, typename ME>
+template <typename T, size_t R, size_t C, typename ME>
 MatrixCSRMatrixMul<T, ME> operator*(const MatrixCSR<T>& a,
-                                    const MatrixExpression<T, ME>& b)
+                                    const MatrixExpression<T, R, C, ME>& b)
 {
     return a.Mul(b);
 }
