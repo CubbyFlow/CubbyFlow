@@ -11,7 +11,9 @@
 #ifndef CUBBYFLOW_ARRAY_HPP
 #define CUBBYFLOW_ARRAY_HPP
 
-#include <cstddef>
+#include <Core/Array/ArrayBase.hpp>
+
+#include <vector>
 
 namespace CubbyFlow
 {
@@ -27,12 +29,87 @@ namespace CubbyFlow
 //! \tparam N - Dimension.
 //!
 template <typename T, size_t N>
-class Array final
+class ArrayView;
+
+template <typename T, size_t N>
+class Array final : public ArrayBase<T, N, Array<T, N>>
 {
+    using Base = ArrayBase<T, N, Array<T, N>>;
+    using Base::At;
+    using Base::ClearPtrAndSize;
+    using Base::m_size;
+    using Base::SetPtrAndSize;
+    using Base::SwapPtrAndSize;
+
  public:
-    static_assert(N < 1 || N > 3,
-                  "Not implemented - N should be either 1, 2, or 3.");
+    Array();
+
+    Array(const Vector<size_t, N>& size, const T& initVal = T{});
+
+    template <typename... Args>
+    Array(size_t nx, Args... args);
+
+    Array(NestedInitializerListsT<T, N> lst);
+
+    Array(const Array& other);
+
+    Array(Array&& other) noexcept;
+
+    template <typename D>
+    void CopyFrom(const ArrayBase<T, N, D>& other);
+
+    template <typename D>
+    void CopyFrom(const ArrayBase<const T, N, D>& other);
+
+    void Fill(const T& val);
+
+    void Resize(Vector<size_t, N> size_, const T& initVal = T{});
+
+    template <typename... Args>
+    void Resize(size_t nx, Args... args);
+
+    template <size_t M = N>
+    std::enable_if_t<(M == 1), void> Append(const T& val);
+
+    template <typename OtherDerived, size_t M = N>
+    std::enable_if_t<(M == 1), void> Append(
+        const ArrayBase<T, N, OtherDerived>& extra);
+
+    void Clear();
+
+    void Swap(Array& other);
+
+    ArrayView<T, N> View();
+
+    ArrayView<const T, N> View() const;
+
+    template <typename OtherDerived>
+    Array& operator=(const ArrayBase<T, N, OtherDerived>& other);
+
+    template <typename OtherDerived>
+    Array& operator=(const ArrayBase<const T, N, OtherDerived>& other);
+
+    Array& operator=(const Array& other);
+
+    Array& operator=(Array&& other) noexcept;
+
+ private:
+    std::vector<T> m_data;
 };
+
+template <class T>
+using Array1 = Array<T, 1>;
+
+template <class T>
+using Array2 = Array<T, 2>;
+
+template <class T>
+using Array3 = Array<T, 3>;
+
+template <class T>
+using Array4 = Array<T, 4>;
 }  // namespace CubbyFlow
+
+#include <Core/Array/Array-Impl.hpp>
 
 #endif
