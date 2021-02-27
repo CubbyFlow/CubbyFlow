@@ -1054,7 +1054,7 @@ Matrix<T, MATRIX_SIZE_DYNAMIC, 1>::Matrix()
 template <typename T>
 Matrix<T, MATRIX_SIZE_DYNAMIC, 1>::Matrix(size_t rows, ConstReference value)
 {
-    m_elements.Resize(rows, value);
+    m_elements.resize(rows, value);
 }
 
 template <typename T>
