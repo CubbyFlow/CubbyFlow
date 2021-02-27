@@ -96,7 +96,7 @@ MatrixCSR<T>::MatrixCSR(const MatrixCSR& other)
 }
 
 template <typename T>
-MatrixCSR<T>::MatrixCSR(MatrixCSR&& other)
+MatrixCSR<T>::MatrixCSR(MatrixCSR&& other) noexcept
 {
     (*this) = std::move(other);
 }
@@ -835,7 +835,7 @@ MatrixCSR<T>& MatrixCSR<T>::operator=(const MatrixCSR& other)
 }
 
 template <typename T>
-MatrixCSR<T>& MatrixCSR<T>::operator=(MatrixCSR&& other)
+MatrixCSR<T>& MatrixCSR<T>::operator=(MatrixCSR&& other) noexcept
 {
     m_size = other.m_size;
     other.m_size = Vector2UZ();
