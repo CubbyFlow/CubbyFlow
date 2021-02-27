@@ -11,6 +11,7 @@
 #ifndef CUBBYFLOW_MATRIX_CSR_IMPL_HPP
 #define CUBBYFLOW_MATRIX_CSR_IMPL_HPP
 
+#include <Core/Math/MathUtils.hpp>
 #include <Core/Utils/CppUtils.hpp>
 
 namespace CubbyFlow

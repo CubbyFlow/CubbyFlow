@@ -11,6 +11,10 @@
 #ifndef CUBBYFLOW_MATRIX_EXPRESSION_IMPL_HPP
 #define CUBBYFLOW_MATRIX_EXPRESSION_IMPL_HPP
 
+#include <Core/Math/MathUtils.hpp>
+
+#include <cassert>
+
 namespace CubbyFlow
 {
 template <typename T, size_t Rows, size_t Cols, typename D>
