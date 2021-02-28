@@ -164,7 +164,7 @@ T RadiansToDegrees(T angleInRadians);
 //! \tparam     T     Value type.
 //!
 template <class T>
-void GetBarycentric(T x, ssize_t iLow, ssize_t iHigh, ssize_t* i, T* t);
+void GetBarycentric(T x, ssize_t iLow, ssize_t iHigh, ssize_t& i, T& t);
 
 //!
 //! \brief      Computes linear interpolation.

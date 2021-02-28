@@ -150,31 +150,31 @@ T RadiansToDegrees(T angleInRadians)
 }
 
 template <typename T>
-void GetBarycentric(T x, ssize_t iLow, ssize_t iHigh, ssize_t* i, T* t)
+void GetBarycentric(T x, ssize_t iLow, ssize_t iHigh, ssize_t& i, T& t)
 {
     T s = std::floor(x);
-    *i = static_cast<ssize_t>(s);
+    i = static_cast<ssize_t>(s);
 
     const ssize_t offset = -iLow;
     iLow += offset;
     iHigh += offset;
 
-    if (iLow == iHigh || *i < iLow)
+    if (iLow == iHigh || i < iLow)
     {
-        *i = iLow;
-        *t = 0;
+        i = iLow;
+        t = 0;
     }
-    else if (*i > iHigh - 1)
+    else if (i > iHigh - 1)
     {
-        *i = iHigh - 1;
-        *t = 1;
+        i = iHigh - 1;
+        t = 1;
     }
     else
     {
-        *t = static_cast<T>(x - s);
+        t = static_cast<T>(x - s);
     }
 
-    *i -= offset;
+    i -= offset;
 }
 
 template <typename S, typename T>
