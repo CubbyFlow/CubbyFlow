@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_SERIALIZATION_HPP
 #define CUBBYFLOW_SERIALIZATION_HPP
 
-#include <Core/Array/Array1.hpp>
+#include <Core/Array/ArrayView.hpp>
 
 #include <vector>
 
@@ -54,8 +54,7 @@ void Serialize(const uint8_t* data, size_t size, std::vector<uint8_t>* buffer);
 
 //! Serializes data chunk using common schema.
 template <typename T>
-void Serialize(const ConstArrayAccessor1<T>& array,
-               std::vector<uint8_t>* buffer);
+void Serialize(const ConstArrayView1<T>& array, std::vector<uint8_t>* buffer);
 
 //! Deserializes buffer to serializable object.
 void Deserialize(const std::vector<uint8_t>& buffer,

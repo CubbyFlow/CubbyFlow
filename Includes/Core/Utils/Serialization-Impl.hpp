@@ -16,8 +16,7 @@
 namespace CubbyFlow
 {
 template <typename T>
-void Serialize(const ConstArrayAccessor1<T>& array,
-               std::vector<uint8_t>* buffer)
+void Serialize(const ConstArrayView1<T>& array, std::vector<uint8_t>* buffer)
 {
     const size_t size = sizeof(T) * array.size();
     Serialize(reinterpret_cast<const uint8_t*>(array.data()), size, buffer);
