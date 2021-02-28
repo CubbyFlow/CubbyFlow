@@ -80,7 +80,7 @@ $(function() {
 <div class="title">Serialization.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;Core/Array/Array1.hpp&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="_array_view_8hpp_source.html">Core/Array/ArrayView.hpp</a>&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;<a class="el" href="_serialization-_impl_8hpp_source.html">Core/Utils/Serialization-Impl.hpp</a>&gt;</code><br />
 </div>
@@ -105,10 +105,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a6097fd9424a984dd64804d138f862f93"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a6097fd9424a984dd64804d138f862f93">CubbyFlow::Serialize</a> (const uint8_t *data, size_t size, std::vector&lt; uint8_t &gt; *buffer)</td></tr>
 <tr class="memdesc:a6097fd9424a984dd64804d138f862f93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes data chunk using common schema.  <a href="namespace_cubby_flow.html#a6097fd9424a984dd64804d138f862f93">More...</a><br /></td></tr>
 <tr class="separator:a6097fd9424a984dd64804d138f862f93"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b3625bc3f99774e9632ce7361bc2c2b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a5b3625bc3f99774e9632ce7361bc2c2b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a5b3625bc3f99774e9632ce7361bc2c2b">CubbyFlow::Serialize</a> (const ConstArrayAccessor1&lt; T &gt; &amp;array, std::vector&lt; uint8_t &gt; *buffer)</td></tr>
-<tr class="memdesc:a5b3625bc3f99774e9632ce7361bc2c2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes data chunk using common schema.  <a href="namespace_cubby_flow.html#a5b3625bc3f99774e9632ce7361bc2c2b">More...</a><br /></td></tr>
-<tr class="separator:a5b3625bc3f99774e9632ce7361bc2c2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad70041cc6c50f22395fc561125a36140"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ad70041cc6c50f22395fc561125a36140"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ad70041cc6c50f22395fc561125a36140">CubbyFlow::Serialize</a> (const ConstArrayView1&lt; T &gt; &amp;array, std::vector&lt; uint8_t &gt; *buffer)</td></tr>
+<tr class="memdesc:ad70041cc6c50f22395fc561125a36140"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes data chunk using common schema.  <a href="namespace_cubby_flow.html#ad70041cc6c50f22395fc561125a36140">More...</a><br /></td></tr>
+<tr class="separator:ad70041cc6c50f22395fc561125a36140"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09f5da9be0cd502d66201dfcbe76761f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a09f5da9be0cd502d66201dfcbe76761f">CubbyFlow::Deserialize</a> (const std::vector&lt; uint8_t &gt; &amp;buffer, Serializable *serializable)</td></tr>
 <tr class="memdesc:a09f5da9be0cd502d66201dfcbe76761f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserializes buffer to serializable object.  <a href="namespace_cubby_flow.html#a09f5da9be0cd502d66201dfcbe76761f">More...</a><br /></td></tr>
 <tr class="separator:a09f5da9be0cd502d66201dfcbe76761f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -129,7 +129,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 27 2021 14:58:09 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Feb 28 2021 16:22:51 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

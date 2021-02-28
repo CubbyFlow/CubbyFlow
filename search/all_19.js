@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['z',['z',['../class_cubby_flow_1_1_point_3_01_t_00_013_01_4.html#a54b88f65e69518dc876bbde9062f9a2d',1,'CubbyFlow::Point&lt; T, 3 &gt;::z()'],['../class_cubby_flow_1_1_quaternion.html#acea96f7cc00e30d2f16593953c29ff92',1,'CubbyFlow::Quaternion::z()'],['../class_cubby_flow_1_1_matrix_3_01_t_00_013_00_011_01_4.html#a0898fa0939912e8b6be30896edff2c08',1,'CubbyFlow::Matrix&lt; T, 3, 1 &gt;::z()'],['../class_cubby_flow_1_1_matrix_3_01_t_00_014_00_011_01_4.html#a3a78516656a4ed974ceeecaac73c22de',1,'CubbyFlow::Matrix&lt; T, 4, 1 &gt;::z()']]],
+  ['z',['z',['../class_cubby_flow_1_1_quaternion.html#acea96f7cc00e30d2f16593953c29ff92',1,'CubbyFlow::Quaternion::z()'],['../class_cubby_flow_1_1_matrix_3_01_t_00_013_00_011_01_4.html#a0898fa0939912e8b6be30896edff2c08',1,'CubbyFlow::Matrix&lt; T, 3, 1 &gt;::z()'],['../class_cubby_flow_1_1_matrix_3_01_t_00_014_00_011_01_4.html#a3a78516656a4ed974ceeecaac73c22de',1,'CubbyFlow::Matrix&lt; T, 4, 1 &gt;::z()']]],
   ['zero',['Zero',['../namespace_cubby_flow.html#a9a8effb0e5b230e5d810f33f6627d7db',1,'CubbyFlow']]],
   ['zero_3c_20double_20_3e',['Zero&lt; double &gt;',['../namespace_cubby_flow.html#a52f692ba62493521067681df9d619381',1,'CubbyFlow']]],
   ['zero_3c_20float_20_3e',['Zero&lt; float &gt;',['../namespace_cubby_flow.html#af1518df570e3288f162c78f60db6a566',1,'CubbyFlow']]],

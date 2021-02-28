@@ -1,7 +1,7 @@
 var searchData=
 [
   ['debuglogger',['debugLogger',['../namespace_cubby_flow.html#ab4b03133f49d2ded5f3965a26707e07c',1,'CubbyFlow']]],
-  ['direction',['direction',['../class_cubby_flow_1_1_ray_3_01_t_00_012_01_4.html#a8492bc57fa61a45b8924906ef3b1c2ad',1,'CubbyFlow::Ray&lt; T, 2 &gt;::direction()'],['../class_cubby_flow_1_1_ray_3_01_t_00_013_01_4.html#a66868b6f0fc1a11619db73d5913421ad',1,'CubbyFlow::Ray&lt; T, 3 &gt;::direction()']]],
+  ['direction',['direction',['../class_cubby_flow_1_1_ray.html#a3e2606a8e762341be643fc6b67880056',1,'CubbyFlow::Ray']]],
   ['direction_5fall',['DIRECTION_ALL',['../namespace_cubby_flow.html#abc4abf75c826148f1ce08ca98101f386',1,'CubbyFlow']]],
   ['direction_5fback',['DIRECTION_BACK',['../namespace_cubby_flow.html#a8b0584cb21c84b8d4ec6a2ebcd5e7080',1,'CubbyFlow']]],
   ['direction_5fdown',['DIRECTION_DOWN',['../namespace_cubby_flow.html#ae51e64094c90c34dfa2a4b00cea161ff',1,'CubbyFlow']]],

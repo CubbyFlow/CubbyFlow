@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['far',['far',['../struct_cubby_flow_1_1_bounding_box_ray_intersection2.html#ab113f866e9a5fe5d8fec830c49b3ed57',1,'CubbyFlow::BoundingBoxRayIntersection2::far()'],['../struct_cubby_flow_1_1_bounding_box_ray_intersection3.html#acc4e6bb6fd0c170f981327c98d7839a7',1,'CubbyFlow::BoundingBoxRayIntersection3::far()']]],
+  ['far',['far',['../struct_cubby_flow_1_1_bounding_box_ray_intersection.html#af90900b669c3ec89e317cdc55f789c97',1,'CubbyFlow::BoundingBoxRayIntersection']]],
   ['flags',['flags',['../struct_cubby_flow_1_1_kd_tree_1_1_node.html#a93f87bcdcf784c238f6841f1ccfa4edb',1,'CubbyFlow::KdTree::Node']]],
   ['flat_5fkernel_5fsize',['FLAT_KERNEL_SIZE',['../class_cubby_flow_1_1_linear_array_sampler.html#a2bdc2806144b0209474dca953b1c6dff',1,'CubbyFlow::LinearArraySampler']]],
   ['four_5fpi_5fdouble',['FOUR_PI_DOUBLE',['../namespace_cubby_flow.html#ae6958de03eac613a10a1df66a045d7b5',1,'CubbyFlow']]],

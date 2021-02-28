@@ -74,26 +74,53 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle">
 <div class="title">BoundingBox.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;Core/Vector/Vector.hpp&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="_core_2_geometry_2_ray_8hpp_source.html">Core/Geometry/Ray.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="_matrix_8hpp_source.html">Core/Matrix/Matrix.hpp</a>&gt;</code><br />
+<code>#include &lt;limits&gt;</code><br />
 <code>#include &lt;<a class="el" href="_bounding_box-_impl_8hpp_source.html">Core/Geometry/BoundingBox-Impl.hpp</a>&gt;</code><br />
 </div>
 <p><a href="_core_2_geometry_2_bounding_box_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_cubby_flow_1_1_bounding_box_ray_intersection.html">CubbyFlow::BoundingBoxRayIntersection&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Box-ray intersection result.  <a href="struct_cubby_flow_1_1_bounding_box_ray_intersection.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_bounding_box.html">CubbyFlow::BoundingBox&lt; T, N &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic N-D axis-aligned bounding box class.  <a href="class_cubby_flow_1_1_bounding_box.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">N-D axis-aligned bounding box class.  <a href="class_cubby_flow_1_1_bounding_box.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespace_cubby_flow"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html">CubbyFlow</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a9bc71540ccb248db7f16fa99eeb4102c"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a9bc71540ccb248db7f16fa99eeb4102c"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a9bc71540ccb248db7f16fa99eeb4102c">CubbyFlow::BoundingBox2</a> = BoundingBox&lt; T, 2 &gt;</td></tr>
+<tr class="separator:a9bc71540ccb248db7f16fa99eeb4102c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a4978bbd52d9dc12c5b2de90755a507"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a8a4978bbd52d9dc12c5b2de90755a507"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a8a4978bbd52d9dc12c5b2de90755a507">CubbyFlow::BoundingBox3</a> = BoundingBox&lt; T, 3 &gt;</td></tr>
+<tr class="separator:a8a4978bbd52d9dc12c5b2de90755a507"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b05337c409129257365435c8fa78973"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a2b05337c409129257365435c8fa78973">CubbyFlow::BoundingBox2F</a> = BoundingBox2&lt; float &gt;</td></tr>
+<tr class="separator:a2b05337c409129257365435c8fa78973"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a898628dfce087aa1cd4f07465621e2f9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a898628dfce087aa1cd4f07465621e2f9">CubbyFlow::BoundingBox2D</a> = BoundingBox2&lt; double &gt;</td></tr>
+<tr class="separator:a898628dfce087aa1cd4f07465621e2f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a876308be0e188b5e131a9bcb80783a33"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a876308be0e188b5e131a9bcb80783a33">CubbyFlow::BoundingBox3F</a> = BoundingBox3&lt; float &gt;</td></tr>
+<tr class="separator:a876308be0e188b5e131a9bcb80783a33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3b2afb0ff7c00c0a622f46b1ad35f60"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ae3b2afb0ff7c00c0a622f46b1ad35f60">CubbyFlow::BoundingBox3D</a> = BoundingBox3&lt; double &gt;</td></tr>
+<tr class="separator:ae3b2afb0ff7c00c0a622f46b1ad35f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a796829f7cd5eceef933625f2e126b39d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a796829f7cd5eceef933625f2e126b39d">CubbyFlow::BoundingBoxRayIntersectionF</a> = BoundingBoxRayIntersection&lt; float &gt;</td></tr>
+<tr class="separator:a796829f7cd5eceef933625f2e126b39d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7eb53d6ef1f7e15b2e17dd1511e88fe5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a7eb53d6ef1f7e15b2e17dd1511e88fe5">CubbyFlow::BoundingBoxRayIntersectionD</a> = BoundingBoxRayIntersection&lt; double &gt;</td></tr>
+<tr class="separator:a7eb53d6ef1f7e15b2e17dd1511e88fe5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
@@ -104,7 +131,7 @@ Namespaces</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 27 2021 14:58:09 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Feb 28 2021 16:22:51 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

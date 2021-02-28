@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['near',['near',['../struct_cubby_flow_1_1_bounding_box_ray_intersection2.html#a6f3aa8342f0563c63e8a0c192657ecf4',1,'CubbyFlow::BoundingBoxRayIntersection2::near()'],['../struct_cubby_flow_1_1_bounding_box_ray_intersection3.html#a5bbd46ee177fe24dfa901bbcc2d829b3',1,'CubbyFlow::BoundingBoxRayIntersection3::near()']]],
+  ['near',['near',['../struct_cubby_flow_1_1_bounding_box_ray_intersection.html#a4ecf02fcc68bd78a23b92b44ae60315a',1,'CubbyFlow::BoundingBoxRayIntersection']]],
   ['nearestarraysampler',['NearestArraySampler',['../class_cubby_flow_1_1_nearest_array_sampler.html',1,'CubbyFlow::NearestArraySampler&lt; T, N &gt;'],['../class_cubby_flow_1_1_nearest_array_sampler.html#a7fcdf94817e614865e692146ceb6d882',1,'CubbyFlow::NearestArraySampler::NearestArraySampler(const ArrayView&lt; const T, N &gt; &amp;view, const VectorType &amp;gridSpacing, const VectorType &amp;gridOrigin)'],['../class_cubby_flow_1_1_nearest_array_sampler.html#a9d0051e623fc9daceb4c645716a062ea',1,'CubbyFlow::NearestArraySampler::NearestArraySampler(const NearestArraySampler &amp;other)']]],
   ['nearestarraysampler1',['NearestArraySampler1',['../namespace_cubby_flow.html#ae8043f3b3e67306d0fde75c5a5b94f16',1,'CubbyFlow']]],
   ['nearestarraysampler2',['NearestArraySampler2',['../namespace_cubby_flow.html#a1561db5053d8ddc7d51b0e086641487b',1,'CubbyFlow']]],
