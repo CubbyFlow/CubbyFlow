@@ -11,6 +11,8 @@
 #ifndef CUBBYFLOW_ARRAY_IMPL_HPP
 #define CUBBYFLOW_ARRAY_IMPL_HPP
 
+#include <Core/Utils/IterationUtils.hpp>
+
 namespace CubbyFlow
 {
 template <typename T, size_t N>
@@ -26,7 +28,7 @@ struct GetSizeAndInitVal
     {
         size[N - I - 1] = n;
 
-        GetSizeAndInitVal<T, N, I - 1>::call(size, value, args...);
+        GetSizeAndInitVal<T, N, I - 1>::Call(size, value, args...);
     }
 };
 
