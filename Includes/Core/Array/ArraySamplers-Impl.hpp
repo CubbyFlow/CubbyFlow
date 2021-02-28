@@ -11,6 +11,8 @@
 #ifndef CUBBYFLOW_ARRAY_SAMPLERS_IMPL_HPP
 #define CUBBYFLOW_ARRAY_SAMPLERS_IMPL_HPP
 
+#include <Core/Math/MathUtils.hpp>
+
 namespace CubbyFlow
 {
 namespace Internal
@@ -26,8 +28,9 @@ struct Lerp
     {
         using Next = Lerp<T, N, I - 1>;
 
-        return Lerp(Next::call(view, i, t, i[I - 1], indices...),
-                    Next::call(view, i, t, i[I - 1] + 1, indices...), t[I - 1]);
+        return CubbyFlow::Lerp(Next::Call(view, i, t, i[I - 1], indices...),
+                               Next::Call(view, i, t, i[I - 1] + 1, indices...),
+                               t[I - 1]);
     }
 };
 
@@ -40,7 +43,8 @@ struct Lerp<T, N, 1>
     static auto Call(const View& view, Vector<ssize_t, N> i,
                      Vector<ScalarType, N> t, RemainingIndices... indices)
     {
-        return Lerp(view(i[0], indices...), view(i[0] + 1, indices...), t[0]);
+        return CubbyFlow::Lerp(view(i[0], indices...),
+                               view(i[0] + 1, indices...), t[0]);
     }
 };
 
@@ -148,7 +152,7 @@ template <typename T, size_t N>
 struct GetCoordinatesAndGradientWeights<T, N, 1>
 {
     template <typename Coords, typename Weights, typename... RemainingIndices>
-    static void call(Coords& c, Weights& w, Vector<size_t, N> i, Vector<T, N> t,
+    static void Call(Coords& c, Weights& w, Vector<size_t, N> i, Vector<T, N> t,
                      Vector<T, N> acc, RemainingIndices... idx)
     {
         c(0, idx...) = Vector<size_t, N>(0, idx...) + i;
@@ -249,7 +253,7 @@ T LinearArraySampler<T, N>::operator()(const VectorType& pt) const
     Vector<ssize_t, N> is;
     Vector<ScalarType, N> ts;
     VectorType npt = ElemMul(pt - m_gridOrigin, m_invGridSpacing);
-    Vector<ssize_t, N> size = m_view.size().template CastTo<ssize_t>();
+    Vector<ssize_t, N> size = m_view.Size().template CastTo<ssize_t>();
 
     for (size_t i = 0; i < N; ++i)
     {
