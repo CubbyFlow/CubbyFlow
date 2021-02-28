@@ -4,7 +4,7 @@ namespace CubbyFlow.fbs;
 
 table ScalarGrid3
 {
-    resolution:Size3;
+    resolution:Vector3UZ;
     gridSpacing:Vector3D;
     origin:Vector3D;
     data:[double];

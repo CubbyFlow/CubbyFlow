@@ -10,7 +10,7 @@ table PointHashGridSearcherBucket2
 table PointHashGridSearcher2
 {
     gridSpacing:double;
-    resolution:Size2;
+    resolution:Vector2UZ;
     points:[Vector2D];
     buckets:[PointHashGridSearcherBucket2];
 }

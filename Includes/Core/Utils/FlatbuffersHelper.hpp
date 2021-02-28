@@ -11,23 +11,20 @@
 #ifndef CUBBYFLOW_FLATBUFFERS_HELPER_HPP
 #define CUBBYFLOW_FLATBUFFERS_HELPER_HPP
 
-#include <Core/Geometry/Size2.hpp>
-#include <Core/Geometry/Size3.hpp>
-#include <Core/Vector/Vector2.hpp>
-#include <Core/Vector/Vector3.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 #include <Flatbuffers/generated/BasicTypes_generated.h>
 
 namespace CubbyFlow
 {
-inline fbs::Size2 CubbyFlowToFlatbuffers(const Size2& vec)
+inline fbs::Vector2UZ CubbyFlowToFlatbuffers(const Vector2UZ& vec)
 {
-    return fbs::Size2(vec.x, vec.y);
+    return fbs::Vector2UZ(vec.x, vec.y);
 }
 
-inline fbs::Size3 CubbyFlowToFlatbuffers(const Size3& vec)
+inline fbs::Vector3UZ CubbyFlowToFlatbuffers(const Vector3UZ& vec)
 {
-    return fbs::Size3(vec.x, vec.y, vec.z);
+    return fbs::Vector3UZ(vec.x, vec.y, vec.z);
 }
 
 inline fbs::Vector2D CubbyFlowToFlatbuffers(const Vector2D& vec)
@@ -40,14 +37,14 @@ inline fbs::Vector3D CubbyFlowToFlatbuffers(const Vector3D& vec)
     return fbs::Vector3D(vec.x, vec.y, vec.z);
 }
 
-inline Size2 FlatbuffersToCubbyFlow(const fbs::Size2& vec)
+inline Vector2UZ FlatbuffersToCubbyFlow(const fbs::Vector2UZ& vec)
 {
-    return Size2{ { vec.x(), vec.y() } };
+    return Vector2UZ{ { vec.x(), vec.y() } };
 }
 
-inline Size3 FlatbuffersToCubbyFlow(const fbs::Size3& vec)
+inline Vector3UZ FlatbuffersToCubbyFlow(const fbs::Vector3UZ& vec)
 {
-    return Size3{ { vec.x(), vec.y(), vec.z() } };
+    return Vector3UZ{ { vec.x(), vec.y(), vec.z() } };
 }
 
 inline Vector2D FlatbuffersToCubbyFlow(const fbs::Vector2D& vec)
