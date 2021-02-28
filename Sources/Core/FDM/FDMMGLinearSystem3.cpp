@@ -66,7 +66,7 @@ void FDMMGUtils3::Restrict(const FDMVector3 &finer, FDMVector3 *coarser)
         ZERO_SIZE, n.x, ZERO_SIZE, n.y, ZERO_SIZE, n.z,
         [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd,
             size_t kBegin, size_t kEnd) {
-            std::array<size_t, 4> kIndices;
+            std::array<size_t, 4> kIndices{};
 
             for (size_t k = kBegin; k < kEnd; ++k)
             {
@@ -75,7 +75,7 @@ void FDMMGUtils3::Restrict(const FDMVector3 &finer, FDMVector3 *coarser)
                 kIndices[2] = 2 * k + 1;
                 kIndices[3] = (k + 1 < n.z) ? 2 * k + 2 : 2 * k + 1;
 
-                std::array<size_t, 4> jIndices;
+                std::array<size_t, 4> jIndices{};
 
                 for (size_t j = jBegin; j < jEnd; ++j)
                 {
@@ -84,7 +84,7 @@ void FDMMGUtils3::Restrict(const FDMVector3 &finer, FDMVector3 *coarser)
                     jIndices[2] = 2 * j + 1;
                     jIndices[3] = (j + 1 < n.y) ? 2 * j + 2 : 2 * j + 1;
 
-                    std::array<size_t, 4> iIndices;
+                    std::array<size_t, 4> iIndices{};
                     for (size_t i = iBegin; i < iEnd; ++i)
                     {
                         iIndices[0] = (i > 0) ? 2 * i - 1 : 2 * i;
@@ -99,7 +99,7 @@ void FDMMGUtils3::Restrict(const FDMVector3 &finer, FDMVector3 *coarser)
                             {
                                 for (size_t x = 0; x < 4; ++x)
                                 {
-                                    double w =
+                                    const double w =
                                         kernel[x] * kernel[y] * kernel[z];
                                     sum += w * finer(iIndices[x], jIndices[y],
                                                      kIndices[z]);
@@ -135,12 +135,12 @@ void FDMMGUtils3::Correct(const FDMVector3 &coarser, FDMVector3 *finer)
                 {
                     for (size_t i = iBegin; i < iEnd; ++i)
                     {
-                        std::array<size_t, 2> iIndices;
-                        std::array<size_t, 2> jIndices;
-                        std::array<size_t, 2> kIndices;
-                        std::array<double, 2> iWeights;
-                        std::array<double, 2> jWeights;
-                        std::array<double, 2> kWeights;
+                        std::array<size_t, 2> iIndices{};
+                        std::array<size_t, 2> jIndices{};
+                        std::array<size_t, 2> kIndices{};
+                        std::array<double, 2> iWeights{};
+                        std::array<double, 2> jWeights{};
+                        std::array<double, 2> kWeights{};
 
                         const size_t ci = i / 2;
                         const size_t cj = j / 2;
@@ -197,10 +197,11 @@ void FDMMGUtils3::Correct(const FDMVector3 &coarser, FDMVector3 *finer)
                             {
                                 for (size_t x = 0; x < 2; ++x)
                                 {
-                                    double w = iWeights[x] * jWeights[y] *
-                                               kWeights[z] *
-                                               coarser(iIndices[x], jIndices[y],
-                                                       kIndices[z]);
+                                    const double w =
+                                        iWeights[x] * jWeights[y] *
+                                        kWeights[z] *
+                                        coarser(iIndices[x], jIndices[y],
+                                                kIndices[z]);
                                     (*finer)(i, j, k) += w;
                                 }
                             }

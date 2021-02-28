@@ -65,7 +65,7 @@ void FDMMGUtils2::Restrict(const FDMVector2& finer, FDMVector2* coarser)
     ParallelRangeFor(
         ZERO_SIZE, n.x, ZERO_SIZE, n.y,
         [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd) {
-            std::array<size_t, 4> jIndices;
+            std::array<size_t, 4> jIndices{};
 
             for (size_t j = jBegin; j < jEnd; ++j)
             {
@@ -74,7 +74,7 @@ void FDMMGUtils2::Restrict(const FDMVector2& finer, FDMVector2* coarser)
                 jIndices[2] = 2 * j + 1;
                 jIndices[3] = (j + 1 < n.y) ? 2 * j + 2 : 2 * j + 1;
 
-                std::array<size_t, 4> iIndices;
+                std::array<size_t, 4> iIndices{};
                 for (size_t i = iBegin; i < iEnd; ++i)
                 {
                     iIndices[0] = (i > 0) ? 2 * i - 1 : 2 * i;
@@ -87,7 +87,7 @@ void FDMMGUtils2::Restrict(const FDMVector2& finer, FDMVector2* coarser)
                     {
                         for (size_t x = 0; x < 4; ++x)
                         {
-                            double w = kernel[x] * kernel[y];
+                            const double w = kernel[x] * kernel[y];
                             sum += w * finer(iIndices[x], jIndices[y]);
                         }
                     }
@@ -115,10 +115,10 @@ void FDMMGUtils2::Correct(const FDMVector2& coarser, FDMVector2* finer)
             {
                 for (size_t i = iBegin; i < iEnd; ++i)
                 {
-                    std::array<size_t, 2> iIndices;
-                    std::array<size_t, 2> jIndices;
-                    std::array<double, 2> iWeights;
-                    std::array<double, 2> jWeights;
+                    std::array<size_t, 2> iIndices{};
+                    std::array<size_t, 2> jIndices{};
+                    std::array<double, 2> iWeights{};
+                    std::array<double, 2> jWeights{};
 
                     const size_t ci = i / 2;
                     const size_t cj = j / 2;
@@ -157,8 +157,8 @@ void FDMMGUtils2::Correct(const FDMVector2& coarser, FDMVector2* finer)
                     {
                         for (size_t x = 0; x < 2; ++x)
                         {
-                            double w = iWeights[x] * jWeights[y] *
-                                       coarser(iIndices[x], jIndices[y]);
+                            const double w = iWeights[x] * jWeights[y] *
+                                             coarser(iIndices[x], jIndices[y]);
                             (*finer)(i, j) += w;
                         }
                     }
