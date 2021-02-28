@@ -10,6 +10,8 @@
 
 #include <Core/FDM/FDMMGLinearSystem3.hpp>
 
+#include <array>
+
 namespace CubbyFlow
 {
 void FDMMGLinearSystem3::Clear()
@@ -24,7 +26,7 @@ size_t FDMMGLinearSystem3::GetNumberOfLevels() const
     return A.levels.size();
 }
 
-void FDMMGLinearSystem3::ResizeWithCoarsest(const Size3 &coarsestResolution,
+void FDMMGLinearSystem3::ResizeWithCoarsest(const Vector3UZ &coarsestResolution,
                                             size_t numberOfLevels)
 {
     FDMMGUtils3::ResizeArrayWithCoarsest(coarsestResolution, numberOfLevels,
@@ -35,7 +37,7 @@ void FDMMGLinearSystem3::ResizeWithCoarsest(const Size3 &coarsestResolution,
                                          &b.levels);
 }
 
-void FDMMGLinearSystem3::ResizeWithFinest(const Size3 &finestResolution,
+void FDMMGLinearSystem3::ResizeWithFinest(const Vector3UZ &finestResolution,
                                           size_t maxNumberOfLevels)
 {
     FDMMGUtils3::ResizeArrayWithFinest(finestResolution, maxNumberOfLevels,
@@ -59,7 +61,7 @@ void FDMMGUtils3::Restrict(const FDMVector3 &finer, FDMVector3 *coarser)
     static const std::array<double, 4> kernel = { { 0.125, 0.375, 0.375,
                                                     0.125 } };
 
-    const Size3 n = coarser->size();
+    const Vector3UZ n = coarser->Size();
     ParallelRangeFor(
         ZERO_SIZE, n.x, ZERO_SIZE, n.y, ZERO_SIZE, n.z,
         [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd,
@@ -122,7 +124,7 @@ void FDMMGUtils3::Correct(const FDMVector3 &coarser, FDMVector3 *finer)
     //           to
     //  1/4   3/4   3/4   1/4
     // --*--|--*--|--*--|--*--
-    const Size3 n = finer->size();
+    const Vector3UZ n = finer->Size();
     ParallelRangeFor(
         ZERO_SIZE, n.x, ZERO_SIZE, n.y, ZERO_SIZE, n.z,
         [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd,

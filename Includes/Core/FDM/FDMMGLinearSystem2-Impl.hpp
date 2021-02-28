@@ -14,7 +14,7 @@
 namespace CubbyFlow
 {
 template <typename T>
-void FDMMGUtils2::ResizeArrayWithCoarsest(const Size2& coarsestResolution,
+void FDMMGUtils2::ResizeArrayWithCoarsest(const Vector2UZ& coarsestResolution,
                                           size_t numberOfLevels,
                                           std::vector<Array2<T>>* levels)
 {
@@ -25,7 +25,7 @@ void FDMMGUtils2::ResizeArrayWithCoarsest(const Size2& coarsestResolution,
     // Level 0 is the finest level, thus takes coarsestResolution ^
     // numberOfLevels. Level numberOfLevels - 1 is the coarsest, taking
     // coarsestResolution.
-    Size2 res = coarsestResolution;
+    Vector2UZ res = coarsestResolution;
     for (size_t level = 0; level < numberOfLevels; ++level)
     {
         (*levels)[numberOfLevels - level - 1].Resize(res);
@@ -35,11 +35,11 @@ void FDMMGUtils2::ResizeArrayWithCoarsest(const Size2& coarsestResolution,
 }
 
 template <typename T>
-void FDMMGUtils2::ResizeArrayWithFinest(const Size2& finestResolution,
+void FDMMGUtils2::ResizeArrayWithFinest(const Vector2UZ& finestResolution,
                                         size_t maxNumberOfLevels,
                                         std::vector<Array2<T>>* levels)
 {
-    Size2 res = finestResolution;
+    Vector2UZ res = finestResolution;
     size_t i = 1;
 
     for (; i < maxNumberOfLevels; ++i)
