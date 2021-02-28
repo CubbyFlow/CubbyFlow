@@ -11,24 +11,60 @@
 #ifndef CUBBYFLOW_RAY_HPP
 #define CUBBYFLOW_RAY_HPP
 
-#include <cstdlib>
-#include <type_traits>
+#include <Core/Matrix/Matrix.hpp>
 
 namespace CubbyFlow
 {
 //!
-//! \brief      Class for ray.
+//! \brief Class for N-D ray.
 //!
-//! \tparam     T     The value type.
-//! \tparam     N     The dimension.
+//! \tparam T   The value type.
+//! \tparam N   Dimension.
 //!
 template <typename T, size_t N>
-class Ray
+class Ray final
 {
-    static_assert(N != 2 && N != 3, "Not implemented.");
+ public:
+    static_assert(N > 0, "Dimension should be greater than 0");
     static_assert(std::is_floating_point<T>::value,
                   "Ray only can be instantiated with floating point types");
+
+    using VectorType = Vector<T, N>;
+
+    //! The origin of the ray.
+    VectorType origin;
+
+    //! The direction of the ray.
+    VectorType direction;
+
+    //! Constructs an empty ray that points (1, 0, ...) from (0, 0, ...).
+    Ray();
+
+    //! Constructs a ray with given origin and direction.
+    Ray(const VectorType& newOrigin, const VectorType& newDirection);
+
+    //! Copy constructor.
+    Ray(const Ray& other);
+
+    //! Returns a point on the ray at distance \p t.
+    VectorType PointAt(T t) const;
 };
+
+template <typename T>
+using Ray2 = Ray<T, 2>;
+
+template <typename T>
+using Ray3 = Ray<T, 3>;
+
+using Ray2F = Ray2<float>;
+
+using Ray2D = Ray2<double>;
+
+using Ray3F = Ray3<float>;
+
+using Ray3D = Ray3<double>;
 }  // namespace CubbyFlow
+
+#include <Core/Geometry/Ray-Impl.hpp>
 
 #endif

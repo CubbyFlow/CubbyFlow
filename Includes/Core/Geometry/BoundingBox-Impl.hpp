@@ -11,8 +11,6 @@
 #ifndef CUBBYFLOW_BOUNDING_BOX_IMPL_HPP
 #define CUBBYFLOW_BOUNDING_BOX_IMPL_HPP
 
-#include <Core/Math/MathUtils.hpp>
-
 namespace CubbyFlow
 {
 template <typename T, size_t N>
@@ -25,11 +23,8 @@ template <typename T, size_t N>
 BoundingBox<T, N>::BoundingBox(const VectorType& point1,
                                const VectorType& point2)
 {
-    for (size_t i = 0; i < N; ++i)
-    {
-        lowerCorner[i] = std::min(point1[i], point2[i]);
-        upperCorner[i] = std::max(point1[i], point2[i]);
-    }
+    lowerCorner = Min(point1, point2);
+    upperCorner = Max(point1, point2);
 }
 
 template <typename T, size_t N>
@@ -40,28 +35,29 @@ BoundingBox<T, N>::BoundingBox(const BoundingBox& other)
 }
 
 template <typename T, size_t N>
-BoundingBox<T, N>::BoundingBox(BoundingBox&& other) noexcept
-    : lowerCorner(other.lowerCorner), upperCorner(other.upperCorner)
+T BoundingBox<T, N>::Width() const
 {
-    // Do nothing
+    return upperCorner[0] - lowerCorner[0];
 }
 
 template <typename T, size_t N>
-BoundingBox<T, N>& BoundingBox<T, N>::operator=(const BoundingBox& other)
+template <typename U>
+std::enable_if_t<(N > 1), U> BoundingBox<T, N>::Height() const
 {
-    lowerCorner = other.lowerCorner;
-    upperCorner = other.upperCorner;
-
-    return *this;
+    return upperCorner[1] - lowerCorner[1];
 }
 
 template <typename T, size_t N>
-BoundingBox<T, N>& BoundingBox<T, N>::operator=(BoundingBox&& other) noexcept
+template <typename U>
+std::enable_if_t<(N > 2), U> BoundingBox<T, N>::Depth() const
 {
-    lowerCorner = other.lowerCorner;
-    upperCorner = other.upperCorner;
+    return upperCorner[2] - lowerCorner[2];
+}
 
-    return *this;
+template <typename T, size_t N>
+T BoundingBox<T, N>::Length(size_t axis)
+{
+    return upperCorner[axis] - lowerCorner[axis];
 }
 
 template <typename T, size_t N>
@@ -94,82 +90,166 @@ bool BoundingBox<T, N>::Contains(const VectorType& point) const
 }
 
 template <typename T, size_t N>
-Vector<T, N> BoundingBox<T, N>::MidPoint() const
+bool BoundingBox<T, N>::Intersects(const RayType& ray) const
 {
-    Vector<T, N> result;
+    T min = 0;
+    T max = std::numeric_limits<T>::max();
+    const VectorType& rayInvDir = T(1) / ray.direction;
 
     for (size_t i = 0; i < N; ++i)
     {
-        result[i] = (upperCorner[i] + lowerCorner[i]) / 2;
+        T near = (lowerCorner[i] - ray.origin[i]) * rayInvDir[i];
+        T far = (upperCorner[i] - ray.origin[i]) * rayInvDir[i];
+
+        if (near > far)
+        {
+            std::swap(near, far);
+        }
+
+        min = near > min ? near : min;
+        max = far < max ? far : max;
+
+        if (min > max)
+        {
+            return false;
+        }
     }
 
-    return result;
+    return true;
+}
+
+template <typename T, size_t N>
+BoundingBoxRayIntersection<T> BoundingBox<T, N>::ClosestIntersection(
+    const RayType& ray) const
+{
+    BoundingBoxRayIntersection<T> intersection;
+
+    T min = 0;
+    T max = std::numeric_limits<T>::max();
+    const VectorType& rayInvDir = T(1) / ray.direction;
+
+    for (size_t i = 0; i < N; ++i)
+    {
+        T near = (lowerCorner[i] - ray.origin[i]) * rayInvDir[i];
+        T far = (upperCorner[i] - ray.origin[i]) * rayInvDir[i];
+
+        if (near > far)
+        {
+            std::swap(near, far);
+        }
+
+        min = near > min ? near : min;
+        max = far < max ? far : max;
+
+        if (min > max)
+        {
+            intersection.isIntersecting = false;
+            return intersection;
+        }
+    }
+
+    intersection.isIntersecting = true;
+
+    if (Contains(ray.origin))
+    {
+        intersection.near = max;
+        intersection.far = std::numeric_limits<T>::max();
+    }
+    else
+    {
+        intersection.near = min;
+        intersection.far = max;
+    }
+
+    return intersection;
+}
+
+template <typename T, size_t N>
+typename BoundingBox<T, N>::VectorType BoundingBox<T, N>::MidPoint() const
+{
+    return (upperCorner + lowerCorner) / static_cast<T>(2);
 }
 
 template <typename T, size_t N>
 T BoundingBox<T, N>::DiagonalLength() const
 {
-    T result = 0;
-
-    for (size_t i = 0; i < N; ++i)
-    {
-        result += Square(upperCorner[i] - lowerCorner[i]);
-    }
-
-    return std::sqrt(result);
+    return VectorType(upperCorner - lowerCorner).Length();
 }
 
 template <typename T, size_t N>
 T BoundingBox<T, N>::DiagonalLengthSquared() const
 {
-    T result = 0;
-
-    for (size_t i = 0; i < N; ++i)
-    {
-        result += Square(upperCorner[i] - lowerCorner[i]);
-    }
-
-    return result;
+    return VectorType(upperCorner - lowerCorner).LengthSquared();
 }
 
 template <typename T, size_t N>
 void BoundingBox<T, N>::Reset()
 {
-    for (size_t i = 0; i < N; ++i)
-    {
-        lowerCorner[i] = std::numeric_limits<T>::max();
-        upperCorner[i] = -std::numeric_limits<T>::max();
-    }
+    lowerCorner = VectorType::MakeConstant(std::numeric_limits<T>::max());
+    upperCorner = VectorType::MakeConstant(-std::numeric_limits<T>::max());
 }
 
 template <typename T, size_t N>
 void BoundingBox<T, N>::Merge(const VectorType& point)
 {
-    for (size_t i = 0; i < N; ++i)
-    {
-        lowerCorner[i] = std::min(lowerCorner[i], point[i]);
-        upperCorner[i] = std::max(upperCorner[i], point[i]);
-    }
+    lowerCorner = Min(lowerCorner, point);
+    upperCorner = Max(upperCorner, point);
 }
 
 template <typename T, size_t N>
 void BoundingBox<T, N>::Merge(const BoundingBox& other)
 {
-    for (size_t i = 0; i < N; ++i)
-    {
-        lowerCorner[i] = std::min(lowerCorner[i], other.lowerCorner[i]);
-        upperCorner[i] = std::max(upperCorner[i], other.upperCorner[i]);
-    }
+    lowerCorner = Min(lowerCorner, other.lowerCorner);
+    upperCorner = Max(upperCorner, other.upperCorner);
 }
 
 template <typename T, size_t N>
 void BoundingBox<T, N>::Expand(T delta)
 {
+    lowerCorner -= delta;
+    upperCorner += delta;
+}
+
+template <typename T, size_t N>
+typename BoundingBox<T, N>::VectorType BoundingBox<T, N>::Corner(
+    size_t idx) const
+{
+    VectorType ret;
     for (size_t i = 0; i < N; ++i)
     {
-        lowerCorner[i] -= delta;
-        upperCorner[i] += delta;
+        ret[i] = lowerCorner[i] + (((ONE_SIZE << i) & idx) != 0) *
+                                      (upperCorner[i] - lowerCorner[i]);
     }
+    return ret;
+}
+
+template <typename T, size_t N>
+typename BoundingBox<T, N>::VectorType BoundingBox<T, N>::Clamp(
+    const VectorType& point) const
+{
+    return CubbyFlow::Clamp(point, lowerCorner, upperCorner);
+}
+
+template <typename T, size_t N>
+bool BoundingBox<T, N>::IsEmpty() const
+{
+    for (size_t i = 0; i < N; ++i)
+    {
+        if (lowerCorner[i] >= upperCorner[i])
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+template <typename T, size_t N>
+template <typename U>
+BoundingBox<U, N> BoundingBox<T, N>::CastTo() const
+{
+    return BoundingBox<U, N>{ lowerCorner.template CastTo<U>(),
+                              upperCorner.template CastTo<U>() };
 }
 }  // namespace CubbyFlow
 
