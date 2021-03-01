@@ -31,7 +31,7 @@ bool FDMGaussSeidelSolver2::Solve(FDMLinearSystem2* system)
 {
     ClearCompressedVectors();
 
-    m_residual.Resize(system->x.size());
+    m_residual.Resize(system->x.Size());
 
     m_lastNumberOfIterations = m_maxNumberOfIterations;
 
@@ -68,7 +68,7 @@ bool FDMGaussSeidelSolver2::SolveCompressed(FDMCompressedLinearSystem2* system)
 {
     ClearUncompressedVectors();
 
-    m_residualComp.Resize(system->x.size());
+    m_residualComp.Resize(system->x.GetRows());
 
     m_lastNumberOfIterations = m_maxNumberOfIterations;
 
@@ -129,10 +129,10 @@ bool FDMGaussSeidelSolver2::GetUseRedBlackOrdering() const
 void FDMGaussSeidelSolver2::Relax(const FDMMatrix2& A, const FDMVector2& b,
                                   double sorFactor, FDMVector2* x)
 {
-    Size2 size = A.size();
+    Vector2UZ size = A.Size();
     FDMVector2& refX = *x;
 
-    A.ForEachIndex([&](size_t i, size_t j) {
+    ForEachIndex(size, [&](size_t i, size_t j) {
         const double r =
             ((i > 0) ? A(i - 1, j).right * refX(i - 1, j) : 0.0) +
             ((i + 1 < size.x) ? A(i, j).right * refX(i + 1, j) : 0.0) +
@@ -153,7 +153,7 @@ void FDMGaussSeidelSolver2::Relax(const MatrixCSRD& A, const VectorND& b,
 
     VectorND& xRef = *x;
 
-    b.ForEachIndex([&](size_t i) {
+    ForEachIndex(b.GetRows(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 
@@ -181,7 +181,7 @@ void FDMGaussSeidelSolver2::RelaxRedBlack(const FDMMatrix2& A,
                                           const FDMVector2& b, double sorFactor,
                                           FDMVector2* x)
 {
-    Size2 size = A.size();
+    Vector2UZ size = A.Size();
     FDMVector2& xRef = *x;
 
     // Red update

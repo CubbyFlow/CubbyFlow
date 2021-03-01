@@ -16,13 +16,13 @@ namespace CubbyFlow
 {
 void FDMICCGSolver2::Preconditioner::Build(const FDMMatrix2& matrix)
 {
-    const Size2 size = matrix.size();
-    A = matrix.ConstAccessor();
+    const Vector2UZ size = matrix.Size();
+    A = matrix.View();
 
     d.Resize(size, 0.0);
     y.Resize(size, 0.0);
 
-    matrix.ForEachIndex([&](size_t i, size_t j) {
+    ForEachIndex(size, [&](size_t i, size_t j) {
         const double denom =
             matrix(i, j).center -
             ((i > 0) ? Square(matrix(i - 1, j).right) * d(i - 1, j) : 0.0) -
@@ -41,11 +41,11 @@ void FDMICCGSolver2::Preconditioner::Build(const FDMMatrix2& matrix)
 
 void FDMICCGSolver2::Preconditioner::Solve(const FDMVector2& b, FDMVector2* x)
 {
-    const Size2 size = b.size();
+    const Vector2UZ size = b.Size();
     const auto sx = static_cast<ssize_t>(size.x);
     const auto sy = static_cast<ssize_t>(size.y);
 
-    b.ForEachIndex([&](size_t i, size_t j) {
+    ForEachIndex(size, [&](size_t i, size_t j) {
         y(i, j) = (b(i, j) - ((i > 0) ? A(i - 1, j).right * y(i - 1, j) : 0.0) -
                    ((j > 0) ? A(i, j - 1).up * y(i, j - 1) : 0.0)) *
                   d(i, j);
@@ -66,7 +66,7 @@ void FDMICCGSolver2::Preconditioner::Solve(const FDMVector2& b, FDMVector2* x)
 
 void FDMICCGSolver2::PreconditionerCompressed::Build(const MatrixCSRD& matrix)
 {
-    const size_t size = matrix.Cols();
+    const size_t size = matrix.GetCols();
     A = &matrix;
 
     d.Resize(size, 0.0);
@@ -76,7 +76,7 @@ void FDMICCGSolver2::PreconditionerCompressed::Build(const MatrixCSRD& matrix)
     const auto ci = A->ColumnIndicesBegin();
     const auto nnz = A->NonZeroBegin();
 
-    d.ForEachIndex([&](size_t i) {
+    ForEachIndex(size, [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 
@@ -109,13 +109,13 @@ void FDMICCGSolver2::PreconditionerCompressed::Build(const MatrixCSRD& matrix)
 void FDMICCGSolver2::PreconditionerCompressed::Solve(const VectorND& b,
                                                      VectorND* x)
 {
-    const auto size = static_cast<ssize_t>(b.size());
+    const auto size = static_cast<ssize_t>(b.GetRows());
 
     const auto rp = A->RowPointersBegin();
     const auto ci = A->ColumnIndicesBegin();
     const auto nnz = A->NonZeroBegin();
 
-    b.ForEachIndex([&](size_t i) {
+    ForEachIndex(b.GetRows(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 
@@ -174,17 +174,17 @@ bool FDMICCGSolver2::Solve(FDMLinearSystem2* system)
 
     ClearCompressedVectors();
 
-    const Size2 size = matrix.size();
+    const Vector2UZ& size = matrix.Size();
     m_r.Resize(size);
     m_d.Resize(size);
     m_q.Resize(size);
     m_s.Resize(size);
 
-    system->x.Set(0.0);
-    m_r.Set(0.0);
-    m_d.Set(0.0);
-    m_q.Set(0.0);
-    m_s.Set(0.0);
+    system->x.Fill(0.0);
+    m_r.Fill(0.0);
+    m_d.Fill(0.0);
+    m_q.Fill(0.0);
+    m_s.Fill(0.0);
 
     m_precond.Build(matrix);
 
@@ -209,17 +209,17 @@ bool FDMICCGSolver2::SolveCompressed(FDMCompressedLinearSystem2* system)
 
     ClearUncompressedVectors();
 
-    const size_t size = solution.size();
+    const size_t size = solution.GetRows();
     m_rComp.Resize(size);
     m_dComp.Resize(size);
     m_qComp.Resize(size);
     m_sComp.Resize(size);
 
-    system->x.Set(0.0);
-    m_rComp.Set(0.0);
-    m_dComp.Set(0.0);
-    m_qComp.Set(0.0);
-    m_sComp.Set(0.0);
+    system->x.Fill(0.0);
+    m_rComp.Fill(0.0);
+    m_dComp.Fill(0.0);
+    m_qComp.Fill(0.0);
+    m_sComp.Fill(0.0);
 
     m_precondComp.Build(matrix);
 
