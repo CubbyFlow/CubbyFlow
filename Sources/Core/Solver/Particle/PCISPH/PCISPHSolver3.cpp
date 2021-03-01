@@ -58,11 +58,11 @@ void PCISPHSolver3::AccumulatePressureForce(double timeIntervalInSeconds)
     const double targetDensity = particles->GetTargetDensity();
     const double mass = particles->GetMass();
 
-    ArrayAccessor1<double> p = particles->GetPressures();
-    ArrayAccessor1<double> d = particles->GetDensities();
-    ArrayAccessor1<Vector3D> x = particles->GetPositions();
-    ArrayAccessor1<Vector3D> v = particles->GetVelocities();
-    ArrayAccessor1<Vector3D> f = particles->GetForces();
+    ArrayView1<double> p = particles->Pressures();
+    ArrayView1<double> d = particles->Densities();
+    ArrayView1<Vector3D> x = particles->Positions();
+    ArrayView1<Vector3D> v = particles->Velocities();
+    ArrayView1<Vector3D> f = particles->Forces();
 
     // Predicted density ds
     Array1<double> ds(numberOfParticles, 0.0);
@@ -123,9 +123,8 @@ void PCISPHSolver3::AccumulatePressureForce(double timeIntervalInSeconds)
         });
 
         // Compute pressure gradient force
-        m_pressureForces.Set(Vector3D{});
-        SPHSolver3::AccumulatePressureForce(x, ds.ConstAccessor(), p,
-                                            m_pressureForces.Accessor());
+        m_pressureForces.Fill(Vector3D{});
+        SPHSolver3::AccumulatePressureForce(x, ds, p, m_pressureForces);
 
         // Compute max density error
         maxDensityError = 0.0;

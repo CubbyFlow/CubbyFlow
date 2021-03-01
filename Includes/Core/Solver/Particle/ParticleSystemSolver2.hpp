@@ -15,9 +15,9 @@
 #include <Core/Emitter/ParticleEmitter2.hpp>
 #include <Core/Field/VectorField2.hpp>
 #include <Core/Geometry/Collider2.hpp>
+#include <Core/Matrix/Matrix.hpp>
 #include <Core/Particle/ParticleSystemData2.hpp>
 #include <Core/Utils/Constants.hpp>
-#include <Core/Vector/Vector2.hpp>
 
 namespace CubbyFlow
 {
@@ -151,8 +151,8 @@ class ParticleSystemSolver2 : public PhysicsAnimation
 
     //! Resolves any collisions occurred by the particles where the particle
     //! state is given by the position and velocity arrays.
-    void ResolveCollision(ArrayAccessor1<Vector2D> newPositions,
-                          ArrayAccessor1<Vector2D> newVelocities);
+    void ResolveCollision(ArrayView1<Vector2D> newPositions,
+                          ArrayView1<Vector2D> newVelocities);
 
     //! Assign a new particle system data.
     void SetParticleSystemData(const ParticleSystemData2Ptr& newParticles);
