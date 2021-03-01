@@ -10,7 +10,7 @@
 
 #include <Core/Emitter/VolumeParticleEmitter2.hpp>
 #include <Core/Geometry/SurfaceToImplicit2.hpp>
-#include <Core/Matrix/Matrix2x2.hpp>
+#include <Core/Matrix/Matrix.hpp>
 #include <Core/PointGenerator/TrianglePointGenerator.hpp>
 #include <Core/Searcher/PointHashGridSearcher2.hpp>
 #include <Core/Utils/Logging.hpp>
@@ -129,12 +129,13 @@ void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
     {
         // Use serial hash grid searcher for continuous update.
         PointHashGridSearcher2 neighborSearcher(
-            Size2(DEFAULT_HASH_GRID_RESOLUTION, DEFAULT_HASH_GRID_RESOLUTION),
+            Vector2UZ(DEFAULT_HASH_GRID_RESOLUTION,
+                      DEFAULT_HASH_GRID_RESOLUTION),
             2.0 * m_spacing);
 
         if (!m_allowOverlapping)
         {
-            neighborSearcher.Build(particles->GetPositions());
+            neighborSearcher.Build(particles->Positions());
         }
 
         m_pointsGen->ForEachPoint(
@@ -173,8 +174,8 @@ void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
     CUBBYFLOW_INFO << "Number of total generated particles: "
                    << m_numberOfEmittedParticles;
 
-    newVelocities->Resize(newPositions->size());
-    newVelocities->ParallelForEachIndex([&](size_t i) {
+    newVelocities->Resize(newPositions->Size());
+    ParallelForEachIndex(newVelocities->Size(), [&](size_t i) {
         (*newVelocities)[i] = VelocityAt((*newPositions)[i]);
     });
 }

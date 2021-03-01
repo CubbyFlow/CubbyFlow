@@ -106,7 +106,7 @@ void VolumeGridEmitter2::Emit()
         const auto& grid = std::get<0>(target);
         const auto& mapper = std::get<1>(target);
 
-        auto pos = grid->GetDataPosition();
+        auto pos = grid->DataPosition();
         grid->ParallelForEachDataPointIndex([&](size_t i, size_t j) {
             const Vector2D gx = pos(i, j);
             const double sdf = GetSourceRegion()->SignedDistance(gx);
@@ -124,7 +124,7 @@ void VolumeGridEmitter2::Emit()
             std::dynamic_pointer_cast<CollocatedVectorGrid2>(grid);
         if (collocated != nullptr)
         {
-            auto pos = collocated->GetDataPosition();
+            auto pos = collocated->DataPosition();
             collocated->ParallelForEachDataPointIndex([&](size_t i, size_t j) {
                 const Vector2D gx = pos(i, j);
                 const double sdf = GetSourceRegion()->SignedDistance(gx);
@@ -142,8 +142,8 @@ void VolumeGridEmitter2::Emit()
             std::dynamic_pointer_cast<FaceCenteredGrid2>(grid);
         if (faceCentered != nullptr)
         {
-            auto uPos = faceCentered->GetUPosition();
-            auto vPos = faceCentered->GetVPosition();
+            auto uPos = faceCentered->UPosition();
+            auto vPos = faceCentered->VPosition();
 
             faceCentered->ParallelForEachUIndex([&](size_t i, size_t j) {
                 const Vector2D gx = uPos(i, j);
@@ -176,14 +176,10 @@ VolumeGridEmitter2::Builder& VolumeGridEmitter2::Builder::WithSourceRegion(
 {
     const auto implicit =
         std::dynamic_pointer_cast<ImplicitSurface2>(sourceRegion);
-    if (implicit != nullptr)
-    {
-        m_sourceRegion = implicit;
-    }
-    else
-    {
-        m_sourceRegion = std::make_shared<SurfaceToImplicit2>(sourceRegion);
-    }
+
+    m_sourceRegion = implicit
+                         ? implicit
+                         : std::make_shared<SurfaceToImplicit2>(sourceRegion);
 
     return *this;
 }
