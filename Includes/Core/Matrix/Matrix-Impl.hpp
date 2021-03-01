@@ -331,7 +331,7 @@ Matrix<T, 1, 1>::Matrix(const MatrixExpression<T, R, C, E>& expression)
 {
     assert(expression.GetRows() == 1 && expression.GetCols() == 1);
 
-    x = expression.eval(0, 0);
+    x = expression.Eval(0, 0);
 }
 
 template <typename T>
