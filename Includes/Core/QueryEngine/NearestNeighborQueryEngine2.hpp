@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_NEAREST_NEIGHBOR_QUERY_ENGINE2_HPP
 #define CUBBYFLOW_NEAREST_NEIGHBOR_QUERY_ENGINE2_HPP
 
-#include <Core/Vector/Vector2.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 namespace CubbyFlow
 {
