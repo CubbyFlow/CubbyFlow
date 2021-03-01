@@ -17,6 +17,8 @@
 #include <Core/Utils/NestedInitializerList.hpp>
 #include <Core/Utils/TypeHelpers.hpp>
 
+#include <array>
+
 namespace CubbyFlow
 {
 template <typename T, size_t Rows, size_t Cols>
