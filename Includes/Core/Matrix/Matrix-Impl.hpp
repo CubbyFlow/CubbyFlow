@@ -151,7 +151,7 @@ struct FoldWithAnd
                                const Matrix<T, Rows, Cols>& b,
                                BinaryOperation op)
     {
-        return FoldWithAnd<T, Rows, Cols, BinaryOperation, I - 1>::call(a, b,
+        return FoldWithAnd<T, Rows, Cols, BinaryOperation, I - 1>::Call(a, b,
                                                                         op) &&
                op(a[I], b[I]);
     }
@@ -1325,7 +1325,7 @@ constexpr std::enable_if_t<IsMatrixSizeStatic<Rows, Cols>(), bool> operator==(
     const MatrixExpression<T, Rows, Cols, M2>& b)
 {
     return Internal::FoldWithAnd<T, Rows, Cols, std::equal_to<T>,
-                                 Rows * Cols - 1>::call(a, b,
+                                 Rows * Cols - 1>::Call(a, b,
                                                         std::equal_to<T>());
 }
 
