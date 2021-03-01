@@ -68,7 +68,7 @@ class CollocatedVectorGrid3 : public VectorGrid3
     [[nodiscard]] VectorDataView DataView();
 
     //! Returns the read-only data array view.
-    [[nodiscard]] ConstVectorDataView ConstDataView() const;
+    [[nodiscard]] ConstVectorDataView DataView() const;
 
     //! Returns the function that maps data point to its position.
     [[nodiscard]] DataPositionFunc DataPosition() const;

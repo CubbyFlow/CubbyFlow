@@ -134,7 +134,7 @@ VectorGrid3::VectorDataView CollocatedVectorGrid3::DataView()
     return VectorDataView(m_data);
 }
 
-VectorGrid3::ConstVectorDataView CollocatedVectorGrid3::ConstDataView() const
+VectorGrid3::ConstVectorDataView CollocatedVectorGrid3::DataView() const
 {
     return ConstVectorDataView(m_data);
 }

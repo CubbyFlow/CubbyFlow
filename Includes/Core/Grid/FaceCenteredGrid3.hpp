@@ -113,19 +113,19 @@ class FaceCenteredGrid3 final : public VectorGrid3
     [[nodiscard]] ScalarDataView UView();
 
     //! Returns read-only u data view.
-    [[nodiscard]] ConstScalarDataView UConstView() const;
+    [[nodiscard]] ConstScalarDataView UView() const;
 
     //! Returns v data view.
     [[nodiscard]] ScalarDataView VView();
 
     //! Returns read-only v data view.
-    [[nodiscard]] ConstScalarDataView VConstView() const;
+    [[nodiscard]] ConstScalarDataView VView() const;
 
     //! Returns w data view.
     [[nodiscard]] ScalarDataView WView();
 
     //! Returns read-only w data view.
-    [[nodiscard]] ConstScalarDataView WConstView() const;
+    [[nodiscard]] ConstScalarDataView WView() const;
 
     //! Returns function object that maps u data point to its actual position.
     [[nodiscard]] DataPositionFunc UPosition() const;

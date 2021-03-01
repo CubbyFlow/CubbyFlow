@@ -209,7 +209,7 @@ FaceCenteredGrid3::ScalarDataView FaceCenteredGrid3::UView()
     return ScalarDataView(m_dataU);
 }
 
-FaceCenteredGrid3::ConstScalarDataView FaceCenteredGrid3::UConstView() const
+FaceCenteredGrid3::ConstScalarDataView FaceCenteredGrid3::UView() const
 {
     return ConstScalarDataView(m_dataU);
 }
@@ -219,7 +219,7 @@ FaceCenteredGrid3::ScalarDataView FaceCenteredGrid3::VView()
     return ScalarDataView(m_dataV);
 }
 
-FaceCenteredGrid3::ConstScalarDataView FaceCenteredGrid3::VConstView() const
+FaceCenteredGrid3::ConstScalarDataView FaceCenteredGrid3::VView() const
 {
     return ConstScalarDataView(m_dataV);
 }
@@ -229,7 +229,7 @@ FaceCenteredGrid3::ScalarDataView FaceCenteredGrid3::WView()
     return ScalarDataView(m_dataW);
 }
 
-FaceCenteredGrid3::ConstScalarDataView FaceCenteredGrid3::WConstView() const
+FaceCenteredGrid3::ConstScalarDataView FaceCenteredGrid3::WView() const
 {
     return ConstScalarDataView(m_dataW);
 }
