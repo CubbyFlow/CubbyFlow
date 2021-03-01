@@ -85,7 +85,7 @@ void MatrixDenseBase<T, Rows, Cols, D>::SetColumn(
 template <typename T, size_t Rows, size_t Cols, typename D>
 void MatrixDenseBase<T, Rows, Cols, D>::Normalize()
 {
-    GetDerived() /= GetDerived().norm();
+    GetDerived() /= GetDerived().Norm();
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
