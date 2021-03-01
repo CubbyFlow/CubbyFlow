@@ -121,9 +121,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7f640c643961ab8e67bbb5da5906c10f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_collocated_vector_grid2.html">CollocatedVectorGrid2</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_collocated_vector_grid2.html#a7f640c643961ab8e67bbb5da5906c10f">operator=</a> (<a class="el" href="class_cubby_flow_1_1_collocated_vector_grid2.html">CollocatedVectorGrid2</a> &amp;&amp;) noexcept=default</td></tr>
 <tr class="memdesc:a7f640c643961ab8e67bbb5da5906c10f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default move assignment operator.  <a href="#a7f640c643961ab8e67bbb5da5906c10f">More...</a><br /></td></tr>
 <tr class="separator:a7f640c643961ab8e67bbb5da5906c10f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82d996c78a61a561d1a69eec13956e6c"><td class="memItemLeft" align="right" valign="top">virtual Size2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_collocated_vector_grid2.html#a82d996c78a61a561d1a69eec13956e6c">GetDataSize</a> () const =0</td></tr>
-<tr class="memdesc:a82d996c78a61a561d1a69eec13956e6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the actual data point size.  <a href="#a82d996c78a61a561d1a69eec13956e6c">More...</a><br /></td></tr>
-<tr class="separator:a82d996c78a61a561d1a69eec13956e6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd33951adf0febec174aadff9946df0f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespace_cubby_flow.html#a9b998d7447a5b8cd6dbe09b9934691b1">Vector2UZ</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_collocated_vector_grid2.html#abd33951adf0febec174aadff9946df0f">GetDataSize</a> () const =0</td></tr>
+<tr class="memdesc:abd33951adf0febec174aadff9946df0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the actual data point size.  <a href="#abd33951adf0febec174aadff9946df0f">More...</a><br /></td></tr>
+<tr class="separator:abd33951adf0febec174aadff9946df0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7598601a1244ae09334dc2248916d28c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_collocated_vector_grid2.html#a7598601a1244ae09334dc2248916d28c">GetDataOrigin</a> () const =0</td></tr>
 <tr class="memdesc:a7598601a1244ae09334dc2248916d28c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns data position for the grid point at (0, 0).  <a href="#a7598601a1244ae09334dc2248916d28c">More...</a><br /></td></tr>
 <tr class="separator:a7598601a1244ae09334dc2248916d28c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,15 +139,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a309625d17fc79e961a58bdc8120062ef"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_collocated_vector_grid2.html#a309625d17fc79e961a58bdc8120062ef">CurlAtDataPoint</a> (size_t i, size_t j) const</td></tr>
 <tr class="memdesc:a309625d17fc79e961a58bdc8120062ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns curl at data point location.  <a href="#a309625d17fc79e961a58bdc8120062ef">More...</a><br /></td></tr>
 <tr class="separator:a309625d17fc79e961a58bdc8120062ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9097fe2942a6764545d20ca2e6663bdc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_vector_grid2.html#af0a39d7c46f49d3362e00c5a8df6b262">VectorDataAccessor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_collocated_vector_grid2.html#a9097fe2942a6764545d20ca2e6663bdc">GetDataAccessor</a> ()</td></tr>
-<tr class="memdesc:a9097fe2942a6764545d20ca2e6663bdc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the read-write data array accessor.  <a href="#a9097fe2942a6764545d20ca2e6663bdc">More...</a><br /></td></tr>
-<tr class="separator:a9097fe2942a6764545d20ca2e6663bdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a810c712f009c9c50a98280cf388f424e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_vector_grid2.html#a5c9c7ec53459dd9acdb69069846d2f65">ConstVectorDataAccessor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_collocated_vector_grid2.html#a810c712f009c9c50a98280cf388f424e">GetConstDataAccessor</a> () const</td></tr>
-<tr class="memdesc:a810c712f009c9c50a98280cf388f424e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the read-only data array accessor.  <a href="#a810c712f009c9c50a98280cf388f424e">More...</a><br /></td></tr>
-<tr class="separator:a810c712f009c9c50a98280cf388f424e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab92a1ead869e153974db1b17cf0954d4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_grid2.html#ad02c267f3b24fe2de73ff3f6058f8629">DataPositionFunc</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_collocated_vector_grid2.html#ab92a1ead869e153974db1b17cf0954d4">GetDataPosition</a> () const</td></tr>
-<tr class="memdesc:ab92a1ead869e153974db1b17cf0954d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the function that maps data point to its position.  <a href="#ab92a1ead869e153974db1b17cf0954d4">More...</a><br /></td></tr>
-<tr class="separator:ab92a1ead869e153974db1b17cf0954d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f4f8f5ceaa5ecd73e026c67a6a1eeab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_vector_grid2.html#ab7aedd67cb64654b2397d95e541e2beb">VectorDataView</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_collocated_vector_grid2.html#a4f4f8f5ceaa5ecd73e026c67a6a1eeab">DataView</a> ()</td></tr>
+<tr class="memdesc:a4f4f8f5ceaa5ecd73e026c67a6a1eeab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the read-write data array view.  <a href="#a4f4f8f5ceaa5ecd73e026c67a6a1eeab">More...</a><br /></td></tr>
+<tr class="separator:a4f4f8f5ceaa5ecd73e026c67a6a1eeab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48395e9491b56ed6047f49bd7b674af7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_vector_grid2.html#a740704e2edae874c4168aa80817e406c">ConstVectorDataView</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_collocated_vector_grid2.html#a48395e9491b56ed6047f49bd7b674af7">DataView</a> () const</td></tr>
+<tr class="memdesc:a48395e9491b56ed6047f49bd7b674af7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the read-only data array view.  <a href="#a48395e9491b56ed6047f49bd7b674af7">More...</a><br /></td></tr>
+<tr class="separator:a48395e9491b56ed6047f49bd7b674af7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1caf391db0f205798bbacf822bedafc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_grid2.html#ad02c267f3b24fe2de73ff3f6058f8629">DataPositionFunc</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_collocated_vector_grid2.html#ae1caf391db0f205798bbacf822bedafc">DataPosition</a> () const</td></tr>
+<tr class="memdesc:ae1caf391db0f205798bbacf822bedafc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the function that maps data point to its position.  <a href="#ae1caf391db0f205798bbacf822bedafc">More...</a><br /></td></tr>
+<tr class="separator:ae1caf391db0f205798bbacf822bedafc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4004a992b99f0003afe33d8b64bc2796"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_collocated_vector_grid2.html#a4004a992b99f0003afe33d8b64bc2796">ForEachDataPointIndex</a> (const std::function&lt; void(size_t, size_t)&gt; &amp;func) const</td></tr>
 <tr class="memdesc:a4004a992b99f0003afe33d8b64bc2796"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the given function <code>func</code> for each data point.  <a href="#a4004a992b99f0003afe33d8b64bc2796">More...</a><br /></td></tr>
 <tr class="separator:a4004a992b99f0003afe33d8b64bc2796"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -191,9 +191,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a288fb3cac84a9d9b1bd9ad4f1e4f3e01 inherit pub_methods_class_cubby_flow_1_1_vector_grid2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_vector_grid2.html#a288fb3cac84a9d9b1bd9ad4f1e4f3e01">Resize</a> (size_t resolutionX, size_t resolutionY, double gridSpacingX=1.0, double gridSpacingY=1.0, double originX=0.0, double originY=0.0, double initialValueX=0.0, double initialValueY=0.0)</td></tr>
 <tr class="memdesc:a288fb3cac84a9d9b1bd9ad4f1e4f3e01 inherit pub_methods_class_cubby_flow_1_1_vector_grid2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resizes the grid using given parameters.  <a href="class_cubby_flow_1_1_vector_grid2.html#a288fb3cac84a9d9b1bd9ad4f1e4f3e01">More...</a><br /></td></tr>
 <tr class="separator:a288fb3cac84a9d9b1bd9ad4f1e4f3e01 inherit pub_methods_class_cubby_flow_1_1_vector_grid2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5425eac1fcd8b3eda344d7de01478d4d inherit pub_methods_class_cubby_flow_1_1_vector_grid2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_vector_grid2.html#a5425eac1fcd8b3eda344d7de01478d4d">Resize</a> (const Size2 &amp;resolution, const <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;gridSpacing=<a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a>{ 1, 1 }, const <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;origin=<a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a>{}, const <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;initialValue=<a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a>{})</td></tr>
-<tr class="memdesc:a5425eac1fcd8b3eda344d7de01478d4d inherit pub_methods_class_cubby_flow_1_1_vector_grid2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resizes the grid using given parameters.  <a href="class_cubby_flow_1_1_vector_grid2.html#a5425eac1fcd8b3eda344d7de01478d4d">More...</a><br /></td></tr>
-<tr class="separator:a5425eac1fcd8b3eda344d7de01478d4d inherit pub_methods_class_cubby_flow_1_1_vector_grid2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36e625690f5089a0a3d317dbd364a716 inherit pub_methods_class_cubby_flow_1_1_vector_grid2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_vector_grid2.html#a36e625690f5089a0a3d317dbd364a716">Resize</a> (const <a class="el" href="namespace_cubby_flow.html#a9b998d7447a5b8cd6dbe09b9934691b1">Vector2UZ</a> &amp;resolution, const <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;gridSpacing=<a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a>{ 1, 1 }, const <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;origin=<a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a>{}, const <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;initialValue=<a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a>{})</td></tr>
+<tr class="memdesc:a36e625690f5089a0a3d317dbd364a716 inherit pub_methods_class_cubby_flow_1_1_vector_grid2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resizes the grid using given parameters.  <a href="class_cubby_flow_1_1_vector_grid2.html#a36e625690f5089a0a3d317dbd364a716">More...</a><br /></td></tr>
+<tr class="separator:a36e625690f5089a0a3d317dbd364a716 inherit pub_methods_class_cubby_flow_1_1_vector_grid2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa884140f8601c0fa65b63e6cc1e40762 inherit pub_methods_class_cubby_flow_1_1_vector_grid2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_vector_grid2.html#aa884140f8601c0fa65b63e6cc1e40762">Resize</a> (double gridSpacingX, double gridSpacingY, double originX, double originY)</td></tr>
 <tr class="memdesc:aa884140f8601c0fa65b63e6cc1e40762 inherit pub_methods_class_cubby_flow_1_1_vector_grid2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resizes the grid using given parameters.  <a href="class_cubby_flow_1_1_vector_grid2.html#aa884140f8601c0fa65b63e6cc1e40762">More...</a><br /></td></tr>
 <tr class="separator:aa884140f8601c0fa65b63e6cc1e40762 inherit pub_methods_class_cubby_flow_1_1_vector_grid2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -275,9 +275,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aec72ca536115a73cc884dcf8cc1ade34 inherit pub_methods_class_cubby_flow_1_1_grid2"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid2.html#aec72ca536115a73cc884dcf8cc1ade34">TypeName</a> () const =0</td></tr>
 <tr class="memdesc:aec72ca536115a73cc884dcf8cc1ade34 inherit pub_methods_class_cubby_flow_1_1_grid2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type name of derived grid.  <a href="class_cubby_flow_1_1_grid2.html#aec72ca536115a73cc884dcf8cc1ade34">More...</a><br /></td></tr>
 <tr class="separator:aec72ca536115a73cc884dcf8cc1ade34 inherit pub_methods_class_cubby_flow_1_1_grid2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad1ca227981660e2b667036622a88a25f inherit pub_methods_class_cubby_flow_1_1_grid2"><td class="memItemLeft" align="right" valign="top">const Size2 &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid2.html#ad1ca227981660e2b667036622a88a25f">Resolution</a> () const</td></tr>
-<tr class="memdesc:ad1ca227981660e2b667036622a88a25f inherit pub_methods_class_cubby_flow_1_1_grid2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the grid resolution.  <a href="class_cubby_flow_1_1_grid2.html#ad1ca227981660e2b667036622a88a25f">More...</a><br /></td></tr>
-<tr class="separator:ad1ca227981660e2b667036622a88a25f inherit pub_methods_class_cubby_flow_1_1_grid2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8ac7f6f3e24e2ea7aa68d525a3966ef inherit pub_methods_class_cubby_flow_1_1_grid2"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespace_cubby_flow.html#a9b998d7447a5b8cd6dbe09b9934691b1">Vector2UZ</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid2.html#ab8ac7f6f3e24e2ea7aa68d525a3966ef">Resolution</a> () const</td></tr>
+<tr class="memdesc:ab8ac7f6f3e24e2ea7aa68d525a3966ef inherit pub_methods_class_cubby_flow_1_1_grid2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the grid resolution.  <a href="class_cubby_flow_1_1_grid2.html#ab8ac7f6f3e24e2ea7aa68d525a3966ef">More...</a><br /></td></tr>
+<tr class="separator:ab8ac7f6f3e24e2ea7aa68d525a3966ef inherit pub_methods_class_cubby_flow_1_1_grid2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7726020542e11ac83f7f624cecf13b5a inherit pub_methods_class_cubby_flow_1_1_grid2"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid2.html#a7726020542e11ac83f7f624cecf13b5a">Origin</a> () const</td></tr>
 <tr class="memdesc:a7726020542e11ac83f7f624cecf13b5a inherit pub_methods_class_cubby_flow_1_1_grid2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the grid origin.  <a href="class_cubby_flow_1_1_grid2.html#a7726020542e11ac83f7f624cecf13b5a">More...</a><br /></td></tr>
 <tr class="separator:a7726020542e11ac83f7f624cecf13b5a inherit pub_methods_class_cubby_flow_1_1_grid2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -337,8 +337,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="memdesc:a9e01c9c2fe853e2b523aceece3bffad6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the data from a continuous linear array.  <a href="#a9e01c9c2fe853e2b523aceece3bffad6">More...</a><br /></td></tr>
 <tr class="separator:a9e01c9c2fe853e2b523aceece3bffad6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_class_cubby_flow_1_1_grid2"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_cubby_flow_1_1_grid2')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_cubby_flow_1_1_grid2.html">CubbyFlow::Grid2</a></td></tr>
-<tr class="memitem:a869b250fa933b528b0e8cec1e103198b inherit pro_methods_class_cubby_flow_1_1_grid2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid2.html#a869b250fa933b528b0e8cec1e103198b">SetSizeParameters</a> (const Size2 &amp;resolution, const <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;gridSpacing, const <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;origin)</td></tr>
-<tr class="separator:a869b250fa933b528b0e8cec1e103198b inherit pro_methods_class_cubby_flow_1_1_grid2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a702bcb8783c09d31e3a1535f940e4a58 inherit pro_methods_class_cubby_flow_1_1_grid2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid2.html#a702bcb8783c09d31e3a1535f940e4a58">SetSizeParameters</a> (const <a class="el" href="namespace_cubby_flow.html#a9b998d7447a5b8cd6dbe09b9934691b1">Vector2UZ</a> &amp;resolution, const <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;gridSpacing, const <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;origin)</td></tr>
+<tr class="separator:a702bcb8783c09d31e3a1535f940e4a58 inherit pro_methods_class_cubby_flow_1_1_grid2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfc8e77173c55be19f84229c7d4e7dd5 inherit pro_methods_class_cubby_flow_1_1_grid2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid2.html#adfc8e77173c55be19f84229c7d4e7dd5">SwapGrid</a> (<a class="el" href="class_cubby_flow_1_1_grid2.html">Grid2</a> *other)</td></tr>
 <tr class="memdesc:adfc8e77173c55be19f84229c7d4e7dd5 inherit pro_methods_class_cubby_flow_1_1_grid2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swaps the size parameters with given grid <code>other</code>.  <a href="class_cubby_flow_1_1_grid2.html#adfc8e77173c55be19f84229c7d4e7dd5">More...</a><br /></td></tr>
 <tr class="separator:adfc8e77173c55be19f84229c7d4e7dd5 inherit pro_methods_class_cubby_flow_1_1_grid2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -349,12 +349,12 @@ Protected Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_types_class_cubby_flow_1_1_vector_grid2"><td colspan="2" onclick="javascript:toggleInherit('pub_types_class_cubby_flow_1_1_vector_grid2')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="class_cubby_flow_1_1_vector_grid2.html">CubbyFlow::VectorGrid2</a></td></tr>
-<tr class="memitem:af0a39d7c46f49d3362e00c5a8df6b262 inherit pub_types_class_cubby_flow_1_1_vector_grid2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_vector_grid2.html#af0a39d7c46f49d3362e00c5a8df6b262">VectorDataAccessor</a> = ArrayAccessor2&lt; <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &gt;</td></tr>
-<tr class="memdesc:af0a39d7c46f49d3362e00c5a8df6b262 inherit pub_types_class_cubby_flow_1_1_vector_grid2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-write array accessor type.  <a href="class_cubby_flow_1_1_vector_grid2.html#af0a39d7c46f49d3362e00c5a8df6b262">More...</a><br /></td></tr>
-<tr class="separator:af0a39d7c46f49d3362e00c5a8df6b262 inherit pub_types_class_cubby_flow_1_1_vector_grid2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c9c7ec53459dd9acdb69069846d2f65 inherit pub_types_class_cubby_flow_1_1_vector_grid2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_vector_grid2.html#a5c9c7ec53459dd9acdb69069846d2f65">ConstVectorDataAccessor</a> = ConstArrayAccessor2&lt; <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &gt;</td></tr>
-<tr class="memdesc:a5c9c7ec53459dd9acdb69069846d2f65 inherit pub_types_class_cubby_flow_1_1_vector_grid2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only array accessor type.  <a href="class_cubby_flow_1_1_vector_grid2.html#a5c9c7ec53459dd9acdb69069846d2f65">More...</a><br /></td></tr>
-<tr class="separator:a5c9c7ec53459dd9acdb69069846d2f65 inherit pub_types_class_cubby_flow_1_1_vector_grid2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7aedd67cb64654b2397d95e541e2beb inherit pub_types_class_cubby_flow_1_1_vector_grid2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_vector_grid2.html#ab7aedd67cb64654b2397d95e541e2beb">VectorDataView</a> = <a class="el" href="namespace_cubby_flow.html#ad75e0ae1b906fd164d031a5bdcdad61b">ArrayView2</a>&lt; <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &gt;</td></tr>
+<tr class="memdesc:ab7aedd67cb64654b2397d95e541e2beb inherit pub_types_class_cubby_flow_1_1_vector_grid2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-write array view type.  <a href="class_cubby_flow_1_1_vector_grid2.html#ab7aedd67cb64654b2397d95e541e2beb">More...</a><br /></td></tr>
+<tr class="separator:ab7aedd67cb64654b2397d95e541e2beb inherit pub_types_class_cubby_flow_1_1_vector_grid2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a740704e2edae874c4168aa80817e406c inherit pub_types_class_cubby_flow_1_1_vector_grid2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_vector_grid2.html#a740704e2edae874c4168aa80817e406c">ConstVectorDataView</a> = <a class="el" href="namespace_cubby_flow.html#abb93428b82c688960010240220a749f8">ConstArrayView2</a>&lt; <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &gt;</td></tr>
+<tr class="memdesc:a740704e2edae874c4168aa80817e406c inherit pub_types_class_cubby_flow_1_1_vector_grid2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only array view type.  <a href="class_cubby_flow_1_1_vector_grid2.html#a740704e2edae874c4168aa80817e406c">More...</a><br /></td></tr>
+<tr class="separator:a740704e2edae874c4168aa80817e406c inherit pub_types_class_cubby_flow_1_1_vector_grid2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_types_class_cubby_flow_1_1_grid2"><td colspan="2" onclick="javascript:toggleInherit('pub_types_class_cubby_flow_1_1_grid2')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="class_cubby_flow_1_1_grid2.html">CubbyFlow::Grid2</a></td></tr>
 <tr class="memitem:ad02c267f3b24fe2de73ff3f6058f8629 inherit pub_types_class_cubby_flow_1_1_grid2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid2.html#ad02c267f3b24fe2de73ff3f6058f8629">DataPositionFunc</a> = std::function&lt; <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a>(size_t, size_t)&gt;</td></tr>
 <tr class="memdesc:ad02c267f3b24fe2de73ff3f6058f8629 inherit pub_types_class_cubby_flow_1_1_grid2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function type for mapping data index to actual position.  <a href="class_cubby_flow_1_1_grid2.html#ad02c267f3b24fe2de73ff3f6058f8629">More...</a><br /></td></tr>
@@ -526,6 +526,63 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="ae1caf391db0f205798bbacf822bedafc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1caf391db0f205798bbacf822bedafc">&#9670;&nbsp;</a></span>DataPosition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_grid2.html#ad02c267f3b24fe2de73ff3f6058f8629">DataPositionFunc</a> CubbyFlow::CollocatedVectorGrid2::DataPosition </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the function that maps data point to its position. </p>
+
+</div>
+</div>
+<a id="a4f4f8f5ceaa5ecd73e026c67a6a1eeab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f4f8f5ceaa5ecd73e026c67a6a1eeab">&#9670;&nbsp;</a></span>DataView() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_vector_grid2.html#ab7aedd67cb64654b2397d95e541e2beb">VectorDataView</a> CubbyFlow::CollocatedVectorGrid2::DataView </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the read-write data array view. </p>
+
+</div>
+</div>
+<a id="a48395e9491b56ed6047f49bd7b674af7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48395e9491b56ed6047f49bd7b674af7">&#9670;&nbsp;</a></span>DataView() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_vector_grid2.html#a740704e2edae874c4168aa80817e406c">ConstVectorDataView</a> CubbyFlow::CollocatedVectorGrid2::DataView </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the read-only data array view. </p>
+
+</div>
+</div>
 <a id="a4b23be2f4a30f073ebf17df2ce5d422b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4b23be2f4a30f073ebf17df2ce5d422b">&#9670;&nbsp;</a></span>Divergence()</h2>
 
@@ -607,25 +664,6 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a810c712f009c9c50a98280cf388f424e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a810c712f009c9c50a98280cf388f424e">&#9670;&nbsp;</a></span>GetConstDataAccessor()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_vector_grid2.html#a5c9c7ec53459dd9acdb69069846d2f65">ConstVectorDataAccessor</a> CubbyFlow::CollocatedVectorGrid2::GetConstDataAccessor </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the read-only data array accessor. </p>
-
-</div>
-</div>
 <a id="a5e3cc16b0dbd447b46851b62ed842682"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5e3cc16b0dbd447b46851b62ed842682">&#9670;&nbsp;</a></span>GetData()</h2>
 
@@ -653,25 +691,6 @@ Additional Inherited Members</h2></td></tr>
 <p>Fetches the data into a continuous linear array. </p>
 
 <p>Implements <a class="el" href="class_cubby_flow_1_1_grid2.html#a374c387443a1be48c2563e3e7ebe7efc">CubbyFlow::Grid2</a>.</p>
-
-</div>
-</div>
-<a id="a9097fe2942a6764545d20ca2e6663bdc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9097fe2942a6764545d20ca2e6663bdc">&#9670;&nbsp;</a></span>GetDataAccessor()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_vector_grid2.html#af0a39d7c46f49d3362e00c5a8df6b262">VectorDataAccessor</a> CubbyFlow::CollocatedVectorGrid2::GetDataAccessor </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the read-write data array accessor. </p>
 
 </div>
 </div>
@@ -705,27 +724,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="ab92a1ead869e153974db1b17cf0954d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab92a1ead869e153974db1b17cf0954d4">&#9670;&nbsp;</a></span>GetDataPosition()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_grid2.html#ad02c267f3b24fe2de73ff3f6058f8629">DataPositionFunc</a> CubbyFlow::CollocatedVectorGrid2::GetDataPosition </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the function that maps data point to its position. </p>
-
-</div>
-</div>
-<a id="a82d996c78a61a561d1a69eec13956e6c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82d996c78a61a561d1a69eec13956e6c">&#9670;&nbsp;</a></span>GetDataSize()</h2>
+<a id="abd33951adf0febec174aadff9946df0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd33951adf0febec174aadff9946df0f">&#9670;&nbsp;</a></span>GetDataSize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -734,7 +734,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual Size2 CubbyFlow::CollocatedVectorGrid2::GetDataSize </td>
+          <td class="memname">virtual <a class="el" href="namespace_cubby_flow.html#a9b998d7447a5b8cd6dbe09b9934691b1">Vector2UZ</a> CubbyFlow::CollocatedVectorGrid2::GetDataSize </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -749,7 +749,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Returns the actual data point size. </p>
 
-<p>Implemented in <a class="el" href="class_cubby_flow_1_1_vertex_centered_vector_grid2.html#ac8a610b539143bd2d326d06969696aad">CubbyFlow::VertexCenteredVectorGrid2</a>, and <a class="el" href="class_cubby_flow_1_1_cell_centered_vector_grid2.html#abf3b3d58b8eecc7bcff5c83febf5e0a4">CubbyFlow::CellCenteredVectorGrid2</a>.</p>
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_vertex_centered_vector_grid2.html#a3f905ba0f2d71a6798e6a2e0ceb962bb">CubbyFlow::VertexCenteredVectorGrid2</a>, and <a class="el" href="class_cubby_flow_1_1_cell_centered_vector_grid2.html#ac823fc6936024c50cf5020505611d9c4">CubbyFlow::CellCenteredVectorGrid2</a>.</p>
 
 </div>
 </div>
@@ -1048,7 +1048,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Feb 28 2021 16:22:51 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 1 2021 08:22:10 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

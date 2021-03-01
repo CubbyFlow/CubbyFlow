@@ -127,9 +127,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae9ab814feb4034545b3857caa7ce3479"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_point_neighbor_searcher3.html#ae9ab814feb4034545b3857caa7ce3479">TypeName</a> () const =0</td></tr>
 <tr class="memdesc:ae9ab814feb4034545b3857caa7ce3479"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type name of the derived class.  <a href="#ae9ab814feb4034545b3857caa7ce3479">More...</a><br /></td></tr>
 <tr class="separator:ae9ab814feb4034545b3857caa7ce3479"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85c1d062e0359e7e5c33b09dbbb3fbc3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_point_neighbor_searcher3.html#a85c1d062e0359e7e5c33b09dbbb3fbc3">Build</a> (const ConstArrayAccessor1&lt; <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &gt; &amp;points)=0</td></tr>
-<tr class="memdesc:a85c1d062e0359e7e5c33b09dbbb3fbc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds internal acceleration structure for given points list.  <a href="#a85c1d062e0359e7e5c33b09dbbb3fbc3">More...</a><br /></td></tr>
-<tr class="separator:a85c1d062e0359e7e5c33b09dbbb3fbc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca56616a3c9c73ba5f527535a4356a14"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_point_neighbor_searcher3.html#aca56616a3c9c73ba5f527535a4356a14">Build</a> (const <a class="el" href="namespace_cubby_flow.html#a6c7e5a4d20594fa6e144e3d10fc1c7de">ConstArrayView1</a>&lt; <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &gt; &amp;points)=0</td></tr>
+<tr class="memdesc:aca56616a3c9c73ba5f527535a4356a14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds internal acceleration structure for given points list.  <a href="#aca56616a3c9c73ba5f527535a4356a14">More...</a><br /></td></tr>
+<tr class="separator:aca56616a3c9c73ba5f527535a4356a14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c4adedb786d0b0dd68e165f3caa0cfd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_point_neighbor_searcher3.html#a7c4adedb786d0b0dd68e165f3caa0cfd">ForEachNearbyPoint</a> (const <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;origin, double radius, const <a class="el" href="class_cubby_flow_1_1_point_neighbor_searcher3.html#a436b7590e215b5c24d43cb5d17ad2045">ForEachNearbyPointFunc</a> &amp;callback) const =0</td></tr>
 <tr class="separator:a7c4adedb786d0b0dd68e165f3caa0cfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f4d6983e03550e8613952e1f9f88ea1"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_point_neighbor_searcher3.html#a3f4d6983e03550e8613952e1f9f88ea1">HasNearbyPoint</a> (const <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;origin, double radius) const =0</td></tr>
@@ -294,8 +294,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a85c1d062e0359e7e5c33b09dbbb3fbc3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a85c1d062e0359e7e5c33b09dbbb3fbc3">&#9670;&nbsp;</a></span>Build()</h2>
+<a id="aca56616a3c9c73ba5f527535a4356a14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca56616a3c9c73ba5f527535a4356a14">&#9670;&nbsp;</a></span>Build()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -306,7 +306,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual void CubbyFlow::PointNeighborSearcher3::Build </td>
           <td>(</td>
-          <td class="paramtype">const ConstArrayAccessor1&lt; <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a6c7e5a4d20594fa6e144e3d10fc1c7de">ConstArrayView1</a>&lt; <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>points</em></td><td>)</td>
           <td></td>
         </tr>
@@ -320,7 +320,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Builds internal acceleration structure for given points list. </p>
 
-<p>Implemented in <a class="el" href="class_cubby_flow_1_1_point_parallel_hash_grid_searcher3.html#aeecc448316d1db52a0d7af3b7c44a821">CubbyFlow::PointParallelHashGridSearcher3</a>, <a class="el" href="class_cubby_flow_1_1_point_hash_grid_searcher3.html#ad134680dbe8268dedd813a327935c039">CubbyFlow::PointHashGridSearcher3</a>, <a class="el" href="class_cubby_flow_1_1_point_simple_list_searcher3.html#a8b088f499242f9c827754e58ef69bb5e">CubbyFlow::PointSimpleListSearcher3</a>, and <a class="el" href="class_cubby_flow_1_1_point_kd_tree_searcher3.html#ad69a16ce382488e056e140db3f3b3c4d">CubbyFlow::PointKdTreeSearcher3</a>.</p>
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_point_parallel_hash_grid_searcher3.html#a2cda95e468c641bc0c1c072497e52954">CubbyFlow::PointParallelHashGridSearcher3</a>, <a class="el" href="class_cubby_flow_1_1_point_hash_grid_searcher3.html#a114fabbc7cb2681536c5937962f89017">CubbyFlow::PointHashGridSearcher3</a>, <a class="el" href="class_cubby_flow_1_1_point_simple_list_searcher3.html#a901f58b433dd9d288cf8d9a58bc55576">CubbyFlow::PointSimpleListSearcher3</a>, and <a class="el" href="class_cubby_flow_1_1_point_kd_tree_searcher3.html#ae24c63f62363bcb0242491f3d8297518">CubbyFlow::PointKdTreeSearcher3</a>.</p>
 
 </div>
 </div>
@@ -549,7 +549,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Feb 28 2021 16:22:53 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 1 2021 08:22:11 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

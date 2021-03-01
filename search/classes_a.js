@@ -7,6 +7,7 @@ var searchData=
   ['matrix_3c_20scalartype_2c_20n_20_3e',['Matrix&lt; ScalarType, N &gt;',['../class_cubby_flow_1_1_matrix.html',1,'CubbyFlow']]],
   ['matrix_3c_20size_5ft_20_3e',['Matrix&lt; size_t &gt;',['../class_cubby_flow_1_1_matrix.html',1,'CubbyFlow']]],
   ['matrix_3c_20size_5ft_2c_20n_20_3e',['Matrix&lt; size_t, N &gt;',['../class_cubby_flow_1_1_matrix.html',1,'CubbyFlow']]],
+  ['matrix_3c_20ssize_5ft_20_3e',['Matrix&lt; ssize_t &gt;',['../class_cubby_flow_1_1_matrix.html',1,'CubbyFlow']]],
   ['matrix_3c_20t_2c_201_2c_201_20_3e',['Matrix&lt; T, 1, 1 &gt;',['../class_cubby_flow_1_1_matrix_3_01_t_00_011_00_011_01_4.html',1,'CubbyFlow']]],
   ['matrix_3c_20t_2c_202_2c_201_20_3e',['Matrix&lt; T, 2, 1 &gt;',['../class_cubby_flow_1_1_matrix_3_01_t_00_012_00_011_01_4.html',1,'CubbyFlow']]],
   ['matrix_3c_20t_2c_203_2c_201_20_3e',['Matrix&lt; T, 3, 1 &gt;',['../class_cubby_flow_1_1_matrix_3_01_t_00_013_00_011_01_4.html',1,'CubbyFlow']]],

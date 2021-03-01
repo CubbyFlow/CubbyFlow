@@ -58,7 +58,7 @@ var searchData=
   ['vector4uz',['Vector4UZ',['../namespace_cubby_flow.html#adc421acfff4e78bb59d69e7427f9b107',1,'CubbyFlow']]],
   ['vector4z',['Vector4Z',['../namespace_cubby_flow.html#a9be6bc69167bedce142bfe4d94b0b9b2',1,'CubbyFlow']]],
   ['vectordata',['VectorData',['../class_cubby_flow_1_1_particle_system_data2.html#adb13b4417591a2fd0ac8267da7677709',1,'CubbyFlow::ParticleSystemData2::VectorData()'],['../class_cubby_flow_1_1_particle_system_data3.html#a0b02e5465b61eb248c87d9b06711c340',1,'CubbyFlow::ParticleSystemData3::VectorData()']]],
-  ['vectordataaccessor',['VectorDataAccessor',['../class_cubby_flow_1_1_vector_grid2.html#af0a39d7c46f49d3362e00c5a8df6b262',1,'CubbyFlow::VectorGrid2::VectorDataAccessor()'],['../class_cubby_flow_1_1_vector_grid3.html#af466138badbeb23b237b7e2ea0f20a73',1,'CubbyFlow::VectorGrid3::VectorDataAccessor()']]],
+  ['vectordataview',['VectorDataView',['../class_cubby_flow_1_1_vector_grid2.html#ab7aedd67cb64654b2397d95e541e2beb',1,'CubbyFlow::VectorGrid2::VectorDataView()'],['../class_cubby_flow_1_1_vector_grid3.html#a8dab1abcac6ad917642f97094397f8e6',1,'CubbyFlow::VectorGrid3::VectorDataView()']]],
   ['vectorfield2ptr',['VectorField2Ptr',['../namespace_cubby_flow.html#ab71dea58b8939ced874c39bd1b9a6304',1,'CubbyFlow']]],
   ['vectorfield3ptr',['VectorField3Ptr',['../namespace_cubby_flow.html#ae79aff2078c0903f587221a64e47c175',1,'CubbyFlow']]],
   ['vectorgrid2ptr',['VectorGrid2Ptr',['../namespace_cubby_flow.html#aa0cb2ed6a9efcfb208fb6312cc99fbce',1,'CubbyFlow']]],

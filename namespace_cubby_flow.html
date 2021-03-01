@@ -2141,9 +2141,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a4f68a2e52537b5b33d3732882d28590f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a4f68a2e52537b5b33d3732882d28590f">Laplacian3</a> (const <a class="el" href="namespace_cubby_flow.html#ad262b39bf0201744ab5acc2e9bdab3e5">ConstArrayView3</a>&lt; <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &gt; &amp;data, const <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;gridSpacing, size_t i, size_t j, size_t k)</td></tr>
 <tr class="memdesc:a4f68a2e52537b5b33d3732882d28590f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns 3-D Laplacian vectors from given 3-D vector grid-like array <code>data</code>, <code>gridSpacing</code>, and array index (<code>i</code>, <code>j</code>, <code>k</code>).  <a href="#a4f68a2e52537b5b33d3732882d28590f">More...</a><br /></td></tr>
 <tr class="separator:a4f68a2e52537b5b33d3732882d28590f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20ac77171e467c64aa336af6a8a78f2f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a20ac77171e467c64aa336af6a8a78f2f">MarchingCubes</a> (const ConstArrayAccessor3&lt; double &gt; &amp;grid, const <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;gridSize, const <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;origin, <a class="el" href="class_cubby_flow_1_1_triangle_mesh3.html">TriangleMesh3</a> *mesh, double isoValue=0, int bndClose=<a class="el" href="namespace_cubby_flow.html#abc4abf75c826148f1ce08ca98101f386">DIRECTION_ALL</a>, int bndConnectivity=<a class="el" href="namespace_cubby_flow.html#aaff9c58af4f7d335d443504ca20f6b98">DIRECTION_NONE</a>)</td></tr>
-<tr class="memdesc:a20ac77171e467c64aa336af6a8a78f2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes marching cubes and extract triangle mesh from grid.  <a href="#a20ac77171e467c64aa336af6a8a78f2f">More...</a><br /></td></tr>
-<tr class="separator:a20ac77171e467c64aa336af6a8a78f2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00b996f15235efefc7fc079a01e56544"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a00b996f15235efefc7fc079a01e56544">MarchingCubes</a> (const <a class="el" href="namespace_cubby_flow.html#ad262b39bf0201744ab5acc2e9bdab3e5">ConstArrayView3</a>&lt; double &gt; &amp;grid, const <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;gridSize, const <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;origin, <a class="el" href="class_cubby_flow_1_1_triangle_mesh3.html">TriangleMesh3</a> *mesh, double isoValue=0, int bndClose=<a class="el" href="namespace_cubby_flow.html#abc4abf75c826148f1ce08ca98101f386">DIRECTION_ALL</a>, int bndConnectivity=<a class="el" href="namespace_cubby_flow.html#aaff9c58af4f7d335d443504ca20f6b98">DIRECTION_NONE</a>)</td></tr>
+<tr class="memdesc:a00b996f15235efefc7fc079a01e56544"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes marching cubes and extract triangle mesh from grid.  <a href="#a00b996f15235efefc7fc079a01e56544">More...</a><br /></td></tr>
+<tr class="separator:a00b996f15235efefc7fc079a01e56544"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ac617eb1a6d6410ff25b1e06b554ce0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a8ac617eb1a6d6410ff25b1e06b554ce0">TriangleMeshToSDF</a> (const <a class="el" href="class_cubby_flow_1_1_triangle_mesh3.html">TriangleMesh3</a> &amp;mesh, <a class="el" href="class_cubby_flow_1_1_scalar_grid3.html">ScalarGrid3</a> *sdf)</td></tr>
 <tr class="memdesc:a8ac617eb1a6d6410ff25b1e06b554ce0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates signed-distance field out of given triangle mesh. This function generates signed-distance field from a triangle mesh. The sign is determined by <a class="el" href="class_cubby_flow_1_1_surface3.html#ad8bc8978d4030d119640a6be68040278">TriangleMesh3::IsInside</a> (negative means inside).  <a href="#a8ac617eb1a6d6410ff25b1e06b554ce0">More...</a><br /></td></tr>
 <tr class="separator:a8ac617eb1a6d6410ff25b1e06b554ce0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2155,86 +2155,112 @@ Functions</h2></td></tr>
 <tr class="memitem:ae406c35a24674b502910925d10c4f513"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ae406c35a24674b502910925d10c4f513">PCG</a> (const typename BLASType::MatrixType &amp;A, const typename BLASType::VectorType &amp;b, unsigned int maxNumberOfIterations, double tolerance, PrecondType *M, typename BLASType::VectorType *x, typename BLASType::VectorType *r, typename BLASType::VectorType *d, typename BLASType::VectorType *q, typename BLASType::VectorType *s, unsigned int *lastNumberOfIterations, double *lastResidualNorm)</td></tr>
 <tr class="memdesc:ae406c35a24674b502910925d10c4f513"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves pre-conditioned conjugate gradient.  <a href="#ae406c35a24674b502910925d10c4f513">More...</a><br /></td></tr>
 <tr class="separator:ae406c35a24674b502910925d10c4f513"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25f4f18ce8ed40891d6cdf9918bba0ef"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a25f4f18ce8ed40891d6cdf9918bba0ef"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a25f4f18ce8ed40891d6cdf9918bba0ef">Similar</a> (T x, T y, T eps=std::numeric_limits&lt; T &gt;::epsilon())</td></tr>
-<tr class="memdesc:a25f4f18ce8ed40891d6cdf9918bba0ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if <code>x</code> and <code>y</code> are similar.  <a href="#a25f4f18ce8ed40891d6cdf9918bba0ef">More...</a><br /></td></tr>
-<tr class="separator:a25f4f18ce8ed40891d6cdf9918bba0ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad246704dc259cf63262441f465742a7a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ad246704dc259cf63262441f465742a7a"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ad246704dc259cf63262441f465742a7a">Sign</a> (T x)</td></tr>
-<tr class="memdesc:ad246704dc259cf63262441f465742a7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the sign of the value.  <a href="#ad246704dc259cf63262441f465742a7a">More...</a><br /></td></tr>
-<tr class="separator:ad246704dc259cf63262441f465742a7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee18b0e3a2729c6cbfd483bf6c4f4319"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:aee18b0e3a2729c6cbfd483bf6c4f4319"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#aee18b0e3a2729c6cbfd483bf6c4f4319">AbsMin</a> (T x, T y)</td></tr>
-<tr class="memdesc:aee18b0e3a2729c6cbfd483bf6c4f4319"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the absolute minimum value among the two inputs.  <a href="#aee18b0e3a2729c6cbfd483bf6c4f4319">More...</a><br /></td></tr>
-<tr class="separator:aee18b0e3a2729c6cbfd483bf6c4f4319"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7075eee5bf7aec025e825c99c350d977"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a7075eee5bf7aec025e825c99c350d977"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a7075eee5bf7aec025e825c99c350d977">AbsMax</a> (T x, T y)</td></tr>
-<tr class="memdesc:a7075eee5bf7aec025e825c99c350d977"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the absolute maximum value among the two inputs.  <a href="#a7075eee5bf7aec025e825c99c350d977">More...</a><br /></td></tr>
-<tr class="separator:a7075eee5bf7aec025e825c99c350d977"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6aa14bd8e98e4cf358394c0549cc3a35"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a6aa14bd8e98e4cf358394c0549cc3a35"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a6aa14bd8e98e4cf358394c0549cc3a35">AbsMinN</a> (const T *x, size_t n)</td></tr>
-<tr class="memdesc:a6aa14bd8e98e4cf358394c0549cc3a35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns absolute minimum among n-elements.  <a href="#a6aa14bd8e98e4cf358394c0549cc3a35">More...</a><br /></td></tr>
-<tr class="separator:a6aa14bd8e98e4cf358394c0549cc3a35"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0693ea094a1a2a51e35a09b4031624bb"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a0693ea094a1a2a51e35a09b4031624bb"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a0693ea094a1a2a51e35a09b4031624bb">AbsMaxN</a> (const T *x, size_t n)</td></tr>
-<tr class="memdesc:a0693ea094a1a2a51e35a09b4031624bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns absolute maximum among n-elements.  <a href="#a0693ea094a1a2a51e35a09b4031624bb">More...</a><br /></td></tr>
-<tr class="separator:a0693ea094a1a2a51e35a09b4031624bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8ddec9a1807cf989ca5e1688a9f2fd4"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ad8ddec9a1807cf989ca5e1688a9f2fd4"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ad8ddec9a1807cf989ca5e1688a9f2fd4">ArgMin2</a> (T x, T y)</td></tr>
-<tr class="separator:ad8ddec9a1807cf989ca5e1688a9f2fd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a136e5df1981ab733ceb564f513cfe294"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a136e5df1981ab733ceb564f513cfe294"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a136e5df1981ab733ceb564f513cfe294">ArgMax2</a> (T x, T y)</td></tr>
-<tr class="separator:a136e5df1981ab733ceb564f513cfe294"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5e23a86267098362192d102331d044d"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ac5e23a86267098362192d102331d044d"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ac5e23a86267098362192d102331d044d">ArgMin3</a> (T x, T y, T z)</td></tr>
-<tr class="separator:ac5e23a86267098362192d102331d044d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04cd694fc8fb10b288bfe49ce47f8985"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a04cd694fc8fb10b288bfe49ce47f8985"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a04cd694fc8fb10b288bfe49ce47f8985">ArgMax3</a> (T x, T y, T z)</td></tr>
-<tr class="separator:a04cd694fc8fb10b288bfe49ce47f8985"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac661aea73b7cb24d5136731e6265acfa"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ac661aea73b7cb24d5136731e6265acfa"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ac661aea73b7cb24d5136731e6265acfa">Square</a> (T x)</td></tr>
-<tr class="memdesc:ac661aea73b7cb24d5136731e6265acfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the square of <code>x</code>.  <a href="#ac661aea73b7cb24d5136731e6265acfa">More...</a><br /></td></tr>
-<tr class="separator:ac661aea73b7cb24d5136731e6265acfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa1d31324d81a6f37bfca4a962731463"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:aaa1d31324d81a6f37bfca4a962731463"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#aaa1d31324d81a6f37bfca4a962731463">Cubic</a> (T x)</td></tr>
-<tr class="memdesc:aaa1d31324d81a6f37bfca4a962731463"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the cubic of <code>x</code>.  <a href="#aaa1d31324d81a6f37bfca4a962731463">More...</a><br /></td></tr>
-<tr class="separator:aaa1d31324d81a6f37bfca4a962731463"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99bbe42a18c55ef903f0a7d877838b6b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a99bbe42a18c55ef903f0a7d877838b6b"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a99bbe42a18c55ef903f0a7d877838b6b">Clamp</a> (T val, T low, T high)</td></tr>
-<tr class="memdesc:a99bbe42a18c55ef903f0a7d877838b6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the clamped value.  <a href="#a99bbe42a18c55ef903f0a7d877838b6b">More...</a><br /></td></tr>
-<tr class="separator:a99bbe42a18c55ef903f0a7d877838b6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f418a85a8235a25eb1ecf6cc86bdcf2"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a1f418a85a8235a25eb1ecf6cc86bdcf2"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a1f418a85a8235a25eb1ecf6cc86bdcf2">DegreesToRadians</a> (T angleInDegrees)</td></tr>
-<tr class="memdesc:a1f418a85a8235a25eb1ecf6cc86bdcf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts degrees to radians.  <a href="#a1f418a85a8235a25eb1ecf6cc86bdcf2">More...</a><br /></td></tr>
-<tr class="separator:a1f418a85a8235a25eb1ecf6cc86bdcf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37951e3b43efa1225743990660fcc9e3"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a37951e3b43efa1225743990660fcc9e3"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a37951e3b43efa1225743990660fcc9e3">RadiansToDegrees</a> (T angleInRadians)</td></tr>
-<tr class="memdesc:a37951e3b43efa1225743990660fcc9e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts radians to degrees.  <a href="#a37951e3b43efa1225743990660fcc9e3">More...</a><br /></td></tr>
-<tr class="separator:a37951e3b43efa1225743990660fcc9e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab985b95fa71c2b35742e748ed53bb74b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ab985b95fa71c2b35742e748ed53bb74b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ab985b95fa71c2b35742e748ed53bb74b">GetBarycentric</a> (T x, ssize_t iLow, ssize_t iHigh, ssize_t &amp;i, T &amp;t)</td></tr>
-<tr class="memdesc:ab985b95fa71c2b35742e748ed53bb74b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the barycentric coordinate.  <a href="#ab985b95fa71c2b35742e748ed53bb74b">More...</a><br /></td></tr>
-<tr class="separator:ab985b95fa71c2b35742e748ed53bb74b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a487650d8058cc923bf482cd4d5dead41"><td class="memTemplParams" colspan="2">template&lt;typename S , typename T &gt; </td></tr>
-<tr class="memitem:a487650d8058cc923bf482cd4d5dead41"><td class="memTemplItemLeft" align="right" valign="top">S&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a487650d8058cc923bf482cd4d5dead41">Lerp</a> (const S &amp;f0, const S &amp;f1, T t)</td></tr>
-<tr class="memdesc:a487650d8058cc923bf482cd4d5dead41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes linear interpolation.  <a href="#a487650d8058cc923bf482cd4d5dead41">More...</a><br /></td></tr>
-<tr class="separator:a487650d8058cc923bf482cd4d5dead41"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4135390606355ea2d060f53a04f329b"><td class="memTemplParams" colspan="2">template&lt;typename S , typename T &gt; </td></tr>
-<tr class="memitem:ad4135390606355ea2d060f53a04f329b"><td class="memTemplItemLeft" align="right" valign="top">S&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ad4135390606355ea2d060f53a04f329b">BiLerp</a> (const S &amp;f00, const S &amp;f10, const S &amp;f01, const S &amp;f11, T tx, T ty)</td></tr>
-<tr class="memdesc:ad4135390606355ea2d060f53a04f329b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes bilinear interpolation.  <a href="#ad4135390606355ea2d060f53a04f329b">More...</a><br /></td></tr>
-<tr class="separator:ad4135390606355ea2d060f53a04f329b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a279fefdf1260db13129b2ad555849873"><td class="memTemplParams" colspan="2">template&lt;typename S , typename T &gt; </td></tr>
-<tr class="memitem:a279fefdf1260db13129b2ad555849873"><td class="memTemplItemLeft" align="right" valign="top">S&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a279fefdf1260db13129b2ad555849873">TriLerp</a> (const S &amp;f000, const S &amp;f100, const S &amp;f010, const S &amp;f110, const S &amp;f001, const S &amp;f101, const S &amp;f011, const S &amp;f111, T tx, T ty, T tz)</td></tr>
-<tr class="memdesc:a279fefdf1260db13129b2ad555849873"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes trilinear interpolation.  <a href="#a279fefdf1260db13129b2ad555849873">More...</a><br /></td></tr>
-<tr class="separator:a279fefdf1260db13129b2ad555849873"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8daa1244141de757fc2f5c547dce621e"><td class="memTemplParams" colspan="2">template&lt;typename S , typename T &gt; </td></tr>
-<tr class="memitem:a8daa1244141de757fc2f5c547dce621e"><td class="memTemplItemLeft" align="right" valign="top">S&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a8daa1244141de757fc2f5c547dce621e">CatmullRom</a> (const S &amp;f0, const S &amp;f1, const S &amp;f2, const S &amp;f3, T t)</td></tr>
-<tr class="memdesc:a8daa1244141de757fc2f5c547dce621e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes Catmull-Rom interpolation.  <a href="#a8daa1244141de757fc2f5c547dce621e">More...</a><br /></td></tr>
-<tr class="separator:a8daa1244141de757fc2f5c547dce621e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a032bc07e581016ab5f8caad4162fdd54"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a032bc07e581016ab5f8caad4162fdd54"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a032bc07e581016ab5f8caad4162fdd54">MonotonicCatmullRom</a> (const T &amp;f0, const T &amp;f1, const T &amp;f2, const T &amp;f3, T t)</td></tr>
-<tr class="memdesc:a032bc07e581016ab5f8caad4162fdd54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes monotonic Catmull-Rom interpolation.  <a href="#a032bc07e581016ab5f8caad4162fdd54">More...</a><br /></td></tr>
-<tr class="separator:a032bc07e581016ab5f8caad4162fdd54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88572d984664298ba621ed00246d1b61"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a88572d984664298ba621ed00246d1b61"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, bool &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a88572d984664298ba621ed00246d1b61">Similar</a> (T x, T y, T eps=std::numeric_limits&lt; T &gt;::epsilon())</td></tr>
+<tr class="memdesc:a88572d984664298ba621ed00246d1b61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if <code>x</code> and <code>y</code> are similar.  <a href="#a88572d984664298ba621ed00246d1b61">More...</a><br /></td></tr>
+<tr class="separator:a88572d984664298ba621ed00246d1b61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d36928eeefd9acccee03d213ac28363"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a4d36928eeefd9acccee03d213ac28363"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a4d36928eeefd9acccee03d213ac28363">Sign</a> (T x)</td></tr>
+<tr class="memdesc:a4d36928eeefd9acccee03d213ac28363"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the sign of the value.  <a href="#a4d36928eeefd9acccee03d213ac28363">More...</a><br /></td></tr>
+<tr class="separator:a4d36928eeefd9acccee03d213ac28363"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e15a5fa5847833fef76b55b95bf0c88"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a2e15a5fa5847833fef76b55b95bf0c88"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a2e15a5fa5847833fef76b55b95bf0c88">Min3</a> (T x, T y, T z)</td></tr>
+<tr class="memdesc:a2e15a5fa5847833fef76b55b95bf0c88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the minimum value among three inputs.  <a href="#a2e15a5fa5847833fef76b55b95bf0c88">More...</a><br /></td></tr>
+<tr class="separator:a2e15a5fa5847833fef76b55b95bf0c88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bef051a0312427ab73dc45663b8ee50"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a9bef051a0312427ab73dc45663b8ee50"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a9bef051a0312427ab73dc45663b8ee50">Max3</a> (T x, T y, T z)</td></tr>
+<tr class="memdesc:a9bef051a0312427ab73dc45663b8ee50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the maximum value among three inputs.  <a href="#a9bef051a0312427ab73dc45663b8ee50">More...</a><br /></td></tr>
+<tr class="separator:a9bef051a0312427ab73dc45663b8ee50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae05c9d6d7b7fc607e7a64e98063aee3d"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ae05c9d6d7b7fc607e7a64e98063aee3d"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ae05c9d6d7b7fc607e7a64e98063aee3d">MinN</a> (const T *x, size_t n)</td></tr>
+<tr class="memdesc:ae05c9d6d7b7fc607e7a64e98063aee3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns minimum among n-elements.  <a href="#ae05c9d6d7b7fc607e7a64e98063aee3d">More...</a><br /></td></tr>
+<tr class="separator:ae05c9d6d7b7fc607e7a64e98063aee3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57b97db2e2ad45923ca39ef576e8edee"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a57b97db2e2ad45923ca39ef576e8edee"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a57b97db2e2ad45923ca39ef576e8edee">MaxN</a> (const T *x, size_t n)</td></tr>
+<tr class="memdesc:a57b97db2e2ad45923ca39ef576e8edee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns maximum among n-elements.  <a href="#a57b97db2e2ad45923ca39ef576e8edee">More...</a><br /></td></tr>
+<tr class="separator:a57b97db2e2ad45923ca39ef576e8edee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade447bb48d6c13d2424a7dfdb08b60ea"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ade447bb48d6c13d2424a7dfdb08b60ea"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ade447bb48d6c13d2424a7dfdb08b60ea">AbsMin</a> (T x, T y)</td></tr>
+<tr class="memdesc:ade447bb48d6c13d2424a7dfdb08b60ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the absolute minimum value among the two inputs.  <a href="#ade447bb48d6c13d2424a7dfdb08b60ea">More...</a><br /></td></tr>
+<tr class="separator:ade447bb48d6c13d2424a7dfdb08b60ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f4f81c085fe210fcf0e55aadbbeff65"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a6f4f81c085fe210fcf0e55aadbbeff65"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a6f4f81c085fe210fcf0e55aadbbeff65">AbsMax</a> (T x, T y)</td></tr>
+<tr class="memdesc:a6f4f81c085fe210fcf0e55aadbbeff65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the absolute maximum value among the two inputs.  <a href="#a6f4f81c085fe210fcf0e55aadbbeff65">More...</a><br /></td></tr>
+<tr class="separator:a6f4f81c085fe210fcf0e55aadbbeff65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6b4f0ea0f910352593ada1deaa4ca9c"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aa6b4f0ea0f910352593ada1deaa4ca9c"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#aa6b4f0ea0f910352593ada1deaa4ca9c">AbsMinN</a> (const T *x, size_t n)</td></tr>
+<tr class="memdesc:aa6b4f0ea0f910352593ada1deaa4ca9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns absolute minimum among n-elements.  <a href="#aa6b4f0ea0f910352593ada1deaa4ca9c">More...</a><br /></td></tr>
+<tr class="separator:aa6b4f0ea0f910352593ada1deaa4ca9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ce5f9c5eaab0eb231be4c1b1960a6d9"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a4ce5f9c5eaab0eb231be4c1b1960a6d9"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a4ce5f9c5eaab0eb231be4c1b1960a6d9">AbsMaxN</a> (const T *x, size_t n)</td></tr>
+<tr class="memdesc:a4ce5f9c5eaab0eb231be4c1b1960a6d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns absolute maximum among n-elements.  <a href="#a4ce5f9c5eaab0eb231be4c1b1960a6d9">More...</a><br /></td></tr>
+<tr class="separator:a4ce5f9c5eaab0eb231be4c1b1960a6d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a151b182d7311e482252ff0a4cbf3fc1e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a151b182d7311e482252ff0a4cbf3fc1e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, size_t &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a151b182d7311e482252ff0a4cbf3fc1e">ArgMin2</a> (T x, T y)</td></tr>
+<tr class="separator:a151b182d7311e482252ff0a4cbf3fc1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e2b1882382df787755316ffa7fb0e4b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a1e2b1882382df787755316ffa7fb0e4b"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, size_t &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a1e2b1882382df787755316ffa7fb0e4b">ArgMax2</a> (T x, T y)</td></tr>
+<tr class="separator:a1e2b1882382df787755316ffa7fb0e4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8082ca1bdda0b87d0a28f0e04a14bc41"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a8082ca1bdda0b87d0a28f0e04a14bc41"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, size_t &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a8082ca1bdda0b87d0a28f0e04a14bc41">ArgMin3</a> (T x, T y, T z)</td></tr>
+<tr class="separator:a8082ca1bdda0b87d0a28f0e04a14bc41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c9f3fe13175dbdd40b26d889425335c"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a2c9f3fe13175dbdd40b26d889425335c"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, size_t &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a2c9f3fe13175dbdd40b26d889425335c">ArgMax3</a> (T x, T y, T z)</td></tr>
+<tr class="separator:a2c9f3fe13175dbdd40b26d889425335c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93f8d89ef1452b1050f31073988bc8a7"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a93f8d89ef1452b1050f31073988bc8a7"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a93f8d89ef1452b1050f31073988bc8a7">Square</a> (T x)</td></tr>
+<tr class="memdesc:a93f8d89ef1452b1050f31073988bc8a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the square of <code>x</code>.  <a href="#a93f8d89ef1452b1050f31073988bc8a7">More...</a><br /></td></tr>
+<tr class="separator:a93f8d89ef1452b1050f31073988bc8a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7452905815b4d48ce9197201a5b1e953"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a7452905815b4d48ce9197201a5b1e953"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a7452905815b4d48ce9197201a5b1e953">Cubic</a> (T x)</td></tr>
+<tr class="memdesc:a7452905815b4d48ce9197201a5b1e953"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the cubic of <code>x</code>.  <a href="#a7452905815b4d48ce9197201a5b1e953">More...</a><br /></td></tr>
+<tr class="separator:a7452905815b4d48ce9197201a5b1e953"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a714725b3ec799f504e58b3fef26b4377"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a714725b3ec799f504e58b3fef26b4377"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a714725b3ec799f504e58b3fef26b4377">Clamp</a> (T val, T low, T high)</td></tr>
+<tr class="memdesc:a714725b3ec799f504e58b3fef26b4377"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the clamped value.  <a href="#a714725b3ec799f504e58b3fef26b4377">More...</a><br /></td></tr>
+<tr class="separator:a714725b3ec799f504e58b3fef26b4377"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a621e5d2e3860435676871101a28661e7"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a621e5d2e3860435676871101a28661e7"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a621e5d2e3860435676871101a28661e7">DegreesToRadians</a> (T angleInDegrees)</td></tr>
+<tr class="memdesc:a621e5d2e3860435676871101a28661e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts degrees to radians.  <a href="#a621e5d2e3860435676871101a28661e7">More...</a><br /></td></tr>
+<tr class="separator:a621e5d2e3860435676871101a28661e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a720744bc1012918fa38cbe9d2c40e1a8"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a720744bc1012918fa38cbe9d2c40e1a8"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a720744bc1012918fa38cbe9d2c40e1a8">RadiansToDegrees</a> (T angleInRadians)</td></tr>
+<tr class="memdesc:a720744bc1012918fa38cbe9d2c40e1a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts radians to degrees.  <a href="#a720744bc1012918fa38cbe9d2c40e1a8">More...</a><br /></td></tr>
+<tr class="separator:a720744bc1012918fa38cbe9d2c40e1a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50d99727344511d900f854267e7f12b6"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a50d99727344511d900f854267e7f12b6"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a50d99727344511d900f854267e7f12b6">GetBarycentric</a> (T x, size_t begin, size_t end, size_t &amp;i, T &amp;t)</td></tr>
+<tr class="memdesc:a50d99727344511d900f854267e7f12b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the barycentric coordinate.  <a href="#a50d99727344511d900f854267e7f12b6">More...</a><br /></td></tr>
+<tr class="separator:a50d99727344511d900f854267e7f12b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15d9e2a9d4c09f62b095ddf75ae7bba5"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a15d9e2a9d4c09f62b095ddf75ae7bba5"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a15d9e2a9d4c09f62b095ddf75ae7bba5">GetBarycentric</a> (T x, size_t end, size_t &amp;i, T &amp;t)</td></tr>
+<tr class="separator:a15d9e2a9d4c09f62b095ddf75ae7bba5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53dcfc02e4628de1523bf96d5b03ac42"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a53dcfc02e4628de1523bf96d5b03ac42"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a53dcfc02e4628de1523bf96d5b03ac42">GetBarycentric</a> (T x, ssize_t begin, ssize_t end, ssize_t &amp;i, T &amp;t)</td></tr>
+<tr class="memdesc:a53dcfc02e4628de1523bf96d5b03ac42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the barycentric coordinate.  <a href="#a53dcfc02e4628de1523bf96d5b03ac42">More...</a><br /></td></tr>
+<tr class="separator:a53dcfc02e4628de1523bf96d5b03ac42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad88bdd4986028deae1a36a1e0145019e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ad88bdd4986028deae1a36a1e0145019e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ad88bdd4986028deae1a36a1e0145019e">GetBarycentric</a> (T x, ssize_t end, ssize_t &amp;i, T &amp;t)</td></tr>
+<tr class="separator:ad88bdd4986028deae1a36a1e0145019e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37f62b632cac83d7304849d2c0d3e8f4"><td class="memTemplParams" colspan="2">template&lt;typename S , typename T &gt; </td></tr>
+<tr class="memitem:a37f62b632cac83d7304849d2c0d3e8f4"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, S &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a37f62b632cac83d7304849d2c0d3e8f4">Lerp</a> (const S &amp;f0, const S &amp;f1, T t)</td></tr>
+<tr class="memdesc:a37f62b632cac83d7304849d2c0d3e8f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes linear interpolation.  <a href="#a37f62b632cac83d7304849d2c0d3e8f4">More...</a><br /></td></tr>
+<tr class="separator:a37f62b632cac83d7304849d2c0d3e8f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac7a5bd50b07354cd8ee20c65d16eb3e"><td class="memTemplParams" colspan="2">template&lt;typename S , typename T &gt; </td></tr>
+<tr class="memitem:aac7a5bd50b07354cd8ee20c65d16eb3e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, S &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#aac7a5bd50b07354cd8ee20c65d16eb3e">BiLerp</a> (const S &amp;f00, const S &amp;f10, const S &amp;f01, const S &amp;f11, T tx, T ty)</td></tr>
+<tr class="memdesc:aac7a5bd50b07354cd8ee20c65d16eb3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes bilinear interpolation.  <a href="#aac7a5bd50b07354cd8ee20c65d16eb3e">More...</a><br /></td></tr>
+<tr class="separator:aac7a5bd50b07354cd8ee20c65d16eb3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add93f34fc9e711e4306fd23cf4f0089e"><td class="memTemplParams" colspan="2">template&lt;typename S , typename T &gt; </td></tr>
+<tr class="memitem:add93f34fc9e711e4306fd23cf4f0089e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, S &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#add93f34fc9e711e4306fd23cf4f0089e">TriLerp</a> (const S &amp;f000, const S &amp;f100, const S &amp;f010, const S &amp;f110, const S &amp;f001, const S &amp;f101, const S &amp;f011, const S &amp;f111, T tx, T ty, T tz)</td></tr>
+<tr class="memdesc:add93f34fc9e711e4306fd23cf4f0089e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes trilinear interpolation.  <a href="#add93f34fc9e711e4306fd23cf4f0089e">More...</a><br /></td></tr>
+<tr class="separator:add93f34fc9e711e4306fd23cf4f0089e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c5fae1700c5ac54c49a02c6ac045355"><td class="memTemplParams" colspan="2">template&lt;typename S , typename T &gt; </td></tr>
+<tr class="memitem:a1c5fae1700c5ac54c49a02c6ac045355"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, S &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a1c5fae1700c5ac54c49a02c6ac045355">CatmullRom</a> (const S &amp;f0, const S &amp;f1, const S &amp;f2, const S &amp;f3, T t)</td></tr>
+<tr class="memdesc:a1c5fae1700c5ac54c49a02c6ac045355"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes Catmull-Rom interpolation.  <a href="#a1c5fae1700c5ac54c49a02c6ac045355">More...</a><br /></td></tr>
+<tr class="separator:a1c5fae1700c5ac54c49a02c6ac045355"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9054dc494343cb21745d9d2bf38fcb9f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a9054dc494343cb21745d9d2bf38fcb9f"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a9054dc494343cb21745d9d2bf38fcb9f">MonotonicCatmullRom</a> (const T &amp;f0, const T &amp;f1, const T &amp;f2, const T &amp;f3, T t)</td></tr>
+<tr class="memdesc:a9054dc494343cb21745d9d2bf38fcb9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes monotonic Catmull-Rom interpolation.  <a href="#a9054dc494343cb21745d9d2bf38fcb9f">More...</a><br /></td></tr>
+<tr class="separator:a9054dc494343cb21745d9d2bf38fcb9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19de6003c65ca066d32d90a61cbc9220"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a19de6003c65ca066d32d90a61cbc9220"><td class="memTemplItemLeft" align="right" valign="top">std::array&lt; T, 2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a19de6003c65ca066d32d90a61cbc9220">Upwind1</a> (T *d0, T dx)</td></tr>
 <tr class="memdesc:a19de6003c65ca066d32d90a61cbc9220"><td class="mdescLeft">&#160;</td><td class="mdescRight">1st order upwind differencing. d0[1] is the origin.  <a href="#a19de6003c65ca066d32d90a61cbc9220">More...</a><br /></td></tr>
@@ -8842,8 +8868,8 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a7075eee5bf7aec025e825c99c350d977"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7075eee5bf7aec025e825c99c350d977">&#9670;&nbsp;</a></span>AbsMax()</h2>
+<a id="a6f4f81c085fe210fcf0e55aadbbeff65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f4f81c085fe210fcf0e55aadbbeff65">&#9670;&nbsp;</a></span>AbsMax()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -8851,7 +8877,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">T CubbyFlow::AbsMax </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt; CubbyFlow::AbsMax </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -8888,8 +8914,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a0693ea094a1a2a51e35a09b4031624bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0693ea094a1a2a51e35a09b4031624bb">&#9670;&nbsp;</a></span>AbsMaxN()</h2>
+<a id="a4ce5f9c5eaab0eb231be4c1b1960a6d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ce5f9c5eaab0eb231be4c1b1960a6d9">&#9670;&nbsp;</a></span>AbsMaxN()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -8897,7 +8923,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">T CubbyFlow::AbsMaxN </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt; CubbyFlow::AbsMaxN </td>
           <td>(</td>
           <td class="paramtype">const T *&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -8920,8 +8946,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="aee18b0e3a2729c6cbfd483bf6c4f4319"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee18b0e3a2729c6cbfd483bf6c4f4319">&#9670;&nbsp;</a></span>AbsMin()</h2>
+<a id="ade447bb48d6c13d2424a7dfdb08b60ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade447bb48d6c13d2424a7dfdb08b60ea">&#9670;&nbsp;</a></span>AbsMin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -8929,7 +8955,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">T CubbyFlow::AbsMin </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt; CubbyFlow::AbsMin </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -8966,8 +8992,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a6aa14bd8e98e4cf358394c0549cc3a35"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6aa14bd8e98e4cf358394c0549cc3a35">&#9670;&nbsp;</a></span>AbsMinN()</h2>
+<a id="aa6b4f0ea0f910352593ada1deaa4ca9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6b4f0ea0f910352593ada1deaa4ca9c">&#9670;&nbsp;</a></span>AbsMinN()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -8975,7 +9001,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">T CubbyFlow::AbsMinN </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt; CubbyFlow::AbsMinN </td>
           <td>(</td>
           <td class="paramtype">const T *&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -9170,8 +9196,8 @@ template&lt;typename T , size_t Rows, size_t Cols, typename M1 &gt; </div>
 
 </div>
 </div>
-<a id="a136e5df1981ab733ceb564f513cfe294"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a136e5df1981ab733ceb564f513cfe294">&#9670;&nbsp;</a></span>ArgMax2()</h2>
+<a id="a1e2b1882382df787755316ffa7fb0e4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e2b1882382df787755316ffa7fb0e4b">&#9670;&nbsp;</a></span>ArgMax2()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -9179,7 +9205,7 @@ template&lt;typename T , size_t Rows, size_t Cols, typename M1 &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">size_t CubbyFlow::ArgMax2 </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, size_t &gt; CubbyFlow::ArgMax2 </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -9200,8 +9226,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a04cd694fc8fb10b288bfe49ce47f8985"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04cd694fc8fb10b288bfe49ce47f8985">&#9670;&nbsp;</a></span>ArgMax3()</h2>
+<a id="a2c9f3fe13175dbdd40b26d889425335c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c9f3fe13175dbdd40b26d889425335c">&#9670;&nbsp;</a></span>ArgMax3()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -9209,7 +9235,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">size_t CubbyFlow::ArgMax3 </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, size_t &gt; CubbyFlow::ArgMax3 </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -9236,8 +9262,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ad8ddec9a1807cf989ca5e1688a9f2fd4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad8ddec9a1807cf989ca5e1688a9f2fd4">&#9670;&nbsp;</a></span>ArgMin2()</h2>
+<a id="a151b182d7311e482252ff0a4cbf3fc1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a151b182d7311e482252ff0a4cbf3fc1e">&#9670;&nbsp;</a></span>ArgMin2()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -9245,7 +9271,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">size_t CubbyFlow::ArgMin2 </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, size_t &gt; CubbyFlow::ArgMin2 </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -9266,8 +9292,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ac5e23a86267098362192d102331d044d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5e23a86267098362192d102331d044d">&#9670;&nbsp;</a></span>ArgMin3()</h2>
+<a id="a8082ca1bdda0b87d0a28f0e04a14bc41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8082ca1bdda0b87d0a28f0e04a14bc41">&#9670;&nbsp;</a></span>ArgMin3()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -9275,7 +9301,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">size_t CubbyFlow::ArgMin3 </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, size_t &gt; CubbyFlow::ArgMin3 </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -9302,8 +9328,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ad4135390606355ea2d060f53a04f329b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4135390606355ea2d060f53a04f329b">&#9670;&nbsp;</a></span>BiLerp()</h2>
+<a id="aac7a5bd50b07354cd8ee20c65d16eb3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac7a5bd50b07354cd8ee20c65d16eb3e">&#9670;&nbsp;</a></span>BiLerp()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -9311,7 +9337,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename S , typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">S CubbyFlow::BiLerp </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, S &gt; CubbyFlow::BiLerp </td>
           <td>(</td>
           <td class="paramtype">const S &amp;&#160;</td>
           <td class="paramname"><em>f00</em>, </td>
@@ -9400,8 +9426,8 @@ template&lt;class ForwardIter , class T , class Compare &gt; </div>
 
 </div>
 </div>
-<a id="a8daa1244141de757fc2f5c547dce621e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8daa1244141de757fc2f5c547dce621e">&#9670;&nbsp;</a></span>CatmullRom()</h2>
+<a id="a1c5fae1700c5ac54c49a02c6ac045355"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c5fae1700c5ac54c49a02c6ac045355">&#9670;&nbsp;</a></span>CatmullRom()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -9409,7 +9435,7 @@ template&lt;class ForwardIter , class T , class Compare &gt; </div>
 template&lt;typename S , typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">S CubbyFlow::CatmullRom </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, S &gt; CubbyFlow::CatmullRom </td>
           <td>(</td>
           <td class="paramtype">const S &amp;&#160;</td>
           <td class="paramname"><em>f0</em>, </td>
@@ -9588,8 +9614,8 @@ template&lt;typename BLASType &gt; </div>
 
 </div>
 </div>
-<a id="a99bbe42a18c55ef903f0a7d877838b6b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a99bbe42a18c55ef903f0a7d877838b6b">&#9670;&nbsp;</a></span>Clamp() <span class="overload">[1/2]</span></h2>
+<a id="a714725b3ec799f504e58b3fef26b4377"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a714725b3ec799f504e58b3fef26b4377">&#9670;&nbsp;</a></span>Clamp() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -9597,7 +9623,7 @@ template&lt;typename BLASType &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">T CubbyFlow::Clamp </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt; CubbyFlow::Clamp </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>val</em>, </td>
@@ -9993,8 +10019,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="aaa1d31324d81a6f37bfca4a962731463"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa1d31324d81a6f37bfca4a962731463">&#9670;&nbsp;</a></span>Cubic()</h2>
+<a id="a7452905815b4d48ce9197201a5b1e953"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7452905815b4d48ce9197201a5b1e953">&#9670;&nbsp;</a></span>Cubic()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -10002,7 +10028,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">T CubbyFlow::Cubic </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt; CubbyFlow::Cubic </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>x</em></td><td>)</td>
@@ -10058,8 +10084,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a1f418a85a8235a25eb1ecf6cc86bdcf2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f418a85a8235a25eb1ecf6cc86bdcf2">&#9670;&nbsp;</a></span>DegreesToRadians()</h2>
+<a id="a621e5d2e3860435676871101a28661e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a621e5d2e3860435676871101a28661e7">&#9670;&nbsp;</a></span>DegreesToRadians()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -10067,7 +10093,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">T CubbyFlow::DegreesToRadians </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt; CubbyFlow::DegreesToRadians </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>angleInDegrees</em></td><td>)</td>
@@ -11157,8 +11183,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ab985b95fa71c2b35742e748ed53bb74b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab985b95fa71c2b35742e748ed53bb74b">&#9670;&nbsp;</a></span>GetBarycentric()</h2>
+<a id="a50d99727344511d900f854267e7f12b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50d99727344511d900f854267e7f12b6">&#9670;&nbsp;</a></span>GetBarycentric() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -11166,7 +11192,117 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void CubbyFlow::GetBarycentric </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value &gt; CubbyFlow::GetBarycentric </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t &amp;&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramname"><em>t</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the barycentric coordinate. </p>
+<p>This function computes the barycentric coordinate for given array range as shown below:</p>
+<div class="fragment"><div class="line">begin              end</div><div class="line">|----|-x--|----|----|</div><div class="line">     i</div><div class="line">t = x - i</div></div><!-- fragment --><p>For instance, if begin = 4, end = 8, and x = 5.4, output i will be 5 and t will be 0.4.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The input value. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">begin</td><td>Beginning index of the range. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">end</td><td>End index of the range (exclusive). </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">i</td><td>The output index between iBegin and iEnd - 2. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">t</td><td>The offset from <code>i</code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Value type. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a15d9e2a9d4c09f62b095ddf75ae7bba5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15d9e2a9d4c09f62b095ddf75ae7bba5">&#9670;&nbsp;</a></span>GetBarycentric() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if_t&lt;std::is_arithmetic&lt;T&gt;::value&gt; CubbyFlow::GetBarycentric </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t &amp;&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramname"><em>t</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a53dcfc02e4628de1523bf96d5b03ac42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53dcfc02e4628de1523bf96d5b03ac42">&#9670;&nbsp;</a></span>GetBarycentric() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value &gt; CubbyFlow::GetBarycentric </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -11175,13 +11311,13 @@ template&lt;typename T &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">ssize_t&#160;</td>
-          <td class="paramname"><em>iLow</em>, </td>
+          <td class="paramname"><em>begin</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">ssize_t&#160;</td>
-          <td class="paramname"><em>iHigh</em>, </td>
+          <td class="paramname"><em>end</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -11203,14 +11339,16 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Gets the barycentric coordinate. </p>
+<p>Computes the barycentric coordinate. </p>
+<p>This function computes the barycentric coordinate for given array range as shown below:</p>
+<div class="fragment"><div class="line">begin              end</div><div class="line">|----|-x--|----|----|</div><div class="line">     i</div><div class="line">t = x - i</div></div><!-- fragment --><p>For instance, if begin = 4, end = 8, and x = 5.4, output i will be 5 and t will be 0.4.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The input value. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">iLow</td><td>The lowest index. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">iHigh</td><td>The highest index. </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">i</td><td>The output index. </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">t</td><td>The offset from <code>i</code>.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">begin</td><td>Beginning index of the range. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">end</td><td>End index of the range (exclusive). </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">i</td><td>The output index between iBegin and iEnd - 2. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">t</td><td>The offset from <code>i</code>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -11220,6 +11358,48 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ad88bdd4986028deae1a36a1e0145019e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad88bdd4986028deae1a36a1e0145019e">&#9670;&nbsp;</a></span>GetBarycentric() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if_t&lt;std::is_arithmetic&lt;T&gt;::value&gt; CubbyFlow::GetBarycentric </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ssize_t&#160;</td>
+          <td class="paramname"><em>end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ssize_t &amp;&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramname"><em>t</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -11946,8 +12126,8 @@ template&lt;size_t Rows, size_t Cols&gt; </div>
 
 </div>
 </div>
-<a id="a487650d8058cc923bf482cd4d5dead41"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a487650d8058cc923bf482cd4d5dead41">&#9670;&nbsp;</a></span>Lerp()</h2>
+<a id="a37f62b632cac83d7304849d2c0d3e8f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37f62b632cac83d7304849d2c0d3e8f4">&#9670;&nbsp;</a></span>Lerp()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -11955,7 +12135,7 @@ template&lt;size_t Rows, size_t Cols&gt; </div>
 template&lt;typename S , typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">S CubbyFlow::Lerp </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, S &gt; CubbyFlow::Lerp </td>
           <td>(</td>
           <td class="paramtype">const S &amp;&#160;</td>
           <td class="paramname"><em>f0</em>, </td>
@@ -12000,8 +12180,8 @@ template&lt;typename S , typename T &gt; </div>
 
 </div>
 </div>
-<a id="a20ac77171e467c64aa336af6a8a78f2f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a20ac77171e467c64aa336af6a8a78f2f">&#9670;&nbsp;</a></span>MarchingCubes()</h2>
+<a id="a00b996f15235efefc7fc079a01e56544"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00b996f15235efefc7fc079a01e56544">&#9670;&nbsp;</a></span>MarchingCubes()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -12009,7 +12189,7 @@ template&lt;typename S , typename T &gt; </div>
         <tr>
           <td class="memname">void CubbyFlow::MarchingCubes </td>
           <td>(</td>
-          <td class="paramtype">const ConstArrayAccessor3&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#ad262b39bf0201744ab5acc2e9bdab3e5">ConstArrayView3</a>&lt; double &gt; &amp;&#160;</td>
           <td class="paramname"><em>grid</em>, </td>
         </tr>
         <tr>
@@ -12103,6 +12283,91 @@ template&lt;typename T , size_t Rows, size_t Cols, typename M1 , typename M2 &gt
 
 </div>
 </div>
+<a id="a9bef051a0312427ab73dc45663b8ee50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bef051a0312427ab73dc45663b8ee50">&#9670;&nbsp;</a></span>Max3()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt; CubbyFlow::Max3 </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>z</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the maximum value among three inputs. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The first value. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>The second value. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">z</td><td>The three value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Value type.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The maximum value. </dd></dl>
+
+</div>
+</div>
+<a id="a57b97db2e2ad45923ca39ef576e8edee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57b97db2e2ad45923ca39ef576e8edee">&#9670;&nbsp;</a></span>MaxN()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt; CubbyFlow::MaxN </td>
+          <td>(</td>
+          <td class="paramtype">const T *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns maximum among n-elements. </p>
+
+</div>
+</div>
 <a id="aef48c695237b87f1eed6ad8bd64c4657"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aef48c695237b87f1eed6ad8bd64c4657">&#9670;&nbsp;</a></span>MGVCycle()</h2>
 
@@ -12184,8 +12449,8 @@ template&lt;typename T , size_t Rows, size_t Cols, typename M1 , typename M2 &gt
 
 </div>
 </div>
-<a id="a032bc07e581016ab5f8caad4162fdd54"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a032bc07e581016ab5f8caad4162fdd54">&#9670;&nbsp;</a></span>MonotonicCatmullRom() <span class="overload">[1/2]</span></h2>
+<a id="a2e15a5fa5847833fef76b55b95bf0c88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e15a5fa5847833fef76b55b95bf0c88">&#9670;&nbsp;</a></span>Min3()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -12193,7 +12458,92 @@ template&lt;typename T , size_t Rows, size_t Cols, typename M1 , typename M2 &gt
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">T CubbyFlow::MonotonicCatmullRom </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt; CubbyFlow::Min3 </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>z</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the minimum value among three inputs. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The first value. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>The second value. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">z</td><td>The three value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Value type.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The minimum value. </dd></dl>
+
+</div>
+</div>
+<a id="ae05c9d6d7b7fc607e7a64e98063aee3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae05c9d6d7b7fc607e7a64e98063aee3d">&#9670;&nbsp;</a></span>MinN()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt; CubbyFlow::MinN </td>
+          <td>(</td>
+          <td class="paramtype">const T *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns minimum among n-elements. </p>
+
+</div>
+</div>
+<a id="a9054dc494343cb21745d9d2bf38fcb9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9054dc494343cb21745d9d2bf38fcb9f">&#9670;&nbsp;</a></span>MonotonicCatmullRom() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt; CubbyFlow::MonotonicCatmullRom </td>
           <td>(</td>
           <td class="paramtype">const T &amp;&#160;</td>
           <td class="paramname"><em>f0</em>, </td>
@@ -15048,8 +15398,8 @@ template&lt;&gt; </div>
 
 </div>
 </div>
-<a id="a37951e3b43efa1225743990660fcc9e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37951e3b43efa1225743990660fcc9e3">&#9670;&nbsp;</a></span>RadiansToDegrees()</h2>
+<a id="a720744bc1012918fa38cbe9d2c40e1a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a720744bc1012918fa38cbe9d2c40e1a8">&#9670;&nbsp;</a></span>RadiansToDegrees()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -15057,7 +15407,7 @@ template&lt;&gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">T CubbyFlow::RadiansToDegrees </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt; CubbyFlow::RadiansToDegrees </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>angleInRadians</em></td><td>)</td>
@@ -15601,8 +15951,8 @@ template&lt;typename RandomIterator , typename SortingFunction &gt; </div>
 
 </div>
 </div>
-<a id="ad246704dc259cf63262441f465742a7a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad246704dc259cf63262441f465742a7a">&#9670;&nbsp;</a></span>Sign()</h2>
+<a id="a4d36928eeefd9acccee03d213ac28363"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d36928eeefd9acccee03d213ac28363">&#9670;&nbsp;</a></span>Sign()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -15610,7 +15960,7 @@ template&lt;typename RandomIterator , typename SortingFunction &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">T CubbyFlow::Sign </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt; CubbyFlow::Sign </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>x</em></td><td>)</td>
@@ -15636,8 +15986,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a25f4f18ce8ed40891d6cdf9918bba0ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a25f4f18ce8ed40891d6cdf9918bba0ef">&#9670;&nbsp;</a></span>Similar()</h2>
+<a id="a88572d984664298ba621ed00246d1b61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88572d984664298ba621ed00246d1b61">&#9670;&nbsp;</a></span>Similar()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -15645,7 +15995,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">bool CubbyFlow::Similar </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, bool &gt; CubbyFlow::Similar </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -15851,8 +16201,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ac661aea73b7cb24d5136731e6265acfa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac661aea73b7cb24d5136731e6265acfa">&#9670;&nbsp;</a></span>Square()</h2>
+<a id="a93f8d89ef1452b1050f31073988bc8a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93f8d89ef1452b1050f31073988bc8a7">&#9670;&nbsp;</a></span>Square()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -15860,7 +16210,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">T CubbyFlow::Square </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, T &gt; CubbyFlow::Square </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>x</em></td><td>)</td>
@@ -16043,8 +16393,8 @@ template&lt;typename T , size_t M, size_t N&gt; </div>
 
 </div>
 </div>
-<a id="a279fefdf1260db13129b2ad555849873"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a279fefdf1260db13129b2ad555849873">&#9670;&nbsp;</a></span>TriLerp()</h2>
+<a id="add93f34fc9e711e4306fd23cf4f0089e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add93f34fc9e711e4306fd23cf4f0089e">&#9670;&nbsp;</a></span>TriLerp()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -16052,7 +16402,7 @@ template&lt;typename T , size_t M, size_t N&gt; </div>
 template&lt;typename S , typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">S CubbyFlow::TriLerp </td>
+          <td class="memname">std::enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value, S &gt; CubbyFlow::TriLerp </td>
           <td>(</td>
           <td class="paramtype">const S &amp;&#160;</td>
           <td class="paramname"><em>f000</em>, </td>
@@ -18014,7 +18364,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Feb 28 2021 16:22:51 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 1 2021 08:22:10 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

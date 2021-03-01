@@ -114,9 +114,9 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a83478c4f37e86b8dd57da342ff4259c7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_kd_tree.html#a83478c4f37e86b8dd57da342ff4259c7">Build</a> (const ConstArrayAccessor1&lt; <a class="el" href="class_cubby_flow_1_1_kd_tree.html#ad54ba3cfb4c7956cfd3a06c1bb9f9741">Point</a> &gt; &amp;points)</td></tr>
-<tr class="memdesc:a83478c4f37e86b8dd57da342ff4259c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds internal acceleration structure for given points list.  <a href="#a83478c4f37e86b8dd57da342ff4259c7">More...</a><br /></td></tr>
-<tr class="separator:a83478c4f37e86b8dd57da342ff4259c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a053057c144a9b30de530cd18628805ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_kd_tree.html#a053057c144a9b30de530cd18628805ec">Build</a> (const <a class="el" href="namespace_cubby_flow.html#a6c7e5a4d20594fa6e144e3d10fc1c7de">ConstArrayView1</a>&lt; <a class="el" href="class_cubby_flow_1_1_kd_tree.html#ad54ba3cfb4c7956cfd3a06c1bb9f9741">Point</a> &gt; &amp;points)</td></tr>
+<tr class="memdesc:a053057c144a9b30de530cd18628805ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds internal acceleration structure for given points list.  <a href="#a053057c144a9b30de530cd18628805ec">More...</a><br /></td></tr>
+<tr class="separator:a053057c144a9b30de530cd18628805ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6eeeb6c1e6af2ba1a65e428a404367e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_kd_tree.html#a6eeeb6c1e6af2ba1a65e428a404367e7">ForEachNearbyPoint</a> (const <a class="el" href="class_cubby_flow_1_1_kd_tree.html#ad54ba3cfb4c7956cfd3a06c1bb9f9741">Point</a> &amp;origin, T radius, const std::function&lt; void(size_t, const <a class="el" href="class_cubby_flow_1_1_kd_tree.html#ad54ba3cfb4c7956cfd3a06c1bb9f9741">Point</a> &amp;)&gt; &amp;callback) const</td></tr>
 <tr class="separator:a6eeeb6c1e6af2ba1a65e428a404367e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aac9d7467ee4a8ef08333376f0e03cf0f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_kd_tree.html#aac9d7467ee4a8ef08333376f0e03cf0f">HasNearbyPoint</a> (const <a class="el" href="class_cubby_flow_1_1_kd_tree.html#ad54ba3cfb4c7956cfd3a06c1bb9f9741">Point</a> &amp;origin, T radius) const</td></tr>
@@ -371,8 +371,8 @@ template&lt;typename T , size_t K&gt; </div>
 
 </div>
 </div>
-<a id="a83478c4f37e86b8dd57da342ff4259c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83478c4f37e86b8dd57da342ff4259c7">&#9670;&nbsp;</a></span>Build()</h2>
+<a id="a053057c144a9b30de530cd18628805ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a053057c144a9b30de530cd18628805ec">&#9670;&nbsp;</a></span>Build()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -382,7 +382,7 @@ template&lt;typename T , size_t K&gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="class_cubby_flow_1_1_kd_tree.html">CubbyFlow::KdTree</a>&lt; T, K &gt;::Build </td>
           <td>(</td>
-          <td class="paramtype">const ConstArrayAccessor1&lt; <a class="el" href="class_cubby_flow_1_1_kd_tree.html#ad54ba3cfb4c7956cfd3a06c1bb9f9741">Point</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a6c7e5a4d20594fa6e144e3d10fc1c7de">ConstArrayView1</a>&lt; <a class="el" href="class_cubby_flow_1_1_kd_tree.html#ad54ba3cfb4c7956cfd3a06c1bb9f9741">Point</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>points</em></td><td>)</td>
           <td></td>
         </tr>
@@ -628,7 +628,7 @@ template&lt;typename T , size_t K&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Feb 28 2021 16:22:52 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 1 2021 08:22:11 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

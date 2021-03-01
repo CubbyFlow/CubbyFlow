@@ -79,9 +79,9 @@ $(function() {
 <div class="title">MarchingCubes.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;Core/Array/ArrayAccessor3.hpp&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="_array_view_8hpp_source.html">Core/Array/ArrayView.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="_triangle_mesh3_8hpp_source.html">Core/Geometry/TriangleMesh3.hpp</a>&gt;</code><br />
-<code>#include &lt;Core/Vector/Vector3.hpp&gt;</code><br />
+<code>#include &lt;<a class="el" href="_matrix_8hpp_source.html">Core/Matrix/Matrix.hpp</a>&gt;</code><br />
 </div>
 <p><a href="_core_2_geometry_2_marching_cubes_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -92,9 +92,9 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a20ac77171e467c64aa336af6a8a78f2f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a20ac77171e467c64aa336af6a8a78f2f">CubbyFlow::MarchingCubes</a> (const ConstArrayAccessor3&lt; double &gt; &amp;grid, const Vector3D &amp;gridSize, const Vector3D &amp;origin, TriangleMesh3 *mesh, double isoValue=0, int bndClose=DIRECTION_ALL, int bndConnectivity=DIRECTION_NONE)</td></tr>
-<tr class="memdesc:a20ac77171e467c64aa336af6a8a78f2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes marching cubes and extract triangle mesh from grid.  <a href="namespace_cubby_flow.html#a20ac77171e467c64aa336af6a8a78f2f">More...</a><br /></td></tr>
-<tr class="separator:a20ac77171e467c64aa336af6a8a78f2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00b996f15235efefc7fc079a01e56544"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a00b996f15235efefc7fc079a01e56544">CubbyFlow::MarchingCubes</a> (const ConstArrayView3&lt; double &gt; &amp;grid, const Vector3D &amp;gridSize, const Vector3D &amp;origin, TriangleMesh3 *mesh, double isoValue=0, int bndClose=DIRECTION_ALL, int bndConnectivity=DIRECTION_NONE)</td></tr>
+<tr class="memdesc:a00b996f15235efefc7fc079a01e56544"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes marching cubes and extract triangle mesh from grid.  <a href="namespace_cubby_flow.html#a00b996f15235efefc7fc079a01e56544">More...</a><br /></td></tr>
+<tr class="separator:a00b996f15235efefc7fc079a01e56544"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
@@ -105,7 +105,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Feb 28 2021 16:22:51 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 1 2021 08:22:10 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
