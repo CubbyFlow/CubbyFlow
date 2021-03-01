@@ -9,7 +9,6 @@
 // property of any third parties.
 
 #include <Core/Geometry/CustomImplicitSurface3.hpp>
-#include <Core/Utils/LevelSetUtils.hpp>
 
 #include <utility>
 
@@ -53,7 +52,7 @@ Vector3D CustomImplicitSurface3::ClosestPointLocal(
 
 bool CustomImplicitSurface3::IntersectsLocal(const Ray3D& ray) const
 {
-    const BoundingBoxRayIntersection3D intersection =
+    const BoundingBoxRayIntersectionD intersection =
         m_domain.ClosestIntersection(ray);
 
     if (intersection.isIntersecting)
@@ -128,7 +127,7 @@ SurfaceRayIntersection3 CustomImplicitSurface3::ClosestIntersectionLocal(
     const Ray3D& ray) const
 {
     SurfaceRayIntersection3 result;
-    const BoundingBoxRayIntersection3D intersection =
+    const BoundingBoxRayIntersectionD intersection =
         m_domain.ClosestIntersection(ray);
 
     if (intersection.isIntersecting)

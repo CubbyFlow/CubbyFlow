@@ -130,7 +130,7 @@ bool Box3::IntersectsLocal(const Ray3D& ray) const
 SurfaceRayIntersection3 Box3::ClosestIntersectionLocal(const Ray3D& ray) const
 {
     SurfaceRayIntersection3 intersection;
-    const BoundingBoxRayIntersection3D bbRayIntersection =
+    const BoundingBoxRayIntersectionD bbRayIntersection =
         bound.ClosestIntersection(ray);
     intersection.isIntersecting = bbRayIntersection.isIntersecting;
 

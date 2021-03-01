@@ -8,24 +8,22 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Geometry/Point3.hpp>
-#include <Core/Geometry/Size3.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Geometry/TriangleMeshToSDF.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>
-#include <Core/Vector/Vector3.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 namespace CubbyFlow
 {
 void TriangleMeshToSDF(const TriangleMesh3& mesh, ScalarGrid3* sdf)
 {
-    const Size3 size = sdf->GetDataSize();
+    const Vector3UZ size = sdf->GetDataSize();
     if (size.x * size.y * size.z == 0)
     {
         return;
     }
 
-    const auto pos = sdf->GetDataPosition();
+    const auto pos = sdf->DataPosition();
     mesh.UpdateQueryEngine();
     sdf->ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
         const Vector3D p = pos(i, j, k);

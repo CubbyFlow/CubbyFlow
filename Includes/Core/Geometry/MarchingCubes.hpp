@@ -11,9 +11,9 @@
 #ifndef CUBBYFLOW_MARCHING_CUBES_HPP
 #define CUBBYFLOW_MARCHING_CUBES_HPP
 
-#include <Core/Array/ArrayAccessor3.hpp>
+#include <Core/Array/ArrayView.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
-#include <Core/Vector/Vector3.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 namespace CubbyFlow
 {
@@ -35,7 +35,7 @@ namespace CubbyFlow
 //! \param[in]  bndClose        The boundary open flag.
 //! \param[in]  bndConnectivity The boundary connectivity flag.
 //!
-void MarchingCubes(const ConstArrayAccessor3<double>& grid,
+void MarchingCubes(const ConstArrayView3<double>& grid,
                    const Vector3D& gridSize, const Vector3D& origin,
                    TriangleMesh3* mesh, double isoValue = 0,
                    int bndClose = DIRECTION_ALL,

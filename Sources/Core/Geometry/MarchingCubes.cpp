@@ -50,8 +50,8 @@ inline bool QueryVertexID(const MarchingCubeVertexMap& vertexMap,
     return false;
 }
 
-inline Vector3D Grad(const ConstArrayAccessor3<double>& grid, ssize_t i,
-                     ssize_t j, ssize_t k, const Vector3D& invGridSize)
+inline Vector3D Grad(const ConstArrayView3<double>& grid, ssize_t i, ssize_t j,
+                     ssize_t k, const Vector3D& invGridSize)
 {
     Vector3D ret;
     ssize_t ip = i + 1;
@@ -60,7 +60,7 @@ inline Vector3D Grad(const ConstArrayAccessor3<double>& grid, ssize_t i,
     ssize_t jm = j - 1;
     ssize_t kp = k + 1;
     ssize_t km = k - 1;
-    const Size3 dim = grid.size();
+    const Vector3UZ dim = grid.Size();
     const ssize_t dimX = static_cast<ssize_t>(dim.x);
     const ssize_t dimY = static_cast<ssize_t>(dim.y);
     const ssize_t dimZ = static_cast<ssize_t>(dim.z);
@@ -114,7 +114,7 @@ inline Vector3D SafeNormalize(const Vector3D& n)
 // |----*----|    -->    |-----|-----|
 // i        i+1         2i   2i+1  2i+2
 //
-inline size_t GlobalEdgeID(size_t i, size_t j, size_t k, const Size3& dim,
+inline size_t GlobalEdgeID(size_t i, size_t j, size_t k, const Vector3UZ& dim,
                            size_t localEdgeID)
 {
     // See edgeConnection in marching_cubes_table.h for the edge ordering.
@@ -137,7 +137,7 @@ inline size_t GlobalEdgeID(size_t i, size_t j, size_t k, const Size3& dim,
 // |----*----|    -->    |-----|-----|
 // i        i+1         2i   2i+1  2i+2
 //
-inline size_t GlobalVertexID(size_t i, size_t j, size_t k, const Size3& dim,
+inline size_t GlobalVertexID(size_t i, size_t j, size_t k, const Vector3UZ& dim,
                              size_t localVertexID)
 {
     // See edgeConnection in marching_cubes_table.h for the edge ordering.
@@ -232,7 +232,7 @@ static void SingleSquare(const std::array<double, 4>& data,
             break;
         }
 
-        Point3UI face;
+        Vector3UZ face;
 
         for (int j = 0; j < 3; ++j)
         {
@@ -350,7 +350,7 @@ static void SingleCube(const std::array<double, 8>& data,
             break;
         }
 
-        Point3UI face;
+        Vector3UZ face;
 
         for (int j = 0; j < 3; ++j)
         {
@@ -381,18 +381,20 @@ static void SingleCube(const std::array<double, 8>& data,
     }
 }
 
-void MarchingCubes(const ConstArrayAccessor3<double>& grid,
+void MarchingCubes(const ConstArrayView3<double>& grid,
                    const Vector3D& gridSize, const Vector3D& origin,
                    TriangleMesh3* mesh, double isoValue, int bndClose,
                    int bndConnectivity)
 {
     MarchingCubeVertexMap vertexMap;
 
-    const Size3 dim = grid.size();
+    const Vector3UZ dim = grid.Size();
     const Vector3D invGridSize = 1.0 / gridSize;
 
     auto pos = [origin, gridSize](ssize_t i, ssize_t j, ssize_t k) {
-        return origin + gridSize * Vector3D{ { i, j, k } };
+        return origin + gridSize * Vector3D{ { static_cast<double>(i),
+                                               static_cast<double>(j),
+                                               static_cast<double>(k) } };
     };
 
     const ssize_t dimX = static_cast<ssize_t>(dim.x);
