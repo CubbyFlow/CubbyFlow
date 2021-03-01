@@ -251,7 +251,7 @@ void Array<T, N>::Resize(size_t nx, Args... args)
 
     Internal::GetSizeAndInitVal<T, N, N - 1>::Call(size, initVal, nx, args...);
 
-    resize(size, initVal);
+    Resize(size, initVal);
 }
 
 template <typename T, size_t N>
