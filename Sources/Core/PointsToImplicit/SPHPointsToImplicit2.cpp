@@ -25,7 +25,7 @@ SPHPointsToImplicit2::SPHPointsToImplicit2(double kernelRadius,
     // Do nothing
 }
 
-void SPHPointsToImplicit2::Convert(const ConstArrayAccessor1<Vector2D>& points,
+void SPHPointsToImplicit2::Convert(const ConstArrayView1<Vector2D>& points,
                                    ScalarGrid2* output) const
 {
     if (output == nullptr)
@@ -34,7 +34,7 @@ void SPHPointsToImplicit2::Convert(const ConstArrayAccessor1<Vector2D>& points,
         return;
     }
 
-    const Size2& res = output->Resolution();
+    const Vector2UZ& res = output->Resolution();
     if (res.x * res.y == 0)
     {
         CUBBYFLOW_WARN << "Empty grid is provided.";

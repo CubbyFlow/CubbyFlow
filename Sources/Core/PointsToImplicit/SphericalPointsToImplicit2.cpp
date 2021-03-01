@@ -23,7 +23,7 @@ SphericalPointsToImplicit2::SphericalPointsToImplicit2(double radius,
 }
 
 void SphericalPointsToImplicit2::Convert(
-    const ConstArrayAccessor1<Vector2D>& points, ScalarGrid2* output) const
+    const ConstArrayView1<Vector2D>& points, ScalarGrid2* output) const
 {
     if (output == nullptr)
     {
@@ -31,7 +31,7 @@ void SphericalPointsToImplicit2::Convert(
         return;
     }
 
-    const Size2& res = output->Resolution();
+    const Vector2UZ& res = output->Resolution();
     if (res.x * res.y == 0)
     {
         CUBBYFLOW_WARN << "Empty grid is provided.";

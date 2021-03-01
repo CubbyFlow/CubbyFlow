@@ -25,7 +25,7 @@ SPHPointsToImplicit3::SPHPointsToImplicit3(double kernelRadius,
     // Do nothing
 }
 
-void SPHPointsToImplicit3::Convert(const ConstArrayAccessor1<Vector3D>& points,
+void SPHPointsToImplicit3::Convert(const ConstArrayView1<Vector3D>& points,
                                    ScalarGrid3* output) const
 {
     if (output == nullptr)
@@ -34,7 +34,7 @@ void SPHPointsToImplicit3::Convert(const ConstArrayAccessor1<Vector3D>& points,
         return;
     }
 
-    const Size3& res = output->Resolution();
+    const Vector3UZ& res = output->Resolution();
     if (res.x * res.y * res.z == 0)
     {
         CUBBYFLOW_WARN << "Empty grid is provided.";
