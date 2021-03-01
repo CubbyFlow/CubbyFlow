@@ -23,16 +23,16 @@ T Laplacian(const ConstArrayView3<T>& data, const Array3<char>& marker,
             const Vector3D& GridSpacing, size_t i, size_t j, size_t k)
 {
     const T center = data(i, j, k);
-    const Vector3UZ ds = data.size();
+    const Vector3UZ& ds = data.Size();
 
     assert(i < ds.x && j < ds.y && k < ds.z);
 
-    T dLeft = Zero<T>();
-    T dRight = Zero<T>();
-    T dDown = Zero<T>();
-    T dUp = Zero<T>();
-    T dBack = Zero<T>();
-    T dFront = Zero<T>();
+    T dLeft = T{};
+    T dRight = T{};
+    T dDown = T{};
+    T dUp = T{};
+    T dBack = T{};
+    T dFront = T{};
 
     if (i > 0 && marker(i - 1, j, k) == FLUID)
     {

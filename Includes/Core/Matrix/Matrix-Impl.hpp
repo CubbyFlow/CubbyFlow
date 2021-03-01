@@ -1435,8 +1435,8 @@ MonotonicCatmullRom(const MatrixExpression<T, Rows, Cols, M1>& f0,
     {
         for (size_t j = 0; j < f0.GetCols(); ++j)
         {
-            result(i, j) = MonotonicCatmullRom(f0.eval(i, j), f1.eval(i, j),
-                                               f2.eval(i, j), f3.eval(i, j), f);
+            result(i, j) = MonotonicCatmullRom(f0.Eval(i, j), f1.Eval(i, j),
+                                               f2.Eval(i, j), f3.Eval(i, j), f);
         }
     }
 

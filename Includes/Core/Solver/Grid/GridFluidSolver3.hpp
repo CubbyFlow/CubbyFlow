@@ -392,7 +392,7 @@ Vector3D GridFluidSolverBuilderBase3<T>::GetGridSpacing() const
 
     if (m_useDomainSize)
     {
-        gridSpacing.Set(m_domainSizeX / static_cast<double>(m_resolution.x));
+        gridSpacing.Fill(m_domainSizeX / static_cast<double>(m_resolution.x));
     }
 
     return gridSpacing;

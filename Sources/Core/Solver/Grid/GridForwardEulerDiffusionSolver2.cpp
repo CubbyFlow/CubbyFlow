@@ -22,14 +22,14 @@ T Laplacian(const ConstArrayView2<T>& data, const Array2<char>& marker,
             const Vector2D& gridSpacing, size_t i, size_t j)
 {
     const T center = data(i, j);
-    const Vector2UZ ds = data.size();
+    const Vector2UZ& ds = data.Size();
 
     assert(i < ds.x && j < ds.y);
 
-    T dLeft = Zero<T>();
-    T dRight = Zero<T>();
-    T dDown = Zero<T>();
-    T dUp = Zero<T>();
+    T dLeft = T{};
+    T dRight = T{};
+    T dDown = T{};
+    T dUp = T{};
 
     if (i > 0 && marker(i - 1, j) == FLUID)
     {

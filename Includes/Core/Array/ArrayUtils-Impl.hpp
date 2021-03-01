@@ -44,7 +44,7 @@ void Copy(ArrayView<T, N> src, const Vector<size_t, N>& begin,
 template <typename T, typename U, size_t N>
 void Copy(ArrayView<T, N> src, ArrayView<U, N> dst)
 {
-    Copy(src, Vector<size_t, N>{}, Vector<size_t, N>{ src.size() }, dst);
+    Copy(src, Vector<size_t, N>{}, Vector<size_t, N>{ src.Size() }, dst);
 }
 
 template <typename T, typename U>

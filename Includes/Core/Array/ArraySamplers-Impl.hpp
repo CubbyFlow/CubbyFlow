@@ -64,13 +64,13 @@ struct Cubic
         return op(
             Next::Call(view, i, t, op,
                        std::max(i[I - 1] - 1,
-                                static_cast<ssize_t>(view.size()[I - 1]) - 1),
+                                static_cast<ssize_t>(view.Size()[I - 1]) - 1),
                        indices...),
             Next::Call(view, i, t, op, i[I - 1], indices...),
             Next::Call(view, i, t, op, i[I - 1] + 1, indices...),
             Next::Call(view, i, t, op,
                        std::min(i[I - 1] + 2,
-                                static_cast<ssize_t>(view.size()[I - 1]) - 1),
+                                static_cast<ssize_t>(view.Size()[I - 1]) - 1),
                        indices...),
             t[I - 1]);
     }
@@ -88,10 +88,10 @@ struct Cubic<T, N, 1>
                      RemainingIndices... indices)
     {
         return op(
-            view(std::max(i[0] - 1, static_cast<ssize_t>(view.size()[0]) - 1),
+            view(std::max(i[0] - 1, static_cast<ssize_t>(view.Size()[0]) - 1),
                  indices...),
             view(i[0], indices...), view(i[0] + 1, indices...),
-            view(std::min(i[0] + 2, static_cast<ssize_t>(view.size()[0]) - 1),
+            view(std::min(i[0] + 2, static_cast<ssize_t>(view.Size()[0]) - 1),
                  indices...),
             t[0]);
     }
@@ -294,7 +294,7 @@ void LinearArraySampler<T, N>::GetCoordinatesAndGradientWeights(
     Vector<ssize_t, N> is;
     Vector<ScalarType, N> ts;
     VectorType npt = ElemMul(pt - m_gridOrigin, m_invGridSpacing);
-    Vector<ssize_t, N> size = m_view.size().template CastTo<ssize_t>();
+    Vector<ssize_t, N> size = m_view.Size().template CastTo<ssize_t>();
 
     for (size_t i = 0; i < N; ++i)
     {
@@ -347,7 +347,7 @@ T CubicArraySampler<T, N, CIOp>::operator()(const VectorType& pt) const
     Vector<ssize_t, N> is;
     Vector<ScalarType, N> ts;
     VectorType npt = ElemMul(pt - m_gridOrigin, m_invGridSpacing);
-    Vector<ssize_t, N> size = m_view.size().template CastTo<ssize_t>();
+    Vector<ssize_t, N> size = m_view.Size().template CastTo<ssize_t>();
 
     for (size_t i = 0; i < N; ++i)
     {
