@@ -20,10 +20,14 @@ var searchData=
   ['arraybase_3c_20const_20cubbyflow_3a_3amatrix_2c_20n_2c_20arrayview_3c_20const_20cubbyflow_3a_3amatrix_2c_20n_20_3e_20_3e',['ArrayBase&lt; const CubbyFlow::Matrix, N, ArrayView&lt; const CubbyFlow::Matrix, N &gt; &gt;',['../class_cubby_flow_1_1_array_base.html',1,'CubbyFlow']]],
   ['arraybase_3c_20const_20double_2c_20n_2c_20arrayview_3c_20const_20double_2c_20n_20_3e_20_3e',['ArrayBase&lt; const double, N, ArrayView&lt; const double, N &gt; &gt;',['../class_cubby_flow_1_1_array_base.html',1,'CubbyFlow']]],
   ['arraybase_3c_20const_20t_2c_20n_2c_20arrayview_3c_20const_20t_2c_20n_20_3e_20_3e',['ArrayBase&lt; const T, N, ArrayView&lt; const T, N &gt; &gt;',['../class_cubby_flow_1_1_array_base.html',1,'CubbyFlow']]],
+  ['arraybase_3c_20cubbyflow_3a_3afdmmatrixrow2_2c_20n_2c_20arrayview_3c_20cubbyflow_3a_3afdmmatrixrow2_2c_20n_20_3e_20_3e',['ArrayBase&lt; CubbyFlow::FDMMatrixRow2, N, ArrayView&lt; CubbyFlow::FDMMatrixRow2, N &gt; &gt;',['../class_cubby_flow_1_1_array_base.html',1,'CubbyFlow']]],
+  ['arraybase_3c_20cubbyflow_3a_3afdmmatrixrow3_2c_20n_2c_20arrayview_3c_20cubbyflow_3a_3afdmmatrixrow3_2c_20n_20_3e_20_3e',['ArrayBase&lt; CubbyFlow::FDMMatrixRow3, N, ArrayView&lt; CubbyFlow::FDMMatrixRow3, N &gt; &gt;',['../class_cubby_flow_1_1_array_base.html',1,'CubbyFlow']]],
   ['arraybase_3c_20t_2c_20n_2c_20array_3c_20t_2c_20n_20_3e_20_3e',['ArrayBase&lt; T, N, Array&lt; T, N &gt; &gt;',['../class_cubby_flow_1_1_array_base.html',1,'CubbyFlow']]],
   ['arraybase_3c_20t_2c_20n_2c_20arrayview_3c_20t_2c_20n_20_3e_20_3e',['ArrayBase&lt; T, N, ArrayView&lt; T, N &gt; &gt;',['../class_cubby_flow_1_1_array_base.html',1,'CubbyFlow']]],
   ['arrayview',['ArrayView',['../class_cubby_flow_1_1_array_view.html',1,'CubbyFlow']]],
   ['arrayview_3c_20const_20cubbyflow_3a_3amatrix_2c_20n_20_3e',['ArrayView&lt; const CubbyFlow::Matrix, N &gt;',['../class_cubby_flow_1_1_array_view.html',1,'CubbyFlow']]],
   ['arrayview_3c_20const_20double_2c_20n_20_3e',['ArrayView&lt; const double, N &gt;',['../class_cubby_flow_1_1_array_view.html',1,'CubbyFlow']]],
-  ['arrayview_3c_20const_20t_2c_20n_20_3e',['ArrayView&lt; const T, N &gt;',['../class_cubby_flow_1_1_array_view_3_01const_01_t_00_01_n_01_4.html',1,'CubbyFlow']]]
+  ['arrayview_3c_20const_20t_2c_20n_20_3e',['ArrayView&lt; const T, N &gt;',['../class_cubby_flow_1_1_array_view_3_01const_01_t_00_01_n_01_4.html',1,'CubbyFlow']]],
+  ['arrayview_3c_20cubbyflow_3a_3afdmmatrixrow2_20_3e',['ArrayView&lt; CubbyFlow::FDMMatrixRow2 &gt;',['../class_cubby_flow_1_1_array_view.html',1,'CubbyFlow']]],
+  ['arrayview_3c_20cubbyflow_3a_3afdmmatrixrow3_20_3e',['ArrayView&lt; CubbyFlow::FDMMatrixRow3 &gt;',['../class_cubby_flow_1_1_array_view.html',1,'CubbyFlow']]]
 ];
