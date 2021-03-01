@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_POINT_NEIGHBOR_SEARCHER2_HPP
 #define CUBBYFLOW_POINT_NEIGHBOR_SEARCHER2_HPP
 
+#include <Core/Matrix/Matrix.hpp>
 #include <Core/Utils/Serialization.hpp>
-#include <Core/Vector/Vector2.hpp>
 
 #include <functional>
 #include <memory>
@@ -58,7 +58,7 @@ class PointNeighborSearcher2 : public Serializable
     [[nodiscard]] virtual std::string TypeName() const = 0;
 
     //! Builds internal acceleration structure for given points list.
-    virtual void Build(const ConstArrayAccessor1<Vector2D>& points) = 0;
+    virtual void Build(const ConstArrayView1<Vector2D>& points) = 0;
 
     //!
     //! Invokes the callback function for each nearby point around the origin

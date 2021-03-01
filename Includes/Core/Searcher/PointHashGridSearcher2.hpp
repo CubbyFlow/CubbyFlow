@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_POINT_HASH_GRID_SEARCHER2_HPP
 #define CUBBYFLOW_POINT_HASH_GRID_SEARCHER2_HPP
 
-#include <Core/Geometry/Size2.hpp>
+#include <Core/Matrix/Matrix.hpp>
 #include <Core/Searcher/PointNeighborSearcher2.hpp>
 
 #include <vector>
@@ -42,7 +42,7 @@ class PointHashGridSearcher2 final : public PointNeighborSearcher2
     //! \param[in]  resolution  The resolution.
     //! \param[in]  gridSpacing The grid spacing.
     //!
-    PointHashGridSearcher2(const Size2& resolution, double gridSpacing);
+    PointHashGridSearcher2(const Vector2UZ& resolution, double gridSpacing);
 
     //!
     //! \brief      Constructs hash grid with given resolution and grid spacing.
@@ -74,7 +74,7 @@ class PointHashGridSearcher2 final : public PointNeighborSearcher2
     PointHashGridSearcher2& operator=(PointHashGridSearcher2&&) = default;
 
     //! Builds internal acceleration structure for given points list.
-    void Build(const ConstArrayAccessor1<Vector2D>& points) override;
+    void Build(const ConstArrayView1<Vector2D>& points) override;
 
     //!
     //! Invokes the callback function for each nearby point around the origin
@@ -129,7 +129,7 @@ class PointHashGridSearcher2 final : public PointNeighborSearcher2
     //! \return     The hash key from bucket index.
     //!
     [[nodiscard]] size_t GetHashKeyFromBucketIndex(
-        const Point2I& bucketIndex) const;
+        const Vector2Z& bucketIndex) const;
 
     //!
     //! Gets the bucket index from a point.
@@ -138,7 +138,7 @@ class PointHashGridSearcher2 final : public PointNeighborSearcher2
     //!
     //! \return     The bucket index.
     //!
-    [[nodiscard]] Point2I GetBucketIndex(const Vector2D& position) const;
+    [[nodiscard]] Vector2Z GetBucketIndex(const Vector2D& position) const;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -166,7 +166,7 @@ class PointHashGridSearcher2 final : public PointNeighborSearcher2
     void GetNearbyKeys(const Vector2D& position, size_t* nearbyKeys) const;
 
     double m_gridSpacing = 1.0;
-    Point2I m_resolution = Point2I(1, 1);
+    Vector2Z m_resolution = Vector2Z(1, 1);
     std::vector<Vector2D> m_points;
     std::vector<std::vector<size_t>> m_buckets;
 };
@@ -182,7 +182,7 @@ class PointHashGridSearcher2::Builder final
 {
  public:
     //! Returns builder with resolution.
-    [[nodiscard]] Builder& WithResolution(const Size2& resolution);
+    [[nodiscard]] Builder& WithResolution(const Vector2UZ& resolution);
 
     //! Returns builder with grid spacing.
     [[nodiscard]] Builder& WithGridSpacing(double gridSpacing);
@@ -198,7 +198,7 @@ class PointHashGridSearcher2::Builder final
         const override;
 
  private:
-    Size2 m_resolution{ 64, 64 };
+    Vector2UZ m_resolution{ 64, 64 };
     double m_gridSpacing = 1.0;
 };
 }  // namespace CubbyFlow

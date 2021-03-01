@@ -15,7 +15,7 @@
 
 namespace CubbyFlow
 {
-PointHashGridSearcher2::PointHashGridSearcher2(const Size2& resolution,
+PointHashGridSearcher2::PointHashGridSearcher2(const Vector2UZ& resolution,
                                                double gridSpacing)
     : PointHashGridSearcher2{ resolution.x, resolution.y, gridSpacing }
 {
@@ -46,14 +46,14 @@ PointHashGridSearcher2& PointHashGridSearcher2::operator=(
     return *this;
 }
 
-void PointHashGridSearcher2::Build(const ConstArrayAccessor1<Vector2D>& points)
+void PointHashGridSearcher2::Build(const ConstArrayView1<Vector2D>& points)
 {
     m_buckets.clear();
     m_points.clear();
 
     // Allocate memory chunks
     m_buckets.resize(m_resolution.x * m_resolution.y);
-    m_points.resize(points.size());
+    m_points.resize(points.Length());
 
     if (m_points.empty())
     {
@@ -61,7 +61,7 @@ void PointHashGridSearcher2::Build(const ConstArrayAccessor1<Vector2D>& points)
     }
 
     // Put points into buckets
-    for (size_t i = 0; i < points.size(); ++i)
+    for (size_t i = 0; i < points.Length(); ++i)
     {
         m_points[i] = points[i];
         const size_t key = GetHashKeyFromPosition(points[i]);
@@ -157,9 +157,9 @@ const std::vector<std::vector<size_t>>& PointHashGridSearcher2::GetBuckets()
 }
 
 size_t PointHashGridSearcher2::GetHashKeyFromBucketIndex(
-    const Point2I& bucketIndex) const
+    const Vector2Z& bucketIndex) const
 {
-    Point2I wrappedIndex;
+    Vector2Z wrappedIndex;
     wrappedIndex.x = bucketIndex.x % m_resolution.x;
     wrappedIndex.y = bucketIndex.y % m_resolution.y;
 
@@ -177,9 +177,9 @@ size_t PointHashGridSearcher2::GetHashKeyFromBucketIndex(
                                wrappedIndex.x);
 }
 
-Point2I PointHashGridSearcher2::GetBucketIndex(const Vector2D& position) const
+Vector2Z PointHashGridSearcher2::GetBucketIndex(const Vector2D& position) const
 {
-    Point2I bucketIndex;
+    Vector2Z bucketIndex;
     bucketIndex.x =
         static_cast<ssize_t>(std::floor(position.x / m_gridSpacing));
     bucketIndex.y =
@@ -208,7 +208,7 @@ void PointHashGridSearcher2::Serialize(std::vector<uint8_t>* buffer) const
     flatbuffers::FlatBufferBuilder builder{ 1024 };
 
     // Copy simple data
-    auto fbsResolution = fbs::Size2(m_resolution.x, m_resolution.y);
+    auto fbsResolution = fbs::Vector2UZ(m_resolution.x, m_resolution.y);
 
     // Copy points
     std::vector<fbs::Vector2D> points;
@@ -256,8 +256,8 @@ void PointHashGridSearcher2::Deserialize(const std::vector<uint8_t>& buffer)
         fbs::GetPointHashGridSearcher2(buffer.data());
 
     // Copy simple data
-    const Size2 res = FlatbuffersToCubbyFlow(*fbsSearcher->resolution());
-    m_resolution.Set({ res.x, res.y });
+    const Vector2UZ res = FlatbuffersToCubbyFlow(*fbsSearcher->resolution());
+    m_resolution = { static_cast<ssize_t>(res.x), static_cast<ssize_t>(res.y) };
     m_gridSpacing = fbsSearcher->gridSpacing();
 
     // Copy points
@@ -294,15 +294,15 @@ PointHashGridSearcher2::Builder PointHashGridSearcher2::GetBuilder()
 size_t PointHashGridSearcher2::GetHashKeyFromPosition(
     const Vector2D& position) const
 {
-    const Point2I bucketIndex = GetBucketIndex(position);
+    const Vector2Z bucketIndex = GetBucketIndex(position);
     return GetHashKeyFromBucketIndex(bucketIndex);
 }
 
 void PointHashGridSearcher2::GetNearbyKeys(const Vector2D& position,
                                            size_t* nearbyKeys) const
 {
-    const Point2I originIndex = GetBucketIndex(position);
-    Point2I nearbyBucketIndices[4];
+    const Vector2Z originIndex = GetBucketIndex(position);
+    Vector2Z nearbyBucketIndices[4];
 
     for (auto& bucketIndex : nearbyBucketIndices)
     {
@@ -340,7 +340,7 @@ void PointHashGridSearcher2::GetNearbyKeys(const Vector2D& position,
 }
 
 PointHashGridSearcher2::Builder&
-PointHashGridSearcher2::Builder::WithResolution(const Size2& resolution)
+PointHashGridSearcher2::Builder::WithResolution(const Vector2UZ& resolution)
 {
     m_resolution = resolution;
     return *this;

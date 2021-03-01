@@ -48,7 +48,7 @@ class PointKdTreeSearcher2 final : public PointNeighborSearcher2
     PointKdTreeSearcher2& operator=(PointKdTreeSearcher2&&) = default;
 
     //! Builds internal acceleration structure for given points list.
-    void Build(const ConstArrayAccessor1<Vector2D>& points) override;
+    void Build(const ConstArrayView1<Vector2D>& points) override;
 
     //!
     //! Invokes the callback function for each nearby point around the origin

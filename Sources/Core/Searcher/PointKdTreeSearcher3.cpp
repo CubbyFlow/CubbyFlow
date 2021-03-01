@@ -31,7 +31,7 @@ PointKdTreeSearcher3& PointKdTreeSearcher3::operator=(
     return *this;
 }
 
-void PointKdTreeSearcher3::Build(const ConstArrayAccessor1<Vector3D>& points)
+void PointKdTreeSearcher3::Build(const ConstArrayView1<Vector3D>& points)
 {
     m_tree.Build(points);
 }

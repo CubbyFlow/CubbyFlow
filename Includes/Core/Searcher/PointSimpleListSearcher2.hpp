@@ -56,7 +56,7 @@ class PointSimpleListSearcher2 final : public PointNeighborSearcher2
     //!
     //! \param[in]  points The points to search.
     //!
-    void Build(const ConstArrayAccessor1<Vector2D>& points) override;
+    void Build(const ConstArrayView1<Vector2D>& points) override;
 
     //!
     //! Invokes the callback function for each nearby point around the origin
