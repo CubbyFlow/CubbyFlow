@@ -17,9 +17,9 @@ void GridPointGenerator3::ForEachPoint(
     const std::function<bool(const Vector3D&)>& callback) const
 {
     Vector3D position;
-    const double boxWidth = boundingBox.GetWidth();
-    const double boxHeight = boundingBox.GetHeight();
-    const double boxDepth = boundingBox.GetDepth();
+    const double boxWidth = boundingBox.Width();
+    const double boxHeight = boundingBox.Height();
+    const double boxDepth = boundingBox.Depth();
     bool shouldQuit = false;
 
     for (int k = 0; k * spacing <= boxDepth && !shouldQuit; ++k)

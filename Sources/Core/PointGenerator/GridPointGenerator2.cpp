@@ -17,8 +17,8 @@ void GridPointGenerator2::ForEachPoint(
     const std::function<bool(const Vector2D&)>& callback) const
 {
     Vector2D position;
-    const double boxWidth = boundingBox.GetWidth();
-    const double boxHeight = boundingBox.GetHeight();
+    const double boxWidth = boundingBox.Width();
+    const double boxHeight = boundingBox.Height();
     bool shouldQuit = false;
 
     for (int j = 0; j * spacing <= boxHeight && !shouldQuit; ++j)
