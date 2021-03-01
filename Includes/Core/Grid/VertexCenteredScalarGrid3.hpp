@@ -44,7 +44,7 @@ class VertexCenteredScalarGrid3 final : public ScalarGrid3
 
     //! Constructs a grid with given resolution, grid spacing, origin and
     //! initial value.
-    VertexCenteredScalarGrid3(const Size3& resolution,
+    VertexCenteredScalarGrid3(const Vector3UZ& resolution,
                               const Vector3D& gridSpacing = Vector3D{ 1.0, 1.0,
                                                                       1.0 },
                               const Vector3D& origin = Vector3D{},
@@ -68,7 +68,7 @@ class VertexCenteredScalarGrid3 final : public ScalarGrid3
         delete;
 
     //! Returns the actual data point size.
-    [[nodiscard]] Size3 GetDataSize() const override;
+    [[nodiscard]] Vector3UZ GetDataSize() const override;
 
     //! Returns data position for the grid point at (0, 0, 0).
     //! Note that this is different from origin() since origin() returns
@@ -101,7 +101,7 @@ class VertexCenteredScalarGrid3::Builder final : public ScalarGridBuilder3
 {
  public:
     //! Returns builder with resolution.
-    [[nodiscard]] Builder& WithResolution(const Size3& resolution);
+    [[nodiscard]] Builder& WithResolution(const Vector3UZ& resolution);
 
     //! Returns builder with resolution.
     [[nodiscard]] Builder& WithResolution(size_t resolutionX,
@@ -137,13 +137,13 @@ class VertexCenteredScalarGrid3::Builder final : public ScalarGridBuilder3
     //!
     //! This is an overriding function that implements ScalarGridBuilder3.
     //!
-    [[nodiscard]] ScalarGrid3Ptr Build(const Size3& resolution,
+    [[nodiscard]] ScalarGrid3Ptr Build(const Vector3UZ& resolution,
                                        const Vector3D& gridSpacing,
                                        const Vector3D& gridOrigin,
                                        double initialVal) const override;
 
  private:
-    Size3 m_resolution{ 1, 1, 1 };
+    Vector3UZ m_resolution{ 1, 1, 1 };
     Vector3D m_gridSpacing{ 1, 1, 1 };
     Vector3D m_gridOrigin{ 0, 0, 0 };
     double m_initialVal = 0.0;

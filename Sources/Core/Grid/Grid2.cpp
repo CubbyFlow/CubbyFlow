@@ -9,11 +9,12 @@
 // property of any third parties.
 
 #include <Core/Grid/Grid2.hpp>
+#include <Core/Utils/Parallel.hpp>
 #include <Core/Utils/Serial.hpp>
 
 namespace CubbyFlow
 {
-const Size2& Grid2::Resolution() const
+const Vector2UZ& Grid2::Resolution() const
 {
     return m_resolution;
 }
@@ -68,7 +69,7 @@ bool Grid2::HasSameShape(const Grid2& other) const
            Similar(m_origin.y, other.m_origin.y);
 }
 
-void Grid2::SetSizeParameters(const Size2& resolution,
+void Grid2::SetSizeParameters(const Vector2UZ& resolution,
                               const Vector2D& gridSpacing,
                               const Vector2D& origin)
 {

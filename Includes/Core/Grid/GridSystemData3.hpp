@@ -46,7 +46,7 @@ class GridSystemData3 : public Serializable
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  origin      The origin.
     //!
-    GridSystemData3(const Size3& resolution, const Vector3D& gridSpacing,
+    GridSystemData3(const Vector3UZ& resolution, const Vector3D& gridSpacing,
                     const Vector3D& origin);
 
     //! Copy constructor.
@@ -79,7 +79,7 @@ class GridSystemData3 : public Serializable
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  origin      The origin.
     //!
-    void Resize(const Size3& resolution, const Vector3D& gridSpacing,
+    void Resize(const Vector3UZ& resolution, const Vector3D& gridSpacing,
                 const Vector3D& origin);
 
     //!
@@ -94,7 +94,7 @@ class GridSystemData3 : public Serializable
     //!
     //! \return     Grid cell resolution.
     //!
-    [[nodiscard]] Size3 GetResolution() const;
+    [[nodiscard]] Vector3UZ GetResolution() const;
 
     //! Return the grid spacing.
     [[nodiscard]] Vector3D GetGridSpacing() const;
@@ -228,7 +228,7 @@ class GridSystemData3 : public Serializable
     void Deserialize(const std::vector<uint8_t>& buffer) override;
 
  private:
-    Size3 m_resolution;
+    Vector3UZ m_resolution;
     Vector3D m_gridSpacing;
     Vector3D m_origin;
 

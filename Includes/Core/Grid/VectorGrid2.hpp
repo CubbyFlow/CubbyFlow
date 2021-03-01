@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_VECTOR_GRID2_HPP
 #define CUBBYFLOW_VECTOR_GRID2_HPP
 
-#include <Core/Array/ArrayAccessor2.hpp>
+#include <Core/Array/ArrayView.hpp>
 #include <Core/Field/VectorField2.hpp>
 #include <Core/Grid/Grid2.hpp>
 
@@ -21,11 +21,11 @@ namespace CubbyFlow
 class VectorGrid2 : public VectorField2, public Grid2
 {
  public:
-    //! Read-write array accessor type.
-    using VectorDataAccessor = ArrayAccessor2<Vector2D>;
+    //! Read-write array view type.
+    using VectorDataView = ArrayView2<Vector2D>;
 
-    //! Read-only array accessor type.
-    using ConstVectorDataAccessor = ConstArrayAccessor2<Vector2D>;
+    //! Read-only array view type.
+    using ConstVectorDataView = ConstArrayView2<Vector2D>;
 
     //! Constructs an empty grid.
     VectorGrid2() = default;
@@ -55,7 +55,7 @@ class VectorGrid2 : public VectorField2, public Grid2
                 double initialValueX = 0.0, double initialValueY = 0.0);
 
     //! Resizes the grid using given parameters.
-    void Resize(const Size2& resolution,
+    void Resize(const Vector2UZ& resolution,
                 const Vector2D& gridSpacing = Vector2D{ 1, 1 },
                 const Vector2D& origin = Vector2D{},
                 const Vector2D& initialValue = Vector2D{});
@@ -92,8 +92,8 @@ class VectorGrid2 : public VectorField2, public Grid2
     //! overriding class should allocate the internal storage based on its
     //! data layout scheme.
     //!
-    virtual void OnResize(const Size2& resolution, const Vector2D& gridSpacing,
-                          const Vector2D& origin,
+    virtual void OnResize(const Vector2UZ& resolution,
+                          const Vector2D& gridSpacing, const Vector2D& origin,
                           const Vector2D& initialValue) = 0;
 };
 
@@ -124,7 +124,7 @@ class VectorGridBuilder2
 
     //! Returns 2-D vector grid with given parameters.
     [[nodiscard]] virtual VectorGrid2Ptr Build(
-        const Size2& resolution, const Vector2D& gridSpacing,
+        const Vector2UZ& resolution, const Vector2D& gridSpacing,
         const Vector2D& gridOrigin, const Vector2D& initialVal) const = 0;
 };
 

@@ -22,7 +22,7 @@ GridSystemData2::GridSystemData2()
     // Do nothing
 }
 
-GridSystemData2::GridSystemData2(const Size2& resolution,
+GridSystemData2::GridSystemData2(const Vector2UZ& resolution,
                                  const Vector2D& gridSpacing,
                                  const Vector2D& origin)
 {
@@ -97,7 +97,7 @@ GridSystemData2& GridSystemData2::operator=(const GridSystemData2& other)
     return *this;
 }
 
-void GridSystemData2::Resize(const Size2& resolution,
+void GridSystemData2::Resize(const Vector2UZ& resolution,
                              const Vector2D& gridSpacing,
                              const Vector2D& origin)
 {
@@ -123,7 +123,7 @@ void GridSystemData2::Resize(const Size2& resolution,
     }
 }
 
-Size2 GridSystemData2::GetResolution() const
+Vector2UZ GridSystemData2::GetResolution() const
 {
     return m_resolution;
 }
@@ -235,7 +235,7 @@ void GridSystemData2::Serialize(std::vector<uint8_t>* buffer) const
 {
     flatbuffers::FlatBufferBuilder builder(1024);
 
-    fbs::Size2 resolution = CubbyFlowToFlatbuffers(m_resolution);
+    fbs::Vector2UZ resolution = CubbyFlowToFlatbuffers(m_resolution);
     fbs::Vector2D gridSpacing = CubbyFlowToFlatbuffers(m_gridSpacing);
     fbs::Vector2D origin = CubbyFlowToFlatbuffers(m_origin);
 

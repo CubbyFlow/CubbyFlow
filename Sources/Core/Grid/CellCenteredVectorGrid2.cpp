@@ -21,7 +21,7 @@ CellCenteredVectorGrid2::CellCenteredVectorGrid2(
            originY, initialValueU, initialValueV);
 }
 
-CellCenteredVectorGrid2::CellCenteredVectorGrid2(const Size2& resolution,
+CellCenteredVectorGrid2::CellCenteredVectorGrid2(const Vector2UZ& resolution,
                                                  const Vector2D& gridSpacing,
                                                  const Vector2D& origin,
                                                  const Vector2D& initialValue)
@@ -43,7 +43,7 @@ CellCenteredVectorGrid2& CellCenteredVectorGrid2::operator=(
     return *this;
 }
 
-Size2 CellCenteredVectorGrid2::GetDataSize() const
+Vector2UZ CellCenteredVectorGrid2::GetDataSize() const
 {
     // The size of the data should be the same as the grid resolution.
     return Resolution();
@@ -71,8 +71,8 @@ void CellCenteredVectorGrid2::Set(const CellCenteredVectorGrid2& other)
 void CellCenteredVectorGrid2::Fill(const Vector2D& value,
                                    ExecutionPolicy policy)
 {
-    const Size2 size = GetDataSize();
-    auto acc = GetDataAccessor();
+    const Vector2UZ size = GetDataSize();
+    auto acc = DataView();
 
     ParallelFor(
         ZERO_SIZE, size.x, ZERO_SIZE, size.y,
@@ -84,9 +84,9 @@ void CellCenteredVectorGrid2::Fill(
     const std::function<Vector2D(const Vector2D&)>& func,
     ExecutionPolicy policy)
 {
-    const Size2 size = GetDataSize();
-    ArrayAccessor<Vector<double, 2>, 2> acc = GetDataAccessor();
-    DataPositionFunc pos = GetDataPosition();
+    const Vector2UZ size = GetDataSize();
+    ArrayView<Vector<double, 2>, 2> acc = DataView();
+    DataPositionFunc pos = DataPosition();
 
     ParallelFor(
         ZERO_SIZE, size.x, ZERO_SIZE, size.y,
@@ -109,7 +109,7 @@ CellCenteredVectorGrid2::Builder CellCenteredVectorGrid2::GetBuilder()
 }
 
 CellCenteredVectorGrid2::Builder&
-CellCenteredVectorGrid2::Builder::WithResolution(const Size2& resolution)
+CellCenteredVectorGrid2::Builder::WithResolution(const Vector2UZ& resolution)
 {
     m_resolution = resolution;
     return *this;
@@ -186,7 +186,7 @@ CellCenteredVectorGrid2Ptr CellCenteredVectorGrid2::Builder::MakeShared() const
 }
 
 VectorGrid2Ptr CellCenteredVectorGrid2::Builder::Build(
-    const Size2& resolution, const Vector2D& gridSpacing,
+    const Vector2UZ& resolution, const Vector2D& gridSpacing,
     const Vector2D& gridOrigin, const Vector2D& initialVal) const
 {
     return std::shared_ptr<CellCenteredVectorGrid2>(

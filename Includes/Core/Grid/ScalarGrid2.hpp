@@ -11,9 +11,9 @@
 #ifndef CUBBYFLOW_SCALAR_GRID2_HPP
 #define CUBBYFLOW_SCALAR_GRID2_HPP
 
-#include <Core/Array/Array2.hpp>
-#include <Core/Array/ArrayAccessor2.hpp>
-#include <Core/Array/ArraySamplers2.hpp>
+#include <Core/Array/Array.hpp>
+#include <Core/Array/ArraySamplers.hpp>
+#include <Core/Array/ArrayView.hpp>
 #include <Core/Field/ScalarField2.hpp>
 #include <Core/Grid/Grid2.hpp>
 
@@ -23,11 +23,11 @@ namespace CubbyFlow
 class ScalarGrid2 : public ScalarField2, public Grid2
 {
  public:
-    //! Read-write array accessor type.
-    using ScalarDataAccessor = ArrayAccessor2<double>;
+    //! Read-write array view type.
+    using ScalarDataView = ArrayView2<double>;
 
-    //! Read-only array accessor type.
-    using ConstScalarDataAccessor = ConstArrayAccessor2<double>;
+    //! Read-only array view type.
+    using ConstScalarDataView = ConstArrayView2<double>;
 
     //! Constructs an empty grid.
     ScalarGrid2();
@@ -53,7 +53,7 @@ class ScalarGrid2 : public ScalarField2, public Grid2
     //! This function returns the size of the grid data which is not necessarily
     //! equal to the grid resolution if the data is not stored at cell-center.
     //!
-    [[nodiscard]] virtual Size2 GetDataSize() const = 0;
+    [[nodiscard]] virtual Vector2UZ GetDataSize() const = 0;
 
     //!
     //! \brief Returns the origin of the grid data.
@@ -77,7 +77,7 @@ class ScalarGrid2 : public ScalarField2, public Grid2
                 double initialValue = 0.0);
 
     //! Resizes the grid using given parameters.
-    void Resize(const Size2& resolution,
+    void Resize(const Vector2UZ& resolution,
                 const Vector2D& gridSpacing = Vector2D(1, 1),
                 const Vector2D& origin = Vector2D(), double initialValue = 0.0);
 
@@ -100,14 +100,14 @@ class ScalarGrid2 : public ScalarField2, public Grid2
     //! Returns the Laplacian at given data point.
     [[nodiscard]] double LaplacianAtDataPoint(size_t i, size_t j) const;
 
-    //! Returns the read-write data array accessor.
-    [[nodiscard]] ScalarDataAccessor GetDataAccessor();
+    //! Returns the read-write data array view.
+    [[nodiscard]] ScalarDataView DataView();
 
-    //! Returns the read-only data array accessor.
-    [[nodiscard]] ConstScalarDataAccessor GetConstDataAccessor() const;
+    //! Returns the read-only data array view.
+    [[nodiscard]] ConstScalarDataView DataView() const;
 
     //! Returns the function that maps data point to its position.
-    [[nodiscard]] DataPositionFunc GetDataPosition() const;
+    [[nodiscard]] DataPositionFunc DataPosition() const;
 
     //! Fills the grid with given value.
     void Fill(double value, ExecutionPolicy policy = ExecutionPolicy::Parallel);
@@ -186,7 +186,7 @@ class ScalarGrid2 : public ScalarField2, public Grid2
     void ResetSampler();
 
     Array2<double> m_data;
-    LinearArraySampler2<double, double> m_linearSampler;
+    LinearArraySampler2<double> m_linearSampler;
     std::function<double(const Vector2D&)> m_sampler;
 };
 
@@ -216,7 +216,7 @@ class ScalarGridBuilder2
     ScalarGridBuilder2& operator=(ScalarGridBuilder2&&) noexcept = default;
 
     //! Returns 2-D scalar grid with given parameters.
-    [[nodiscard]] virtual ScalarGrid2Ptr Build(const Size2& resolution,
+    [[nodiscard]] virtual ScalarGrid2Ptr Build(const Vector2UZ& resolution,
                                                const Vector2D& gridSpacing,
                                                const Vector2D& gridOrigin,
                                                double initialVal) const = 0;

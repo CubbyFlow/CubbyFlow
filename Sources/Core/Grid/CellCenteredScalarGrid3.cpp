@@ -21,7 +21,7 @@ CellCenteredScalarGrid3::CellCenteredScalarGrid3(
            gridSpacingZ, originX, originY, originZ, initialValue);
 }
 
-CellCenteredScalarGrid3::CellCenteredScalarGrid3(const Size3& resolution,
+CellCenteredScalarGrid3::CellCenteredScalarGrid3(const Vector3UZ& resolution,
                                                  const Vector3D& gridSpacing,
                                                  const Vector3D& origin,
                                                  double initialValue)
@@ -43,7 +43,7 @@ CellCenteredScalarGrid3& CellCenteredScalarGrid3::operator=(
     return *this;
 }
 
-Size3 CellCenteredScalarGrid3::GetDataSize() const
+Vector3UZ CellCenteredScalarGrid3::GetDataSize() const
 {
     // The size of the data should be the same as the grid resolution.
     return Resolution();
@@ -81,7 +81,7 @@ CellCenteredScalarGrid3::Builder CellCenteredScalarGrid3::GetBuilder()
 }
 
 CellCenteredScalarGrid3::Builder&
-CellCenteredScalarGrid3::Builder::WithResolution(const Size3& resolution)
+CellCenteredScalarGrid3::Builder::WithResolution(const Vector3UZ& resolution)
 {
     m_resolution = resolution;
     return *this;
@@ -154,7 +154,7 @@ CellCenteredScalarGrid3Ptr CellCenteredScalarGrid3::Builder::MakeShared() const
 }
 
 ScalarGrid3Ptr CellCenteredScalarGrid3::Builder::Build(
-    const Size3& resolution, const Vector3D& gridSpacing,
+    const Vector3UZ& resolution, const Vector3D& gridSpacing,
     const Vector3D& gridOrigin, double initialVal) const
 {
     return std::shared_ptr<CellCenteredScalarGrid3>(

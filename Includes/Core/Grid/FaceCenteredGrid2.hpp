@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_FACE_CENTERED_GRID2_HPP
 #define CUBBYFLOW_FACE_CENTERED_GRID2_HPP
 
-#include <Core/Array/Array2.hpp>
-#include <Core/Array/ArraySamplers2.hpp>
+#include <Core/Array/Array.hpp>
+#include <Core/Array/ArraySamplers.hpp>
 #include <Core/Grid/VectorGrid2.hpp>
 
 namespace CubbyFlow
@@ -31,11 +31,11 @@ class FaceCenteredGrid2 final : public VectorGrid2
 
     class Builder;
 
-    //! Read-write scalar data accessor type.
-    using ScalarDataAccessor = ArrayAccessor2<double>;
+    //! Read-write scalar data view type.
+    using ScalarDataView = ArrayView2<double>;
 
-    //! Read-only scalar data accessor type.
-    using ConstScalarDataAccessor = ConstArrayAccessor2<double>;
+    //! Read-only scalar data view type.
+    using ConstScalarDataView = ConstArrayView2<double>;
 
     //! Constructs empty grid.
     FaceCenteredGrid2();
@@ -47,7 +47,7 @@ class FaceCenteredGrid2 final : public VectorGrid2
                       double initialValueU = 0.0, double initialValueV = 0.0);
 
     //! Resizes the grid using given parameters.
-    FaceCenteredGrid2(const Size2& resolution,
+    FaceCenteredGrid2(const Vector2UZ& resolution,
                       const Vector2D& gridSpacing = Vector2D{ 1.0, 1.0 },
                       const Vector2D& origin = Vector2D{},
                       const Vector2D& initialValue = Vector2D{});
@@ -99,29 +99,29 @@ class FaceCenteredGrid2 final : public VectorGrid2
     //! Returns curl at cell-center location.
     [[nodiscard]] double CurlAtCellCenter(size_t i, size_t j) const;
 
-    //! Returns u data accessor.
-    [[nodiscard]] ScalarDataAccessor GetUAccessor();
+    //! Returns u data view.
+    [[nodiscard]] ScalarDataView UView();
 
-    //! Returns read-only u data accessor.
-    [[nodiscard]] ConstScalarDataAccessor GetUConstAccessor() const;
+    //! Returns read-only u data view.
+    [[nodiscard]] ConstScalarDataView UView() const;
 
-    //! Returns v data accessor.
-    [[nodiscard]] ScalarDataAccessor GetVAccessor();
+    //! Returns v data view.
+    [[nodiscard]] ScalarDataView VView();
 
-    //! Returns read-only v data accessor.
-    [[nodiscard]] ConstScalarDataAccessor GetVConstAccessor() const;
+    //! Returns read-only v data view.
+    [[nodiscard]] ConstScalarDataView VView() const;
 
     //! Returns function object that maps u data point to its actual position.
-    [[nodiscard]] DataPositionFunc GetUPosition() const;
+    [[nodiscard]] DataPositionFunc UPosition() const;
 
     //! Returns function object that maps v data point to its actual position.
-    [[nodiscard]] DataPositionFunc GetVPosition() const;
+    [[nodiscard]] DataPositionFunc VPosition() const;
 
     //! Returns data size of the u component.
-    [[nodiscard]] Size2 GetUSize() const;
+    [[nodiscard]] Vector2UZ USize() const;
 
     //! Returns data size of the v component.
-    [[nodiscard]] Size2 GetVSize() const;
+    [[nodiscard]] Vector2UZ VSize() const;
 
     //!
     //! \brief Returns u-data position for the grid point at (0, 0).
@@ -129,7 +129,7 @@ class FaceCenteredGrid2 final : public VectorGrid2
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
     //!
-    [[nodiscard]] Vector2D GetUOrigin() const;
+    [[nodiscard]] Vector2D UOrigin() const;
 
     //!
     //! \brief Returns v-data position for the grid point at (0, 0).
@@ -137,7 +137,7 @@ class FaceCenteredGrid2 final : public VectorGrid2
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
     //!
-    [[nodiscard]] Vector2D GetVOrigin() const;
+    [[nodiscard]] Vector2D VOrigin() const;
 
     //! Fills the grid with given value.
     void Fill(const Vector2D& value,
@@ -216,7 +216,7 @@ class FaceCenteredGrid2 final : public VectorGrid2
 
  protected:
     // VectorGrid2 implementations
-    void OnResize(const Size2& resolution, const Vector2D& gridSpacing,
+    void OnResize(const Vector2UZ& resolution, const Vector2D& gridSpacing,
                   const Vector2D& origin,
                   const Vector2D& initialValue) override;
 
@@ -233,8 +233,8 @@ class FaceCenteredGrid2 final : public VectorGrid2
     Array2<double> m_dataV;
     Vector2D m_dataOriginU;
     Vector2D m_dataOriginV;
-    LinearArraySampler2<double, double> m_uLinearSampler;
-    LinearArraySampler2<double, double> m_vLinearSampler;
+    LinearArraySampler2<double> m_uLinearSampler;
+    LinearArraySampler2<double> m_vLinearSampler;
     std::function<Vector2D(const Vector2D&)> m_sampler;
 };
 
@@ -248,7 +248,7 @@ class FaceCenteredGrid2::Builder final : public VectorGridBuilder2
 {
  public:
     //! Returns builder with resolution.
-    [[nodiscard]] Builder& WithResolution(const Size2& resolution);
+    [[nodiscard]] Builder& WithResolution(const Vector2UZ& resolution);
 
     //! Returns builder with resolution.
     [[nodiscard]] Builder& WithResolution(size_t resolutionX,
@@ -286,11 +286,11 @@ class FaceCenteredGrid2::Builder final : public VectorGridBuilder2
     //! This is an overriding function that implements VectorGridBuilder2.
     //!
     [[nodiscard]] VectorGrid2Ptr Build(
-        const Size2& resolution, const Vector2D& gridSpacing,
+        const Vector2UZ& resolution, const Vector2D& gridSpacing,
         const Vector2D& gridOrigin, const Vector2D& initialVal) const override;
 
  private:
-    Size2 m_resolution{ 1, 1 };
+    Vector2UZ m_resolution{ 1, 1 };
     Vector2D m_gridSpacing{ 1, 1 };
     Vector2D m_gridOrigin{ 0, 0 };
     Vector2D m_initialVal{ 0, 0 };

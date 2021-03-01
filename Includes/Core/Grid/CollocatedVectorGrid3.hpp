@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_COLLOCATED_VECTOR_GRID3_HPP
 #define CUBBYFLOW_COLLOCATED_VECTOR_GRID3_HPP
 
-#include <Core/Array/Array3.hpp>
-#include <Core/Array/ArraySamplers3.hpp>
+#include <Core/Array/Array.hpp>
+#include <Core/Array/ArraySamplers.hpp>
 #include <Core/Grid/VectorGrid3.hpp>
 
 namespace CubbyFlow
@@ -41,7 +41,7 @@ class CollocatedVectorGrid3 : public VectorGrid3
         default;
 
     //! Returns the actual data point size.
-    [[nodiscard]] virtual Size3 GetDataSize() const = 0;
+    [[nodiscard]] virtual Vector3UZ GetDataSize() const = 0;
 
     //!
     //! \brief Returns data position for the grid point at (0, 0, 0).
@@ -64,14 +64,14 @@ class CollocatedVectorGrid3 : public VectorGrid3
     //! Returns curl at data point location.
     [[nodiscard]] Vector3D CurlAtDataPoint(size_t i, size_t j, size_t k) const;
 
-    //! Returns the read-write data array accessor.
-    [[nodiscard]] VectorDataAccessor GetDataAccessor();
+    //! Returns the read-write data array view.
+    [[nodiscard]] VectorDataView DataView();
 
-    //! Returns the read-only data array accessor.
-    [[nodiscard]] ConstVectorDataAccessor GetConstDataAccessor() const;
+    //! Returns the read-only data array view.
+    [[nodiscard]] ConstVectorDataView ConstDataView() const;
 
     //! Returns the function that maps data point to its position.
-    [[nodiscard]] DataPositionFunc GetDataPosition() const;
+    [[nodiscard]] DataPositionFunc DataPosition() const;
 
     //!
     //! \brief Invokes the given function \p func for each data point.
@@ -128,13 +128,13 @@ class CollocatedVectorGrid3 : public VectorGrid3
     void SetData(const std::vector<double>& data) override;
 
  private:
-    void OnResize(const Size3& resolution, const Vector3D& gridSpacing,
+    void OnResize(const Vector3UZ& resolution, const Vector3D& gridSpacing,
                   const Vector3D& origin, const Vector3D& initialValue) final;
 
     void ResetSampler();
 
     Array3<Vector3D> m_data;
-    LinearArraySampler3<Vector3D, double> m_linearSampler;
+    LinearArraySampler3<Vector3D> m_linearSampler;
     std::function<Vector3D(const Vector3D&)> m_sampler;
 };
 

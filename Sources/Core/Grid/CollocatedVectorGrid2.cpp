@@ -10,10 +10,12 @@
 
 #include <Core/Grid/CollocatedVectorGrid2.hpp>
 
+#include <array>
+
 namespace CubbyFlow
 {
 CollocatedVectorGrid2::CollocatedVectorGrid2()
-    : m_linearSampler(m_data.ConstAccessor(), Vector2D{ 1, 1 }, Vector2D{})
+    : m_linearSampler(m_data, Vector2D{ 1, 1 }, Vector2D{})
 {
     // Do nothing
 }
@@ -30,7 +32,7 @@ Vector2D& CollocatedVectorGrid2::operator()(size_t i, size_t j)
 
 double CollocatedVectorGrid2::DivergenceAtDataPoint(size_t i, size_t j) const
 {
-    const Size2 ds = m_data.size();
+    const Vector2UZ ds = m_data.Size();
     const Vector2D& gs = GridSpacing();
 
     assert(i < ds.x && j < ds.y);
@@ -45,7 +47,7 @@ double CollocatedVectorGrid2::DivergenceAtDataPoint(size_t i, size_t j) const
 
 double CollocatedVectorGrid2::CurlAtDataPoint(size_t i, size_t j) const
 {
-    const Size2 ds = m_data.size();
+    const Vector2UZ ds = m_data.Size();
     const Vector2D& gs = GridSpacing();
 
     assert(i < ds.x && j < ds.y);
@@ -71,9 +73,9 @@ Vector2D CollocatedVectorGrid2::Sample(const Vector2D& x) const
 
 double CollocatedVectorGrid2::Divergence(const Vector2D& x) const
 {
-    std::array<Point2UI, 4> indices;
+    std::array<Vector2UZ, 4> indices;
     std::array<double, 4> weights{};
-    m_linearSampler.GetCoordinatesAndWeights(x, &indices, &weights);
+    m_linearSampler.GetCoordinatesAndWeights(x, indices, weights);
 
     double result = 0.0;
     for (int i = 0; i < 4; ++i)
@@ -87,9 +89,9 @@ double CollocatedVectorGrid2::Divergence(const Vector2D& x) const
 
 double CollocatedVectorGrid2::Curl(const Vector2D& x) const
 {
-    std::array<Point2UI, 4> indices;
+    std::array<Vector2UZ, 4> indices;
     std::array<double, 4> weights{};
-    m_linearSampler.GetCoordinatesAndWeights(x, &indices, &weights);
+    m_linearSampler.GetCoordinatesAndWeights(x, indices, weights);
 
     double result = 0.0;
     for (int i = 0; i < 4; ++i)
@@ -105,35 +107,36 @@ std::function<Vector2D(const Vector2D&)> CollocatedVectorGrid2::Sampler() const
     return m_sampler;
 }
 
-VectorGrid2::VectorDataAccessor CollocatedVectorGrid2::GetDataAccessor()
+VectorGrid2::VectorDataView CollocatedVectorGrid2::DataView()
 {
-    return m_data.Accessor();
+    return VectorDataView(m_data);
 }
 
-VectorGrid2::ConstVectorDataAccessor
-CollocatedVectorGrid2::GetConstDataAccessor() const
+VectorGrid2::ConstVectorDataView CollocatedVectorGrid2::DataView() const
 {
-    return m_data.ConstAccessor();
+    return ConstVectorDataView(m_data);
 }
 
-VectorGrid2::DataPositionFunc CollocatedVectorGrid2::GetDataPosition() const
+VectorGrid2::DataPositionFunc CollocatedVectorGrid2::DataPosition() const
 {
     Vector2D dataOrigin = GetDataOrigin();
     return [this, dataOrigin](const size_t i, const size_t j) -> Vector2D {
-        return dataOrigin + GridSpacing() * Vector2D{ { i, j } };
+        return dataOrigin + GridSpacing() * Vector2D{
+            { static_cast<double>(i), static_cast<double>(j) }
+        };
     };
 }
 
 void CollocatedVectorGrid2::ForEachDataPointIndex(
     const std::function<void(size_t, size_t)>& func) const
 {
-    m_data.ForEachIndex(func);
+    ForEachIndex(m_data.Size(), func);
 }
 
 void CollocatedVectorGrid2::ParallelForEachDataPointIndex(
     const std::function<void(size_t, size_t)>& func) const
 {
-    m_data.ParallelForEachIndex(func);
+    ParallelForEachIndex(m_data.Size(), func);
 }
 
 void CollocatedVectorGrid2::SwapCollocatedVectorGrid(
@@ -151,11 +154,11 @@ void CollocatedVectorGrid2::SetCollocatedVectorGrid(
 {
     SetGrid(other);
 
-    m_data.Set(other.m_data);
+    m_data.CopyFrom(other.m_data);
     ResetSampler();
 }
 
-void CollocatedVectorGrid2::OnResize(const Size2& resolution,
+void CollocatedVectorGrid2::OnResize(const Vector2UZ& resolution,
                                      const Vector2D& gridSpacing,
                                      const Vector2D& origin,
                                      const Vector2D& initialValue)
@@ -171,8 +174,7 @@ void CollocatedVectorGrid2::OnResize(const Size2& resolution,
 void CollocatedVectorGrid2::ResetSampler()
 {
     m_linearSampler =
-        LinearArraySampler2<Vector2D, double>{ m_data.ConstAccessor(),
-                                               GridSpacing(), GetDataOrigin() };
+        LinearArraySampler2<Vector2D>{ m_data, GridSpacing(), GetDataOrigin() };
     m_sampler = m_linearSampler.Functor();
 }
 
@@ -182,7 +184,9 @@ void CollocatedVectorGrid2::GetData(std::vector<double>* data) const
     data->resize(size);
     size_t cnt = 0;
 
-    m_data.ForEach([&](const Vector2D& value) {
+    ForEachIndex(m_data.Size(), [&](size_t i, size_t j) {
+        const Vector2D& value = m_data(i, j);
+
         (*data)[cnt++] = value.x;
         (*data)[cnt++] = value.y;
     });
@@ -194,7 +198,7 @@ void CollocatedVectorGrid2::SetData(const std::vector<double>& data)
 
     size_t cnt = 0;
 
-    m_data.ForEachIndex([&](const size_t i, const size_t j) {
+    ForEachIndex(m_data.Size(), [&](const size_t i, const size_t j) {
         m_data(i, j).x = data[cnt++];
         m_data(i, j).y = data[cnt++];
     });

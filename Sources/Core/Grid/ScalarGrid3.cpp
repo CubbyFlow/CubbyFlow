@@ -14,18 +14,20 @@
 
 #include <Flatbuffers/generated/ScalarGrid3_generated.h>
 
+#include <array>
+
 namespace CubbyFlow
 {
 ScalarGrid3::ScalarGrid3()
-    : m_linearSampler(LinearArraySampler3<double, double>{
-          m_data.ConstAccessor(), Vector3D{ 1, 1, 1 }, Vector3D{} })
+    : m_linearSampler(LinearArraySampler3<double>{ m_data, Vector3D{ 1, 1, 1 },
+                                                   Vector3D{} })
 {
     // Do nothing
 }
 
 void ScalarGrid3::Clear()
 {
-    Resize(Size3{}, GridSpacing(), Origin(), 0.0);
+    Resize(Vector3UZ{}, GridSpacing(), Origin(), 0.0);
 }
 
 void ScalarGrid3::Resize(size_t resolutionX, size_t resolutionY,
@@ -34,13 +36,14 @@ void ScalarGrid3::Resize(size_t resolutionX, size_t resolutionY,
                          double originX, double originY, double originZ,
                          double initialValue)
 {
-    Resize(Size3{ resolutionX, resolutionY, resolutionZ },
+    Resize(Vector3UZ{ resolutionX, resolutionY, resolutionZ },
            Vector3D{ gridSpacingX, gridSpacingY, gridSpacingZ },
            Vector3D{ originX, originY, originZ }, initialValue);
 }
 
-void ScalarGrid3::Resize(const Size3& resolution, const Vector3D& gridSpacing,
-                         const Vector3D& origin, double initialValue)
+void ScalarGrid3::Resize(const Vector3UZ& resolution,
+                         const Vector3D& gridSpacing, const Vector3D& origin,
+                         double initialValue)
 {
     SetSizeParameters(resolution, gridSpacing, origin);
 
@@ -73,12 +76,12 @@ double& ScalarGrid3::operator()(size_t i, size_t j, size_t k)
 
 Vector3D ScalarGrid3::GradientAtDataPoint(size_t i, size_t j, size_t k) const
 {
-    return Gradient3(m_data.ConstAccessor(), GridSpacing(), i, j, k);
+    return Gradient3(m_data, GridSpacing(), i, j, k);
 }
 
 double ScalarGrid3::LaplacianAtDataPoint(size_t i, size_t j, size_t k) const
 {
-    return Laplacian3(m_data.ConstAccessor(), GridSpacing(), i, j, k);
+    return Laplacian3(m_data, GridSpacing(), i, j, k);
 }
 
 double ScalarGrid3::Sample(const Vector3D& x) const
@@ -93,9 +96,9 @@ std::function<double(const Vector3D&)> ScalarGrid3::Sampler() const
 
 Vector3D ScalarGrid3::Gradient(const Vector3D& x) const
 {
-    std::array<Point3UI, 8> indices;
+    std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights{};
-    m_linearSampler.GetCoordinatesAndWeights(x, &indices, &weights);
+    m_linearSampler.GetCoordinatesAndWeights(x, indices, weights);
 
     Vector3D result;
 
@@ -110,9 +113,9 @@ Vector3D ScalarGrid3::Gradient(const Vector3D& x) const
 
 double ScalarGrid3::Laplacian(const Vector3D& x) const
 {
-    std::array<Point3UI, 8> indices;
+    std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights{};
-    m_linearSampler.GetCoordinatesAndWeights(x, &indices, &weights);
+    m_linearSampler.GetCoordinatesAndWeights(x, indices, weights);
 
     double result = 0.0;
 
@@ -125,23 +128,25 @@ double ScalarGrid3::Laplacian(const Vector3D& x) const
     return result;
 }
 
-ScalarGrid3::ScalarDataAccessor ScalarGrid3::GetDataAccessor()
+ScalarGrid3::ScalarDataView ScalarGrid3::DataView()
 {
-    return m_data.Accessor();
+    return ScalarDataView(m_data);
 }
 
-ScalarGrid3::ConstScalarDataAccessor ScalarGrid3::GetConstDataAccessor() const
+ScalarGrid3::ConstScalarDataView ScalarGrid3::DataView() const
 {
-    return m_data.ConstAccessor();
+    return ConstScalarDataView(m_data);
 }
 
-ScalarGrid3::DataPositionFunc ScalarGrid3::GetDataPosition() const
+ScalarGrid3::DataPositionFunc ScalarGrid3::DataPosition() const
 {
     Vector3D o = GetDataOrigin();
 
     return
         [this, o](const size_t i, const size_t j, const size_t k) -> Vector3D {
-            return o + GridSpacing() * Vector3D{ { i, j, k } };
+            return o + GridSpacing() * Vector3D{ { static_cast<double>(i),
+                                                   static_cast<double>(j),
+                                                   static_cast<double>(k) } };
         };
 }
 
@@ -159,7 +164,7 @@ void ScalarGrid3::Fill(double value, ExecutionPolicy policy)
 void ScalarGrid3::Fill(const std::function<double(const Vector3D&)>& func,
                        ExecutionPolicy policy)
 {
-    DataPositionFunc pos = GetDataPosition();
+    DataPositionFunc pos = DataPosition();
 
     ParallelFor(
         ZERO_SIZE, m_data.Width(), ZERO_SIZE, m_data.Height(), ZERO_SIZE,
@@ -173,20 +178,20 @@ void ScalarGrid3::Fill(const std::function<double(const Vector3D&)>& func,
 void ScalarGrid3::ForEachDataPointIndex(
     const std::function<void(size_t, size_t, size_t)>& func) const
 {
-    m_data.ForEachIndex(func);
+    ForEachIndex(m_data.Size(), func);
 }
 
 void ScalarGrid3::ParallelForEachDataPointIndex(
     const std::function<void(size_t, size_t, size_t)>& func) const
 {
-    m_data.ParallelForEachIndex(func);
+    ParallelForEachIndex(m_data.Size(), func);
 }
 
 void ScalarGrid3::Serialize(std::vector<uint8_t>* buffer) const
 {
     flatbuffers::FlatBufferBuilder builder{ 1024 };
 
-    fbs::Size3 fbsResolution = CubbyFlowToFlatbuffers(Resolution());
+    fbs::Vector3UZ fbsResolution = CubbyFlowToFlatbuffers(Resolution());
     fbs::Vector3D fbsGridSpacing = CubbyFlowToFlatbuffers(GridSpacing());
     fbs::Vector3D fbsOrigin = CubbyFlowToFlatbuffers(Origin());
 
@@ -235,15 +240,14 @@ void ScalarGrid3::SetScalarGrid(const ScalarGrid3& other)
 {
     SetGrid(other);
 
-    m_data.Set(other.m_data);
+    m_data.CopyFrom(other.m_data);
     ResetSampler();
 }
 
 void ScalarGrid3::ResetSampler()
 {
     m_linearSampler =
-        LinearArraySampler3<double, double>{ m_data.ConstAccessor(),
-                                             GridSpacing(), GetDataOrigin() };
+        LinearArraySampler3<double>{ m_data, GridSpacing(), GetDataOrigin() };
     m_sampler = m_linearSampler.Functor();
 }
 

@@ -20,7 +20,7 @@ CellCenteredScalarGrid2::CellCenteredScalarGrid2(
            originY, initialValue);
 }
 
-CellCenteredScalarGrid2::CellCenteredScalarGrid2(const Size2& resolution,
+CellCenteredScalarGrid2::CellCenteredScalarGrid2(const Vector2UZ& resolution,
                                                  const Vector2D& gridSpacing,
                                                  const Vector2D& origin,
                                                  double initialValue)
@@ -42,7 +42,7 @@ CellCenteredScalarGrid2& CellCenteredScalarGrid2::operator=(
     return *this;
 }
 
-Size2 CellCenteredScalarGrid2::GetDataSize() const
+Vector2UZ CellCenteredScalarGrid2::GetDataSize() const
 {
     // The size of the data should be the same as the grid resolution.
     return Resolution();
@@ -80,7 +80,7 @@ CellCenteredScalarGrid2::Builder CellCenteredScalarGrid2::GetBuilder()
 }
 
 CellCenteredScalarGrid2::Builder&
-CellCenteredScalarGrid2::Builder::WithResolution(const Size2& resolution)
+CellCenteredScalarGrid2::Builder::WithResolution(const Vector2UZ& resolution)
 {
     m_resolution = resolution;
     return *this;
@@ -148,7 +148,7 @@ CellCenteredScalarGrid2Ptr CellCenteredScalarGrid2::Builder::MakeShared() const
 }
 
 ScalarGrid2Ptr CellCenteredScalarGrid2::Builder::Build(
-    const Size2& resolution, const Vector2D& gridSpacing,
+    const Vector2UZ& resolution, const Vector2D& gridSpacing,
     const Vector2D& gridOrigin, double initialVal) const
 {
     return std::shared_ptr<CellCenteredScalarGrid2>(

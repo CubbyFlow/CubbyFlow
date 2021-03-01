@@ -23,7 +23,7 @@ CellCenteredVectorGrid3::CellCenteredVectorGrid3(
            initialValueV, initialValueW);
 }
 
-CellCenteredVectorGrid3::CellCenteredVectorGrid3(const Size3& resolution,
+CellCenteredVectorGrid3::CellCenteredVectorGrid3(const Vector3UZ& resolution,
                                                  const Vector3D& gridSpacing,
                                                  const Vector3D& origin,
                                                  const Vector3D& initialValue)
@@ -45,7 +45,7 @@ CellCenteredVectorGrid3& CellCenteredVectorGrid3::operator=(
     return *this;
 }
 
-Size3 CellCenteredVectorGrid3::GetDataSize() const
+Vector3UZ CellCenteredVectorGrid3::GetDataSize() const
 {
     // The size of the data should be the same as the grid resolution.
     return Resolution();
@@ -73,8 +73,8 @@ void CellCenteredVectorGrid3::Set(const CellCenteredVectorGrid3& other)
 void CellCenteredVectorGrid3::Fill(const Vector3D& value,
                                    ExecutionPolicy policy)
 {
-    const Size3 size = GetDataSize();
-    auto acc = GetDataAccessor();
+    const Vector3UZ size = GetDataSize();
+    auto acc = DataView();
 
     ParallelFor(
         ZERO_SIZE, size.x, ZERO_SIZE, size.y, ZERO_SIZE, size.z,
@@ -88,9 +88,9 @@ void CellCenteredVectorGrid3::Fill(
     const std::function<Vector3D(const Vector3D&)>& func,
     ExecutionPolicy policy)
 {
-    const Size3 size = GetDataSize();
-    ArrayAccessor<Vector<double, 3>, 3> acc = GetDataAccessor();
-    DataPositionFunc pos = GetDataPosition();
+    const Vector3UZ size = GetDataSize();
+    ArrayView<Vector<double, 3>, 3> acc = DataView();
+    DataPositionFunc pos = DataPosition();
 
     ParallelFor(
         ZERO_SIZE, size.x, ZERO_SIZE, size.y, ZERO_SIZE, size.z,
@@ -113,7 +113,7 @@ CellCenteredVectorGrid3::Builder CellCenteredVectorGrid3::GetBuilder()
 }
 
 CellCenteredVectorGrid3::Builder&
-CellCenteredVectorGrid3::Builder::WithResolution(const Size3& resolution)
+CellCenteredVectorGrid3::Builder::WithResolution(const Vector3UZ& resolution)
 {
     m_resolution = resolution;
     return *this;
@@ -197,7 +197,7 @@ CellCenteredVectorGrid3Ptr CellCenteredVectorGrid3::Builder::MakeShared() const
 }
 
 VectorGrid3Ptr CellCenteredVectorGrid3::Builder::Build(
-    const Size3& resolution, const Vector3D& gridSpacing,
+    const Vector3UZ& resolution, const Vector3D& gridSpacing,
     const Vector3D& gridOrigin, const Vector3D& initialVal) const
 {
     return std::shared_ptr<CellCenteredVectorGrid3>(
