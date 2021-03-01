@@ -19,7 +19,7 @@ void IterativeLevelSetSolver3::Reinitialize(const ScalarGrid3& inputSDF,
                                             double maxDistance,
                                             ScalarGrid3* outputSDF)
 {
-    const Size3 size = inputSDF.GetDataSize();
+    const Vector3UZ size = inputSDF.GetDataSize();
     const Vector3D gridSpacing = inputSDF.GridSpacing();
 
     if (!inputSDF.HasSameShape(*outputSDF))
@@ -29,18 +29,16 @@ void IterativeLevelSetSolver3::Reinitialize(const ScalarGrid3& inputSDF,
         };
     }
 
-    ArrayAccessor3<double> outputAcc = outputSDF->GetDataAccessor();
+    ArrayView3<double> outputAcc = outputSDF->DataView();
 
-    const double dtau =
-        PseudoTimeStep(inputSDF.GetConstDataAccessor(), gridSpacing);
+    const double dtau = PseudoTimeStep(inputSDF.DataView(), gridSpacing);
     const unsigned int numberOfIterations =
         DistanceToNumberOfIterations(maxDistance, dtau);
 
-    CopyRange3(inputSDF.GetConstDataAccessor(), size.x, size.y, size.z,
-               &outputAcc);
+    Copy(inputSDF.DataView(), outputAcc);
 
     Array3<double> temp{ size };
-    ArrayAccessor3<double> tempAcc = temp.Accessor();
+    ArrayView3<double> tempAcc = temp.View();
 
     CUBBYFLOW_INFO << "Reinitializing with pseudoTimeStep: " << dtau
                    << " numberOfIterations: " << numberOfIterations;
@@ -79,8 +77,8 @@ void IterativeLevelSetSolver3::Reinitialize(const ScalarGrid3& inputSDF,
         std::swap(tempAcc, outputAcc);
     }
 
-    ArrayAccessor3<double> outputSDFAcc = outputSDF->GetDataAccessor();
-    CopyRange3(outputAcc, size.x, size.y, size.z, &outputSDFAcc);
+    const ArrayView3<double> outputSDFAcc = outputSDF->DataView();
+    Copy(outputAcc, outputSDFAcc);
 }
 
 void IterativeLevelSetSolver3::Extrapolate(const ScalarGrid3& input,
@@ -96,13 +94,13 @@ void IterativeLevelSetSolver3::Extrapolate(const ScalarGrid3& input,
     }
 
     Array3<double> sdfGrid{ input.GetDataSize() };
-    auto pos = input.GetDataPosition();
-    sdfGrid.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    auto pos = input.DataPosition();
+    ParallelForEachIndex(sdfGrid.Size(), [&](size_t i, size_t j, size_t k) {
         sdfGrid(i, j, k) = sdf.Sample(pos(i, j, k));
     });
 
-    Extrapolate(input.GetConstDataAccessor(), sdfGrid.ConstAccessor(),
-                input.GridSpacing(), maxDistance, output->GetDataAccessor());
+    Extrapolate(input.DataView(), sdfGrid.View(), input.GridSpacing(),
+                maxDistance, output->DataView());
 }
 
 void IterativeLevelSetSolver3::Extrapolate(const CollocatedVectorGrid3& input,
@@ -118,8 +116,8 @@ void IterativeLevelSetSolver3::Extrapolate(const CollocatedVectorGrid3& input,
     }
 
     Array3<double> sdfGrid{ input.GetDataSize() };
-    auto pos = input.GetDataPosition();
-    sdfGrid.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    auto pos = input.DataPosition();
+    ParallelForEachIndex(sdfGrid.Size(), [&](size_t i, size_t j, size_t k) {
         sdfGrid(i, j, k) = sdf.Sample(pos(i, j, k));
     });
 
@@ -138,9 +136,9 @@ void IterativeLevelSetSolver3::Extrapolate(const CollocatedVectorGrid3& input,
         w(i, j, k) = input(i, j, k).z;
     });
 
-    Extrapolate(u, sdfGrid.ConstAccessor(), gridSpacing, maxDistance, u0);
-    Extrapolate(v, sdfGrid.ConstAccessor(), gridSpacing, maxDistance, v0);
-    Extrapolate(w, sdfGrid.ConstAccessor(), gridSpacing, maxDistance, w0);
+    Extrapolate(u, sdfGrid.View(), gridSpacing, maxDistance, u0);
+    Extrapolate(v, sdfGrid.View(), gridSpacing, maxDistance, v0);
+    Extrapolate(w, sdfGrid.View(), gridSpacing, maxDistance, w0);
 
     output->ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
         (*output)(i, j, k).x = u(i, j, k);
@@ -163,51 +161,52 @@ void IterativeLevelSetSolver3::Extrapolate(const FaceCenteredGrid3& input,
 
     const Vector3D& gridSpacing = input.GridSpacing();
 
-    const ConstArrayAccessor3<double> u = input.GetUConstAccessor();
-    auto uPos = input.GetUPosition();
-    Array3<double> sdfAtU{ u.size() };
+    const ConstArrayView3<double> u = input.UView();
+    auto uPos = input.UPosition();
+    Array3<double> sdfAtU{ u.Size() };
     input.ParallelForEachUIndex([&](size_t i, size_t j, size_t k) {
         sdfAtU(i, j, k) = sdf.Sample(uPos(i, j, k));
     });
 
-    Extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->GetUAccessor());
+    Extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->UView());
 
-    const ConstArrayAccessor3<double> v = input.GetVConstAccessor();
-    auto vPos = input.GetVPosition();
-    Array3<double> sdfAtV{ v.size() };
+    const ConstArrayView3<double> v = input.VView();
+    auto vPos = input.VPosition();
+    Array3<double> sdfAtV{ v.Size() };
     input.ParallelForEachVIndex([&](size_t i, size_t j, size_t k) {
         sdfAtV(i, j, k) = sdf.Sample(vPos(i, j, k));
     });
 
-    Extrapolate(v, sdfAtV, gridSpacing, maxDistance, output->GetVAccessor());
+    Extrapolate(v, sdfAtV, gridSpacing, maxDistance, output->VView());
 
-    const ConstArrayAccessor3<double> w = input.GetWConstAccessor();
-    auto wPos = input.GetWPosition();
-    Array3<double> sdfAtW{ w.size() };
+    const ConstArrayView3<double> w = input.WView();
+    auto wPos = input.WPosition();
+    Array3<double> sdfAtW{ w.Size() };
     input.ParallelForEachWIndex([&](size_t i, size_t j, size_t k) {
         sdfAtW(i, j, k) = sdf.Sample(wPos(i, j, k));
     });
 
-    Extrapolate(w, sdfAtW, gridSpacing, maxDistance, output->GetWAccessor());
+    Extrapolate(w, sdfAtW, gridSpacing, maxDistance, output->WView());
 }
 
-void IterativeLevelSetSolver3::Extrapolate(
-    const ConstArrayAccessor3<double>& input,
-    const ConstArrayAccessor3<double>& sdf, const Vector3D& gridSpacing,
-    double maxDistance, ArrayAccessor3<double> output)
+void IterativeLevelSetSolver3::Extrapolate(const ConstArrayView3<double>& input,
+                                           const ConstArrayView3<double>& sdf,
+                                           const Vector3D& gridSpacing,
+                                           double maxDistance,
+                                           ArrayView3<double> output)
 {
-    const Size3 size = input.size();
+    const Vector3UZ size = input.Size();
 
-    ArrayAccessor3<double> outputAcc = output;
+    ArrayView3<double> outputAcc{ output };
 
     const double dtau = PseudoTimeStep(sdf, gridSpacing);
     const unsigned int numberOfIterations =
         DistanceToNumberOfIterations(maxDistance, dtau);
 
-    CopyRange3(input, size.x, size.y, size.z, &outputAcc);
+    Copy(input, outputAcc);
 
     Array3<double> temp{ size };
-    ArrayAccessor3<double> tempAcc = temp.Accessor();
+    ArrayView3<double> tempAcc = temp.View();
 
     for (unsigned int n = 0; n < numberOfIterations; ++n)
     {
@@ -239,7 +238,7 @@ void IterativeLevelSetSolver3::Extrapolate(
         std::swap(tempAcc, outputAcc);
     }
 
-    CopyRange3(outputAcc, size.x, size.y, size.z, &output);
+    Copy(outputAcc, output);
 }
 
 double IterativeLevelSetSolver3::GetMaxCFL() const
@@ -258,7 +257,7 @@ unsigned int IterativeLevelSetSolver3::DistanceToNumberOfIterations(
     return static_cast<unsigned int>(std::ceil(distance / dtau));
 }
 
-double IterativeLevelSetSolver3::Sign(const ConstArrayAccessor3<double>& sdf,
+double IterativeLevelSetSolver3::Sign(const ConstArrayView3<double>& sdf,
                                       const Vector3D& gridSpacing, size_t i,
                                       size_t j, size_t k)
 {
@@ -268,9 +267,9 @@ double IterativeLevelSetSolver3::Sign(const ConstArrayAccessor3<double>& sdf,
 }
 
 double IterativeLevelSetSolver3::PseudoTimeStep(
-    const ConstArrayAccessor3<double>& sdf, const Vector3D& gridSpacing) const
+    const ConstArrayView3<double>& sdf, const Vector3D& gridSpacing) const
 {
-    const Size3 size = sdf.size();
+    const Vector3UZ size = sdf.Size();
 
     const double h = std::max({ gridSpacing.x, gridSpacing.y, gridSpacing.z });
 

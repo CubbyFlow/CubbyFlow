@@ -18,13 +18,13 @@ ENOLevelSetSolver2::ENOLevelSetSolver2()
     SetMaxCFL(0.25);
 }
 
-void ENOLevelSetSolver2::GetDerivatives(ConstArrayAccessor2<double> grid,
+void ENOLevelSetSolver2::GetDerivatives(ConstArrayView2<double> grid,
                                         const Vector2D& gridSpacing, size_t i,
                                         size_t j, std::array<double, 2>* dx,
                                         std::array<double, 2>* dy) const
 {
     double d0[7];
-    const Size2 size = grid.size();
+    const Vector2UZ size = grid.Size();
 
     const size_t im3 = (i < 3) ? 0 : i - 3;
     const size_t im2 = (i < 2) ? 0 : i - 2;

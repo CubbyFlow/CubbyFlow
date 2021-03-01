@@ -24,7 +24,7 @@ LevelSetLiquidSolver3::LevelSetLiquidSolver3()
     // Do nothing
 }
 
-LevelSetLiquidSolver3::LevelSetLiquidSolver3(const Size3& resolution,
+LevelSetLiquidSolver3::LevelSetLiquidSolver3(const Vector3UZ& resolution,
                                              const Vector3D& gridSpacing,
                                              const Vector3D& gridOrigin)
     : GridFluidSolver3{ resolution, gridSpacing, gridOrigin }
@@ -155,19 +155,19 @@ void LevelSetLiquidSolver3::ExtrapolateVelocityToAir(double currentCFL)
     ScalarGrid3Ptr sdf = GetSignedDistanceField();
     FaceCenteredGrid3Ptr vel = GetGridSystemData()->GetVelocity();
 
-    ArrayAccessor3<double> u = vel->GetUAccessor();
-    ArrayAccessor3<double> v = vel->GetVAccessor();
-    ArrayAccessor3<double> w = vel->GetWAccessor();
+    ArrayView3<double> u = vel->UView();
+    ArrayView3<double> v = vel->VView();
+    ArrayView3<double> w = vel->WView();
 
-    auto uPos = vel->GetUPosition();
-    auto vPos = vel->GetVPosition();
-    auto wPos = vel->GetWPosition();
+    auto uPos = vel->UPosition();
+    auto vPos = vel->VPosition();
+    auto wPos = vel->WPosition();
 
-    Array3<char> uMarker{ u.size() };
-    Array3<char> vMarker{ v.size() };
-    Array3<char> wMarker{ w.size() };
+    Array3<char> uMarker{ u.Size() };
+    Array3<char> vMarker{ v.Size() };
+    Array3<char> wMarker{ w.Size() };
 
-    uMarker.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(uMarker.Size(), [&](size_t i, size_t j, size_t k) {
         if (IsInsideSDF(sdf->Sample(uPos(i, j, k))))
         {
             uMarker(i, j, k) = 1;
@@ -179,7 +179,7 @@ void LevelSetLiquidSolver3::ExtrapolateVelocityToAir(double currentCFL)
         }
     });
 
-    vMarker.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(vMarker.Size(), [&](size_t i, size_t j, size_t k) {
         if (IsInsideSDF(sdf->Sample(vPos(i, j, k))))
         {
             vMarker(i, j, k) = 1;
@@ -191,7 +191,7 @@ void LevelSetLiquidSolver3::ExtrapolateVelocityToAir(double currentCFL)
         }
     });
 
-    wMarker.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(wMarker.Size(), [&](size_t i, size_t j, size_t k) {
         if (IsInsideSDF(sdf->Sample(wPos(i, j, k))))
         {
             wMarker(i, j, k) = 1;

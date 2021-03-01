@@ -22,7 +22,7 @@ static const char TRIAL = 2;
 
 // Find geometric solution near the boundary
 inline double SolveQuadNearBoundary(const Array3<char>& markers,
-                                    ArrayAccessor3<double> output,
+                                    ArrayView3<double> output,
                                     const Vector3D& gridSpacing,
                                     const Vector3D& invGridSpacingSqr,
                                     double sign, size_t i, size_t j, size_t k)
@@ -30,7 +30,7 @@ inline double SolveQuadNearBoundary(const Array3<char>& markers,
     UNUSED_VARIABLE(markers);
     UNUSED_VARIABLE(invGridSpacingSqr);
 
-    const Size3 size = output.size();
+    const Vector3UZ size = output.Size();
 
     bool hasX = false;
     double phiX = std::numeric_limits<double>::max();
@@ -124,13 +124,12 @@ inline double SolveQuadNearBoundary(const Array3<char>& markers,
     return sign * solution;
 }
 
-inline double SolveQuad(const Array3<char>& markers,
-                        ArrayAccessor3<double> output,
+inline double SolveQuad(const Array3<char>& markers, ArrayView3<double> output,
                         const Vector3D& gridSpacing,
                         const Vector3D& invGridSpacingSqr, size_t i, size_t j,
                         size_t k)
 {
-    const Size3 size = output.size();
+    const Vector3UZ size = output.Size();
 
     bool hasX = false;
     double phiX = std::numeric_limits<double>::max();
@@ -258,20 +257,20 @@ void FMMLevelSetSolver3::Reinitialize(const ScalarGrid3& inputSDF,
         };
     }
 
-    Size3 size = inputSDF.GetDataSize();
+    Vector3UZ size = inputSDF.GetDataSize();
     Vector3D gridSpacing = inputSDF.GridSpacing();
     const Vector3D invGridSpacing = 1.0 / gridSpacing;
     Vector3D invGridSpacingSqr = invGridSpacing * invGridSpacing;
     Array3<char> markers{ size };
 
-    auto output = outputSDF->GetDataAccessor();
+    auto output = outputSDF->DataView();
 
-    markers.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(markers.Size(), [&](size_t i, size_t j, size_t k) {
         output(i, j, k) = inputSDF(i, j, k);
     });
 
     // Solve geometrically near the boundary
-    markers.ForEachIndex([&](size_t i, size_t j, size_t k) {
+    ForEachIndex(markers.Size(), [&](size_t i, size_t j, size_t k) {
         if (!IsInsideSDF(output(i, j, k)) &&
             ((i > 0 && IsInsideSDF(output(i - 1, j, k))) ||
              (i + 1 < size.x && IsInsideSDF(output(i + 1, j, k))) ||
@@ -299,7 +298,7 @@ void FMMLevelSetSolver3::Reinitialize(const ScalarGrid3& inputSDF,
     for (int sign = 0; sign < 2; ++sign)
     {
         // Build markers
-        markers.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+        ParallelForEachIndex(markers.Size(), [&](size_t i, size_t j, size_t k) {
             if (IsInsideSDF(output(i, j, k)))
             {
                 markers(i, j, k) = KNOWN;
@@ -310,14 +309,15 @@ void FMMLevelSetSolver3::Reinitialize(const ScalarGrid3& inputSDF,
             }
         });
 
-        auto compare = [&](const Point3UI& a, const Point3UI& b) {
+        auto compare = [&](const Vector3UZ& a, const Vector3UZ& b) {
             return output(a.x, a.y, a.z) > output(b.x, b.y, b.z);
         };
 
         // Enqueue initial candidates
-        std::priority_queue<Point3UI, std::vector<Point3UI>, decltype(compare)>
+        std::priority_queue<Vector3UZ, std::vector<Vector3UZ>,
+                            decltype(compare)>
             trial(compare);
-        markers.ForEachIndex([&](size_t i, size_t j, size_t k) {
+        ForEachIndex(markers.Size(), [&](size_t i, size_t j, size_t k) {
             if (markers(i, j, k) != KNOWN &&
                 ((i > 0 && markers(i - 1, j, k) == KNOWN) ||
                  (i + 1 < size.x && markers(i + 1, j, k) == KNOWN) ||
@@ -326,7 +326,7 @@ void FMMLevelSetSolver3::Reinitialize(const ScalarGrid3& inputSDF,
                  (k > 0 && markers(i, j, k - 1) == KNOWN) ||
                  (k + 1 < size.z && markers(i, j, k + 1) == KNOWN)))
             {
-                trial.push(Point3UI{ i, j, k });
+                trial.push(Vector3UZ{ i, j, k });
                 markers(i, j, k) = TRIAL;
             }
         });
@@ -334,7 +334,7 @@ void FMMLevelSetSolver3::Reinitialize(const ScalarGrid3& inputSDF,
         // Propagate
         while (!trial.empty())
         {
-            const Point3UI idx = trial.top();
+            const Vector3UZ idx = trial.top();
             trial.pop();
 
             const size_t i = idx.x;
@@ -358,7 +358,7 @@ void FMMLevelSetSolver3::Reinitialize(const ScalarGrid3& inputSDF,
                     output(i - 1, j, k) =
                         SolveQuad(markers, output, gridSpacing,
                                   invGridSpacingSqr, i - 1, j, k);
-                    trial.push(Point3UI{ i - 1, j, k });
+                    trial.push(Vector3UZ{ i - 1, j, k });
                 }
             }
 
@@ -370,7 +370,7 @@ void FMMLevelSetSolver3::Reinitialize(const ScalarGrid3& inputSDF,
                     output(i + 1, j, k) =
                         SolveQuad(markers, output, gridSpacing,
                                   invGridSpacingSqr, i + 1, j, k);
-                    trial.push(Point3UI{ i + 1, j, k });
+                    trial.push(Vector3UZ{ i + 1, j, k });
                 }
             }
 
@@ -382,7 +382,7 @@ void FMMLevelSetSolver3::Reinitialize(const ScalarGrid3& inputSDF,
                     output(i, j - 1, k) =
                         SolveQuad(markers, output, gridSpacing,
                                   invGridSpacingSqr, i, j - 1, k);
-                    trial.push(Point3UI{ i, j - 1, k });
+                    trial.push(Vector3UZ{ i, j - 1, k });
                 }
             }
 
@@ -394,7 +394,7 @@ void FMMLevelSetSolver3::Reinitialize(const ScalarGrid3& inputSDF,
                     output(i, j + 1, k) =
                         SolveQuad(markers, output, gridSpacing,
                                   invGridSpacingSqr, i, j + 1, k);
-                    trial.push(Point3UI{ i, j + 1, k });
+                    trial.push(Vector3UZ{ i, j + 1, k });
                 }
             }
 
@@ -406,7 +406,7 @@ void FMMLevelSetSolver3::Reinitialize(const ScalarGrid3& inputSDF,
                     output(i, j, k - 1) =
                         SolveQuad(markers, output, gridSpacing,
                                   invGridSpacingSqr, i, j, k - 1);
-                    trial.push(Point3UI{ i, j, k - 1 });
+                    trial.push(Vector3UZ{ i, j, k - 1 });
                 }
             }
 
@@ -418,13 +418,13 @@ void FMMLevelSetSolver3::Reinitialize(const ScalarGrid3& inputSDF,
                     output(i, j, k + 1) =
                         SolveQuad(markers, output, gridSpacing,
                                   invGridSpacingSqr, i, j, k + 1);
-                    trial.push(Point3UI{ i, j, k + 1 });
+                    trial.push(Vector3UZ{ i, j, k + 1 });
                 }
             }
         }
 
         // Flip the sign
-        markers.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+        ParallelForEachIndex(markers.Size(), [&](size_t i, size_t j, size_t k) {
             output(i, j, k) = -output(i, j, k);
         });
     }
@@ -440,13 +440,13 @@ void FMMLevelSetSolver3::Extrapolate(const ScalarGrid3& input,
     }
 
     Array3<double> sdfGrid{ input.GetDataSize() };
-    auto pos = input.GetDataPosition();
-    sdfGrid.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    auto pos = input.DataPosition();
+    ParallelForEachIndex(sdfGrid.Size(), [&](size_t i, size_t j, size_t k) {
         sdfGrid(i, j, k) = sdf.Sample(pos(i, j, k));
     });
 
-    Extrapolate(input.GetConstDataAccessor(), sdfGrid.ConstAccessor(),
-                input.GridSpacing(), maxDistance, output->GetDataAccessor());
+    Extrapolate(input.DataView(), sdfGrid.View(), input.GridSpacing(),
+                maxDistance, output->DataView());
 }
 
 void FMMLevelSetSolver3::Extrapolate(const CollocatedVectorGrid3& input,
@@ -460,8 +460,8 @@ void FMMLevelSetSolver3::Extrapolate(const CollocatedVectorGrid3& input,
     }
 
     Array3<double> sdfGrid{ input.GetDataSize() };
-    auto pos = input.GetDataPosition();
-    sdfGrid.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    auto pos = input.DataPosition();
+    ParallelForEachIndex(sdfGrid.Size(), [&](size_t i, size_t j, size_t k) {
         sdfGrid(i, j, k) = sdf.Sample(pos(i, j, k));
     });
 
@@ -480,9 +480,9 @@ void FMMLevelSetSolver3::Extrapolate(const CollocatedVectorGrid3& input,
         w(i, j, k) = input(i, j, k).z;
     });
 
-    Extrapolate(u, sdfGrid.ConstAccessor(), gridSpacing, maxDistance, u0);
-    Extrapolate(v, sdfGrid.ConstAccessor(), gridSpacing, maxDistance, v0);
-    Extrapolate(w, sdfGrid.ConstAccessor(), gridSpacing, maxDistance, w0);
+    Extrapolate(u, sdfGrid.View(), gridSpacing, maxDistance, u0);
+    Extrapolate(v, sdfGrid.View(), gridSpacing, maxDistance, v0);
+    Extrapolate(w, sdfGrid.View(), gridSpacing, maxDistance, w0);
 
     output->ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
         (*output)(i, j, k).x = u(i, j, k);
@@ -505,46 +505,46 @@ void FMMLevelSetSolver3::Extrapolate(const FaceCenteredGrid3& input,
 
     const Vector3D& gridSpacing = input.GridSpacing();
 
-    const ConstArrayAccessor3<double> u = input.GetUConstAccessor();
-    auto uPos = input.GetUPosition();
-    Array3<double> sdfAtU{ u.size() };
+    const ConstArrayView3<double> u = input.UView();
+    auto uPos = input.UPosition();
+    Array3<double> sdfAtU{ u.Size() };
     input.ParallelForEachUIndex([&](size_t i, size_t j, size_t k) {
         sdfAtU(i, j, k) = sdf.Sample(uPos(i, j, k));
     });
 
-    Extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->GetUAccessor());
+    Extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->UView());
 
-    const ConstArrayAccessor3<double> v = input.GetVConstAccessor();
-    auto vPos = input.GetVPosition();
-    Array3<double> sdfAtV{ v.size() };
+    const ConstArrayView3<double> v = input.VView();
+    auto vPos = input.VPosition();
+    Array3<double> sdfAtV{ v.Size() };
     input.ParallelForEachVIndex([&](size_t i, size_t j, size_t k) {
         sdfAtV(i, j, k) = sdf.Sample(vPos(i, j, k));
     });
 
-    Extrapolate(v, sdfAtV, gridSpacing, maxDistance, output->GetVAccessor());
+    Extrapolate(v, sdfAtV, gridSpacing, maxDistance, output->VView());
 
-    const ConstArrayAccessor3<double> w = input.GetWConstAccessor();
-    auto wPos = input.GetWPosition();
-    Array3<double> sdfAtW{ w.size() };
+    const ConstArrayView3<double> w = input.WView();
+    auto wPos = input.WPosition();
+    Array3<double> sdfAtW{ w.Size() };
     input.ParallelForEachWIndex([&](size_t i, size_t j, size_t k) {
         sdfAtW(i, j, k) = sdf.Sample(wPos(i, j, k));
     });
 
-    Extrapolate(w, sdfAtW, gridSpacing, maxDistance, output->GetWAccessor());
+    Extrapolate(w, sdfAtW, gridSpacing, maxDistance, output->WView());
 }
 
-void FMMLevelSetSolver3::Extrapolate(const ConstArrayAccessor3<double>& input,
-                                     const ConstArrayAccessor3<double>& sdf,
+void FMMLevelSetSolver3::Extrapolate(const ConstArrayView3<double>& input,
+                                     const ConstArrayView3<double>& sdf,
                                      const Vector3D& gridSpacing,
                                      double maxDistance,
-                                     ArrayAccessor3<double> output)
+                                     ArrayView3<double> output)
 {
-    Size3 size = input.size();
+    Vector3UZ size = input.Size();
     const Vector3D invGridSpacing = 1.0 / gridSpacing;
 
     // Build markers
     Array3<char> markers{ size, UNKNOWN };
-    markers.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(markers.Size(), [&](size_t i, size_t j, size_t k) {
         if (IsInsideSDF(sdf(i, j, k)))
         {
             markers(i, j, k) = KNOWN;
@@ -552,14 +552,14 @@ void FMMLevelSetSolver3::Extrapolate(const ConstArrayAccessor3<double>& input,
         output(i, j, k) = input(i, j, k);
     });
 
-    auto compare = [&](const Point3UI& a, const Point3UI& b) {
+    auto compare = [&](const Vector3UZ& a, const Vector3UZ& b) {
         return sdf(a.x, a.y, a.z) > sdf(b.x, b.y, b.z);
     };
 
     // Enqueue initial candidates
-    std::priority_queue<Point3UI, std::vector<Point3UI>, decltype(compare)>
+    std::priority_queue<Vector3UZ, std::vector<Vector3UZ>, decltype(compare)>
         trial(compare);
-    markers.ForEachIndex([&](size_t i, size_t j, size_t k) {
+    ForEachIndex(markers.Size(), [&](size_t i, size_t j, size_t k) {
         if (markers(i, j, k) == KNOWN)
         {
             return;
@@ -567,42 +567,42 @@ void FMMLevelSetSolver3::Extrapolate(const ConstArrayAccessor3<double>& input,
 
         if (i > 0 && markers(i - 1, j, k) == KNOWN)
         {
-            trial.push(Point3UI{ i, j, k });
+            trial.push(Vector3UZ{ i, j, k });
             markers(i, j, k) = TRIAL;
             return;
         }
 
         if (i + 1 < size.x && markers(i + 1, j, k) == KNOWN)
         {
-            trial.push(Point3UI{ i, j, k });
+            trial.push(Vector3UZ{ i, j, k });
             markers(i, j, k) = TRIAL;
             return;
         }
 
         if (j > 0 && markers(i, j - 1, k) == KNOWN)
         {
-            trial.push(Point3UI{ i, j, k });
+            trial.push(Vector3UZ{ i, j, k });
             markers(i, j, k) = TRIAL;
             return;
         }
 
         if (j + 1 < size.y && markers(i, j + 1, k) == KNOWN)
         {
-            trial.push(Point3UI{ i, j, k });
+            trial.push(Vector3UZ{ i, j, k });
             markers(i, j, k) = TRIAL;
             return;
         }
 
         if (k > 0 && markers(i, j, k - 1) == KNOWN)
         {
-            trial.push(Point3UI{ i, j, k });
+            trial.push(Vector3UZ{ i, j, k });
             markers(i, j, k) = TRIAL;
             return;
         }
 
         if (k + 1 < size.z && markers(i, j, k + 1) == KNOWN)
         {
-            trial.push(Point3UI{ i, j, k });
+            trial.push(Vector3UZ{ i, j, k });
             markers(i, j, k) = TRIAL;
             return;
         }
@@ -611,7 +611,7 @@ void FMMLevelSetSolver3::Extrapolate(const ConstArrayAccessor3<double>& input,
     // Propagate
     while (!trial.empty())
     {
-        const Point3UI idx = trial.top();
+        const Vector3UZ idx = trial.top();
         trial.pop();
 
         const size_t i = idx.x;
@@ -646,7 +646,7 @@ void FMMLevelSetSolver3::Extrapolate(const ConstArrayAccessor3<double>& input,
             else if (markers(i - 1, j, k) == UNKNOWN)
             {
                 markers(i - 1, j, k) = TRIAL;
-                trial.push(Point3UI{ i - 1, j, k });
+                trial.push(Vector3UZ{ i - 1, j, k });
             }
         }
 
@@ -668,7 +668,7 @@ void FMMLevelSetSolver3::Extrapolate(const ConstArrayAccessor3<double>& input,
             else if (markers(i + 1, j, k) == UNKNOWN)
             {
                 markers(i + 1, j, k) = TRIAL;
-                trial.push(Point3UI{ i + 1, j, k });
+                trial.push(Vector3UZ{ i + 1, j, k });
             }
         }
 
@@ -690,7 +690,7 @@ void FMMLevelSetSolver3::Extrapolate(const ConstArrayAccessor3<double>& input,
             else if (markers(i, j - 1, k) == UNKNOWN)
             {
                 markers(i, j - 1, k) = TRIAL;
-                trial.push(Point3UI{ i, j - 1, k });
+                trial.push(Vector3UZ{ i, j - 1, k });
             }
         }
 
@@ -712,7 +712,7 @@ void FMMLevelSetSolver3::Extrapolate(const ConstArrayAccessor3<double>& input,
             else if (markers(i, j + 1, k) == UNKNOWN)
             {
                 markers(i, j + 1, k) = TRIAL;
-                trial.push(Point3UI{ i, j + 1, k });
+                trial.push(Vector3UZ{ i, j + 1, k });
             }
         }
 
@@ -734,7 +734,7 @@ void FMMLevelSetSolver3::Extrapolate(const ConstArrayAccessor3<double>& input,
             else if (markers(i, j, k - 1) == UNKNOWN)
             {
                 markers(i, j, k - 1) = TRIAL;
-                trial.push(Point3UI{ i, j, k - 1 });
+                trial.push(Vector3UZ{ i, j, k - 1 });
             }
         }
 
@@ -756,7 +756,7 @@ void FMMLevelSetSolver3::Extrapolate(const ConstArrayAccessor3<double>& input,
             else if (markers(i, j, k + 1) == UNKNOWN)
             {
                 markers(i, j, k + 1) = TRIAL;
-                trial.push(Point3UI{ i, j, k + 1 });
+                trial.push(Vector3UZ{ i, j, k + 1 });
             }
         }
 

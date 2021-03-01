@@ -80,10 +80,10 @@ class FMMLevelSetSolver2 final : public LevelSetSolver2
                      double maxDistance, FaceCenteredGrid2* output) override;
 
  private:
-    void Extrapolate(const ConstArrayAccessor2<double>& input,
-                     const ConstArrayAccessor2<double>& sdf,
+    void Extrapolate(const ConstArrayView2<double>& input,
+                     const ConstArrayView2<double>& sdf,
                      const Vector2D& gridSpacing, double maxDistance,
-                     ArrayAccessor2<double> output);
+                     ArrayView2<double> output);
 };
 
 //! Shared pointer type for the FMMLevelSetSolver2.

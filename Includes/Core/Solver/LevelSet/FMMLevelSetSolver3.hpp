@@ -80,10 +80,10 @@ class FMMLevelSetSolver3 final : public LevelSetSolver3
                      double maxDistance, FaceCenteredGrid3* output) override;
 
  private:
-    void Extrapolate(const ConstArrayAccessor3<double>& input,
-                     const ConstArrayAccessor3<double>& sdf,
+    void Extrapolate(const ConstArrayView3<double>& input,
+                     const ConstArrayView3<double>& sdf,
                      const Vector3D& gridSpacing, double maxDistance,
-                     ArrayAccessor3<double> output);
+                     ArrayView3<double> output);
 };
 
 //! Shared pointer type for the FMMLevelSetSolver3.

@@ -18,7 +18,7 @@ UpwindLevelSetSolver3::UpwindLevelSetSolver3()
     SetMaxCFL(0.5);
 }
 
-void UpwindLevelSetSolver3::GetDerivatives(ConstArrayAccessor3<double> grid,
+void UpwindLevelSetSolver3::GetDerivatives(ConstArrayView3<double> grid,
                                            const Vector3D& gridSpacing,
                                            size_t i, size_t j, size_t k,
                                            std::array<double, 2>* dx,
@@ -26,7 +26,7 @@ void UpwindLevelSetSolver3::GetDerivatives(ConstArrayAccessor3<double> grid,
                                            std::array<double, 2>* dz) const
 {
     double d0[3];
-    const Size3 size = grid.size();
+    const Vector3UZ size = grid.Size();
 
     const size_t im1 = (i < 1) ? 0 : i - 1;
     const size_t ip1 = std::min(i + 1, size.x - 1);
