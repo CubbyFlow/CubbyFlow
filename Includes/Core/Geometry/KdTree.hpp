@@ -11,8 +11,9 @@
 #ifndef CUBBYFLOW_KDTREE_HPP
 #define CUBBYFLOW_KDTREE_HPP
 
+#include <Core/Array/ArrayView.hpp>
 #include <Core/Geometry/BoundingBox.hpp>
-#include <Core/Vector/Vector.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 namespace CubbyFlow
 {
@@ -59,7 +60,7 @@ class KdTree final
     using ConstNodeIterator = typename NodeContainerType::const_iterator;
 
     //! Builds internal acceleration structure for given points list.
-    void Build(const ConstArrayAccessor1<Point>& points);
+    void Build(const ConstArrayView1<Point>& points);
 
     //!
     //! Invokes the callback function for each nearby point around the origin

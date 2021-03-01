@@ -41,9 +41,9 @@ bool KdTree<T, K>::Node::IsLeaf() const
 }
 
 template <typename T, size_t K>
-void KdTree<T, K>::Build(const ConstArrayAccessor1<Point>& points)
+void KdTree<T, K>::Build(const ConstArrayView1<Point>& points)
 {
-    m_points.resize(points.size());
+    m_points.resize(points.Length());
     std::copy(points.begin(), points.end(), m_points.begin());
 
     if (m_points.empty())
