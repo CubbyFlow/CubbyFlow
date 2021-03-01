@@ -104,7 +104,7 @@ class GridForwardEulerDiffusionSolver3 final : public GridDiffusionSolver3
 
  private:
     void BuildMarkers(
-        const Size3& size,
+        const Vector3UZ& size,
         const std::function<Vector3D(size_t, size_t, size_t)>& pos,
         const ScalarField3& boundarySDF, const ScalarField3& fluidSDF);
 

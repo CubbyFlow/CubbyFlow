@@ -114,16 +114,16 @@ class GridBackwardEulerDiffusionSolver2 final : public GridDiffusionSolver2
     void SetLinearSystemSolver(const FDMLinearSystemSolver2Ptr& solver);
 
  private:
-    void BuildMarkers(const Size2& size,
+    void BuildMarkers(const Vector2UZ& size,
                       const std::function<Vector2D(size_t, size_t)>& pos,
                       const ScalarField2& boundarySDF,
                       const ScalarField2& fluidSDF);
 
-    void BuildMatrix(const Size2& size, const Vector2D& c);
+    void BuildMatrix(const Vector2UZ& size, const Vector2D& c);
 
-    void BuildVectors(const ConstArrayAccessor2<double>& f, const Vector2D& c);
+    void BuildVectors(const ConstArrayView2<double>& f, const Vector2D& c);
 
-    void BuildVectors(const ConstArrayAccessor2<Vector2D>& f, const Vector2D& c,
+    void BuildVectors(const ConstArrayView2<Vector2D>& f, const Vector2D& c,
                       size_t component);
 
     BoundaryType m_boundaryType;

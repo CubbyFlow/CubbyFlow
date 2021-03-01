@@ -18,11 +18,11 @@ static const char AIR = 1;
 static const char BOUNDARY = 2;
 
 template <typename T>
-T Laplacian(const ConstArrayAccessor2<T>& data, const Array2<char>& marker,
+T Laplacian(const ConstArrayView2<T>& data, const Array2<char>& marker,
             const Vector2D& gridSpacing, size_t i, size_t j)
 {
     const T center = data(i, j);
-    const Size2 ds = data.size();
+    const Vector2UZ ds = data.size();
 
     assert(i < ds.x && j < ds.y);
 
@@ -60,9 +60,9 @@ void GridForwardEulerDiffusionSolver2::Solve(const ScalarGrid2& source,
                                              const ScalarField2& boundarySDF,
                                              const ScalarField2& fluidSDF)
 {
-    ConstArrayAccessor2<double> src = source.GetConstDataAccessor();
+    ConstArrayView2<double> src = source.DataView();
     Vector2D h = source.GridSpacing();
-    const auto pos = source.GetDataPosition();
+    const auto pos = source.DataPosition();
 
     BuildMarkers(source.Resolution(), pos, boundarySDF, fluidSDF);
 
@@ -85,9 +85,9 @@ void GridForwardEulerDiffusionSolver2::Solve(
     double timeIntervalInSeconds, CollocatedVectorGrid2* dest,
     const ScalarField2& boundarySDF, const ScalarField2& fluidSDF)
 {
-    ConstArrayAccessor2<Vector2<double>> src = source.GetConstDataAccessor();
+    ConstArrayView2<Vector2<double>> src = source.DataView();
     Vector2D h = source.GridSpacing();
-    const auto pos = source.GetDataPosition();
+    const auto pos = source.DataPosition();
 
     BuildMarkers(source.Resolution(), pos, boundarySDF, fluidSDF);
 
@@ -112,15 +112,15 @@ void GridForwardEulerDiffusionSolver2::Solve(const FaceCenteredGrid2& source,
                                              const ScalarField2& boundarySDF,
                                              const ScalarField2& fluidSDF)
 {
-    ConstArrayAccessor2<double> uSrc = source.GetUConstAccessor();
-    ConstArrayAccessor2<double> vSrc = source.GetVConstAccessor();
-    ArrayAccessor2<double> u = dest->GetUAccessor();
-    ArrayAccessor2<double> v = dest->GetVAccessor();
-    const auto uPos = source.GetUPosition();
-    const auto vPos = source.GetVPosition();
+    ConstArrayView2<double> uSrc = source.UView();
+    ConstArrayView2<double> vSrc = source.VView();
+    ArrayView2<double> u = dest->UView();
+    ArrayView2<double> v = dest->VView();
+    const auto uPos = source.UPosition();
+    const auto vPos = source.VPosition();
     Vector2D h = source.GridSpacing();
 
-    BuildMarkers(source.GetUSize(), uPos, boundarySDF, fluidSDF);
+    BuildMarkers(source.USize(), uPos, boundarySDF, fluidSDF);
 
     source.ParallelForEachUIndex([&](size_t i, size_t j) {
         if (m_markers(i, j) == FLUID)
@@ -135,7 +135,7 @@ void GridForwardEulerDiffusionSolver2::Solve(const FaceCenteredGrid2& source,
         }
     });
 
-    BuildMarkers(source.GetVSize(), vPos, boundarySDF, fluidSDF);
+    BuildMarkers(source.VSize(), vPos, boundarySDF, fluidSDF);
 
     source.ParallelForEachVIndex([&](size_t i, size_t j) {
         if (m_markers(i, j) == FLUID)
@@ -152,12 +152,12 @@ void GridForwardEulerDiffusionSolver2::Solve(const FaceCenteredGrid2& source,
 }
 
 void GridForwardEulerDiffusionSolver2::BuildMarkers(
-    const Size2& size, const std::function<Vector2D(size_t, size_t)>& pos,
+    const Vector2UZ& size, const std::function<Vector2D(size_t, size_t)>& pos,
     const ScalarField2& boundarySDF, const ScalarField2& fluidSDF)
 {
     m_markers.Resize(size);
 
-    m_markers.ForEachIndex([&](size_t i, size_t j) {
+    ForEachIndex(m_markers.Size(), [&](size_t i, size_t j) {
         if (IsInsideSDF(boundarySDF.Sample(pos(i, j))))
         {
             m_markers(i, j) = BOUNDARY;

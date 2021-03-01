@@ -44,14 +44,14 @@ void Restrict(const Array2<double>& finer, Array2<double>* coarser)
                                                              0.0 } };
 
     std::array<int, 2> kernelSize{};
-    kernelSize[0] = finer.size().x != 2 * coarser->size().x ? 3 : 4;
-    kernelSize[1] = finer.size().y != 2 * coarser->size().y ? 3 : 4;
+    kernelSize[0] = finer.Size().x != 2 * coarser->Size().x ? 3 : 4;
+    kernelSize[1] = finer.Size().y != 2 * coarser->Size().y ? 3 : 4;
 
     std::array<std::array<double, 4>, 2> kernels{};
     kernels[0] = (kernelSize[0] == 3) ? staggeredKernel : centeredKernel;
     kernels[1] = (kernelSize[1] == 3) ? staggeredKernel : centeredKernel;
 
-    const Size2 n = coarser->size();
+    const Vector2UZ n = coarser->Size();
     ParallelRangeFor(
         ZERO_SIZE, n.x, ZERO_SIZE, n.y,
         [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd) {
@@ -113,15 +113,15 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
                        std::function<Vector2D(const Vector2D&)> boundaryVel,
                        const FaceCenteredGrid2& input)
 {
-    const Size2 size = input.Resolution();
-    const auto uPos = input.GetUPosition();
-    const auto vPos = input.GetVPosition();
+    const Vector2UZ size = input.Resolution();
+    const auto uPos = input.UPosition();
+    const auto vPos = input.VPosition();
 
     const Vector2D invH = 1.0 / input.GridSpacing();
     const Vector2D invHSqr = invH * invH;
 
     // Build linear system
-    A->ParallelForEachIndex([&](size_t i, size_t j) {
+    ParallelForEachIndex(A->Size(), [&](size_t i, size_t j) {
         FDMMatrixRow2& row = (*A)(i, j);
 
         // initialize
@@ -262,21 +262,21 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                        std::function<Vector2D(const Vector2D&)> boundaryVel,
                        const FaceCenteredGrid2& input)
 {
-    const Size2 size = input.Resolution();
-    const auto uPos = input.GetUPosition();
-    const auto vPos = input.GetVPosition();
+    const Vector2UZ size = input.Resolution();
+    const auto uPos = input.UPosition();
+    const auto vPos = input.VPosition();
 
     const Vector2D invH = 1.0 / input.GridSpacing();
     const Vector2D invHSqr = invH * invH;
 
-    const ConstArrayAccessor2<double> fluidSDFAcc = fluidSDF.ConstAccessor();
+    ConstArrayView2<double> fluidSDFAcc{ fluidSDF };
 
     A->Clear();
     b->Clear();
 
     size_t numRows = 0;
     Array2<size_t> coordToIndex{ size };
-    fluidSDF.ForEachIndex([&](size_t i, size_t j) {
+    ForEachIndex(fluidSDF.Size(), [&](size_t i, size_t j) {
         const size_t cIdx = fluidSDFAcc.Index(i, j);
         const double centerPhi = fluidSDF[cIdx];
 
@@ -286,7 +286,7 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
         }
     });
 
-    fluidSDF.ForEachIndex([&](size_t i, size_t j) {
+    ForEachIndex(fluidSDF.Size(), [&](size_t i, size_t j) {
         const size_t cIdx = fluidSDFAcc.Index(i, j);
         const double centerPhi = fluidSDF(i, j);
 
@@ -418,11 +418,11 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
             }
 
             A->AddRow(row, colIdx);
-            b->Append(bij);
+            b->AddElement(bij);
         }
     });
 
-    x->Resize(b->size(), 0.0);
+    x->Resize(b->GetRows(), 0.0);
 }
 }  // namespace
 
@@ -516,7 +516,7 @@ void GridFractionalSinglePhasePressureSolver2::BuildWeights(
     const FaceCenteredGrid2& input, const ScalarField2& boundarySDF,
     const VectorField2& boundaryVelocity, const ScalarField2& fluidSDF)
 {
-    const Size2& size = input.Resolution();
+    const Vector2UZ& size = input.Resolution();
 
     // Build levels
     size_t maxLevels = 1;
@@ -530,22 +530,22 @@ void GridFractionalSinglePhasePressureSolver2::BuildWeights(
     m_vWeights.resize(m_fluidSDF.size());
     for (size_t l = 0; l < m_fluidSDF.size(); ++l)
     {
-        m_uWeights[l].Resize(m_fluidSDF[l].size() + Size2{ 1, 0 });
-        m_vWeights[l].Resize(m_fluidSDF[l].size() + Size2{ 0, 1 });
+        m_uWeights[l].Resize(m_fluidSDF[l].Size() + Vector2UZ{ 1, 0 });
+        m_vWeights[l].Resize(m_fluidSDF[l].Size() + Vector2UZ{ 0, 1 });
     }
 
     // Build top-level grids
     auto cellPos = input.CellCenterPosition();
-    auto uPos = input.GetUPosition();
-    auto vPos = input.GetVPosition();
+    auto uPos = input.UPosition();
+    auto vPos = input.VPosition();
     m_boundaryVel = boundaryVelocity.Sampler();
     Vector2D h = input.GridSpacing();
 
-    m_fluidSDF[0].ParallelForEachIndex([&](size_t i, size_t j) {
+    ParallelForEachIndex(m_fluidSDF[0].Size(), [&](size_t i, size_t j) {
         m_fluidSDF[0](i, j) = fluidSDF.Sample(cellPos(i, j));
     });
 
-    m_uWeights[0].ParallelForEachIndex([&](size_t i, size_t j) {
+    ParallelForEachIndex(m_uWeights[0].Size(), [&](size_t i, size_t j) {
         const Vector2D pt = uPos(i, j);
         const double phi0 = boundarySDF.Sample(pt - Vector2D{ 0.5 * h.x, 0.0 });
         const double phi1 = boundarySDF.Sample(pt + Vector2D{ 0.5 * h.x, 0.0 });
@@ -562,7 +562,7 @@ void GridFractionalSinglePhasePressureSolver2::BuildWeights(
         m_uWeights[0](i, j) = weight;
     });
 
-    m_vWeights[0].ParallelForEachIndex([&](size_t i, size_t j) {
+    ParallelForEachIndex(m_vWeights[0].Size(), [&](size_t i, size_t j) {
         const Vector2D pt = vPos(i, j);
         const double phi0 = boundarySDF.Sample(pt - Vector2D{ 0.0, 0.5 * h.y });
         const double phi1 = boundarySDF.Sample(pt + Vector2D{ 0.0, 0.5 * h.y });
@@ -598,11 +598,11 @@ void GridFractionalSinglePhasePressureSolver2::BuildWeights(
 
 void GridFractionalSinglePhasePressureSolver2::DecompressSolution()
 {
-    const auto acc = m_fluidSDF[0].ConstAccessor();
-    m_system.x.Resize(acc.size());
+    ConstArrayView2<double> acc{ m_fluidSDF[0] };
+    m_system.x.Resize(acc.Size());
 
     size_t row = 0;
-    m_fluidSDF[0].ForEachIndex([&](size_t i, size_t j) {
+    ForEachIndex(m_fluidSDF[0].Size(), [&](size_t i, size_t j) {
         if (IsInsideSDF(acc(i, j)))
         {
             m_system.x(i, j) = m_compSystem.x[row];
@@ -614,7 +614,7 @@ void GridFractionalSinglePhasePressureSolver2::DecompressSolution()
 void GridFractionalSinglePhasePressureSolver2::BuildSystem(
     const FaceCenteredGrid2& input, bool useCompressed)
 {
-    const Size2 size = input.Resolution();
+    const Vector2UZ size = input.Resolution();
     size_t numLevels = 1;
 
     if (m_mgSystemSolver == nullptr)
@@ -667,7 +667,7 @@ void GridFractionalSinglePhasePressureSolver2::BuildSystem(
     FaceCenteredGrid2 coarser;
     for (size_t l = 1; l < numLevels; ++l)
     {
-        Size2 res = finer->Resolution();
+        Vector2UZ res = finer->Resolution();
         Vector2D h = finer->GridSpacing();
         const Vector2D o = finer->Origin();
         res.x = res.x >> 1;
@@ -689,17 +689,17 @@ void GridFractionalSinglePhasePressureSolver2::BuildSystem(
 void GridFractionalSinglePhasePressureSolver2::ApplyPressureGradient(
     const FaceCenteredGrid2& input, FaceCenteredGrid2* output)
 {
-    Size2 size = input.Resolution();
-    ConstArrayAccessor2<double> u = input.GetUConstAccessor();
-    ConstArrayAccessor2<double> v = input.GetVConstAccessor();
-    ArrayAccessor2<double> u0 = output->GetUAccessor();
-    ArrayAccessor2<double> v0 = output->GetVAccessor();
+    Vector2UZ size = input.Resolution();
+    ConstArrayView2<double> u = input.UView();
+    ConstArrayView2<double> v = input.VView();
+    ArrayView2<double> u0 = output->UView();
+    ArrayView2<double> v0 = output->VView();
 
     const FDMVector2& x = GetPressure();
 
     Vector2D invH = 1.0 / input.GridSpacing();
 
-    x.ParallelForEachIndex([&](size_t i, size_t j) {
+    ParallelForEachIndex(x.Size(), [&](size_t i, size_t j) {
         const double centerPhi = m_fluidSDF[0](i, j);
 
         if (i + 1 < size.x && m_uWeights[0](i + 1, j) > 0.0 &&

@@ -103,7 +103,7 @@ class GridForwardEulerDiffusionSolver2 final : public GridDiffusionSolver2
                    -std::numeric_limits<double>::max() }) override;
 
  private:
-    void BuildMarkers(const Size2& size,
+    void BuildMarkers(const Vector2UZ& size,
                       const std::function<Vector2D(size_t, size_t)>& pos,
                       const ScalarField2& boundarySDF,
                       const ScalarField2& fluidSDF);

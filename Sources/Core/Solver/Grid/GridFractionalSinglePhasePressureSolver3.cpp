@@ -44,16 +44,16 @@ void Restrict(const Array3<double>& finer, Array3<double>* coarser)
                                                              0.0 } };
 
     std::array<int, 3> kernelSize{};
-    kernelSize[0] = finer.size().x != 2 * coarser->size().x ? 3 : 4;
-    kernelSize[1] = finer.size().y != 2 * coarser->size().y ? 3 : 4;
-    kernelSize[2] = finer.size().z != 2 * coarser->size().z ? 3 : 4;
+    kernelSize[0] = finer.Size().x != 2 * coarser->Size().x ? 3 : 4;
+    kernelSize[1] = finer.Size().y != 2 * coarser->Size().y ? 3 : 4;
+    kernelSize[2] = finer.Size().z != 2 * coarser->Size().z ? 3 : 4;
 
     std::array<std::array<double, 4>, 3> kernels{};
     kernels[0] = (kernelSize[0] == 3) ? staggeredKernel : centeredKernel;
     kernels[1] = (kernelSize[1] == 3) ? staggeredKernel : centeredKernel;
     kernels[2] = (kernelSize[2] == 3) ? staggeredKernel : centeredKernel;
 
-    const Size3 n = coarser->size();
+    const Vector3UZ n = coarser->Size();
     ParallelRangeFor(
         ZERO_SIZE, n.x, ZERO_SIZE, n.y, ZERO_SIZE, n.z,
         [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd,
@@ -142,16 +142,16 @@ void BuildSingleSystem(FDMMatrix3* A, FDMVector3* b,
                        std::function<Vector3D(const Vector3D&)> boundaryVel,
                        const FaceCenteredGrid3& input)
 {
-    const Size3 size = input.Resolution();
-    const auto uPos = input.GetUPosition();
-    const auto vPos = input.GetVPosition();
-    const auto wPos = input.GetWPosition();
+    const Vector3UZ size = input.Resolution();
+    const auto uPos = input.UPosition();
+    const auto vPos = input.VPosition();
+    const auto wPos = input.WPosition();
 
     const Vector3D invH = 1.0 / input.GridSpacing();
     const Vector3D invHSqr = invH * invH;
 
     // Build linear system
-    A->ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(A->Size(), [&](size_t i, size_t j, size_t k) {
         auto& row = (*A)(i, j, k);
 
         // initialize
@@ -350,22 +350,22 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                        std::function<Vector3D(const Vector3D&)> boundaryVel,
                        const FaceCenteredGrid3& input)
 {
-    const Size3 size = input.Resolution();
-    const auto uPos = input.GetUPosition();
-    const auto vPos = input.GetVPosition();
-    const auto wPos = input.GetWPosition();
+    const Vector3UZ size = input.Resolution();
+    const auto uPos = input.UPosition();
+    const auto vPos = input.VPosition();
+    const auto wPos = input.WPosition();
 
     const Vector3D invH = 1.0 / input.GridSpacing();
     const Vector3D invHSqr = invH * invH;
 
-    const ConstArrayAccessor3<double> fluidSDFAcc = fluidSDF.ConstAccessor();
+    ConstArrayView3<double> fluidSDFAcc{ fluidSDF };
 
     A->Clear();
     b->Clear();
 
     size_t numRows = 0;
     Array3<size_t> coordToIndex{ size };
-    fluidSDF.ForEachIndex([&](size_t i, size_t j, size_t k) {
+    ForEachIndex(fluidSDF.Size(), [&](size_t i, size_t j, size_t k) {
         const size_t cIdx = fluidSDFAcc.Index(i, j, k);
         const double centerPhi = fluidSDF[cIdx];
 
@@ -375,7 +375,7 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
         }
     });
 
-    fluidSDF.ForEachIndex([&](size_t i, size_t j, size_t k) {
+    ForEachIndex(fluidSDF.Size(), [&](size_t i, size_t j, size_t k) {
         const size_t cIdx = fluidSDFAcc.Index(i, j, k);
         const double centerPhi = fluidSDF[cIdx];
 
@@ -566,11 +566,11 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
             }
 
             A->AddRow(row, colIdx);
-            b->Append(bijk);
+            b->AddElement(bijk);
         }
     });
 
-    x->Resize(b->size(), 0.0);
+    x->Resize(b->GetRows(), 0.0);
 }
 }  // namespace
 
@@ -664,7 +664,7 @@ void GridFractionalSinglePhasePressureSolver3::BuildWeights(
     const FaceCenteredGrid3& input, const ScalarField3& boundarySDF,
     const VectorField3& boundaryVelocity, const ScalarField3& fluidSDF)
 {
-    const Size3& size = input.Resolution();
+    const Vector3UZ& size = input.Resolution();
 
     // Build levels
     size_t maxLevels = 1;
@@ -679,24 +679,26 @@ void GridFractionalSinglePhasePressureSolver3::BuildWeights(
     m_wWeights.resize(m_fluidSDF.size());
     for (size_t l = 0; l < m_fluidSDF.size(); ++l)
     {
-        m_uWeights[l].Resize(m_fluidSDF[l].size() + Size3{ 1, 0, 0 });
-        m_vWeights[l].Resize(m_fluidSDF[l].size() + Size3{ 0, 1, 0 });
-        m_wWeights[l].Resize(m_fluidSDF[l].size() + Size3{ 0, 0, 1 });
+        m_uWeights[l].Resize(m_fluidSDF[l].Size() + Vector3UZ{ 1, 0, 0 });
+        m_vWeights[l].Resize(m_fluidSDF[l].Size() + Vector3UZ{ 0, 1, 0 });
+        m_wWeights[l].Resize(m_fluidSDF[l].Size() + Vector3UZ{ 0, 0, 1 });
     }
 
     // Build top-level grids
     auto cellPos = input.CellCenterPosition();
-    auto uPos = input.GetUPosition();
-    auto vPos = input.GetVPosition();
-    auto wPos = input.GetWPosition();
+    auto uPos = input.UPosition();
+    auto vPos = input.VPosition();
+    auto wPos = input.WPosition();
     m_boundaryVel = boundaryVelocity.Sampler();
     Vector3D h = input.GridSpacing();
 
-    m_fluidSDF[0].ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
-        m_fluidSDF[0](i, j, k) = fluidSDF.Sample(cellPos(i, j, k));
-    });
+    ParallelForEachIndex(
+        m_fluidSDF[0].Size(), [&](size_t i, size_t j, size_t k) {
+            m_fluidSDF[0](i, j, k) = fluidSDF.Sample(cellPos(i, j, k));
+        });
 
-    m_uWeights[0].ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(m_uWeights[0].Size(), [&](size_t i, size_t j,
+                                                   size_t k) {
         const Vector3D pt = uPos(i, j, k);
         const double phi0 =
             boundarySDF.Sample(pt + Vector3D{ 0.0, -0.5 * h.y, -0.5 * h.z });
@@ -719,7 +721,8 @@ void GridFractionalSinglePhasePressureSolver3::BuildWeights(
         m_uWeights[0](i, j, k) = weight;
     });
 
-    m_vWeights[0].ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(m_vWeights[0].Size(), [&](size_t i, size_t j,
+                                                   size_t k) {
         const Vector3D pt = vPos(i, j, k);
         const double phi0 =
             boundarySDF.Sample(pt + Vector3D{ -0.5 * h.x, 0.0, -0.5 * h.z });
@@ -742,7 +745,8 @@ void GridFractionalSinglePhasePressureSolver3::BuildWeights(
         m_vWeights[0](i, j, k) = weight;
     });
 
-    m_wWeights[0].ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(m_wWeights[0].Size(), [&](size_t i, size_t j,
+                                                   size_t k) {
         const Vector3D pt = wPos(i, j, k);
         const double phi0 =
             boundarySDF.Sample(pt + Vector3D{ -0.5 * h.x, -0.5 * h.y, 0.0 });
@@ -787,11 +791,11 @@ void GridFractionalSinglePhasePressureSolver3::BuildWeights(
 
 void GridFractionalSinglePhasePressureSolver3::DecompressSolution()
 {
-    const auto acc = m_fluidSDF[0].ConstAccessor();
-    m_system.x.Resize(acc.size());
+    ConstArrayView3<double> acc{ m_fluidSDF[0] };
+    m_system.x.Resize(acc.Size());
 
     size_t row = 0;
-    m_fluidSDF[0].ForEachIndex([&](size_t i, size_t j, size_t k) {
+    ForEachIndex(m_fluidSDF[0].Size(), [&](size_t i, size_t j, size_t k) {
         if (IsInsideSDF(acc(i, j, k)))
         {
             m_system.x(i, j, k) = m_compSystem.x[row];
@@ -803,7 +807,7 @@ void GridFractionalSinglePhasePressureSolver3::DecompressSolution()
 void GridFractionalSinglePhasePressureSolver3::BuildSystem(
     const FaceCenteredGrid3& input, bool useCompressed)
 {
-    const Size3 size = input.Resolution();
+    const Vector3UZ size = input.Resolution();
     size_t numLevels = 1;
 
     if (m_mgSystemSolver == nullptr)
@@ -857,7 +861,7 @@ void GridFractionalSinglePhasePressureSolver3::BuildSystem(
     FaceCenteredGrid3 coarser;
     for (size_t l = 1; l < numLevels; ++l)
     {
-        Size3 res = finer->Resolution();
+        Vector3UZ res = finer->Resolution();
         Vector3D h = finer->GridSpacing();
         const Vector3D& o = finer->Origin();
         res.x = res.x >> 1;
@@ -880,19 +884,19 @@ void GridFractionalSinglePhasePressureSolver3::BuildSystem(
 void GridFractionalSinglePhasePressureSolver3::ApplyPressureGradient(
     const FaceCenteredGrid3& input, FaceCenteredGrid3* output)
 {
-    Size3 size = input.Resolution();
-    ConstArrayAccessor3<double> u = input.GetUConstAccessor();
-    ConstArrayAccessor3<double> v = input.GetVConstAccessor();
-    ConstArrayAccessor3<double> w = input.GetWConstAccessor();
-    ArrayAccessor3<double> u0 = output->GetUAccessor();
-    ArrayAccessor3<double> v0 = output->GetVAccessor();
-    ArrayAccessor3<double> w0 = output->GetWAccessor();
+    Vector3UZ size = input.Resolution();
+    ConstArrayView3<double> u = input.UView();
+    ConstArrayView3<double> v = input.VView();
+    ConstArrayView3<double> w = input.WView();
+    ArrayView3<double> u0 = output->UView();
+    ArrayView3<double> v0 = output->VView();
+    ArrayView3<double> w0 = output->WView();
 
     const FDMVector3& x = GetPressure();
 
     Vector3D invH = 1.0 / input.GridSpacing();
 
-    x.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(x.Size(), [&](size_t i, size_t j, size_t k) {
         const double centerPhi = m_fluidSDF[0](i, j, k);
 
         if (i + 1 < size.x && m_uWeights[0](i + 1, j, k) > 0.0 &&

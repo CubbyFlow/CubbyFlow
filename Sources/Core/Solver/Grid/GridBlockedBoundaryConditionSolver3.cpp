@@ -23,15 +23,15 @@ void GridBlockedBoundaryConditionSolver3::ConstrainVelocity(
         velocity, extrapolationDepth);
 
     // No-flux: project the velocity at the marker interface
-    Size3 size = velocity->Resolution();
-    ArrayAccessor3<double> u = velocity->GetUAccessor();
-    ArrayAccessor3<double> v = velocity->GetVAccessor();
-    ArrayAccessor3<double> w = velocity->GetWAccessor();
-    auto uPos = velocity->GetUPosition();
-    auto vPos = velocity->GetVPosition();
-    auto wPos = velocity->GetWPosition();
+    Vector3UZ size = velocity->Resolution();
+    ArrayView3<double> u = velocity->UView();
+    ArrayView3<double> v = velocity->VView();
+    ArrayView3<double> w = velocity->WView();
+    auto uPos = velocity->UPosition();
+    auto vPos = velocity->VPosition();
+    auto wPos = velocity->WPosition();
 
-    m_marker.ForEachIndex([&](size_t i, size_t j, size_t k) {
+    ForEachIndex(m_marker.Size(), [&](size_t i, size_t j, size_t k) {
         if (m_marker(i, j, k) == COLLIDER)
         {
             if (i > 0 && m_marker(i - 1, j, k) == FLUID)
@@ -80,7 +80,7 @@ const Array3<char>& GridBlockedBoundaryConditionSolver3::GetMarker() const
 }
 
 void GridBlockedBoundaryConditionSolver3::OnColliderUpdated(
-    const Size3& gridSize, const Vector3D& gridSpacing,
+    const Vector3UZ& gridSize, const Vector3D& gridSpacing,
     const Vector3D& gridOrigin)
 {
     GridFractionalBoundaryConditionSolver3::OnColliderUpdated(
@@ -90,7 +90,7 @@ void GridBlockedBoundaryConditionSolver3::OnColliderUpdated(
         std::dynamic_pointer_cast<CellCenteredScalarGrid3>(GetColliderSDF());
 
     m_marker.Resize(gridSize);
-    m_marker.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(m_marker.Size(), [&](size_t i, size_t j, size_t k) {
         if (IsInsideSDF((*sdf)(i, j, k)))
         {
             m_marker(i, j, k) = COLLIDER;

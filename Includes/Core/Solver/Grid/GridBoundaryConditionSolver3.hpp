@@ -13,7 +13,6 @@
 
 #include <Core/Field/ScalarField3.hpp>
 #include <Core/Geometry/Collider3.hpp>
-#include <Core/Geometry/Size3.hpp>
 #include <Core/Grid/FaceCenteredGrid3.hpp>
 
 namespace CubbyFlow
@@ -64,8 +63,8 @@ class GridBoundaryConditionSolver3
     //! \param gridSpacing Grid spacing of the velocity grid to be constrained.
     //! \param gridOrigin Origin of the velocity grid to be constrained.
     //!
-    void UpdateCollider(const Collider3Ptr& newCollider, const Size3& gridSize,
-                        const Vector3D& gridSpacing,
+    void UpdateCollider(const Collider3Ptr& newCollider,
+                        const Vector3UZ& gridSize, const Vector3D& gridSpacing,
                         const Vector3D& gridOrigin);
 
     //! Returns the closed domain boundary flag.
@@ -92,12 +91,12 @@ class GridBoundaryConditionSolver3
 
  protected:
     //! Invoked when a new collider is set.
-    virtual void OnColliderUpdated(const Size3& gridSize,
+    virtual void OnColliderUpdated(const Vector3UZ& gridSize,
                                    const Vector3D& gridSpacing,
                                    const Vector3D& gridOrigin) = 0;
 
     //! Returns the size of the velocity grid to be constrained.
-    [[nodiscard]] const Size3& GetGridSize() const;
+    [[nodiscard]] const Vector3UZ& GetGridSize() const;
 
     //! Returns the spacing of the velocity grid to be constrained.
     [[nodiscard]] const Vector3D& GetGridSpacing() const;
@@ -107,7 +106,7 @@ class GridBoundaryConditionSolver3
 
  private:
     Collider3Ptr m_collider;
-    Size3 m_gridSize;
+    Vector3UZ m_gridSize;
     Vector3D m_gridSpacing;
     Vector3D m_gridOrigin;
     int m_closedDomainBoundaryFlag = DIRECTION_ALL;

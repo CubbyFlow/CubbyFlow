@@ -115,15 +115,15 @@ class GridBackwardEulerDiffusionSolver3 final : public GridDiffusionSolver3
 
  private:
     void BuildMarkers(
-        const Size3& size,
+        const Vector3UZ& size,
         const std::function<Vector3D(size_t, size_t, size_t)>& pos,
         const ScalarField3& boundarySDF, const ScalarField3& fluidSDF);
 
-    void BuildMatrix(const Size3& size, const Vector3D& c);
+    void BuildMatrix(const Vector3UZ& size, const Vector3D& c);
 
-    void BuildVectors(const ConstArrayAccessor3<double>& f, const Vector3D& c);
+    void BuildVectors(const ConstArrayView3<double>& f, const Vector3D& c);
 
-    void BuildVectors(const ConstArrayAccessor3<Vector3D>& f, const Vector3D& c,
+    void BuildVectors(const ConstArrayView3<Vector3D>& f, const Vector3D& c,
                       size_t component);
 
     BoundaryType m_boundaryType;

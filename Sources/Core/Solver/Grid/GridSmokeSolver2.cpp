@@ -19,7 +19,7 @@ GridSmokeSolver2::GridSmokeSolver2()
     // Do nothing
 }
 
-GridSmokeSolver2::GridSmokeSolver2(const Size2& resolution,
+GridSmokeSolver2::GridSmokeSolver2(const Vector2UZ& resolution,
                                    const Vector2D& gridSpacing,
                                    const Vector2D& gridOrigin)
     : GridFluidSolver2{ resolution, gridSpacing, gridOrigin }
@@ -179,10 +179,10 @@ void GridSmokeSolver2::ComputeBuoyancyForce(double timeIntervalInSeconds)
         tAmb /=
             static_cast<double>(temp->Resolution().x * temp->Resolution().y);
 
-        ArrayAccessor2<double> u = vel->GetUAccessor();
-        ArrayAccessor2<double> v = vel->GetVAccessor();
-        auto uPos = vel->GetUPosition();
-        auto vPos = vel->GetVPosition();
+        ArrayView2<double> u = vel->UView();
+        ArrayView2<double> v = vel->VView();
+        auto uPos = vel->UPosition();
+        auto vPos = vel->VPosition();
 
         if (std::abs(up.x) > std::numeric_limits<double>::epsilon())
         {
