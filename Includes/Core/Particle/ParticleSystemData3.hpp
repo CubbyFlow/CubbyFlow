@@ -11,10 +11,10 @@
 #ifndef CUBBYFLOW_PARTICLE_SYSTEM_DATA3_HPP
 #define CUBBYFLOW_PARTICLE_SYSTEM_DATA3_HPP
 
-#include <Core/Array/Array1.hpp>
+#include <Core/Array/Array.hpp>
+#include <Core/Matrix/Matrix.hpp>
 #include <Core/Searcher/PointNeighborSearcher3.hpp>
 #include <Core/Utils/Serialization.hpp>
-#include <Core/Vector/Vector3.hpp>
 
 #include <memory>
 #include <vector>
@@ -126,34 +126,34 @@ class ParticleSystemData3 : public Serializable
     virtual void SetMass(double newMass);
 
     //! Returns the position array (immutable).
-    ConstArrayAccessor1<Vector3D> GetPositions() const;
+    ConstArrayView1<Vector3D> Positions() const;
 
     //! Returns the position array (mutable).
-    ArrayAccessor1<Vector3D> GetPositions();
+    ArrayView1<Vector3D> Positions();
 
     //! Returns the velocity array (immutable).
-    ConstArrayAccessor1<Vector3D> GetVelocities() const;
+    ConstArrayView1<Vector3D> Velocities() const;
 
     //! Returns the velocity array (mutable).
-    ArrayAccessor1<Vector3D> GetVelocities();
+    ArrayView1<Vector3D> Velocities();
 
     //! Returns the force array (immutable).
-    ConstArrayAccessor1<Vector3D> GetForces() const;
+    ConstArrayView1<Vector3D> Forces() const;
 
     //! Returns the force array (mutable).
-    ArrayAccessor1<Vector3D> GetForces();
+    ArrayView1<Vector3D> Forces();
 
     //! Returns custom scalar data layer at given index (immutable).
-    ConstArrayAccessor1<double> ScalarDataAt(size_t idx) const;
+    ConstArrayView1<double> ScalarDataAt(size_t idx) const;
 
     //! Returns custom scalar data layer at given index (mutable).
-    ArrayAccessor1<double> ScalarDataAt(size_t idx);
+    ArrayView1<double> ScalarDataAt(size_t idx);
 
     //! Returns custom vector data layer at given index (immutable).
-    ConstArrayAccessor1<Vector3D> VectorDataAt(size_t idx) const;
+    ConstArrayView1<Vector3D> VectorDataAt(size_t idx) const;
 
     //! Returns custom vector data layer at given index (mutable).
-    ArrayAccessor1<Vector3D> VectorDataAt(size_t idx);
+    ArrayView1<Vector3D> VectorDataAt(size_t idx);
 
     //!
     //! \brief      Adds a particle to the data structure.
@@ -186,11 +186,11 @@ class ParticleSystemData3 : public Serializable
     //! \param[in]  newVelocities The new velocities.
     //! \param[in]  newForces     The new forces.
     //!
-    void AddParticles(const ConstArrayAccessor1<Vector3D>& newPositions,
-                      const ConstArrayAccessor1<Vector3D>& newVelocities =
-                          ConstArrayAccessor1<Vector3D>(),
-                      const ConstArrayAccessor1<Vector3D>& newForces =
-                          ConstArrayAccessor1<Vector3D>());
+    void AddParticles(const ConstArrayView1<Vector3D>& newPositions,
+                      const ConstArrayView1<Vector3D>& newVelocities =
+                          ConstArrayView1<Vector3D>(),
+                      const ConstArrayView1<Vector3D>& newForces =
+                          ConstArrayView1<Vector3D>());
 
     //!
     //! \brief      Returns neighbor searcher.

@@ -16,7 +16,7 @@
 #ifndef CUBBYFLOW_SPH_STD_KERNEL3_HPP
 #define CUBBYFLOW_SPH_STD_KERNEL3_HPP
 
-#include <Core/Vector/Vector3.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 namespace CubbyFlow
 {
