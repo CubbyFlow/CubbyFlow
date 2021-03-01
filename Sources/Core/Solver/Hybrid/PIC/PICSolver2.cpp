@@ -21,7 +21,7 @@ PICSolver2::PICSolver2() : PICSolver2{ { 1, 1 }, { 1, 1 }, { 0, 0 } }
     // Do nothing
 }
 
-PICSolver2::PICSolver2(const Size2& resolution, const Vector2D& gridSpacing,
+PICSolver2::PICSolver2(const Vector2UZ& resolution, const Vector2D& gridSpacing,
                        const Vector2D& gridOrigin)
     : GridFluidSolver2{ resolution, gridSpacing, gridOrigin }
 {
@@ -119,36 +119,36 @@ ScalarField2Ptr PICSolver2::GetFluidSDF() const
 void PICSolver2::TransferFromParticlesToGrids()
 {
     FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
-    ArrayAccessor1<Vector2<double>> positions = m_particles->GetPositions();
-    ArrayAccessor1<Vector2<double>> velocities = m_particles->GetVelocities();
+    ArrayView1<Vector2<double>> positions = m_particles->Positions();
+    ArrayView1<Vector2<double>> velocities = m_particles->Velocities();
     const size_t numberOfParticles = m_particles->GetNumberOfParticles();
 
     // Clear velocity to zero
     flow->Fill(Vector2D{});
 
     // Weighted-average velocity
-    ArrayAccessor2<double> u = flow->GetUAccessor();
-    ArrayAccessor2<double> v = flow->GetVAccessor();
-    Array2<double> uWeight{ u.size() };
-    Array2<double> vWeight{ v.size() };
-    m_uMarkers.Resize(u.size());
-    m_vMarkers.Resize(v.size());
-    m_uMarkers.Set(0);
-    m_vMarkers.Set(0);
+    ArrayView2<double> u = flow->UView();
+    ArrayView2<double> v = flow->VView();
+    Array2<double> uWeight{ u.Size() };
+    Array2<double> vWeight{ v.Size() };
+    m_uMarkers.Resize(u.Size());
+    m_vMarkers.Resize(v.Size());
+    m_uMarkers.Fill(0);
+    m_vMarkers.Fill(0);
 
-    const LinearArraySampler2<double, double> uSampler{
-        flow->GetUConstAccessor(), flow->GridSpacing(), flow->GetUOrigin()
-    };
-    const LinearArraySampler2<double, double> vSampler{
-        flow->GetVConstAccessor(), flow->GridSpacing(), flow->GetVOrigin()
-    };
+    const LinearArraySampler2<double> uSampler{ flow->UView(),
+                                                flow->GridSpacing(),
+                                                flow->UOrigin() };
+    const LinearArraySampler2<double> vSampler{ flow->VView(),
+                                                flow->GridSpacing(),
+                                                flow->VOrigin() };
 
     for (size_t i = 0; i < numberOfParticles; ++i)
     {
-        std::array<Point2UI, 4> indices{};
+        std::array<Vector2UZ, 4> indices{};
         std::array<double, 4> weights{};
 
-        uSampler.GetCoordinatesAndWeights(positions[i], &indices, &weights);
+        uSampler.GetCoordinatesAndWeights(positions[i], indices, weights);
         for (int j = 0; j < 4; ++j)
         {
             u(indices[j]) += velocities[i].x * weights[j];
@@ -156,7 +156,7 @@ void PICSolver2::TransferFromParticlesToGrids()
             m_uMarkers(indices[j]) = 1;
         }
 
-        vSampler.GetCoordinatesAndWeights(positions[i], &indices, &weights);
+        vSampler.GetCoordinatesAndWeights(positions[i], indices, weights);
         for (int j = 0; j < 4; ++j)
         {
             v(indices[j]) += velocities[i].y * weights[j];
@@ -165,13 +165,13 @@ void PICSolver2::TransferFromParticlesToGrids()
         }
     }
 
-    uWeight.ParallelForEachIndex([&](size_t i, size_t j) {
+    ParallelForEachIndex(uWeight.Size(), [&](size_t i, size_t j) {
         if (uWeight(i, j) > 0.0)
         {
             u(i, j) /= uWeight(i, j);
         }
     });
-    vWeight.ParallelForEachIndex([&](size_t i, size_t j) {
+    ParallelForEachIndex(vWeight.Size(), [&](size_t i, size_t j) {
         if (vWeight(i, j) > 0.0)
         {
             v(i, j) /= vWeight(i, j);
@@ -182,8 +182,8 @@ void PICSolver2::TransferFromParticlesToGrids()
 void PICSolver2::TransferFromGridsToParticles()
 {
     FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
-    ArrayAccessor1<Vector2<double>> positions = m_particles->GetPositions();
-    ArrayAccessor1<Vector2<double>> velocities = m_particles->GetVelocities();
+    ArrayView1<Vector2<double>> positions = m_particles->Positions();
+    ArrayView1<Vector2<double>> velocities = m_particles->Velocities();
     const size_t numberOfParticles = m_particles->GetNumberOfParticles();
 
     ParallelFor(ZERO_SIZE, numberOfParticles,
@@ -193,8 +193,8 @@ void PICSolver2::TransferFromGridsToParticles()
 void PICSolver2::MoveParticles(double timeIntervalInSeconds)
 {
     FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
-    ArrayAccessor1<Vector2<double>> positions = m_particles->GetPositions();
-    ArrayAccessor1<Vector2<double>> velocities = m_particles->GetVelocities();
+    ArrayView1<Vector2<double>> positions = m_particles->Positions();
+    ArrayView1<Vector2<double>> velocities = m_particles->Velocities();
     const size_t numberOfParticles = m_particles->GetNumberOfParticles();
     int domainBoundaryFlag = GetClosedDomainBoundaryFlag();
     BoundingBox2D boundingBox = flow->BoundingBox();
@@ -258,21 +258,21 @@ void PICSolver2::MoveParticles(double timeIntervalInSeconds)
     }
 }
 
-void PICSolver2::ExtrapolateVelocityToAir() const
+void PICSolver2::ExtrapolateVelocityToAir()
 {
     FaceCenteredGrid2Ptr vel = GetGridSystemData()->GetVelocity();
-    const ArrayAccessor2<double> u = vel->GetUAccessor();
-    const ArrayAccessor2<double> v = vel->GetVAccessor();
+    const ArrayView2<double> u = vel->UView();
+    const ArrayView2<double> v = vel->VView();
 
     const auto depth = static_cast<unsigned int>(std::ceil(GetMaxCFL()));
-    ExtrapolateToRegion(vel->GetUConstAccessor(), m_uMarkers, depth, u);
-    ExtrapolateToRegion(vel->GetVConstAccessor(), m_vMarkers, depth, v);
+    ExtrapolateToRegion(vel->UView(), m_uMarkers, depth, u);
+    ExtrapolateToRegion(vel->VView(), m_vMarkers, depth, v);
 }
 
 void PICSolver2::BuildSignedDistanceField()
 {
     ScalarGrid2Ptr sdf = GetSignedDistanceField();
-    auto sdfPos = sdf->GetDataPosition();
+    auto sdfPos = sdf->DataPosition();
     const double maxH = std::max(sdf->GridSpacing().x, sdf->GridSpacing().y);
     double radius = 1.2 * maxH / std::sqrt(2.0);
 

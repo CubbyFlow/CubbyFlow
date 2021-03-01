@@ -36,7 +36,7 @@ class PICSolver3 : public GridFluidSolver3
     PICSolver3();
 
     //! Constructs solver with initial grid size.
-    PICSolver3(const Size3& resolution, const Vector3D& gridSpacing,
+    PICSolver3(const Vector3UZ& resolution, const Vector3D& gridSpacing,
                const Vector3D& gridOrigin);
 
     //! Deleted copy constructor.
@@ -96,7 +96,7 @@ class PICSolver3 : public GridFluidSolver3
     Array3<char> m_wMarkers;
 
  private:
-    void ExtrapolateVelocityToAir() const;
+    void ExtrapolateVelocityToAir();
 
     void BuildSignedDistanceField();
 

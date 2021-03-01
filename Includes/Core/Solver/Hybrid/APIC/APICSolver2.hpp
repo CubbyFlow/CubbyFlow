@@ -33,7 +33,7 @@ class APICSolver2 : public PICSolver2
     APICSolver2();
 
     //! Constructs solver with initial grid size.
-    APICSolver2(const Size2& resolution, const Vector2D& gridSpacing,
+    APICSolver2(const Vector2UZ& resolution, const Vector2D& gridSpacing,
                 const Vector2D& gridOrigin);
 
     //! Deleted copy constructor.

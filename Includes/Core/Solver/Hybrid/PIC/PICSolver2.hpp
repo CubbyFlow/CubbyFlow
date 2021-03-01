@@ -36,7 +36,7 @@ class PICSolver2 : public GridFluidSolver2
     PICSolver2();
 
     //! Constructs solver with initial grid size.
-    PICSolver2(const Size2& resolution, const Vector2D& gridSpacing,
+    PICSolver2(const Vector2UZ& resolution, const Vector2D& gridSpacing,
                const Vector2D& gridOrigin);
 
     //! Deleted copy constructor.
@@ -95,7 +95,7 @@ class PICSolver2 : public GridFluidSolver2
     Array2<char> m_vMarkers;
 
  private:
-    void ExtrapolateVelocityToAir() const;
+    void ExtrapolateVelocityToAir();
 
     void BuildSignedDistanceField();
 

@@ -18,7 +18,8 @@ FLIPSolver3::FLIPSolver3()
     // Do nothing
 }
 
-FLIPSolver3::FLIPSolver3(const Size3& resolution, const Vector3D& gridSpacing,
+FLIPSolver3::FLIPSolver3(const Vector3UZ& resolution,
+                         const Vector3D& gridSpacing,
                          const Vector3D& gridOrigin)
     : PICSolver3{ resolution, gridSpacing, gridOrigin }
 {
@@ -41,15 +42,12 @@ void FLIPSolver3::TransferFromParticlesToGrids()
 
     // Store snapshot
     const FaceCenteredGrid3Ptr vel = GetGridSystemData()->GetVelocity();
-    ConstArrayAccessor3<double> u =
-        GetGridSystemData()->GetVelocity()->GetUConstAccessor();
-    ConstArrayAccessor3<double> v =
-        GetGridSystemData()->GetVelocity()->GetVConstAccessor();
-    ConstArrayAccessor3<double> w =
-        GetGridSystemData()->GetVelocity()->GetWConstAccessor();
-    m_uDelta.Resize(u.size());
-    m_vDelta.Resize(v.size());
-    m_wDelta.Resize(w.size());
+    ConstArrayView3<double> u = GetGridSystemData()->GetVelocity()->UView();
+    ConstArrayView3<double> v = GetGridSystemData()->GetVelocity()->VView();
+    ConstArrayView3<double> w = GetGridSystemData()->GetVelocity()->WView();
+    m_uDelta.Resize(u.Size());
+    m_vDelta.Resize(v.Size());
+    m_wDelta.Resize(w.Size());
 
     vel->ParallelForEachUIndex(
         [&](size_t i, size_t j, size_t k) { m_uDelta(i, j, k) = u(i, j, k); });
@@ -62,10 +60,10 @@ void FLIPSolver3::TransferFromParticlesToGrids()
 void FLIPSolver3::TransferFromGridsToParticles()
 {
     FaceCenteredGrid3Ptr flow = GetGridSystemData()->GetVelocity();
-    ArrayAccessor1<Vector3<double>> positions =
-        GetParticleSystemData()->GetPositions();
-    ArrayAccessor1<Vector3<double>> velocities =
-        GetParticleSystemData()->GetVelocities();
+    ArrayView1<Vector3<double>> positions =
+        GetParticleSystemData()->Positions();
+    ArrayView1<Vector3<double>> velocities =
+        GetParticleSystemData()->Velocities();
     const size_t numberOfParticles =
         GetParticleSystemData()->GetNumberOfParticles();
 
@@ -82,18 +80,15 @@ void FLIPSolver3::TransferFromGridsToParticles()
         m_wDelta(i, j, k) = flow->GetW(i, j, k) - m_wDelta(i, j, k);
     });
 
-    LinearArraySampler3<double, double> uSampler{
-        m_uDelta.ConstAccessor(), flow->GridSpacing().CastTo<double>(),
-        flow->GetUOrigin().CastTo<double>()
-    };
-    LinearArraySampler3<double, double> vSampler{
-        m_vDelta.ConstAccessor(), flow->GridSpacing().CastTo<double>(),
-        flow->GetVOrigin().CastTo<double>()
-    };
-    LinearArraySampler3<double, double> wSampler{
-        m_wDelta.ConstAccessor(), flow->GridSpacing().CastTo<double>(),
-        flow->GetWOrigin().CastTo<double>()
-    };
+    LinearArraySampler3<double> uSampler{ m_uDelta.View(),
+                                          flow->GridSpacing().CastTo<double>(),
+                                          flow->UOrigin().CastTo<double>() };
+    LinearArraySampler3<double> vSampler{ m_vDelta.View(),
+                                          flow->GridSpacing().CastTo<double>(),
+                                          flow->VOrigin().CastTo<double>() };
+    LinearArraySampler3<double> wSampler{ m_wDelta.View(),
+                                          flow->GridSpacing().CastTo<double>(),
+                                          flow->WOrigin().CastTo<double>() };
 
     auto sampler = [uSampler, vSampler, wSampler](const Vector3D& x) {
         const Vector3<double> xf = x.CastTo<double>();
