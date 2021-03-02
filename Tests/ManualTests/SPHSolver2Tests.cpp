@@ -68,9 +68,9 @@ CUBBYFLOW_BEGIN_TEST_F(SPHSolver2, WaterDrop)
     // Initialize source
     ImplicitSurfaceSet2Ptr surfaceSet = std::make_shared<ImplicitSurfaceSet2>();
     surfaceSet->AddExplicitSurface(std::make_shared<Plane2>(
-        Vector2D(0, 1), Vector2D(0, 0.25 * domain.GetHeight())));
+        Vector2D(0, 1), Vector2D(0, 0.25 * domain.Height())));
     surfaceSet->AddExplicitSurface(
-        std::make_shared<Sphere2>(domain.MidPoint(), 0.15 * domain.GetWidth()));
+        std::make_shared<Sphere2>(domain.MidPoint(), 0.15 * domain.Width()));
 
     BoundingBox2D sourceBound(domain);
     sourceBound.Expand(-targetSpacing);
@@ -115,9 +115,9 @@ CUBBYFLOW_BEGIN_TEST_F(SPHSolver2, WaterDropLargeDt)
     // Initialize source
     ImplicitSurfaceSet2Ptr surfaceSet = std::make_shared<ImplicitSurfaceSet2>();
     surfaceSet->AddExplicitSurface(std::make_shared<Plane2>(
-        Vector2D(0, 1), Vector2D(0, 0.25 * domain.GetHeight())));
+        Vector2D(0, 1), Vector2D(0, 0.25 * domain.Height())));
     surfaceSet->AddExplicitSurface(
-        std::make_shared<Sphere2>(domain.MidPoint(), 0.15 * domain.GetWidth()));
+        std::make_shared<Sphere2>(domain.MidPoint(), 0.15 * domain.Width()));
 
     BoundingBox2D sourceBound(domain);
     sourceBound.Expand(-targetSpacing);

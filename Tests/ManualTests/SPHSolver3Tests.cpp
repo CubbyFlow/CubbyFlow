@@ -68,9 +68,9 @@ CUBBYFLOW_BEGIN_TEST_F(SPHSolver3, WaterDrop)
     // Initialize source
     ImplicitSurfaceSet3Ptr surfaceSet = std::make_shared<ImplicitSurfaceSet3>();
     surfaceSet->AddExplicitSurface(std::make_shared<Plane3>(
-        Vector3D(0, 1, 0), Vector3D(0, 0.25 * domain.GetHeight(), 0)));
+        Vector3D(0, 1, 0), Vector3D(0, 0.25 * domain.Height(), 0)));
     surfaceSet->AddExplicitSurface(
-        std::make_shared<Sphere3>(domain.MidPoint(), 0.15 * domain.GetWidth()));
+        std::make_shared<Sphere3>(domain.MidPoint(), 0.15 * domain.Width()));
 
     BoundingBox3D sourceBound(domain);
     sourceBound.Expand(-targetSpacing);

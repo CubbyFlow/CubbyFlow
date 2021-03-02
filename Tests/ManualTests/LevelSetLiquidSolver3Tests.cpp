@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Array/Array2.hpp>
+#include <Core/Array/Array.hpp>
 #include <Core/Geometry/ImplicitSurfaceSet3.hpp>
 #include <Core/Geometry/MarchingCubes.hpp>
 #include <Core/Geometry/Plane3.hpp>
@@ -29,8 +29,8 @@ void TriangulateAndSave(const ScalarGrid3Ptr& sdf, const std::string& fileName)
     TriangleMesh3 mesh;
     int flag = DIRECTION_ALL & ~DIRECTION_DOWN;
 
-    MarchingCubes(sdf->GetConstDataAccessor(), sdf->GridSpacing(),
-                  sdf->GetDataOrigin(), &mesh, 0.0, flag);
+    MarchingCubes(sdf->DataView(), sdf->GridSpacing(), sdf->GetDataOrigin(),
+                  &mesh, 0.0, flag);
     SaveTriangleMesh(mesh, fileName);
 }
 }  // namespace
@@ -57,11 +57,11 @@ CUBBYFLOW_BEGIN_TEST_F(LevelSetLiquidSolver3, SubtleSloshing)
     auto sdfToBinary = [&](size_t i, size_t j) {
         output(i, j) = 1.0 - SmearedHeavisideSDF((*sdf)(i, j, 4) / dx);
     };
-    output.ForEachIndex(sdfToBinary);
+    ForEachIndex(output.Size(), sdfToBinary);
 
     char fileName[256];
     snprintf(fileName, sizeof(fileName), "data.#grid2,0000.npy");
-    SaveData(output.ConstAccessor(), fileName);
+    SaveData(output.View(), fileName);
 
     snprintf(fileName, sizeof(fileName), "data.#grid2,0000.obj");
     TriangulateAndSave(sdf, GetFullFilePath(fileName));
@@ -70,10 +70,10 @@ CUBBYFLOW_BEGIN_TEST_F(LevelSetLiquidSolver3, SubtleSloshing)
     {
         solver.Update(frame);
 
-        output.ForEachIndex(sdfToBinary);
+        ForEachIndex(output.Size(), sdfToBinary);
         snprintf(fileName, sizeof(fileName), "data.#grid2,%04d.npy",
                  frame.index);
-        SaveData(output.ConstAccessor(), fileName);
+        SaveData(output.View(), fileName);
 
         snprintf(fileName, sizeof(fileName), "data.#grid2,%04d.obj",
                  frame.index);

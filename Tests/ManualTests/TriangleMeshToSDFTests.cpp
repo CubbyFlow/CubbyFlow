@@ -2,7 +2,7 @@
 
 #include <ManualTests.hpp>
 
-#include <Core/Array/Array2.hpp>
+#include <Core/Array/Array.hpp>
 #include <Core/Geometry/MarchingCubes.hpp>
 #include <Core/Geometry/TriangleMeshToSDF.hpp>
 #include <Core/Grid/VertexCenteredScalarGrid3.hpp>
@@ -62,11 +62,11 @@ CUBBYFLOW_BEGIN_TEST_F(TriangleMeshToSDF, Cube)
         }
     }
 
-    SaveData(temp.ConstAccessor(), "sdf_#grid2.npy");
+    SaveData(temp.View(), "sdf_#grid2.npy");
 
     TriangleMesh3 triMesh2;
-    MarchingCubes(grid.GetConstDataAccessor(), grid.GridSpacing(),
-                  grid.Origin(), &triMesh2, 0, DIRECTION_ALL);
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.Origin(), &triMesh2,
+                  0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh2, "cube.obj");
 }
@@ -84,20 +84,19 @@ CUBBYFLOW_BEGIN_TEST_F(TriangleMeshToSDF, Bunny)
     }
 
     BoundingBox3D box = triMesh.BoundingBox();
-    Vector3D scale(box.GetWidth(), box.GetHeight(), box.GetDepth());
+    Vector3D scale(box.Width(), box.Height(), box.Depth());
     box.lowerCorner -= 0.2 * scale;
     box.upperCorner += 0.2 * scale;
 
-    VertexCenteredScalarGrid3 grid(100, 100, 100, box.GetWidth() / 100,
-                                   box.GetHeight() / 100, box.GetDepth() / 100,
-                                   box.lowerCorner.x, box.lowerCorner.y,
-                                   box.lowerCorner.z);
+    VertexCenteredScalarGrid3 grid(
+        100, 100, 100, box.Width() / 100, box.Height() / 100, box.Depth() / 100,
+        box.lowerCorner.x, box.lowerCorner.y, box.lowerCorner.z);
 
     TriangleMeshToSDF(triMesh, &grid);
 
     TriangleMesh3 triMesh2;
-    MarchingCubes(grid.GetConstDataAccessor(), grid.GridSpacing(),
-                  grid.Origin(), &triMesh2, 0, DIRECTION_ALL);
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.Origin(), &triMesh2,
+                  0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh2, "bunny.obj");
 }
@@ -115,20 +114,19 @@ CUBBYFLOW_BEGIN_TEST_F(TriangleMeshToSDF, Dragon)
     }
 
     BoundingBox3D box = triMesh.BoundingBox();
-    Vector3D scale(box.GetWidth(), box.GetHeight(), box.GetDepth());
+    Vector3D scale(box.Width(), box.Height(), box.Depth());
     box.lowerCorner -= 0.2 * scale;
     box.upperCorner += 0.2 * scale;
 
-    VertexCenteredScalarGrid3 grid(100, 100, 100, box.GetWidth() / 100,
-                                   box.GetHeight() / 100, box.GetDepth() / 100,
-                                   box.lowerCorner.x, box.lowerCorner.y,
-                                   box.lowerCorner.z);
+    VertexCenteredScalarGrid3 grid(
+        100, 100, 100, box.Width() / 100, box.Height() / 100, box.Depth() / 100,
+        box.lowerCorner.x, box.lowerCorner.y, box.lowerCorner.z);
 
     TriangleMeshToSDF(triMesh, &grid);
 
     TriangleMesh3 triMesh2;
-    MarchingCubes(grid.GetConstDataAccessor(), grid.GridSpacing(),
-                  grid.Origin(), &triMesh2, 0, DIRECTION_ALL);
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.Origin(), &triMesh2,
+                  0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh2, "dragon.obj");
 }

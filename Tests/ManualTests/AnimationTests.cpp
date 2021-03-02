@@ -3,7 +3,7 @@
 #include <ManualTests.hpp>
 
 #include <Core/Animation/Animation.hpp>
-#include <Core/Array/Array1.hpp>
+#include <Core/Array/Array.hpp>
 
 using namespace CubbyFlow;
 
@@ -43,9 +43,9 @@ CUBBYFLOW_BEGIN_TEST_F(Animation, OnUpdateSine)
 
     char fileName[256];
     snprintf(fileName, sizeof(fileName), "data.#line2,0000,x.npy");
-    SaveData(t.ConstAccessor(), 0, fileName);
+    SaveData(t.View(), 0, fileName);
     snprintf(fileName, sizeof(fileName), "data.#line2,0000,y.npy");
-    SaveData(data.ConstAccessor(), 0, fileName);
+    SaveData(data.View(), 0, fileName);
 
     for (Frame frame; frame.index < 240; frame.Advance())
     {
@@ -56,14 +56,14 @@ CUBBYFLOW_BEGIN_TEST_F(Animation, OnUpdateSine)
 
         snprintf(fileName, sizeof(fileName), "data.#line2,%04d,x.npy",
                  frame.index);
-        SaveData(t.ConstAccessor(), frame.index, fileName);
+        SaveData(t.View(), frame.index, fileName);
         snprintf(fileName, sizeof(fileName), "data.#line2,%04d,y.npy",
                  frame.index);
-        SaveData(data.ConstAccessor(), frame.index, fileName);
+        SaveData(data.View(), frame.index, fileName);
     }
 
-    SaveData(t.ConstAccessor(), "data.#line2,x.npy");
-    SaveData(data.ConstAccessor(), "data.#line2,y.npy");
+    SaveData(t.View(), "data.#line2,x.npy");
+    SaveData(data.View(), "data.#line2,y.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -76,9 +76,9 @@ CUBBYFLOW_BEGIN_TEST_F(Animation, OnUpdateSineWithDecay)
 
     char fileName[256];
     snprintf(fileName, sizeof(fileName), "data.#line2,0000,x.npy");
-    SaveData(t.ConstAccessor(), 0, fileName);
+    SaveData(t.View(), 0, fileName);
     snprintf(fileName, sizeof(fileName), "data.#line2,0000,y.npy");
-    SaveData(data.ConstAccessor(), 0, fileName);
+    SaveData(data.View(), 0, fileName);
 
     for (Frame frame; frame.index < 240; frame.Advance())
     {
@@ -89,13 +89,13 @@ CUBBYFLOW_BEGIN_TEST_F(Animation, OnUpdateSineWithDecay)
 
         snprintf(fileName, sizeof(fileName), "data.#line2,%04d,x.npy",
                  frame.index);
-        SaveData(t.ConstAccessor(), frame.index, fileName);
+        SaveData(t.View(), frame.index, fileName);
         snprintf(fileName, sizeof(fileName), "data.#line2,%04d,y.npy",
                  frame.index);
-        SaveData(data.ConstAccessor(), frame.index, fileName);
+        SaveData(data.View(), frame.index, fileName);
     }
 
-    SaveData(t.ConstAccessor(), "data.#line2,x.npy");
-    SaveData(data.ConstAccessor(), "data.#line2,y.npy");
+    SaveData(t.View(), "data.#line2,x.npy");
+    SaveData(data.View(), "data.#line2,y.npy");
 }
 CUBBYFLOW_END_TEST_F

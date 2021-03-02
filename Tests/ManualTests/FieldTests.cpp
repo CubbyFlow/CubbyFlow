@@ -2,7 +2,7 @@
 
 #include <ManualTests.hpp>
 
-#include <Core/Array/Array2.hpp>
+#include <Core/Array/Array.hpp>
 #include <Core/Array/ArrayUtils.hpp>
 #include <Core/Field/ScalarField2.hpp>
 #include <Core/Field/ScalarField3.hpp>
@@ -50,7 +50,7 @@ CUBBYFLOW_BEGIN_TEST_F(ScalarField3, Sample)
         }
     }
 
-    SaveData(data.ConstAccessor(), "data_#grid2.npy");
+    SaveData(data.View(), "data_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -72,8 +72,8 @@ CUBBYFLOW_BEGIN_TEST_F(ScalarField3, Gradient)
         }
     }
 
-    SaveData(dataU.ConstAccessor(), "data_#grid2,x.npy");
-    SaveData(dataV.ConstAccessor(), "data_#grid2,y.npy");
+    SaveData(dataU.View(), "data_#grid2,x.npy");
+    SaveData(dataV.View(), "data_#grid2,y.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -92,7 +92,7 @@ CUBBYFLOW_BEGIN_TEST_F(ScalarField3, Laplacian)
         }
     }
 
-    SaveData(data.ConstAccessor(), "data_#grid2.npy");
+    SaveData(data.View(), "data_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -148,8 +148,8 @@ CUBBYFLOW_BEGIN_TEST_F(VectorField3, Sample)
         }
     }
 
-    SaveData(dataU.ConstAccessor(), "data_#grid2,x.npy");
-    SaveData(dataV.ConstAccessor(), "data_#grid2,y.npy");
+    SaveData(dataU.View(), "data_#grid2,x.npy");
+    SaveData(dataV.View(), "data_#grid2,y.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -168,7 +168,7 @@ CUBBYFLOW_BEGIN_TEST_F(VectorField3, Divergence)
         }
     }
 
-    SaveData(data.ConstAccessor(), "data_#grid2.npy");
+    SaveData(data.View(), "data_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -189,8 +189,8 @@ CUBBYFLOW_BEGIN_TEST_F(VectorField3, Curl)
         }
     }
 
-    SaveData(dataU.ConstAccessor(), "data_#grid2,x.npy");
-    SaveData(dataV.ConstAccessor(), "data_#grid2,y.npy");
+    SaveData(dataU.View(), "data_#grid2,x.npy");
+    SaveData(dataV.View(), "data_#grid2,y.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -210,7 +210,7 @@ CUBBYFLOW_BEGIN_TEST_F(VectorField3, Sample2)
         }
     }
 
-    SaveData(dataU.ConstAccessor(), "data_#grid2,x.npy");
-    SaveData(dataV.ConstAccessor(), "data_#grid2,y.npy");
+    SaveData(dataU.View(), "data_#grid2,x.npy");
+    SaveData(dataV.View(), "data_#grid2,y.npy");
 }
 CUBBYFLOW_END_TEST_F

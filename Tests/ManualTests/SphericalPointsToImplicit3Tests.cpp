@@ -27,11 +27,11 @@ CUBBYFLOW_BEGIN_TEST_F(SphericalPointsToImplicit3, ConvertTwo)
                                    1.0 / 128);
 
     SphericalPointsToImplicit3 converter(0.15);
-    converter.Convert(points.ConstAccessor(), &grid);
+    converter.Convert(points.View(), &grid);
 
     TriangleMesh3 triMesh;
-    MarchingCubes(grid.GetConstDataAccessor(), grid.GridSpacing(),
-                  grid.GetDataOrigin(), &triMesh, 0, DIRECTION_ALL);
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.GetDataOrigin(),
+                  &triMesh, 0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh,
                          "spherical_points_to_implicit3_convert_two.obj");
@@ -53,11 +53,11 @@ CUBBYFLOW_BEGIN_TEST_F(SphericalPointsToImplicit3, ConvertMany)
                                    1.0 / 128);
 
     SphericalPointsToImplicit3 converter(0.1);
-    converter.Convert(points.ConstAccessor(), &grid);
+    converter.Convert(points.View(), &grid);
 
     TriangleMesh3 triMesh;
-    MarchingCubes(grid.GetConstDataAccessor(), grid.GridSpacing(),
-                  grid.GetDataOrigin(), &triMesh, 0, DIRECTION_ALL);
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.GetDataOrigin(),
+                  &triMesh, 0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh,
                          "spherical_points_to_implicit3_convert_many.obj");

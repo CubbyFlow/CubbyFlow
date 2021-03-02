@@ -1,9 +1,7 @@
 #ifndef CUBBYFLOW_MANUAL_TEST_HPP
 #define CUBBYFLOW_MANUAL_TEST_HPP
 
-#include <Core/Array/ArrayAccessor1.hpp>
-#include <Core/Array/ArrayAccessor2.hpp>
-#include <Core/Array/ArrayAccessor3.hpp>
+#include <Core/Array/ArrayView.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Utils/Macros.hpp>
 
@@ -69,16 +67,16 @@ inline void CreateDirectory(const std::string& dirName)
         }                                                                      \
                                                                                \
         template <typename T>                                                  \
-        void SaveData(const ConstArrayAccessor1<T>& data,                      \
-                      const std::string& name)                                 \
+        void SaveData(const ArrayView1<T>& data, const std::string& name)      \
         {                                                                      \
             std::string fileName = GetFullFilePath(name);                      \
-            unsigned int dim[1] = { static_cast<unsigned int>(data.size()) };  \
+            unsigned int dim[1] = { static_cast<unsigned int>(                 \
+                data.Length()) };                                              \
             cnpy::npy_save(fileName, data.data(), dim, 1, "w");                \
         }                                                                      \
                                                                                \
         template <typename T>                                                  \
-        void SaveData(const ConstArrayAccessor1<T>& data, size_t size,         \
+        void SaveData(const ArrayView1<T>& data, size_t size,                  \
                       const std::string& name)                                 \
         {                                                                      \
             std::string fileName = GetFullFilePath(name);                      \
@@ -87,8 +85,7 @@ inline void CreateDirectory(const std::string& dirName)
         }                                                                      \
                                                                                \
         template <typename T>                                                  \
-        void SaveData(const ConstArrayAccessor2<T>& data,                      \
-                      const std::string& name)                                 \
+        void SaveData(const ArrayView2<T>& data, const std::string& name)      \
         {                                                                      \
             std::string fileName = GetFullFilePath(name);                      \
             unsigned int dim[2] = { static_cast<unsigned int>(data.Height()),  \
@@ -97,8 +94,7 @@ inline void CreateDirectory(const std::string& dirName)
         }                                                                      \
                                                                                \
         template <typename T>                                                  \
-        void SaveData(const ConstArrayAccessor2<T>& data,                      \
-                      unsigned int frameNum)                                   \
+        void SaveData(const ArrayView2<T>& data, unsigned int frameNum)        \
         {                                                                      \
             char fileName[256];                                                \
             snprintf(fileName, sizeof(fileName), "data.#grid2,%04d.npy",       \
@@ -107,8 +103,7 @@ inline void CreateDirectory(const std::string& dirName)
         }                                                                      \
                                                                                \
         template <typename T>                                                  \
-        void SaveData(const ConstArrayAccessor3<T>& data,                      \
-                      const std::string& name)                                 \
+        void SaveData(const ArrayView3<T>& data, const std::string& name)      \
         {                                                                      \
             std::string fileName = GetFullFilePath(name);                      \
             unsigned int dim[3] = { static_cast<unsigned int>(data.Depth()),   \
@@ -118,8 +113,7 @@ inline void CreateDirectory(const std::string& dirName)
         }                                                                      \
                                                                                \
         template <typename T>                                                  \
-        void SaveData(const ConstArrayAccessor3<T>& data,                      \
-                      unsigned int frameNum)                                   \
+        void SaveData(const ArrayView3<T>& data, unsigned int frameNum)        \
         {                                                                      \
             char fileName[256];                                                \
             snprintf(fileName, sizeof(fileName), "data.#grid3,%04d.npy",       \
@@ -135,7 +129,7 @@ inline void CreateDirectory(const std::string& dirName)
             size_t n = particles->GetNumberOfParticles();                      \
             Array1<double> x(n);                                               \
             Array1<double> y(n);                                               \
-            auto positions = particles->GetPositions();                        \
+            auto positions = particles->Positions();                           \
                                                                                \
             for (size_t i = 0; i < n; ++i)                                     \
             {                                                                  \
@@ -146,10 +140,10 @@ inline void CreateDirectory(const std::string& dirName)
             char fileName[256];                                                \
             snprintf(fileName, sizeof(fileName), "data.#point2,%04d,x.npy",    \
                      frameNum);                                                \
-            SaveData(x.ConstAccessor(), fileName);                             \
+            SaveData<double>(x.View(), fileName);                              \
             snprintf(fileName, sizeof(fileName), "data.#point2,%04d,y.npy",    \
                      frameNum);                                                \
-            SaveData(y.ConstAccessor(), fileName);                             \
+            SaveData<double>(y.View(), fileName);                              \
         }                                                                      \
                                                                                \
         void SaveTriangleMeshData(const TriangleMesh3& data,                   \

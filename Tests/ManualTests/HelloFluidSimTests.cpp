@@ -99,9 +99,9 @@ CUBBYFLOW_BEGIN_TEST_F(HelloFluidSim, Run)
         AccumulateWaveToHeightField(y, waveLengthY, maxHeightY, &heightField);
 
         snprintf(fileName, sizeof(fileName), "data.#line2,%04d,x.npy", i);
-        SaveData(gridPoints.ConstAccessor(), fileName);
+        SaveData(gridPoints.View(), fileName);
         snprintf(fileName, sizeof(fileName), "data.#line2,%04d,y.npy", i);
-        SaveData(heightField.ConstAccessor(), fileName);
+        SaveData(heightField.View(), fileName);
     }
 }
 CUBBYFLOW_END_TEST_F

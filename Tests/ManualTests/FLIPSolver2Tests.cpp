@@ -71,12 +71,12 @@ CUBBYFLOW_BEGIN_TEST_F(FLIPSolver2, Rotation)
 
     for (Frame frame; frame.index < 360; ++frame)
     {
-        auto x = solver->GetParticleSystemData()->GetPositions();
-        auto v = solver->GetParticleSystemData()->GetVelocities();
+        auto x = solver->GetParticleSystemData()->Positions();
+        auto v = solver->GetParticleSystemData()->Velocities();
 
-        r.Resize(x.size());
+        r.Resize(x.Length());
 
-        for (size_t i = 0; i < x.size(); ++i)
+        for (size_t i = 0; i < x.Length(); ++i)
         {
             r[i] = (x[i] - Vector2D(0.5, 0.5)).Length();
         }
@@ -85,10 +85,10 @@ CUBBYFLOW_BEGIN_TEST_F(FLIPSolver2, Rotation)
 
         if (frame.index == 0)
         {
-            x = solver->GetParticleSystemData()->GetPositions();
-            v = solver->GetParticleSystemData()->GetVelocities();
+            x = solver->GetParticleSystemData()->Positions();
+            v = solver->GetParticleSystemData()->Velocities();
 
-            for (size_t i = 0; i < x.size(); ++i)
+            for (size_t i = 0; i < x.Length(); ++i)
             {
                 Vector2D rp = x[i] - Vector2D(0.5, 0.5);
                 v[i].x = rp.y;
@@ -97,7 +97,7 @@ CUBBYFLOW_BEGIN_TEST_F(FLIPSolver2, Rotation)
         }
         else
         {
-            for (size_t i = 0; i < x.size(); ++i)
+            for (size_t i = 0; i < x.Length(); ++i)
             {
                 Vector2D rp = x[i] - Vector2D(0.5, 0.5);
 
