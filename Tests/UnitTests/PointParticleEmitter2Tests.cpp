@@ -43,8 +43,8 @@ TEST(PointParticleEmitter2, Emit)
     emitter.Update(frame.TimeInSeconds(), frame.timeIntervalInSeconds);
     EXPECT_EQ(18u, particles->GetNumberOfParticles());
 
-    auto pos = particles->GetPositions();
-    auto vel = particles->GetVelocities();
+    auto pos = particles->Positions();
+    auto vel = particles->Velocities();
 
     for (size_t i = 0; i < particles->GetNumberOfParticles(); ++i)
     {

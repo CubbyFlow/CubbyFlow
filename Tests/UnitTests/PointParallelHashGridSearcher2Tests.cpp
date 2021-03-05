@@ -10,7 +10,7 @@ TEST(PointParallelHashGridSearcher2, ForEachNearByPoint)
                                 Vector2D(-1, 2) };
 
     PointParallelHashGridSearcher2 searcher(4, 4, std::sqrt(10));
-    searcher.Build(points.Accessor());
+    searcher.Build(points);
 
     searcher.ForEachNearbyPoint(Vector2D(0, 0), std::sqrt(15.0),
                                 [&points](size_t i, const Vector2D& pt) {
@@ -31,7 +31,7 @@ TEST(PointParallelHashGridSearcher2, ForEachNearbyPointEmpty)
     Array1<Vector2D> points;
 
     PointParallelHashGridSearcher2 searcher(4, 4, std::sqrt(10));
-    searcher.Build(points.Accessor());
+    searcher.Build(points);
 
     searcher.ForEachNearbyPoint(Vector2D(0, 0), std::sqrt(10.0),
                                 [](size_t, const Vector2D&) {

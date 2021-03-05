@@ -1,7 +1,7 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
-#include <Core/Array/Array3.hpp>
+#include <Core/Array/Array.hpp>
 #include <Core/Geometry/MarchingCubes.hpp>
 
 using namespace CubbyFlow;

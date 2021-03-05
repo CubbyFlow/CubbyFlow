@@ -1,7 +1,7 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
-#include <Core/Geometry/BoundingBox2.hpp>
+#include <Core/Geometry/BoundingBox.hpp>
 
 using namespace CubbyFlow;
 
@@ -45,8 +45,8 @@ TEST(BoundingBox2, BasicGetters)
 {
     BoundingBox2D box(Vector2D(-2.0, 3.0), Vector2D(4.0, -2.0));
 
-    EXPECT_DOUBLE_EQ(6.0, box.GetWidth());
-    EXPECT_DOUBLE_EQ(5.0, box.GetHeight());
+    EXPECT_DOUBLE_EQ(6.0, box.Width());
+    EXPECT_DOUBLE_EQ(5.0, box.Height());
     EXPECT_DOUBLE_EQ(6.0, box.Length(0));
     EXPECT_DOUBLE_EQ(5.0, box.Length(1));
 }
@@ -124,13 +124,13 @@ TEST(BoundingBox2, ClosestIntersection)
     BoundingBox2D box(Vector2D(-2.0, -2.0), Vector2D(1.0, 0.0));
 
     Ray2D ray1(Vector2D(-4, -3), Vector2D(1, 1).Normalized());
-    BoundingBoxRayIntersection2D intersection1 = box.ClosestIntersection(ray1);
+    BoundingBoxRayIntersectionD intersection1 = box.ClosestIntersection(ray1);
     EXPECT_TRUE(intersection1.isIntersecting);
     EXPECT_DOUBLE_EQ(Vector2D(2, 2).Length(), intersection1.near);
     EXPECT_DOUBLE_EQ(Vector2D(3, 3).Length(), intersection1.far);
 
     Ray2D ray2(Vector2D(0, -1), Vector2D(-2, 1).Normalized());
-    BoundingBoxRayIntersection2D intersection2 = box.ClosestIntersection(ray2);
+    BoundingBoxRayIntersectionD intersection2 = box.ClosestIntersection(ray2);
     EXPECT_TRUE(intersection2.isIntersecting);
     EXPECT_DOUBLE_EQ(Vector2D(2, 1).Length(), intersection2.near);
 }

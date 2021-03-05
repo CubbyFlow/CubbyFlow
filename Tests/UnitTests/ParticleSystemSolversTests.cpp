@@ -49,18 +49,18 @@ TEST(ParticleSystemSolver2, Update)
 
     ParticleSystemData2Ptr data = solver.GetParticleSystemData();
     ParticleSystemData2::VectorData positions(10);
-    data->AddParticles(positions.Accessor());
+    data->AddParticles(positions);
 
     Frame frame(0, 1.0 / 60.0);
     solver.Update(frame);
 
     for (size_t i = 0; i < data->GetNumberOfParticles(); ++i)
     {
-        EXPECT_DOUBLE_EQ(0.0, data->GetPositions()[i].x);
-        EXPECT_NE(0, data->GetPositions()[i].y);
+        EXPECT_DOUBLE_EQ(0.0, data->Positions()[i].x);
+        EXPECT_NE(0, data->Positions()[i].y);
 
-        EXPECT_DOUBLE_EQ(0.0, data->GetVelocities()[i].x);
-        EXPECT_NE(0, data->GetVelocities()[i].y);
+        EXPECT_DOUBLE_EQ(0.0, data->Velocities()[i].x);
+        EXPECT_NE(0, data->Velocities()[i].y);
     }
 }
 
@@ -108,19 +108,19 @@ TEST(ParticleSystemSolver3, Update)
 
     ParticleSystemData3Ptr data = solver.GetParticleSystemData();
     ParticleSystemData3::VectorData positions(10);
-    data->AddParticles(positions.Accessor());
+    data->AddParticles(positions);
 
     Frame frame(0, 1.0 / 60.0);
     solver.Update(frame);
 
     for (size_t i = 0; i < data->GetNumberOfParticles(); ++i)
     {
-        EXPECT_DOUBLE_EQ(0.0, data->GetPositions()[i].x);
-        EXPECT_NE(0, data->GetPositions()[i].y);
-        EXPECT_DOUBLE_EQ(0.0, data->GetPositions()[i].z);
+        EXPECT_DOUBLE_EQ(0.0, data->Positions()[i].x);
+        EXPECT_NE(0, data->Positions()[i].y);
+        EXPECT_DOUBLE_EQ(0.0, data->Positions()[i].z);
 
-        EXPECT_DOUBLE_EQ(0.0, data->GetVelocities()[i].x);
-        EXPECT_NE(0, data->GetVelocities()[i].y);
-        EXPECT_DOUBLE_EQ(0.0, data->GetVelocities()[i].z);
+        EXPECT_DOUBLE_EQ(0.0, data->Velocities()[i].x);
+        EXPECT_NE(0, data->Velocities()[i].y);
+        EXPECT_DOUBLE_EQ(0.0, data->Velocities()[i].z);
     }
 }

@@ -1,18 +1,17 @@
 #include "pch.hpp"
 
-#include <Core/Matrix/MatrixMxN.hpp>
-#include <Core/Vector/VectorN.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 using namespace CubbyFlow;
 
 namespace
 {
 template <typename T>
-inline std::ostream& operator<<(std::ostream& stream, const MatrixMxN<T>& m)
+std::ostream& operator<<(std::ostream& stream, const MatrixMxN<T>& m)
 {
-    for (size_t i = 0; i < m.Rows(); ++i)
+    for (size_t i = 0; i < m.GetRows(); ++i)
     {
-        for (size_t j = 0; j < m.Cols(); ++j)
+        for (size_t j = 0; j < m.GetCols(); ++j)
         {
             stream << m(i, j) << ' ';
         }
@@ -27,12 +26,12 @@ inline std::ostream& operator<<(std::ostream& stream, const MatrixMxN<T>& m)
 TEST(MatrixMxN, Constructors)
 {
     MatrixMxND mat;
-    EXPECT_EQ(0u, mat.Rows());
-    EXPECT_EQ(0u, mat.Cols());
+    EXPECT_EQ(0u, mat.GetRows());
+    EXPECT_EQ(0u, mat.GetCols());
 
     MatrixMxND mat3(4, 2, 5.0);
-    EXPECT_EQ(4u, mat3.Rows());
-    EXPECT_EQ(2u, mat3.Cols());
+    EXPECT_EQ(4u, mat3.GetRows());
+    EXPECT_EQ(2u, mat3.GetCols());
     for (size_t i = 0; i < 8; ++i)
     {
         EXPECT_EQ(5.0, mat3[i]);
@@ -41,16 +40,16 @@ TEST(MatrixMxN, Constructors)
     MatrixMxND mat4 = { { 1.0, 2.0, 3.0, 4.0 },
                         { 5.0, 6.0, 7.0, 8.0 },
                         { 9.0, 10.0, 11.0, 12.0 } };
-    EXPECT_EQ(3u, mat4.Rows());
-    EXPECT_EQ(4u, mat4.Cols());
+    EXPECT_EQ(3u, mat4.GetRows());
+    EXPECT_EQ(4u, mat4.GetCols());
     for (size_t i = 0; i < 12; ++i)
     {
         EXPECT_EQ(i + 1.0, mat4[i]);
     }
 
     MatrixMxND mat5(mat4);
-    EXPECT_EQ(3u, mat5.Rows());
-    EXPECT_EQ(4u, mat5.Cols());
+    EXPECT_EQ(3u, mat5.GetRows());
+    EXPECT_EQ(4u, mat5.GetCols());
     for (size_t i = 0; i < 12; ++i)
     {
         EXPECT_EQ(mat4[i], mat5[i]);
@@ -58,8 +57,8 @@ TEST(MatrixMxN, Constructors)
 
     double ans6[] = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
     MatrixMxND mat6(3, 2, ans6);
-    EXPECT_EQ(3u, mat6.Rows());
-    EXPECT_EQ(2u, mat6.Cols());
+    EXPECT_EQ(3u, mat6.GetRows());
+    EXPECT_EQ(2u, mat6.GetCols());
     for (size_t i = 0; i < 6; ++i)
     {
         EXPECT_EQ(ans6[i], mat6[i]);
@@ -70,40 +69,40 @@ TEST(MatrixMxN, BasicSetters)
 {
     MatrixMxND mat;
     mat.Resize(4, 2, 5.0);
-    EXPECT_EQ(4u, mat.Rows());
-    EXPECT_EQ(2u, mat.Cols());
+    EXPECT_EQ(4u, mat.GetRows());
+    EXPECT_EQ(2u, mat.GetCols());
     for (size_t i = 0; i < 8; ++i)
     {
         EXPECT_EQ(5.0, mat[i]);
     }
 
-    mat.Set(7.0);
+    mat.Fill(7.0);
     for (size_t i = 0; i < 8; ++i)
     {
         EXPECT_EQ(7.0, mat[i]);
     }
 
-    mat.Set({ { 1.0, 2.0, 3.0, 4.0 }, { 5.0, 6.0, 7.0, 8.0 } });
-    EXPECT_EQ(2u, mat.Rows());
-    EXPECT_EQ(4u, mat.Cols());
+    mat = { { 1.0, 2.0, 3.0, 4.0 }, { 5.0, 6.0, 7.0, 8.0 } };
+    EXPECT_EQ(2u, mat.GetRows());
+    EXPECT_EQ(4u, mat.GetCols());
     for (size_t i = 0; i < 8; ++i)
     {
         EXPECT_EQ(i + 1.0, mat[i]);
     }
 
     MatrixMxND mat2;
-    mat2.Set(mat);
-    EXPECT_EQ(2u, mat2.Rows());
-    EXPECT_EQ(4u, mat2.Cols());
+    mat2 = mat;
+    EXPECT_EQ(2u, mat2.GetRows());
+    EXPECT_EQ(4u, mat2.GetCols());
     for (size_t i = 0; i < 8; ++i)
     {
         EXPECT_EQ(i + 1.0, mat2[i]);
     }
 
     double arr[] = { 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0 };
-    mat.Set(4, 2, arr);
-    EXPECT_EQ(4u, mat.Rows());
-    EXPECT_EQ(2u, mat.Cols());
+    mat = MatrixMxND(4, 2, arr);
+    EXPECT_EQ(4u, mat.GetRows());
+    EXPECT_EQ(2u, mat.GetCols());
     for (size_t i = 0; i < 8; ++i)
     {
         EXPECT_EQ(arr[i], mat[i]);
@@ -157,146 +156,17 @@ TEST(MatrixMxN, BasicSetters)
         }
     }
 
-    mat.Set({ { 1.0, 2.0, 3.0, 4.0 }, { 5.0, 6.0, 7.0, 8.0 } });
-    mat2.Set({ { 1.0, 2.0, 3.0, 4.0 }, { 5.0, 6.0, 7.0, 8.0 } });
-    EXPECT_TRUE(mat.IsEqual(mat2));
+    mat = { { 1.0, 2.0, 3.0, 4.0 }, { 5.0, 6.0, 7.0, 8.0 } };
+    mat2 = MatrixMxND({ { 1.0, 2.0, 3.0, 4.0 }, { 5.0, 6.0, 7.0, 8.0 } });
+    EXPECT_TRUE(mat == mat2);
 
-    mat2.Set({ { 1.01, 2.01, 3.01, 4.01 }, { 4.99, 5.99, 6.99, 7.99 } });
+    mat2 = { { 1.01, 2.01, 3.01, 4.01 }, { 4.99, 5.99, 6.99, 7.99 } };
     EXPECT_TRUE(mat.IsSimilar(mat2, 0.02));
     EXPECT_FALSE(mat.IsSimilar(mat2, 0.005));
 
     EXPECT_FALSE(mat.IsSquare());
-    mat.Set({ { 1.0, 2.0 }, { 3.0, 4.0 } });
+    mat = { { 1.0, 2.0 }, { 3.0, 4.0 } };
     EXPECT_TRUE(mat.IsSquare());
-}
-
-TEST(MatrixMxN, BinaryOperatorMethod)
-{
-    const MatrixMxND matA = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } };
-
-    MatrixMxND matB = matA.Add(3.5);
-    for (size_t i = 0; i < 6; ++i)
-    {
-        EXPECT_EQ(i + 4.5, matB[i]);
-    }
-
-    MatrixMxND matC = { { 3.0, -1.0, 2.0 }, { 9.0, 2.0, 8.0 } };
-    matB = matA.Add(matC);
-    MatrixMxND ans = { { 4.0, 1.0, 5.0 }, { 13.0, 7.0, 14.0 } };
-    EXPECT_TRUE(ans.IsEqual(matB));
-
-    matB = matA.Sub(1.5);
-    for (size_t i = 0; i < 6; ++i)
-    {
-        EXPECT_EQ(i - 0.5, matB[i]);
-    }
-
-    matB = matA.Sub(matC);
-    ans = { { -2.0, 3.0, 1.0 }, { -5.0, 3.0, -2.0 } };
-    EXPECT_TRUE(ans.IsEqual(matB));
-
-    matB = matA.Mul(2.0);
-    for (size_t i = 0; i < 6; ++i)
-    {
-        EXPECT_EQ(2.0 * (i + 1.0), matB[i]);
-    }
-
-    matC = { { 3.0, -1.0 }, { 2.0, 9.0 }, { 2.0, 8.0 } };
-    matB = matA.Mul(matC);
-    ans = { { 13.0, 41.0 }, { 34.0, 89.0 } };
-    EXPECT_TRUE(ans.IsEqual(matB));
-
-    matB = matA.Div(2.0);
-    for (size_t i = 0; i < 6; ++i)
-    {
-        EXPECT_EQ((i + 1.0) / 2.0, matB[i]);
-    }
-
-    matB = matA.RAdd(3.5);
-    for (size_t i = 0; i < 6; ++i)
-    {
-        EXPECT_EQ(i + 4.5, matB[i]);
-    }
-
-    matB = matA.RSub(1.5);
-    for (size_t i = 0; i < 6; ++i)
-    {
-        EXPECT_EQ(0.5 - i, matB[i]);
-    }
-
-    matC = { { 3.0, -1.0, 2.0 }, { 9.0, 2.0, 8.0 } };
-    matB = matA.RSub(matC);
-    ans = { { 2.0, -3.0, -1.0 }, { 5.0, -3.0, 2.0 } };
-    EXPECT_EQ(ans, matB);
-
-    matB = matA.RMul(2.0);
-    for (size_t i = 0; i < 6; ++i)
-    {
-        EXPECT_EQ(2.0 * (i + 1.0), matB[i]);
-    }
-
-    matC = { { 3.0, -1.0 }, { 2.0, 9.0 }, { 2.0, 8.0 } };
-    matB = matC.RMul(matA);
-    ans = { { 13.0, 41.0 }, { 34.0, 89.0 } };
-    EXPECT_EQ(ans, matB);
-
-    matB = matA.RDiv(2.0);
-    for (size_t i = 0; i < 6; ++i)
-    {
-        EXPECT_EQ(2.0 / (i + 1.0), matB[i]);
-    }
-}
-
-TEST(MatrixMxN, AugmentedOperatorMethod)
-{
-    const MatrixMxND matA = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } };
-    const MatrixMxND matB = { { 3.0, -1.0, 2.0 }, { 9.0, 2.0, 8.0 } };
-
-    MatrixMxND mat = matA;
-    mat.IAdd(3.5);
-    for (size_t i = 0; i < 6; ++i)
-    {
-        EXPECT_EQ(i + 4.5, mat[i]);
-    }
-
-    mat = matA;
-    mat.IAdd(matB);
-    MatrixMxND ans = { { 4.0, 1.0, 5.0 }, { 13.0, 7.0, 14.0 } };
-    EXPECT_EQ(ans, mat);
-
-    mat = matA;
-    mat.ISub(1.5);
-    for (size_t i = 0; i < 6; ++i)
-    {
-        EXPECT_EQ(i - 0.5, mat[i]) << i;
-    }
-
-    mat = matA;
-    mat.ISub(matB);
-    ans = { { -2.0, 3.0, 1.0 }, { -5.0, 3.0, -2.0 } };
-    EXPECT_EQ(ans, mat);
-
-    mat = matA;
-    mat.IMul(2.0);
-    for (size_t i = 0; i < 6; ++i)
-    {
-        EXPECT_EQ(2.0 * (i + 1.0), mat[i]);
-    }
-
-    mat = matA;
-    const MatrixMxND matC = { { 3.0, -1.0 }, { 2.0, 9.0 }, { 2.0, 8.0 } };
-    mat.IMul(matC);
-    EXPECT_EQ(2u, mat.Rows());
-    EXPECT_EQ(2u, mat.Cols());
-    ans = { { 13.0, 41.0 }, { 34.0, 89.0 } };
-    EXPECT_EQ(ans, mat);
-
-    mat = matA;
-    mat.IDiv(2.0);
-    for (size_t i = 0; i < 6; ++i)
-    {
-        EXPECT_EQ((i + 1.0) / 2.0, mat[i]);
-    }
 }
 
 TEST(MatrixMxN, ComplexGetters)
@@ -426,8 +296,8 @@ TEST(MatrixMxN, SetterOperators)
     mat = matA;
     const MatrixMxND matC = { { 3.0, -1.0 }, { 2.0, 9.0 }, { 2.0, 8.0 } };
     mat *= matC;
-    EXPECT_EQ(2u, mat.Rows());
-    EXPECT_EQ(2u, mat.Cols());
+    EXPECT_EQ(2u, mat.GetRows());
+    EXPECT_EQ(2u, mat.GetCols());
     ans = { { 13.0, 41.0 }, { 34.0, 89.0 } };
     EXPECT_EQ(ans, mat);
 
@@ -442,7 +312,7 @@ TEST(MatrixMxN, SetterOperators)
 TEST(MatrixMxN, GetterOperator)
 {
     MatrixMxND mat, mat2;
-    mat.Set({ { 1.0, 2.0, 3.0, 4.0 }, { 5.0, 6.0, 7.0, 8.0 } });
+    mat = { { 1.0, 2.0, 3.0, 4.0 }, { 5.0, 6.0, 7.0, 8.0 } };
     double cnt = 1.0;
     for (size_t i = 0; i < 2; ++i)
     {
@@ -458,24 +328,24 @@ TEST(MatrixMxN, GetterOperator)
         EXPECT_EQ(i + 1.0, mat[i]);
     }
 
-    mat.Set({ { 1.0, 2.0, 3.0, 4.0 }, { 5.0, 6.0, 7.0, 8.0 } });
-    mat2.Set({ { 1.0, 2.0, 3.0, 4.0 }, { 5.0, 6.0, 7.0, 8.0 } });
+    mat = { { 1.0, 2.0, 3.0, 4.0 }, { 5.0, 6.0, 7.0, 8.0 } };
+    mat2 = { { 1.0, 2.0, 3.0, 4.0 }, { 5.0, 6.0, 7.0, 8.0 } };
     EXPECT_EQ(mat, mat2);
 }
 
 TEST(MatrixMxN, Builders)
 {
     MatrixMxND mat = MatrixMxND::MakeZero(3, 4);
-    EXPECT_EQ(3u, mat.Rows());
-    EXPECT_EQ(4u, mat.Cols());
+    EXPECT_EQ(3u, mat.GetRows());
+    EXPECT_EQ(4u, mat.GetCols());
     for (size_t i = 0; i < 12; ++i)
     {
         EXPECT_EQ(0.0, mat[i]);
     }
 
     mat = MatrixMxND::MakeIdentity(5);
-    EXPECT_EQ(5u, mat.Rows());
-    EXPECT_EQ(5u, mat.Cols());
+    EXPECT_EQ(5u, mat.GetRows());
+    EXPECT_EQ(5u, mat.GetCols());
     for (size_t i = 0; i < 25; ++i)
     {
         if (i % 6 == 0)

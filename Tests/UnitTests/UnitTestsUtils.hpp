@@ -1,8 +1,7 @@
 #ifndef UNIT_TESTS_UTILS_HPP
 #define UNIT_TESTS_UTILS_HPP
 
-#include <Core/Vector/Vector2.hpp>
-#include <Core/Vector/Vector3.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 #define EXPECT_VECTOR2_EQ(expected, actual)     \
     EXPECT_DOUBLE_EQ((expected).x, (actual).x); \

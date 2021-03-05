@@ -10,7 +10,7 @@ TEST(PointKdTreeSearcher3, ForEachNearbyPoint)
                                 Vector3D(-1, 3, 0) };
 
     PointKdTreeSearcher3 searcher;
-    searcher.Build(points.Accessor());
+    searcher.Build(points);
 
     int cnt = 0;
     searcher.ForEachNearbyPoint(Vector3D(0, 0, 0), std::sqrt(10.0),
@@ -37,7 +37,7 @@ TEST(PointKdTreeSearcher3, ForEachNearbyPointEmpty)
     Array1<Vector3D> points;
 
     PointKdTreeSearcher3 searcher;
-    searcher.Build(points.Accessor());
+    searcher.Build(points);
 
     searcher.ForEachNearbyPoint(Vector3D(0, 0, 0), std::sqrt(10.0),
                                 [](size_t, const Vector3D&) {
@@ -51,7 +51,7 @@ TEST(PointKdTreeSearcher3, CopyConstructor)
                                 Vector3D(-1, 3, 0) };
 
     PointKdTreeSearcher3 searcher;
-    searcher.Build(points.Accessor());
+    searcher.Build(points);
 
     const PointKdTreeSearcher3 searcher2(searcher);
     int cnt = 0;
@@ -80,7 +80,7 @@ TEST(PointKdTreeSearcher3, Serialize)
                                 Vector3D(-1, 3, 0) };
 
     PointKdTreeSearcher3 searcher;
-    searcher.Build(points.Accessor());
+    searcher.Build(points);
 
     std::vector<uint8_t> buffer;
     searcher.Serialize(&buffer);

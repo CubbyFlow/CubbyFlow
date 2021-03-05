@@ -4,8 +4,6 @@
 #include <Core/Geometry/ImplicitSurface3.hpp>
 #include <Core/Geometry/ImplicitSurfaceSet2.hpp>
 #include <Core/Geometry/ImplicitSurfaceSet3.hpp>
-#include <Core/Geometry/Size2.hpp>
-#include <Core/Geometry/Size3.hpp>
 #include <Core/Geometry/Sphere2.hpp>
 #include <Core/Geometry/Sphere3.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver2.hpp>
@@ -20,7 +18,7 @@ TEST(LevelSetLiquidSolver2, ComputeVolume)
 
     auto data = solver.GetGridSystemData();
     double dx = 1.0 / 32.0;
-    data->Resize(Size2(32, 64), Vector2D(dx, dx), Vector2D());
+    data->Resize(Vector2UZ(32, 64), Vector2D(dx, dx), Vector2D());
 
     // Source setting
     const double radius = 0.15;
@@ -46,7 +44,7 @@ TEST(LevelSetLiquidSolver3, ComputeVolume)
 
     auto data = solver.GetGridSystemData();
     double dx = 1.0 / 32.0;
-    data->Resize(Size3(32, 64, 32), Vector3D(dx, dx, dx), Vector3D());
+    data->Resize(Vector3UZ(32, 64, 32), Vector3D(dx, dx, dx), Vector3D());
 
     // Source setting
     const double radius = 0.15;

@@ -17,9 +17,9 @@ TEST(FDMMGPCGSolver3, Solve)
         FDMMatrix3& A = system.A[l];
         FDMVector3& b = system.b[l];
 
-        system.x[l].Set(0);
+        system.x[l].Fill(0);
 
-        A.ForEachIndex([&](size_t i, size_t j, size_t k) {
+        ForEachIndex(A.Size(), [&](size_t i, size_t j, size_t k) {
             if (i > 0)
             {
                 A(i, j, k).center += invdx * invdx;

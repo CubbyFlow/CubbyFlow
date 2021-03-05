@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Vector/Vector2.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 using namespace CubbyFlow;
 
@@ -23,31 +23,33 @@ TEST(Vector2, Constructors)
     EXPECT_FLOAT_EQ(6.f, vec6.y);
 }
 
-TEST(Vector2, SetMethods)
-{
-    Vector2F vec;
-    vec.Set(4.f, 2.f);
-    EXPECT_FLOAT_EQ(4.f, vec.x);
-    EXPECT_FLOAT_EQ(2.f, vec.y);
-
-    auto list = { 0.f, 5.f };
-    vec.Set(list);
-    EXPECT_FLOAT_EQ(0.f, vec.x);
-    EXPECT_FLOAT_EQ(5.f, vec.y);
-
-    vec.Set(Vector2F(9.f, 8.f));
-    EXPECT_FLOAT_EQ(9.f, vec.x);
-    EXPECT_FLOAT_EQ(8.f, vec.y);
-}
-
 TEST(Vector2, BasicSetterMethods)
 {
     Vector2F vec(3.f, 9.f);
-    vec.SetZero();
+    vec.Fill(0.0f);
     EXPECT_FLOAT_EQ(0.f, vec.x);
     EXPECT_FLOAT_EQ(0.f, vec.y);
 
-    vec.Set(4.f, 2.f);
+    vec.Fill(4.f);
+    EXPECT_FLOAT_EQ(4.f, vec.x);
+    EXPECT_FLOAT_EQ(4.f, vec.y);
+
+    vec.Fill([](size_t i) -> float { return i * 5.f; });
+    EXPECT_FLOAT_EQ(0.f, vec.x);
+    EXPECT_FLOAT_EQ(5.f, vec.y);
+
+    vec.Fill([](size_t i, size_t) -> float { return i + 8.f; });
+    EXPECT_FLOAT_EQ(8.f, vec.x);
+    EXPECT_FLOAT_EQ(9.f, vec.y);
+
+    Vector2F vec2{ 5.f, 3.f };
+    vec.Swap(vec2);
+    EXPECT_FLOAT_EQ(5.f, vec.x);
+    EXPECT_FLOAT_EQ(3.f, vec.y);
+    EXPECT_FLOAT_EQ(8.f, vec2.x);
+    EXPECT_FLOAT_EQ(9.f, vec2.y);
+
+    vec = Vector2F{ 4.f, 2.f };
     vec.Normalize();
     float len = vec.x * vec.x + vec.y * vec.y;
     EXPECT_NEAR(len, 1.f, 1e-6);
@@ -55,116 +57,13 @@ TEST(Vector2, BasicSetterMethods)
 
 TEST(Vector2, BinaryOperatorMethods)
 {
-    Vector2F vec(3.f, 9.f);
-    vec = vec.Add(4.f);
-    EXPECT_FLOAT_EQ(7.f, vec.x);
-    EXPECT_FLOAT_EQ(13.f, vec.y);
-
-    vec = vec.Add(Vector2F(-2.f, 1.f));
-    EXPECT_FLOAT_EQ(5.f, vec.x);
-    EXPECT_FLOAT_EQ(14.f, vec.y);
-
-    vec = vec.Sub(8.f);
-    EXPECT_FLOAT_EQ(-3.f, vec.x);
-    EXPECT_FLOAT_EQ(6.f, vec.y);
-
-    vec = vec.Sub(Vector2F(-5.f, 3.f));
-    EXPECT_FLOAT_EQ(2.f, vec.x);
-    EXPECT_FLOAT_EQ(3.f, vec.y);
-
-    vec = vec.Mul(2.f);
-    EXPECT_FLOAT_EQ(4.f, vec.x);
-    EXPECT_FLOAT_EQ(6.f, vec.y);
-
-    vec = vec.Mul(Vector2F(3.f, -2.f));
-    EXPECT_FLOAT_EQ(12.f, vec.x);
-    EXPECT_FLOAT_EQ(-12.f, vec.y);
-
-    vec = vec.Div(4.f);
-    EXPECT_FLOAT_EQ(3.f, vec.x);
-    EXPECT_FLOAT_EQ(-3.f, vec.y);
-
-    vec = vec.Div(Vector2F(3.f, -1.f));
-    EXPECT_FLOAT_EQ(1.f, vec.x);
-    EXPECT_FLOAT_EQ(3.f, vec.y);
+    Vector2F vec(1.f, 3.f);
 
     float d = vec.Dot(Vector2F(4.f, 2.f));
     EXPECT_FLOAT_EQ(d, 10.f);
 
     float c = vec.Cross(Vector2F(5.f, -7.f));
     EXPECT_FLOAT_EQ(c, -22.f);
-}
-
-TEST(Vector2, BinaryInverseOperatorMethods)
-{
-    Vector2F vec(3.f, 9.f);
-    vec = vec.RSub(8.f);
-    EXPECT_FLOAT_EQ(5.f, vec.x);
-    EXPECT_FLOAT_EQ(-1.f, vec.y);
-
-    vec = vec.RSub(Vector2F(-5.f, 3.f));
-    EXPECT_FLOAT_EQ(-10.f, vec.x);
-    EXPECT_FLOAT_EQ(4.f, vec.y);
-
-    vec = Vector2F(-4.f, -3.f);
-    vec = vec.RDiv(12.f);
-    EXPECT_FLOAT_EQ(-3.f, vec.x);
-    EXPECT_FLOAT_EQ(vec.y, -4.f);
-
-    vec = vec.RDiv(Vector2F(3.f, -16.f));
-    EXPECT_FLOAT_EQ(-1.f, vec.x);
-    EXPECT_FLOAT_EQ(4.f, vec.y);
-
-    float c = vec.RCross(Vector2F(5.f, -7.f));
-    EXPECT_FLOAT_EQ(c, 13.f);
-}
-
-TEST(Vector2, AugmentedOperatorMethods)
-{
-    Vector2F vec(3.f, 9.f);
-    vec.IAdd(4.f);
-    EXPECT_FLOAT_EQ(7.f, vec.x);
-    EXPECT_FLOAT_EQ(vec.y, 13.f);
-
-    vec.IAdd(Vector2F(-2.f, 1.f));
-    EXPECT_FLOAT_EQ(5.f, vec.x);
-    EXPECT_FLOAT_EQ(vec.y, 14.f);
-
-    vec.ISub(8.f);
-    EXPECT_FLOAT_EQ(-3.f, vec.x);
-    EXPECT_FLOAT_EQ(6.f, vec.y);
-
-    vec.ISub(Vector2F(-5.f, 3.f));
-    EXPECT_FLOAT_EQ(2.f, vec.x);
-    EXPECT_FLOAT_EQ(3.f, vec.y);
-
-    vec.IMul(2.f);
-    EXPECT_FLOAT_EQ(4.f, vec.x);
-    EXPECT_FLOAT_EQ(6.f, vec.y);
-
-    vec.IMul(Vector2F(3.f, -2.f));
-    EXPECT_FLOAT_EQ(12.f, vec.x);
-    EXPECT_FLOAT_EQ(-12.f, vec.y);
-
-    vec.IDiv(4.f);
-    EXPECT_FLOAT_EQ(3.f, vec.x);
-    EXPECT_FLOAT_EQ(-3.f, vec.y);
-
-    vec.IDiv(Vector2F(3.f, -1.f));
-    EXPECT_FLOAT_EQ(1.f, vec.x);
-    EXPECT_FLOAT_EQ(3.f, vec.y);
-}
-
-TEST(Vector2, AtMethod)
-{
-    Vector2F vec(8.f, 9.f);
-    EXPECT_FLOAT_EQ(vec.At(0), 8.f);
-    EXPECT_FLOAT_EQ(vec.At(1), 9.f);
-
-    vec.At(0) = 7.f;
-    vec.At(1) = 6.f;
-    EXPECT_FLOAT_EQ(7.f, vec.x);
-    EXPECT_FLOAT_EQ(6.f, vec.y);
 }
 
 TEST(Vector2, BasicGetterMethods)
@@ -200,7 +99,7 @@ TEST(Vector2, BasicGetterMethods)
     float lenSqr = vec2.x * vec2.x + vec2.y * vec2.y;
     EXPECT_NEAR(lenSqr, 1.f, eps);
 
-    vec2.IMul(2.f);
+    vec2 *= 2.f;
     float len = vec2.Length();
     EXPECT_NEAR(len, 2.f, eps);
 
@@ -223,7 +122,7 @@ TEST(Vector2, BracketOperator)
 TEST(Vector2, AssignmentOperator)
 {
     Vector2F vec(5.f, 1.f);
-    Vector2F vec2;
+    Vector2F vec2(3.f, 3.f);
     vec2 = vec;
     EXPECT_FLOAT_EQ(5.f, vec2.x);
     EXPECT_FLOAT_EQ(vec2.y, 1.f);
@@ -252,7 +151,7 @@ TEST(Vector2, AugmentedOperators)
     EXPECT_FLOAT_EQ(4.f, vec.x);
     EXPECT_FLOAT_EQ(6.f, vec.y);
 
-    vec *= Vector2F(3.f, -2.f);
+    ElemIMul(vec, Vector2F(3.f, -2.f));
     EXPECT_FLOAT_EQ(12.f, vec.x);
     EXPECT_FLOAT_EQ(-12.f, vec.y);
 
@@ -260,7 +159,7 @@ TEST(Vector2, AugmentedOperators)
     EXPECT_FLOAT_EQ(3.f, vec.x);
     EXPECT_FLOAT_EQ(-3.f, vec.y);
 
-    vec /= Vector2F(3.f, -1.f);
+    ElemIDiv(vec, Vector2F(3.f, -1.f));
     EXPECT_FLOAT_EQ(1.f, vec.x);
     EXPECT_FLOAT_EQ(3.f, vec.y);
 }
@@ -306,6 +205,11 @@ TEST(Vector2, CeilFloorFunction)
 TEST(Vector2, BinaryOperators)
 {
     Vector2F vec(3.f, 9.f);
+
+    Vector2F vec2 = -vec;
+    EXPECT_FLOAT_EQ(-3.f, vec2.x);
+    EXPECT_FLOAT_EQ(-9.f, vec2.y);
+
     vec = vec + 4.f;
     EXPECT_FLOAT_EQ(7.f, vec.x);
     EXPECT_FLOAT_EQ(vec.y, 13.f);
@@ -326,7 +230,7 @@ TEST(Vector2, BinaryOperators)
     EXPECT_FLOAT_EQ(4.f, vec.x);
     EXPECT_FLOAT_EQ(6.f, vec.y);
 
-    vec = vec * Vector2F(3.f, -2.f);
+    ElemIMul(vec, Vector2F(3.f, -2.f));
     EXPECT_FLOAT_EQ(12.f, vec.x);
     EXPECT_FLOAT_EQ(-12.f, vec.y);
 
@@ -334,7 +238,7 @@ TEST(Vector2, BinaryOperators)
     EXPECT_FLOAT_EQ(3.f, vec.x);
     EXPECT_FLOAT_EQ(-3.f, vec.y);
 
-    vec = vec / Vector2F(3.f, -1.f);
+    vec = ElemDiv(vec, Vector2F(3.f, -1.f));
     EXPECT_FLOAT_EQ(1.f, vec.x);
     EXPECT_FLOAT_EQ(3.f, vec.y);
 

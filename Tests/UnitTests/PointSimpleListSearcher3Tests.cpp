@@ -10,7 +10,7 @@ TEST(PointSimpleListSearcher3, ForEachNearByPoint)
                                 Vector3D(-1, 2, 1) };
 
     PointSimpleListSearcher3 searcher;
-    searcher.Build(points.ConstAccessor());
+    searcher.Build(points);
 
     searcher.ForEachNearbyPoint(Vector3D(0, 0, 1), std::sqrt(15.0),
                                 [&](size_t i, const Vector3D& pt) {

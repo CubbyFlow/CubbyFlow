@@ -47,8 +47,8 @@ TEST(VolumeParticleEmitter2, Emit)
     Frame frame(0, 1.0);
     emitter.Update(frame.TimeInSeconds(), frame.timeIntervalInSeconds);
 
-    auto pos = particles->GetPositions();
-    auto vel = particles->GetVelocities();
+    auto pos = particles->Positions();
+    auto vel = particles->Velocities();
 
     EXPECT_EQ(30u, particles->GetNumberOfParticles());
     for (size_t i = 0; i < particles->GetNumberOfParticles(); ++i)
@@ -56,9 +56,8 @@ TEST(VolumeParticleEmitter2, Emit)
         EXPECT_GE(3.0, (pos[i] - Vector2D(1.0, 2.0)).Length());
         EXPECT_TRUE(box.Contains(pos[i]));
 
-        Vector2D r = pos[i];
-        Vector2D w = 5.0 * Vector2D(-r.y, r.x);
-        EXPECT_VECTOR2_NEAR(Vector2D(2.0, 4.5) + w, vel[i], 1e-9);
+        EXPECT_EQ(-1.0, vel[i].x);
+        EXPECT_EQ(0.5, vel[i].y);
     }
 
     emitter.SetIsEnabled(false);
@@ -74,7 +73,7 @@ TEST(VolumeParticleEmitter2, Emit)
 
     EXPECT_EQ(51u, particles->GetNumberOfParticles());
 
-    pos = particles->GetPositions();
+    pos = particles->Positions();
     for (size_t i = 0; i < particles->GetNumberOfParticles(); ++i)
     {
         pos[i] += Vector2D(2.0, 1.5);

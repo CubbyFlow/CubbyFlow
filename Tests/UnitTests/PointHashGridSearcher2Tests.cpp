@@ -10,7 +10,7 @@ TEST(PointHashGridSearcher2, ForEachNearByPoint)
                                 Vector2D(-1, 2) };
 
     PointHashGridSearcher2 searcher(4, 4, std::sqrt(10));
-    searcher.Build(points.Accessor());
+    searcher.Build(points);
 
     searcher.ForEachNearbyPoint(Vector2D(0, 0), std::sqrt(15.0),
                                 [&points](size_t i, const Vector2D& pt) {
@@ -32,7 +32,7 @@ TEST(PointHashGridSearcher2, HasEachNearByPoint)
                                 Vector2D(4, 5) };
 
     PointHashGridSearcher2 searcher(4, 4, std::sqrt(10));
-    searcher.Build(points.Accessor());
+    searcher.Build(points);
 
     bool result;
     result = searcher.HasNearbyPoint(Vector2D(), std::sqrt(15.0));
@@ -46,13 +46,13 @@ TEST(PointHashGridSearcher2, Build)
                                 Vector2D(-3, 0) };
 
     PointHashGridSearcher2 searcher(4, 4, std::sqrt(10));
-    searcher.Build(points.Accessor());
+    searcher.Build(points);
 
-    EXPECT_EQ(Point2I(0, 1), searcher.GetBucketIndex(Vector2D(3, 4)));
-    EXPECT_EQ(Point2I(0, 1), searcher.GetBucketIndex(Vector2D(1, 5)));
-    EXPECT_EQ(Point2I(-1, 0), searcher.GetBucketIndex(Vector2D(-3, 0)));
+    EXPECT_EQ(Vector2Z(0, 1), searcher.GetBucketIndex(Vector2D(3, 4)));
+    EXPECT_EQ(Vector2Z(0, 1), searcher.GetBucketIndex(Vector2D(1, 5)));
+    EXPECT_EQ(Vector2Z(-1, 0), searcher.GetBucketIndex(Vector2D(-3, 0)));
 
-    EXPECT_EQ(4, searcher.GetHashKeyFromBucketIndex(Point2I(0, 1)));
-    EXPECT_EQ(8, searcher.GetHashKeyFromBucketIndex(Point2I(0, 2)));
-    EXPECT_EQ(3, searcher.GetHashKeyFromBucketIndex(Point2I(-1, 0)));
+    EXPECT_EQ(4, searcher.GetHashKeyFromBucketIndex(Vector2Z(0, 1)));
+    EXPECT_EQ(8, searcher.GetHashKeyFromBucketIndex(Vector2Z(0, 2)));
+    EXPECT_EQ(3, searcher.GetHashKeyFromBucketIndex(Vector2Z(-1, 0)));
 }

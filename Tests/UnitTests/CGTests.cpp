@@ -1,8 +1,7 @@
 #include "pch.hpp"
 
 #include <Core/Math/CG.hpp>
-#include <Core/Matrix/Matrix2x2.hpp>
-#include <Core/Vector/Vector2.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 using namespace CubbyFlow;
 
@@ -72,7 +71,7 @@ TEST(PCG, Solve)
 
         void Solve(const Vector2D& b, Vector2D* x) const
         {
-            *x = b / precond;
+            *x = ElemDiv(b, precond);
         }
     };
 

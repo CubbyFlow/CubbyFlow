@@ -103,17 +103,14 @@ TEST(ParticleSystemData3, AddParticles)
     particleSystem.Resize(12);
 
     particleSystem.AddParticles(
-        Array1<Vector3D>({ Vector3D(1.0, 2.0, 3.0), Vector3D(4.0, 5.0, 6.0) })
-            .Accessor(),
-        Array1<Vector3D>({ Vector3D(7.0, 8.0, 9.0), Vector3D(8.0, 7.0, 6.0) })
-            .Accessor(),
-        Array1<Vector3D>({ Vector3D(5.0, 4.0, 3.0), Vector3D(2.0, 1.0, 3.0) })
-            .Accessor());
+        Array1<Vector3D>({ Vector3D(1.0, 2.0, 3.0), Vector3D(4.0, 5.0, 6.0) }),
+        Array1<Vector3D>({ Vector3D(7.0, 8.0, 9.0), Vector3D(8.0, 7.0, 6.0) }),
+        Array1<Vector3D>({ Vector3D(5.0, 4.0, 3.0), Vector3D(2.0, 1.0, 3.0) }));
 
     EXPECT_EQ(14u, particleSystem.GetNumberOfParticles());
-    auto p = particleSystem.GetPositions();
-    auto v = particleSystem.GetVelocities();
-    auto f = particleSystem.GetForces();
+    auto p = particleSystem.Positions();
+    auto v = particleSystem.Velocities();
+    auto f = particleSystem.Forces();
 
     EXPECT_EQ(Vector3D(1.0, 2.0, 3.0), p[12]);
     EXPECT_EQ(Vector3D(4.0, 5.0, 6.0), p[13]);
@@ -129,20 +126,17 @@ TEST(ParticleSystemData3, AddParticlesException)
     particleSystem.Resize(12);
 
     EXPECT_ANY_THROW(particleSystem.AddParticles(
-        Array1<Vector3D>({ Vector3D(1.0, 2.0, 3.0), Vector3D(4.0, 5.0, 6.0) })
-            .Accessor(),
-        Array1<Vector3D>({ Vector3D(7.0, 8.0, 9.0) }).Accessor(),
-        Array1<Vector3D>({ Vector3D(5.0, 4.0, 3.0), Vector3D(2.0, 1.0, 3.0) })
-            .Accessor()));
+        Array1<Vector3D>({ Vector3D(1.0, 2.0, 3.0), Vector3D(4.0, 5.0, 6.0) }),
+        Array1<Vector3D>({ Vector3D(7.0, 8.0, 9.0) }),
+        Array1<Vector3D>(
+            { Vector3D(5.0, 4.0, 3.0), Vector3D(2.0, 1.0, 3.0) })));
 
     EXPECT_EQ(12u, particleSystem.GetNumberOfParticles());
 
     EXPECT_ANY_THROW(particleSystem.AddParticles(
-        Array1<Vector3D>({ Vector3D(1.0, 2.0, 3.0), Vector3D(4.0, 5.0, 6.0) })
-            .Accessor(),
-        Array1<Vector3D>({ Vector3D(7.0, 8.0, 9.0), Vector3D(2.0, 1.0, 3.0) })
-            .Accessor(),
-        Array1<Vector3D>({ Vector3D(5.0, 4.0, 3.0) }).Accessor()));
+        Array1<Vector3D>({ Vector3D(1.0, 2.0, 3.0), Vector3D(4.0, 5.0, 6.0) }),
+        Array1<Vector3D>({ Vector3D(7.0, 8.0, 9.0), Vector3D(2.0, 1.0, 3.0) }),
+        Array1<Vector3D>({ Vector3D(5.0, 4.0, 3.0) })));
 
     EXPECT_EQ(12u, particleSystem.GetNumberOfParticles());
 }
@@ -171,7 +165,7 @@ TEST(ParticleSystemData3, BuildNeighborSearcher)
         searchOrigin, radius,
         [&](size_t i, const Vector3D&) { found.push_back(i); });
 
-    for (size_t ii = 0; ii < positions.size(); ++ii)
+    for (size_t ii = 0; ii < positions.Length(); ++ii)
     {
         if (searchOrigin.DistanceTo(positions[ii]) <= radius)
         {
@@ -200,13 +194,13 @@ TEST(ParticleSystemData3, BuildNeighborLists)
     particleSystem.BuildNeighborLists(radius);
 
     const auto& neighborLists = particleSystem.GetNeighborLists();
-    EXPECT_EQ(positions.size(), neighborLists.size());
+    EXPECT_EQ(positions.Length(), neighborLists.size());
 
     for (size_t i = 0; i < neighborLists.size(); ++i)
     {
         const auto& neighbors = neighborLists[i];
 
-        for (size_t ii = 0; ii < positions.size(); ++ii)
+        for (size_t ii = 0; ii < positions.Length(); ++ii)
         {
             if (ii != i && positions[ii].DistanceTo(positions[i]) <= radius)
             {
@@ -245,21 +239,21 @@ TEST(ParticleSystemData3, Serialization)
     ParticleSystemData3 particleSystem2;
     particleSystem2.Deserialize(buffer);
 
-    EXPECT_EQ(positions.size(), particleSystem2.GetNumberOfParticles());
+    EXPECT_EQ(positions.Length(), particleSystem2.GetNumberOfParticles());
     auto as0 = particleSystem2.ScalarDataAt(a0);
-    for (size_t i = 0; i < positions.size(); ++i)
+    for (size_t i = 0; i < positions.Length(); ++i)
     {
         EXPECT_DOUBLE_EQ(2.0, as0[i]);
     }
 
     auto as1 = particleSystem2.ScalarDataAt(a1);
-    for (size_t i = 0; i < positions.size(); ++i)
+    for (size_t i = 0; i < positions.Length(); ++i)
     {
         EXPECT_DOUBLE_EQ(9.0, as1[i]);
     }
 
     auto as2 = particleSystem2.VectorDataAt(a2);
-    for (size_t i = 0; i < positions.size(); ++i)
+    for (size_t i = 0; i < positions.Length(); ++i)
     {
         EXPECT_DOUBLE_EQ(1.0, as2[i].x);
         EXPECT_DOUBLE_EQ(-3.0, as2[i].y);

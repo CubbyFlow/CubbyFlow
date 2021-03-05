@@ -1,13 +1,14 @@
 #include "pch.hpp"
 
-#include <Core/Matrix/Matrix3x3.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 using namespace CubbyFlow;
 
 TEST(Matrix3x3, Constructors)
 {
     Matrix3x3D mat;
-    EXPECT_TRUE(mat == Matrix3x3D(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0));
+
+    EXPECT_TRUE(mat == Matrix3x3D(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
 
     Matrix3x3D mat2(3.1);
     for (int i = 0; i < 9; ++i)
@@ -46,42 +47,29 @@ TEST(Matrix3x3, SetMethods)
 {
     Matrix3x3D mat;
 
-    mat.Set(3.1);
+    mat.Fill(3.1);
     for (int i = 0; i < 9; ++i)
     {
         EXPECT_DOUBLE_EQ(3.1, mat[i]);
     }
 
-    mat.Set(0.0);
-    mat.Set(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
+    mat.Fill([](size_t i) -> double { return i + 1.0; });
     for (int i = 0; i < 9; ++i)
     {
         EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
-    mat.Set(0.0);
-    mat.Set({ { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } });
-    for (int i = 0; i < 9; ++i)
+    mat.Fill([](size_t i, size_t j) -> double {
+        return static_cast<double>(i + j);
+    });
+    for (int i = 0; i < 3; ++i)
     {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
+        for (int j = 0; j < 3; ++j)
+        {
+            EXPECT_DOUBLE_EQ(static_cast<double>(i + j), mat(i, j));
+        }
     }
 
-    mat.Set(0.0);
-    mat.Set(Matrix3x3D(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0));
-    for (int i = 0; i < 9; ++i)
-    {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
-    }
-
-    mat.Set(0.0);
-    double arr[] = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0 };
-    mat.Set(arr);
-    for (int i = 0; i < 9; ++i)
-    {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
-    }
-
-    mat.Set(0.0);
     mat.SetDiagonal(3.1);
     for (int i = 0; i < 3; ++i)
     {
@@ -91,14 +79,9 @@ TEST(Matrix3x3, SetMethods)
             {
                 EXPECT_DOUBLE_EQ(3.1, mat(i, j));
             }
-            else
-            {
-                EXPECT_DOUBLE_EQ(0.0, mat(i, j));
-            }
         }
     }
 
-    mat.Set(0.0);
     mat.SetOffDiagonal(4.2);
     for (int i = 0; i < 3; ++i)
     {
@@ -108,14 +91,10 @@ TEST(Matrix3x3, SetMethods)
             {
                 EXPECT_DOUBLE_EQ(4.2, mat(i, j));
             }
-            else
-            {
-                EXPECT_DOUBLE_EQ(0.0, mat(i, j));
-            }
         }
     }
 
-    mat.Set(0.0);
+    mat.Fill(0.0);
     mat.SetRow(0, Vector3D(1.0, 2.0, 3.0));
     mat.SetRow(1, Vector3D(4.0, 5.0, 6.0));
     mat.SetRow(2, Vector3D(7.0, 8.0, 9.0));
@@ -124,7 +103,7 @@ TEST(Matrix3x3, SetMethods)
         EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
-    mat.Set(0.0);
+    mat.Fill(0.0);
     mat.SetColumn(0, Vector3D(1.0, 4.0, 7.0));
     mat.SetColumn(1, Vector3D(2.0, 5.0, 8.0));
     mat.SetColumn(2, Vector3D(3.0, 6.0, 9.0));
@@ -144,119 +123,8 @@ TEST(Matrix3x3, BasicGetters)
 
     EXPECT_TRUE(mat.IsSquare());
 
-    EXPECT_EQ(3u, mat.Rows());
-    EXPECT_EQ(3u, mat.Cols());
-}
-
-TEST(Matrix3x3, BinaryOperators)
-{
-    Matrix3x3D mat(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0), mat2;
-    Vector3D vec;
-
-    mat2 = mat.Add(2.0);
-    EXPECT_TRUE(mat2.IsSimilar(
-        Matrix3x3D(11.0, -6.0, 9.0, -4.0, 7.0, -2.0, 5.0, 0.0, 3.0)));
-
-    mat2 = mat.Add(Matrix3x3D(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0));
-    EXPECT_TRUE(mat2.IsSimilar(
-        Matrix3x3D(10.0, -6.0, 10.0, -2.0, 10.0, 2.0, 10.0, 6.0, 10.0)));
-
-    mat2 = mat.Sub(2.0);
-    EXPECT_TRUE(mat2.IsSimilar(
-        Matrix3x3D(7.0, -10.0, 5.0, -8.0, 3.0, -6.0, 1.0, -4.0, -1.0)));
-
-    mat2 = mat.Sub(Matrix3x3D(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0));
-    EXPECT_TRUE(mat2.IsSimilar(
-        Matrix3x3D(8.0, -10.0, 4.0, -10.0, 0.0, -10.0, -4.0, -10.0, -8.0)));
-
-    mat2 = mat.Mul(2.0);
-    EXPECT_TRUE(mat2.IsSimilar(
-        Matrix3x3D(18.0, -16.0, 14.0, -12.0, 10.0, -8.0, 6.0, -4.0, 2.0)));
-
-    vec = mat.Mul(Vector3D(1, 2, 3));
-    EXPECT_TRUE(vec.IsSimilar(Vector3D(14.0, -8.0, 2.0)));
-
-    mat2 = mat.Mul(Matrix3x3D(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0));
-    EXPECT_TRUE(mat2.IsSimilar(
-        Matrix3x3D(26.0, 34.0, 42.0, -14.0, -19.0, -24.0, 2.0, 4.0, 6.0)))
-        << mat2(0, 0) << ' ' << mat2(0, 1) << ' ' << mat2(0, 2) << "\n"
-        << mat2(1, 0) << ' ' << mat2(1, 1) << ' ' << mat2(1, 2) << "\n"
-        << mat2(2, 0) << ' ' << mat2(2, 1) << ' ' << mat2(2, 2) << "\n";
-
-    mat2 = mat.Div(2.0);
-    EXPECT_TRUE(mat2.IsSimilar(
-        Matrix3x3D(4.5, -4.0, 3.5, -3.0, 2.5, -2.0, 1.5, -1.0, 0.5)));
-
-    mat2 = mat.RAdd(2.0);
-    EXPECT_TRUE(mat2.IsSimilar(
-        Matrix3x3D(11.0, -6.0, 9.0, -4.0, 7.0, -2.0, 5.0, 0.0, 3.0)));
-
-    mat2 = mat.RAdd(Matrix3x3D(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0));
-    EXPECT_TRUE(mat2.IsSimilar(
-        Matrix3x3D(10.0, -6.0, 10.0, -2.0, 10.0, 2.0, 10.0, 6.0, 10.0)));
-
-    mat2 = mat.RSub(2.0);
-    EXPECT_TRUE(mat2.IsSimilar(
-        Matrix3x3D(-7.0, 10.0, -5.0, 8.0, -3.0, 6.0, -1.0, 4.0, 1.0)));
-
-    mat2 = mat.RSub(Matrix3x3D(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0));
-    EXPECT_TRUE(mat2.IsSimilar(
-        Matrix3x3D(-8.0, 10.0, -4.0, 10.0, 0.0, 10.0, 4.0, 10.0, 8.0)));
-
-    mat2 = mat.RMul(2.0);
-    EXPECT_TRUE(mat2.IsSimilar(
-        Matrix3x3D(18.0, -16.0, 14.0, -12.0, 10.0, -8.0, 6.0, -4.0, 2.0)));
-
-    mat2 = mat.RMul(Matrix3x3D(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0));
-    EXPECT_TRUE(mat2.IsSimilar(
-        Matrix3x3D(6.0, -4.0, 2.0, 24.0, -19.0, 14.0, 42.0, -34.0, 26.0)))
-        << mat2(0, 0) << ' ' << mat2(0, 1) << ' ' << mat2(0, 2) << "\n"
-        << mat2(1, 0) << ' ' << mat2(1, 1) << ' ' << mat2(1, 2) << "\n"
-        << mat2(2, 0) << ' ' << mat2(2, 1) << ' ' << mat2(2, 2) << "\n";
-
-    mat2 = mat.RDiv(2.0);
-    EXPECT_TRUE(
-        mat2.IsSimilar(Matrix3x3D(2.0 / 9.0, -0.25, 2.0 / 7.0, -1.0 / 3.0, 0.4,
-                                  -0.5, 2.0 / 3.0, -1.0, 2.0)));
-}
-
-TEST(Matrix3x3, AugmentedOperators)
-{
-    Matrix3x3D mat(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0);
-
-    mat.IAdd(2.0);
-    EXPECT_TRUE(mat.IsSimilar(
-        Matrix3x3D(11.0, -6.0, 9.0, -4.0, 7.0, -2.0, 5.0, 0.0, 3.0)));
-
-    mat.Set(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0);
-    mat.IAdd(Matrix3x3D(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0));
-    EXPECT_TRUE(mat.IsSimilar(
-        Matrix3x3D(10.0, -6.0, 10.0, -2.0, 10.0, 2.0, 10.0, 6.0, 10.0)));
-
-    mat.Set(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0);
-    mat.ISub(2.0);
-    EXPECT_TRUE(mat.IsSimilar(
-        Matrix3x3D(7.0, -10.0, 5.0, -8.0, 3.0, -6.0, 1.0, -4.0, -1.0)));
-
-    mat.Set(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0);
-    mat.ISub(Matrix3x3D(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0));
-    EXPECT_TRUE(mat.IsSimilar(
-        Matrix3x3D(8.0, -10.0, 4.0, -10.0, 0.0, -10.0, -4.0, -10.0, -8.0)));
-
-    mat.Set(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0);
-    mat.IMul(2.0);
-    EXPECT_TRUE(mat.IsSimilar(
-        Matrix3x3D(18.0, -16.0, 14.0, -12.0, 10.0, -8.0, 6.0, -4.0, 2.0)));
-
-    mat.Set(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0);
-    mat.IMul(Matrix3x3D(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0));
-    EXPECT_TRUE(mat.IsSimilar(
-        Matrix3x3D(26.0, 34.0, 42.0, -14.0, -19.0, -24.0, 2.0, 4.0, 6.0)));
-
-    mat.Set(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0);
-    mat.IDiv(2.0);
-    EXPECT_TRUE(mat.IsSimilar(
-        Matrix3x3D(4.5, -4.0, 3.5, -3.0, 2.5, -2.0, 1.5, -1.0, 0.5)));
+    EXPECT_EQ(3u, mat.GetRows());
+    EXPECT_EQ(3u, mat.GetCols());
 }
 
 TEST(Matrix3x3, Modifiers)
@@ -267,7 +135,7 @@ TEST(Matrix3x3, Modifiers)
     EXPECT_TRUE(mat.IsSimilar(
         Matrix3x3D(9.0, -6.0, 3.0, -8.0, 5.0, -2.0, 7.0, -4.0, 1.0)));
 
-    mat.Set(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 2.0);
+    mat = { 9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 2.0 };
     mat.Invert();
     EXPECT_TRUE(mat.IsSimilar(
         Matrix3x3D(-2.0 / 3.0, -2.0 / 3.0, 1.0, 0.0, 1.0, 2.0, 1.0, 2.0, 1.0)));
@@ -301,19 +169,19 @@ TEST(Matrix3x3, ComplexGetters)
     EXPECT_TRUE(mat2.IsSimilar(
         Matrix3x3D(0.0, -8.0, 7.0, -6.0, 0.0, -4.0, 3.0, -2.0, 0.0)));
 
-    mat2 = mat.StrictLowerTriangle();
+    mat2 = mat.StrictLowerTri();
     EXPECT_TRUE(mat2.IsSimilar(
         Matrix3x3D(0.0, 0.0, 0.0, -6.0, 0.0, 0.0, 3.0, -2.0, 0.0)));
 
-    mat2 = mat.StrictUpperTriangle();
+    mat2 = mat.StrictUpperTri();
     EXPECT_TRUE(mat2.IsSimilar(
         Matrix3x3D(0.0, -8.0, 7.0, 0.0, 0.0, -4.0, 0.0, 0.0, 0.0)));
 
-    mat2 = mat.LowerTriangle();
+    mat2 = mat.LowerTri();
     EXPECT_TRUE(mat2.IsSimilar(
         Matrix3x3D(9.0, 0.0, 0.0, -6.0, 5.0, 0.0, 3.0, -2.0, 1.0)));
 
-    mat2 = mat.UpperTriangle();
+    mat2 = mat.UpperTri();
     EXPECT_TRUE(mat2.IsSimilar(
         Matrix3x3D(9.0, -8.0, 7.0, 0.0, 5.0, -4.0, 0.0, 0.0, 1.0)));
 
@@ -321,12 +189,12 @@ TEST(Matrix3x3, ComplexGetters)
     EXPECT_TRUE(mat2.IsSimilar(
         Matrix3x3D(9.0, -6.0, 3.0, -8.0, 5.0, -2.0, 7.0, -4.0, 1.0)));
 
-    mat.Set(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 2.0);
+    mat = { 9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 2.0 };
     mat2 = mat.Inverse();
     EXPECT_TRUE(mat2.IsSimilar(
         Matrix3x3D(-2.0 / 3.0, -2.0 / 3.0, 1.0, 0.0, 1.0, 2.0, 1.0, 2.0, 1.0)));
 
-    mat.Set(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0);
+    mat = { 9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0 };
     Matrix3x3F mat3 = mat.CastTo<float>();
     EXPECT_TRUE(mat3.IsSimilar(
         Matrix3x3F(9.f, -8.f, 7.f, -6.f, 5.f, -4.f, 3.f, -2.f, 1.f)));
@@ -344,32 +212,32 @@ TEST(Matrix3x3, SetterOperatorOverloadings)
     EXPECT_TRUE(mat.IsSimilar(
         Matrix3x3D(11.0, -6.0, 9.0, -4.0, 7.0, -2.0, 5.0, 0.0, 3.0)));
 
-    mat.Set(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0);
+    mat = { 9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0 };
     mat += Matrix3x3D(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
     EXPECT_TRUE(mat.IsSimilar(
         Matrix3x3D(10.0, -6.0, 10.0, -2.0, 10.0, 2.0, 10.0, 6.0, 10.0)));
 
-    mat.Set(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0);
+    mat = { 9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0 };
     mat -= 2.0;
     EXPECT_TRUE(mat.IsSimilar(
         Matrix3x3D(7.0, -10.0, 5.0, -8.0, 3.0, -6.0, 1.0, -4.0, -1.0)));
 
-    mat.Set(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0);
+    mat = { 9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0 };
     mat -= Matrix3x3D(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
     EXPECT_TRUE(mat.IsSimilar(
         Matrix3x3D(8.0, -10.0, 4.0, -10.0, 0.0, -10.0, -4.0, -10.0, -8.0)));
 
-    mat.Set(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0);
+    mat = { 9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0 };
     mat *= 2.0;
     EXPECT_TRUE(mat.IsSimilar(
         Matrix3x3D(18.0, -16.0, 14.0, -12.0, 10.0, -8.0, 6.0, -4.0, 2.0)));
 
-    mat.Set(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0);
+    mat = { 9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0 };
     mat *= Matrix3x3D(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
     EXPECT_TRUE(mat.IsSimilar(
         Matrix3x3D(26.0, 34.0, 42.0, -14.0, -19.0, -24.0, 2.0, 4.0, 6.0)));
 
-    mat.Set(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0);
+    mat = { 9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0 };
     mat /= 2.0;
     EXPECT_TRUE(mat.IsSimilar(
         Matrix3x3D(4.5, -4.0, 3.5, -3.0, 2.5, -2.0, 1.5, -1.0, 0.5)));
@@ -408,7 +276,7 @@ TEST(Matrix3x3, GetterOperatorOverloadings)
     EXPECT_DOUBLE_EQ(2.0, mat[7]);
     EXPECT_DOUBLE_EQ(-1.0, mat[8]);
 
-    mat.Set(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0);
+    mat = { 9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0 };
     EXPECT_DOUBLE_EQ(9.0, mat[0]);
     EXPECT_DOUBLE_EQ(-8.0, mat[1]);
     EXPECT_DOUBLE_EQ(7.0, mat[2]);
@@ -447,11 +315,11 @@ TEST(Matrix3x3, GetterOperatorOverloadings)
     EXPECT_DOUBLE_EQ(2.0, mat(2, 1));
     EXPECT_DOUBLE_EQ(-1.0, mat(2, 2));
 
-    mat.Set(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0);
+    mat = { 9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0 };
     EXPECT_TRUE(mat ==
                 Matrix3x3D(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0));
 
-    mat.Set(9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0);
+    mat = { 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0 };
     EXPECT_TRUE(mat !=
                 Matrix3x3D(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0));
 }
@@ -477,8 +345,5 @@ TEST(Matrix3x3, Helpers)
     mat = Matrix3x3D::MakeRotationMatrix(
         Vector3D(-1.0 / 3.0, 2.0 / 3.0, 2.0 / 3.0), -74.0 / 180.0 * PI_DOUBLE);
     EXPECT_TRUE(mat.IsSimilar(
-        Matrix3x3D(0.36, 0.48, -0.8, -0.8, 0.60, 0.0, 0.48, 0.64, 0.6), 0.05))
-        << mat(0, 0) << ' ' << mat(0, 1) << ' ' << mat(0, 2) << "\n"
-        << mat(1, 0) << ' ' << mat(1, 1) << ' ' << mat(1, 2) << "\n"
-        << mat(2, 0) << ' ' << mat(2, 1) << ' ' << mat(2, 2) << "\n";
+        Matrix3x3D(0.36, 0.48, -0.8, -0.8, 0.60, 0.0, 0.48, 0.64, 0.6), 0.05));
 }

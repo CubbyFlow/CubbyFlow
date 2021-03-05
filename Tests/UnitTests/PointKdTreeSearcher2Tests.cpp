@@ -10,7 +10,7 @@ TEST(PointKdTreeSearcher2, ForEachNearbyPoint)
                                 Vector2D(-1, 3) };
 
     PointKdTreeSearcher2 searcher;
-    searcher.Build(points.Accessor());
+    searcher.Build(points);
 
     searcher.ForEachNearbyPoint(Vector2D(0, 0), std::sqrt(10.0),
                                 [&points](size_t i, const Vector2D& pt) {
@@ -32,7 +32,7 @@ TEST(PointKdTreeSearcher2, ForEachNearbyPointEmpty)
     Array1<Vector2D> points;
 
     PointKdTreeSearcher2 searcher;
-    searcher.Build(points.Accessor());
+    searcher.Build(points);
 
     searcher.ForEachNearbyPoint(Vector2D(0, 0), std::sqrt(10.0),
                                 [](size_t, const Vector2D&) {

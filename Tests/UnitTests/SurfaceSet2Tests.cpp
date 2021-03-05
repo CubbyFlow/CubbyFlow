@@ -435,12 +435,12 @@ TEST(SurfaceSet2, MixedBoundTypes)
 
     const auto plane = Plane2::Builder()
                            .WithNormal({ 0, 1 })
-                           .WithPoint({ 0.0, 0.25 * domain.GetHeight() })
+                           .WithPoint({ 0.0, 0.25 * domain.Height() })
                            .MakeShared();
 
     const auto sphere = Sphere2::Builder()
                             .WithCenter(domain.MidPoint())
-                            .WithRadius(0.15 * domain.GetWidth())
+                            .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
     const auto surfaceSet{
@@ -465,12 +465,12 @@ TEST(SurfaceSet2, IsValidGeometry)
 
     const auto plane = Plane2::Builder()
                            .WithNormal({ 0, 1 })
-                           .WithPoint({ 0, 0.25 * domain.GetHeight() })
+                           .WithPoint({ 0, 0.25 * domain.Height() })
                            .MakeShared();
 
     const auto sphere = Sphere2::Builder()
                             .WithCenter(domain.MidPoint())
-                            .WithRadius(0.15 * domain.GetWidth())
+                            .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
     auto surfaceSet2 =
@@ -490,12 +490,12 @@ TEST(SurfaceSet2, IsInside)
 
     const auto plane = Plane2::Builder{}
                            .WithNormal({ 0, 1 })
-                           .WithPoint({ 0, 0.25 * domain.GetHeight() })
+                           .WithPoint({ 0, 0.25 * domain.Height() })
                            .MakeShared();
 
     const auto sphere = Sphere2::Builder{}
                             .WithCenter(domain.MidPoint())
-                            .WithRadius(0.15 * domain.GetWidth())
+                            .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
     const auto surfaceSet = SurfaceSet2::Builder{}

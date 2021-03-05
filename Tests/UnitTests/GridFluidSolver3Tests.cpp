@@ -33,7 +33,7 @@ TEST(GridFluidSolver3, ResizeGridSystemData)
 {
     GridFluidSolver3 solver;
 
-    solver.ResizeGrid(Size3(1, 2, 3), Vector3D(4.0, 5.0, 6.0),
+    solver.ResizeGrid(Vector3UZ(1, 2, 3), Vector3D(4.0, 5.0, 6.0),
                       Vector3D(7.0, 8.0, 9.0));
 
     EXPECT_EQ(1u, solver.GetResolution().x);
@@ -51,7 +51,7 @@ TEST(GridFluidSolver3, MinimumResolution)
 {
     GridFluidSolver3 solver;
 
-    solver.ResizeGrid(Size3(1, 1, 1), Vector3D(1.0, 1.0, 1.0), Vector3D());
+    solver.ResizeGrid(Vector3UZ(1, 1, 1), Vector3D(1.0, 1.0, 1.0), Vector3D());
     solver.GetVelocity()->Fill(Vector3D());
 
     Frame frame(0, 1.0 / 60.0);
@@ -67,8 +67,8 @@ TEST(GridFluidSolver3, GravityOnly)
     solver.SetDiffusionSolver(nullptr);
     solver.SetPressureSolver(nullptr);
 
-    solver.ResizeGrid(Size3(3, 3, 3), Vector3D(1.0 / 3.0, 1.0 / 3.0, 1.0 / 3.0),
-                      Vector3D());
+    solver.ResizeGrid(Vector3UZ(3, 3, 3),
+                      Vector3D(1.0 / 3.0, 1.0 / 3.0, 1.0 / 3.0), Vector3D());
     solver.GetVelocity()->Fill(Vector3D());
 
     Frame frame(0, 1.0 / 60.0);

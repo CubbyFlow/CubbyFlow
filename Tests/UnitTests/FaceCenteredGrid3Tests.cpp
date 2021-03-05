@@ -17,24 +17,24 @@ TEST(FaceCenteredGrid3, Constructors)
     EXPECT_DOUBLE_EQ(0.0, grid1.Origin().x);
     EXPECT_DOUBLE_EQ(0.0, grid1.Origin().y);
     EXPECT_DOUBLE_EQ(0.0, grid1.Origin().z);
-    EXPECT_EQ(0u, grid1.GetUSize().x);
-    EXPECT_EQ(0u, grid1.GetUSize().y);
-    EXPECT_EQ(0u, grid1.GetUSize().z);
-    EXPECT_EQ(0u, grid1.GetVSize().x);
-    EXPECT_EQ(0u, grid1.GetVSize().y);
-    EXPECT_EQ(0u, grid1.GetVSize().z);
-    EXPECT_EQ(0u, grid1.GetWSize().x);
-    EXPECT_EQ(0u, grid1.GetWSize().y);
-    EXPECT_EQ(0u, grid1.GetWSize().z);
-    EXPECT_DOUBLE_EQ(0.0, grid1.GetUOrigin().x);
-    EXPECT_DOUBLE_EQ(0.5, grid1.GetUOrigin().y);
-    EXPECT_DOUBLE_EQ(0.5, grid1.GetUOrigin().z);
-    EXPECT_DOUBLE_EQ(0.5, grid1.GetVOrigin().x);
-    EXPECT_DOUBLE_EQ(0.0, grid1.GetVOrigin().y);
-    EXPECT_DOUBLE_EQ(0.5, grid1.GetVOrigin().z);
-    EXPECT_DOUBLE_EQ(0.5, grid1.GetWOrigin().x);
-    EXPECT_DOUBLE_EQ(0.5, grid1.GetWOrigin().y);
-    EXPECT_DOUBLE_EQ(0.0, grid1.GetWOrigin().z);
+    EXPECT_EQ(0u, grid1.USize().x);
+    EXPECT_EQ(0u, grid1.USize().y);
+    EXPECT_EQ(0u, grid1.USize().z);
+    EXPECT_EQ(0u, grid1.VSize().x);
+    EXPECT_EQ(0u, grid1.VSize().y);
+    EXPECT_EQ(0u, grid1.VSize().z);
+    EXPECT_EQ(0u, grid1.WSize().x);
+    EXPECT_EQ(0u, grid1.WSize().y);
+    EXPECT_EQ(0u, grid1.WSize().z);
+    EXPECT_DOUBLE_EQ(0.0, grid1.UOrigin().x);
+    EXPECT_DOUBLE_EQ(0.5, grid1.UOrigin().y);
+    EXPECT_DOUBLE_EQ(0.5, grid1.UOrigin().z);
+    EXPECT_DOUBLE_EQ(0.5, grid1.VOrigin().x);
+    EXPECT_DOUBLE_EQ(0.0, grid1.VOrigin().y);
+    EXPECT_DOUBLE_EQ(0.5, grid1.VOrigin().z);
+    EXPECT_DOUBLE_EQ(0.5, grid1.WOrigin().x);
+    EXPECT_DOUBLE_EQ(0.5, grid1.WOrigin().y);
+    EXPECT_DOUBLE_EQ(0.0, grid1.WOrigin().z);
 
     // Constructor with params
     FaceCenteredGrid3 grid2(5, 4, 3, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0,
@@ -48,24 +48,24 @@ TEST(FaceCenteredGrid3, Constructors)
     EXPECT_DOUBLE_EQ(4.0, grid2.Origin().x);
     EXPECT_DOUBLE_EQ(5.0, grid2.Origin().y);
     EXPECT_DOUBLE_EQ(6.0, grid2.Origin().z);
-    EXPECT_EQ(6u, grid2.GetUSize().x);
-    EXPECT_EQ(4u, grid2.GetUSize().y);
-    EXPECT_EQ(3u, grid2.GetUSize().z);
-    EXPECT_EQ(5u, grid2.GetVSize().x);
-    EXPECT_EQ(5u, grid2.GetVSize().y);
-    EXPECT_EQ(3u, grid2.GetVSize().z);
-    EXPECT_EQ(5u, grid2.GetWSize().x);
-    EXPECT_EQ(4u, grid2.GetWSize().y);
-    EXPECT_EQ(4u, grid2.GetWSize().z);
-    EXPECT_DOUBLE_EQ(4.0, grid2.GetUOrigin().x);
-    EXPECT_DOUBLE_EQ(6.0, grid2.GetUOrigin().y);
-    EXPECT_DOUBLE_EQ(7.5, grid2.GetUOrigin().z);
-    EXPECT_DOUBLE_EQ(4.5, grid2.GetVOrigin().x);
-    EXPECT_DOUBLE_EQ(5.0, grid2.GetVOrigin().y);
-    EXPECT_DOUBLE_EQ(7.5, grid2.GetVOrigin().z);
-    EXPECT_DOUBLE_EQ(4.5, grid2.GetWOrigin().x);
-    EXPECT_DOUBLE_EQ(6.0, grid2.GetWOrigin().y);
-    EXPECT_DOUBLE_EQ(6.0, grid2.GetWOrigin().z);
+    EXPECT_EQ(6u, grid2.USize().x);
+    EXPECT_EQ(4u, grid2.USize().y);
+    EXPECT_EQ(3u, grid2.USize().z);
+    EXPECT_EQ(5u, grid2.VSize().x);
+    EXPECT_EQ(5u, grid2.VSize().y);
+    EXPECT_EQ(3u, grid2.VSize().z);
+    EXPECT_EQ(5u, grid2.WSize().x);
+    EXPECT_EQ(4u, grid2.WSize().y);
+    EXPECT_EQ(4u, grid2.WSize().z);
+    EXPECT_DOUBLE_EQ(4.0, grid2.UOrigin().x);
+    EXPECT_DOUBLE_EQ(6.0, grid2.UOrigin().y);
+    EXPECT_DOUBLE_EQ(7.5, grid2.UOrigin().z);
+    EXPECT_DOUBLE_EQ(4.5, grid2.VOrigin().x);
+    EXPECT_DOUBLE_EQ(5.0, grid2.VOrigin().y);
+    EXPECT_DOUBLE_EQ(7.5, grid2.VOrigin().z);
+    EXPECT_DOUBLE_EQ(4.5, grid2.WOrigin().x);
+    EXPECT_DOUBLE_EQ(6.0, grid2.WOrigin().y);
+    EXPECT_DOUBLE_EQ(6.0, grid2.WOrigin().z);
     grid2.ForEachUIndex([&](size_t i, size_t j, size_t k) {
         EXPECT_DOUBLE_EQ(7.0, grid2.GetU(i, j, k));
     });
@@ -87,24 +87,24 @@ TEST(FaceCenteredGrid3, Constructors)
     EXPECT_DOUBLE_EQ(4.0, grid3.Origin().x);
     EXPECT_DOUBLE_EQ(5.0, grid3.Origin().y);
     EXPECT_DOUBLE_EQ(6.0, grid3.Origin().z);
-    EXPECT_EQ(6u, grid3.GetUSize().x);
-    EXPECT_EQ(4u, grid3.GetUSize().y);
-    EXPECT_EQ(3u, grid3.GetUSize().z);
-    EXPECT_EQ(5u, grid3.GetVSize().x);
-    EXPECT_EQ(5u, grid3.GetVSize().y);
-    EXPECT_EQ(3u, grid3.GetVSize().z);
-    EXPECT_EQ(5u, grid3.GetWSize().x);
-    EXPECT_EQ(4u, grid3.GetWSize().y);
-    EXPECT_EQ(4u, grid3.GetWSize().z);
-    EXPECT_DOUBLE_EQ(4.0, grid3.GetUOrigin().x);
-    EXPECT_DOUBLE_EQ(6.0, grid3.GetUOrigin().y);
-    EXPECT_DOUBLE_EQ(7.5, grid3.GetUOrigin().z);
-    EXPECT_DOUBLE_EQ(4.5, grid3.GetVOrigin().x);
-    EXPECT_DOUBLE_EQ(5.0, grid3.GetVOrigin().y);
-    EXPECT_DOUBLE_EQ(7.5, grid3.GetVOrigin().z);
-    EXPECT_DOUBLE_EQ(4.5, grid3.GetWOrigin().x);
-    EXPECT_DOUBLE_EQ(6.0, grid3.GetWOrigin().y);
-    EXPECT_DOUBLE_EQ(6.0, grid3.GetWOrigin().z);
+    EXPECT_EQ(6u, grid3.USize().x);
+    EXPECT_EQ(4u, grid3.USize().y);
+    EXPECT_EQ(3u, grid3.USize().z);
+    EXPECT_EQ(5u, grid3.VSize().x);
+    EXPECT_EQ(5u, grid3.VSize().y);
+    EXPECT_EQ(3u, grid3.VSize().z);
+    EXPECT_EQ(5u, grid3.WSize().x);
+    EXPECT_EQ(4u, grid3.WSize().y);
+    EXPECT_EQ(4u, grid3.WSize().z);
+    EXPECT_DOUBLE_EQ(4.0, grid3.UOrigin().x);
+    EXPECT_DOUBLE_EQ(6.0, grid3.UOrigin().y);
+    EXPECT_DOUBLE_EQ(7.5, grid3.UOrigin().z);
+    EXPECT_DOUBLE_EQ(4.5, grid3.VOrigin().x);
+    EXPECT_DOUBLE_EQ(5.0, grid3.VOrigin().y);
+    EXPECT_DOUBLE_EQ(7.5, grid3.VOrigin().z);
+    EXPECT_DOUBLE_EQ(4.5, grid3.WOrigin().x);
+    EXPECT_DOUBLE_EQ(6.0, grid3.WOrigin().y);
+    EXPECT_DOUBLE_EQ(6.0, grid3.WOrigin().z);
     grid3.ForEachUIndex([&](size_t i, size_t j, size_t k) {
         EXPECT_DOUBLE_EQ(7.0, grid3.GetU(i, j, k));
     });
@@ -122,33 +122,33 @@ TEST(FaceCenteredGrid3, Fill)
                            0.0);
     grid.Fill(Vector3D(42.0, 27.0, 31.0));
 
-    for (size_t k = 0; k < grid.GetUSize().z; ++k)
+    for (size_t k = 0; k < grid.USize().z; ++k)
     {
-        for (size_t j = 0; j < grid.GetUSize().y; ++j)
+        for (size_t j = 0; j < grid.USize().y; ++j)
         {
-            for (size_t i = 0; i < grid.GetUSize().x; ++i)
+            for (size_t i = 0; i < grid.USize().x; ++i)
             {
                 EXPECT_DOUBLE_EQ(42.0, grid.GetU(i, j, k));
             }
         }
     }
 
-    for (size_t k = 0; k < grid.GetVSize().z; ++k)
+    for (size_t k = 0; k < grid.VSize().z; ++k)
     {
-        for (size_t j = 0; j < grid.GetVSize().y; ++j)
+        for (size_t j = 0; j < grid.VSize().y; ++j)
         {
-            for (size_t i = 0; i < grid.GetVSize().x; ++i)
+            for (size_t i = 0; i < grid.VSize().x; ++i)
             {
                 EXPECT_DOUBLE_EQ(27.0, grid.GetV(i, j, k));
             }
         }
     }
 
-    for (size_t k = 0; k < grid.GetWSize().z; ++k)
+    for (size_t k = 0; k < grid.WSize().z; ++k)
     {
-        for (size_t j = 0; j < grid.GetWSize().y; ++j)
+        for (size_t j = 0; j < grid.WSize().y; ++j)
         {
-            for (size_t i = 0; i < grid.GetWSize().x; ++i)
+            for (size_t i = 0; i < grid.WSize().x; ++i)
             {
                 EXPECT_DOUBLE_EQ(31.0, grid.GetW(i, j, k));
             }
@@ -158,33 +158,33 @@ TEST(FaceCenteredGrid3, Fill)
     auto func = [](const Vector3D& x) { return x; };
     grid.Fill(func);
 
-    for (size_t k = 0; k < grid.GetUSize().z; ++k)
+    for (size_t k = 0; k < grid.USize().z; ++k)
     {
-        for (size_t j = 0; j < grid.GetUSize().y; ++j)
+        for (size_t j = 0; j < grid.USize().y; ++j)
         {
-            for (size_t i = 0; i < grid.GetUSize().x; ++i)
+            for (size_t i = 0; i < grid.USize().x; ++i)
             {
                 EXPECT_DOUBLE_EQ(static_cast<double>(i), grid.GetU(i, j, k));
             }
         }
     }
 
-    for (size_t k = 0; k < grid.GetVSize().z; ++k)
+    for (size_t k = 0; k < grid.VSize().z; ++k)
     {
-        for (size_t j = 0; j < grid.GetVSize().y; ++j)
+        for (size_t j = 0; j < grid.VSize().y; ++j)
         {
-            for (size_t i = 0; i < grid.GetVSize().x; ++i)
+            for (size_t i = 0; i < grid.VSize().x; ++i)
             {
                 EXPECT_DOUBLE_EQ(static_cast<double>(j), grid.GetV(i, j, k));
             }
         }
     }
 
-    for (size_t k = 0; k < grid.GetWSize().z; ++k)
+    for (size_t k = 0; k < grid.WSize().z; ++k)
     {
-        for (size_t j = 0; j < grid.GetWSize().y; ++j)
+        for (size_t j = 0; j < grid.WSize().y; ++j)
         {
-            for (size_t i = 0; i < grid.GetWSize().x; ++i)
+            for (size_t i = 0; i < grid.WSize().x; ++i)
             {
                 EXPECT_DOUBLE_EQ(static_cast<double>(k), grid.GetW(i, j, k));
             }
@@ -304,9 +304,9 @@ TEST(FaceCenteredGrid3, Builder)
         auto builder = FaceCenteredGrid3::Builder();
 
         auto grid =
-            builder.Build(Size3(5, 2, 7), Vector3D(2.0, 4.0, 1.5),
+            builder.Build(Vector3UZ(5, 2, 7), Vector3D(2.0, 4.0, 1.5),
                           Vector3D(-1.0, 2.0, 7.0), Vector3D(3.0, 5.0, -2.0));
-        EXPECT_EQ(Size3(5, 2, 7), grid->Resolution());
+        EXPECT_EQ(Vector3UZ(5, 2, 7), grid->Resolution());
         EXPECT_EQ(Vector3D(2.0, 4.0, 1.5), grid->GridSpacing());
         EXPECT_EQ(Vector3D(-1.0, 2.0, 7.0), grid->Origin());
 
@@ -333,7 +333,7 @@ TEST(FaceCenteredGrid3, Builder)
                         .WithOrigin(-1.0, 2.0, 7.0)
                         .WithInitialValue(3.0, 5.0, -2.0)
                         .Build();
-        EXPECT_EQ(Size3(5, 2, 7), grid.Resolution());
+        EXPECT_EQ(Vector3UZ(5, 2, 7), grid.Resolution());
         EXPECT_EQ(Vector3D(2.0, 4.0, 1.5), grid.GridSpacing());
         EXPECT_EQ(Vector3D(-1.0, 2.0, 7.0), grid.Origin());
 

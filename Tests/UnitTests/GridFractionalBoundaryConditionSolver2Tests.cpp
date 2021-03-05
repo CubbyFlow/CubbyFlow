@@ -7,7 +7,7 @@ using namespace CubbyFlow;
 TEST(GridFractionalBoundaryConditionSolver2, ClosedDomain)
 {
     GridFractionalBoundaryConditionSolver2 bndSolver;
-    Size2 gridSize(10, 10);
+    Vector2UZ gridSize(10, 10);
     Vector2D gridSpacing(1.0, 1.0);
     Vector2D gridOrigin(-5.0, -5.0);
 
@@ -44,7 +44,7 @@ TEST(GridFractionalBoundaryConditionSolver2, ClosedDomain)
 TEST(GridFractionalBoundaryConditionSolver2, OpenDomain)
 {
     GridFractionalBoundaryConditionSolver2 bndSolver;
-    Size2 gridSize(10, 10);
+    Vector2UZ gridSize(10, 10);
     Vector2D gridSpacing(1.0, 1.0);
     Vector2D gridOrigin(-5.0, -5.0);
 

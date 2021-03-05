@@ -1,6 +1,7 @@
 #ifndef CUBBYFLOW_FDM_LINEAR_SYSTEM_SOLVER_TEST_HELPER3_HPP
 #define CUBBYFLOW_FDM_LINEAR_SYSTEM_SOLVER_TEST_HELPER3_HPP
 
+#include <Core/Array/ArrayView.hpp>
 #include <Core/Solver/FDM/FDMLinearSystemSolver3.hpp>
 
 namespace CubbyFlow
@@ -9,13 +10,13 @@ class FDMLinearSystemSolverTestHelper3
 {
  public:
     static void BuildTestLinearSystem(FDMLinearSystem3* system,
-                                      const Size3& size)
+                                      const Vector3UZ& size)
     {
         system->A.Resize(size);
         system->x.Resize(size);
         system->b.Resize(size);
 
-        system->A.ForEachIndex([&](size_t i, size_t j, size_t k) {
+        ForEachIndex(system->A.Size(), [&](size_t i, size_t j, size_t k) {
             if (i > 0)
             {
                 system->A(i, j, k).center += 1.0;
@@ -58,15 +59,15 @@ class FDMLinearSystemSolverTestHelper3
     }
 
     static void BuildTestCompressedLinearSystem(
-        FDMCompressedLinearSystem3* system, const Size3& size)
+        FDMCompressedLinearSystem3* system, const Vector3UZ& size)
     {
         Array3<size_t> coordToIndex(size);
-        const auto acc = coordToIndex.ConstAccessor();
+        const auto acc = coordToIndex.View();
 
-        coordToIndex.ForEachIndex([&](size_t i, size_t j, size_t k) {
+        ForEachIndex(coordToIndex.Size(), [&](size_t i, size_t j, size_t k) {
             const size_t cIdx = acc.Index(i, j, k);
 
-            coordToIndex[cIdx] = system->b.size();
+            coordToIndex[cIdx] = system->b.GetRows();
             double bijk = 0.0;
 
             std::vector<double> row(1, 0.0);
@@ -136,10 +137,10 @@ class FDMLinearSystemSolverTestHelper3
             }
 
             system->A.AddRow(row, colIdx);
-            system->b.Append(bijk);
+            system->b.AddElement(bijk);
         });
 
-        system->x.Resize(system->b.size(), 0.0);
+        system->x.Resize(system->b.GetRows(), 0.0);
     }
 };
 }  // namespace CubbyFlow

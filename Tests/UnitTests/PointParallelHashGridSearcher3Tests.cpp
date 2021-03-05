@@ -9,8 +9,8 @@ TEST(PointParallelHashGridSearcher3, ForEachNearByPoint)
     Array1<Vector3D> points = { Vector3D(1, 1, 1), Vector3D(3, 411, 5),
                                 Vector3D(-1, 2, -3) };
 
-    PointParallelHashGridSearcher3 searcher(Size3(4, 4, 4), std::sqrt(10));
-    searcher.Build(points.Accessor());
+    PointParallelHashGridSearcher3 searcher(Vector3UZ(4, 4, 4), std::sqrt(10));
+    searcher.Build(points);
 
     searcher.ForEachNearbyPoint(Vector3D(0, 0, 0), std::sqrt(15.0),
                                 [&points](size_t i, const Vector3D& pt) {
@@ -35,8 +35,8 @@ TEST(PointParallelHashGridSearcher3, HasEachNearByPoint)
     Array1<Vector3D> points = { Vector3D(1, 142, 1), Vector3D(3, 4123, 13),
                                 Vector3D(4, 1, 25) };
 
-    PointParallelHashGridSearcher3 searcher(Size3(4, 4, 4), std::sqrt(10));
-    searcher.Build(points.Accessor());
+    PointParallelHashGridSearcher3 searcher(Vector3UZ(4, 4, 4), std::sqrt(10));
+    searcher.Build(points);
 
     bool result;
     result = searcher.HasNearbyPoint(Vector3D(), std::sqrt(15.0));
@@ -49,12 +49,12 @@ TEST(PointParallelHashGridSearcher3, Build)
     Array1<Vector3D> points = { Vector3D(3, 41, 234), Vector3D(111, 1, 5),
                                 Vector3D(-3, 123, 1123) };
 
-    PointParallelHashGridSearcher3 searcher(Size3(4, 4, 4), std::sqrt(9));
-    searcher.Build(points.Accessor());
+    PointParallelHashGridSearcher3 searcher(Vector3UZ(4, 4, 4), std::sqrt(9));
+    searcher.Build(points);
 
-    EXPECT_EQ(37, searcher.GetHashKeyFromBucketIndex(Point3I(1, 13, 78)));
-    EXPECT_EQ(17, searcher.GetHashKeyFromBucketIndex(Point3I(37, 0, 1)));
-    EXPECT_EQ(39, searcher.GetHashKeyFromBucketIndex(Point3I(-1, 41, 374)));
+    EXPECT_EQ(37, searcher.GetHashKeyFromBucketIndex(Vector3Z(1, 13, 78)));
+    EXPECT_EQ(17, searcher.GetHashKeyFromBucketIndex(Vector3Z(37, 0, 1)));
+    EXPECT_EQ(39, searcher.GetHashKeyFromBucketIndex(Vector3Z(-1, 41, 374)));
 
     std::vector<size_t> resultKey;
     resultKey.push_back(17);
@@ -81,7 +81,7 @@ TEST(PointParallelHashGridSearcher3, Serialization)
                                 Vector3D(-1, 3, 0) };
 
     PointParallelHashGridSearcher3 searcher(4, 4, 4, std::sqrt(10));
-    searcher.Build(points.Accessor());
+    searcher.Build(points);
 
     std::vector<uint8_t> buffer;
     searcher.Serialize(&buffer);

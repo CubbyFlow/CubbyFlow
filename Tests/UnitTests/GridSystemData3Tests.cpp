@@ -157,12 +157,12 @@ TEST(GridSystemData3, Serialize)
     EXPECT_EQ(velocity->Resolution(), velocity2->Resolution());
     EXPECT_EQ(velocity->GridSpacing(), velocity2->GridSpacing());
     EXPECT_EQ(velocity->Origin(), velocity2->Origin());
-    EXPECT_EQ(velocity->GetUSize(), velocity2->GetUSize());
-    EXPECT_EQ(velocity->GetVSize(), velocity2->GetVSize());
-    EXPECT_EQ(velocity->GetWSize(), velocity2->GetWSize());
-    EXPECT_EQ(velocity->GetUOrigin(), velocity2->GetUOrigin());
-    EXPECT_EQ(velocity->GetVOrigin(), velocity2->GetVOrigin());
-    EXPECT_EQ(velocity->GetWOrigin(), velocity2->GetWOrigin());
+    EXPECT_EQ(velocity->USize(), velocity2->USize());
+    EXPECT_EQ(velocity->VSize(), velocity2->VSize());
+    EXPECT_EQ(velocity->WSize(), velocity2->WSize());
+    EXPECT_EQ(velocity->UOrigin(), velocity2->UOrigin());
+    EXPECT_EQ(velocity->VOrigin(), velocity2->VOrigin());
+    EXPECT_EQ(velocity->WOrigin(), velocity2->WOrigin());
     velocity->ForEachUIndex([&](size_t i, size_t j, size_t k) {
         EXPECT_EQ(velocity->GetU(i, j, k), velocity2->GetU(i, j, k));
     });
