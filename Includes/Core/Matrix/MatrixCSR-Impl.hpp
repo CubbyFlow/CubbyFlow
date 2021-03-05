@@ -13,6 +13,7 @@
 
 #include <Core/Math/MathUtils.hpp>
 #include <Core/Utils/CppUtils.hpp>
+#include <Core/Utils/Parallel.hpp>
 
 namespace CubbyFlow
 {
@@ -706,7 +707,7 @@ T MatrixCSR<T>::Min() const
     const T& (*_min)(const T&, const T&) = std::min<T>;
 
     return ParallelReduce(
-        0, NumberOfNonZeros(), std::numeric_limits<T>::max(),
+        ZERO_SIZE, NumberOfNonZeros(), std::numeric_limits<T>::max(),
         [&](size_t start, size_t end, T init) {
             T result = init;
 
@@ -726,7 +727,7 @@ T MatrixCSR<T>::Max() const
     const T& (*_max)(const T&, const T&) = std::max<T>;
 
     return ParallelReduce(
-        0, NumberOfNonZeros(), std::numeric_limits<T>::min(),
+        ZERO_SIZE, NumberOfNonZeros(), std::numeric_limits<T>::min(),
         [&](size_t start, size_t end, T init) {
             T result = init;
 
@@ -744,7 +745,7 @@ template <typename T>
 T MatrixCSR<T>::AbsMin() const
 {
     return ParallelReduce(
-        0, NumberOfNonZeros(), std::numeric_limits<T>::max(),
+        ZERO_SIZE, NumberOfNonZeros(), std::numeric_limits<T>::max(),
         [&](size_t start, size_t end, T init) {
             T result = init;
 
@@ -762,7 +763,7 @@ template <typename T>
 T MatrixCSR<T>::AbsMax() const
 {
     return ParallelReduce(
-        0, NumberOfNonZeros(), T(0),
+        ZERO_SIZE, NumberOfNonZeros(), T(0),
         [&](size_t start, size_t end, T init) {
             T result = init;
 
@@ -782,7 +783,7 @@ T MatrixCSR<T>::Trace() const
     assert(IsSquare());
 
     return ParallelReduce(
-        0, GetRows(), T(0),
+        ZERO_SIZE, GetRows(), T(0),
         [&](size_t start, size_t end, T init) {
             T result = init;
 
