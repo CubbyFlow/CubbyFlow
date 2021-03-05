@@ -19,28 +19,28 @@ template <typename ScalarType, typename VectorType, typename MatrixType>
 void BLAS<ScalarType, VectorType, MatrixType>::Set(ScalarType s,
                                                    VectorType* result)
 {
-    result->Set(s);
+    result->Fill(s);
 }
 
 template <typename ScalarType, typename VectorType, typename MatrixType>
 void BLAS<ScalarType, VectorType, MatrixType>::Set(const VectorType& v,
                                                    VectorType* result)
 {
-    result->Set(v);
+    result->CopyFrom(v);
 }
 
 template <typename ScalarType, typename VectorType, typename MatrixType>
 void BLAS<ScalarType, VectorType, MatrixType>::Set(ScalarType s,
                                                    MatrixType* result)
 {
-    result->Set(s);
+    result->Fill(s);
 }
 
 template <typename ScalarType, typename VectorType, typename MatrixType>
 void BLAS<ScalarType, VectorType, MatrixType>::Set(const MatrixType& m,
                                                    MatrixType* result)
 {
-    result->Set(m);
+    result->CopyFrom(m);
 }
 
 template <typename ScalarType, typename VectorType, typename MatrixType>
