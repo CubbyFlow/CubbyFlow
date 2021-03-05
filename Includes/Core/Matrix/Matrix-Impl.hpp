@@ -1343,7 +1343,7 @@ bool operator==(const MatrixExpression<T, R1, C1, M1>& a,
     {
         for (size_t j = 0; j < a.GetCols(); ++j)
         {
-            if (a.eval(i, j) != b.eval(i, j))
+            if (a.Eval(i, j) != b.Eval(i, j))
             {
                 return false;
             }

@@ -53,8 +53,8 @@ T Pythag(T a, T b)
 template <typename T>
 void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
 {
-    const int m = static_cast<int>(a.Rows());
-    const int n = static_cast<int>(a.Cols());
+    const int m = static_cast<int>(a.GetRows());
+    const int n = static_cast<int>(a.GetCols());
 
     int i, j = 0, jj = 0, k = 0, l = 0, nm = 0;
     T c = 0, f = 0, h = 0, s = 0, x = 0, y = 0, z = 0;
@@ -69,7 +69,7 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
     }
 
     // Prepare workspace
-    VectorN<T> rv1(n, 0);
+    VectorN<T> rv1(n, T{});
     u = a;
     w.Resize(n, 0);
     v.Resize(n, n, 0);

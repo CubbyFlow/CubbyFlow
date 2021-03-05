@@ -204,7 +204,7 @@ NearestArraySampler<T, N>::GetCoordinate(const VectorType& pt) const
     Vector<ssize_t, N> is;
     Vector<ScalarType, N> ts;
     VectorType npt = ElemMul(pt - m_gridOrigin, m_invGridSpacing);
-    Vector<ssize_t, N> size = m_view.size().template CastTo<ssize_t>();
+    Vector<ssize_t, N> size = m_view.Size().template CastTo<ssize_t>();
 
     for (size_t i = 0; i < N; ++i)
     {

@@ -452,7 +452,7 @@ MatrixExpression<T, Rows, Cols, D>::Reflected(
            normal.GetRows() == GetRows() && normal.GetCols() == 1);
 
     // this - 2(this.n)n
-    return (*this) - 2 * dot(normal) * normal;
+    return (*this) - 2 * Dot(normal) * normal;
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>

@@ -25,7 +25,7 @@ void Fill(ArrayView<T, N> a, const Vector<size_t, N>& begin,
 template <typename T, size_t N>
 void Fill(ArrayView<T, N> a, const T& val)
 {
-    Fill(a, Vector<size_t, N>{}, Vector<size_t, N>{ a.size() }, val);
+    Fill(a, Vector<size_t, N>{}, Vector<size_t, N>{ a.Size() }, val);
 }
 
 template <typename T>

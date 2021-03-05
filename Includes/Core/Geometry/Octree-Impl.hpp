@@ -35,7 +35,7 @@ void Octree<T>::Build(const std::vector<T>& items, const BoundingBox3D& bound,
     // Normalize bounding box
     m_bbox = bound;
     const double maxEdgeLen =
-        std::max({ m_bbox.GetWidth(), m_bbox.GetHeight(), m_bbox.GetDepth() });
+        std::max({ m_bbox.Width(), m_bbox.Height(), m_bbox.Depth() });
     m_bbox.upperCorner =
         m_bbox.lowerCorner + Vector3D{ maxEdgeLen, maxEdgeLen, maxEdgeLen };
 
