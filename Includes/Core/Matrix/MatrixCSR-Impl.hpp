@@ -527,7 +527,7 @@ MatrixCSR<T> MatrixCSR<T>::Add(const T& s) const
 {
     MatrixCSR ret(*this);
 
-    ParallelFor(0, ret.m_nonZeros.size(),
+    ParallelFor(ZERO_SIZE, ret.m_nonZeros.size(),
                 [&](size_t i) { ret.m_nonZeros[i] += s; });
 
     return ret;
@@ -544,7 +544,7 @@ MatrixCSR<T> MatrixCSR<T>::Sub(const T& s) const
 {
     MatrixCSR ret(*this);
 
-    ParallelFor(0, ret.m_nonZeros.size(),
+    ParallelFor(ZERO_SIZE, ret.m_nonZeros.size(),
                 [&](size_t i) { ret.m_nonZeros[i] -= s; });
 
     return ret;
@@ -561,7 +561,7 @@ MatrixCSR<T> MatrixCSR<T>::Mul(const T& s) const
 {
     MatrixCSR ret(*this);
 
-    ParallelFor(0, ret.m_nonZeros.size(),
+    ParallelFor(ZERO_SIZE, ret.m_nonZeros.size(),
                 [&](size_t i) { ret.m_nonZeros[i] *= s; });
 
     return ret;
@@ -580,7 +580,7 @@ MatrixCSR<T> MatrixCSR<T>::Div(const T& s) const
 {
     MatrixCSR ret(*this);
 
-    ParallelFor(0, ret.m_nonZeros.size(),
+    ParallelFor(ZERO_SIZE, ret.m_nonZeros.size(),
                 [&](size_t i) { ret.m_nonZeros[i] /= s; });
 
     return ret;
@@ -603,7 +603,7 @@ MatrixCSR<T> MatrixCSR<T>::RSub(const T& s) const
 {
     MatrixCSR ret(*this);
 
-    ParallelFor(0, ret.m_nonZeros.size(),
+    ParallelFor(ZERO_SIZE, ret.m_nonZeros.size(),
                 [&](size_t i) { ret.m_nonZeros[i] = s - ret.m_nonZeros[i]; });
 
     return ret;
@@ -626,7 +626,7 @@ MatrixCSR<T> MatrixCSR<T>::RDiv(const T& s) const
 {
     MatrixCSR ret(*this);
 
-    ParallelFor(0, ret.m_nonZeros.size(),
+    ParallelFor(ZERO_SIZE, ret.m_nonZeros.size(),
                 [&](size_t i) { ret.m_nonZeros[i] = s / ret.m_nonZeros[i]; });
 
     return ret;
@@ -635,7 +635,8 @@ MatrixCSR<T> MatrixCSR<T>::RDiv(const T& s) const
 template <typename T>
 void MatrixCSR<T>::IAdd(const T& s)
 {
-    ParallelFor(0, m_nonZeros.size(), [&](size_t i) { m_nonZeros[i] += s; });
+    ParallelFor(ZERO_SIZE, m_nonZeros.size(),
+                [&](size_t i) { m_nonZeros[i] += s; });
 }
 
 template <typename T>
@@ -647,7 +648,8 @@ void MatrixCSR<T>::IAdd(const MatrixCSR& m)
 template <typename T>
 void MatrixCSR<T>::ISub(const T& s)
 {
-    ParallelFor(0, m_nonZeros.size(), [&](size_t i) { m_nonZeros[i] -= s; });
+    ParallelFor(ZERO_SIZE, m_nonZeros.size(),
+                [&](size_t i) { m_nonZeros[i] -= s; });
 }
 
 template <typename T>
@@ -659,7 +661,8 @@ void MatrixCSR<T>::ISub(const MatrixCSR& m)
 template <typename T>
 void MatrixCSR<T>::IMul(const T& s)
 {
-    ParallelFor(0, m_nonZeros.size(), [&](size_t i) { m_nonZeros[i] *= s; });
+    ParallelFor(ZERO_SIZE, m_nonZeros.size(),
+                [&](size_t i) { m_nonZeros[i] *= s; });
 }
 
 template <typename T>
@@ -674,14 +677,15 @@ void MatrixCSR<T>::IMul(const MatrixExpression<T, R, C, ME>& m)
 template <typename T>
 void MatrixCSR<T>::IDiv(const T& s)
 {
-    ParallelFor(0, m_nonZeros.size(), [&](size_t i) { m_nonZeros[i] /= s; });
+    ParallelFor(ZERO_SIZE, m_nonZeros.size(),
+                [&](size_t i) { m_nonZeros[i] /= s; });
 }
 
 template <typename T>
 T MatrixCSR<T>::Sum() const
 {
     return ParallelReduce(
-        0, NumberOfNonZeros(), T(0),
+        ZERO_SIZE, NumberOfNonZeros(), T(0),
         [&](size_t start, size_t end, T init) {
             T result = init;
 
@@ -808,12 +812,12 @@ MatrixCSR<U> MatrixCSR<T>::CastTo() const
     auto ci = ret.ColumnIndicesBegin();
     auto rp = ret.RowPointersBegin();
 
-    ParallelFor(0, m_nonZeros.size(), [&](size_t i) {
+    ParallelFor(ZERO_SIZE, m_nonZeros.size(), [&](size_t i) {
         nnz[i] = static_cast<U>(m_nonZeros[i]);
         ci[i] = m_columnIndices[i];
     });
 
-    ParallelFor(0, m_rowPointers.size(),
+    ParallelFor(ZERO_SIZE, m_rowPointers.size(),
                 [&](size_t i) { rp[i] = m_rowPointers[i]; });
 
     return ret;
