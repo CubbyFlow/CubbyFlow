@@ -666,10 +666,10 @@ Matrix<T, 4, 1>::Matrix(const MatrixExpression<T, R, C, E>& expression)
 {
     assert(expression.GetRows() == 4 && expression.GetCols() == 1);
 
-    x = expression.eval(0, 0);
-    y = expression.eval(1, 0);
-    z = expression.eval(2, 0);
-    w = expression.eval(3, 0);
+    x = expression.Eval(0, 0);
+    y = expression.Eval(1, 0);
+    z = expression.Eval(2, 0);
+    w = expression.Eval(3, 0);
 }
 
 template <typename T>

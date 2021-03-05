@@ -14,7 +14,7 @@
 namespace CubbyFlow
 {
 template <typename T, size_t N>
-Ray<T, N>::Ray() : origin(VectorType{}()), direction(VectorType{})
+Ray<T, N>::Ray() : origin(VectorType{}), direction(VectorType{})
 {
     direction[0] = 1;
 }
