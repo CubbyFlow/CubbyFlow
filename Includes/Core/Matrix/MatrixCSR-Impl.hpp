@@ -806,7 +806,7 @@ template <typename U>
 MatrixCSR<U> MatrixCSR<T>::CastTo() const
 {
     MatrixCSR<U> ret;
-    ret.reserve(GetRows(), GetCols(), NumberOfNonZeros());
+    ret.Reserve(GetRows(), GetCols(), NumberOfNonZeros());
 
     auto nnz = ret.NonZeroBegin();
     auto ci = ret.ColumnIndicesBegin();
