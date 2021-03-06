@@ -184,8 +184,9 @@ VectorGrid2::DataPositionFunc FaceCenteredGrid2::UPosition() const
     Vector2D h = GridSpacing();
 
     return [this, h](const size_t i, const size_t j) -> Vector2D {
-        return m_dataOriginU + h * Vector2D{ { static_cast<double>(i),
-                                               static_cast<double>(j) } };
+        return m_dataOriginU +
+               ElemMul(h, Vector2D{ { static_cast<double>(i),
+                                      static_cast<double>(j) } });
     };
 }
 
@@ -194,8 +195,9 @@ VectorGrid2::DataPositionFunc FaceCenteredGrid2::VPosition() const
     Vector2D h = GridSpacing();
 
     return [this, h](const size_t i, const size_t j) -> Vector2D {
-        return m_dataOriginV + h * Vector2D{ { static_cast<double>(i),
-                                               static_cast<double>(j) } };
+        return m_dataOriginV +
+               ElemMul(h, Vector2D{ { static_cast<double>(i),
+                                      static_cast<double>(j) } });
     };
 }
 
@@ -427,12 +429,10 @@ void FaceCenteredGrid2::SetData(const std::vector<double>& data)
 
     size_t cnt = 0;
 
-    ForEachIndex(
-        m_dataU.Size(), 
-        [&](size_t i, size_t j) { m_dataU(i, j) = data[cnt++]; });
-    ForEachIndex(
-        m_dataV.Size(),
-        [&](size_t i, size_t j) { m_dataV(i, j) = data[cnt++]; });
+    ForEachIndex(m_dataU.Size(),
+                 [&](size_t i, size_t j) { m_dataU(i, j) = data[cnt++]; });
+    ForEachIndex(m_dataV.Size(),
+                 [&](size_t i, size_t j) { m_dataV(i, j) = data[cnt++]; });
 }
 
 FaceCenteredGrid2::Builder& FaceCenteredGrid2::Builder::WithResolution(

@@ -40,8 +40,8 @@ Grid2::DataPositionFunc Grid2::CellCenterPosition() const
     Vector2D o = m_origin;
 
     return [h, o](const size_t i, const size_t j) {
-        return o + h * Vector2D{ static_cast<double>(i) + 0.5,
-                                 static_cast<double>(j) + 0.5 };
+        return o + ElemMul(h, Vector2D{ static_cast<double>(i) + 0.5,
+                                        static_cast<double>(j) + 0.5 });
     };
 }
 
@@ -80,7 +80,8 @@ void Grid2::SetSizeParameters(const Vector2UZ& resolution,
     const Vector2D resolutionD = Vector2D{ static_cast<double>(resolution.x),
                                            static_cast<double>(resolution.y) };
 
-    m_boundingBox = BoundingBox2D{ origin, origin + gridSpacing * resolutionD };
+    m_boundingBox =
+        BoundingBox2D{ origin, origin + ElemMul(gridSpacing, resolutionD) };
 }
 
 void Grid2::SwapGrid(Grid2* other)

@@ -392,9 +392,10 @@ void MarchingCubes(const ConstArrayView3<double>& grid,
     const Vector3D invGridSize = 1.0 / gridSize;
 
     auto pos = [origin, gridSize](ssize_t i, ssize_t j, ssize_t k) {
-        return origin + gridSize * Vector3D{ { static_cast<double>(i),
-                                               static_cast<double>(j),
-                                               static_cast<double>(k) } };
+        return origin +
+               ElemMul(gridSize, Vector3D{ { static_cast<double>(i),
+                                             static_cast<double>(j),
+                                             static_cast<double>(k) } });
     };
 
     const ssize_t dimX = static_cast<ssize_t>(dim.x);

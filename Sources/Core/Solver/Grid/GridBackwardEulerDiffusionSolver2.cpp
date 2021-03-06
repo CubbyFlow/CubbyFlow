@@ -38,7 +38,7 @@ void GridBackwardEulerDiffusionSolver2::Solve(const ScalarGrid2& source,
         const auto pos = source.DataPosition();
         const Vector2D& h = source.GridSpacing();
         const Vector2D c =
-            timeIntervalInSeconds * diffusionCoefficient / (h * h);
+            timeIntervalInSeconds * diffusionCoefficient / ElemMul(h, h);
 
         BuildMarkers(source.GetDataSize(), pos, boundarySDF, fluidSDF);
         BuildMatrix(source.GetDataSize(), c);
@@ -63,7 +63,7 @@ void GridBackwardEulerDiffusionSolver2::Solve(
         const auto pos = source.DataPosition();
         const Vector2D& h = source.GridSpacing();
         const Vector2D c =
-            timeIntervalInSeconds * diffusionCoefficient / (h * h);
+            timeIntervalInSeconds * diffusionCoefficient / ElemMul(h, h);
 
         BuildMarkers(source.GetDataSize(), pos, boundarySDF, fluidSDF);
         BuildMatrix(source.GetDataSize(), c);
@@ -101,7 +101,7 @@ void GridBackwardEulerDiffusionSolver2::Solve(const FaceCenteredGrid2& source,
     {
         const Vector2D& h = source.GridSpacing();
         const Vector2D c =
-            timeIntervalInSeconds * diffusionCoefficient / (h * h);
+            timeIntervalInSeconds * diffusionCoefficient / ElemMul(h, h);
 
         // u
         const auto uPos = source.UPosition();

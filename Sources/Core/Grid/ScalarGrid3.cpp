@@ -144,9 +144,10 @@ ScalarGrid3::DataPositionFunc ScalarGrid3::DataPosition() const
 
     return
         [this, o](const size_t i, const size_t j, const size_t k) -> Vector3D {
-            return o + GridSpacing() * Vector3D{ { static_cast<double>(i),
-                                                   static_cast<double>(j),
-                                                   static_cast<double>(k) } };
+            return o + ElemMul(GridSpacing(),
+                               Vector3D{ { static_cast<double>(i),
+                                           static_cast<double>(j),
+                                           static_cast<double>(k) } });
         };
 }
 

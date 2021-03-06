@@ -118,7 +118,7 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
     const auto vPos = input.VPosition();
 
     const Vector2D invH = 1.0 / input.GridSpacing();
-    const Vector2D invHSqr = invH * invH;
+    const Vector2D invHSqr = ElemMul(invH, invH);
 
     // Build linear system
     ParallelForEachIndex(A->Size(), [&](size_t i, size_t j) {
@@ -267,7 +267,7 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
     const auto vPos = input.VPosition();
 
     const Vector2D invH = 1.0 / input.GridSpacing();
-    const Vector2D invHSqr = invH * invH;
+    const Vector2D invHSqr = ElemMul(invH, invH);
 
     ConstArrayView2<double> fluidSDFAcc{ fluidSDF };
 

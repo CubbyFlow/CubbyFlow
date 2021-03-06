@@ -240,9 +240,10 @@ VectorGrid3::DataPositionFunc FaceCenteredGrid3::UPosition() const
 
     return
         [this, h](const size_t i, const size_t j, const size_t k) -> Vector3D {
-            return m_dataOriginU + h * Vector3D{ { static_cast<double>(i),
-                                                   static_cast<double>(j),
-                                                   static_cast<double>(k) } };
+            return m_dataOriginU +
+                   ElemMul(h, Vector3D{ { static_cast<double>(i),
+                                          static_cast<double>(j),
+                                          static_cast<double>(k) } });
         };
 }
 
@@ -252,9 +253,10 @@ VectorGrid3::DataPositionFunc FaceCenteredGrid3::VPosition() const
 
     return
         [this, h](const size_t i, const size_t j, const size_t k) -> Vector3D {
-            return m_dataOriginV + h * Vector3D{ { static_cast<double>(i),
-                                                   static_cast<double>(j),
-                                                   static_cast<double>(k) } };
+            return m_dataOriginV +
+                   ElemMul(h, Vector3D{ { static_cast<double>(i),
+                                          static_cast<double>(j),
+                                          static_cast<double>(k) } });
         };
 }
 
@@ -264,9 +266,10 @@ VectorGrid3::DataPositionFunc FaceCenteredGrid3::WPosition() const
 
     return
         [this, h](const size_t i, const size_t j, const size_t k) -> Vector3D {
-            return m_dataOriginW + h * Vector3D{ { static_cast<double>(i),
-                                                   static_cast<double>(j),
-                                                   static_cast<double>(k) } };
+            return m_dataOriginW +
+                   ElemMul(h, Vector3D{ { static_cast<double>(i),
+                                          static_cast<double>(j),
+                                          static_cast<double>(k) } });
         };
 }
 

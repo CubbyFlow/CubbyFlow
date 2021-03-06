@@ -40,9 +40,9 @@ Grid3::DataPositionFunc Grid3::CellCenterPosition() const
     Vector3D o = m_origin;
 
     return [h, o](const size_t i, const size_t j, const size_t k) {
-        return o + h * Vector3D{ static_cast<double>(i) + 0.5,
-                                 static_cast<double>(j) + 0.5,
-                                 static_cast<double>(k) + 0.5 };
+        return o + ElemMul(h, Vector3D{ static_cast<double>(i) + 0.5,
+                                        static_cast<double>(j) + 0.5,
+                                        static_cast<double>(k) + 0.5 });
     };
 }
 
@@ -91,7 +91,8 @@ void Grid3::SetSizeParameters(const Vector3UZ& resolution,
                                            static_cast<double>(resolution.y),
                                            static_cast<double>(resolution.z) };
 
-    m_boundingBox = BoundingBox3D{ origin, origin + gridSpacing * resolutionD };
+    m_boundingBox =
+        BoundingBox3D{ origin, origin + ElemMul(gridSpacing, resolutionD) };
 }
 
 void Grid3::SwapGrid(Grid3* other)

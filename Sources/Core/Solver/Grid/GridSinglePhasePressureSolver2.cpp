@@ -29,7 +29,7 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
 {
     Vector2UZ size = input.Resolution();
     const Vector2D invH = 1.0 / input.GridSpacing();
-    Vector2D invHSqr = invH * invH;
+    Vector2D invHSqr = ElemMul(invH, invH);
 
     ParallelForEachIndex(A->Size(), [&](size_t i, size_t j) {
         FDMMatrixRow2& row = (*A)(i, j);
@@ -83,7 +83,7 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
 {
     Vector2UZ size = input.Resolution();
     const Vector2D invH = 1.0 / input.GridSpacing();
-    Vector2D invHSqr = invH * invH;
+    Vector2D invHSqr = ElemMul(invH, invH);
 
     ConstArrayView2<char> markerAcc{ markers };
 

@@ -35,7 +35,8 @@ void GridBackwardEulerDiffusionSolver3::Solve(const ScalarGrid3& source,
 {
     const auto pos = source.DataPosition();
     const Vector3D& h = source.GridSpacing();
-    const Vector3D c = timeIntervalInSeconds * diffusionCoefficient / (h * h);
+    const Vector3D c =
+        timeIntervalInSeconds * diffusionCoefficient / ElemMul(h, h);
 
     BuildMarkers(source.GetDataSize(), pos, boundarySDF, fluidSDF);
     BuildMatrix(source.GetDataSize(), c);
@@ -60,7 +61,8 @@ void GridBackwardEulerDiffusionSolver3::Solve(
 {
     const auto pos = source.DataPosition();
     const Vector3D& h = source.GridSpacing();
-    const Vector3D c = timeIntervalInSeconds * diffusionCoefficient / (h * h);
+    const Vector3D c =
+        timeIntervalInSeconds * diffusionCoefficient / ElemMul(h, h);
 
     BuildMarkers(source.GetDataSize(), pos, boundarySDF, fluidSDF);
     BuildMatrix(source.GetDataSize(), c);
@@ -116,7 +118,8 @@ void GridBackwardEulerDiffusionSolver3::Solve(const FaceCenteredGrid3& source,
                                               const ScalarField3& fluidSDF)
 {
     const Vector3D& h = source.GridSpacing();
-    const Vector3D c = timeIntervalInSeconds * diffusionCoefficient / (h * h);
+    const Vector3D c =
+        timeIntervalInSeconds * diffusionCoefficient / ElemMul(h, h);
 
     // u
     const auto uPos = source.UPosition();

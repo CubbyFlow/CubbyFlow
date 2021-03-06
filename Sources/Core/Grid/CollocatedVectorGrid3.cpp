@@ -145,9 +145,9 @@ VectorGrid3::DataPositionFunc CollocatedVectorGrid3::DataPosition() const
     return [this, dataOrigin](const size_t i, const size_t j,
                               const size_t k) -> Vector3D {
         return dataOrigin +
-               GridSpacing() *
-                   Vector3D{ { static_cast<double>(i), static_cast<double>(j),
-                               static_cast<double>(k) } };
+               ElemMul(GridSpacing(), Vector3D{ { static_cast<double>(i),
+                                                  static_cast<double>(j),
+                                                  static_cast<double>(k) } });
     };
 }
 

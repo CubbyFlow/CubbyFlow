@@ -121,9 +121,9 @@ VectorGrid2::DataPositionFunc CollocatedVectorGrid2::DataPosition() const
 {
     Vector2D dataOrigin = GetDataOrigin();
     return [this, dataOrigin](const size_t i, const size_t j) -> Vector2D {
-        return dataOrigin + GridSpacing() * Vector2D{
-            { static_cast<double>(i), static_cast<double>(j) }
-        };
+        return dataOrigin +
+               ElemMul(GridSpacing(), Vector2D{ { static_cast<double>(i),
+                                                  static_cast<double>(j) } });
     };
 }
 

@@ -29,7 +29,7 @@ void BuildSingleSystem(FDMMatrix3* A, FDMVector3* b,
 {
     Vector3UZ size = input.Resolution();
     const Vector3D invH = 1.0 / input.GridSpacing();
-    Vector3D invHSqr = invH * invH;
+    Vector3D invHSqr = ElemMul(invH, invH);
 
     // Build linear system
     ParallelForEachIndex(A->Size(), [&](size_t i, size_t j, size_t k) {
@@ -98,7 +98,7 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
 {
     Vector3UZ size = input.Resolution();
     const Vector3D invH = 1.0 / input.GridSpacing();
-    Vector3D invHSqr = invH * invH;
+    Vector3D invHSqr = ElemMul(invH, invH);
 
     ConstArrayView3<char> markerAcc{ markers };
 

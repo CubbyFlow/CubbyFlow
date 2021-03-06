@@ -201,7 +201,7 @@ void FMMLevelSetSolver2::Reinitialize(const ScalarGrid2& inputSDF,
     Vector2UZ size = inputSDF.GetDataSize();
     Vector2D gridSpacing = inputSDF.GridSpacing();
     const Vector2D invGridSpacing = 1.0 / gridSpacing;
-    Vector2D invGridSpacingSqr = invGridSpacing * invGridSpacing;
+    Vector2D invGridSpacingSqr = ElemMul(invGridSpacing, invGridSpacing);
     Array2<char> markers{ size };
 
     auto output = outputSDF->DataView();
