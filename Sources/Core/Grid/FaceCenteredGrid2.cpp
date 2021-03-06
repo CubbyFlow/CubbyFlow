@@ -424,8 +424,7 @@ void FaceCenteredGrid2::GetData(std::vector<double>* data) const
 
 void FaceCenteredGrid2::SetData(const std::vector<double>& data)
 {
-    assert(GetUSize().x * GetUSize().y + GetVSize().x * GetVSize().y ==
-           data.size());
+    assert(USize().x * USize().y + VSize().x * VSize().y == data.size());
 
     size_t cnt = 0;
 

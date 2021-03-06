@@ -51,8 +51,8 @@ void FDMMGLinearSystem2::ResizeWithFinest(const Vector2UZ& finestResolution,
 
 void FDMMGUtils2::Restrict(const FDMVector2& finer, FDMVector2* coarser)
 {
-    assert(finer.size().x == 2 * coarser->size().x);
-    assert(finer.size().y == 2 * coarser->size().y);
+    assert(finer.Size().x == 2 * coarser->Size().x);
+    assert(finer.Size().y == 2 * coarser->Size().y);
 
     // --*--|--*--|--*--|--*--
     //  1/8   3/8   3/8   1/8
@@ -100,8 +100,8 @@ void FDMMGUtils2::Restrict(const FDMVector2& finer, FDMVector2* coarser)
 
 void FDMMGUtils2::Correct(const FDMVector2& coarser, FDMVector2* finer)
 {
-    assert(finer->size().x == 2 * coarser.size().x);
-    assert(finer->size().y == 2 * coarser.size().y);
+    assert(finer->Size().x == 2 * coarser.Size().x);
+    assert(finer->Size().y == 2 * coarser.Size().y);
 
     // -----|-----*-----|-----
     //           to

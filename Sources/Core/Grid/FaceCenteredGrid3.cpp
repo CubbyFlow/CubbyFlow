@@ -574,9 +574,9 @@ void FaceCenteredGrid3::GetData(std::vector<double>* data) const
 
 void FaceCenteredGrid3::SetData(const std::vector<double>& data)
 {
-    assert(GetUSize().x * GetUSize().y * GetUSize().z +
-               GetVSize().x * GetVSize().y * GetVSize().z +
-               GetWSize().x * GetWSize().y * GetWSize().z ==
+    assert(USize().x * USize().y * USize().z +
+               VSize().x * VSize().y * VSize().z +
+               WSize().x * WSize().y * WSize().z ==
            data.size());
 
     size_t cnt = 0;

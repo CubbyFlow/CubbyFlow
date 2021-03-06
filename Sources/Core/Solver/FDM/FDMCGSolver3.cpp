@@ -28,8 +28,8 @@ bool FDMCGSolver3::Solve(FDMLinearSystem3* system)
     FDMVector3& solution = system->x;
     FDMVector3& rhs = system->b;
 
-    assert(matrix.size() == rhs.size());
-    assert(matrix.size() == solution.size());
+    assert(matrix.Size() == rhs.Size());
+    assert(matrix.Size() == solution.Size());
 
     ClearCompressedVectors();
 

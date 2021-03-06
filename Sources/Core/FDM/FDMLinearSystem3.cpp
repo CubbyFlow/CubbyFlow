@@ -63,7 +63,7 @@ double FDMBLAS3::Dot(const FDMVector3& a, const FDMVector3& b)
 {
     const Vector3UZ& size = a.Size();
 
-    assert(size == b.size());
+    assert(size == b.Size());
 
     double result = 0.0;
 
@@ -86,8 +86,8 @@ void FDMBLAS3::AXPlusY(double a, const FDMVector3& x, const FDMVector3& y,
 {
     const Vector3UZ& size = x.Size();
 
-    assert(x.size() == y.size());
-    assert(x.size() == result->size());
+    assert(x.Size() == y.Size());
+    assert(x.Size() == result->Size());
 
     ParallelForEachIndex(size, [&](size_t i, size_t j, size_t k) {
         (*result)(i, j, k) = a * x(i, j, k) + y(i, j, k);
@@ -98,8 +98,8 @@ void FDMBLAS3::MVM(const FDMMatrix3& m, const FDMVector3& v, FDMVector3* result)
 {
     const Vector3UZ& size = m.Size();
 
-    assert(size == v.size());
-    assert(size == result->size());
+    assert(size == v.Size());
+    assert(size == result->Size());
 
     ParallelForEachIndex(size, [&](size_t i, size_t j, size_t k) {
         (*result)(i, j, k) =
@@ -118,9 +118,9 @@ void FDMBLAS3::Residual(const FDMMatrix3& a, const FDMVector3& x,
 {
     const Vector3UZ& size = a.Size();
 
-    assert(size == x.size());
-    assert(size == b.size());
-    assert(size == result->size());
+    assert(size == x.Size());
+    assert(size == b.Size());
+    assert(size == result->Size());
 
     ParallelForEachIndex(size, [&](size_t i, size_t j, size_t k) {
         (*result)(i, j, k) =

@@ -183,8 +183,8 @@ bool FDMICCGSolver3::Solve(FDMLinearSystem3* system)
 
     ClearCompressedVectors();
 
-    assert(matrix.size() == rhs.size());
-    assert(matrix.size() == solution.size());
+    assert(matrix.Size() == rhs.Size());
+    assert(matrix.Size() == solution.Size());
 
     const Vector3UZ size = matrix.Size();
     m_r.Resize(size);

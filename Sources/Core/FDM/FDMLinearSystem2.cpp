@@ -63,7 +63,7 @@ double FDMBLAS2::Dot(const FDMVector2& a, const FDMVector2& b)
 {
     const Vector2UZ& size = a.Size();
 
-    assert(size == b.size());
+    assert(size == b.Size());
 
     double result = 0.0;
 
@@ -83,8 +83,8 @@ void FDMBLAS2::AXPlusY(double a, const FDMVector2& x, const FDMVector2& y,
 {
     const Vector2UZ& size = x.Size();
 
-    assert(x.size() == y.size());
-    assert(x.size() == result->size());
+    assert(x.Size() == y.Size());
+    assert(x.Size() == result->Size());
 
     ParallelForEachIndex(size, [&](size_t i, size_t j) {
         (*result)(i, j) = a * x(i, j) + y(i, j);
@@ -95,8 +95,8 @@ void FDMBLAS2::MVM(const FDMMatrix2& m, const FDMVector2& v, FDMVector2* result)
 {
     const Vector2UZ& size = m.Size();
 
-    assert(size == v.size());
-    assert(size == result->size());
+    assert(size == v.Size());
+    assert(size == result->Size());
 
     ParallelForEachIndex(size, [&](size_t i, size_t j) {
         (*result)(i, j) =
@@ -113,9 +113,9 @@ void FDMBLAS2::Residual(const FDMMatrix2& a, const FDMVector2& x,
 {
     const Vector2UZ& size = a.Size();
 
-    assert(size == x.size());
-    assert(size == b.size());
-    assert(size == result->size());
+    assert(size == x.Size());
+    assert(size == b.Size());
+    assert(size == result->Size());
 
     ParallelForEachIndex(size, [&](size_t i, size_t j) {
         (*result)(i, j) =
