@@ -17,7 +17,6 @@
 
 #include <Clara/include/clara.hpp>
 
-#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -92,19 +91,19 @@ int main(int argc, char* argv[])
     }
 
     BoundingBox3D box = triMesh.BoundingBox();
-    const Vector3D scale(box.GetWidth(), box.GetHeight(), box.GetDepth());
+    const Vector3D scale(box.Width(), box.Height(), box.Depth());
     box.lowerCorner -= marginScale * scale;
     box.upperCorner += marginScale * scale;
 
     const size_t resolutionY =
-        static_cast<size_t>(std::ceil(resX * box.GetHeight() / box.GetWidth()));
+        static_cast<size_t>(std::ceil(resX * box.Height() / box.Width()));
     const size_t resolutionZ =
-        static_cast<size_t>(std::ceil(resX * box.GetDepth() / box.GetWidth()));
+        static_cast<size_t>(std::ceil(resX * box.Depth() / box.Width()));
 
     printf("Vertex-centered grid size: %zu x %zu x %zu\n", resX, resolutionY,
            resolutionZ);
 
-    const double dx = box.GetWidth() / resX;
+    const double dx = box.Width() / resX;
 
     VertexCenteredScalarGrid3 grid(resX, resolutionY, resolutionZ, dx, dx, dx,
                                    box.lowerCorner.x, box.lowerCorner.y,
@@ -137,8 +136,8 @@ int main(int argc, char* argv[])
     }
 
     TriangleMesh3 triMesh2;
-    MarchingCubes(grid.GetConstDataAccessor(), grid.GridSpacing(),
-                  grid.Origin(), &triMesh2, 0, DIRECTION_ALL);
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.Origin(), &triMesh2,
+                  0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh2, outputFileName + "_previz.obj");
 

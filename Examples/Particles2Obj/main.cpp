@@ -10,10 +10,9 @@
 
 #include <../ClaraUtils.hpp>
 
-#include <Core/Array/Array1.hpp>
-#include <Core/Geometry/BoundingBox3.hpp>
+#include <Core/Array/Array.hpp>
+#include <Core/Geometry/BoundingBox.hpp>
 #include <Core/Geometry/MarchingCubes.hpp>
-#include <Core/Geometry/Size3.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>
 #include <Core/Grid/VertexCenteredScalarGrid3.hpp>
@@ -44,7 +43,7 @@ double valAnisoCutOffDensity = 0.5;
 double valAnisoPositionSmoothingFactor = 0.5;
 size_t valAnisoMinNumNeighbors = 25;
 
-void PrintInfo(const Size3& resolution, const BoundingBox3D& domain,
+void PrintInfo(const Vector3UZ& resolution, const BoundingBox3D& domain,
                const Vector3D& gridSpacing, size_t numberOfParticles,
                const std::string& method)
 {
@@ -62,8 +61,8 @@ void PrintInfo(const Size3& resolution, const BoundingBox3D& domain,
 void TriangulateAndSave(const ScalarGrid3& sdf, const std::string& objFileName)
 {
     TriangleMesh3 mesh;
-    MarchingCubes(sdf.GetConstDataAccessor(), sdf.GridSpacing(),
-                  sdf.GetDataOrigin(), &mesh, 0.0, DIRECTION_ALL);
+    MarchingCubes(sdf.DataView(), sdf.GridSpacing(), sdf.GetDataOrigin(), &mesh,
+                  0.0, DIRECTION_ALL);
 
     std::ofstream file(objFileName.c_str());
     if (file)
@@ -79,10 +78,10 @@ void TriangulateAndSave(const ScalarGrid3& sdf, const std::string& objFileName)
     }
 }
 
-void ParticlesToObj(const Array1<Vector3D>& positions, const Size3& resolution,
-                    const Vector3D& gridSpacing, const Vector3D& origin,
-                    double kernelRadius, const std::string& method,
-                    const std::string& objFileName)
+void ParticlesToObj(const Array1<Vector3D>& positions,
+                    const Vector3UZ& resolution, const Vector3D& gridSpacing,
+                    const Vector3D& origin, double kernelRadius,
+                    const std::string& method, const std::string& objFileName)
 {
     PointsToImplicit3Ptr converter;
     if (method == strSpherical)
@@ -108,7 +107,7 @@ void ParticlesToObj(const Array1<Vector3D>& positions, const Size3& resolution,
     }
 
     VertexCenteredScalarGrid3 sdf(resolution, gridSpacing, origin);
-    PrintInfo(resolution, sdf.BoundingBox(), gridSpacing, positions.size(),
+    PrintInfo(resolution, sdf.BoundingBox(), gridSpacing, positions.Length(),
               method);
 
     converter->Convert(positions, &sdf);
@@ -122,7 +121,7 @@ int main(int argc, char* argv[])
 
     std::string inputFileName;
     std::string outputFileName;
-    Size3 resolution(100, 100, 100);
+    Vector3UZ resolution(100, 100, 100);
     Vector3D gridSpacing(0.01, 0.01, 0.01);
     Vector3D origin;
     std::string method = "anisotropic";

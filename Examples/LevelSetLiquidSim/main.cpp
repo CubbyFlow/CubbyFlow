@@ -10,7 +10,7 @@
 
 #include <../ClaraUtils.hpp>
 
-#include <Core/Array/Array2.hpp>
+#include <Core/Array/Array.hpp>
 #include <Core/Emitter/VolumeGridEmitter3.hpp>
 #include <Core/Geometry/Box3.hpp>
 #include <Core/Geometry/Cylinder3.hpp>
@@ -64,15 +64,15 @@ void TriangulateAndSave(const ScalarGrid3Ptr& sdf, const std::string& rootDir,
 {
     TriangleMesh3 mesh;
     const int flag = DIRECTION_ALL & ~DIRECTION_DOWN;
-    MarchingCubes(sdf->GetConstDataAccessor(), sdf->GridSpacing(),
-                  sdf->GetDataOrigin(), &mesh, 0.0, flag);
+    MarchingCubes(sdf->DataView(), sdf->GridSpacing(), sdf->GetDataOrigin(),
+                  &mesh, 0.0, flag);
     SaveTriangleMesh(mesh, rootDir, frameCnt);
 }
 
 void PrintInfo(const LevelSetLiquidSolver3Ptr& solver)
 {
     const auto grids = solver->GetGridSystemData();
-    const Size3 resolution = grids->GetResolution();
+    const Vector3UZ resolution = grids->GetResolution();
     const BoundingBox3D domain = grids->GetBoundingBox();
     const Vector3D gridSpacing = grids->GetGridSpacing();
 
@@ -115,12 +115,12 @@ void RunExample1(const std::string& rootDir, size_t resX, int numberOfFrames,
     // Build emitter
     const auto plane = Plane3::Builder()
                            .WithNormal({ 0, 1, 0 })
-                           .WithPoint({ 0, 0.25 * domain.GetHeight(), 0 })
+                           .WithPoint({ 0, 0.25 * domain.Height(), 0 })
                            .MakeShared();
 
     const auto sphere = Sphere3::Builder()
                             .WithCenter(domain.MidPoint())
-                            .WithRadius(0.15 * domain.GetWidth())
+                            .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
     const auto surfaceSet = ImplicitSurfaceSet3::Builder()
@@ -154,7 +154,7 @@ void RunExample2(const std::string& rootDir, size_t resX, int numberOfFrames,
 
     const auto grids = solver->GetGridSystemData();
     BoundingBox3D domain = grids->GetBoundingBox();
-    const double lz = domain.GetDepth();
+    const double lz = domain.Depth();
 
     // Build emitter
     const auto box1 = Box3::Builder()
