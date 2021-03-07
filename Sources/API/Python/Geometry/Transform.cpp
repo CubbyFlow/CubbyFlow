@@ -13,8 +13,6 @@
 #include <Core/Geometry/Transform2.hpp>
 #include <Core/Geometry/Transform3.hpp>
 #include <Core/Math/Quaternion.hpp>
-#include <Core/Vector/Vector2.hpp>
-#include <Core/Vector/Vector3.hpp>
 
 #include <pybind11/pybind11.h>
 

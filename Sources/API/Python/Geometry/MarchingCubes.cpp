@@ -25,9 +25,9 @@ void AddMarchingCubes(pybind11::module& m)
            pybind11::object origin, double isoValue, int bndClose,
            int bndConnectivity) -> TriangleMesh3Ptr {
             auto mesh = TriangleMesh3::Builder().MakeShared();
-            MarchingCubes(grid->GetConstDataAccessor(),
-                          ObjectToVector3D(gridSize), ObjectToVector3D(origin),
-                          mesh.get(), isoValue, bndClose, bndConnectivity);
+            MarchingCubes(grid->DataView(), ObjectToVector3D(gridSize),
+                          ObjectToVector3D(origin), mesh.get(), isoValue,
+                          bndClose, bndConnectivity);
             return mesh;
         },
         R"pbdoc(

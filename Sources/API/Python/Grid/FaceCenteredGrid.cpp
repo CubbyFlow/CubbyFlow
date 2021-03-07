@@ -32,7 +32,7 @@ void AddFaceCenteredGrid2(pybind11::module& m)
             "__init__",
             [](FaceCenteredGrid2& instance, pybind11::args args,
                pybind11::kwargs kwargs) {
-                Size2 resolution{ 1, 1 };
+                Vector2UZ resolution{ 1, 1 };
                 Vector2D gridSpacing{ 1, 1 };
                 Vector2D gridOrigin{ 0, 0 };
 
@@ -151,38 +151,38 @@ void AddFaceCenteredGrid2(pybind11::module& m)
 			- j : Data point index j.
 		)pbdoc",
              pybind11::arg("i"), pybind11::arg("j"))
-        .def("GetUAccessor", &FaceCenteredGrid2::GetUAccessor,
-             R"pbdoc(
-			U data accessor.
-		)pbdoc")
-        .def("GetVAccessor", &FaceCenteredGrid2::GetVAccessor,
-             R"pbdoc(
-			V data accessor.
-		)pbdoc")
-        .def("GetUPosition", &FaceCenteredGrid2::GetUPosition,
+        .def("UView",
+             static_cast<ArrayView2<double> (FaceCenteredGrid2::*)()>(
+                 &FaceCenteredGrid2::UView),
+             R"pbdoc(Returns u data view.)pbdoc")
+        .def("VView",
+             static_cast<ArrayView2<double> (FaceCenteredGrid2::*)()>(
+                 &FaceCenteredGrid2::VView),
+             R"pbdoc(Returns v data view.)pbdoc")
+        .def("UPosition", &FaceCenteredGrid2::UPosition,
              R"pbdoc(
 			The function object that maps u data point to its actual position.
 		)pbdoc")
-        .def("GetVPosition", &FaceCenteredGrid2::GetVPosition,
+        .def("VPosition", &FaceCenteredGrid2::VPosition,
              R"pbdoc(
 			The function object that maps v data point to its actual position.
 		)pbdoc")
-        .def("GetUSize", &FaceCenteredGrid2::GetUSize,
+        .def("USize", &FaceCenteredGrid2::USize,
              R"pbdoc(
 			Returns data size of the u component.
 		)pbdoc")
-        .def("GetVSize", &FaceCenteredGrid2::GetVSize,
+        .def("VSize", &FaceCenteredGrid2::VSize,
              R"pbdoc(
 			Returns data size of the v component.
 		)pbdoc")
-        .def("GetUOrigin", &FaceCenteredGrid2::GetUOrigin,
+        .def("UOrigin", &FaceCenteredGrid2::UOrigin,
              R"pbdoc(
 			Returns u-data position for the grid point at (0, 0).
 
 			Note that this is different from origin() since origin() returns
 			the lower corner point of the bounding box.
 		)pbdoc")
-        .def("GetVOrigin", &FaceCenteredGrid2::GetVOrigin,
+        .def("VOrigin", &FaceCenteredGrid2::VOrigin,
              R"pbdoc(
 			Returns v-data position for the grid point at (0, 0).
 
@@ -296,7 +296,7 @@ void AddFaceCenteredGrid3(pybind11::module& m)
             "__init__",
             [](FaceCenteredGrid3& instance, pybind11::args args,
                pybind11::kwargs kwargs) {
-                Size3 resolution{ 1, 1, 1 };
+                Vector3UZ resolution{ 1, 1, 1 };
                 Vector3D gridSpacing{ 1, 1, 1 };
                 Vector3D gridOrigin{ 0, 0, 0 };
 
@@ -452,57 +452,57 @@ void AddFaceCenteredGrid3(pybind11::module& m)
 			- k : Data point index k.
 		)pbdoc",
              pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("k"))
-        .def("GetUAccessor", &FaceCenteredGrid3::GetUAccessor,
-             R"pbdoc(
-			U data accessor.
-		)pbdoc")
-        .def("GetVAccessor", &FaceCenteredGrid3::GetVAccessor,
-             R"pbdoc(
-			V data accessor.
-		)pbdoc")
-        .def("GetWAccessor", &FaceCenteredGrid3::GetWAccessor,
-             R"pbdoc(
-			W data accessor.
-		)pbdoc")
-        .def("GetUPosition", &FaceCenteredGrid3::GetUPosition,
+        .def("UView",
+             static_cast<ArrayView3<double> (FaceCenteredGrid3::*)()>(
+                 &FaceCenteredGrid3::UView),
+             R"pbdoc(Returns u data view.)pbdoc")
+        .def("VView",
+             static_cast<ArrayView3<double> (FaceCenteredGrid3::*)()>(
+                 &FaceCenteredGrid3::VView),
+             R"pbdoc(Returns v data view.)pbdoc")
+        .def("WView",
+             static_cast<ArrayView3<double> (FaceCenteredGrid3::*)()>(
+                 &FaceCenteredGrid3::WView),
+             R"pbdoc(Returns w data view.)pbdoc")
+        .def("UPosition", &FaceCenteredGrid3::UPosition,
              R"pbdoc(
 			The function object that maps u data point to its actual position.
 		)pbdoc")
-        .def("GetVPosition", &FaceCenteredGrid3::GetVPosition,
+        .def("VPosition", &FaceCenteredGrid3::VPosition,
              R"pbdoc(
 			The function object that maps v data point to its actual position.
 		)pbdoc")
-        .def("GetWPosition", &FaceCenteredGrid3::GetWPosition,
+        .def("WPosition", &FaceCenteredGrid3::WPosition,
              R"pbdoc(
 			The function object that maps w data point to its actual position.
 		)pbdoc")
-        .def("GetUSize", &FaceCenteredGrid3::GetUSize,
+        .def("USize", &FaceCenteredGrid3::USize,
              R"pbdoc(
 			Returns data size of the u component.
 		)pbdoc")
-        .def("GetVSize", &FaceCenteredGrid3::GetVSize,
+        .def("VSize", &FaceCenteredGrid3::VSize,
              R"pbdoc(
 			Returns data size of the v component.
 		)pbdoc")
-        .def("GetWSize", &FaceCenteredGrid3::GetWSize,
+        .def("WSize", &FaceCenteredGrid3::WSize,
              R"pbdoc(
 			Returns data size of the w component.
 		)pbdoc")
-        .def("GetUOrigin", &FaceCenteredGrid3::GetUOrigin,
+        .def("UOrigin", &FaceCenteredGrid3::UOrigin,
              R"pbdoc(
 			Returns u-data position for the grid point at (0, 0).
 
 			Note that this is different from origin() since origin() returns
 			the lower corner point of the bounding box.
 		)pbdoc")
-        .def("GetVOrigin", &FaceCenteredGrid3::GetVOrigin,
+        .def("VOrigin", &FaceCenteredGrid3::VOrigin,
              R"pbdoc(
 			Returns v-data position for the grid point at (0, 0).
 
 			Note that this is different from origin() since origin() returns
 			the lower corner point of the bounding box.
 		 )pbdoc")
-        .def("GetWOrigin", &FaceCenteredGrid3::GetWOrigin,
+        .def("WOrigin", &FaceCenteredGrid3::WOrigin,
              R"pbdoc(
 			Returns w-data position for the grid point at (0, 0).
 

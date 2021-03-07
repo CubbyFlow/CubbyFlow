@@ -11,23 +11,17 @@
 #ifndef CUBBYFLOW_PYTHON_PYBIND11_UTILS_HPP
 #define CUBBYFLOW_PYTHON_PYBIND11_UTILS_HPP
 
-#include <Core/Geometry/Point2.hpp>
-#include <Core/Geometry/Point3.hpp>
-#include <Core/Geometry/Size2.hpp>
-#include <Core/Geometry/Size3.hpp>
 #include <Core/Math/Quaternion.hpp>
-#include <Core/Vector/Vector2.hpp>
-#include <Core/Vector/Vector3.hpp>
-#include <Core/Vector/Vector4.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace CubbyFlow
 {
-inline Size2 TupleToSize2(pybind11::tuple tuple)
+inline Vector2UZ TupleToVector2UZ(pybind11::tuple tuple)
 {
-    Size2 ret;
+    Vector2UZ ret;
 
     if (tuple.size() == 2)
     {
@@ -44,9 +38,9 @@ inline Size2 TupleToSize2(pybind11::tuple tuple)
     return ret;
 }
 
-inline Size2 TupleToSize2(pybind11::list list)
+inline Vector2UZ TupleToVector2UZ(pybind11::list list)
 {
-    Size2 ret;
+    Vector2UZ ret;
 
     if (list.size() == 2)
     {
@@ -63,9 +57,9 @@ inline Size2 TupleToSize2(pybind11::list list)
     return ret;
 }
 
-inline Size3 TupleToSize3(pybind11::tuple tuple)
+inline Vector3UZ TupleToVector3UZ(pybind11::tuple tuple)
 {
-    Size3 ret;
+    Vector3UZ ret;
 
     if (tuple.size() == 3)
     {
@@ -82,9 +76,9 @@ inline Size3 TupleToSize3(pybind11::tuple tuple)
     return ret;
 }
 
-inline Size3 TupleToSize3(pybind11::list list)
+inline Vector3UZ TupleToVector3UZ(pybind11::list list)
 {
-    Size3 ret;
+    Vector3UZ ret;
 
     if (list.size() == 3)
     {
@@ -101,88 +95,12 @@ inline Size3 TupleToSize3(pybind11::list list)
     return ret;
 }
 
-inline Point2UI TupleToPoint2UI(pybind11::tuple tuple)
-{
-    Point2UI ret;
-
-    if (tuple.size() == 2)
-    {
-        for (size_t i = 0; i < 2; ++i)
-        {
-            ret[i] = tuple[i].cast<size_t>();
-        }
-    }
-    else
-    {
-        throw std::invalid_argument("Invalid size.");
-    }
-
-    return ret;
-}
-
-inline Point2UI TupleToPoint2UI(pybind11::list list)
-{
-    Point2UI ret;
-
-    if (list.size() == 2)
-    {
-        for (size_t i = 0; i < 2; ++i)
-        {
-            ret[i] = list[i].cast<size_t>();
-        }
-    }
-    else
-    {
-        throw std::invalid_argument("Invalid size.");
-    }
-
-    return ret;
-}
-
-inline Point3UI TupleToPoint3UI(pybind11::tuple tuple)
-{
-    Point3UI ret;
-
-    if (tuple.size() == 3)
-    {
-        for (size_t i = 0; i < 3; ++i)
-        {
-            ret[i] = tuple[i].cast<size_t>();
-        }
-    }
-    else
-    {
-        throw std::invalid_argument("Invalid size.");
-    }
-
-    return ret;
-}
-
-inline Point3UI TupleToPoint3UI(pybind11::list list)
-{
-    Point3UI ret;
-
-    if (list.size() == 3)
-    {
-        for (size_t i = 0; i < 3; ++i)
-        {
-            ret[i] = list[i].cast<size_t>();
-        }
-    }
-    else
-    {
-        throw std::invalid_argument("Invalid size.");
-    }
-
-    return {};
-}
-
-inline pybind11::tuple Size2ToTuple(const Size2& size)
+inline pybind11::tuple Vector2UZToTuple(const Vector2UZ& size)
 {
     return pybind11::make_tuple(size.x, size.y);
 }
 
-inline pybind11::tuple Size3ToTuple(const Size3& size)
+inline pybind11::tuple Vector3UZToTuple(const Vector3UZ& size)
 {
     return pybind11::make_tuple(size.x, size.y, size.z);
 }
@@ -351,92 +269,48 @@ inline QuaternionD TupleToQuaternionD(pybind11::list list)
     return TupleToQuaternion<double>(list);
 }
 
-inline Size2 ObjectToSize2(const pybind11::object& obj)
+inline Vector2UZ ObjectToVector2UZ(const pybind11::object& obj)
 {
-    if (pybind11::isinstance<Size2>(static_cast<pybind11::handle>(obj)))
+    if (pybind11::isinstance<Vector2UZ>(static_cast<pybind11::handle>(obj)))
     {
-        return obj.cast<Size2>();
+        return obj.cast<Vector2UZ>();
     }
 
     if (pybind11::isinstance<pybind11::tuple>(
             static_cast<pybind11::handle>(obj)))
     {
-        return TupleToSize2(pybind11::tuple(obj));
+        return TupleToVector2UZ(pybind11::tuple(obj));
     }
 
     if (pybind11::isinstance<pybind11::list>(
             static_cast<pybind11::handle>(obj)))
     {
-        return TupleToSize2(pybind11::list(obj));
+        return TupleToVector2UZ(pybind11::list(obj));
     }
 
-    throw std::invalid_argument("Cannot convert to Size2.");
+    throw std::invalid_argument("Cannot convert to Vector2UZ.");
 }
 
-inline Size3 ObjectToSize3(const pybind11::object& obj)
+inline Vector3UZ ObjectToVector3UZ(const pybind11::object& obj)
 {
-    if (pybind11::isinstance<Size3>(static_cast<pybind11::handle>(obj)))
+    if (pybind11::isinstance<Vector3UZ>(static_cast<pybind11::handle>(obj)))
     {
-        return obj.cast<Size3>();
+        return obj.cast<Vector3UZ>();
     }
 
     if (pybind11::isinstance<pybind11::tuple>(
             static_cast<pybind11::handle>(obj)))
     {
-        return TupleToSize3(pybind11::tuple(obj));
+        return TupleToVector3UZ(pybind11::tuple(obj));
     }
 
     if (pybind11::isinstance<pybind11::list>(
             static_cast<pybind11::handle>(obj)))
     {
-        return TupleToSize3(pybind11::list(obj));
+        return TupleToVector3UZ(pybind11::list(obj));
     }
 
-    throw std::invalid_argument("Cannot convert to Size3.");
-}
-
-inline Point2UI ObjectToPoint2UI(const pybind11::object& obj)
-{
-    if (pybind11::isinstance<Point2UI>(static_cast<pybind11::handle>(obj)))
-    {
-        return obj.cast<Point2UI>();
-    }
-
-    if (pybind11::isinstance<pybind11::tuple>(
-            static_cast<pybind11::handle>(obj)))
-    {
-        return TupleToPoint2UI(pybind11::tuple(obj));
-    }
-
-    if (pybind11::isinstance<pybind11::list>(
-            static_cast<pybind11::handle>(obj)))
-    {
-        return TupleToPoint2UI(pybind11::list(obj));
-    }
-
-    throw std::invalid_argument("Cannot convert to Point2UI.");
-}
-
-inline Point3UI ObjectToPoint3UI(const pybind11::object& obj)
-{
-    if (pybind11::isinstance<Point3UI>(static_cast<pybind11::handle>(obj)))
-    {
-        return obj.cast<Point3UI>();
-    }
-
-    if (pybind11::isinstance<pybind11::tuple>(
-            static_cast<pybind11::handle>(obj)))
-    {
-        return TupleToPoint3UI(pybind11::tuple(obj));
-    }
-
-    if (pybind11::isinstance<pybind11::list>(
-            static_cast<pybind11::handle>(obj)))
-    {
-        return TupleToPoint3UI(pybind11::list(obj));
-    }
-
-    throw std::invalid_argument("Cannot convert to Point3UI.");
+    throw std::invalid_argument("Cannot convert to Vector3UZ.");
 }
 
 inline Vector2F ObjectToVector2F(const pybind11::object& obj)
@@ -616,7 +490,7 @@ inline QuaternionD ObjectToQuaternionD(const pybind11::object& obj)
 }
 
 inline void ParseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
-                                  Size2& resolution, Vector2D& gridSpacing,
+                                  Vector2UZ& resolution, Vector2D& gridSpacing,
                                   Vector2D& gridOrigin)
 {
     // See if we have list of parameters
@@ -624,7 +498,7 @@ inline void ParseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
     {
         if (args.size() > 0)
         {
-            resolution = ObjectToSize2(pybind11::object(args[0]));
+            resolution = ObjectToVector2UZ(pybind11::object(args[0]));
         }
         if (args.size() > 1)
         {
@@ -643,7 +517,7 @@ inline void ParseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
     // Parse out keyword args
     if (kwargs.contains("resolution"))
     {
-        resolution = ObjectToSize2(pybind11::object(kwargs["resolution"]));
+        resolution = ObjectToVector2UZ(pybind11::object(kwargs["resolution"]));
     }
     if (kwargs.contains("gridSpacing"))
     {
@@ -656,12 +530,12 @@ inline void ParseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
     if (kwargs.contains("domainSizeX"))
     {
         double domainSizeX = kwargs["domainSizeX"].cast<double>();
-        gridSpacing.Set(domainSizeX / static_cast<double>(resolution.x));
+        gridSpacing.Fill(domainSizeX / static_cast<double>(resolution.x));
     }
 }
 
 inline void ParseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
-                                  Size3& resolution, Vector3D& gridSpacing,
+                                  Vector3UZ& resolution, Vector3D& gridSpacing,
                                   Vector3D& gridOrigin)
 {
     // See if we have list of parameters
@@ -669,7 +543,7 @@ inline void ParseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
     {
         if (args.size() > 0)
         {
-            resolution = ObjectToSize3(pybind11::object(args[0]));
+            resolution = ObjectToVector3UZ(pybind11::object(args[0]));
         }
         if (args.size() > 1)
         {
@@ -688,7 +562,7 @@ inline void ParseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
     // Parse out keyword args
     if (kwargs.contains("resolution"))
     {
-        resolution = ObjectToSize3(pybind11::object(kwargs["resolution"]));
+        resolution = ObjectToVector3UZ(pybind11::object(kwargs["resolution"]));
     }
     if (kwargs.contains("gridSpacing"))
     {
@@ -701,7 +575,7 @@ inline void ParseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
     if (kwargs.contains("domainSizeX"))
     {
         double domainSizeX = kwargs["domainSizeX"].cast<double>();
-        gridSpacing.Set(domainSizeX / static_cast<double>(resolution.x));
+        gridSpacing.Fill(domainSizeX / static_cast<double>(resolution.x));
     }
 }
 }  // namespace CubbyFlow

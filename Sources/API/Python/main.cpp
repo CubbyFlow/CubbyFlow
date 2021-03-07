@@ -11,7 +11,7 @@
 #include <API/Python/Animation/Animation.hpp>
 #include <API/Python/Animation/Frame.hpp>
 #include <API/Python/Animation/PhysicsAnimation.hpp>
-#include <API/Python/Array/ArrayAccessor.hpp>
+#include <API/Python/Array/ArrayView.hpp>
 #include <API/Python/Emitter/GridEmitter.hpp>
 #include <API/Python/Emitter/ParticleEmitter.hpp>
 #include <API/Python/Emitter/ParticleEmitterSet.hpp>
@@ -34,10 +34,8 @@
 #include <API/Python/Geometry/ImplicitTriangleMesh.hpp>
 #include <API/Python/Geometry/MarchingCubes.hpp>
 #include <API/Python/Geometry/Plane.hpp>
-#include <API/Python/Geometry/Point.hpp>
 #include <API/Python/Geometry/Ray.hpp>
 #include <API/Python/Geometry/RigidbodyCollider.hpp>
-#include <API/Python/Geometry/Size.hpp>
 #include <API/Python/Geometry/Sphere.hpp>
 #include <API/Python/Geometry/Surface.hpp>
 #include <API/Python/Geometry/SurfaceSet.hpp>
@@ -117,10 +115,7 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddSerializable(m);
 
     // Trivial basic types
-    AddVector2D(m);
-    AddVector2F(m);
-    AddVector3D(m);
-    AddVector3F(m);
+    AddVectors(m);
 
     // Rays
     AddRay2D(m);
@@ -129,6 +124,8 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddRay3F(m);
 
     // Bounding boxes
+    AddBoundingBoxRayIntersectionF(m);
+    AddBoundingBoxRayIntersectionD(m);
     AddBoundingBox2D(m);
     AddBoundingBox2F(m);
     AddBoundingBox3D(m);
@@ -141,22 +138,14 @@ PYBIND11_MODULE(pyCubbyFlow, m)
     AddQuaternionD(m);
     AddQuaternionF(m);
 
-    // Points
-    AddPoint2UI(m);
-    AddPoint3UI(m);
-
-    // Sizes
-    AddSize2(m);
-    AddSize3(m);
-
     // Transforms
     AddTransform2(m);
     AddTransform3(m);
 
     // Containers/helpers
-    AddArrayAccessor1(m);
-    AddArrayAccessor2(m);
-    AddArrayAccessor3(m);
+    AddArrayView1(m);
+    AddArrayView2(m);
+    AddArrayView3(m);
 
     // Trivial APIs
     AddLogging(m);

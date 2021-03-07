@@ -13,6 +13,8 @@
 
 #include <pybind11/pybind11.h>
 
+void AddBoundingBoxRayIntersectionF(pybind11::module& m);
+void AddBoundingBoxRayIntersectionD(pybind11::module& m);
 void AddBoundingBox2F(pybind11::module& m);
 void AddBoundingBox2D(pybind11::module& m);
 void AddBoundingBox3F(pybind11::module& m);

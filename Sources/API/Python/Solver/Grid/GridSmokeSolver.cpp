@@ -36,7 +36,7 @@ void AddGridSmokeSolver2(pybind11::module& m)
             "__init__",
             [](GridSmokeSolver2& instance, pybind11::args args,
                pybind11::kwargs kwargs) {
-                Size2 resolution{ 1, 1 };
+                Vector2UZ resolution{ 1, 1 };
                 Vector2D gridSpacing{ 1, 1 };
                 Vector2D gridOrigin{ 0, 0 };
 
@@ -147,7 +147,7 @@ void AddGridSmokeSolver3(pybind11::module& m)
             "__init__",
             [](GridSmokeSolver3& instance, pybind11::args args,
                pybind11::kwargs kwargs) {
-                Size3 resolution{ 1, 1, 1 };
+                Vector3UZ resolution{ 1, 1, 1 };
                 Vector3D gridSpacing{ 1, 1, 1 };
                 Vector3D gridOrigin{ 0, 0, 0 };
 

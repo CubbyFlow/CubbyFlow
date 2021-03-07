@@ -36,7 +36,7 @@ void AddGridBoundaryConditionSolver2(pybind11::module& m)
             [](GridBoundaryConditionSolver2& instance,
                const Collider2Ptr& collider, pybind11::object gridSize,
                pybind11::object gridSpacing, pybind11::object gridOrigin) {
-                instance.UpdateCollider(collider, ObjectToSize2(gridSize),
+                instance.UpdateCollider(collider, ObjectToVector2UZ(gridSize),
                                         ObjectToVector2D(gridSpacing),
                                         ObjectToVector2D(gridOrigin));
             },
@@ -84,7 +84,7 @@ void AddGridBoundaryConditionSolver3(pybind11::module& m)
             [](GridBoundaryConditionSolver3& instance,
                const Collider3Ptr& collider, pybind11::object gridSize,
                pybind11::object gridSpacing, pybind11::object gridOrigin) {
-                instance.UpdateCollider(collider, ObjectToSize3(gridSize),
+                instance.UpdateCollider(collider, ObjectToVector3UZ(gridSize),
                                         ObjectToVector3D(gridSpacing),
                                         ObjectToVector3D(gridOrigin));
             },

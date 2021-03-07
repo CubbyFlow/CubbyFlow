@@ -46,7 +46,7 @@ void AddScalarGrid2(pybind11::module& m)
             "Resize",
             [](ScalarGrid2& instance, pybind11::args args,
                pybind11::kwargs kwargs) {
-                Size2 resolution{ 1, 1 };
+                Vector2UZ resolution{ 1, 1 };
                 Vector2D gridSpacing{ 1, 1 };
                 Vector2D gridOrigin{ 0, 0 };
 
@@ -181,9 +181,11 @@ void AddScalarGrid2(pybind11::module& m)
 			- j : Data point index j.
 		)pbdoc",
              pybind11::arg("i"), pybind11::arg("j"))
-        .def("GetDataAccessor", &ScalarGrid2::GetDataAccessor,
-             R"pbdoc(The data array accessor.)pbdoc")
-        .def("GetDataPosition", &ScalarGrid2::GetDataPosition,
+        .def("DataView",
+             static_cast<ArrayView2<double> (ScalarGrid2::*)()>(
+                 &ScalarGrid2::DataView),
+             R"pbdoc(Returns the data array view.)pbdoc")
+        .def("DataPosition", &ScalarGrid2::DataPosition,
              R"pbdoc(The function that maps data point to its position.)pbdoc")
         .def(
             "Fill",
@@ -283,7 +285,7 @@ void AddScalarGrid3(pybind11::module& m)
             "Resize",
             [](ScalarGrid3& instance, pybind11::args args,
                pybind11::kwargs kwargs) {
-                Size3 resolution{ 1, 1, 1 };
+                Vector3UZ resolution{ 1, 1, 1 };
                 Vector3D gridSpacing{ 1, 1, 1 };
                 Vector3D gridOrigin{ 0, 0, 0 };
 
@@ -422,9 +424,11 @@ void AddScalarGrid3(pybind11::module& m)
 			- k : Data point index k.
 		)pbdoc",
              pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("k"))
-        .def("GetDataAccessor", &ScalarGrid3::GetDataAccessor,
-             R"pbdoc(The data array accessor.)pbdoc")
-        .def("GetDataPosition", &ScalarGrid3::GetDataPosition,
+        .def("DataView",
+             static_cast<ArrayView3<double> (ScalarGrid3::*)()>(
+                 &ScalarGrid3::DataView),
+             R"pbdoc(Returns the data array view.)pbdoc")
+        .def("DataPosition", &ScalarGrid3::DataPosition,
              R"pbdoc(The function that maps data point to its position.)pbdoc")
         .def(
             "Fill",

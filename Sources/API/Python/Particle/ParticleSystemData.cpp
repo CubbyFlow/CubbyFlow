@@ -91,23 +91,19 @@ void AddParticleSystemData2(pybind11::module& m)
 		)pbdoc")
         .def_property_readonly(
             "positions",
-            [](ParticleSystemData2& instance) {
-                return instance.GetPositions();
-            },
+            [](ParticleSystemData2& instance) { return instance.Positions(); },
             R"pbdoc(
 			Returns the position array (mutable).
 		)pbdoc")
         .def_property_readonly(
             "velocities",
-            [](ParticleSystemData2& instance) {
-                return instance.GetVelocities();
-            },
+            [](ParticleSystemData2& instance) { return instance.Velocities(); },
             R"pbdoc(
 			Returns the velocity array (mutable).
 		)pbdoc")
         .def_property_readonly(
             "forces",
-            [](ParticleSystemData2& instance) { return instance.GetForces(); },
+            [](ParticleSystemData2& instance) { return instance.Forces(); },
             R"pbdoc(
 			Returns the force array (mutable).
 		)pbdoc")
@@ -186,9 +182,8 @@ void AddParticleSystemData2(pybind11::module& m)
                     }
                 }
 
-                instance.AddParticles(positions.ConstAccessor(),
-                                      velocities.ConstAccessor(),
-                                      forces.ConstAccessor());
+                instance.AddParticles(positions.View(), velocities.View(),
+                                      forces.View());
             },
             R"pbdoc(
 			Adds particles to the data structure.
@@ -306,23 +301,19 @@ void AddParticleSystemData3(pybind11::module& m)
 		)pbdoc")
         .def_property_readonly(
             "positions",
-            [](ParticleSystemData3& instance) {
-                return instance.GetPositions();
-            },
+            [](ParticleSystemData3& instance) { return instance.Positions(); },
             R"pbdoc(
 			Returns the position array (mutable).
 		)pbdoc")
         .def_property_readonly(
             "velocities",
-            [](ParticleSystemData3& instance) {
-                return instance.GetVelocities();
-            },
+            [](ParticleSystemData3& instance) { return instance.Velocities(); },
             R"pbdoc(
 			Returns the velocity array (mutable).
 		)pbdoc")
         .def_property_readonly(
             "forces",
-            [](ParticleSystemData3& instance) { return instance.GetForces(); },
+            [](ParticleSystemData3& instance) { return instance.Forces(); },
             R"pbdoc(
 			Returns the force array (mutable).
 		)pbdoc")
@@ -401,9 +392,8 @@ void AddParticleSystemData3(pybind11::module& m)
                     }
                 }
 
-                instance.AddParticles(positions.ConstAccessor(),
-                                      velocities.ConstAccessor(),
-                                      forces.ConstAccessor());
+                instance.AddParticles(positions.View(), velocities.View(),
+                                      forces.View());
             },
             R"pbdoc(
 			Adds particles to the data structure.

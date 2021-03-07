@@ -8,12 +8,13 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef CUBBYFLOW_PYTHON_SIZE_HPP
-#define CUBBYFLOW_PYTHON_SIZE_HPP
+#ifndef CUBBYFLOW_PYTHON_ARRAY_VIEW_HPP
+#define CUBBYFLOW_PYTHON_ARRAY_VIEW_HPP
 
 #include <pybind11/pybind11.h>
 
-void AddSize2(pybind11::module& m);
-void AddSize3(pybind11::module& m);
+void AddArrayView1(pybind11::module& m);
+void AddArrayView2(pybind11::module& m);
+void AddArrayView3(pybind11::module& m);
 
 #endif

@@ -143,11 +143,13 @@ void AddCollocatedVectorGrid2(pybind11::module& m)
 			- j : Data point index j.
 		)pbdoc",
              pybind11::arg("i"), pybind11::arg("j"))
-        .def("GetDataAccessor", &CollocatedVectorGrid2::GetDataAccessor,
+        .def("DataView",
+             static_cast<ArrayView2<Vector2D> (CollocatedVectorGrid2::*)()>(
+                 &CollocatedVectorGrid2::DataView),
              R"pbdoc(
-			Returns the data array accessor.
+			Returns the data array view.
 		)pbdoc")
-        .def("GetDataPosition", &CollocatedVectorGrid2::GetDataPosition,
+        .def("DataPosition", &CollocatedVectorGrid2::DataPosition,
              R"pbdoc(
 			Returns the function that maps data point to its position.
 		)pbdoc")
@@ -334,11 +336,13 @@ void AddCollocatedVectorGrid3(pybind11::module& m)
 			- k : Data point index k.
 		)pbdoc",
              pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("k"))
-        .def("GetDataAccessor", &CollocatedVectorGrid3::GetDataAccessor,
+        .def("DataView",
+             static_cast<ArrayView3<Vector3D> (CollocatedVectorGrid3::*)()>(
+                 &CollocatedVectorGrid3::DataView),
              R"pbdoc(
-			Returns the data array accessor.
+			Returns the data array view.
 		)pbdoc")
-        .def("GetDataPosition", &CollocatedVectorGrid3::GetDataPosition,
+        .def("DataPosition", &CollocatedVectorGrid3::DataPosition,
              R"pbdoc(
 			Returns the function that maps data point to its position.
 		)pbdoc")
