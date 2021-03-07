@@ -15,11 +15,9 @@ TEST(VolumeParticleEmitter3, Constructors)
 
     BoundingBox3D region({ 0.0, 0.0, 0.0 }, { 3.0, 3.0, 3.0 });
 
-    VolumeParticleEmitter3 emitter(sphere, region, 0.1, { -1.0, 0.5, 2.5 },
-                                   { 0.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0 }, 30,
+    VolumeParticleEmitter3 emitter(sphere, region, 0.1, { -1.0, 0.5, 2.5 }, 30,
                                    0.01, false, true);
 
-    EXPECT_BOUNDING_BOX3_EQ(region, emitter.GetMaxRegion());
     EXPECT_EQ(0.01, emitter.GetJitter());
     EXPECT_FALSE(emitter.GetIsOneShot());
     EXPECT_TRUE(emitter.GetAllowOverlapping());
@@ -28,9 +26,6 @@ TEST(VolumeParticleEmitter3, Constructors)
     EXPECT_EQ(-1.0, emitter.GetInitialVelocity().x);
     EXPECT_EQ(0.5, emitter.GetInitialVelocity().y);
     EXPECT_EQ(2.5, emitter.GetInitialVelocity().z);
-    EXPECT_EQ(Vector3D(), emitter.GetLinearVelocity());
-    EXPECT_EQ(Vector3D(), emitter.GetAngularVelocity());
-    EXPECT_TRUE(emitter.GetIsEnabled());
 }
 
 TEST(VolumeParticleEmitter3, Emit)
@@ -40,8 +35,7 @@ TEST(VolumeParticleEmitter3, Emit)
 
     BoundingBox3D box({ 0.0, 0.0, 0.0 }, { 3.0, 3.0, 3.0 });
 
-    VolumeParticleEmitter3 emitter(sphere, box, 0.5, { -1.0, 0.5, 2.5 },
-                                   { 3.0, 4.0, 5.0 }, { 0.0, 0.0, 5.0 }, 30,
+    VolumeParticleEmitter3 emitter(sphere, box, 0.5, { -1.0, 0.5, 2.5 }, 30,
                                    0.0, false, false);
 
     auto particles = std::make_shared<ParticleSystemData3>();
@@ -64,15 +58,8 @@ TEST(VolumeParticleEmitter3, Emit)
         EXPECT_EQ(2.5, vel[i].z);
     }
 
-    emitter.SetIsEnabled(false);
     ++frame;
     emitter.SetMaxNumberOfParticles(80);
-    emitter.Update(frame.TimeInSeconds(), frame.timeIntervalInSeconds);
-
-    EXPECT_EQ(30u, particles->GetNumberOfParticles());
-    emitter.SetIsEnabled(true);
-
-    ++frame;
     emitter.Update(frame.TimeInSeconds(), frame.timeIntervalInSeconds);
 
     EXPECT_EQ(79u, particles->GetNumberOfParticles());
@@ -98,8 +85,6 @@ TEST(VolumeParticleEmitter3, Builder)
             .WithMaxRegion(BoundingBox3D({ 0.0, 0.0, 0.0 }, { 3.0, 3.0, 3.0 }))
             .WithSpacing(0.1)
             .WithInitialVelocity({ -1.0, 0.5, 2.5 })
-            .WithLinearVelocity({ 3.0, 4.0, 5.0 })
-            .WithAngularVelocity({ 0.0, 1.0, 2.0 })
             .WithMaxNumberOfParticles(30)
             .WithJitter(0.01)
             .WithIsOneShot(false)
@@ -114,6 +99,4 @@ TEST(VolumeParticleEmitter3, Builder)
     EXPECT_EQ(-1.0, emitter.GetInitialVelocity().x);
     EXPECT_EQ(0.5, emitter.GetInitialVelocity().y);
     EXPECT_EQ(2.5, emitter.GetInitialVelocity().z);
-    EXPECT_VECTOR3_EQ(Vector3D(3.0, 4.0, 5.0), emitter.GetLinearVelocity());
-    EXPECT_VECTOR3_EQ(Vector3D(0.0, 1.0, 2.0), emitter.GetAngularVelocity());
 }
