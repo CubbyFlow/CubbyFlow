@@ -4,8 +4,8 @@
 #include <Core/Field/ConstantVectorField3.hpp>
 #include <Core/Grid/CellCenteredScalarGrid3.hpp>
 #include <Core/Grid/FaceCenteredGrid3.hpp>
+#include <Core/Matrix/Matrix.hpp>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.hpp>
-#include <Core/Vector/Vector3.hpp>
 
 using CubbyFlow::CellCenteredScalarGrid3;
 using CubbyFlow::ConstantScalarField3;

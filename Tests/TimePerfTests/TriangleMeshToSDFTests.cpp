@@ -27,12 +27,12 @@ class TriangleMeshToSDF : public ::benchmark::Fixture
         }
 
         CubbyFlow::BoundingBox3D box = triMesh.BoundingBox();
-        const Vector3D scale{ box.GetWidth(), box.GetHeight(), box.GetDepth() };
+        const Vector3D scale{ box.Width(), box.Height(), box.Depth() };
         box.lowerCorner -= 0.2 * scale;
         box.upperCorner += 0.2 * scale;
 
-        grid.Resize(100, 100, 100, box.GetWidth() / 100, box.GetHeight() / 100,
-                    box.GetDepth() / 100, box.lowerCorner.x, box.lowerCorner.y,
+        grid.Resize(100, 100, 100, box.Width() / 100, box.Height() / 100,
+                    box.Depth() / 100, box.lowerCorner.x, box.lowerCorner.y,
                     box.lowerCorner.z);
     }
 };

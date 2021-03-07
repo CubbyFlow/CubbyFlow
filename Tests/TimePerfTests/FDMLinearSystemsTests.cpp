@@ -1,9 +1,8 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/Array/Array3.hpp>
+#include <Core/Array/ArrayView.hpp>
 #include <Core/FDM/FDMLinearSystem2.hpp>
 #include <Core/FDM/FDMLinearSystem3.hpp>
-#include <Core/Geometry/Size3.hpp>
 
 #include <random>
 
@@ -13,7 +12,7 @@ using CubbyFlow::FDMMatrix2;
 using CubbyFlow::FDMMatrix3;
 using CubbyFlow::FDMVector2;
 using CubbyFlow::FDMVector3;
-using CubbyFlow::Size3;
+using CubbyFlow::Vector3UZ;
 
 class FDMBLAS2 : public ::benchmark::Fixture
 {
@@ -33,7 +32,7 @@ class FDMBLAS2 : public ::benchmark::Fixture
         std::mt19937 rng;
         std::uniform_real_distribution<> d(0.0, 1.0);
 
-        m.ForEachIndex([&](size_t i, size_t j) {
+        ForEachIndex(m.Size(), [&](size_t i, size_t j) {
             m(i, j).center = d(rng);
             m(i, j).right = d(rng);
             m(i, j).up = d(rng);
@@ -60,7 +59,7 @@ class FDMBLAS3 : public ::benchmark::Fixture
         std::mt19937 rng;
         std::uniform_real_distribution<> d(0.0, 1.0);
 
-        m.ForEachIndex([&](size_t i, size_t j, size_t k) {
+        ForEachIndex(m.Size(), [&](size_t i, size_t j, size_t k) {
             m(i, j, k).center = d(rng);
             m(i, j, k).right = d(rng);
             m(i, j, k).up = d(rng);
@@ -83,14 +82,14 @@ class FDMCompressedBLAS3 : public ::benchmark::Fixture
     }
 
     static void BuildSystem(FDMCompressedLinearSystem3* system,
-                            const Size3& size)
+                            const Vector3UZ& size)
     {
         system->Clear();
 
         Array3<size_t> coordToIndex(size);
-        const auto acc = coordToIndex.ConstAccessor();
+        const auto acc = coordToIndex.View();
 
-        coordToIndex.ForEachIndex([&](size_t i, size_t j, size_t k) {
+        ForEachIndex(coordToIndex.Size(), [&](size_t i, size_t j, size_t k) {
             const size_t cIdx = acc.Index(i, j, k);
             const size_t lIdx = acc.Index(i - 1, j, k);
             const size_t rIdx = acc.Index(i + 1, j, k);
@@ -99,7 +98,7 @@ class FDMCompressedBLAS3 : public ::benchmark::Fixture
             const size_t bIdx = acc.Index(i, j, k - 1);
             const size_t fIdx = acc.Index(i, j, k + 1);
 
-            coordToIndex[cIdx] = system->b.size();
+            coordToIndex[cIdx] = system->b.GetRows();
             double bijk = 0.0;
 
             std::vector<double> row(1, 0.0);
@@ -163,10 +162,10 @@ class FDMCompressedBLAS3 : public ::benchmark::Fixture
             }
 
             system->A.AddRow(row, colIdx);
-            system->b.Append(bijk);
+            system->b.AddElement(bijk);
         });
 
-        system->x.Resize(system->b.size(), 0.0);
+        system->x.Resize(system->b.GetRows(), 0.0);
     }
 };
 
