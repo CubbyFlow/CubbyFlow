@@ -27,7 +27,6 @@ var searchData=
   ['plane_2ehpp',['Plane.hpp',['../_plane_8hpp.html',1,'']]],
   ['plane2_2ehpp',['Plane2.hpp',['../_plane2_8hpp.html',1,'']]],
   ['plane3_2ehpp',['Plane3.hpp',['../_plane3_8hpp.html',1,'']]],
-  ['point_2ehpp',['Point.hpp',['../_point_8hpp.html',1,'']]],
   ['pointgenerator2_2ehpp',['PointGenerator2.hpp',['../_point_generator2_8hpp.html',1,'']]],
   ['pointgenerator3_2ehpp',['PointGenerator3.hpp',['../_point_generator3_8hpp.html',1,'']]],
   ['pointhashgridsearcher2_2ehpp',['PointHashGridSearcher2.hpp',['../_point_hash_grid_searcher2_8hpp.html',1,'']]],

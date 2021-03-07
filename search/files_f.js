@@ -16,7 +16,6 @@ var searchData=
   ['serializable_2ehpp',['Serializable.hpp',['../_serializable_8hpp.html',1,'']]],
   ['serialization_2dimpl_2ehpp',['Serialization-Impl.hpp',['../_serialization-_impl_8hpp.html',1,'']]],
   ['serialization_2ehpp',['Serialization.hpp',['../_serialization_8hpp.html',1,'']]],
-  ['size_2ehpp',['Size.hpp',['../_size_8hpp.html',1,'']]],
   ['sphere_2ehpp',['Sphere.hpp',['../_sphere_8hpp.html',1,'']]],
   ['sphere2_2ehpp',['Sphere2.hpp',['../_sphere2_8hpp.html',1,'']]],
   ['sphere3_2ehpp',['Sphere3.hpp',['../_sphere3_8hpp.html',1,'']]],
