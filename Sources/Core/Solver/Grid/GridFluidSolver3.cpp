@@ -300,7 +300,7 @@ void GridFluidSolver3::ComputePressure(double timeIntervalInSeconds)
 
         m_pressureSolver->Solve(*vel0, timeIntervalInSeconds, vel.get(),
                                 *GetColliderSDF(), *GetColliderVelocityField(),
-                                *GetFluidSDF());
+                                *GetFluidSDF(), m_useCompressedLinearSys);
         ApplyBoundaryCondition();
     }
 }
