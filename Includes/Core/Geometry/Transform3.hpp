@@ -69,8 +69,8 @@ class Transform3
  private:
     Vector3D m_translation;
     QuaternionD m_orientation;
-    Matrix3x3D m_orientationMat3;
-    Matrix3x3D m_inverseOrientationMat3;
+    Matrix3x3D m_orientationMat3 = Matrix3x3D::MakeIdentity();
+    Matrix3x3D m_inverseOrientationMat3 = Matrix3x3D::MakeIdentity();
 };
 }  // namespace CubbyFlow
 
