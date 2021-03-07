@@ -89,7 +89,7 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
                 scale += std::fabs(u(k, i));
             }
 
-            if (std::fabs(static_cast<double>(scale)) <
+            if (std::fabs(static_cast<double>(scale)) >=
                 std::numeric_limits<double>::epsilon())
             {
                 for (k = i; k < m; k++)
@@ -142,7 +142,7 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
                 scale += std::fabs(u(i, k));
             }
 
-            if (std::fabs(static_cast<double>(scale)) <
+            if (std::fabs(static_cast<double>(scale)) >=
                 std::numeric_limits<double>::epsilon())
             {
                 for (k = l; k < n; k++)
@@ -195,7 +195,7 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
     {
         if (i < n - 1)
         {
-            if (std::fabs(static_cast<double>(g)) <
+            if (std::fabs(static_cast<double>(g)) >=
                 std::numeric_limits<double>::epsilon())
             {
                 for (j = l; j < n; j++)
@@ -245,7 +245,7 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
             }
         }
 
-        if (std::fabs(static_cast<double>(g)) <
+        if (std::fabs(static_cast<double>(g)) >=
             std::numeric_limits<double>::epsilon())
         {
             g = 1 / g;
@@ -410,7 +410,7 @@ void SVD(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w, MatrixMxN<T>& v)
                 z = Internal::Pythag(f, h);
                 w[j] = z;
 
-                if (std::fabs(static_cast<double>(z)) <
+                if (std::fabs(static_cast<double>(z)) >=
                     std::numeric_limits<double>::epsilon())
                 {
                     z = 1 / z;
