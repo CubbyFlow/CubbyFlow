@@ -39,7 +39,7 @@ Grid3::DataPositionFunc Grid3::CellCenterPosition() const
     Vector3D h = m_gridSpacing;
     Vector3D o = m_origin;
 
-    return [h, o](const size_t i, const size_t j, const size_t k) {
+    return [h, o](const size_t i, const size_t j, const size_t k) -> Vector3D {
         return o + ElemMul(h, Vector3D{ static_cast<double>(i) + 0.5,
                                         static_cast<double>(j) + 0.5,
                                         static_cast<double>(k) + 0.5 });

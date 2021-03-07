@@ -39,7 +39,7 @@ Grid2::DataPositionFunc Grid2::CellCenterPosition() const
     Vector2D h = m_gridSpacing;
     Vector2D o = m_origin;
 
-    return [h, o](const size_t i, const size_t j) {
+    return [h, o](const size_t i, const size_t j) -> Vector2D {
         return o + ElemMul(h, Vector2D{ static_cast<double>(i) + 0.5,
                                         static_cast<double>(j) + 0.5 });
     };
