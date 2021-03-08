@@ -11,6 +11,8 @@
 #ifndef CUBBYFLOW_FUNCTORS_IMPL_HPP
 #define CUBBYFLOW_FUNCTORS_IMPL_HPP
 
+#include <Core/Math/MathUtils.hpp>
+
 #include <cmath>
 
 namespace CubbyFlow
