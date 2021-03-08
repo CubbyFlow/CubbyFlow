@@ -70,12 +70,12 @@ void AddVector(PyBindClass& cls, const std::string& name)
                      Object2Vector<T, R>(other, name));
              })
         .def("__getitem__",
-             [name](const VectorType& instance, size_t i) -> T {
+             [](const VectorType& instance, size_t i) -> T {
                  return instance[i];
              })
-        .def("__setitem__", [name](VectorType& instance, size_t i,
-                                   T val) { instance[i] = val; })
-        .def("__Add__",
+        .def("__setitem__",
+             [](VectorType& instance, size_t i, T val) { instance[i] = val; })
+        .def("__add__",
              [name](const VectorType& instance,
                     pybind11::object object) -> VectorType {
                  if (pybind11::isinstance<T>(object))
