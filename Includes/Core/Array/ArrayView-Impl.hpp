@@ -12,7 +12,6 @@
 #define CUBBYFLOW_ARRAY_VIEW_IMPL_HPP
 
 #include <Core/Array/Array.hpp>
-#include <Core/Array/ArrayView.hpp>
 
 namespace CubbyFlow
 {
@@ -71,7 +70,7 @@ template <typename T, size_t N>
 void ArrayView<T, N>::Fill(const T& val)
 {
     ForEachIndex(Vector<size_t, N>{}, m_size,
-                 [&](auto... idx) { At(idx...) = val; });
+                 [&](auto... idx) { this->At(idx...) = val; });
 }
 
 template <typename T, size_t N>
