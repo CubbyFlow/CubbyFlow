@@ -72,7 +72,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2, ConstrainVelocity)
     // Solver setting
     GridBlockedBoundaryConditionSolver2 solver;
     solver.UpdateCollider(collider, velocity.Resolution(),
-                          velocity.GridSpacing(), velocity.Origin());
+                          velocity.GridSpacing(), velocity.GridOrigin());
     solver.SetClosedDomainBoundaryFlag(DIRECTION_RIGHT | DIRECTION_DOWN |
                                        DIRECTION_UP);
 
@@ -121,7 +121,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2,
     // Solver setting
     GridBlockedBoundaryConditionSolver2 solver;
     solver.UpdateCollider(collider, velocity.Resolution(),
-                          velocity.GridSpacing(), velocity.Origin());
+                          velocity.GridSpacing(), velocity.GridOrigin());
     solver.SetClosedDomainBoundaryFlag(DIRECTION_RIGHT | DIRECTION_DOWN |
                                        DIRECTION_UP);
 
@@ -171,7 +171,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridFractionalBoundaryConditionSolver2,
     // Solver setting
     GridFractionalBoundaryConditionSolver2 solver;
     solver.UpdateCollider(collider, velocity.Resolution(),
-                          velocity.GridSpacing(), velocity.Origin());
+                          velocity.GridSpacing(), velocity.GridOrigin());
     solver.SetClosedDomainBoundaryFlag(DIRECTION_RIGHT | DIRECTION_DOWN |
                                        DIRECTION_UP);
 

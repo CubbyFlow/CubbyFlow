@@ -54,7 +54,7 @@ Vector3UZ VertexCenteredScalarGrid3::GetDataSize() const
 
 Vector3D VertexCenteredScalarGrid3::GetDataOrigin() const
 {
-    return Origin();
+    return GridOrigin();
 }
 
 std::shared_ptr<ScalarGrid3> VertexCenteredScalarGrid3::Clone() const

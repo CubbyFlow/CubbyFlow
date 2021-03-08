@@ -863,7 +863,7 @@ void GridFractionalSinglePhasePressureSolver3::BuildSystem(
     {
         Vector3UZ res = finer->Resolution();
         Vector3D h = finer->GridSpacing();
-        const Vector3D& o = finer->Origin();
+        const Vector3D& o = finer->GridOrigin();
         res.x = res.x >> 1;
         res.y = res.y >> 1;
         res.z = res.z >> 1;

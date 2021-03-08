@@ -27,7 +27,7 @@ ScalarGrid3::ScalarGrid3()
 
 void ScalarGrid3::Clear()
 {
-    Resize(Vector3UZ{}, GridSpacing(), Origin(), 0.0);
+    Resize(Vector3UZ{}, GridSpacing(), GridOrigin(), 0.0);
 }
 
 void ScalarGrid3::Resize(size_t resolutionX, size_t resolutionY,
@@ -194,7 +194,7 @@ void ScalarGrid3::Serialize(std::vector<uint8_t>* buffer) const
 
     fbs::Vector3UZ fbsResolution = CubbyFlowToFlatbuffers(Resolution());
     fbs::Vector3D fbsGridSpacing = CubbyFlowToFlatbuffers(GridSpacing());
-    fbs::Vector3D fbsOrigin = CubbyFlowToFlatbuffers(Origin());
+    fbs::Vector3D fbsOrigin = CubbyFlowToFlatbuffers(GridOrigin());
 
     std::vector<double> gridData;
     GetData(&gridData);

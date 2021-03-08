@@ -19,9 +19,9 @@ const Vector3UZ& Grid3::Resolution() const
     return m_resolution;
 }
 
-const Vector3D& Grid3::Origin() const
+const Vector3D& Grid3::GridOrigin() const
 {
-    return m_origin;
+    return m_gridOrigin;
 }
 
 const Vector3D& Grid3::GridSpacing() const
@@ -37,7 +37,7 @@ const BoundingBox3D& Grid3::BoundingBox() const
 Grid3::DataPositionFunc Grid3::CellCenterPosition() const
 {
     Vector3D h = m_gridSpacing;
-    Vector3D o = m_origin;
+    Vector3D o = m_gridOrigin;
 
     return [h, o](const size_t i, const size_t j, const size_t k) -> Vector3D {
         return o + ElemMul(h, Vector3D{ static_cast<double>(i) + 0.5,
@@ -74,9 +74,9 @@ bool Grid3::HasSameShape(const Grid3& other) const
            Similar(m_gridSpacing.x, other.m_gridSpacing.x) &&
            Similar(m_gridSpacing.y, other.m_gridSpacing.y) &&
            Similar(m_gridSpacing.z, other.m_gridSpacing.z) &&
-           Similar(m_origin.x, other.m_origin.x) &&
-           Similar(m_origin.y, other.m_origin.y) &&
-           Similar(m_origin.z, other.m_origin.z);
+           Similar(m_gridOrigin.x, other.m_gridOrigin.x) &&
+           Similar(m_gridOrigin.y, other.m_gridOrigin.y) &&
+           Similar(m_gridOrigin.z, other.m_gridOrigin.z);
 }
 
 void Grid3::SetSizeParameters(const Vector3UZ& resolution,
@@ -84,7 +84,7 @@ void Grid3::SetSizeParameters(const Vector3UZ& resolution,
                               const Vector3D& origin)
 {
     m_resolution = resolution;
-    m_origin = origin;
+    m_gridOrigin = origin;
     m_gridSpacing = gridSpacing;
 
     const Vector3D resolutionD = Vector3D{ static_cast<double>(resolution.x),
@@ -99,7 +99,7 @@ void Grid3::SwapGrid(Grid3* other)
 {
     std::swap(m_resolution, other->m_resolution);
     std::swap(m_gridSpacing, other->m_gridSpacing);
-    std::swap(m_origin, other->m_origin);
+    std::swap(m_gridOrigin, other->m_gridOrigin);
     std::swap(m_boundingBox, other->m_boundingBox);
 }
 
@@ -107,7 +107,7 @@ void Grid3::SetGrid(const Grid3& other)
 {
     m_resolution = other.m_resolution;
     m_gridSpacing = other.m_gridSpacing;
-    m_origin = other.m_origin;
+    m_gridOrigin = other.m_gridOrigin;
     m_boundingBox = other.m_boundingBox;
 }
 }  // namespace CubbyFlow

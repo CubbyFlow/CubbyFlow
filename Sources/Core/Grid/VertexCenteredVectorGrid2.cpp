@@ -54,7 +54,7 @@ Vector2UZ VertexCenteredVectorGrid2::GetDataSize() const
 
 Vector2D VertexCenteredVectorGrid2::GetDataOrigin() const
 {
-    return Origin();
+    return GridOrigin();
 }
 
 void VertexCenteredVectorGrid2::Swap(Grid2* other)

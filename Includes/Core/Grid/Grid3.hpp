@@ -59,7 +59,7 @@ class Grid3 : public Serializable
     [[nodiscard]] const Vector3UZ& Resolution() const;
 
     //! Returns the grid origin.
-    [[nodiscard]] const Vector3D& Origin() const;
+    [[nodiscard]] const Vector3D& GridOrigin() const;
 
     //! Returns the grid spacing.
     [[nodiscard]] const Vector3D& GridSpacing() const;
@@ -125,7 +125,7 @@ class Grid3 : public Serializable
  private:
     Vector3UZ m_resolution;
     Vector3D m_gridSpacing = Vector3D(1, 1, 1);
-    Vector3D m_origin;
+    Vector3D m_gridOrigin;
     BoundingBox3D m_boundingBox = BoundingBox3D(Vector3D(), Vector3D());
 };
 

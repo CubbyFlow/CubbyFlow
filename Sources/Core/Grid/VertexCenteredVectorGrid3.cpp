@@ -56,7 +56,7 @@ Vector3UZ VertexCenteredVectorGrid3::GetDataSize() const
 
 Vector3D VertexCenteredVectorGrid3::GetDataOrigin() const
 {
-    return Origin();
+    return GridOrigin();
 }
 
 void VertexCenteredVectorGrid3::Swap(Grid3* other)

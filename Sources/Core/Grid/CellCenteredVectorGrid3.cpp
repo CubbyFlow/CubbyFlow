@@ -53,7 +53,7 @@ Vector3UZ CellCenteredVectorGrid3::GetDataSize() const
 
 Vector3D CellCenteredVectorGrid3::GetDataOrigin() const
 {
-    return Origin() + 0.5 * GridSpacing();
+    return GridOrigin() + 0.5 * GridSpacing();
 }
 
 void CellCenteredVectorGrid3::Swap(Grid3* other)

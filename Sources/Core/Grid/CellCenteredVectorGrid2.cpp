@@ -51,7 +51,7 @@ Vector2UZ CellCenteredVectorGrid2::GetDataSize() const
 
 Vector2D CellCenteredVectorGrid2::GetDataOrigin() const
 {
-    return Origin() + 0.5 * GridSpacing();
+    return GridOrigin() + 0.5 * GridSpacing();
 }
 
 void CellCenteredVectorGrid2::Swap(Grid2* other)

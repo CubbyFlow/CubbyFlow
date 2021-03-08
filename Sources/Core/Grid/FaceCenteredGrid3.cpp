@@ -420,7 +420,7 @@ double FaceCenteredGrid3::Divergence(const Vector3D& x) const
     const Vector3UZ res = Resolution();
     size_t i, j, k;
     double fx, fy, fz;
-    const Vector3D cellCenterOrigin = Origin() + 0.5 * GridSpacing();
+    const Vector3D cellCenterOrigin = GridOrigin() + 0.5 * GridSpacing();
     const Vector3D normalizedX = ElemDiv((x - cellCenterOrigin), GridSpacing());
 
     GetBarycentric(normalizedX.x, static_cast<size_t>(res.x), i, fx);
@@ -464,7 +464,7 @@ Vector3D FaceCenteredGrid3::Curl(const Vector3D& x) const
     const Vector3UZ res = Resolution();
     size_t i, j, k;
     double fx, fy, fz;
-    const Vector3D cellCenterOrigin = Origin() + 0.5 * GridSpacing();
+    const Vector3D cellCenterOrigin = GridOrigin() + 0.5 * GridSpacing();
     const Vector3D normalizedX = ElemDiv((x - cellCenterOrigin), GridSpacing());
 
     GetBarycentric(normalizedX.x, static_cast<size_t>(res.x), i, fx);

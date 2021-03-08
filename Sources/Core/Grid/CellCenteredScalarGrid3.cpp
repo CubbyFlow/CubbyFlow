@@ -51,7 +51,7 @@ Vector3UZ CellCenteredScalarGrid3::GetDataSize() const
 
 Vector3D CellCenteredScalarGrid3::GetDataOrigin() const
 {
-    return Origin() + 0.5 * GridSpacing();
+    return GridOrigin() + 0.5 * GridSpacing();
 }
 
 std::shared_ptr<ScalarGrid3> CellCenteredScalarGrid3::Clone() const

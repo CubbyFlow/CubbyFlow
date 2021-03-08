@@ -53,7 +53,7 @@ Vector2UZ VertexCenteredScalarGrid2::GetDataSize() const
 
 Vector2D VertexCenteredScalarGrid2::GetDataOrigin() const
 {
-    return Origin();
+    return GridOrigin();
 }
 
 std::shared_ptr<ScalarGrid2> VertexCenteredScalarGrid2::Clone() const

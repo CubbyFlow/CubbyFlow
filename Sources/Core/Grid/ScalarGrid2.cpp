@@ -27,7 +27,7 @@ ScalarGrid2::ScalarGrid2()
 
 void ScalarGrid2::Clear()
 {
-    Resize(Vector2UZ{}, GridSpacing(), Origin(), 0.0);
+    Resize(Vector2UZ{}, GridSpacing(), GridOrigin(), 0.0);
 }
 
 void ScalarGrid2::Resize(size_t resolutionX, size_t resolutionY,
@@ -182,7 +182,7 @@ void ScalarGrid2::Serialize(std::vector<uint8_t>* buffer) const
 
     fbs::Vector2UZ fbsResolution = CubbyFlowToFlatbuffers(Resolution());
     fbs::Vector2D fbsGridSpacing = CubbyFlowToFlatbuffers(GridSpacing());
-    fbs::Vector2D fbsOrigin = CubbyFlowToFlatbuffers(Origin());
+    fbs::Vector2D fbsOrigin = CubbyFlowToFlatbuffers(GridOrigin());
 
     std::vector<double> gridData;
     GetData(&gridData);

@@ -136,8 +136,8 @@ int main(int argc, char* argv[])
     }
 
     TriangleMesh3 triMesh2;
-    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.Origin(), &triMesh2,
-                  0, DIRECTION_ALL);
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.GridOrigin(),
+                  &triMesh2, 0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh2, outputFileName + "_previz.obj");
 

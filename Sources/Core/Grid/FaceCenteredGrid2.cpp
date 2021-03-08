@@ -304,7 +304,7 @@ double FaceCenteredGrid2::Divergence(const Vector2D& x) const
 {
     size_t i, j;
     double fx, fy;
-    const Vector2D cellCenterOrigin = Origin() + 0.5 * GridSpacing();
+    const Vector2D cellCenterOrigin = GridOrigin() + 0.5 * GridSpacing();
     const Vector2D normalizedX = ElemDiv((x - cellCenterOrigin), GridSpacing());
 
     GetBarycentric(normalizedX.x, static_cast<size_t>(Resolution().x), i, fx);
@@ -338,7 +338,7 @@ double FaceCenteredGrid2::Curl(const Vector2D& x) const
 {
     size_t i, j;
     double fx, fy;
-    const Vector2D cellCenterOrigin = Origin() + 0.5 * GridSpacing();
+    const Vector2D cellCenterOrigin = GridOrigin() + 0.5 * GridSpacing();
     const Vector2D normalizedX = ElemDiv((x - cellCenterOrigin), GridSpacing());
 
     GetBarycentric(normalizedX.x, static_cast<size_t>(Resolution().x), i, fx);

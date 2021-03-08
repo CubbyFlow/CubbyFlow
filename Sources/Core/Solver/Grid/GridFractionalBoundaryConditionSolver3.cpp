@@ -25,7 +25,7 @@ void GridFractionalBoundaryConditionSolver3::ConstrainVelocity(
     if (m_colliderSDF == nullptr || m_colliderSDF->Resolution() != size)
     {
         UpdateCollider(GetCollider(), size, velocity->GridSpacing(),
-                       velocity->Origin());
+                       velocity->GridOrigin());
     }
 
     ArrayView3<double> u = velocity->UView();

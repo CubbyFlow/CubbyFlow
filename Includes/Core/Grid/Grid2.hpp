@@ -59,7 +59,7 @@ class Grid2 : public Serializable
     [[nodiscard]] const Vector2UZ& Resolution() const;
 
     //! Returns the grid origin.
-    [[nodiscard]] const Vector2D& Origin() const;
+    [[nodiscard]] const Vector2D& GridOrigin() const;
 
     //! Returns the grid spacing.
     [[nodiscard]] const Vector2D& GridSpacing() const;
@@ -125,7 +125,7 @@ class Grid2 : public Serializable
  private:
     Vector2UZ m_resolution;
     Vector2D m_gridSpacing = Vector2D(1, 1);
-    Vector2D m_origin;
+    Vector2D m_gridOrigin;
     BoundingBox2D m_boundingBox = BoundingBox2D(Vector2D(), Vector2D());
 };
 
