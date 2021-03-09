@@ -197,20 +197,23 @@ void AddFloatVector(PyBindClass& cls, const std::string& name)
              });
 }
 
-#define ADD_VECTOR2(NAME, SCALAR)                          \
-    pybind11::class_<NAME> cls(m, #NAME);                  \
-    cls.def(                                               \
-           "__init__",                                     \
-           [](NAME& instance, SCALAR x, SCALAR y) {        \
-               new (&instance) NAME(x, y);                 \
-           },                                              \
-           "Constructs " #NAME                             \
-           ".\n\n"                                         \
-           "This method constructs " #SCALAR               \
-           "-type 2-D vector with x and y.\n",             \
-           pybind11::arg("x") = 0, pybind11::arg("y") = 0) \
-        .def_readwrite("x", &NAME::x)                      \
-        .def_readwrite("y", &NAME::y);                     \
+#define ADD_VECTOR2(NAME, SCALAR)                                         \
+    pybind11::class_<NAME> cls(m, #NAME);                                 \
+    cls.def(                                                              \
+           "__init__",                                                    \
+           [](NAME& instance, SCALAR x, SCALAR y) {                       \
+               new (&instance) NAME(x, y);                                \
+           },                                                             \
+           "Constructs " #NAME                                            \
+           ".\n\n"                                                        \
+           "This method constructs " #SCALAR                              \
+           "-type 2-D vector with x and y.\n",                            \
+           pybind11::arg("x") = 0, pybind11::arg("y") = 0)                \
+        .def_readwrite("x", &NAME::x)                                     \
+        .def_readwrite("y", &NAME::y)                                     \
+        .def("__iter__", [](const NAME& instance) {                       \
+            return pybind11::make_iterator(&instance.x, &instance.y + 1); \
+        });                                                               \
     AddVector<pybind11::class_<NAME>, SCALAR, 2>(cls, #NAME);
 
 #define ADD_FLOAT_VECTOR2(NAME, SCALAR)               \
@@ -218,22 +221,25 @@ void AddFloatVector(PyBindClass& cls, const std::string& name)
     cls.def("Tangential", &NAME::Tangential<SCALAR>); \
     AddFloatVector<pybind11::class_<NAME>, SCALAR, 2>(cls, #NAME);
 
-#define ADD_VECTOR3(NAME, SCALAR)                             \
-    pybind11::class_<NAME> cls(m, #NAME);                     \
-    cls.def(                                                  \
-           "__init__",                                        \
-           [](NAME& instance, SCALAR x, SCALAR y, SCALAR z) { \
-               new (&instance) NAME(x, y, z);                 \
-           },                                                 \
-           "Constructs " #NAME                                \
-           ".\n\n"                                            \
-           "This method constructs " #SCALAR                  \
-           "-type 3-D vector with x, y, and z.\n",            \
-           pybind11::arg("x") = 0, pybind11::arg("y") = 0,    \
-           pybind11::arg("z") = 0)                            \
-        .def_readwrite("x", &NAME::x)                         \
-        .def_readwrite("y", &NAME::y)                         \
-        .def_readwrite("z", &NAME::z);                        \
+#define ADD_VECTOR3(NAME, SCALAR)                                         \
+    pybind11::class_<NAME> cls(m, #NAME);                                 \
+    cls.def(                                                              \
+           "__init__",                                                    \
+           [](NAME& instance, SCALAR x, SCALAR y, SCALAR z) {             \
+               new (&instance) NAME(x, y, z);                             \
+           },                                                             \
+           "Constructs " #NAME                                            \
+           ".\n\n"                                                        \
+           "This method constructs " #SCALAR                              \
+           "-type 3-D vector with x, y, and z.\n",                        \
+           pybind11::arg("x") = 0, pybind11::arg("y") = 0,                \
+           pybind11::arg("z") = 0)                                        \
+        .def_readwrite("x", &NAME::x)                                     \
+        .def_readwrite("y", &NAME::y)                                     \
+        .def_readwrite("z", &NAME::z)                                     \
+        .def("__iter__", [](const NAME& instance) {                       \
+            return pybind11::make_iterator(&instance.x, &instance.z + 1); \
+        });                                                               \
     AddVector<pybind11::class_<NAME>, SCALAR, 3>(cls, #NAME);
 
 #define ADD_FLOAT_VECTOR3(NAME, SCALAR)                 \
