@@ -118,7 +118,15 @@ void AddParticleSystemData2(pybind11::module& m)
         .def(
             "VectorDataAt",
             [](ParticleSystemData2& instance, size_t idx) {
-                return instance.VectorDataAt(idx);
+                std::vector<Vector2D> result;
+
+                ArrayView1<Vector2D> view = instance.VectorDataAt(idx);
+                for (auto& elem : view)
+                {
+                    result.emplace_back(elem);
+                }
+
+                return result;
             },
             R"pbdoc(
 			Returns custom vector data layer at given index (mutable).
@@ -328,7 +336,15 @@ void AddParticleSystemData3(pybind11::module& m)
         .def(
             "VectorDataAt",
             [](ParticleSystemData3& instance, size_t idx) {
-                return instance.VectorDataAt(idx);
+                std::vector<Vector3D> result;
+
+                ArrayView1<Vector3D> view = instance.VectorDataAt(idx);
+                for (auto& elem : view)
+                {
+                    result.emplace_back(elem);
+                }
+
+                return result;
             },
             R"pbdoc(
 			Returns custom vector data layer at given index (mutable).
