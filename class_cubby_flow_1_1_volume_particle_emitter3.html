@@ -104,8 +104,8 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab9a0a3064252d36b279414858fdf8dc3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_volume_particle_emitter3.html#ab9a0a3064252d36b279414858fdf8dc3">VolumeParticleEmitter3</a> (<a class="el" href="namespace_cubby_flow.html#a471d986bfd864d75f042a85920a6a37f">ImplicitSurface3Ptr</a> implicitSurface, const <a class="el" href="namespace_cubby_flow.html#ae3b2afb0ff7c00c0a622f46b1ad35f60">BoundingBox3D</a> &amp;bounds, double spacing, const <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;initialVel=<a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a>(), size_t maxNumberOfParticles=std::numeric_limits&lt; size_t &gt;::max(), double jitter=0.0, bool isOneShot=true, bool allowOverlapping=false, uint32_t seed=0)</td></tr>
-<tr class="separator:ab9a0a3064252d36b279414858fdf8dc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac77e18d491f7efc03efc112505220443"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_volume_particle_emitter3.html#ac77e18d491f7efc03efc112505220443">VolumeParticleEmitter3</a> (<a class="el" href="namespace_cubby_flow.html#a471d986bfd864d75f042a85920a6a37f">ImplicitSurface3Ptr</a> implicitSurface, <a class="el" href="namespace_cubby_flow.html#ae3b2afb0ff7c00c0a622f46b1ad35f60">BoundingBox3D</a> maxRegion, double spacing, const <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;initialVel=<a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a>(), const <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;linearVel=<a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a>(), const <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;angularVel=<a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a>(), size_t maxNumberOfParticles=std::numeric_limits&lt; size_t &gt;::max(), double jitter=0.0, bool isOneShot=true, bool allowOverlapping=false, uint32_t seed=0)</td></tr>
+<tr class="separator:ac77e18d491f7efc03efc112505220443"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10254502aeb2daa6b9346f2212d07dd6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_volume_particle_emitter3.html#a10254502aeb2daa6b9346f2212d07dd6">SetPointGenerator</a> (const <a class="el" href="namespace_cubby_flow.html#aae782cfd9083d42a117e990cfe12452b">PointGenerator3Ptr</a> &amp;newPointsGen)</td></tr>
 <tr class="memdesc:a10254502aeb2daa6b9346f2212d07dd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the point generator.  <a href="#a10254502aeb2daa6b9346f2212d07dd6">More...</a><br /></td></tr>
 <tr class="separator:a10254502aeb2daa6b9346f2212d07dd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -157,6 +157,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa8d971e715bac9aaceb5fa39de87985e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_volume_particle_emitter3.html#aa8d971e715bac9aaceb5fa39de87985e">SetInitialVelocity</a> (const <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;newInitialVel)</td></tr>
 <tr class="memdesc:aa8d971e715bac9aaceb5fa39de87985e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the initial velocity of the particles.  <a href="#aa8d971e715bac9aaceb5fa39de87985e">More...</a><br /></td></tr>
 <tr class="separator:aa8d971e715bac9aaceb5fa39de87985e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a098efd7a1f33706fd6d8492a911acd3d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_volume_particle_emitter3.html#a098efd7a1f33706fd6d8492a911acd3d">GetLinearVelocity</a> () const</td></tr>
+<tr class="memdesc:a098efd7a1f33706fd6d8492a911acd3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the linear velocity of the emitter.  <a href="#a098efd7a1f33706fd6d8492a911acd3d">More...</a><br /></td></tr>
+<tr class="separator:a098efd7a1f33706fd6d8492a911acd3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58176cb40b9540edf42fa16ca6784252"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_volume_particle_emitter3.html#a58176cb40b9540edf42fa16ca6784252">SetLinearVelocity</a> (const <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;newLinearVel)</td></tr>
+<tr class="memdesc:a58176cb40b9540edf42fa16ca6784252"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the linear velocity of the emitter.  <a href="#a58176cb40b9540edf42fa16ca6784252">More...</a><br /></td></tr>
+<tr class="separator:a58176cb40b9540edf42fa16ca6784252"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f307bdfcf34630a0e8be30edb16dfe3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_volume_particle_emitter3.html#a6f307bdfcf34630a0e8be30edb16dfe3">GetAngularVelocity</a> () const</td></tr>
+<tr class="memdesc:a6f307bdfcf34630a0e8be30edb16dfe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the angular velocity of the emitter.  <a href="#a6f307bdfcf34630a0e8be30edb16dfe3">More...</a><br /></td></tr>
+<tr class="separator:a6f307bdfcf34630a0e8be30edb16dfe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad65246617e45ea965c18caf900cd3e8a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_volume_particle_emitter3.html#ad65246617e45ea965c18caf900cd3e8a">SetAngularVelocity</a> (const <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;newAngularVel)</td></tr>
+<tr class="memdesc:ad65246617e45ea965c18caf900cd3e8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the linear velocity of the emitter.  <a href="#ad65246617e45ea965c18caf900cd3e8a">More...</a><br /></td></tr>
+<tr class="separator:ad65246617e45ea965c18caf900cd3e8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_cubby_flow_1_1_particle_emitter3"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_cubby_flow_1_1_particle_emitter3')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_cubby_flow_1_1_particle_emitter3.html">CubbyFlow::ParticleEmitter3</a></td></tr>
 <tr class="memitem:ab93668c65b781a78e00969f8e7adc127 inherit pub_methods_class_cubby_flow_1_1_particle_emitter3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_particle_emitter3.html#ab93668c65b781a78e00969f8e7adc127">ParticleEmitter3</a> ()=default</td></tr>
 <tr class="memdesc:ab93668c65b781a78e00969f8e7adc127 inherit pub_methods_class_cubby_flow_1_1_particle_emitter3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="class_cubby_flow_1_1_particle_emitter3.html#ab93668c65b781a78e00969f8e7adc127">More...</a><br /></td></tr>
@@ -215,8 +227,8 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><p>3-D volumetric particle emitter. </p>
 <p>This class emits particles from volumetric geometry. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ab9a0a3064252d36b279414858fdf8dc3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9a0a3064252d36b279414858fdf8dc3">&#9670;&nbsp;</a></span>VolumeParticleEmitter3()</h2>
+<a id="ac77e18d491f7efc03efc112505220443"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac77e18d491f7efc03efc112505220443">&#9670;&nbsp;</a></span>VolumeParticleEmitter3()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -230,8 +242,8 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#ae3b2afb0ff7c00c0a622f46b1ad35f60">BoundingBox3D</a> &amp;&#160;</td>
-          <td class="paramname"><em>bounds</em>, </td>
+          <td class="paramtype"><a class="el" href="namespace_cubby_flow.html#ae3b2afb0ff7c00c0a622f46b1ad35f60">BoundingBox3D</a>&#160;</td>
+          <td class="paramname"><em>maxRegion</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -244,6 +256,18 @@ Additional Inherited Members</h2></td></tr>
           <td></td>
           <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;&#160;</td>
           <td class="paramname"><em>initialVel</em> = <code><a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a>()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;&#160;</td>
+          <td class="paramname"><em>linearVel</em> = <code><a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a>()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;&#160;</td>
+          <td class="paramname"><em>angularVel</em> = <code><a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a>()</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -286,9 +310,11 @@ Additional Inherited Members</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">implicitSurface</td><td>The implicit surface. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">bounds</td><td>The max region. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxRegion</td><td>The max region. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">spacing</td><td>The spacing between particles. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">initialVel</td><td>The initial velocity. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">linearVel</td><td>The linear velocity of the emitter. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">angularVel</td><td>The angular velocity of the emitter. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">maxNumberOfParticles</td><td>The max number of particles to be emitted. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">jitter</td><td>The jitter amount between 0 and 1. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">isOneShot</td><td>True if emitter gets disabled after one shot. </td></tr>
@@ -317,6 +343,25 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns true if particles can be overlapped. </p>
+
+</div>
+</div>
+<a id="a6f307bdfcf34630a0e8be30edb16dfe3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f307bdfcf34630a0e8be30edb16dfe3">&#9670;&nbsp;</a></span>GetAngularVelocity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> CubbyFlow::VolumeParticleEmitter3::GetAngularVelocity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the angular velocity of the emitter. </p>
 
 </div>
 </div>
@@ -401,6 +446,25 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns jitter amount. </p>
+
+</div>
+</div>
+<a id="a098efd7a1f33706fd6d8492a911acd3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a098efd7a1f33706fd6d8492a911acd3d">&#9670;&nbsp;</a></span>GetLinearVelocity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> CubbyFlow::VolumeParticleEmitter3::GetLinearVelocity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the linear velocity of the emitter. </p>
 
 </div>
 </div>
@@ -507,6 +571,26 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="ad65246617e45ea965c18caf900cd3e8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad65246617e45ea965c18caf900cd3e8a">&#9670;&nbsp;</a></span>SetAngularVelocity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CubbyFlow::VolumeParticleEmitter3::SetAngularVelocity </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;&#160;</td>
+          <td class="paramname"><em>newAngularVel</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the linear velocity of the emitter. </p>
+
+</div>
+</div>
 <a id="aa8d971e715bac9aaceb5fa39de87985e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa8d971e715bac9aaceb5fa39de87985e">&#9670;&nbsp;</a></span>SetInitialVelocity()</h2>
 
@@ -571,6 +655,26 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Sets jitter amount between 0 and 1. </p>
+
+</div>
+</div>
+<a id="a58176cb40b9540edf42fa16ca6784252"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58176cb40b9540edf42fa16ca6784252">&#9670;&nbsp;</a></span>SetLinearVelocity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CubbyFlow::VolumeParticleEmitter3::SetLinearVelocity </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a7a0f165a2c76a196c9e23978ff7f2dcb">Vector3D</a> &amp;&#160;</td>
+          <td class="paramname"><em>newLinearVel</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the linear velocity of the emitter. </p>
 
 </div>
 </div>
@@ -693,7 +797,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Mar 9 2021 16:05:24 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Mar 13 2021 07:12:19 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
