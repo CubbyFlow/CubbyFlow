@@ -47,11 +47,11 @@ def test_add_vector_data2():
 
     as0 = np.array(ps.VectorDataAt(a0))
     for val in as0:
-        assert val.tolist() == [2.0, 4.0]
+        assert val == [2.0, 4.0]
 
     as1 = np.array(ps.VectorDataAt(a1))
     for val in as1:
-        assert val.tolist() == [9.0, -2.0]
+        assert val == [9.0, -2.0]
 
 
 def test_add_particles2():
@@ -67,12 +67,12 @@ def test_add_particles2():
     v = np.array(ps.velocities)
     f = np.array(ps.forces)
 
-    assert [1.0, 2.0] == p[12].tolist()
-    assert [4.0, 5.0] == p[13].tolist()
-    assert [7.0, 8.0] == v[12].tolist()
-    assert [8.0, 7.0] == v[13].tolist()
-    assert [5.0, 4.0] == f[12].tolist()
-    assert [2.0, 1.0] == f[13].tolist()
+    assert [1.0, 2.0] == p[12]
+    assert [4.0, 5.0] == p[13]
+    assert [7.0, 8.0] == v[12]
+    assert [8.0, 7.0] == v[13]
+    assert [5.0, 4.0] == f[12]
+    assert [2.0, 1.0] == f[13]
 
 
 # ------------------------------------------------------------------------------
@@ -122,11 +122,11 @@ def test_add_vector_data3():
 
     as0 = np.array(ps.VectorDataAt(a0))
     for val in as0:
-        assert val.tolist() == [2.0, 4.0, -1.0]
+        assert val == [2.0, 4.0, -1.0]
 
     as1 = np.array(ps.VectorDataAt(a1))
     for val in as1:
-        assert val.tolist() == [9.0, -2.0, 5.0]
+        assert val == [9.0, -2.0, 5.0]
 
 
 def test_add_particles3():
@@ -142,9 +142,9 @@ def test_add_particles3():
     v = np.array(ps.velocities)
     f = np.array(ps.forces)
 
-    assert [1.0, 2.0, 3.0] == p[12].tolist()
-    assert [4.0, 5.0, 6.0] == p[13].tolist()
-    assert [7.0, 8.0, 9.0] == v[12].tolist()
-    assert [8.0, 7.0, 6.0] == v[13].tolist()
-    assert [5.0, 4.0, 3.0] == f[12].tolist()
-    assert [2.0, 1.0, 3.0] == f[13].tolist()
+    assert [1.0, 2.0, 3.0] == p[12]
+    assert [4.0, 5.0, 6.0] == p[13]
+    assert [7.0, 8.0, 9.0] == v[12]
+    assert [8.0, 7.0, 6.0] == v[13]
+    assert [5.0, 4.0, 3.0] == f[12]
+    assert [2.0, 1.0, 3.0] == f[13]
