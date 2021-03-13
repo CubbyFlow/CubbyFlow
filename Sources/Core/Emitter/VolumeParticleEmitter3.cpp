@@ -15,19 +15,24 @@
 #include <Core/Utils/Logging.hpp>
 #include <Core/Utils/Samplers.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
 static const size_t DEFAULT_HASH_GRID_RESOLUTION = 64;
 
 VolumeParticleEmitter3::VolumeParticleEmitter3(
-    ImplicitSurface3Ptr implicitSurface, const BoundingBox3D& bounds,
-    double spacing, const Vector3D& initialVel, size_t maxNumberOfParticles,
-    double jitter, bool isOneShot, bool allowOverlapping, uint32_t seed)
+    ImplicitSurface3Ptr implicitSurface, BoundingBox3D maxRegion,
+    double spacing, const Vector3D& initialVel, const Vector3D& linearVel,
+    const Vector3D& angularVel, size_t maxNumberOfParticles, double jitter,
+    bool isOneShot, bool allowOverlapping, uint32_t seed)
     : m_rng(seed),
       m_implicitSurface(std::move(implicitSurface)),
-      m_bounds(bounds),
+      m_maxRegion(std::move(maxRegion)),
       m_spacing(spacing),
       m_initialVel(initialVel),
+      m_linearVel(linearVel),
+      m_angularVel(angularVel),
       m_maxNumberOfParticles(maxNumberOfParticles),
       m_jitter(jitter),
       m_isOneShot(isOneShot),
@@ -49,7 +54,7 @@ void VolumeParticleEmitter3::OnUpdate(double currentTimeInSeconds,
         return;
     }
 
-    if (m_numberOfEmittedParticles > 0 && m_isOneShot)
+    if (!GetIsEnabled())
     {
         return;
     }
@@ -60,27 +65,41 @@ void VolumeParticleEmitter3::OnUpdate(double currentTimeInSeconds,
     Emit(particles, &newPositions, &newVelocities);
 
     particles->AddParticles(newPositions, newVelocities);
+
+    if (m_isOneShot)
+    {
+        SetIsEnabled(false);
+    }
 }
 
 void VolumeParticleEmitter3::Emit(const ParticleSystemData3Ptr& particles,
                                   Array1<Vector3D>* newPositions,
                                   Array1<Vector3D>* newVelocities)
 {
-    if (!m_implicitSurface)
+    if (m_implicitSurface == nullptr)
     {
         return;
     }
 
     m_implicitSurface->UpdateQueryEngine();
 
+    BoundingBox3D region = m_maxRegion;
+    if (m_implicitSurface->IsBounded())
+    {
+        const BoundingBox3D surfaceBBox = m_implicitSurface->BoundingBox();
+        region.lowerCorner = Max(region.lowerCorner, surfaceBBox.lowerCorner);
+        region.upperCorner = Min(region.upperCorner, surfaceBBox.upperCorner);
+    }
+
     // Reserving more space for jittering
     const double j = GetJitter();
     const double maxJitterDist = 0.5 * j * m_spacing;
+    size_t numNewParticles = 0;
 
     if (m_allowOverlapping || m_isOneShot)
     {
         m_pointsGen->ForEachPoint(
-            m_bounds, m_spacing, [&](const Vector3D& point) {
+            region, m_spacing, [&](const Vector3D& point) {
                 const Vector3D randomDir =
                     UniformSampleSphere(Random(), Random());
                 const Vector3D offset = maxJitterDist * randomDir;
@@ -92,6 +111,7 @@ void VolumeParticleEmitter3::Emit(const ParticleSystemData3Ptr& particles,
                     {
                         newPositions->Append(candidate);
                         ++m_numberOfEmittedParticles;
+                        ++numNewParticles;
                     }
                     else
                     {
@@ -117,7 +137,7 @@ void VolumeParticleEmitter3::Emit(const ParticleSystemData3Ptr& particles,
         }
 
         m_pointsGen->ForEachPoint(
-            m_bounds, m_spacing, [&](const Vector3D& point) {
+            region, m_spacing, [&](const Vector3D& point) {
                 const Vector3D randomDir =
                     UniformSampleSphere(Random(), Random());
                 const Vector3D offset = maxJitterDist * randomDir;
@@ -132,6 +152,7 @@ void VolumeParticleEmitter3::Emit(const ParticleSystemData3Ptr& particles,
                         newPositions->Append(candidate);
                         neighborSearcher.Add(candidate);
                         ++m_numberOfEmittedParticles;
+                        ++numNewParticles;
                     }
                     else
                     {
@@ -143,8 +164,15 @@ void VolumeParticleEmitter3::Emit(const ParticleSystemData3Ptr& particles,
             });
     }
 
-    newVelocities->Resize(newPositions->Size());
-    newVelocities->Fill(m_initialVel);
+    CUBBYFLOW_INFO << "Number of newly generated particles: "
+                   << numNewParticles;
+    CUBBYFLOW_INFO << "Number of total generated particles: "
+                   << m_numberOfEmittedParticles;
+
+    newVelocities->Resize(newPositions->Length());
+    ParallelForEachIndex(newVelocities->Length(), [&](size_t i) {
+        (*newVelocities)[i] = VelocityAt((*newPositions)[i]);
+    });
 }
 
 void VolumeParticleEmitter3::SetPointGenerator(
@@ -165,12 +193,12 @@ void VolumeParticleEmitter3::SetSurface(const ImplicitSurface3Ptr& newSurface)
 
 const BoundingBox3D& VolumeParticleEmitter3::GetMaxRegion() const
 {
-    return m_bounds;
+    return m_maxRegion;
 }
 
 void VolumeParticleEmitter3::SetMaxRegion(const BoundingBox3D& newMaxRegion)
 {
-    m_bounds = newMaxRegion;
+    m_maxRegion = newMaxRegion;
 }
 
 double VolumeParticleEmitter3::GetJitter() const
@@ -234,10 +262,36 @@ void VolumeParticleEmitter3::SetInitialVelocity(const Vector3D& newInitialVel)
     m_initialVel = newInitialVel;
 }
 
+Vector3D VolumeParticleEmitter3::GetLinearVelocity() const
+{
+    return m_linearVel;
+}
+
+void VolumeParticleEmitter3::SetLinearVelocity(const Vector3D& newLinearVel)
+{
+    m_linearVel = newLinearVel;
+}
+
+Vector3D VolumeParticleEmitter3::GetAngularVelocity() const
+{
+    return m_angularVel;
+}
+
+void VolumeParticleEmitter3::SetAngularVelocity(const Vector3D& newAngularVel)
+{
+    m_angularVel = newAngularVel;
+}
+
 double VolumeParticleEmitter3::Random()
 {
     std::uniform_real_distribution<> d{ 0.0, 1.0 };
     return d(m_rng);
+}
+
+Vector3D VolumeParticleEmitter3::VelocityAt(const Vector3D& point) const
+{
+    const Vector3D r = point - m_implicitSurface->transform.GetTranslation();
+    return m_linearVel + m_angularVel.Cross(r) + m_initialVel;
 }
 
 VolumeParticleEmitter3::Builder VolumeParticleEmitter3::GetBuilder()
@@ -253,7 +307,7 @@ VolumeParticleEmitter3::Builder::WithImplicitSurface(
 
     if (!m_isBoundSet)
     {
-        m_bounds = m_implicitSurface->BoundingBox();
+        m_maxRegion = m_implicitSurface->BoundingBox();
     }
 
     return *this;
@@ -266,16 +320,16 @@ VolumeParticleEmitter3::Builder& VolumeParticleEmitter3::Builder::WithSurface(
 
     if (!m_isBoundSet)
     {
-        m_bounds = surface->BoundingBox();
+        m_maxRegion = surface->BoundingBox();
     }
 
     return *this;
 }
 
 VolumeParticleEmitter3::Builder& VolumeParticleEmitter3::Builder::WithMaxRegion(
-    const BoundingBox3D& bounds)
+    const BoundingBox3D& maxRegion)
 {
-    m_bounds = bounds;
+    m_maxRegion = maxRegion;
     m_isBoundSet = true;
     return *this;
 }
@@ -291,6 +345,20 @@ VolumeParticleEmitter3::Builder&
 VolumeParticleEmitter3::Builder::WithInitialVelocity(const Vector3D& initialVel)
 {
     m_initialVel = initialVel;
+    return *this;
+}
+
+VolumeParticleEmitter3::Builder&
+VolumeParticleEmitter3::Builder::WithLinearVelocity(const Vector3D& linearVel)
+{
+    m_linearVel = linearVel;
+    return *this;
+}
+
+VolumeParticleEmitter3::Builder&
+VolumeParticleEmitter3::Builder::WithAngularVelocity(const Vector3D& angularVel)
+{
+    m_angularVel = angularVel;
     return *this;
 }
 
@@ -332,18 +400,19 @@ VolumeParticleEmitter3::Builder::WithRandomSeed(uint32_t seed)
 
 VolumeParticleEmitter3 VolumeParticleEmitter3::Builder::Build() const
 {
-    return VolumeParticleEmitter3(m_implicitSurface, m_bounds, m_spacing,
-                                  m_initialVel, m_maxNumberOfParticles,
-                                  m_jitter, m_isOneShot, m_allowOverlapping,
-                                  m_seed);
+    return VolumeParticleEmitter3(m_implicitSurface, m_maxRegion, m_spacing,
+                                  m_initialVel, m_linearVel, m_angularVel,
+                                  m_maxNumberOfParticles, m_jitter, m_isOneShot,
+                                  m_allowOverlapping, m_seed);
 }
 
 VolumeParticleEmitter3Ptr VolumeParticleEmitter3::Builder::MakeShared() const
 {
     return std::shared_ptr<VolumeParticleEmitter3>(
-        new VolumeParticleEmitter3(m_implicitSurface, m_bounds, m_spacing,
-                                   m_initialVel, m_maxNumberOfParticles,
-                                   m_jitter, m_isOneShot, m_allowOverlapping),
+        new VolumeParticleEmitter3(m_implicitSurface, m_maxRegion, m_spacing,
+                                   m_initialVel, m_linearVel, m_angularVel,
+                                   m_maxNumberOfParticles, m_jitter,
+                                   m_isOneShot, m_allowOverlapping),
         [](VolumeParticleEmitter3* obj) { delete obj; });
 }
 }  // namespace CubbyFlow
