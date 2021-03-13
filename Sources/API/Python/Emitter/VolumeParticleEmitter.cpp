@@ -31,6 +31,8 @@ void AddVolumeParticleEmitter2(pybind11::module& m)
                 BoundingBox2D maxRegion;
                 double spacing = 0.1;
                 Vector2D initialVel;
+                Vector2D linearVel;
+                double angularVel = 0.0;
                 size_t maxNumberOfParticles =
                     std::numeric_limits<size_t>::max();
                 double jitter = 0.0;
@@ -62,7 +64,7 @@ void AddVolumeParticleEmitter2(pybind11::module& m)
                     }
                 };
 
-                if (args.size() >= 3 && args.size() <= 9)
+                if (args.size() >= 3 && args.size() <= 11)
                 {
                     parseImplicitSurface(args[0]);
 
@@ -76,21 +78,29 @@ void AddVolumeParticleEmitter2(pybind11::module& m)
                     }
                     if (args.size() > 4)
                     {
-                        maxNumberOfParticles = args[4].cast<size_t>();
+                        linearVel = ObjectToVector2D(pybind11::object(args[4]));
                     }
-                    if (args.size() > 5)
+                    if (args.size() > 3)
                     {
-                        jitter = args[5].cast<double>();
+                        angularVel = args[5].cast<double>();
                     }
                     if (args.size() > 6)
                     {
-                        isOneShot = args[6].cast<bool>();
+                        maxNumberOfParticles = args[6].cast<size_t>();
                     }
                     if (args.size() > 7)
                     {
-                        allowOverlapping = args[7].cast<bool>();
+                        jitter = args[7].cast<double>();
                     }
                     if (args.size() > 8)
+                    {
+                        isOneShot = args[8].cast<bool>();
+                    }
+                    if (args.size() > 9)
+                    {
+                        allowOverlapping = args[9].cast<bool>();
+                    }
+                    if (args.size() > 10)
                     {
                         seed = args[8].cast<uint32_t>();
                     }
@@ -116,6 +126,14 @@ void AddVolumeParticleEmitter2(pybind11::module& m)
                 {
                     initialVel = ObjectToVector2D(kwargs["initialVelocity"]);
                 }
+                if (kwargs.contains("linearVelocity"))
+                {
+                    linearVel = ObjectToVector2D(kwargs["linearVelocity"]);
+                }
+                if (kwargs.contains("angularVelocity"))
+                {
+                    angularVel = kwargs["angularVelocity"].cast<double>();
+                }
                 if (kwargs.contains("maxNumberOfParticles"))
                 {
                     maxNumberOfParticles =
@@ -139,9 +157,9 @@ void AddVolumeParticleEmitter2(pybind11::module& m)
                 }
 
                 new (&instance) VolumeParticleEmitter2(
-                    implicitSurface, maxRegion, spacing, initialVel,
-                    maxNumberOfParticles, jitter, isOneShot, allowOverlapping,
-                    seed);
+                    implicitSurface, maxRegion, spacing, initialVel, linearVel,
+                    angularVel, maxNumberOfParticles, jitter, isOneShot,
+                    allowOverlapping, seed);
             },
             R"pbdoc(
 			Constructs VolumeParticleEmitter2
@@ -204,6 +222,23 @@ void AddVolumeParticleEmitter2(pybind11::module& m)
             },
             R"pbdoc(
              The initial velocity of the particles.
+             )pbdoc")
+        .def_property(
+            "linearVelocity", &VolumeParticleEmitter2::GetLinearVelocity,
+            [](VolumeParticleEmitter2& instance,
+               pybind11::object newLinearVel) {
+                instance.SetLinearVelocity(ObjectToVector2D(newLinearVel));
+            },
+            R"pbdoc(
+             The linear velocity of the emitter.
+             )pbdoc")
+        .def_property(
+            "angularVelocity", &VolumeParticleEmitter2::GetAngularVelocity,
+            [](VolumeParticleEmitter2& instance, double newAngularVel) {
+                instance.SetAngularVelocity(newAngularVel);
+            },
+            R"pbdoc(
+             The angular velocity of the emitter.
              )pbdoc");
 }
 
@@ -219,6 +254,8 @@ void AddVolumeParticleEmitter3(pybind11::module& m)
                 BoundingBox3D maxRegion;
                 double spacing = 0.1;
                 Vector3D initialVel;
+                Vector3D linearVel;
+                Vector3D angularVel;
                 size_t maxNumberOfParticles =
                     std::numeric_limits<size_t>::max();
                 double jitter = 0.0;
@@ -250,7 +287,7 @@ void AddVolumeParticleEmitter3(pybind11::module& m)
                     }
                 };
 
-                if (args.size() >= 3 && args.size() <= 9)
+                if (args.size() >= 3 && args.size() <= 11)
                 {
                     parseImplicitSurface(args[0]);
 
@@ -264,23 +301,32 @@ void AddVolumeParticleEmitter3(pybind11::module& m)
                     }
                     if (args.size() > 4)
                     {
-                        maxNumberOfParticles = args[4].cast<size_t>();
+                        linearVel = ObjectToVector3D(pybind11::object(args[4]));
                     }
                     if (args.size() > 5)
                     {
-                        jitter = args[5].cast<double>();
+                        angularVel =
+                            ObjectToVector3D(pybind11::object(args[5]));
                     }
                     if (args.size() > 6)
                     {
-                        isOneShot = args[6].cast<bool>();
+                        maxNumberOfParticles = args[6].cast<size_t>();
                     }
                     if (args.size() > 7)
                     {
-                        allowOverlapping = args[7].cast<bool>();
+                        jitter = args[7].cast<double>();
                     }
                     if (args.size() > 8)
                     {
-                        seed = args[8].cast<uint32_t>();
+                        isOneShot = args[8].cast<bool>();
+                    }
+                    if (args.size() > 9)
+                    {
+                        allowOverlapping = args[9].cast<bool>();
+                    }
+                    if (args.size() > 10)
+                    {
+                        seed = args[10].cast<uint32_t>();
                     }
                 }
                 else if (args.size() > 0)
@@ -303,6 +349,14 @@ void AddVolumeParticleEmitter3(pybind11::module& m)
                 if (kwargs.contains("initialVelocity"))
                 {
                     initialVel = ObjectToVector3D(kwargs["initialVelocity"]);
+                }
+                if (kwargs.contains("linearVelocity"))
+                {
+                    linearVel = ObjectToVector3D(kwargs["linearVelocity"]);
+                }
+                if (kwargs.contains("angularVelocity"))
+                {
+                    angularVel = ObjectToVector3D(kwargs["angularVelocity"]);
                 }
                 if (kwargs.contains("maxNumberOfParticles"))
                 {
@@ -327,9 +381,9 @@ void AddVolumeParticleEmitter3(pybind11::module& m)
                 }
 
                 new (&instance) VolumeParticleEmitter3(
-                    implicitSurface, maxRegion, spacing, initialVel,
-                    maxNumberOfParticles, jitter, isOneShot, allowOverlapping,
-                    seed);
+                    implicitSurface, maxRegion, spacing, initialVel, linearVel,
+                    angularVel, maxNumberOfParticles, jitter, isOneShot,
+                    allowOverlapping, seed);
             },
             R"pbdoc(
 			Constructs VolumeParticleEmitter3
@@ -392,5 +446,23 @@ void AddVolumeParticleEmitter3(pybind11::module& m)
             },
             R"pbdoc(
              The initial velocity of the particles.
+             )pbdoc")
+        .def_property(
+            "linearVelocity", &VolumeParticleEmitter3::GetLinearVelocity,
+            [](VolumeParticleEmitter3& instance,
+               pybind11::object newLinearVel) {
+                instance.SetLinearVelocity(ObjectToVector3D(newLinearVel));
+            },
+            R"pbdoc(
+             The linear velocity of the emitter.
+             )pbdoc")
+        .def_property(
+            "angularVelocity", &VolumeParticleEmitter3::GetAngularVelocity,
+            [](VolumeParticleEmitter3& instance,
+               pybind11::object newAngularVel) {
+                instance.SetAngularVelocity(ObjectToVector3D(newAngularVel));
+            },
+            R"pbdoc(
+             The angular velocity of the emitter.
              )pbdoc");
 }
