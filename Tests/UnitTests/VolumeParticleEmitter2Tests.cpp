@@ -15,8 +15,8 @@ TEST(VolumeParticleEmitter2, Constructors)
 
     BoundingBox2D region({ 0.0, 0.0 }, { 3.0, 3.0 });
 
-    VolumeParticleEmitter2 emitter(sphere, region, 0.1, { -1.0, 0.5 }, 30, 0.01,
-                                   false, true);
+    VolumeParticleEmitter2 emitter(sphere, region, 0.1, { -1.0, 0.5 },
+                                   { 0.0, 0.0 }, 0.0, 30, 0.01, false, true);
 
     EXPECT_EQ(0.01, emitter.GetJitter());
     EXPECT_FALSE(emitter.GetIsOneShot());
@@ -34,8 +34,8 @@ TEST(VolumeParticleEmitter2, Emit)
 
     BoundingBox2D box({ 0.0, 0.0 }, { 3.0, 3.0 });
 
-    VolumeParticleEmitter2 emitter(sphere, box, 0.3, { -1.0, 0.5 }, 30, 0.0,
-                                   false, false);
+    VolumeParticleEmitter2 emitter(sphere, box, 0.3, { -1.0, 0.5 },
+                                   { 3.0, 4.0 }, 5.0, 30, 0.0, false, false);
 
     auto particles = std::make_shared<ParticleSystemData2>();
     emitter.SetTarget(particles);
@@ -52,8 +52,10 @@ TEST(VolumeParticleEmitter2, Emit)
         EXPECT_GE(3.0, (pos[i] - Vector2D(1.0, 2.0)).Length());
         EXPECT_TRUE(box.Contains(pos[i]));
 
-        EXPECT_EQ(-1.0, vel[i].x);
-        EXPECT_EQ(0.5, vel[i].y);
+        Vector2D r = pos[i];
+        Vector2D w = 5.0 * Vector2D(-r.y, r.x);
+        Vector2D res = Vector2D(2.0, 4.5) + w;
+        EXPECT_VECTOR2_NEAR(res, vel[i], 1e-9);
     }
 
     ++frame;
