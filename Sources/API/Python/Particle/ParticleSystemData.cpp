@@ -91,19 +91,49 @@ void AddParticleSystemData2(pybind11::module& m)
 		)pbdoc")
         .def_property_readonly(
             "positions",
-            [](ParticleSystemData2& instance) { return instance.Positions(); },
+            [](ParticleSystemData2& instance) {
+                std::vector<Vector2D> result;
+
+                ArrayView1<Vector2D> view = instance.Positions();
+                for (auto& elem : view)
+                {
+                    result.emplace_back(elem);
+                }
+
+                return result;
+            },
             R"pbdoc(
 			Returns the position array (mutable).
 		)pbdoc")
         .def_property_readonly(
             "velocities",
-            [](ParticleSystemData2& instance) { return instance.Velocities(); },
+            [](ParticleSystemData2& instance) {
+                std::vector<Vector2D> result;
+
+                ArrayView1<Vector2D> view = instance.Velocities();
+                for (auto& elem : view)
+                {
+                    result.emplace_back(elem);
+                }
+
+                return result;
+            },
             R"pbdoc(
 			Returns the velocity array (mutable).
 		)pbdoc")
         .def_property_readonly(
             "forces",
-            [](ParticleSystemData2& instance) { return instance.Forces(); },
+            [](ParticleSystemData2& instance) {
+                std::vector<Vector2D> result;
+
+                ArrayView1<Vector2D> view = instance.Forces();
+                for (auto& elem : view)
+                {
+                    result.emplace_back(elem);
+                }
+
+                return result;
+            },
             R"pbdoc(
 			Returns the force array (mutable).
 		)pbdoc")
@@ -309,19 +339,49 @@ void AddParticleSystemData3(pybind11::module& m)
 		)pbdoc")
         .def_property_readonly(
             "positions",
-            [](ParticleSystemData3& instance) { return instance.Positions(); },
+            [](ParticleSystemData3& instance) {
+                std::vector<Vector3D> result;
+
+                ArrayView1<Vector3D> view = instance.Positions();
+                for (auto& elem : view)
+                {
+                    result.emplace_back(elem);
+                }
+
+                return result;
+            },
             R"pbdoc(
 			Returns the position array (mutable).
 		)pbdoc")
         .def_property_readonly(
             "velocities",
-            [](ParticleSystemData3& instance) { return instance.Velocities(); },
+            [](ParticleSystemData3& instance) {
+                std::vector<Vector3D> result;
+
+                ArrayView1<Vector3D> view = instance.Velocities();
+                for (auto& elem : view)
+                {
+                    result.emplace_back(elem);
+                }
+
+                return result;
+            },
             R"pbdoc(
 			Returns the velocity array (mutable).
 		)pbdoc")
         .def_property_readonly(
             "forces",
-            [](ParticleSystemData3& instance) { return instance.Forces(); },
+            [](ParticleSystemData3& instance) {
+                std::vector<Vector3D> result;
+
+                ArrayView1<Vector3D> view = instance.Forces();
+                for (auto& elem : view)
+                {
+                    result.emplace_back(elem);
+                }
+
+                return result;
+            },
             R"pbdoc(
 			Returns the force array (mutable).
 		)pbdoc")
