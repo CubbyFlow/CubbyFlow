@@ -52,7 +52,7 @@ var searchData=
   ['rotate',['Rotate',['../class_cubby_flow_1_1_triangle_mesh3.html#a60b882c39cec92bf2dd790908090e2a4',1,'CubbyFlow::TriangleMesh3::Rotate()'],['../class_cubby_flow_1_1_quaternion.html#a436cac14f756d34a3ffc489b65fb3e1f',1,'CubbyFlow::Quaternion::Rotate()']]],
   ['rowpointer',['RowPointer',['../class_cubby_flow_1_1_matrix_c_s_r.html#a27fd62c41ad6569f06a1e20cf2e6558d',1,'CubbyFlow::MatrixCSR']]],
   ['rowpointersbegin',['RowPointersBegin',['../class_cubby_flow_1_1_matrix_c_s_r.html#a1da6f127bdf287508fee0bf6c0d01978',1,'CubbyFlow::MatrixCSR::RowPointersBegin()'],['../class_cubby_flow_1_1_matrix_c_s_r.html#ab362da2cf9d6223f986c4b630330ed3b',1,'CubbyFlow::MatrixCSR::RowPointersBegin() const']]],
-  ['rowpointersdata',['RowPointersData',['../class_cubby_flow_1_1_matrix_c_s_r.html#a9589d79bfd7c835b453167b85ce3b35a',1,'CubbyFlow::MatrixCSR']]],
+  ['rowpointersdata',['RowPointersData',['../class_cubby_flow_1_1_matrix_c_s_r.html#a62cbc827eb1db0190a1ebf9b605cbaaf',1,'CubbyFlow::MatrixCSR']]],
   ['rowpointersend',['RowPointersEnd',['../class_cubby_flow_1_1_matrix_c_s_r.html#ae3571015cb2ee27c925e434d50cc37a2',1,'CubbyFlow::MatrixCSR::RowPointersEnd()'],['../class_cubby_flow_1_1_matrix_c_s_r.html#a9913198d377de05a8bfd79e395bbb6fb',1,'CubbyFlow::MatrixCSR::RowPointersEnd() const']]],
   ['rsub',['RSub',['../class_cubby_flow_1_1_matrix_c_s_r.html#a0f845f951779bcac01891525ff2037ef',1,'CubbyFlow::MatrixCSR::RSub(const T &amp;s) const'],['../class_cubby_flow_1_1_matrix_c_s_r.html#a94ae8f352da38a05fff5e21b41a95d56',1,'CubbyFlow::MatrixCSR::RSub(const MatrixCSR &amp;m) const']]]
 ];
