@@ -35,7 +35,7 @@ class FLIPSolver2 : public PICSolver2
     FLIPSolver2();
 
     //! Constructs solver with initial grid size.
-    FLIPSolver2(const Size2& resolution, const Vector2D& gridSpacing,
+    FLIPSolver2(const Vector2UZ& resolution, const Vector2D& gridSpacing,
                 const Vector2D& gridOrigin);
 
     //! Deleted copy constructor.

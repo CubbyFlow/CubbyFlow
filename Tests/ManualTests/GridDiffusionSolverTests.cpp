@@ -2,7 +2,7 @@
 
 #include <ManualTests.hpp>
 
-#include <Core/Array/Array2.hpp>
+#include <Core/Array/Array.hpp>
 #include <Core/Field/CustomScalarField2.hpp>
 #include <Core/Field/CustomScalarField3.hpp>
 #include <Core/Grid/CellCenteredScalarGrid2.hpp>
@@ -18,7 +18,7 @@ CUBBYFLOW_TESTS(GridForwardEulerDiffusionSolver3);
 
 CUBBYFLOW_BEGIN_TEST_F(GridForwardEulerDiffusionSolver3, Solve)
 {
-    Size3 size(160, 120, 150);
+    Vector3UZ size(160, 120, 150);
     Vector3D gridSpacing(1.0 / size.x, 1.0 / size.x, 1.0 / size.x);
 
     CellCenteredScalarGrid3 src(size, gridSpacing);
@@ -29,7 +29,8 @@ CUBBYFLOW_BEGIN_TEST_F(GridForwardEulerDiffusionSolver3, Solve)
         return (x.DistanceTo(src.BoundingBox().MidPoint()) < 0.2) ? 1.0 : 0.0;
     });
 
-    data.ForEachIndex([&](size_t i, size_t j) { data(i, j) = src(i, j, 75); });
+    ForEachIndex(data.Size(),
+                 [&](size_t i, size_t j) { data(i, j) = src(i, j, 75); });
 
     double timeStep = 0.01;
     double diffusionCoeff = Square(gridSpacing.x) / timeStep / 12.0;
@@ -39,17 +40,18 @@ CUBBYFLOW_BEGIN_TEST_F(GridForwardEulerDiffusionSolver3, Solve)
     diffusionSolver.Solve(src, diffusionCoeff, timeStep, &dst);
     dst.Swap(&src);
 
-    SaveData(data.ConstAccessor(), "src_#grid2.npy");
+    SaveData(data.View(), "src_#grid2.npy");
 
-    data.ForEachIndex([&](size_t i, size_t j) { data(i, j) = src(i, j, 75); });
+    ForEachIndex(data.Size(),
+                 [&](size_t i, size_t j) { data(i, j) = src(i, j, 75); });
 
-    SaveData(data.ConstAccessor(), "dst_#grid2.npy");
+    SaveData(data.View(), "dst_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F
 
 CUBBYFLOW_BEGIN_TEST_F(GridForwardEulerDiffusionSolver3, Unstable)
 {
-    Size3 size(160, 120, 150);
+    Vector3UZ size(160, 120, 150);
     Vector3D gridSpacing(1.0 / size.x, 1.0 / size.x, 1.0 / size.x);
 
     CellCenteredScalarGrid3 src(size, gridSpacing);
@@ -60,7 +62,8 @@ CUBBYFLOW_BEGIN_TEST_F(GridForwardEulerDiffusionSolver3, Unstable)
         return (x.DistanceTo(src.BoundingBox().MidPoint()) < 0.2) ? 1.0 : 0.0;
     });
 
-    data.ForEachIndex([&](size_t i, size_t j) { data(i, j) = src(i, j, 75); });
+    ForEachIndex(data.Size(),
+                 [&](size_t i, size_t j) { data(i, j) = src(i, j, 75); });
 
     double timeStep = 0.01;
     double diffusionCoeff = Square(gridSpacing.x) / timeStep / 12.0;
@@ -70,11 +73,12 @@ CUBBYFLOW_BEGIN_TEST_F(GridForwardEulerDiffusionSolver3, Unstable)
     diffusionSolver.Solve(src, 10.0 * diffusionCoeff, timeStep, &dst);
     dst.Swap(&src);
 
-    SaveData(data.ConstAccessor(), "src_#grid2.npy");
+    SaveData(data.View(), "src_#grid2.npy");
 
-    data.ForEachIndex([&](size_t i, size_t j) { data(i, j) = src(i, j, 75); });
+    ForEachIndex(data.Size(),
+                 [&](size_t i, size_t j) { data(i, j) = src(i, j, 75); });
 
-    SaveData(data.ConstAccessor(), "dst_#grid2.npy");
+    SaveData(data.View(), "dst_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -82,7 +86,7 @@ CUBBYFLOW_TESTS(GridBackwardEulerDiffusionSolver2);
 
 CUBBYFLOW_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver2, Solve)
 {
-    Size2 size(160, 120);
+    Vector2UZ size(160, 120);
     Vector2D gridSpacing(1.0 / size.x, 1.0 / size.x);
 
     CellCenteredScalarGrid2 src(size, gridSpacing);
@@ -93,7 +97,8 @@ CUBBYFLOW_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver2, Solve)
         return (x.DistanceTo(src.BoundingBox().MidPoint()) < 0.2) ? 1.0 : 0.0;
     });
 
-    data.ForEachIndex([&](size_t i, size_t j) { data(i, j) = src(i, j); });
+    ForEachIndex(data.Size(),
+                 [&](size_t i, size_t j) { data(i, j) = src(i, j); });
 
     double timeStep = 0.01;
     double diffusionCoeff = Square(gridSpacing.x) / timeStep / 12.0;
@@ -109,11 +114,12 @@ CUBBYFLOW_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver2, Solve)
         }));
     dst.Swap(&src);
 
-    SaveData(data.ConstAccessor(), "src_#grid2.npy");
+    SaveData(data.View(), "src_#grid2.npy");
 
-    data.ForEachIndex([&](size_t i, size_t j) { data(i, j) = src(i, j); });
+    ForEachIndex(data.Size(),
+                 [&](size_t i, size_t j) { data(i, j) = src(i, j); });
 
-    SaveData(data.ConstAccessor(), "dst_#grid2.npy");
+    SaveData(data.View(), "dst_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -121,7 +127,7 @@ CUBBYFLOW_TESTS(GridBackwardEulerDiffusionSolver3);
 
 CUBBYFLOW_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3, Solve)
 {
-    Size3 size(160, 120, 150);
+    Vector3UZ size(160, 120, 150);
     Vector3D gridSpacing(1.0 / size.x, 1.0 / size.x, 1.0 / size.x);
 
     CellCenteredScalarGrid3 src(size, gridSpacing);
@@ -132,7 +138,8 @@ CUBBYFLOW_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3, Solve)
         return (x.DistanceTo(src.BoundingBox().MidPoint()) < 0.2) ? 1.0 : 0.0;
     });
 
-    data.ForEachIndex([&](size_t i, size_t j) { data(i, j) = src(i, j, 75); });
+    ForEachIndex(data.Size(),
+                 [&](size_t i, size_t j) { data(i, j) = src(i, j, 75); });
 
     double timeStep = 0.01;
     double diffusionCoeff = Square(gridSpacing.x) / timeStep / 12.0;
@@ -142,17 +149,18 @@ CUBBYFLOW_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3, Solve)
     diffusionSolver.Solve(src, diffusionCoeff, timeStep, &dst);
     dst.Swap(&src);
 
-    SaveData(data.ConstAccessor(), "src_#grid2.npy");
+    SaveData(data.View(), "src_#grid2.npy");
 
-    data.ForEachIndex([&](size_t i, size_t j) { data(i, j) = src(i, j, 75); });
+    ForEachIndex(data.Size(),
+                 [&](size_t i, size_t j) { data(i, j) = src(i, j, 75); });
 
-    SaveData(data.ConstAccessor(), "dst_#grid2.npy");
+    SaveData(data.View(), "dst_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F
 
 CUBBYFLOW_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3, Stable)
 {
-    Size3 size(160, 120, 150);
+    Vector3UZ size(160, 120, 150);
     Vector3D gridSpacing(1.0 / size.x, 1.0 / size.x, 1.0 / size.x);
 
     CellCenteredScalarGrid3 src(size, gridSpacing);
@@ -163,7 +171,8 @@ CUBBYFLOW_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3, Stable)
         return (x.DistanceTo(src.BoundingBox().MidPoint()) < 0.2) ? 1.0 : 0.0;
     });
 
-    data.ForEachIndex([&](size_t i, size_t j) { data(i, j) = src(i, j, 75); });
+    ForEachIndex(data.Size(),
+                 [&](size_t i, size_t j) { data(i, j) = src(i, j, 75); });
 
     double timeStep = 0.01;
     double diffusionCoeff = Square(gridSpacing.x) / timeStep / 12.0;
@@ -173,18 +182,19 @@ CUBBYFLOW_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3, Stable)
     diffusionSolver.Solve(src, 10.0 * diffusionCoeff, timeStep, &dst);
     dst.Swap(&src);
 
-    SaveData(data.ConstAccessor(), "src_#grid2.npy");
+    SaveData(data.View(), "src_#grid2.npy");
 
-    data.ForEachIndex([&](size_t i, size_t j) { data(i, j) = src(i, j, 75); });
+    ForEachIndex(data.Size(),
+                 [&](size_t i, size_t j) { data(i, j) = src(i, j, 75); });
 
-    SaveData(data.ConstAccessor(), "dst_#grid2.npy");
+    SaveData(data.View(), "dst_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F
 
 CUBBYFLOW_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3,
                        SolveWithBoundaryDirichlet)
 {
-    Size3 size(80, 60, 75);
+    Vector3UZ size(80, 60, 75);
     Vector3D gridSpacing(1.0 / size.x, 1.0 / size.x, 1.0 / size.x);
 
     CellCenteredScalarGrid3 src(size, gridSpacing);
@@ -200,8 +210,9 @@ CUBBYFLOW_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3,
         return (x.DistanceTo(src.BoundingBox().MidPoint()) < 0.2) ? 1.0 : 0.0;
     });
 
-    data.ForEachIndex(
-        [&](size_t i, size_t j) { data(i, j) = src(i, j, size.z / 2); });
+    ForEachIndex(data.Size(), [&](size_t i, size_t j) {
+        data(i, j) = src(i, j, size.z / 2);
+    });
 
     double timeStep = 0.01;
     double diffusionCoeff = 100 * Square(gridSpacing.x) / timeStep / 12.0;
@@ -212,19 +223,20 @@ CUBBYFLOW_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3,
     diffusionSolver.Solve(src, diffusionCoeff, timeStep, &dst, boundarySDF);
     dst.Swap(&src);
 
-    SaveData(data.ConstAccessor(), "src_#grid2.npy");
+    SaveData(data.View(), "src_#grid2.npy");
 
-    data.ForEachIndex(
-        [&](size_t i, size_t j) { data(i, j) = src(i, j, size.z / 2); });
+    ForEachIndex(data.Size(), [&](size_t i, size_t j) {
+        data(i, j) = src(i, j, size.z / 2);
+    });
 
-    SaveData(data.ConstAccessor(), "dst_#grid2.npy");
+    SaveData(data.View(), "dst_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F
 
 CUBBYFLOW_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3,
                        SolveWithBoundaryNeumann)
 {
-    Size3 size(80, 60, 75);
+    Vector3UZ size(80, 60, 75);
     Vector3D gridSpacing(1.0 / size.x, 1.0 / size.x, 1.0 / size.x);
 
     CellCenteredScalarGrid3 src(size, gridSpacing);
@@ -240,8 +252,9 @@ CUBBYFLOW_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3,
         return (x.DistanceTo(src.BoundingBox().MidPoint()) < 0.2) ? 1.0 : 0.0;
     });
 
-    data.ForEachIndex(
-        [&](size_t i, size_t j) { data(i, j) = src(i, j, size.z / 2); });
+    ForEachIndex(data.Size(), [&](size_t i, size_t j) {
+        data(i, j) = src(i, j, size.z / 2);
+    });
 
     double timeStep = 0.01;
     double diffusionCoeff = 100 * Square(gridSpacing.x) / timeStep / 12.0;
@@ -252,11 +265,12 @@ CUBBYFLOW_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3,
     diffusionSolver.Solve(src, diffusionCoeff, timeStep, &dst, boundarySDF);
     dst.Swap(&src);
 
-    SaveData(data.ConstAccessor(), "src_#grid2.npy");
+    SaveData(data.View(), "src_#grid2.npy");
 
-    data.ForEachIndex(
-        [&](size_t i, size_t j) { data(i, j) = src(i, j, size.z / 2); });
+    ForEachIndex(data.Size(), [&](size_t i, size_t j) {
+        data(i, j) = src(i, j, size.z / 2);
+    });
 
-    SaveData(data.ConstAccessor(), "dst_#grid2.npy");
+    SaveData(data.View(), "dst_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F

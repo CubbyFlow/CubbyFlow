@@ -1,8 +1,7 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
-#include <Core/Vector/Vector2.hpp>
-#include <Core/Vector/Vector3.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 #define STR(s) #s
 

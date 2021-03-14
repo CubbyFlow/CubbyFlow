@@ -22,16 +22,16 @@ ImplicitTriangleMesh3::ImplicitTriangleMesh3(TriangleMesh3Ptr mesh,
     : ImplicitSurface3{ _transform, _isNormalFlipped }, m_mesh(std::move(mesh))
 {
     BoundingBox3D box = m_mesh->BoundingBox();
-    const Vector3D scale{ box.GetWidth(), box.GetHeight(), box.GetDepth() };
+    const Vector3D scale{ box.Width(), box.Height(), box.Depth() };
     box.lowerCorner -= margin * scale;
     box.upperCorner += margin * scale;
 
     const auto resolutionY = static_cast<size_t>(std::ceil(
-        static_cast<double>(resolutionX) * box.GetHeight() / box.GetWidth()));
+        static_cast<double>(resolutionX) * box.Height() / box.Width()));
     const auto resolutionZ = static_cast<size_t>(std::ceil(
-        static_cast<double>(resolutionX) * box.GetDepth() / box.GetWidth()));
+        static_cast<double>(resolutionX) * box.Depth() / box.Width()));
 
-    const double dx = box.GetWidth() / static_cast<double>(resolutionX);
+    const double dx = box.Width() / static_cast<double>(resolutionX);
 
     m_grid = std::make_shared<VertexCenteredScalarGrid3>();
     m_grid->Resize(resolutionX, resolutionY, resolutionZ, dx, dx, dx,

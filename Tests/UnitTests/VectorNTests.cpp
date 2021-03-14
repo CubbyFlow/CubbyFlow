@@ -1,17 +1,17 @@
 #include "pch.hpp"
 
-#include <Core/Vector/VectorN.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 using namespace CubbyFlow;
 
 TEST(VectorN, Constructors)
 {
     VectorND empty;
-    EXPECT_EQ(0u, empty.size());
+    EXPECT_EQ(0u, empty.GetRows());
 
     VectorND vec({ 1.0, 4.0, 3.0, -5.0, 2.0 });
 
-    EXPECT_EQ(5u, vec.size());
+    EXPECT_EQ(5u, vec.GetRows());
     EXPECT_EQ(1.0, vec[0]);
     EXPECT_EQ(4.0, vec[1]);
     EXPECT_EQ(3.0, vec[2]);
@@ -20,7 +20,7 @@ TEST(VectorN, Constructors)
 
     VectorND vec2(vec);
 
-    EXPECT_EQ(5u, vec2.size());
+    EXPECT_EQ(5u, vec2.GetRows());
     EXPECT_EQ(1.0, vec2[0]);
     EXPECT_EQ(4.0, vec2[1]);
     EXPECT_EQ(3.0, vec2[2]);
@@ -28,7 +28,7 @@ TEST(VectorN, Constructors)
     EXPECT_EQ(2.0, vec2[4]);
 
     VectorND vec3(7, 3.14);
-    EXPECT_EQ(7u, vec3.size());
+    EXPECT_EQ(7u, vec3.GetRows());
     for (int i = 0; i < 7; ++i)
     {
         EXPECT_EQ(3.14, vec3[i]);
@@ -40,15 +40,15 @@ TEST(VectorN, BasicSetters)
     VectorND vec;
 
     vec.Resize(8, 3.0);
-    EXPECT_EQ(8u, vec.size());
+    EXPECT_EQ(8u, vec.GetRows());
     for (int i = 0; i < 8; ++i)
     {
         EXPECT_EQ(3.0, vec[i]);
     }
 
-    vec.Set({ 1.0, 4.0, 3.0, -5.0, 2.0 });
+    vec = { 1.0, 4.0, 3.0, -5.0, 2.0 };
 
-    EXPECT_EQ(5u, vec.size());
+    EXPECT_EQ(5u, vec.GetRows());
     EXPECT_EQ(1.0, vec[0]);
     EXPECT_EQ(4.0, vec[1]);
     EXPECT_EQ(3.0, vec[2]);
@@ -57,8 +57,8 @@ TEST(VectorN, BasicSetters)
 
     VectorND vec2(3, 4.0);
 
-    vec2.Set(vec);
-    EXPECT_EQ(5u, vec2.size());
+    vec2 = vec;
+    EXPECT_EQ(5u, vec2.GetRows());
     EXPECT_EQ(1.0, vec2[0]);
     EXPECT_EQ(4.0, vec2[1]);
     EXPECT_EQ(3.0, vec2[2]);
@@ -72,20 +72,20 @@ TEST(VectorN, BasicSetters)
     {
         EXPECT_EQ(3.14, vec2[i]);
     }
-    EXPECT_EQ(5u, vec3.size());
+    EXPECT_EQ(5u, vec3.GetRows());
     EXPECT_EQ(1.0, vec3[0]);
     EXPECT_EQ(4.0, vec3[1]);
     EXPECT_EQ(3.0, vec3[2]);
     EXPECT_EQ(-5.0, vec3[3]);
     EXPECT_EQ(2.0, vec3[4]);
 
-    vec3.SetZero();
-    for (size_t i = 0; i < vec3.size(); ++i)
+    vec3.Fill(0.0);
+    for (size_t i = 0; i < vec3.GetRows(); ++i)
     {
         EXPECT_EQ(0.0, vec3[i]);
     }
 
-    vec3.Set(vec);
+    vec3.Fill(vec);
     vec3.Normalize();
     double denom = std::sqrt(55.0);
     EXPECT_EQ(1.0 / denom, vec3[0]);
@@ -99,7 +99,7 @@ TEST(VectorN, BasicGetters)
 {
     VectorND vecA = { +3.0, -1.0, +2.0, 5.0 };
 
-    EXPECT_EQ(4u, vecA.size());
+    EXPECT_EQ(4u, vecA.GetRows());
 
     const double* data = vecA.data();
     EXPECT_EQ(3.0, data[0]);
@@ -137,39 +137,6 @@ TEST(VectorN, BasicGetters)
     auto d = vecA.end() - vecA.begin();
     EXPECT_EQ(4, d);
 
-    const auto acc = vecA.ConstAccessor();
-    EXPECT_EQ(4u, acc.size());
-    EXPECT_EQ(+6.0, acc[0]);
-    EXPECT_EQ(+2.5, acc[1]);
-    EXPECT_EQ(-9.0, acc[2]);
-    EXPECT_EQ(+8.0, acc[3]);
-
-    vecA = { +3.0, -1.0, +2.0, 5.0 };
-    auto acc2 = vecA.Accessor();
-    acc2[0] = 6.0;
-    acc2[1] = 2.5;
-    acc2[2] = -9.0;
-    acc2[3] = 8.0;
-    EXPECT_EQ(+6.0, acc2[0]);
-    EXPECT_EQ(+2.5, acc2[1]);
-    EXPECT_EQ(-9.0, acc2[2]);
-    EXPECT_EQ(+8.0, acc2[3]);
-
-    EXPECT_EQ(+6.0, vecA.At(0));
-    EXPECT_EQ(+2.5, vecA.At(1));
-    EXPECT_EQ(-9.0, vecA.At(2));
-    EXPECT_EQ(+8.0, vecA.At(3));
-
-    vecA = { +3.0, -1.0, +2.0, 5.0 };
-    vecA.At(0) = 6.0;
-    vecA.At(1) = 2.5;
-    vecA.At(2) = -9.0;
-    vecA.At(3) = 8.0;
-    EXPECT_EQ(+6.0, vecA[0]);
-    EXPECT_EQ(+2.5, vecA[1]);
-    EXPECT_EQ(-9.0, vecA[2]);
-    EXPECT_EQ(+8.0, vecA[3]);
-
     EXPECT_EQ(7.5, vecA.Sum());
     EXPECT_EQ(7.5 / 4.0, vecA.Avg());
     EXPECT_EQ(-9.0, vecA.Min());
@@ -180,17 +147,17 @@ TEST(VectorN, BasicGetters)
     EXPECT_EQ(1u, vecA.SubdominantAxis());
 
     auto vecB = vecA;
-    auto vecC = vecB.Normalized();
+    VectorND vecC = vecB.Normalized();
     vecA.Normalize();
-    for (size_t i = 0; i < vecA.size(); ++i)
+    for (size_t i = 0; i < vecA.GetRows(); ++i)
     {
         EXPECT_EQ(vecA[i], vecC[i]);
     }
 
-    vecA.At(0) = 6.0;
-    vecA.At(1) = 2.5;
-    vecA.At(2) = -9.0;
-    vecA.At(3) = 8.0;
+    vecA[0] = 6.0;
+    vecA[1] = 2.5;
+    vecA[2] = -9.0;
+    vecA[3] = 8.0;
     double lenSqr = vecA.LengthSquared();
     EXPECT_EQ(187.25, lenSqr);
 
@@ -211,73 +178,16 @@ TEST(VectorN, BasicGetters)
     EXPECT_EQ(+2.f, vecD[2]);
     EXPECT_EQ(+5.f, vecD[3]);
 
-    EXPECT_FALSE(vecA.IsEqual(vecB));
+    EXPECT_NE(vecA, vecB);
     vecB = vecA;
-    EXPECT_TRUE(vecA.IsEqual(vecB));
+    EXPECT_EQ(vecA, vecB);
 
     vecB[0] += 1e-8;
     vecB[1] -= 1e-8;
     vecB[2] += 1e-8;
     vecB[3] -= 1e-8;
-    EXPECT_FALSE(vecA.IsEqual(vecB));
+    EXPECT_NE(vecA, vecB);
     EXPECT_TRUE(vecA.IsSimilar(vecB, 1e-7));
-}
-
-TEST(VectorN, BinaryOperatorMethods)
-{
-    VectorND vecA = { +3.0, -1.0, +2.0, 5.0 };
-    VectorND vecB = { +6.0, +2.5, -9.0, 8.0 };
-    VectorND vecC = vecA.Add(vecB);
-
-    EXPECT_EQ(+9.0, vecC[0]);
-    EXPECT_EQ(+1.5, vecC[1]);
-    EXPECT_EQ(-7.0, vecC[2]);
-    EXPECT_EQ(13.0, vecC[3]);
-
-    vecC = vecA.Add(3.0);
-    EXPECT_EQ(+6.0, vecC[0]);
-    EXPECT_EQ(+2.0, vecC[1]);
-    EXPECT_EQ(+5.0, vecC[2]);
-    EXPECT_EQ(+8.0, vecC[3]);
-
-    vecC = vecA.Sub(vecB);
-    EXPECT_EQ(-3.0, vecC[0]);
-    EXPECT_EQ(-3.5, vecC[1]);
-    EXPECT_EQ(11.0, vecC[2]);
-    EXPECT_EQ(-3.0, vecC[3]);
-
-    vecC = vecA.Sub(4.0);
-    EXPECT_EQ(-1.0, vecC[0]);
-    EXPECT_EQ(-5.0, vecC[1]);
-    EXPECT_EQ(-2.0, vecC[2]);
-    EXPECT_EQ(+1.0, vecC[3]);
-
-    vecC = vecA.Mul(vecB);
-    EXPECT_EQ(18.0, vecC[0]);
-    EXPECT_EQ(-2.5, vecC[1]);
-    EXPECT_EQ(-18.0, vecC[2]);
-    EXPECT_EQ(40.0, vecC[3]);
-
-    vecC = vecA.Mul(2.0);
-    EXPECT_EQ(+6.0, vecC[0]);
-    EXPECT_EQ(-2.0, vecC[1]);
-    EXPECT_EQ(+4.0, vecC[2]);
-    EXPECT_EQ(10.0, vecC[3]);
-
-    vecC = vecA.Div(vecB);
-    EXPECT_EQ(+0.5, vecC[0]);
-    EXPECT_EQ(-0.4, vecC[1]);
-    EXPECT_EQ(-2.0 / 9.0, vecC[2]);
-    EXPECT_EQ(0.625, vecC[3]);
-
-    vecC = vecA.Div(0.5);
-    EXPECT_EQ(+6.0, vecC[0]);
-    EXPECT_EQ(-2.0, vecC[1]);
-    EXPECT_EQ(+4.0, vecC[2]);
-    EXPECT_EQ(10.0, vecC[3]);
-
-    double d = vecA.Dot(vecB);
-    EXPECT_EQ(37.5, d);
 }
 
 TEST(VectorN, BinaryOperators)
@@ -321,7 +231,7 @@ TEST(VectorN, BinaryOperators)
     EXPECT_EQ(-2.0, vecC[2]);
     EXPECT_EQ(+1.0, vecC[3]);
 
-    vecC = vecA * vecB;
+    vecC = ElemMul(vecA, vecB);
     EXPECT_EQ(18.0, vecC[0]);
     EXPECT_EQ(-2.5, vecC[1]);
     EXPECT_EQ(-18.0, vecC[2]);
@@ -333,7 +243,7 @@ TEST(VectorN, BinaryOperators)
     EXPECT_EQ(+4.0, vecC[2]);
     EXPECT_EQ(10.0, vecC[3]);
 
-    vecC = vecA / vecB;
+    vecC = ElemDiv(vecA, vecB);
     EXPECT_EQ(+0.5, vecC[0]);
     EXPECT_EQ(-0.4, vecC[1]);
     EXPECT_EQ(-2.0 / 9.0, vecC[2]);

@@ -1,24 +1,22 @@
 #include "pch.hpp"
 
-#include <Core/Array/Array1.hpp>
-#include <Core/Array/Array2.hpp>
-#include <Core/Array/Array3.hpp>
+#include <Core/Array/Array.hpp>
 #include <Core/Array/ArrayUtils.hpp>
 
 using namespace CubbyFlow;
 
-TEST(ArrayUtils, SetRange1)
+TEST(ArrayUtils, Fill)
 {
     Array1<double> array0(5);
 
-    SetRange1(5, 3.4, &array0);
+    Fill(array0.View(), 3.4);
 
     for (size_t i = 0; i < 5; ++i)
     {
         EXPECT_EQ(3.4, array0[i]);
     }
 
-    SetRange1(2, 4, 4.2, &array0);
+    Fill(array0.View(), 2, 4, 4.2);
 
     for (size_t i = 2; i < 4; ++i)
     {
@@ -26,19 +24,19 @@ TEST(ArrayUtils, SetRange1)
     }
 }
 
-TEST(ArrayUtils, CopyRange1)
+TEST(ArrayUtils, Copy1)
 {
     Array1<double> array0({ 1.0, 2.0, 3.0, 4.0, 5.0 });
     Array1<double> array1(5);
 
-    CopyRange1(array0, 1, 3, &array1);
+    Copy(array0.View(), 1, 3, array1.View());
 
     for (size_t i = 1; i < 3; ++i)
     {
         EXPECT_EQ(array0[i], array1[i]);
     }
 
-    CopyRange1(array0, 5, &array1);
+    Copy(array0.View(), 0, 5, array1.View());
 
     for (size_t i = 0; i < 5; ++i)
     {
@@ -46,12 +44,12 @@ TEST(ArrayUtils, CopyRange1)
     }
 }
 
-TEST(ArrayUtils, CopyRange2)
+TEST(ArrayUtils, Copy2)
 {
     Array2<double> array0({ { 1.0, 2.0 }, { 3.0, 4.0 }, { 5.0, 6.0 } });
     Array2<double> array1(2, 3);
 
-    CopyRange2(array0, 0, 1, 2, 3, &array1);
+    Copy(array0.View(), { 0, 1 }, { 2, 3 }, array1.View());
 
     for (size_t j = 2; j < 3; ++j)
     {
@@ -61,7 +59,7 @@ TEST(ArrayUtils, CopyRange2)
         }
     }
 
-    CopyRange2(array0, 2, 3, &array1);
+    Copy(array0.View(), {}, { 2, 3 }, array1.View());
 
     for (size_t j = 0; j < 3; ++j)
     {
@@ -72,13 +70,13 @@ TEST(ArrayUtils, CopyRange2)
     }
 }
 
-TEST(ArrayUtils, CopyRange3)
+TEST(ArrayUtils, Copy3)
 {
     Array3<double> array0({ { { 1.0, 2.0 }, { 3.0, 4.0 }, { 5.0, 6.0 } },
                             { { 7.0, 8.0 }, { 9.0, 10.0 }, { 11.0, 12.0 } } });
     Array3<double> array1(2, 3, 2);
 
-    CopyRange3(array0, 0, 1, 2, 3, 1, 2, &array1);
+    Copy(array0.View(), { 0, 2, 1 }, { 1, 3, 2 }, array1.View());
 
     for (size_t k = 1; k < 2; ++k)
     {
@@ -91,7 +89,7 @@ TEST(ArrayUtils, CopyRange3)
         }
     }
 
-    CopyRange3(array0, 2, 3, 2, &array1);
+    Copy(array0.View(), {}, { 2, 3, 2 }, array1.View());
 
     for (size_t k = 0; k < 2; ++k)
     {
@@ -108,7 +106,7 @@ TEST(ArrayUtils, CopyRange3)
 TEST(ArrayUtils, ExtrapolateToRegion2)
 {
     Array2<double> data(10, 12, 0.0);
-    Array2<char> valid(10, 12, 0);
+    Array2<char> valid(10, 12, static_cast<char>(0));
 
     for (size_t j = 3; j < 10; ++j)
     {
@@ -119,8 +117,7 @@ TEST(ArrayUtils, ExtrapolateToRegion2)
         }
     }
 
-    ExtrapolateToRegion(data.ConstAccessor(), valid.ConstAccessor(), 6,
-                        data.Accessor());
+    ExtrapolateToRegion(data.View(), valid.View(), 6, data.View());
 
     Array2<double> dataAnswer(
         { { 32.0, 32.0, 32.0, 33.0, 34.0, 35.0, 35.0, 35.0, 35.0, 0.0 },
@@ -149,7 +146,7 @@ TEST(ArrayUtils, ExtrapolateToRegion3)
 {
     // TODO: Need better testing
     Array3<double> data(3, 4, 5, 0.0);
-    Array3<char> valid(3, 4, 5, 0);
+    Array3<char> valid(3, 4, 5, static_cast<char>(0));
 
     for (size_t k = 1; k < 4; ++k)
     {
@@ -163,8 +160,7 @@ TEST(ArrayUtils, ExtrapolateToRegion3)
         }
     }
 
-    ExtrapolateToRegion(data.ConstAccessor(), valid.ConstAccessor(), 5,
-                        data.Accessor());
+    ExtrapolateToRegion(data.View(), valid.View(), 5, data.View());
 
     for (size_t k = 0; k < 5; ++k)
     {
@@ -176,19 +172,4 @@ TEST(ArrayUtils, ExtrapolateToRegion3)
             }
         }
     }
-}
-
-TEST(ArrayUtils, ConvertToCSV)
-{
-    Array2<double> array = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } };
-    std::stringstream stream;
-
-    stream << std::fixed;
-    stream << std::setprecision(2);
-
-    ConvertToCSV(array, &stream);
-
-    std::string result = stream.str();
-
-    EXPECT_EQ(std::string("1.00, 2.00, 3.00\n4.00, 5.00, 6.00\n"), result);
 }

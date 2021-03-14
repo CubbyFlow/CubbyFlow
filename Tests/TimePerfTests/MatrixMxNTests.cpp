@@ -1,10 +1,11 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/Matrix/MatrixMxN.hpp>
-#include <Core/Vector/VectorN.hpp>
+#include <Core/Matrix/Matrix.hpp>
+#include <Core/Utils/IterationUtils.hpp>
 
 #include <random>
 
+using CubbyFlow::Vector2UZ;
 using CubbyFlow::VectorND;
 
 class MatrixMxN : public ::benchmark::Fixture
@@ -24,8 +25,10 @@ class MatrixMxN : public ::benchmark::Fixture
         mat.Resize(n, n);
         x.Resize(n);
         y.Resize(n);
-        mat.ForEachIndex([&](size_t i, size_t j) { mat(i, j) = d(rng); });
-        x.ForEachIndex([&](size_t i) {
+        CubbyFlow::ForEachIndex(
+            Vector2UZ{}, Vector2UZ{ mat.GetCols(), mat.GetRows() },
+            [&](size_t i, size_t j) { mat(i, j) = d(rng); });
+        CubbyFlow::ForEachIndex(x.GetRows(), [&](size_t i) {
             x[i] = d(rng);
             y[i] = d(rng);
         });

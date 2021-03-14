@@ -23,13 +23,13 @@ void GridBlockedBoundaryConditionSolver2::ConstrainVelocity(
         velocity, extrapolationDepth);
 
     // No-flux: project the velocity at the marker interface
-    Size2 size = velocity->Resolution();
-    ArrayAccessor2<double> u = velocity->GetUAccessor();
-    ArrayAccessor2<double> v = velocity->GetVAccessor();
-    auto uPos = velocity->GetUPosition();
-    auto vPos = velocity->GetVPosition();
+    Vector2UZ size = velocity->Resolution();
+    ArrayView2<double> u = velocity->UView();
+    ArrayView2<double> v = velocity->VView();
+    auto uPos = velocity->UPosition();
+    auto vPos = velocity->VPosition();
 
-    m_marker.ForEachIndex([&](size_t i, size_t j) {
+    ForEachIndex(m_marker.Size(), [&](size_t i, size_t j) {
         if (m_marker(i, j) == COLLIDER)
         {
             if (i > 0 && m_marker(i - 1, j) == FLUID)
@@ -66,7 +66,7 @@ const Array2<char>& GridBlockedBoundaryConditionSolver2::GetMarker() const
 }
 
 void GridBlockedBoundaryConditionSolver2::OnColliderUpdated(
-    const Size2& gridSize, const Vector2D& gridSpacing,
+    const Vector2UZ& gridSize, const Vector2D& gridSpacing,
     const Vector2D& gridOrigin)
 {
     GridFractionalBoundaryConditionSolver2::OnColliderUpdated(
@@ -76,7 +76,7 @@ void GridBlockedBoundaryConditionSolver2::OnColliderUpdated(
         std::dynamic_pointer_cast<CellCenteredScalarGrid2>(GetColliderSDF());
 
     m_marker.Resize(gridSize);
-    m_marker.ParallelForEachIndex([&](size_t i, size_t j) {
+    ParallelForEachIndex(m_marker.Size(), [&](size_t i, size_t j) {
         if (IsInsideSDF((*sdf)(i, j)))
         {
             m_marker(i, j) = COLLIDER;

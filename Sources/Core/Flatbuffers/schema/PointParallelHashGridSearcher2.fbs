@@ -5,7 +5,7 @@ namespace CubbyFlow.fbs;
 table PointParallelHashGridSearcher2
 {
     gridSpacing:double;
-    resolution:Size2;
+    resolution:Vector2UZ;
     points:[Vector2D];
     keys:[ulong];
     startIndexTable:[ulong];

@@ -12,16 +12,16 @@ TEST(FaceCenteredGrid2, Constructors)
     EXPECT_EQ(0u, grid1.Resolution().y);
     EXPECT_DOUBLE_EQ(1.0, grid1.GridSpacing().x);
     EXPECT_DOUBLE_EQ(1.0, grid1.GridSpacing().y);
-    EXPECT_DOUBLE_EQ(0.0, grid1.Origin().x);
-    EXPECT_DOUBLE_EQ(0.0, grid1.Origin().y);
-    EXPECT_EQ(0u, grid1.GetUSize().x);
-    EXPECT_EQ(0u, grid1.GetUSize().y);
-    EXPECT_EQ(0u, grid1.GetVSize().x);
-    EXPECT_EQ(0u, grid1.GetVSize().y);
-    EXPECT_DOUBLE_EQ(0.0, grid1.GetUOrigin().x);
-    EXPECT_DOUBLE_EQ(0.5, grid1.GetUOrigin().y);
-    EXPECT_DOUBLE_EQ(0.5, grid1.GetVOrigin().x);
-    EXPECT_DOUBLE_EQ(0.0, grid1.GetVOrigin().y);
+    EXPECT_DOUBLE_EQ(0.0, grid1.GridOrigin().x);
+    EXPECT_DOUBLE_EQ(0.0, grid1.GridOrigin().y);
+    EXPECT_EQ(0u, grid1.USize().x);
+    EXPECT_EQ(0u, grid1.USize().y);
+    EXPECT_EQ(0u, grid1.VSize().x);
+    EXPECT_EQ(0u, grid1.VSize().y);
+    EXPECT_DOUBLE_EQ(0.0, grid1.UOrigin().x);
+    EXPECT_DOUBLE_EQ(0.5, grid1.UOrigin().y);
+    EXPECT_DOUBLE_EQ(0.5, grid1.VOrigin().x);
+    EXPECT_DOUBLE_EQ(0.0, grid1.VOrigin().y);
 
     // Constructor with params
     FaceCenteredGrid2 grid2(5, 4, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
@@ -29,16 +29,16 @@ TEST(FaceCenteredGrid2, Constructors)
     EXPECT_EQ(4u, grid2.Resolution().y);
     EXPECT_DOUBLE_EQ(1.0, grid2.GridSpacing().x);
     EXPECT_DOUBLE_EQ(2.0, grid2.GridSpacing().y);
-    EXPECT_DOUBLE_EQ(3.0, grid2.Origin().x);
-    EXPECT_DOUBLE_EQ(4.0, grid2.Origin().y);
-    EXPECT_EQ(6u, grid2.GetUSize().x);
-    EXPECT_EQ(4u, grid2.GetUSize().y);
-    EXPECT_EQ(5u, grid2.GetVSize().x);
-    EXPECT_EQ(5u, grid2.GetVSize().y);
-    EXPECT_DOUBLE_EQ(3.0, grid2.GetUOrigin().x);
-    EXPECT_DOUBLE_EQ(5.0, grid2.GetUOrigin().y);
-    EXPECT_DOUBLE_EQ(3.5, grid2.GetVOrigin().x);
-    EXPECT_DOUBLE_EQ(4.0, grid2.GetVOrigin().y);
+    EXPECT_DOUBLE_EQ(3.0, grid2.GridOrigin().x);
+    EXPECT_DOUBLE_EQ(4.0, grid2.GridOrigin().y);
+    EXPECT_EQ(6u, grid2.USize().x);
+    EXPECT_EQ(4u, grid2.USize().y);
+    EXPECT_EQ(5u, grid2.VSize().x);
+    EXPECT_EQ(5u, grid2.VSize().y);
+    EXPECT_DOUBLE_EQ(3.0, grid2.UOrigin().x);
+    EXPECT_DOUBLE_EQ(5.0, grid2.UOrigin().y);
+    EXPECT_DOUBLE_EQ(3.5, grid2.VOrigin().x);
+    EXPECT_DOUBLE_EQ(4.0, grid2.VOrigin().y);
     grid2.ForEachUIndex(
         [&](size_t i, size_t j) { EXPECT_DOUBLE_EQ(5.0, grid2.GetU(i, j)); });
     grid2.ForEachVIndex(
@@ -50,16 +50,16 @@ TEST(FaceCenteredGrid2, Constructors)
     EXPECT_EQ(4u, grid3.Resolution().y);
     EXPECT_DOUBLE_EQ(1.0, grid3.GridSpacing().x);
     EXPECT_DOUBLE_EQ(2.0, grid3.GridSpacing().y);
-    EXPECT_DOUBLE_EQ(3.0, grid3.Origin().x);
-    EXPECT_DOUBLE_EQ(4.0, grid3.Origin().y);
-    EXPECT_EQ(6u, grid3.GetUSize().x);
-    EXPECT_EQ(4u, grid3.GetUSize().y);
-    EXPECT_EQ(5u, grid3.GetVSize().x);
-    EXPECT_EQ(5u, grid3.GetVSize().y);
-    EXPECT_DOUBLE_EQ(3.0, grid3.GetUOrigin().x);
-    EXPECT_DOUBLE_EQ(5.0, grid3.GetUOrigin().y);
-    EXPECT_DOUBLE_EQ(3.5, grid3.GetVOrigin().x);
-    EXPECT_DOUBLE_EQ(4.0, grid3.GetVOrigin().y);
+    EXPECT_DOUBLE_EQ(3.0, grid3.GridOrigin().x);
+    EXPECT_DOUBLE_EQ(4.0, grid3.GridOrigin().y);
+    EXPECT_EQ(6u, grid3.USize().x);
+    EXPECT_EQ(4u, grid3.USize().y);
+    EXPECT_EQ(5u, grid3.VSize().x);
+    EXPECT_EQ(5u, grid3.VSize().y);
+    EXPECT_DOUBLE_EQ(3.0, grid3.UOrigin().x);
+    EXPECT_DOUBLE_EQ(5.0, grid3.UOrigin().y);
+    EXPECT_DOUBLE_EQ(3.5, grid3.VOrigin().x);
+    EXPECT_DOUBLE_EQ(4.0, grid3.VOrigin().y);
     grid3.ForEachUIndex(
         [&](size_t i, size_t j) { EXPECT_DOUBLE_EQ(5.0, grid3.GetU(i, j)); });
     grid3.ForEachVIndex(
@@ -71,17 +71,17 @@ TEST(FaceCenteredGrid2, Fill)
     FaceCenteredGrid2 grid(5, 4, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0);
     grid.Fill(Vector2D(42.0, 27.0));
 
-    for (size_t j = 0; j < grid.GetUSize().y; ++j)
+    for (size_t j = 0; j < grid.USize().y; ++j)
     {
-        for (size_t i = 0; i < grid.GetUSize().x; ++i)
+        for (size_t i = 0; i < grid.USize().x; ++i)
         {
             EXPECT_DOUBLE_EQ(42.0, grid.GetU(i, j));
         }
     }
 
-    for (size_t j = 0; j < grid.GetVSize().y; ++j)
+    for (size_t j = 0; j < grid.VSize().y; ++j)
     {
-        for (size_t i = 0; i < grid.GetVSize().x; ++i)
+        for (size_t i = 0; i < grid.VSize().x; ++i)
         {
             EXPECT_DOUBLE_EQ(27.0, grid.GetV(i, j));
         }
@@ -90,17 +90,17 @@ TEST(FaceCenteredGrid2, Fill)
     auto func = [](const Vector2D& x) { return x; };
     grid.Fill(func);
 
-    for (size_t j = 0; j < grid.GetUSize().y; ++j)
+    for (size_t j = 0; j < grid.USize().y; ++j)
     {
-        for (size_t i = 0; i < grid.GetUSize().x; ++i)
+        for (size_t i = 0; i < grid.USize().x; ++i)
         {
             EXPECT_DOUBLE_EQ(static_cast<double>(i), grid.GetU(i, j));
         }
     }
 
-    for (size_t j = 0; j < grid.GetVSize().y; ++j)
+    for (size_t j = 0; j < grid.VSize().y; ++j)
     {
-        for (size_t i = 0; i < grid.GetVSize().x; ++i)
+        for (size_t i = 0; i < grid.VSize().x; ++i)
         {
             EXPECT_DOUBLE_EQ(static_cast<double>(j), grid.GetV(i, j));
         }
@@ -196,11 +196,11 @@ TEST(FaceCenteredGrid2, Builder)
     {
         auto builder = FaceCenteredGrid2::GetBuilder();
 
-        auto grid = builder.Build(Size2(5, 2), Vector2D(2.0, 4.0),
+        auto grid = builder.Build(Vector2UZ(5, 2), Vector2D(2.0, 4.0),
                                   Vector2D(-1.0, 2.0), Vector2D(3.0, 5.0));
-        EXPECT_EQ(Size2(5, 2), grid->Resolution());
+        EXPECT_EQ(Vector2UZ(5, 2), grid->Resolution());
         EXPECT_EQ(Vector2D(2.0, 4.0), grid->GridSpacing());
-        EXPECT_EQ(Vector2D(-1.0, 2.0), grid->Origin());
+        EXPECT_EQ(Vector2D(-1.0, 2.0), grid->GridOrigin());
 
         auto faceCenteredGrid =
             std::dynamic_pointer_cast<FaceCenteredGrid2>(grid);
@@ -224,9 +224,9 @@ TEST(FaceCenteredGrid2, Builder)
                         .WithInitialValue(3, 5)
                         .Build();
 
-        EXPECT_EQ(Size2(5, 2), grid.Resolution());
+        EXPECT_EQ(Vector2UZ(5, 2), grid.Resolution());
         EXPECT_EQ(Vector2D(2.0, 4.0), grid.GridSpacing());
-        EXPECT_EQ(Vector2D(-1.0, 2.0), grid.Origin());
+        EXPECT_EQ(Vector2D(-1.0, 2.0), grid.GridOrigin());
 
         grid.ForEachUIndex([&](size_t i, size_t j) {
             EXPECT_DOUBLE_EQ(3.0, grid.GetU(i, j));
@@ -251,22 +251,22 @@ TEST(FaceCenteredGrid2, Serialization)
     grid2.Deserialize(buffer1);
     EXPECT_EQ(5u, grid2.Resolution().x);
     EXPECT_EQ(4u, grid2.Resolution().y);
-    EXPECT_DOUBLE_EQ(-5.0, grid2.Origin().x);
-    EXPECT_DOUBLE_EQ(3.0, grid2.Origin().y);
+    EXPECT_DOUBLE_EQ(-5.0, grid2.GridOrigin().x);
+    EXPECT_DOUBLE_EQ(3.0, grid2.GridOrigin().y);
     EXPECT_DOUBLE_EQ(1.0, grid2.GridSpacing().x);
     EXPECT_DOUBLE_EQ(2.0, grid2.GridSpacing().y);
     EXPECT_DOUBLE_EQ(-5.0, grid2.BoundingBox().lowerCorner.x);
     EXPECT_DOUBLE_EQ(3.0, grid2.BoundingBox().lowerCorner.y);
     EXPECT_DOUBLE_EQ(0.0, grid2.BoundingBox().upperCorner.x);
     EXPECT_DOUBLE_EQ(11.0, grid2.BoundingBox().upperCorner.y);
-    EXPECT_EQ(6u, grid2.GetUSize().x);
-    EXPECT_EQ(4u, grid2.GetUSize().y);
-    EXPECT_EQ(5u, grid2.GetVSize().x);
-    EXPECT_EQ(5u, grid2.GetVSize().y);
-    EXPECT_DOUBLE_EQ(-5.0, grid2.GetUOrigin().x);
-    EXPECT_DOUBLE_EQ(4.0, grid2.GetUOrigin().y);
-    EXPECT_DOUBLE_EQ(-4.5, grid2.GetVOrigin().x);
-    EXPECT_DOUBLE_EQ(3.0, grid2.GetVOrigin().y);
+    EXPECT_EQ(6u, grid2.USize().x);
+    EXPECT_EQ(4u, grid2.USize().y);
+    EXPECT_EQ(5u, grid2.VSize().x);
+    EXPECT_EQ(5u, grid2.VSize().y);
+    EXPECT_DOUBLE_EQ(-5.0, grid2.UOrigin().x);
+    EXPECT_DOUBLE_EQ(4.0, grid2.UOrigin().y);
+    EXPECT_DOUBLE_EQ(-4.5, grid2.VOrigin().x);
+    EXPECT_DOUBLE_EQ(3.0, grid2.VOrigin().y);
 
     grid1.ForEachUIndex([&](size_t i, size_t j) {
         EXPECT_DOUBLE_EQ(grid1.GetU(i, j), grid2.GetU(i, j));
@@ -285,16 +285,16 @@ TEST(FaceCenteredGrid2, Serialization)
     grid2.Deserialize(buffer2);
     EXPECT_EQ(0u, grid2.Resolution().x);
     EXPECT_EQ(0u, grid2.Resolution().y);
-    EXPECT_DOUBLE_EQ(0.0, grid2.Origin().x);
-    EXPECT_DOUBLE_EQ(0.0, grid2.Origin().y);
+    EXPECT_DOUBLE_EQ(0.0, grid2.GridOrigin().x);
+    EXPECT_DOUBLE_EQ(0.0, grid2.GridOrigin().y);
     EXPECT_DOUBLE_EQ(1.0, grid2.GridSpacing().x);
     EXPECT_DOUBLE_EQ(1.0, grid2.GridSpacing().y);
-    EXPECT_EQ(0u, grid2.GetUSize().x);
-    EXPECT_EQ(0u, grid2.GetUSize().y);
-    EXPECT_EQ(0u, grid2.GetVSize().x);
-    EXPECT_EQ(0u, grid2.GetVSize().y);
-    EXPECT_DOUBLE_EQ(0.0, grid2.GetUOrigin().x);
-    EXPECT_DOUBLE_EQ(0.5, grid2.GetUOrigin().y);
-    EXPECT_DOUBLE_EQ(0.5, grid2.GetVOrigin().x);
-    EXPECT_DOUBLE_EQ(0.0, grid2.GetVOrigin().y);
+    EXPECT_EQ(0u, grid2.USize().x);
+    EXPECT_EQ(0u, grid2.USize().y);
+    EXPECT_EQ(0u, grid2.VSize().x);
+    EXPECT_EQ(0u, grid2.VSize().y);
+    EXPECT_DOUBLE_EQ(0.0, grid2.UOrigin().x);
+    EXPECT_DOUBLE_EQ(0.5, grid2.UOrigin().y);
+    EXPECT_DOUBLE_EQ(0.5, grid2.VOrigin().x);
+    EXPECT_DOUBLE_EQ(0.0, grid2.VOrigin().y);
 }

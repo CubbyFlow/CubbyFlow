@@ -1,24 +1,28 @@
 #include "pch.hpp"
 
-#include <Core/Matrix/Matrix4x4.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 using namespace CubbyFlow;
 
 TEST(Matrix4x4, Constructors)
 {
     Matrix4x4D mat;
+
+    // Deprecated behavior: default ctor will Make zero matrix, not an identity.
+    //    for (int i = 0; i < 4; ++i) {
+    //        for (int j = 0; j < 4; ++j) {
+    //            if (i == j) {
+    //                EXPECT_DOUBLE_EQ(1.0, mat(i, j));
+    //            } else {
+    //                EXPECT_DOUBLE_EQ(0.0, mat(i, j));
+    //            }
+    //        }
+    //    }
     for (int i = 0; i < 4; ++i)
     {
         for (int j = 0; j < 4; ++j)
         {
-            if (i == j)
-            {
-                EXPECT_DOUBLE_EQ(1.0, mat(i, j));
-            }
-            else
-            {
-                EXPECT_DOUBLE_EQ(0.0, mat(i, j));
-            }
+            EXPECT_DOUBLE_EQ(0.0, mat(i, j));
         }
     }
 
@@ -61,45 +65,35 @@ TEST(Matrix4x4, SetMethods)
 {
     Matrix4x4D mat;
 
-    mat.Set(3.1);
+    mat.Fill(3.1);
     for (int i = 0; i < 16; ++i)
     {
         EXPECT_DOUBLE_EQ(3.1, mat[i]);
     }
 
-    mat.Set(0.0);
-    mat.Set(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+    mat.Fill(3.1);
+    for (int i = 0; i < 16; ++i)
+    {
+        EXPECT_DOUBLE_EQ(3.1, mat[i]);
+    }
+
+    mat.Fill([](size_t i) -> double { return i + 1.0; });
     for (int i = 0; i < 16; ++i)
     {
         EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
-    mat.Set(0.0);
-    mat.Set({ { 1, 2, 3, 4 },
-              { 5, 6, 7, 8 },
-              { 9, 10, 11, 12 },
-              { 13, 14, 15, 16 } });
-    for (int i = 0; i < 16; ++i)
+    mat.Fill([](size_t i, size_t j) -> double {
+        return static_cast<double>(i + j);
+    });
+    for (int i = 0; i < 4; ++i)
     {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
+        for (int j = 0; j < 4; ++j)
+        {
+            EXPECT_DOUBLE_EQ(static_cast<double>(i + j), mat(i, j));
+        }
     }
 
-    mat.Set(0.0);
-    mat.Set(Matrix4x4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
-    for (int i = 0; i < 16; ++i)
-    {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
-    }
-
-    mat.Set(0.0);
-    double arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
-    mat.Set(arr);
-    for (int i = 0; i < 16; ++i)
-    {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
-    }
-
-    mat.Set(0.0);
     mat.SetDiagonal(3.1);
     for (int i = 0; i < 4; ++i)
     {
@@ -109,14 +103,9 @@ TEST(Matrix4x4, SetMethods)
             {
                 EXPECT_DOUBLE_EQ(3.1, mat(i, j));
             }
-            else
-            {
-                EXPECT_DOUBLE_EQ(0.0, mat(i, j));
-            }
         }
     }
 
-    mat.Set(0.0);
     mat.SetOffDiagonal(4.2);
     for (int i = 0; i < 4; ++i)
     {
@@ -126,14 +115,9 @@ TEST(Matrix4x4, SetMethods)
             {
                 EXPECT_DOUBLE_EQ(4.2, mat(i, j));
             }
-            else
-            {
-                EXPECT_DOUBLE_EQ(0.0, mat(i, j));
-            }
         }
     }
 
-    mat.Set(0.0);
     mat.SetRow(0, Vector4D(1, 2, 3, 4));
     mat.SetRow(1, Vector4D(5, 6, 7, 8));
     mat.SetRow(2, Vector4D(9, 10, 11, 12));
@@ -143,7 +127,6 @@ TEST(Matrix4x4, SetMethods)
         EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
-    mat.Set(0.0);
     mat.SetColumn(0, Vector4D(1, 5, 9, 13));
     mat.SetColumn(1, Vector4D(2, 6, 10, 14));
     mat.SetColumn(2, Vector4D(3, 7, 11, 15));
@@ -165,164 +148,8 @@ TEST(Matrix4x4, BasicGetters)
 
     EXPECT_TRUE(mat.IsSquare());
 
-    EXPECT_EQ(4u, mat.Rows());
-    EXPECT_EQ(4u, mat.Cols());
-}
-
-TEST(Matrix4x4, BinaryOperators)
-{
-    Matrix4x4D mat(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2,
-                   1);
-    Matrix4x4D mat2;
-    Vector4D vec;
-
-    mat2 = mat.Add(2.0);
-    EXPECT_TRUE(mat2.IsSimilar({ { -14, 17, -12, 15 },
-                                 { -10, 13, -8, 11 },
-                                 { -6, 9, -4, 7 },
-                                 { -4, 5, 0, 3 } }));
-
-    mat2 = mat.Add(
-        Matrix4x4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
-    EXPECT_TRUE(mat2.IsSimilar({ { -15, 17, -11, 17 },
-                                 { -7, 17, -3, 17 },
-                                 { 1, 17, 5, 17 },
-                                 { 7, 17, 13, 17 } }));
-
-    mat2 = mat.Sub(2.0);
-    EXPECT_TRUE(mat2.IsSimilar({ { -18, 13, -16, 11 },
-                                 { -14, 9, -12, 7 },
-                                 { -10, 5, -8, 3 },
-                                 { -8, 1, -4, -1 } }));
-
-    mat2 = mat.Sub(
-        Matrix4x4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
-    EXPECT_TRUE(mat2.IsSimilar({ { -17, 13, -17, 9 },
-                                 { -17, 5, -17, 1 },
-                                 { -17, -3, -17, -7 },
-                                 { -19, -11, -17, -15 } }));
-
-    mat2 = mat.Mul(2.0);
-    EXPECT_TRUE(mat2.IsSimilar({ { -32, 30, -28, 26 },
-                                 { -24, 22, -20, 18 },
-                                 { -16, 14, -12, 10 },
-                                 { -12, 6, -4, 2 } }));
-
-    vec = mat.Mul(Vector4D(1, 2, 3, 4));
-    EXPECT_TRUE(vec.IsSimilar(Vector4D(24, 16, 8, -2)));
-
-    mat2 = mat.Mul(
-        Matrix4x4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
-    EXPECT_TRUE(mat2.IsSimilar({ { 102, 100, 98, 96 },
-                                 { 70, 68, 66, 64 },
-                                 { 38, 36, 34, 32 },
-                                 { 4, 0, -4, -8 } }));
-
-    mat2 = mat.Div(2.0);
-    EXPECT_TRUE(mat2.IsSimilar({ { -8.0, 15.0 / 2.0, -7.0, 13.0 / 2.0 },
-                                 { -6.0, 11.0 / 2.0, -5.0, 9.0 / 2.0 },
-                                 { -4.0, 7.0 / 2.0, -3.0, 5.0 / 2.0 },
-                                 { -3.0, 3.0 / 2.0, -1.0, 1.0 / 2.0 } }));
-
-    mat2 = mat.RAdd(2.0);
-    EXPECT_TRUE(mat2.IsSimilar({ { -14, 17, -12, 15 },
-                                 { -10, 13, -8, 11 },
-                                 { -6, 9, -4, 7 },
-                                 { -4, 5, 0, 3 } }));
-
-    mat2 = mat.RAdd(
-        Matrix4x4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
-    EXPECT_TRUE(mat2.IsSimilar({ { -15, 17, -11, 17 },
-                                 { -7, 17, -3, 17 },
-                                 { 1, 17, 5, 17 },
-                                 { 7, 17, 13, 17 } }));
-
-    mat2 = mat.RSub(2.0);
-    EXPECT_TRUE(mat2.IsSimilar({ { 18, -13, 16, -11 },
-                                 { 14, -9, 12, -7 },
-                                 { 10, -5, 8, -3 },
-                                 { 8, -1, 4, 1 } }));
-
-    mat2 = mat.RSub(
-        Matrix4x4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
-    EXPECT_TRUE(mat2.IsSimilar({ { 17, -13, 17, -9 },
-                                 { 17, -5, 17, -1 },
-                                 { 17, 3, 17, 7 },
-                                 { 19, 11, 17, 15 } }));
-
-    mat2 = mat.RMul(2.0);
-    EXPECT_TRUE(mat2.IsSimilar({ { -32, 30, -28, 26 },
-                                 { -24, 22, -20, 18 },
-                                 { -16, 14, -12, 10 },
-                                 { -12, 6, -4, 2 } }));
-
-    mat2 = mat.RMul(
-        Matrix4x4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
-    EXPECT_TRUE(mat2.IsSimilar({ { -88, 70, -60, 50 },
-                                 { -256, 214, -188, 162 },
-                                 { -424, 358, -316, 274 },
-                                 { -592, 502, -444, 386 } }));
-
-    mat2 = mat.RDiv(2.0);
-    EXPECT_TRUE(
-        mat2.IsSimilar({ { -1.0 / 8.0, 2.0 / 15.0, -1.0 / 7.0, 2.0 / 13.0 },
-                         { -1.0 / 6.0, 2.0 / 11.0, -1.0 / 5.0, 2.0 / 9.0 },
-                         { -1.0 / 4.0, 2.0 / 7.0, -1.0 / 3.0, 2.0 / 5.0 },
-                         { -1.0 / 3.0, 2.0 / 3.0, -1.0, 2.0 } }));
-}
-
-TEST(Matrix4x4, AugmentedOperators)
-{
-    Matrix4x4D mat(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2,
-                   1);
-
-    mat.IAdd(2.0);
-    EXPECT_TRUE(mat.IsSimilar({ { -14, 17, -12, 15 },
-                                { -10, 13, -8, 11 },
-                                { -6, 9, -4, 7 },
-                                { -4, 5, 0, 3 } }));
-
-    mat.Set(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1);
-    mat.IAdd(Matrix4x4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
-    EXPECT_TRUE(mat.IsSimilar({ { -15, 17, -11, 17 },
-                                { -7, 17, -3, 17 },
-                                { 1, 17, 5, 17 },
-                                { 7, 17, 13, 17 } }));
-
-    mat.Set(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1);
-    mat.ISub(2.0);
-    EXPECT_TRUE(mat.IsSimilar({ { -18, 13, -16, 11 },
-                                { -14, 9, -12, 7 },
-                                { -10, 5, -8, 3 },
-                                { -8, 1, -4, -1 } }));
-
-    mat.Set(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1);
-    mat.ISub(Matrix4x4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
-    EXPECT_TRUE(mat.IsSimilar({ { -17, 13, -17, 9 },
-                                { -17, 5, -17, 1 },
-                                { -17, -3, -17, -7 },
-                                { -19, -11, -17, -15 } }));
-
-    mat.Set(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1);
-    mat.IMul(2.0);
-    EXPECT_TRUE(mat.IsSimilar({ { -32, 30, -28, 26 },
-                                { -24, 22, -20, 18 },
-                                { -16, 14, -12, 10 },
-                                { -12, 6, -4, 2 } }));
-
-    mat.Set(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1);
-    mat.IMul(Matrix4x4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
-    EXPECT_TRUE(mat.IsSimilar({ { 102, 100, 98, 96 },
-                                { 70, 68, 66, 64 },
-                                { 38, 36, 34, 32 },
-                                { 4, 0, -4, -8 } }));
-
-    mat.Set(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1);
-    mat.IDiv(2.0);
-    EXPECT_TRUE(mat.IsSimilar({ { -8.0, 15.0 / 2.0, -7.0, 13.0 / 2.0 },
-                                { -6.0, 11.0 / 2.0, -5.0, 9.0 / 2.0 },
-                                { -4.0, 7.0 / 2.0, -3.0, 5.0 / 2.0 },
-                                { -3.0, 3.0 / 2.0, -1.0, 1.0 / 2.0 } }));
+    EXPECT_EQ(4u, mat.GetRows());
+    EXPECT_EQ(4u, mat.GetCols());
 }
 
 TEST(Matrix4x4, Modifiers)
@@ -331,18 +158,18 @@ TEST(Matrix4x4, Modifiers)
                    1);
 
     mat.Transpose();
-    EXPECT_TRUE(mat.IsSimilar({ { -16, -12, -8, -6 },
-                                { 15, 11, 7, 3 },
-                                { -14, -10, -6, -2 },
-                                { 13, 9, 5, 1 } }));
+    EXPECT_TRUE(mat.IsSimilar(Matrix4x4D({ { -16, -12, -8, -6 },
+                                           { 15, 11, 7, 3 },
+                                           { -14, -10, -6, -2 },
+                                           { 13, 9, 5, 1 } })));
 
-    mat.Set(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 6, -6, 3, -2, 2);
+    mat = { -16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 6, -6, 3, -2, 2 };
     mat.Invert();
-    EXPECT_TRUE(
-        mat.IsSimilar({ { -1.0 / 2.0, 1.0 / 2.0, 1.0 / 2.0, -1.0 / 2.0 },
-                        { -5.0 / 2.0, 5.0 / 2.0, 2.0, -1.0 },
-                        { -5.0 / 4.0, 1.0 / 4.0, 5.0 / 2.0, -1.0 / 2.0 },
-                        { 1.0, -2.0, 1.0, 0.0 } }));
+    EXPECT_TRUE(mat.IsSimilar(
+        Matrix4x4D({ { -1.0 / 2.0, 1.0 / 2.0, 1.0 / 2.0, -1.0 / 2.0 },
+                     { -5.0 / 2.0, 5.0 / 2.0, 2.0, -1.0 },
+                     { -5.0 / 4.0, 1.0 / 4.0, 5.0 / 2.0, -1.0 / 2.0 },
+                     { 1.0, -2.0, 1.0, 0.0 } })));
 }
 
 TEST(Matrix4x4, ComplexGetters)
@@ -375,37 +202,37 @@ TEST(Matrix4x4, ComplexGetters)
     EXPECT_TRUE(mat2.IsSimilar(
         Matrix4x4D(0, 15, -14, 13, -12, 0, -10, 9, -8, 7, 0, 5, -4, 3, -2, 0)));
 
-    mat2 = mat.StrictLowerTriangle();
+    mat2 = mat.StrictLowerTri();
     EXPECT_TRUE(mat2.IsSimilar(
         Matrix4x4D(0, 0, 0, 0, -12, 0, 0, 0, -8, 7, 0, 0, -4, 3, -2, 0)));
 
-    mat2 = mat.StrictUpperTriangle();
+    mat2 = mat.StrictUpperTri();
     EXPECT_TRUE(mat2.IsSimilar(
         Matrix4x4D(0, 15, -14, 13, 0, 0, -10, 9, 0, 0, 0, 5, 0, 0, 0, 0)));
 
-    mat2 = mat.LowerTriangle();
+    mat2 = mat.LowerTri();
     EXPECT_TRUE(mat2.IsSimilar(
         Matrix4x4D(-16, 0, 0, 0, -12, 11, 0, 0, -8, 7, -6, 0, -4, 3, -2, 1)));
 
-    mat2 = mat.UpperTriangle();
+    mat2 = mat.UpperTri();
     EXPECT_TRUE(mat2.IsSimilar(
         Matrix4x4D(-16, 15, -14, 13, 0, 11, -10, 9, 0, 0, -6, 5, 0, 0, 0, 1)));
 
     mat2 = mat.Transposed();
-    EXPECT_TRUE(mat2.IsSimilar({ { -16, -12, -8, -4 },
-                                 { 15, 11, 7, 3 },
-                                 { -14, -10, -6, -2 },
-                                 { 13, 9, 5, 1 } }));
+    EXPECT_TRUE(mat2.IsSimilar(Matrix4x4D({ { -16, -12, -8, -4 },
+                                            { 15, 11, 7, 3 },
+                                            { -14, -10, -6, -2 },
+                                            { 13, 9, 5, 1 } })));
 
-    mat.Set(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 6, -6, 3, -2, 2);
+    mat = { -16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 6, -6, 3, -2, 2 };
     mat2 = mat.Inverse();
-    EXPECT_TRUE(
-        mat2.IsSimilar({ { -1.0 / 2.0, 1.0 / 2.0, 1.0 / 2.0, -1.0 / 2.0 },
-                         { -5.0 / 2.0, 5.0 / 2.0, 2.0, -1.0 },
-                         { -5.0 / 4.0, 1.0 / 4.0, 5.0 / 2.0, -1.0 / 2.0 },
-                         { 1.0, -2.0, 1.0, 0.0 } }));
+    EXPECT_TRUE(mat2.IsSimilar(
+        Matrix4x4D({ { -1.0 / 2.0, 1.0 / 2.0, 1.0 / 2.0, -1.0 / 2.0 },
+                     { -5.0 / 2.0, 5.0 / 2.0, 2.0, -1.0 },
+                     { -5.0 / 4.0, 1.0 / 4.0, 5.0 / 2.0, -1.0 / 2.0 },
+                     { 1.0, -2.0, 1.0, 0.0 } })));
 
-    mat.Set(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1);
+    mat = { -16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1 };
     Matrix4x4F mat3 = mat.CastTo<float>();
     EXPECT_TRUE(mat3.IsSimilar(Matrix4x4F(-16, 15, -14, 13, -12, 11, -10, 9, -8,
                                           7, -6, 5, -6, 3, -2, 1)));
@@ -422,52 +249,53 @@ TEST(Matrix4x4, SetterOperatorOverloadings)
                                           7, -6, 5, -6, 3, -2, 1)));
 
     mat += 2.0;
-    EXPECT_TRUE(mat.IsSimilar({ { -14, 17, -12, 15 },
-                                { -10, 13, -8, 11 },
-                                { -6, 9, -4, 7 },
-                                { -4, 5, 0, 3 } }));
+    EXPECT_TRUE(mat.IsSimilar(Matrix4x4D({ { -14, 17, -12, 15 },
+                                           { -10, 13, -8, 11 },
+                                           { -6, 9, -4, 7 },
+                                           { -4, 5, 0, 3 } })));
 
-    mat.Set(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1);
+    mat = { -16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1 };
     mat += Matrix4x4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
-    EXPECT_TRUE(mat.IsSimilar({ { -15, 17, -11, 17 },
-                                { -7, 17, -3, 17 },
-                                { 1, 17, 5, 17 },
-                                { 7, 17, 13, 17 } }));
+    EXPECT_TRUE(mat.IsSimilar(Matrix4x4D({ { -15, 17, -11, 17 },
+                                           { -7, 17, -3, 17 },
+                                           { 1, 17, 5, 17 },
+                                           { 7, 17, 13, 17 } })));
 
-    mat.Set(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1);
+    mat = { -16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1 };
     mat -= 2.0;
-    EXPECT_TRUE(mat.IsSimilar({ { -18, 13, -16, 11 },
-                                { -14, 9, -12, 7 },
-                                { -10, 5, -8, 3 },
-                                { -8, 1, -4, -1 } }));
+    EXPECT_TRUE(mat.IsSimilar(Matrix4x4D({ { -18, 13, -16, 11 },
+                                           { -14, 9, -12, 7 },
+                                           { -10, 5, -8, 3 },
+                                           { -8, 1, -4, -1 } })));
 
-    mat.Set(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1);
+    mat = { -16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1 };
     mat -= Matrix4x4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
-    EXPECT_TRUE(mat.IsSimilar({ { -17, 13, -17, 9 },
-                                { -17, 5, -17, 1 },
-                                { -17, -3, -17, -7 },
-                                { -19, -11, -17, -15 } }));
+    EXPECT_TRUE(mat.IsSimilar(Matrix4x4D({ { -17, 13, -17, 9 },
+                                           { -17, 5, -17, 1 },
+                                           { -17, -3, -17, -7 },
+                                           { -19, -11, -17, -15 } })));
 
-    mat.Set(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1);
+    mat = { -16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1 };
     mat *= 2.0;
-    EXPECT_TRUE(mat.IsSimilar({ { -32, 30, -28, 26 },
-                                { -24, 22, -20, 18 },
-                                { -16, 14, -12, 10 },
-                                { -12, 6, -4, 2 } }));
+    EXPECT_TRUE(mat.IsSimilar(Matrix4x4D({ { -32, 30, -28, 26 },
+                                           { -24, 22, -20, 18 },
+                                           { -16, 14, -12, 10 },
+                                           { -12, 6, -4, 2 } })));
 
-    mat.Set(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1);
+    mat = { -16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1 };
     mat *= Matrix4x4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
-    EXPECT_TRUE(mat.IsSimilar({ { 102, 100, 98, 96 },
-                                { 70, 68, 66, 64 },
-                                { 38, 36, 34, 32 },
-                                { 4, 0, -4, -8 } }));
+    EXPECT_TRUE(mat.IsSimilar(Matrix4x4D({ { 102, 100, 98, 96 },
+                                           { 70, 68, 66, 64 },
+                                           { 38, 36, 34, 32 },
+                                           { 4, 0, -4, -8 } })));
 
-    mat.Set(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1);
+    mat = { -16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1 };
     mat /= 2.0;
-    EXPECT_TRUE(mat.IsSimilar({ { -8.0, 15.0 / 2.0, -7.0, 13.0 / 2.0 },
-                                { -6.0, 11.0 / 2.0, -5.0, 9.0 / 2.0 },
-                                { -4.0, 7.0 / 2.0, -3.0, 5.0 / 2.0 },
-                                { -3.0, 3.0 / 2.0, -1.0, 1.0 / 2.0 } }));
+    EXPECT_TRUE(
+        mat.IsSimilar(Matrix4x4D({ { -8.0, 15.0 / 2.0, -7.0, 13.0 / 2.0 },
+                                   { -6.0, 11.0 / 2.0, -5.0, 9.0 / 2.0 },
+                                   { -4.0, 7.0 / 2.0, -3.0, 5.0 / 2.0 },
+                                   { -3.0, 3.0 / 2.0, -1.0, 1.0 / 2.0 } })));
 }
 
 TEST(Matrix4x4, GetterOperatorOverloadings)
@@ -480,6 +308,7 @@ TEST(Matrix4x4, GetterOperatorOverloadings)
     {
         EXPECT_DOUBLE_EQ(sign * (16 - i), mat[i]);
         sign *= -1.0;
+
         mat[i] *= -1.0;
     }
 
@@ -501,11 +330,11 @@ TEST(Matrix4x4, GetterOperatorOverloadings)
         }
     }
 
-    mat.Set(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -4, 3, -2, 1);
+    mat = { -16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -4, 3, -2, 1 };
     EXPECT_TRUE(mat == Matrix4x4D(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6,
                                   5, -4, 3, -2, 1));
 
-    mat.Set(16, -15, 14, -13, 12, -11, 10, -9, -8, 7, -6, 5, -4, 3, -2, 1);
+    mat = { 16, -15, 14, -13, 12, -11, 10, -9, -8, 7, -6, 5, -4, 3, -2, 1 };
     EXPECT_TRUE(mat != Matrix4x4D(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6,
                                   5, -4, 3, -2, 1));
 }
@@ -534,12 +363,12 @@ TEST(Matrix4x4, Helpers)
         }
     }
 
-    mat = Matrix4x4D::MakeScaleMatrix(3.0, -4.0, 2.4);
+    mat = Matrix4x4D::MakeScaleMatrix(3.0, -4.0, 2.4, 1.0);
     EXPECT_TRUE(
         mat.IsSimilar(Matrix4x4D(3.0, 0.0, 0.0, 0.0, 0.0, -4.0, 0.0, 0.0, 0.0,
                                  0.0, 2.4, 0.0, 0.0, 0.0, 0.0, 1.0)));
 
-    mat = Matrix4x4D::MakeScaleMatrix(Vector3D(-2.0, 5.0, 3.5));
+    mat = Matrix4x4D::MakeScaleMatrix(Vector4D(-2.0, 5.0, 3.5, 1.0));
     EXPECT_TRUE(
         mat.IsSimilar(Matrix4x4D(-2.0, 0.0, 0.0, 0.0, 0.0, 5.0, 0.0, 0.0, 0.0,
                                  0.0, 3.5, 0.0, 0.0, 0.0, 0.0, 1.0)));

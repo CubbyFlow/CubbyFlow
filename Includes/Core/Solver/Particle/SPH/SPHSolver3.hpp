@@ -161,10 +161,10 @@ class SPHSolver3 : public ParticleSystemSolver3
     void ComputePressure();
 
     //! Accumulates the pressure force to the given \p pressureForces array.
-    void AccumulatePressureForce(const ConstArrayAccessor1<Vector3D>& positions,
-                                 const ConstArrayAccessor1<double>& densities,
-                                 const ConstArrayAccessor1<double>& pressures,
-                                 ArrayAccessor1<Vector3D> pressureForces);
+    void AccumulatePressureForce(const ConstArrayView1<Vector3D>& positions,
+                                 const ConstArrayView1<double>& densities,
+                                 const ConstArrayView1<double>& pressures,
+                                 ArrayView1<Vector3D> pressureForces);
 
     //! Accumulates the viscosity force to the forces array in the particle
     //! system.

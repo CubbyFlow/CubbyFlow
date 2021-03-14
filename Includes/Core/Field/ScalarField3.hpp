@@ -12,7 +12,7 @@
 #define CUBBYFLOW_SCALAR_FIELD3_HPP
 
 #include <Core/Field/Field3.hpp>
-#include <Core/Vector/Vector3.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 #include <functional>
 #include <memory>

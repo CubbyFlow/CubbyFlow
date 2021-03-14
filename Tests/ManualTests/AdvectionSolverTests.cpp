@@ -2,7 +2,7 @@
 
 #include <ManualTests.hpp>
 
-#include <Core/Array/Array3.hpp>
+#include <Core/Array/Array.hpp>
 #include <Core/Field/ConstantVectorField2.hpp>
 #include <Core/Field/CustomScalarField2.hpp>
 #include <Core/Field/CustomVectorField2.hpp>
@@ -34,24 +34,24 @@ CUBBYFLOW_BEGIN_TEST_F(SemiLagrangian2, Boundary)
     });
 
     Array3<double> data(3, src.Resolution().x, src.Resolution().y);
-    data.ForEachIndex([&](size_t i, size_t j, size_t k) {
+    ForEachIndex(data.Size(), [&](size_t i, size_t j, size_t k) {
         if (i < 2)
         {
             data(i, j, k) = src(j, k)[i];
         }
     });
-    SaveData(data.ConstAccessor(), "src_#grid2.npy");
+    SaveData(data.View(), "src_#grid2.npy");
 
     SemiLagrangian2 solver;
     solver.Advect(src, flow, 0.1, &dst, boundarySdf);
 
-    data.ForEachIndex([&](size_t i, size_t j, size_t k) {
+    ForEachIndex(data.Size(), [&](size_t i, size_t j, size_t k) {
         if (i < 2)
         {
             data(i, j, k) = dst(j, k)[i];
         }
     });
-    SaveData(data.ConstAccessor(), "dst_#grid2.npy");
+    SaveData(data.View(), "dst_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -75,7 +75,7 @@ CUBBYFLOW_BEGIN_TEST_F(SemiLagrangian2, Zalesak)
                         PI_DOUBLE / 3.14 * (pt.x - 0.5));
     });
 
-    SaveData(sdf.GetConstDataAccessor(), "orig_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "orig_#grid2,iso.npy");
 
     SemiLagrangian2 solver;
 
@@ -85,7 +85,7 @@ CUBBYFLOW_BEGIN_TEST_F(SemiLagrangian2, Zalesak)
         sdf.Swap(&sdf2);
     }
 
-    SaveData(sdf.GetConstDataAccessor(), "rev0628_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "rev0628_#grid2,iso.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -111,7 +111,7 @@ CUBBYFLOW_BEGIN_TEST_F(CubicSemiLagrangian2, Zalesak)
                         PI_DOUBLE / 3.14 * (pt.x - 0.5));
     });
 
-    SaveData(sdf.GetConstDataAccessor(), "orig_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "orig_#grid2,iso.npy");
 
     CubicSemiLagrangian2 solver;
 
@@ -121,6 +121,6 @@ CUBBYFLOW_BEGIN_TEST_F(CubicSemiLagrangian2, Zalesak)
         sdf.Swap(&sdf2);
     }
 
-    SaveData(sdf.GetConstDataAccessor(), "rev0628_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "rev0628_#grid2,iso.npy");
 }
 CUBBYFLOW_END_TEST_F

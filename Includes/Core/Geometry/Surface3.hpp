@@ -11,10 +11,10 @@
 #ifndef CUBBYFLOW_SURFACE3_HPP
 #define CUBBYFLOW_SURFACE3_HPP
 
-#include <Core/Geometry/BoundingBox3.hpp>
-#include <Core/Geometry/Ray3.hpp>
+#include <Core/Geometry/BoundingBox.hpp>
+#include <Core/Geometry/Ray.hpp>
 #include <Core/Geometry/Transform3.hpp>
-#include <Core/Vector/Vector3.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 #include <limits>
 #include <memory>

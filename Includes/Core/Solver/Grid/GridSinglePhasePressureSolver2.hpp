@@ -114,7 +114,7 @@ class GridSinglePhasePressureSolver2 : public GridPressureSolver2
     [[nodiscard]] const FDMVector2& GetPressure() const;
 
  private:
-    void BuildMarkers(const Size2& size,
+    void BuildMarkers(const Vector2UZ& size,
                       const std::function<Vector2D(size_t, size_t)>& pos,
                       const ScalarField2& boundarySDF,
                       const ScalarField2& fluidSDF);

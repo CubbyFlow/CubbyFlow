@@ -16,7 +16,6 @@
 #include <Core/Utils/Logging.hpp>
 #include <Core/Utils/Parallel.hpp>
 #include <Core/Utils/Timer.hpp>
-#include <Core/Vector/Vector2.hpp>
 
 #include <Flatbuffers/generated/ParticleSystemData2_generated.h>
 
@@ -109,55 +108,54 @@ void ParticleSystemData2::SetMass(double newMass)
     m_mass = std::max(newMass, 0.0);
 }
 
-ConstArrayAccessor1<Vector2D> ParticleSystemData2::GetPositions() const
+ConstArrayView1<Vector2D> ParticleSystemData2::Positions() const
 {
     return VectorDataAt(m_positionIdx);
 }
 
-ArrayAccessor1<Vector2D> ParticleSystemData2::GetPositions()
+ArrayView1<Vector2D> ParticleSystemData2::Positions()
 {
     return VectorDataAt(m_positionIdx);
 }
 
-ConstArrayAccessor1<Vector2D> ParticleSystemData2::GetVelocities() const
+ConstArrayView1<Vector2D> ParticleSystemData2::Velocities() const
 {
     return VectorDataAt(m_velocityIdx);
 }
 
-ArrayAccessor1<Vector2D> ParticleSystemData2::GetVelocities()
+ArrayView1<Vector2D> ParticleSystemData2::Velocities()
 {
     return VectorDataAt(m_velocityIdx);
 }
 
-ConstArrayAccessor1<Vector2D> ParticleSystemData2::GetForces() const
+ConstArrayView1<Vector2D> ParticleSystemData2::Forces() const
 {
     return VectorDataAt(m_forceIdx);
 }
 
-ArrayAccessor1<Vector2D> ParticleSystemData2::GetForces()
+ArrayView1<Vector2D> ParticleSystemData2::Forces()
 {
     return VectorDataAt(m_forceIdx);
 }
 
-ConstArrayAccessor1<double> ParticleSystemData2::ScalarDataAt(size_t idx) const
+ConstArrayView1<double> ParticleSystemData2::ScalarDataAt(size_t idx) const
 {
-    return m_scalarDataList[idx].ConstAccessor();
+    return ConstArrayView1<double>(m_scalarDataList[idx]);
 }
 
-ArrayAccessor1<double> ParticleSystemData2::ScalarDataAt(size_t idx)
+ArrayView1<double> ParticleSystemData2::ScalarDataAt(size_t idx)
 {
-    return m_scalarDataList[idx].Accessor();
+    return ArrayView1<double>(m_scalarDataList[idx]);
 }
 
-ConstArrayAccessor1<Vector2D> ParticleSystemData2::VectorDataAt(
-    size_t idx) const
+ConstArrayView1<Vector2D> ParticleSystemData2::VectorDataAt(size_t idx) const
 {
-    return m_vectorDataList[idx].ConstAccessor();
+    return ConstArrayView1<Vector2D>(m_vectorDataList[idx]);
 }
 
-ArrayAccessor1<Vector2D> ParticleSystemData2::VectorDataAt(size_t idx)
+ArrayView1<Vector2D> ParticleSystemData2::VectorDataAt(size_t idx)
 {
-    return m_vectorDataList[idx].Accessor();
+    return ArrayView1<Vector2D>(m_vectorDataList[idx]);
 }
 
 void ParticleSystemData2::AddParticle(const Vector2D& newPosition,
@@ -168,54 +166,55 @@ void ParticleSystemData2::AddParticle(const Vector2D& newPosition,
     const Array1<Vector2D> newVelocities = { newVelocity };
     const Array1<Vector2D> newForces = { newForce };
 
-    AddParticles(newPositions.ConstAccessor(), newVelocities.ConstAccessor(),
-                 newForces.ConstAccessor());
+    AddParticles(newPositions, newVelocities, newForces);
 }
 
 void ParticleSystemData2::AddParticles(
-    const ConstArrayAccessor1<Vector2D>& newPositions,
-    const ConstArrayAccessor1<Vector2D>& newVelocities,
-    const ConstArrayAccessor1<Vector2D>& newForces)
+    const ConstArrayView1<Vector2D>& newPositions,
+    const ConstArrayView1<Vector2D>& newVelocities,
+    const ConstArrayView1<Vector2D>& newForces)
 {
-    if (newVelocities.size() > 0 && newVelocities.size() != newPositions.size())
+    if (newVelocities.Length() > 0 &&
+        newVelocities.Length() != newPositions.Length())
     {
         throw std::invalid_argument{
-            "newVelocities.size() > 0 && newVelocities.size() != "
-            "newPositions.size()"
+            "newVelocities.Length() > 0 && newVelocities.Length() != "
+            "newPositions.Length()"
         };
     }
 
-    if (newForces.size() > 0 && newForces.size() != newPositions.size())
+    if (newForces.Length() > 0 && newForces.Length() != newPositions.Length())
     {
         throw std::invalid_argument{
-            "newForces.size() > 0 && newForces.size() != newPositions.size()"
+            "newForces.Length() > 0 && newForces.Length() != "
+            "newPositions.Length()"
         };
     }
 
     size_t oldNumberOfParticles = GetNumberOfParticles();
     const size_t newNumberOfParticles =
-        oldNumberOfParticles + newPositions.size();
+        oldNumberOfParticles + newPositions.Length();
 
     Resize(newNumberOfParticles);
 
-    auto pos = GetPositions();
-    auto vel = GetVelocities();
-    auto frc = GetForces();
+    auto pos = Positions();
+    auto vel = Velocities();
+    auto frc = Forces();
 
-    ParallelFor(ZERO_SIZE, newPositions.size(), [&](size_t i) {
+    ParallelFor(ZERO_SIZE, newPositions.Length(), [&](size_t i) {
         pos[i + oldNumberOfParticles] = newPositions[i];
     });
 
-    if (newVelocities.size() > 0)
+    if (newVelocities.Length() > 0)
     {
-        ParallelFor(ZERO_SIZE, newPositions.size(), [&](size_t i) {
+        ParallelFor(ZERO_SIZE, newPositions.Length(), [&](size_t i) {
             vel[i + oldNumberOfParticles] = newVelocities[i];
         });
     }
 
-    if (newForces.size() > 0)
+    if (newForces.Length() > 0)
     {
-        ParallelFor(ZERO_SIZE, newPositions.size(), [&](size_t i) {
+        ParallelFor(ZERO_SIZE, newPositions.Length(), [&](size_t i) {
             frc[i + oldNumberOfParticles] = newForces[i];
         });
     }
@@ -248,7 +247,7 @@ void ParticleSystemData2::BuildNeighborSearcher(double maxSearchRadius)
         DEFAULT_HASH_GRID_RESOLUTION, DEFAULT_HASH_GRID_RESOLUTION,
         2.0 * maxSearchRadius);
 
-    m_neighborSearcher->Build(GetPositions());
+    m_neighborSearcher->Build(Positions());
 
     CUBBYFLOW_INFO << "Building neighbor searcher took: "
                    << timer.DurationInSeconds() << " seconds";
@@ -260,7 +259,7 @@ void ParticleSystemData2::BuildNeighborLists(double maxSearchRadius)
 
     m_neighborLists.resize(GetNumberOfParticles());
 
-    auto points = GetPositions();
+    auto points = Positions();
 
     for (size_t i = 0; i < GetNumberOfParticles(); ++i)
     {
@@ -337,7 +336,7 @@ void ParticleSystemData2::SerializeParticleSystemData(
         flatbuffers::Offset<fbs::ScalarParticleData2> fbsScalarData =
             fbs::CreateScalarParticleData2(
                 *builder,
-                builder->CreateVector(scalarData.data(), scalarData.size()));
+                builder->CreateVector(scalarData.data(), scalarData.Length()));
         scalarDataList.push_back(fbsScalarData);
     }
     const flatbuffers::Offset<
@@ -444,7 +443,7 @@ void ParticleSystemData2::DeserializeParticleSystemData(
         }
     }
 
-    m_numberOfParticles = m_vectorDataList[0].size();
+    m_numberOfParticles = m_vectorDataList[0].Length();
 
     // Copy neighbor searcher
     const fbs::PointNeighborSearcherSerialized2* fbsNeighborSearcher =

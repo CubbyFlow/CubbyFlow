@@ -15,7 +15,7 @@
 
 namespace CubbyFlow
 {
-PointHashGridSearcher3::PointHashGridSearcher3(const Size3& resolution,
+PointHashGridSearcher3::PointHashGridSearcher3(const Vector3UZ& resolution,
                                                double gridSpacing)
     : PointHashGridSearcher3{ resolution.x, resolution.y, resolution.z,
                               gridSpacing }
@@ -50,14 +50,14 @@ PointHashGridSearcher3& PointHashGridSearcher3::operator=(
     return *this;
 }
 
-void PointHashGridSearcher3::Build(const ConstArrayAccessor1<Vector3D>& points)
+void PointHashGridSearcher3::Build(const ConstArrayView1<Vector3D>& points)
 {
     m_buckets.clear();
     m_points.clear();
 
     // Allocate memory chunks
     m_buckets.resize(m_resolution.x * m_resolution.y * m_resolution.z);
-    m_points.resize(points.size());
+    m_points.resize(points.Length());
 
     if (m_points.empty())
     {
@@ -65,7 +65,7 @@ void PointHashGridSearcher3::Build(const ConstArrayAccessor1<Vector3D>& points)
     }
 
     // Put points into buckets
-    for (size_t i = 0; i < points.size(); ++i)
+    for (size_t i = 0; i < points.Length(); ++i)
     {
         m_points[i] = points[i];
         const size_t key = GetHashKeyFromPosition(points[i]);
@@ -161,9 +161,9 @@ const std::vector<std::vector<size_t>>& PointHashGridSearcher3::GetBuckets()
 }
 
 size_t PointHashGridSearcher3::GetHashKeyFromBucketIndex(
-    const Point3I& bucketIndex) const
+    const Vector3Z& bucketIndex) const
 {
-    Point3I wrappedIndex;
+    Vector3Z wrappedIndex;
     wrappedIndex.x = bucketIndex.x % m_resolution.x;
     wrappedIndex.y = bucketIndex.y % m_resolution.y;
     wrappedIndex.z = bucketIndex.z % m_resolution.z;
@@ -188,9 +188,9 @@ size_t PointHashGridSearcher3::GetHashKeyFromBucketIndex(
         wrappedIndex.x);
 }
 
-Point3I PointHashGridSearcher3::GetBucketIndex(const Vector3D& position) const
+Vector3Z PointHashGridSearcher3::GetBucketIndex(const Vector3D& position) const
 {
-    Point3I bucketIndex;
+    Vector3Z bucketIndex;
     bucketIndex.x =
         static_cast<ssize_t>(std::floor(position.x / m_gridSpacing));
     bucketIndex.y =
@@ -222,7 +222,7 @@ void PointHashGridSearcher3::Serialize(std::vector<uint8_t>* buffer) const
 
     // Copy simple data
     auto fbsResolution =
-        fbs::Size3(m_resolution.x, m_resolution.y, m_resolution.z);
+        fbs::Vector3UZ(m_resolution.x, m_resolution.y, m_resolution.z);
 
     // Copy points
     std::vector<fbs::Vector3D> points;
@@ -270,8 +270,9 @@ void PointHashGridSearcher3::Deserialize(const std::vector<uint8_t>& buffer)
         fbs::GetPointHashGridSearcher3(buffer.data());
 
     // Copy simple data
-    const Size3 res = FlatbuffersToCubbyFlow(*fbsSearcher->resolution());
-    m_resolution.Set({ res.x, res.y, res.z });
+    const Vector3UZ res = FlatbuffersToCubbyFlow(*fbsSearcher->resolution());
+    m_resolution = { static_cast<ssize_t>(res.x), static_cast<ssize_t>(res.y),
+                     static_cast<ssize_t>(res.z) };
     m_gridSpacing = fbsSearcher->gridSpacing();
 
     // Copy points
@@ -308,15 +309,15 @@ PointHashGridSearcher3::Builder PointHashGridSearcher3::GetBuilder()
 size_t PointHashGridSearcher3::GetHashKeyFromPosition(
     const Vector3D& position) const
 {
-    const Point3I bucketIndex = GetBucketIndex(position);
+    const Vector3Z bucketIndex = GetBucketIndex(position);
     return GetHashKeyFromBucketIndex(bucketIndex);
 }
 
 void PointHashGridSearcher3::GetNearbyKeys(const Vector3D& position,
                                            size_t* nearbyKeys) const
 {
-    const Point3I originIndex = GetBucketIndex(position);
-    Point3I nearbyBucketIndices[8];
+    const Vector3Z originIndex = GetBucketIndex(position);
+    Vector3Z nearbyBucketIndices[8];
 
     for (auto& bucketIndex : nearbyBucketIndices)
     {
@@ -378,7 +379,7 @@ void PointHashGridSearcher3::GetNearbyKeys(const Vector3D& position,
 }
 
 PointHashGridSearcher3::Builder&
-PointHashGridSearcher3::Builder::WithResolution(const Size3& resolution)
+PointHashGridSearcher3::Builder::WithResolution(const Vector3UZ& resolution)
 {
     m_resolution = resolution;
     return *this;

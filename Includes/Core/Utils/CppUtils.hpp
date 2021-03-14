@@ -11,6 +11,8 @@
 #ifndef CUBBYFLOW_CPP_UTILS_HPP
 #define CUBBYFLOW_CPP_UTILS_HPP
 
+#include <algorithm>
+
 namespace CubbyFlow
 {
 template <class ForwardIter, class T, class Compare = std::less<T>>

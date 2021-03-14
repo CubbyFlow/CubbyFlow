@@ -31,7 +31,7 @@ void AddGrid2(pybind11::module& m)
 		)pbdoc")
         .def_property_readonly("resolution", &Grid2::Resolution,
                                R"pbdoc(Resolution of the grid.)pbdoc")
-        .def_property_readonly("origin", &Grid2::Origin,
+        .def_property_readonly("gridOrigin", &Grid2::GridOrigin,
                                R"pbdoc(Origin of the grid.)pbdoc")
         .def_property_readonly("gridSpacing", &Grid2::GridSpacing,
                                R"pbdoc(Spacing between grid points.)pbdoc")
@@ -84,7 +84,7 @@ void AddGrid3(pybind11::module& m)
 		)pbdoc")
         .def_property_readonly("resolution", &Grid3::Resolution,
                                R"pbdoc(Resolution of the grid.)pbdoc")
-        .def_property_readonly("origin", &Grid3::Origin,
+        .def_property_readonly("gridOrigin", &Grid3::GridOrigin,
                                R"pbdoc(Origin of the grid.)pbdoc")
         .def_property_readonly("gridSpacing", &Grid3::GridSpacing,
                                R"pbdoc(Spacing between grid points.)pbdoc")

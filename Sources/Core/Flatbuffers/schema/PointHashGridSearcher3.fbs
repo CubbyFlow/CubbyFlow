@@ -10,7 +10,7 @@ table PointHashGridSearcherBucket3
 table PointHashGridSearcher3
 {
     gridSpacing:double;
-    resolution:Size3;
+    resolution:Vector3UZ;
     points:[Vector3D];
     buckets:[PointHashGridSearcherBucket3];
 }

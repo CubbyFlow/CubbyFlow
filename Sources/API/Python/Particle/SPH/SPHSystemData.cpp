@@ -34,13 +34,13 @@ void AddSPHSystemData2(pybind11::module& m)
              pybind11::arg("numberOfParticles") = 0)
         .def_property_readonly(
             "densities",
-            [](SPHSystemData2& instance) { return instance.GetDensities(); },
+            [](SPHSystemData2& instance) { return instance.Densities(); },
             R"pbdoc(
 			The density array accessor.
 		)pbdoc")
         .def_property_readonly(
             "pressures",
-            [](SPHSystemData2& instance) { return instance.GetPressures(); },
+            [](SPHSystemData2& instance) { return instance.Pressures(); },
             R"pbdoc(
 			The pressure array accessor.
 		)pbdoc")
@@ -114,13 +114,13 @@ void AddSPHSystemData3(pybind11::module& m)
              pybind11::arg("numberOfParticles") = 0)
         .def_property_readonly(
             "densities",
-            [](SPHSystemData3& instance) { return instance.GetDensities(); },
+            [](SPHSystemData3& instance) { return instance.Densities(); },
             R"pbdoc(
 			The density array accessor.
 		)pbdoc")
         .def_property_readonly(
             "pressures",
-            [](SPHSystemData3& instance) { return instance.GetPressures(); },
+            [](SPHSystemData3& instance) { return instance.Pressures(); },
             R"pbdoc(
 			The pressure array accessor.
 		)pbdoc")

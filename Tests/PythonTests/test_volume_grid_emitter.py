@@ -33,35 +33,35 @@ def test_volume_grid_emitter2():
     emitter3.AddStepFunctionTarget(solver.temperature, 0.0, 1.0)
 
     # Emit some smoke
-    old_den = np.array(solver.smokeDensity.GetDataAccessor(), copy=True)
+    old_den = np.array(solver.smokeDensity.DataView(), copy=True)
     solver.Update(frame)
     frame.Advance()
-    new_den = np.array(solver.smokeDensity.GetDataAccessor(), copy=True)
+    new_den = np.array(solver.smokeDensity.DataView(), copy=True)
     diff = np.linalg.norm(old_den - new_den)
     assert diff > 0.0
     assert not emitter3.isEnabled
 
     # Should not emit more smoke
-    old_den = np.array(solver.smokeDensity.GetDataAccessor(), copy=True)
+    old_den = np.array(solver.smokeDensity.DataView(), copy=True)
     emitter3.Update(0, 0)
-    new_den = np.array(solver.smokeDensity.GetDataAccessor(), copy=True)
+    new_den = np.array(solver.smokeDensity.DataView(), copy=True)
     diff = np.linalg.norm(old_den - new_den)
     assert diff < 1e-20
 
     # Re-enabling the emitter should make it emit one more time
     emitter3.isEnabled = True
-    old_den = np.array(solver.smokeDensity.GetDataAccessor(), copy=True)
+    old_den = np.array(solver.smokeDensity.DataView(), copy=True)
     solver.Update(frame)
     frame.Advance()
-    new_den = np.array(solver.smokeDensity.GetDataAccessor(), copy=True)
+    new_den = np.array(solver.smokeDensity.DataView(), copy=True)
     diff = np.linalg.norm(old_den - new_den)
     assert diff > 0.0
     assert not emitter3.isEnabled
 
     # ...and gets disabled again
-    old_den = np.array(solver.smokeDensity.GetDataAccessor(), copy=True)
+    old_den = np.array(solver.smokeDensity.DataView(), copy=True)
     emitter3.Update(0, 0)
-    new_den = np.array(solver.smokeDensity.GetDataAccessor(), copy=True)
+    new_den = np.array(solver.smokeDensity.DataView(), copy=True)
     diff = np.linalg.norm(old_den - new_den)
     assert diff < 1e-20
 
@@ -97,34 +97,34 @@ def test_volume_grid_emitter3():
     emitter3.AddStepFunctionTarget(solver.temperature, 0.0, 1.0)
 
     # Emit some smoke
-    old_den = np.array(solver.smokeDensity.GetDataAccessor(), copy=True)
+    old_den = np.array(solver.smokeDensity.DataView(), copy=True)
     solver.Update(frame)
     frame.Advance()
-    new_den = np.array(solver.smokeDensity.GetDataAccessor(), copy=True)
+    new_den = np.array(solver.smokeDensity.DataView(), copy=True)
     diff = np.linalg.norm(old_den - new_den)
     assert diff > 0.0
     assert not emitter3.isEnabled
 
     # Should not emit more smoke
-    old_den = np.array(solver.smokeDensity.GetDataAccessor(), copy=True)
+    old_den = np.array(solver.smokeDensity.DataView(), copy=True)
     emitter3.Update(0, 0)
-    new_den = np.array(solver.smokeDensity.GetDataAccessor(), copy=True)
+    new_den = np.array(solver.smokeDensity.DataView(), copy=True)
     diff = np.linalg.norm(old_den - new_den)
     assert diff < 1e-20
 
     # Re-enabling the emitter should make it emit one more time
     emitter3.isEnabled = True
-    old_den = np.array(solver.smokeDensity.GetDataAccessor(), copy=True)
+    old_den = np.array(solver.smokeDensity.DataView(), copy=True)
     solver.Update(frame)
     frame.Advance()
-    new_den = np.array(solver.smokeDensity.GetDataAccessor(), copy=True)
+    new_den = np.array(solver.smokeDensity.DataView(), copy=True)
     diff = np.linalg.norm(old_den - new_den)
     assert diff > 0.0
     assert not emitter3.isEnabled
 
     # ...and gets disabled again
-    old_den = np.array(solver.smokeDensity.GetDataAccessor(), copy=True)
+    old_den = np.array(solver.smokeDensity.DataView(), copy=True)
     emitter3.Update(0, 0)
-    new_den = np.array(solver.smokeDensity.GetDataAccessor(), copy=True)
+    new_den = np.array(solver.smokeDensity.DataView(), copy=True)
     diff = np.linalg.norm(old_den - new_den)
     assert diff < 1e-20

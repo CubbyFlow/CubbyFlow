@@ -19,20 +19,20 @@ static const char AIR = 1;
 static const char BOUNDARY = 2;
 
 template <typename T>
-T Laplacian(const ConstArrayAccessor3<T>& data, const Array3<char>& marker,
+T Laplacian(const ConstArrayView3<T>& data, const Array3<char>& marker,
             const Vector3D& GridSpacing, size_t i, size_t j, size_t k)
 {
     const T center = data(i, j, k);
-    const Size3 ds = data.size();
+    const Vector3UZ& ds = data.Size();
 
     assert(i < ds.x && j < ds.y && k < ds.z);
 
-    T dLeft = Zero<T>();
-    T dRight = Zero<T>();
-    T dDown = Zero<T>();
-    T dUp = Zero<T>();
-    T dBack = Zero<T>();
-    T dFront = Zero<T>();
+    T dLeft = T{};
+    T dRight = T{};
+    T dDown = T{};
+    T dUp = T{};
+    T dBack = T{};
+    T dFront = T{};
 
     if (i > 0 && marker(i - 1, j, k) == FLUID)
     {
@@ -73,9 +73,9 @@ void GridForwardEulerDiffusionSolver3::Solve(const ScalarGrid3& source,
                                              const ScalarField3& boundarySDF,
                                              const ScalarField3& fluidSDF)
 {
-    ConstArrayAccessor3<double> src = source.GetConstDataAccessor();
+    ConstArrayView3<double> src = source.DataView();
     Vector3D h = source.GridSpacing();
-    const auto pos = source.GetDataPosition();
+    const auto pos = source.DataPosition();
 
     BuildMarkers(source.Resolution(), pos, boundarySDF, fluidSDF);
 
@@ -98,9 +98,9 @@ void GridForwardEulerDiffusionSolver3::Solve(
     double timeIntervalInSeconds, CollocatedVectorGrid3* dest,
     const ScalarField3& boundarySDF, const ScalarField3& fluidSDF)
 {
-    ConstArrayAccessor3<Vector3<double>> src = source.GetConstDataAccessor();
+    ConstArrayView3<Vector3<double>> src = source.DataView();
     Vector3D h = source.GridSpacing();
-    const auto pos = source.GetDataPosition();
+    const auto pos = source.DataPosition();
 
     BuildMarkers(source.Resolution(), pos, boundarySDF, fluidSDF);
 
@@ -125,18 +125,18 @@ void GridForwardEulerDiffusionSolver3::Solve(const FaceCenteredGrid3& source,
                                              const ScalarField3& boundarySDF,
                                              const ScalarField3& fluidSDF)
 {
-    ConstArrayAccessor3<double> uSrc = source.GetUConstAccessor();
-    ConstArrayAccessor3<double> vSrc = source.GetVConstAccessor();
-    ConstArrayAccessor3<double> wSrc = source.GetWConstAccessor();
-    ArrayAccessor3<double> u = dest->GetUAccessor();
-    ArrayAccessor3<double> v = dest->GetVAccessor();
-    ArrayAccessor3<double> w = dest->GetWAccessor();
-    auto uPos = source.GetUPosition();
-    auto vPos = source.GetVPosition();
-    auto wPos = source.GetWPosition();
+    ConstArrayView3<double> uSrc = source.UView();
+    ConstArrayView3<double> vSrc = source.VView();
+    ConstArrayView3<double> wSrc = source.WView();
+    ArrayView3<double> u = dest->UView();
+    ArrayView3<double> v = dest->VView();
+    ArrayView3<double> w = dest->WView();
+    auto uPos = source.UPosition();
+    auto vPos = source.VPosition();
+    auto wPos = source.WPosition();
     Vector3D h = source.GridSpacing();
 
-    BuildMarkers(source.GetUSize(), uPos, boundarySDF, fluidSDF);
+    BuildMarkers(source.USize(), uPos, boundarySDF, fluidSDF);
 
     source.ParallelForEachUIndex([&](size_t i, size_t j, size_t k) {
         if (!IsInsideSDF(boundarySDF.Sample(uPos(i, j, k))))
@@ -147,7 +147,7 @@ void GridForwardEulerDiffusionSolver3::Solve(const FaceCenteredGrid3& source,
         }
     });
 
-    BuildMarkers(source.GetVSize(), vPos, boundarySDF, fluidSDF);
+    BuildMarkers(source.VSize(), vPos, boundarySDF, fluidSDF);
 
     source.ParallelForEachVIndex([&](size_t i, size_t j, size_t k) {
         if (!IsInsideSDF(boundarySDF.Sample(vPos(i, j, k))))
@@ -158,7 +158,7 @@ void GridForwardEulerDiffusionSolver3::Solve(const FaceCenteredGrid3& source,
         }
     });
 
-    BuildMarkers(source.GetWSize(), wPos, boundarySDF, fluidSDF);
+    BuildMarkers(source.WSize(), wPos, boundarySDF, fluidSDF);
 
     source.ParallelForEachWIndex([&](size_t i, size_t j, size_t k) {
         if (!IsInsideSDF(boundarySDF.Sample(wPos(i, j, k))))
@@ -171,13 +171,13 @@ void GridForwardEulerDiffusionSolver3::Solve(const FaceCenteredGrid3& source,
 }
 
 void GridForwardEulerDiffusionSolver3::BuildMarkers(
-    const Size3& size,
+    const Vector3UZ& size,
     const std::function<Vector3D(size_t, size_t, size_t)>& pos,
     const ScalarField3& boundarySDF, const ScalarField3& fluidSDF)
 {
     m_markers.Resize(size);
 
-    m_markers.ForEachIndex([&](size_t i, size_t j, size_t k) {
+    ForEachIndex(m_markers.Size(), [&](size_t i, size_t j, size_t k) {
         if (IsInsideSDF(boundarySDF.Sample(pos(i, j, k))))
         {
             m_markers(i, j, k) = BOUNDARY;

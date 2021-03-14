@@ -13,8 +13,7 @@ TEST(FDMUtils, ScalarToGradient2)
     CellCenteredScalarGrid2 grid(10, 10, 2.0, 3.0, -1.0, 4.0);
     grid.Fill([&](const Vector2D& x) { return -5.0 * x.x + 4.0 * x.y; });
 
-    Vector2D grad =
-        Gradient2(grid.GetConstDataAccessor(), grid.GridSpacing(), 5, 3);
+    Vector2D grad = Gradient2(grid.DataView(), grid.GridSpacing(), 5, 3);
     EXPECT_DOUBLE_EQ(-5.0, grad.x);
     EXPECT_DOUBLE_EQ(4.0, grad.y);
 }
@@ -26,8 +25,7 @@ TEST(FDMUtils, VectorToGradient2)
         return Vector2D(-5.0 * x.x + 4.0 * x.y, 2.0 * x.x - 7.0 * x.y);
     });
 
-    auto grad =
-        Gradient2(grid.GetConstDataAccessor(), grid.GridSpacing(), 5, 3);
+    auto grad = Gradient2(grid.DataView(), grid.GridSpacing(), 5, 3);
     EXPECT_DOUBLE_EQ(-5.0, grad[0].x);
     EXPECT_DOUBLE_EQ(4.0, grad[0].y);
     EXPECT_DOUBLE_EQ(2.0, grad[1].x);
@@ -40,8 +38,7 @@ TEST(FDMUtils, ScalarToGradient3)
     grid.Fill(
         [&](const Vector3D& x) { return -5.0 * x.x + 4.0 * x.y + 2.0 * x.z; });
 
-    Vector3D grad =
-        Gradient3(grid.GetConstDataAccessor(), grid.GridSpacing(), 5, 3, 4);
+    Vector3D grad = Gradient3(grid.DataView(), grid.GridSpacing(), 5, 3, 4);
     EXPECT_DOUBLE_EQ(-5.0, grad.x);
     EXPECT_DOUBLE_EQ(4.0, grad.y);
     EXPECT_DOUBLE_EQ(2.0, grad.z);
@@ -55,8 +52,7 @@ TEST(FDMUtils, VectorToGradient3)
                         2.0 * x.x - 7.0 * x.y, x.y + 3.0 * x.z);
     });
 
-    auto grad =
-        Gradient3(grid.GetConstDataAccessor(), grid.GridSpacing(), 5, 3, 4);
+    auto grad = Gradient3(grid.DataView(), grid.GridSpacing(), 5, 3, 4);
     EXPECT_DOUBLE_EQ(-5.0, grad[0].x);
     EXPECT_DOUBLE_EQ(4.0, grad[0].y);
     EXPECT_DOUBLE_EQ(2.0, grad[0].z);
@@ -74,8 +70,7 @@ TEST(FDMUtils, ScalarToLaplacian2)
     grid.Fill(
         [&](const Vector2D& x) { return -5.0 * x.x * x.x + 4.0 * x.y * x.y; });
 
-    double lapl =
-        Laplacian2(grid.GetConstDataAccessor(), grid.GridSpacing(), 5, 3);
+    double lapl = Laplacian2(grid.DataView(), grid.GridSpacing(), 5, 3);
     EXPECT_DOUBLE_EQ(-2.0, lapl);
 }
 
@@ -87,8 +82,7 @@ TEST(FDMUtils, VectorToLaplacian2)
                         2.0 * x.x * x.x - 7.0 * x.y * x.y);
     });
 
-    auto lapl =
-        Laplacian2(grid.GetConstDataAccessor(), grid.GridSpacing(), 5, 3);
+    auto lapl = Laplacian2(grid.DataView(), grid.GridSpacing(), 5, 3);
     EXPECT_DOUBLE_EQ(-2.0, lapl.x);
     EXPECT_DOUBLE_EQ(-10.0, lapl.y);
 }
@@ -100,8 +94,7 @@ TEST(FDMUtils, ScalarToLaplacian3)
         return -5.0 * x.x * x.x + 4.0 * x.y * x.y - 3.0 * x.z * x.z;
     });
 
-    double lapl =
-        Laplacian3(grid.GetConstDataAccessor(), grid.GridSpacing(), 5, 3, 4);
+    double lapl = Laplacian3(grid.DataView(), grid.GridSpacing(), 5, 3, 4);
     EXPECT_DOUBLE_EQ(-8.0, lapl);
 }
 
@@ -114,8 +107,7 @@ TEST(FDMUtils, VectorToLaplacian3)
                         x.y * x.y + 3.0 * x.z * x.z);
     });
 
-    auto lapl =
-        Laplacian3(grid.GetConstDataAccessor(), grid.GridSpacing(), 5, 3, 4);
+    auto lapl = Laplacian3(grid.DataView(), grid.GridSpacing(), 5, 3, 4);
     EXPECT_DOUBLE_EQ(2.0, lapl.x);
     EXPECT_DOUBLE_EQ(-10.0, lapl.y);
     EXPECT_DOUBLE_EQ(8.0, lapl.z);

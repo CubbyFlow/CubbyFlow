@@ -15,10 +15,9 @@ namespace CubbyFlow
 std::function<double(const Vector2D&)>
 CubicSemiLagrangian2::GetScalarSamplerFunc(const ScalarGrid2& source) const
 {
-    const auto sourceSampler =
-        CubicArraySampler2<double, double>{ source.GetConstDataAccessor(),
-                                            source.GridSpacing(),
-                                            source.GetDataOrigin() };
+    const auto sourceSampler = MonotonicCatmullRomArraySampler2<double>{
+        source.DataView(), source.GridSpacing(), source.GetDataOrigin()
+    };
     return sourceSampler.Functor();
 }
 
@@ -26,10 +25,9 @@ std::function<Vector2D(const Vector2D&)>
 CubicSemiLagrangian2::GetVectorSamplerFunc(
     const CollocatedVectorGrid2& source) const
 {
-    const auto sourceSampler =
-        CubicArraySampler2<Vector2D, double>{ source.GetConstDataAccessor(),
-                                              source.GridSpacing(),
-                                              source.GetDataOrigin() };
+    const auto sourceSampler = MonotonicCatmullRomArraySampler2<Vector2D>{
+        source.DataView(), source.GridSpacing(), source.GetDataOrigin()
+    };
     return sourceSampler.Functor();
 }
 
@@ -37,10 +35,10 @@ std::function<Vector2D(const Vector2D&)>
 CubicSemiLagrangian2::GetVectorSamplerFunc(
     const FaceCenteredGrid2& source) const
 {
-    auto uSourceSampler = CubicArraySampler2<double, double>(
-        source.GetUConstAccessor(), source.GridSpacing(), source.GetUOrigin());
-    auto vSourceSampler = CubicArraySampler2<double, double>(
-        source.GetVConstAccessor(), source.GridSpacing(), source.GetVOrigin());
+    auto uSourceSampler = MonotonicCatmullRomArraySampler2<double>(
+        source.UView(), source.GridSpacing(), source.UOrigin());
+    auto vSourceSampler = MonotonicCatmullRomArraySampler2<double>(
+        source.VView(), source.GridSpacing(), source.VOrigin());
     return [uSourceSampler, vSourceSampler](const Vector2D& x) {
         return Vector2D{ uSourceSampler(x), vSourceSampler(x) };
     };

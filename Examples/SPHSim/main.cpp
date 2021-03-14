@@ -33,6 +33,7 @@
 #endif
 
 #include <fstream>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -44,8 +45,7 @@ void SaveParticleAsPos(const ParticleSystemData3Ptr& particles,
                        const std::string& rootDir, int frameCnt)
 {
     Array1<Vector3D> positions(particles->GetNumberOfParticles());
-    CopyRange1(particles->GetPositions(), particles->GetNumberOfParticles(),
-               &positions);
+    Copy(particles->Positions(), positions.View());
     char baseName[256];
     snprintf(baseName, sizeof(baseName), "frame_%06d.pos", frameCnt);
     std::string fileName = pystring::os::path::join(rootDir, baseName);
@@ -54,7 +54,7 @@ void SaveParticleAsPos(const ParticleSystemData3Ptr& particles,
     {
         printf("Writing %s...\n", fileName.c_str());
         std::vector<uint8_t> buffer;
-        Serialize(positions.ConstAccessor(), &buffer);
+        Serialize<Vector3D>(positions.View(), &buffer);
         file.write(reinterpret_cast<char*>(buffer.data()), buffer.size());
         file.close();
     }
@@ -64,8 +64,7 @@ void SaveParticleAsXYZ(const ParticleSystemData3Ptr& particles,
                        const std::string& rootDir, int frameCnt)
 {
     Array1<Vector3D> positions(particles->GetNumberOfParticles());
-    CopyRange1(particles->GetPositions(), particles->GetNumberOfParticles(),
-               &positions);
+    Copy(particles->Positions(), positions.View());
     char baseName[256];
     snprintf(baseName, sizeof(baseName), "frame_%06d.xyz", frameCnt);
     std::string filename = pystring::os::path::join(rootDir, baseName);
@@ -127,12 +126,12 @@ void RunExample1(const std::string& rootDir, double targetSpacing,
 
     const auto plane = Plane3::GetBuilder()
                            .WithNormal({ 0, 1, 0 })
-                           .WithPoint({ 0, 0.25 * domain.GetHeight(), 0 })
+                           .WithPoint({ 0, 0.25 * domain.Height(), 0 })
                            .MakeShared();
 
     const auto sphere = Sphere3::GetBuilder()
                             .WithCenter(domain.MidPoint())
-                            .WithRadius(0.15 * domain.GetWidth())
+                            .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
     const auto surfaceSet = ImplicitSurfaceSet3::GetBuilder()
@@ -186,12 +185,12 @@ void RunExample2(const std::string& rootDir, double targetSpacing,
 
     const auto plane = Plane3::GetBuilder()
                            .WithNormal({ 0, 1, 0 })
-                           .WithPoint({ 0, 0.25 * domain.GetHeight(), 0 })
+                           .WithPoint({ 0, 0.25 * domain.Height(), 0 })
                            .MakeShared();
 
     const auto sphere = Sphere3::GetBuilder()
                             .WithCenter(domain.MidPoint())
-                            .WithRadius(0.15 * domain.GetWidth())
+                            .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
     const auto surfaceSet = ImplicitSurfaceSet3::GetBuilder()
@@ -231,7 +230,7 @@ void RunExample3(const std::string& rootDir, double targetSpacing,
                  int numberOfFrames, const std::string& format, double fps)
 {
     BoundingBox3D domain(Vector3D(), Vector3D(3, 2, 1.5));
-    const double lz = domain.GetDepth();
+    const double lz = domain.Depth();
 
     // Build solver
     auto solver = PCISPHSolver3::GetBuilder()

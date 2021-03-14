@@ -21,7 +21,7 @@ VertexCenteredScalarGrid2::VertexCenteredScalarGrid2(
 }
 
 VertexCenteredScalarGrid2::VertexCenteredScalarGrid2(
-    const Size2& resolution, const Vector2D& gridSpacing,
+    const Vector2UZ& resolution, const Vector2D& gridSpacing,
     const Vector2D& origin, double initialValue)
 {
     Resize(resolution, gridSpacing, origin, initialValue);
@@ -41,19 +41,19 @@ VertexCenteredScalarGrid2& VertexCenteredScalarGrid2::operator=(
     return *this;
 }
 
-Size2 VertexCenteredScalarGrid2::GetDataSize() const
+Vector2UZ VertexCenteredScalarGrid2::GetDataSize() const
 {
-    if (Resolution() != Size2{ 0, 0 })
+    if (Resolution() != Vector2UZ{ 0, 0 })
     {
-        return Resolution() + Size2{ 1, 1 };
+        return Resolution() + Vector2UZ{ 1, 1 };
     }
 
-    return Size2{ 0, 0 };
+    return Vector2UZ{ 0, 0 };
 }
 
 Vector2D VertexCenteredScalarGrid2::GetDataOrigin() const
 {
-    return Origin();
+    return GridOrigin();
 }
 
 std::shared_ptr<ScalarGrid2> VertexCenteredScalarGrid2::Clone() const
@@ -83,7 +83,7 @@ VertexCenteredScalarGrid2::Builder VertexCenteredScalarGrid2::GetBuilder()
 }
 
 VertexCenteredScalarGrid2::Builder&
-VertexCenteredScalarGrid2::Builder::WithResolution(const Size2& resolution)
+VertexCenteredScalarGrid2::Builder::WithResolution(const Vector2UZ& resolution)
 {
     m_resolution = resolution;
     return *this;
@@ -153,7 +153,7 @@ VertexCenteredScalarGrid2Ptr VertexCenteredScalarGrid2::Builder::MakeShared()
 }
 
 ScalarGrid2Ptr VertexCenteredScalarGrid2::Builder::Build(
-    const Size2& resolution, const Vector2D& gridSpacing,
+    const Vector2UZ& resolution, const Vector2D& gridSpacing,
     const Vector2D& gridOrigin, double initialVal) const
 {
     return std::shared_ptr<VertexCenteredScalarGrid2>(

@@ -30,9 +30,9 @@ CUBBYFLOW_BEGIN_TEST_F(ParticleSystemSolver3, PerfectBounce)
     Array1<double> y(1000);
     char fileName[256];
     snprintf(fileName, sizeof(fileName), "data.#line2,0000,x.npy");
-    SaveData(x.ConstAccessor(), 0, fileName);
+    SaveData(x.View(), 0, fileName);
     snprintf(fileName, sizeof(fileName), "data.#line2,0000,y.npy");
-    SaveData(y.ConstAccessor(), 0, fileName);
+    SaveData(y.View(), 0, fileName);
 
     Frame frame;
     frame.timeIntervalInSeconds = 1.0 / 300.0;
@@ -40,14 +40,14 @@ CUBBYFLOW_BEGIN_TEST_F(ParticleSystemSolver3, PerfectBounce)
     {
         solver.Update(frame);
 
-        x[frame.index] = particles->GetPositions()[0].x;
-        y[frame.index] = particles->GetPositions()[0].y;
+        x[frame.index] = particles->Positions()[0].x;
+        y[frame.index] = particles->Positions()[0].y;
         snprintf(fileName, sizeof(fileName), "data.#line2,%04d,x.npy",
                  frame.index);
-        SaveData(x.ConstAccessor(), frame.index, fileName);
+        SaveData(x.View(), frame.index, fileName);
         snprintf(fileName, sizeof(fileName), "data.#line2,%04d,y.npy",
                  frame.index);
-        SaveData(y.ConstAccessor(), frame.index, fileName);
+        SaveData(y.View(), frame.index, fileName);
     }
 }
 CUBBYFLOW_END_TEST_F
@@ -70,9 +70,9 @@ CUBBYFLOW_BEGIN_TEST_F(ParticleSystemSolver3, HalfBounce)
     Array1<double> y(1000);
     char fileName[256];
     snprintf(fileName, sizeof(fileName), "data.#line2,0000,x.npy");
-    SaveData(x.ConstAccessor(), 0, fileName);
+    SaveData(x.View(), 0, fileName);
     snprintf(fileName, sizeof(fileName), "data.#line2,0000,y.npy");
-    SaveData(y.ConstAccessor(), 0, fileName);
+    SaveData(y.View(), 0, fileName);
 
     Frame frame;
     frame.timeIntervalInSeconds = 1.0 / 300.0;
@@ -80,14 +80,14 @@ CUBBYFLOW_BEGIN_TEST_F(ParticleSystemSolver3, HalfBounce)
     {
         solver.Update(frame);
 
-        x[frame.index] = particles->GetPositions()[0].x;
-        y[frame.index] = particles->GetPositions()[0].y;
+        x[frame.index] = particles->Positions()[0].x;
+        y[frame.index] = particles->Positions()[0].y;
         snprintf(fileName, sizeof(fileName), "data.#line2,%04d,x.npy",
                  frame.index);
-        SaveData(x.ConstAccessor(), frame.index, fileName);
+        SaveData(x.View(), frame.index, fileName);
         snprintf(fileName, sizeof(fileName), "data.#line2,%04d,y.npy",
                  frame.index);
-        SaveData(y.ConstAccessor(), frame.index, fileName);
+        SaveData(y.View(), frame.index, fileName);
     }
 }
 CUBBYFLOW_END_TEST_F
@@ -111,9 +111,9 @@ CUBBYFLOW_BEGIN_TEST_F(ParticleSystemSolver3, HalfBounceWithFriction)
     Array1<double> y(1000);
     char fileName[256];
     snprintf(fileName, sizeof(fileName), "data.#line2,0000,x.npy");
-    SaveData(x.ConstAccessor(), 0, fileName);
+    SaveData(x.View(), 0, fileName);
     snprintf(fileName, sizeof(fileName), "data.#line2,0000,y.npy");
-    SaveData(y.ConstAccessor(), 0, fileName);
+    SaveData(y.View(), 0, fileName);
 
     Frame frame;
     frame.timeIntervalInSeconds = 1.0 / 300.0;
@@ -121,14 +121,14 @@ CUBBYFLOW_BEGIN_TEST_F(ParticleSystemSolver3, HalfBounceWithFriction)
     {
         solver.Update(frame);
 
-        x[frame.index] = particles->GetPositions()[0].x;
-        y[frame.index] = particles->GetPositions()[0].y;
+        x[frame.index] = particles->Positions()[0].x;
+        y[frame.index] = particles->Positions()[0].y;
         snprintf(fileName, sizeof(fileName), "data.#line2,%04d,x.npy",
                  frame.index);
-        SaveData(x.ConstAccessor(), frame.index, fileName);
+        SaveData(x.View(), frame.index, fileName);
         snprintf(fileName, sizeof(fileName), "data.#line2,%04d,y.npy",
                  frame.index);
-        SaveData(y.ConstAccessor(), frame.index, fileName);
+        SaveData(y.View(), frame.index, fileName);
     }
 }
 CUBBYFLOW_END_TEST_F
@@ -151,9 +151,9 @@ CUBBYFLOW_BEGIN_TEST_F(ParticleSystemSolver3, NoBounce)
     Array1<double> y(1000);
     char fileName[256];
     snprintf(fileName, sizeof(fileName), "data.#line2,0000,x.npy");
-    SaveData(x.ConstAccessor(), 0, fileName);
+    SaveData(x.View(), 0, fileName);
     snprintf(fileName, sizeof(fileName), "data.#line2,0000,y.npy");
-    SaveData(y.ConstAccessor(), 0, fileName);
+    SaveData(y.View(), 0, fileName);
 
     Frame frame;
     frame.timeIntervalInSeconds = 1.0 / 300.0;
@@ -161,14 +161,14 @@ CUBBYFLOW_BEGIN_TEST_F(ParticleSystemSolver3, NoBounce)
     {
         solver.Update(frame);
 
-        x[frame.index] = particles->GetPositions()[0].x;
-        y[frame.index] = particles->GetPositions()[0].y;
+        x[frame.index] = particles->Positions()[0].x;
+        y[frame.index] = particles->Positions()[0].y;
         snprintf(fileName, sizeof(fileName), "data.#line2,%04d,x.npy",
                  frame.index);
-        SaveData(x.ConstAccessor(), frame.index, fileName);
+        SaveData(x.View(), frame.index, fileName);
         snprintf(fileName, sizeof(fileName), "data.#line2,%04d,y.npy",
                  frame.index);
-        SaveData(y.ConstAccessor(), frame.index, fileName);
+        SaveData(y.View(), frame.index, fileName);
     }
 }
 CUBBYFLOW_END_TEST_F

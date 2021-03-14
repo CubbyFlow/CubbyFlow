@@ -26,7 +26,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressure)
 
     GridSystemData2Ptr data = solver.GetGridSystemData();
     double dx = 1.0 / 32.0;
-    data->Resize(Size2(64, 32), Vector2D(dx, dx), Vector2D());
+    data->Resize(Vector2UZ(64, 32), Vector2D(dx, dx), Vector2D());
     data->GetVelocity()->Fill(Vector2D(1.0, 0.0));
 
     BoundingBox2D domain = data->GetBoundingBox();
@@ -45,7 +45,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressure)
     Array2<double> div(64, 32);
     Array2<double> pressure(64, 32);
 
-    dataU.ForEachIndex([&](size_t i, size_t j) {
+    ForEachIndex(dataU.Size(), [&](size_t i, size_t j) {
         Vector2D vel = data->GetVelocity()->ValueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
@@ -53,10 +53,10 @@ CUBBYFLOW_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressure)
         pressure(i, j) = ppe->GetPressure()(i, j);
     });
 
-    SaveData(dataU.ConstAccessor(), "data_#grid2,x.npy");
-    SaveData(dataV.ConstAccessor(), "data_#grid2,y.npy");
-    SaveData(div.ConstAccessor(), "div_#grid2.npy");
-    SaveData(pressure.ConstAccessor(), "pressure_#grid2.npy");
+    SaveData(dataU.View(), "data_#grid2,x.npy");
+    SaveData(dataV.View(), "data_#grid2,y.npy");
+    SaveData(div.View(), "div_#grid2.npy");
+    SaveData(pressure.View(), "pressure_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -73,7 +73,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridFluidSolver2,
 
     GridSystemData2Ptr data = solver.GetGridSystemData();
     double dx = 1.0 / 32.0;
-    data->Resize(Size2(64, 32), Vector2D(dx, dx), Vector2D());
+    data->Resize(Vector2UZ(64, 32), Vector2D(dx, dx), Vector2D());
     data->GetVelocity()->Fill(Vector2D(1.0, 0.0));
 
     BoundingBox2D domain = data->GetBoundingBox();
@@ -92,7 +92,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridFluidSolver2,
     Array2<double> div(64, 32);
     Array2<double> pressure(64, 32);
 
-    dataU.ForEachIndex([&](size_t i, size_t j) {
+    ForEachIndex(dataU.Size(), [&](size_t i, size_t j) {
         Vector2D vel = data->GetVelocity()->ValueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
@@ -100,10 +100,10 @@ CUBBYFLOW_BEGIN_TEST_F(GridFluidSolver2,
         pressure(i, j) = ppe->GetPressure()(i, j);
     });
 
-    SaveData(dataU.ConstAccessor(), "data_#grid2,x.npy");
-    SaveData(dataV.ConstAccessor(), "data_#grid2,y.npy");
-    SaveData(div.ConstAccessor(), "div_#grid2.npy");
-    SaveData(pressure.ConstAccessor(), "pressure_#grid2.npy");
+    SaveData(dataU.View(), "data_#grid2,x.npy");
+    SaveData(dataV.View(), "data_#grid2,y.npy");
+    SaveData(div.View(), "div_#grid2.npy");
+    SaveData(pressure.View(), "pressure_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -123,7 +123,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressureOpen)
 
     GridSystemData2Ptr data = solver.GetGridSystemData();
     double dx = 1.0 / 32.0;
-    data->Resize(Size2(64, 32), Vector2D(dx, dx), Vector2D());
+    data->Resize(Vector2UZ(64, 32), Vector2D(dx, dx), Vector2D());
     data->GetVelocity()->Fill(Vector2D(1.0, 0.0));
 
     BoundingBox2D domain = data->GetBoundingBox();
@@ -142,7 +142,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressureOpen)
     Array2<double> div(64, 32);
     Array2<double> pressure(64, 32);
 
-    dataU.ForEachIndex([&](size_t i, size_t j) {
+    ForEachIndex(dataU.Size(), [&](size_t i, size_t j) {
         Vector2D vel = data->GetVelocity()->ValueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
@@ -150,9 +150,9 @@ CUBBYFLOW_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressureOpen)
         pressure(i, j) = ppe->GetPressure()(i, j);
     });
 
-    SaveData(dataU.ConstAccessor(), "data_#grid2,x.npy");
-    SaveData(dataV.ConstAccessor(), "data_#grid2,y.npy");
-    SaveData(div.ConstAccessor(), "div_#grid2.npy");
-    SaveData(pressure.ConstAccessor(), "pressure_#grid2.npy");
+    SaveData(dataU.View(), "data_#grid2,x.npy");
+    SaveData(dataV.View(), "data_#grid2,y.npy");
+    SaveData(div.View(), "div_#grid2.npy");
+    SaveData(pressure.View(), "pressure_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F

@@ -28,22 +28,22 @@ bool FDMCGSolver2::Solve(FDMLinearSystem2* system)
     FDMVector2& solution = system->x;
     FDMVector2& rhs = system->b;
 
-    assert(matrix.size() == rhs.size());
-    assert(matrix.size() == solution.size());
+    assert(matrix.Size() == rhs.Size());
+    assert(matrix.Size() == solution.Size());
 
     ClearCompressedVectors();
 
-    const Size2 size = matrix.size();
+    const Vector2UZ& size = matrix.Size();
     m_r.Resize(size);
     m_d.Resize(size);
     m_q.Resize(size);
     m_s.Resize(size);
 
-    system->x.Set(0.0);
-    m_r.Set(0.0);
-    m_d.Set(0.0);
-    m_q.Set(0.0);
-    m_s.Set(0.0);
+    system->x.Fill(0.0);
+    m_r.Fill(0.0);
+    m_d.Fill(0.0);
+    m_q.Fill(0.0);
+    m_s.Fill(0.0);
 
     CG<FDMBLAS2>(matrix, rhs, m_maxNumberOfIterations, m_tolerance, &solution,
                  &m_r, &m_d, &m_q, &m_s, &m_lastNumberOfIterations,
@@ -61,17 +61,17 @@ bool FDMCGSolver2::SolveCompressed(FDMCompressedLinearSystem2* system)
 
     ClearUncompressedVectors();
 
-    const size_t size = solution.size();
+    const size_t size = solution.GetRows();
     m_rComp.Resize(size);
     m_dComp.Resize(size);
     m_qComp.Resize(size);
     m_sComp.Resize(size);
 
-    system->x.Set(0.0);
-    m_rComp.Set(0.0);
-    m_dComp.Set(0.0);
-    m_qComp.Set(0.0);
-    m_sComp.Set(0.0);
+    system->x.Fill(0.0);
+    m_rComp.Fill(0.0);
+    m_dComp.Fill(0.0);
+    m_qComp.Fill(0.0);
+    m_sComp.Fill(0.0);
 
     CG<FDMCompressedBLAS2>(matrix, rhs, m_maxNumberOfIterations, m_tolerance,
                            &solution, &m_rComp, &m_dComp, &m_qComp, &m_sComp,

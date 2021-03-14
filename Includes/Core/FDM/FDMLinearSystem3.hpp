@@ -11,10 +11,9 @@
 #ifndef CUBBYFLOW_FDM_LINEAR_SYSTEM3_HPP
 #define CUBBYFLOW_FDM_LINEAR_SYSTEM3_HPP
 
-#include <Core/Array/Array3.hpp>
-#include <Core/Geometry/Size3.hpp>
+#include <Core/Array/Array.hpp>
+#include <Core/Matrix/Matrix.hpp>
 #include <Core/Matrix/MatrixCSR.hpp>
-#include <Core/Vector/VectorN.hpp>
 
 namespace CubbyFlow
 {
@@ -47,7 +46,7 @@ struct FDMLinearSystem3
     void Clear();
 
     //! Resizes the arrays with given grid size.
-    void Resize(const Size3& size);
+    void Resize(const Vector3UZ& size);
 
     //! System matrix.
     FDMMatrix3 A;

@@ -17,7 +17,8 @@ FLIPSolver2::FLIPSolver2() : FLIPSolver2{ { 1, 1 }, { 1, 1 }, { 0, 0 } }
     // Do nothing
 }
 
-FLIPSolver2::FLIPSolver2(const Size2& resolution, const Vector2D& gridSpacing,
+FLIPSolver2::FLIPSolver2(const Vector2UZ& resolution,
+                         const Vector2D& gridSpacing,
                          const Vector2D& gridOrigin)
     : PICSolver2(resolution, gridSpacing, gridOrigin)
 {
@@ -40,12 +41,10 @@ void FLIPSolver2::TransferFromParticlesToGrids()
 
     // Store snapshot
     const FaceCenteredGrid2Ptr vel = GetGridSystemData()->GetVelocity();
-    ConstArrayAccessor2<double> u =
-        GetGridSystemData()->GetVelocity()->GetUConstAccessor();
-    ConstArrayAccessor2<double> v =
-        GetGridSystemData()->GetVelocity()->GetVConstAccessor();
-    m_uDelta.Resize(u.size());
-    m_vDelta.Resize(v.size());
+    ConstArrayView2<double> u = GetGridSystemData()->GetVelocity()->UView();
+    ConstArrayView2<double> v = GetGridSystemData()->GetVelocity()->VView();
+    m_uDelta.Resize(u.Size());
+    m_vDelta.Resize(v.Size());
 
     vel->ParallelForEachUIndex(
         [&](size_t i, size_t j) { m_uDelta(i, j) = u(i, j); });
@@ -56,10 +55,10 @@ void FLIPSolver2::TransferFromParticlesToGrids()
 void FLIPSolver2::TransferFromGridsToParticles()
 {
     FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
-    ArrayAccessor1<Vector2<double>> positions =
-        GetParticleSystemData()->GetPositions();
-    ArrayAccessor1<Vector2<double>> velocities =
-        GetParticleSystemData()->GetVelocities();
+    ArrayView1<Vector2<double>> positions =
+        GetParticleSystemData()->Positions();
+    ArrayView1<Vector2<double>> velocities =
+        GetParticleSystemData()->Velocities();
     const size_t numberOfParticles =
         GetParticleSystemData()->GetNumberOfParticles();
 
@@ -72,14 +71,12 @@ void FLIPSolver2::TransferFromGridsToParticles()
         m_vDelta(i, j) = flow->GetV(i, j) - m_vDelta(i, j);
     });
 
-    LinearArraySampler2<double, double> uSampler{
-        m_uDelta.ConstAccessor(), flow->GridSpacing().CastTo<double>(),
-        flow->GetUOrigin().CastTo<double>()
-    };
-    LinearArraySampler2<double, double> vSampler{
-        m_vDelta.ConstAccessor(), flow->GridSpacing().CastTo<double>(),
-        flow->GetVOrigin().CastTo<double>()
-    };
+    LinearArraySampler2<double> uSampler{ m_uDelta.View(),
+                                          flow->GridSpacing().CastTo<double>(),
+                                          flow->UOrigin().CastTo<double>() };
+    LinearArraySampler2<double> vSampler{ m_vDelta.View(),
+                                          flow->GridSpacing().CastTo<double>(),
+                                          flow->VOrigin().CastTo<double>() };
 
     auto sampler = [uSampler, vSampler](const Vector2D& x) {
         const Vector2<double> xf = x.CastTo<double>();

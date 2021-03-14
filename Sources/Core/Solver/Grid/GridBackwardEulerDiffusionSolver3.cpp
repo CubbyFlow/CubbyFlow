@@ -33,13 +33,14 @@ void GridBackwardEulerDiffusionSolver3::Solve(const ScalarGrid3& source,
                                               const ScalarField3& boundarySDF,
                                               const ScalarField3& fluidSDF)
 {
-    const auto pos = source.GetDataPosition();
+    const auto pos = source.DataPosition();
     const Vector3D& h = source.GridSpacing();
-    const Vector3D c = timeIntervalInSeconds * diffusionCoefficient / (h * h);
+    const Vector3D c =
+        timeIntervalInSeconds * diffusionCoefficient / ElemMul(h, h);
 
     BuildMarkers(source.GetDataSize(), pos, boundarySDF, fluidSDF);
     BuildMatrix(source.GetDataSize(), c);
-    BuildVectors(source.GetConstDataAccessor(), c);
+    BuildVectors(source.DataView(), c);
 
     if (m_systemSolver != nullptr)
     {
@@ -58,15 +59,16 @@ void GridBackwardEulerDiffusionSolver3::Solve(
     double timeIntervalInSeconds, CollocatedVectorGrid3* dest,
     const ScalarField3& boundarySDF, const ScalarField3& fluidSDF)
 {
-    const auto pos = source.GetDataPosition();
+    const auto pos = source.DataPosition();
     const Vector3D& h = source.GridSpacing();
-    const Vector3D c = timeIntervalInSeconds * diffusionCoefficient / (h * h);
+    const Vector3D c =
+        timeIntervalInSeconds * diffusionCoefficient / ElemMul(h, h);
 
     BuildMarkers(source.GetDataSize(), pos, boundarySDF, fluidSDF);
     BuildMatrix(source.GetDataSize(), c);
 
     // u
-    BuildVectors(source.GetConstDataAccessor(), c, 0);
+    BuildVectors(source.DataView(), c, 0);
 
     if (m_systemSolver != nullptr)
     {
@@ -80,7 +82,7 @@ void GridBackwardEulerDiffusionSolver3::Solve(
     }
 
     // v
-    BuildVectors(source.GetConstDataAccessor(), c, 1);
+    BuildVectors(source.DataView(), c, 1);
 
     if (m_systemSolver != nullptr)
     {
@@ -94,7 +96,7 @@ void GridBackwardEulerDiffusionSolver3::Solve(
     }
 
     // w
-    BuildVectors(source.GetConstDataAccessor(), c, 2);
+    BuildVectors(source.DataView(), c, 2);
 
     if (m_systemSolver != nullptr)
     {
@@ -116,13 +118,14 @@ void GridBackwardEulerDiffusionSolver3::Solve(const FaceCenteredGrid3& source,
                                               const ScalarField3& fluidSDF)
 {
     const Vector3D& h = source.GridSpacing();
-    const Vector3D c = timeIntervalInSeconds * diffusionCoefficient / (h * h);
+    const Vector3D c =
+        timeIntervalInSeconds * diffusionCoefficient / ElemMul(h, h);
 
     // u
-    const auto uPos = source.GetUPosition();
-    BuildMarkers(source.GetUSize(), uPos, boundarySDF, fluidSDF);
-    BuildMatrix(source.GetUSize(), c);
-    BuildVectors(source.GetUConstAccessor(), c);
+    const auto uPos = source.UPosition();
+    BuildMarkers(source.USize(), uPos, boundarySDF, fluidSDF);
+    BuildMatrix(source.USize(), c);
+    BuildVectors(source.UView(), c);
 
     if (m_systemSolver != nullptr)
     {
@@ -136,10 +139,10 @@ void GridBackwardEulerDiffusionSolver3::Solve(const FaceCenteredGrid3& source,
     }
 
     // v
-    const auto vPos = source.GetVPosition();
-    BuildMarkers(source.GetVSize(), vPos, boundarySDF, fluidSDF);
-    BuildMatrix(source.GetVSize(), c);
-    BuildVectors(source.GetVConstAccessor(), c);
+    const auto vPos = source.VPosition();
+    BuildMarkers(source.VSize(), vPos, boundarySDF, fluidSDF);
+    BuildMatrix(source.VSize(), c);
+    BuildVectors(source.VView(), c);
 
     if (m_systemSolver != nullptr)
     {
@@ -153,10 +156,10 @@ void GridBackwardEulerDiffusionSolver3::Solve(const FaceCenteredGrid3& source,
     }
 
     // w
-    const auto wPos = source.GetWPosition();
-    BuildMarkers(source.GetWSize(), wPos, boundarySDF, fluidSDF);
-    BuildMatrix(source.GetWSize(), c);
-    BuildVectors(source.GetWConstAccessor(), c);
+    const auto wPos = source.WPosition();
+    BuildMarkers(source.WSize(), wPos, boundarySDF, fluidSDF);
+    BuildMatrix(source.WSize(), c);
+    BuildVectors(source.WView(), c);
 
     if (m_systemSolver != nullptr)
     {
@@ -177,13 +180,13 @@ void GridBackwardEulerDiffusionSolver3::SetLinearSystemSolver(
 }
 
 void GridBackwardEulerDiffusionSolver3::BuildMarkers(
-    const Size3& size,
+    const Vector3UZ& size,
     const std::function<Vector3D(size_t, size_t, size_t)>& pos,
     const ScalarField3& boundarySDF, const ScalarField3& fluidSDF)
 {
     m_markers.Resize(size);
 
-    m_markers.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(m_markers.Size(), [&](size_t i, size_t j, size_t k) {
         if (IsInsideSDF(boundarySDF.Sample(pos(i, j, k))))
         {
             m_markers(i, j, k) = BOUNDARY;
@@ -199,7 +202,7 @@ void GridBackwardEulerDiffusionSolver3::BuildMarkers(
     });
 }
 
-void GridBackwardEulerDiffusionSolver3::BuildMatrix(const Size3& size,
+void GridBackwardEulerDiffusionSolver3::BuildMatrix(const Vector3UZ& size,
                                                     const Vector3D& c)
 {
     m_system.A.Resize(size);
@@ -207,7 +210,7 @@ void GridBackwardEulerDiffusionSolver3::BuildMatrix(const Size3& size,
     bool isBoundaryType = (m_boundaryType == BoundaryType::Dirichlet);
 
     // Build linear system
-    m_system.A.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(m_system.A.Size(), [&](size_t i, size_t j, size_t k) {
         FDMMatrixRow3& row = m_system.A(i, j, k);
 
         // Initialize
@@ -280,15 +283,15 @@ void GridBackwardEulerDiffusionSolver3::BuildMatrix(const Size3& size,
 }
 
 void GridBackwardEulerDiffusionSolver3::BuildVectors(
-    const ConstArrayAccessor3<double>& f, const Vector3D& c)
+    const ConstArrayView3<double>& f, const Vector3D& c)
 {
-    Size3 size = f.size();
+    Vector3UZ size = f.Size();
 
     m_system.x.Resize(size, 0.0);
     m_system.b.Resize(size, 0.0);
 
     // Build linear system
-    m_system.x.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(m_system.x.Size(), [&](size_t i, size_t j, size_t k) {
         m_system.b(i, j, k) = m_system.x(i, j, k) = f(i, j, k);
 
         if (m_boundaryType == BoundaryType::Dirichlet &&
@@ -328,15 +331,15 @@ void GridBackwardEulerDiffusionSolver3::BuildVectors(
 }
 
 void GridBackwardEulerDiffusionSolver3::BuildVectors(
-    const ConstArrayAccessor3<Vector3D>& f, const Vector3D& c, size_t component)
+    const ConstArrayView3<Vector3D>& f, const Vector3D& c, size_t component)
 {
-    Size3 size = f.size();
+    Vector3UZ size = f.Size();
 
     m_system.x.Resize(size, 0.0);
     m_system.b.Resize(size, 0.0);
 
     // Build linear system
-    m_system.x.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(m_system.x.Size(), [&](size_t i, size_t j, size_t k) {
         m_system.b(i, j, k) = m_system.x(i, j, k) = f(i, j, k)[component];
 
         if (m_boundaryType == BoundaryType::Dirichlet &&

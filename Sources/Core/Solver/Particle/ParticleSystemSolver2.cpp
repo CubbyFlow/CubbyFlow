@@ -149,8 +149,8 @@ void ParticleSystemSolver2::AccumulateForces(double timeStepInSeconds)
 void ParticleSystemSolver2::BeginAdvanceTimeStep(double timeStepInSeconds)
 {
     // Clear forces
-    ArrayAccessor<Vector2D, 1> forces = m_particleSystemData->GetForces();
-    SetRange1(forces.size(), Vector2D{}, &forces);
+    ArrayView1<Vector2D> forces = m_particleSystemData->Forces();
+    forces.Fill(Vector2D{});
 
     // Update collider and emitter
     Timer timer;
@@ -175,9 +175,8 @@ void ParticleSystemSolver2::EndAdvanceTimeStep(double timeStepInSeconds)
 {
     // Update data
     const size_t n = m_particleSystemData->GetNumberOfParticles();
-    ArrayAccessor<Vector2D, 1> positions = m_particleSystemData->GetPositions();
-    ArrayAccessor<Vector2D, 1> velocities =
-        m_particleSystemData->GetVelocities();
+    ArrayView1<Vector2D> positions = m_particleSystemData->Positions();
+    ArrayView1<Vector2D> velocities = m_particleSystemData->Velocities();
 
     ParallelFor(ZERO_SIZE, n, [&](size_t i) {
         positions[i] = m_newPositions[i];
@@ -199,12 +198,11 @@ void ParticleSystemSolver2::OnEndAdvanceTimeStep(double timeStepInSeconds)
 
 void ParticleSystemSolver2::ResolveCollision()
 {
-    ResolveCollision(m_newPositions.Accessor(), m_newVelocities.Accessor());
+    ResolveCollision(m_newPositions, m_newVelocities);
 }
 
-void ParticleSystemSolver2::ResolveCollision(
-    ArrayAccessor1<Vector2D> newPositions,
-    ArrayAccessor1<Vector2D> newVelocities)
+void ParticleSystemSolver2::ResolveCollision(ArrayView1<Vector2D> newPositions,
+                                             ArrayView1<Vector2D> newVelocities)
 {
     if (m_collider != nullptr)
     {
@@ -228,10 +226,9 @@ void ParticleSystemSolver2::SetParticleSystemData(
 void ParticleSystemSolver2::AccumulateExternalForces()
 {
     const size_t n = m_particleSystemData->GetNumberOfParticles();
-    ArrayAccessor<Vector2D, 1> forces = m_particleSystemData->GetForces();
-    ArrayAccessor<Vector2D, 1> velocities =
-        m_particleSystemData->GetVelocities();
-    ArrayAccessor<Vector2D, 1> positions = m_particleSystemData->GetPositions();
+    ArrayView1<Vector2D> forces = m_particleSystemData->Forces();
+    ArrayView1<Vector2D> velocities = m_particleSystemData->Velocities();
+    ArrayView1<Vector2D> positions = m_particleSystemData->Positions();
     const double mass = m_particleSystemData->GetMass();
 
     ParallelFor(ZERO_SIZE, n, [&](size_t i) {
@@ -250,10 +247,9 @@ void ParticleSystemSolver2::AccumulateExternalForces()
 void ParticleSystemSolver2::TimeIntegration(double timeStepInSeconds)
 {
     const size_t n = m_particleSystemData->GetNumberOfParticles();
-    ArrayAccessor<Vector2D, 1> forces = m_particleSystemData->GetForces();
-    ArrayAccessor<Vector2D, 1> velocities =
-        m_particleSystemData->GetVelocities();
-    ArrayAccessor<Vector2D, 1> positions = m_particleSystemData->GetPositions();
+    ArrayView1<Vector2D> forces = m_particleSystemData->Forces();
+    ArrayView1<Vector2D> velocities = m_particleSystemData->Velocities();
+    ArrayView1<Vector2D> positions = m_particleSystemData->Positions();
     const double mass = m_particleSystemData->GetMass();
 
     ParallelFor(ZERO_SIZE, n, [&](size_t i) {

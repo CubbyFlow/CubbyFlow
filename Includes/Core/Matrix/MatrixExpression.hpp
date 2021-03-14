@@ -11,431 +11,693 @@
 #ifndef CUBBYFLOW_MATRIX_EXPRESSION_HPP
 #define CUBBYFLOW_MATRIX_EXPRESSION_HPP
 
-#include <Core/Geometry/Size2.hpp>
-#include <Core/Vector/VectorExpression.hpp>
+#include <Core/Utils/Functors.hpp>
+
+#include <functional>
 
 namespace CubbyFlow
 {
+static constexpr size_t MATRIX_SIZE_DYNAMIC = 0;
+
+template <size_t Rows, size_t Cols>
+constexpr bool IsMatrixSizeDynamic()
+{
+    return (Rows == MATRIX_SIZE_DYNAMIC) || (Cols == MATRIX_SIZE_DYNAMIC);
+}
+
+template <size_t Rows, size_t Cols>
+constexpr bool IsMatrixSizeStatic()
+{
+    return !IsMatrixSizeDynamic<Rows, Cols>();
+}
+
+template <size_t Rows, size_t Cols>
+constexpr bool IsMatrixStaticSquare()
+{
+    return IsMatrixSizeStatic<Rows, Cols>() && (Rows == Cols);
+}
+
+template <size_t Rows, size_t Cols>
+struct TraitIsMatrixSizeDynamic
+{
+    static const bool value = IsMatrixSizeDynamic<Rows, Cols>();
+};
+
+template <size_t Rows, size_t Cols>
+struct TraitIsMatrixSizeStatic
+{
+    static const bool value = IsMatrixSizeStatic<Rows, Cols>();
+};
+
+template <size_t Rows, size_t Cols>
+struct TraitIsMatrixSizeSquare
+{
+    static const bool value = IsMatrixStaticSquare<Rows, Cols>();
+};
+
+template <typename T, size_t Rows, size_t Cols>
+class Matrix;
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+class MatrixDiagonal;
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+class MatrixOffDiagonal;
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+class MatrixTri;
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+class MatrixTranspose;
+
+template <typename T, size_t Rows, size_t Cols, typename M1,
+          typename UnaryOperation>
+class MatrixUnaryOp;
+
+template <typename T, size_t Rows, size_t Cols, typename M1,
+          typename BinaryOperation>
+class MatrixScalarElemWiseBinaryOp;
+
 //!
 //! \brief Base class for matrix expression.
 //!
-//! Matrix expression is a meta type that enables template expression pattern.
+//! Matrix expression is a meta type that enables template expression
+//! pattern.
 //!
-//! \tparam T  Real number type.
-//! \tparam E  Subclass type.
+//! \tparam T           Real number type.
+//! \tparam Rows        The number of rows.
+//! \tparam Cols        The number of columns.
+//! \tparam Derived     Subclass type.
 //!
-template <typename T, typename E>
+template <typename T, size_t Rows, size_t Cols, typename Derived>
 class MatrixExpression
 {
  public:
-    //! Size of the matrix.
-    [[nodiscard]] Size2 size() const;
+    using ValueType = T;
 
-    //! Number of rows.
-    [[nodiscard]] size_t Rows() const;
+    //! Returns the number of rows.
+    constexpr size_t GetRows() const;
 
-    //! Number of columns.
-    [[nodiscard]] size_t Cols() const;
+    //! Returns the number of columns.
+    constexpr size_t GetCols() const;
+
+    //! Returns the evaluated value for (i, j).
+    T Eval(size_t i, size_t j) const;
+
+    Matrix<T, Rows, Cols> Eval() const;
+
+    //! Returns true if this matrix is similar to the input matrix within the
+    //! given tolerance.
+    template <size_t R, size_t C, typename E>
+    bool IsSimilar(const MatrixExpression<T, R, C, E>& m,
+                   double tol = std::numeric_limits<double>::epsilon()) const;
+
+    //! Returns true if this matrix is a square matrix.
+    constexpr bool IsSquare() const;
+
+    ValueType Sum() const;
+
+    ValueType Avg() const;
+
+    ValueType Min() const;
+
+    ValueType Max() const;
+
+    ValueType AbsMin() const;
+
+    ValueType AbsMax() const;
+
+    ValueType Trace() const;
+
+    ValueType Determinant() const;
+
+    size_t DominantAxis() const;
+
+    size_t SubdominantAxis() const;
+
+    ValueType Norm() const;
+
+    ValueType NormSquared() const;
+
+    ValueType FrobeniusNorm() const;
+
+    ValueType Length() const;
+
+    ValueType LengthSquared() const;
+
+    //! Returns the distance to the other vector.
+    template <size_t R, size_t C, typename E>
+    ValueType DistanceTo(const MatrixExpression<T, R, C, E>& other) const;
+
+    //! Returns the squared distance to the other vector.
+    template <size_t R, size_t C, typename E>
+    ValueType DistanceSquaredTo(
+        const MatrixExpression<T, R, C, E>& other) const;
+
+    MatrixScalarElemWiseBinaryOp<T, Rows, Cols, const Derived&, std::divides<T>>
+    Normalized() const;
+
+    //! Returns diagonal part of this matrix.
+    MatrixDiagonal<T, Rows, Cols, const Derived&> Diagonal() const;
+
+    //! Returns off-diagonal part of this matrix.
+    MatrixOffDiagonal<T, Rows, Cols, const Derived&> OffDiagonal() const;
+
+    //! Returns strictly lower triangle part of this matrix.
+    MatrixTri<T, Rows, Cols, const Derived&> StrictLowerTri() const;
+
+    //! Returns strictly upper triangle part of this matrix.
+    MatrixTri<T, Rows, Cols, const Derived&> StrictUpperTri() const;
+
+    //! Returns lower triangle part of this matrix (including the diagonal).
+    MatrixTri<T, Rows, Cols, const Derived&> LowerTri() const;
+
+    //! Returns upper triangle part of this matrix (including the diagonal).
+    MatrixTri<T, Rows, Cols, const Derived&> UpperTri() const;
+
+    MatrixTranspose<T, Rows, Cols, const Derived&> Transposed() const;
+
+    //! Returns inverse matrix.
+    Matrix<T, Rows, Cols> Inverse() const;
+
+    template <typename U>
+    MatrixUnaryOp<U, Rows, Cols, const Derived&, TypeCast<T, U>> CastTo() const;
+
+    template <size_t R, size_t C, typename E, typename U = ValueType>
+    std::enable_if_t<(IsMatrixSizeDynamic<Rows, Cols>() || Cols == 1) &&
+                         (IsMatrixSizeDynamic<R, C>() || C == 1),
+                     U>
+    Dot(const MatrixExpression<T, R, C, E>& expression) const;
+
+    template <size_t R, size_t C, typename E, typename U = ValueType>
+    std::enable_if_t<(IsMatrixSizeDynamic<Rows, Cols>() ||
+                      (Rows == 2 && Cols == 1)) &&
+                         (IsMatrixSizeDynamic<R, C>() || (R == 2 && C == 1)),
+                     U>
+    Cross(const MatrixExpression<T, R, C, E>& expression) const;
+
+    template <size_t R, size_t C, typename E, typename U = ValueType>
+    std::enable_if_t<(IsMatrixSizeDynamic<Rows, Cols>() ||
+                      (Rows == 3 && Cols == 1)) &&
+                         (IsMatrixSizeDynamic<R, C>() || (R == 3 && C == 1)),
+                     Matrix<U, 3, 1>>
+    Cross(const MatrixExpression<T, R, C, E>& expression) const;
+
+    //! Returns the reflection vector to the surface with given surface normal.
+    template <size_t R, size_t C, typename E, typename U = ValueType>
+    std::enable_if_t<(IsMatrixSizeDynamic<Rows, Cols>() ||
+                      ((Rows == 2 || Rows == 3) && Cols == 1)) &&
+                         (IsMatrixSizeDynamic<R, C>() ||
+                          ((R == 2 || R == 3) && C == 1)),
+                     Matrix<U, Rows, 1>>
+    Reflected(const MatrixExpression<T, R, C, E>& normal) const;
+
+    //! Returns the projected vector to the surface with given surface normal.
+    template <size_t R, size_t C, typename E, typename U = ValueType>
+    std::enable_if_t<(IsMatrixSizeDynamic<Rows, Cols>() ||
+                      ((Rows == 2 || Rows == 3) && Cols == 1)) &&
+                         (IsMatrixSizeDynamic<R, C>() ||
+                          ((R == 2 || R == 3) && C == 1)),
+                     Matrix<U, Rows, 1>>
+    Projected(const MatrixExpression<T, R, C, E>& normal) const;
+
+    //! Returns the tangential vector for this vector.
+    template <typename U = ValueType>
+    std::enable_if_t<(IsMatrixSizeDynamic<Rows, Cols>() ||
+                      (Rows == 2 && Cols == 1)),
+                     Matrix<U, 2, 1>>
+    Tangential() const;
+
+    //! Returns the tangential vectors for this vector.
+    template <typename U = ValueType>
+    std::enable_if_t<(IsMatrixSizeDynamic<Rows, Cols>() ||
+                      (Rows == 3 && Cols == 1)),
+                     std::tuple<Matrix<U, 3, 1>, Matrix<U, 3, 1>>>
+    Tangentials() const;
 
     //! Returns actual implementation (the subclass).
-    const E& operator()() const;
+    Derived& GetDerived();
+
+    //! Returns actual implementation (the subclass).
+    const Derived& GetDerived() const;
+
+ protected:
+    // Prohibits constructing this class instance.
+    MatrixExpression() = default;
+
+    constexpr static T Determinant(const MatrixExpression<T, 1, 1, Derived>& m);
+
+    constexpr static T Determinant(const MatrixExpression<T, 2, 2, Derived>& m);
+
+    constexpr static T Determinant(const MatrixExpression<T, 3, 3, Derived>& m);
+
+    constexpr static T Determinant(const MatrixExpression<T, 4, 4, Derived>& m);
+
+    template <typename U = ValueType>
+    static std::enable_if_t<
+        (Rows > 4 && Cols > 4) || IsMatrixSizeDynamic<Rows, Cols>(), U>
+    Determinant(const MatrixExpression<T, Rows, Cols, Derived>& m);
+
+    static void Inverse(const MatrixExpression<T, 1, 1, Derived>& m,
+                        Matrix<T, Rows, Cols>& result);
+
+    static void Inverse(const MatrixExpression<T, 2, 2, Derived>& m,
+                        Matrix<T, Rows, Cols>& result);
+
+    static void Inverse(const MatrixExpression<T, 3, 3, Derived>& m,
+                        Matrix<T, Rows, Cols>& result);
+
+    static void Inverse(const MatrixExpression<T, 4, 4, Derived>& m,
+                        Matrix<T, Rows, Cols>& result);
+
+    template <typename M = Matrix<T, Rows, Cols>>
+    static void Inverse(const MatrixExpression& m,
+                        std::enable_if_t<(Rows > 4 && Cols > 4) ||
+                                             IsMatrixSizeDynamic<Rows, Cols>(),
+                                         M>& result);
 };
 
-//!
-//! \brief Constant matrix expression.
-//!
-//! This matrix expression represents a constant matrix.
-//!
-//! \tparam T  Real number type.
-//!
-template <typename T>
-class MatrixConstant : public MatrixExpression<T, MatrixConstant<T>>
+template <typename T, size_t Rows, size_t Cols>
+class MatrixConstant
+    : public MatrixExpression<T, Rows, Cols, MatrixConstant<T, Rows, Cols>>
 {
  public:
-    //! Constructs m x n constant matrix expression.
-    MatrixConstant(size_t m, size_t n, const T& c);
+    constexpr MatrixConstant(size_t r, size_t c, const T& val)
+        : m_rows(r), m_cols(c), m_val(val)
+    {
+        // Do nothing
+    }
 
-    //! Size of the matrix.
-    [[nodiscard]] Size2 size() const;
+    constexpr size_t GetRows() const;
 
-    //! Number of rows.
-    [[nodiscard]] size_t Rows() const;
+    constexpr size_t GetCols() const;
 
-    //! Number of columns.
-    [[nodiscard]] size_t Cols() const;
+    constexpr T operator()(size_t, size_t) const;
 
-    //! Returns matrix element at (i, j).
+ private:
+    size_t m_rows;
+    size_t m_cols;
+    T m_val;
+};
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+class MatrixDiagonal
+    : public MatrixExpression<T, Rows, Cols, MatrixDiagonal<T, Rows, Cols, M1>>
+{
+ public:
+    constexpr MatrixDiagonal(const M1& mat1) : m_mat1(mat1)
+    {
+        // Do nothing
+    }
+
+    constexpr size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
     T operator()(size_t i, size_t j) const;
 
  private:
-    size_t m_m;
-    size_t m_n;
-    T m_c;
+    M1 m_mat1;
 };
 
-//!
-//! \brief Identity matrix expression.
-//!
-//! This matrix expression represents an identity matrix.
-//!
-//! \tparam T  Real number type.
-//!
-template <typename T>
-class MatrixIdentity : public MatrixExpression<T, MatrixIdentity<T>>
+template <typename T, size_t Rows, size_t Cols, typename M1>
+class MatrixOffDiagonal
+    : public MatrixExpression<T, Rows, Cols,
+                              MatrixOffDiagonal<T, Rows, Cols, M1>>
 {
  public:
-    //! Constructs m x m identity matrix expression.
-    MatrixIdentity(size_t m);
+    constexpr MatrixOffDiagonal(const M1& mat1) : m_mat1(mat1)
+    {
+        // Do nothing
+    }
 
-    //! Size of the matrix.
-    [[nodiscard]] Size2 size() const;
+    constexpr size_t GetRows() const;
 
-    //! Number of rows.
-    [[nodiscard]] size_t Rows() const;
+    constexpr size_t GetCols() const;
 
-    //! Number of columns.
-    [[nodiscard]] size_t Cols() const;
-
-    //! Returns matrix element at (i, j).
     T operator()(size_t i, size_t j) const;
 
  private:
-    size_t m_m;
+    M1 m_mat1;
 };
 
-//!
-//! \brief Matrix expression for unary operation.
-//!
-//! This matrix expression represents an unary matrix operation that takes
-//! single input matrix expression.
-//!
-//! \tparam T   Real number type.
-//! \tparam E   Input expression type.
-//! \tparam Op  Unary operation.
-//!
-template <typename T, typename E, typename Op>
-class MatrixUnaryOp : public MatrixExpression<T, MatrixUnaryOp<T, E, Op>>
+template <typename T, size_t Rows, size_t Cols, typename M1>
+class MatrixTri
+    : public MatrixExpression<T, Rows, Cols, MatrixTri<T, Rows, Cols, M1>>
 {
  public:
-    //! Constructs unary operation expression for given input expression.
-    MatrixUnaryOp(const E& u);
+    constexpr MatrixTri(const M1& mat1, bool isUpper, bool isStrict)
+        : m_mat1(mat1), m_isUpper(isUpper), m_isStrict(isStrict)
+    {
+        // Do nothing
+    }
 
-    //! Size of the matrix.
-    [[nodiscard]] Size2 size() const;
+    constexpr size_t GetRows() const;
 
-    //! Number of rows.
-    [[nodiscard]] size_t Rows() const;
+    constexpr size_t GetCols() const;
 
-    //! Number of columns.
-    [[nodiscard]] size_t Cols() const;
-
-    //! Returns matrix element at (i, j).
     T operator()(size_t i, size_t j) const;
 
  private:
-    const E& m_u;
-    Op m_op;
-};
-
-//!
-//! \brief Diagonal matrix expression.
-//!
-//! This matrix expression represents a diagonal matrix for given input matrix
-//! expression.
-//!
-//! \tparam T  Real number type.
-//! \tparam E  Input expression type.
-//!
-template <typename T, typename E>
-class MatrixDiagonal : public MatrixExpression<T, MatrixDiagonal<T, E>>
-{
- public:
-    //! Constructs diagonal matrix expression for given input expression.
-    //! \param u The given input expression.
-    //! \param isDiagonal true for diagonal matrix, false for off-diagonal.
-    MatrixDiagonal(const E& u, bool isDiagonal);
-
-    //! Size of the matrix.
-    [[nodiscard]] Size2 size() const;
-
-    //! Number of rows.
-    [[nodiscard]] size_t Rows() const;
-
-    //! Number of columns.
-    [[nodiscard]] size_t Cols() const;
-
-    //! Returns matrix element at (i, j).
-    T operator()(size_t i, size_t j) const;
-
- private:
-    const E& m_u;
-    bool m_isDiagonal;
-};
-
-//!
-//! \brief Triangular matrix expression.
-//!
-//! This matrix expression represents a triangular matrix for given input matrix
-//! expression.
-//!
-//! \tparam T  Real number type.
-//! \tparam E  Input expression type.
-//!
-template <typename T, typename E>
-class MatrixTriangular : public MatrixExpression<T, MatrixTriangular<T, E>>
-{
- public:
-    //! Constructs triangular matrix expression for given input expression.
-    //! \param u The given input expression.
-    //! \param isUpper true for upper triangular matrix,
-    //! false for lower triangular matrix.
-    //! \param isStrict true for strictly upper/lower triangular matrix.
-    MatrixTriangular(const E& u, bool isUpper, bool isStrict);
-
-    //! Size of the matrix.
-    [[nodiscard]] Size2 size() const;
-
-    //! Number of rows.
-    [[nodiscard]] size_t Rows() const;
-
-    //! Number of columns.
-    [[nodiscard]] size_t Cols() const;
-
-    //! Returns matrix element at (i, j).
-    T operator()(size_t i, size_t j) const;
-
- private:
-    const E& m_u;
+    M1 m_mat1;
     bool m_isUpper;
     bool m_isStrict;
 };
 
-//! Matrix expression for type casting.
-template <typename T, typename E, typename U>
-using MatrixTypeCast = MatrixUnaryOp<T, E, TypeCast<U, T>>;
+template <typename T, size_t Rows, size_t Cols, typename M1>
+class MatrixTranspose
+    : public MatrixExpression<T, Rows, Cols, MatrixTranspose<T, Rows, Cols, M1>>
+{
+ public:
+    constexpr MatrixTranspose(const M1& m_mat1) : m_mat1(m_mat1)
+    {
+        // Do nothing
+    }
+
+    constexpr size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
+    constexpr T operator()(size_t i, size_t j) const;
+
+ private:
+    M1 m_mat1;
+};
+
+template <typename T, size_t Rows, size_t Cols, typename M1,
+          typename UnaryOperation>
+class MatrixUnaryOp
+    : public MatrixExpression<T, Rows, Cols,
+                              MatrixUnaryOp<T, Rows, Cols, M1, UnaryOperation>>
+{
+ public:
+    constexpr MatrixUnaryOp(const M1& mat1) : m_mat1(mat1)
+    {
+        // Do nothing
+    }
+
+    constexpr size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
+    constexpr T operator()(size_t i, size_t j) const;
+
+ private:
+    M1 m_mat1;
+    UnaryOperation m_op;
+};
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+using MatrixNegate = MatrixUnaryOp<T, Rows, Cols, M1, std::negate<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+using MatrixCeil = MatrixUnaryOp<T, Rows, Cols, M1, DoCeil<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+using MatrixFloor = MatrixUnaryOp<T, Rows, Cols, M1, DoFloor<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename U, typename M1>
+using MatrixTypeCast = MatrixUnaryOp<U, Rows, Cols, M1, TypeCast<T, U>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto Ceil(const MatrixExpression<T, Rows, Cols, M1>& a);
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto Floor(const MatrixExpression<T, Rows, Cols, M1>& a);
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto operator-(const MatrixExpression<T, Rows, Cols, M1>& m);
 
 //!
-//! \brief Matrix expression for binary operation.
+//! \brief Matrix expression for element-wise binary operation.
 //!
 //! This matrix expression represents a binary matrix operation that takes
 //! two input matrix expressions.
 //!
-//! \tparam T   Real number type.
-//! \tparam E1  First input expression type.
-//! \tparam E2  Second input expression type.
-//! \tparam Op  Binary operation.
+//! \tparam T                   Real number type.
+//! \tparam E1                  First input expression type.
+//! \tparam E2                  Second input expression type.
+//! \tparam BinaryOperation     Binary operation.
 //!
-template <typename T, typename E1, typename E2, typename Op>
-class MatrixBinaryOp : public MatrixExpression<T, MatrixBinaryOp<T, E1, E2, Op>>
+template <typename T, size_t Rows, size_t Cols, typename E1, typename E2,
+          typename BinaryOperation>
+class MatrixElemWiseBinaryOp
+    : public MatrixExpression<
+          T, Rows, Cols,
+          MatrixElemWiseBinaryOp<T, Rows, Cols, E1, E2, BinaryOperation>>
 {
  public:
-    //! Constructs binary operation expression for given input matrix
-    //! expressions.
-    MatrixBinaryOp(const E1& u, const E2& v);
+    constexpr MatrixElemWiseBinaryOp(const E1& mat1, const E2& mat2)
+        : m_mat1(mat1), m_mat2(mat2)
+    {
+        // Do nothing
+    }
 
-    //! Size of the matrix.
-    [[nodiscard]] Size2 size() const;
+    constexpr size_t GetRows() const;
 
-    //! Number of rows.
-    [[nodiscard]] size_t Rows() const;
+    constexpr size_t GetCols() const;
 
-    //! Number of columns.
-    [[nodiscard]] size_t Cols() const;
+    constexpr T operator()(size_t i, size_t j) const;
 
-    //! Returns matrix element at (i, j).
+ private:
+    E1 m_mat1;
+    E2 m_mat2;
+    BinaryOperation m_op;
+};
+
+//! Matrix expression for element-wise matrix-matrix addition.
+template <typename T, size_t Rows, size_t Cols, typename E1, typename E2>
+using MatrixElemWiseAdd =
+    MatrixElemWiseBinaryOp<T, Rows, Cols, E1, E2, std::plus<T>>;
+
+//! Matrix expression for element-wise matrix-matrix subtraction.
+template <typename T, size_t Rows, size_t Cols, typename E1, typename E2>
+using MatrixElemWiseSub =
+    MatrixElemWiseBinaryOp<T, Rows, Cols, E1, E2, std::minus<T>>;
+
+//! Matrix expression for element-wise matrix-matrix multiplication.
+template <typename T, size_t Rows, size_t Cols, typename E1, typename E2>
+using MatrixElemWiseMul =
+    MatrixElemWiseBinaryOp<T, Rows, Cols, E1, E2, std::multiplies<T>>;
+
+//! Matrix expression for element-wise matrix-matrix division.
+template <typename T, size_t Rows, size_t Cols, typename E1, typename E2>
+using MatrixElemWiseDiv =
+    MatrixElemWiseBinaryOp<T, Rows, Cols, E1, E2, std::divides<T>>;
+
+//! Matrix expression for element-wise matrix-matrix min operation.
+template <typename T, size_t Rows, size_t Cols, typename E1, typename E2>
+using MatrixElemWiseMin =
+    MatrixElemWiseBinaryOp<T, Rows, Cols, E1, E2, DoMin<T>>;
+
+//! Matrix expression for element-wise matrix-matrix max operation.
+template <typename T, size_t Rows, size_t Cols, typename E1, typename E2>
+using MatrixElemWiseMax =
+    MatrixElemWiseBinaryOp<T, Rows, Cols, E1, E2, DoMax<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
+constexpr auto operator+(const MatrixExpression<T, Rows, Cols, M1>& a,
+                         const MatrixExpression<T, Rows, Cols, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
+constexpr auto operator-(const MatrixExpression<T, Rows, Cols, M1>& a,
+                         const MatrixExpression<T, Rows, Cols, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
+constexpr auto ElemMul(const MatrixExpression<T, Rows, Cols, M1>& a,
+                       const MatrixExpression<T, Rows, Cols, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
+constexpr auto ElemDiv(const MatrixExpression<T, Rows, Cols, M1>& a,
+                       const MatrixExpression<T, Rows, Cols, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
+constexpr auto Min(const MatrixExpression<T, Rows, Cols, M1>& a,
+                   const MatrixExpression<T, Rows, Cols, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
+constexpr auto Max(const MatrixExpression<T, Rows, Cols, M1>& a,
+                   const MatrixExpression<T, Rows, Cols, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1,
+          typename BinaryOperation>
+class MatrixScalarElemWiseBinaryOp
+    : public MatrixExpression<
+          T, Rows, Cols,
+          MatrixScalarElemWiseBinaryOp<T, Rows, Cols, M1, BinaryOperation>>
+{
+ public:
+    constexpr MatrixScalarElemWiseBinaryOp(const M1& mat1, const T& scalar2)
+        : m_mat1(mat1), m_scalar2(scalar2)
+    {
+        // Do nothing
+    }
+
+    constexpr size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
+    constexpr T operator()(size_t i, size_t j) const;
+
+ private:
+    M1 m_mat1;
+    T m_scalar2;
+    BinaryOperation m_op;
+};
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+using MatrixScalarElemWiseAdd =
+    MatrixScalarElemWiseBinaryOp<T, Rows, Cols, M1, std::plus<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+using MatrixScalarElemWiseSub =
+    MatrixScalarElemWiseBinaryOp<T, Rows, Cols, M1, std::minus<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+using MatrixScalarElemWiseMul =
+    MatrixScalarElemWiseBinaryOp<T, Rows, Cols, M1, std::multiplies<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+using MatrixScalarElemWiseDiv =
+    MatrixScalarElemWiseBinaryOp<T, Rows, Cols, M1, std::divides<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto operator+(const MatrixExpression<T, Rows, Cols, M1>& a,
+                         const T& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto operator-(const MatrixExpression<T, Rows, Cols, M1>& a,
+                         const T& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto operator*(const MatrixExpression<T, Rows, Cols, M1>& a,
+                         const T& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto operator/(const MatrixExpression<T, Rows, Cols, M1>& a,
+                         const T& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M2,
+          typename BinaryOperation>
+class ScalarMatrixElemWiseBinaryOp
+    : public MatrixExpression<
+          T, Rows, Cols,
+          ScalarMatrixElemWiseBinaryOp<T, Rows, Cols, M2, BinaryOperation>>
+{
+ public:
+    constexpr ScalarMatrixElemWiseBinaryOp(const T& s1, const M2& m2)
+        : m_scalar1(s1), m_mat2(m2)
+    {
+        // Do nothing
+    }
+
+    constexpr size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
+    constexpr T operator()(size_t i, size_t j) const;
+
+ private:
+    T m_scalar1;
+    M2 m_mat2;
+    BinaryOperation m_op;
+};
+
+template <typename T, size_t Rows, size_t Cols, typename M2>
+using ScalarMatrixElemWiseAdd =
+    ScalarMatrixElemWiseBinaryOp<T, Rows, Cols, M2, std::plus<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M2>
+using ScalarMatrixElemWiseSub =
+    ScalarMatrixElemWiseBinaryOp<T, Rows, Cols, M2, std::minus<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M2>
+using ScalarMatrixElemWiseMul =
+    ScalarMatrixElemWiseBinaryOp<T, Rows, Cols, M2, std::multiplies<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M2>
+using ScalarMatrixElemWiseDiv =
+    ScalarMatrixElemWiseBinaryOp<T, Rows, Cols, M2, std::divides<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M2>
+constexpr auto operator+(const T& a,
+                         const MatrixExpression<T, Rows, Cols, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M2>
+constexpr auto operator-(const T& a,
+                         const MatrixExpression<T, Rows, Cols, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M2>
+constexpr auto operator*(const T& a,
+                         const MatrixExpression<T, Rows, Cols, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M2>
+constexpr auto operator/(const T& a,
+                         const MatrixExpression<T, Rows, Cols, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2,
+          typename M3, typename TernaryOperation>
+class MatrixTernaryOp
+    : public MatrixExpression<
+          T, Rows, Cols,
+          MatrixTernaryOp<T, Rows, Cols, M1, M2, M3, TernaryOperation>>
+{
+ public:
+    constexpr MatrixTernaryOp(const M1& mat1, const M2& mat2, const M3& mat3)
+        : m_mat1(mat1), m_mat2(mat2), m_mat3(mat3)
+    {
+        // Do nothing
+    }
+
+    constexpr size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
+    constexpr T operator()(size_t i, size_t j) const;
+
+ private:
+    M1 m_mat1;
+    M2 m_mat2;
+    M3 m_mat3;
+    TernaryOperation m_op;
+};
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2,
+          typename M3>
+using MatrixClamp = MatrixTernaryOp<T, Rows, Cols, M1, M2, M3, DoClamp<T>>;
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2,
+          typename M3>
+auto Clamp(const MatrixExpression<T, Rows, Cols, M1>& a,
+           const MatrixExpression<T, Rows, Cols, M2>& low,
+           const MatrixExpression<T, Rows, Cols, M3>& high);
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
+class MatrixMul
+    : public MatrixExpression<T, Rows, Cols, MatrixMul<T, Rows, Cols, M1, M2>>
+{
+ public:
+    constexpr MatrixMul(const M1& mat1, const M2& mat2)
+        : m_mat1(mat1), m_mat2(mat2)
+    {
+        // Do nothing
+    }
+
+    constexpr size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
     T operator()(size_t i, size_t j) const;
 
  private:
-    const E1& m_u;
-    const E2& m_v;
-    Op m_op;
+    M1 m_mat1;
+    M2 m_mat2;
 };
 
-//!
-//! \brief Matrix expression for matrix-scalar binary operation.
-//!
-//! This matrix expression represents a binary matrix operation that takes
-//! one input matrix expression and one scalar.
-//!
-//! \tparam T   Real number type.
-//! \tparam E   Input expression type.
-//! \tparam Op  Binary operation.
-//!
-template <typename T, typename E, typename Op>
-class MatrixScalarBinaryOp
-    : public MatrixExpression<T, MatrixScalarBinaryOp<T, E, Op>>
-{
- public:
-    //! Constructs a binary expression for given matrix and scalar.
-    MatrixScalarBinaryOp(const E& u, const T& v);
-
-    //! Size of the matrix.
-    [[nodiscard]] Size2 size() const;
-
-    //! Number of rows.
-    [[nodiscard]] size_t Rows() const;
-
-    //! Number of columns.
-    [[nodiscard]] size_t Cols() const;
-
-    //! Returns matrix element at (i, j).
-    T operator()(size_t i, size_t j) const;
-
- private:
-    const E& m_u;
-    T m_v;
-    Op m_op;
-};
-
-//!
-//! \brief Vector expression for matrix-vector multiplication.
-//!
-//! This vector expression represents a matrix-vector operation that takes
-//! one input matrix expression and one vector expression.
-//!
-//! \tparam T   Element value type.
-//! \tparam ME  Matrix expression.
-//! \tparam VE  Vector expression.
-//!
-template <typename T, typename ME, typename VE>
-class MatrixVectorMul : public VectorExpression<T, MatrixVectorMul<T, ME, VE>>
-{
- public:
-    MatrixVectorMul(const ME& m, const VE& v);
-
-    //! Size of the vector.
-    [[nodiscard]] size_t size() const;
-
-    //! Returns vector element at i.
-    T operator[](size_t i) const;
-
- private:
-    const ME& m_m;
-    const VE& m_v;
-};
-
-//!
-//! \brief Matrix expression for matrix-matrix multiplication.
-//!
-//! This matrix expression represents a matrix-matrix operation that takes
-//! two input matrices.
-//!
-//! \tparam T   Element value type.
-//! \tparam E1 - First input expression type.
-//! \tparam E2 - Second input expression type.
-//!
-template <typename T, typename E1, typename E2>
-class MatrixMul : public MatrixExpression<T, MatrixMul<T, E1, E2>>
-{
- public:
-    //! Constructs matrix-matrix multiplication expression for given two input
-    //! matrices.
-    MatrixMul(const E1& u, const E2& v);
-
-    //! Size of the matrix.
-    [[nodiscard]] Size2 size() const;
-
-    //! Number of rows.
-    [[nodiscard]] size_t Rows() const;
-
-    //! Number of columns.
-    [[nodiscard]] size_t Cols() const;
-
-    //! Returns matrix element at (i, j).
-    T operator()(size_t i, size_t j) const;
-
- private:
-    const E1& m_u;
-    const E2& m_v;
-};
-
-//! Matrix-matrix addition expression.
-template <typename T, typename E1, typename E2>
-using MatrixAdd = MatrixBinaryOp<T, E1, E2, std::plus<T>>;
-
-//! Matrix-scalar addition expression.
-template <typename T, typename E>
-using MatrixScalarAdd = MatrixScalarBinaryOp<T, E, std::plus<T>>;
-
-//! Matrix-matrix subtraction expression.
-template <typename T, typename E1, typename E2>
-using MatrixSub = MatrixBinaryOp<T, E1, E2, std::minus<T>>;
-
-//! Matrix-scalar subtraction expression.
-template <typename T, typename E>
-using MatrixScalarSub = MatrixScalarBinaryOp<T, E, std::minus<T>>;
-
-//! Matrix-matrix subtraction expression with inversed order.
-template <typename T, typename E>
-using MatrixScalarRSub = MatrixScalarBinaryOp<T, E, RMinus<T>>;
-
-//! Matrix-scalar multiplication expression.
-template <typename T, typename E>
-using MatrixScalarMul = MatrixScalarBinaryOp<T, E, std::multiplies<T>>;
-
-//! Matrix-scalar division expression.
-template <typename T, typename E>
-using MatrixScalarDiv = MatrixScalarBinaryOp<T, E, std::divides<T>>;
-
-//! Matrix-scalar division expression with inversed order.
-template <typename T, typename E>
-using MatrixScalarRDiv = MatrixScalarBinaryOp<T, E, RDivides<T>>;
-
-//! Returns a matrix with opposite sign.
-template <typename T, typename E>
-MatrixScalarMul<T, E> operator-(const MatrixExpression<T, E>& a);
-
-//! Returns a + b (element-size).
-template <typename T, typename E1, typename E2>
-MatrixAdd<T, E1, E2> operator+(const MatrixExpression<T, E1>& a,
-                               const MatrixExpression<T, E2>& b);
-
-//! Returns a + b', where every element of matrix b' is b.
-template <typename T, typename E>
-MatrixScalarAdd<T, E> operator+(const MatrixExpression<T, E>& a, T b);
-
-//! Returns a' + b, where every element of matrix a' is a.
-template <typename T, typename E>
-MatrixScalarAdd<T, E> operator+(T a, const MatrixExpression<T, E>& b);
-
-//! Returns a - b (element-size).
-template <typename T, typename E1, typename E2>
-MatrixSub<T, E1, E2> operator-(const MatrixExpression<T, E1>& a,
-                               const MatrixExpression<T, E2>& b);
-
-//! Returns a - b', where every element of matrix b' is b.
-template <typename T, typename E>
-MatrixScalarSub<T, E> operator-(const MatrixExpression<T, E>& a, T b);
-
-//! Returns a' - b, where every element of matrix a' is a.
-template <typename T, typename E>
-MatrixScalarRSub<T, E> operator-(T a, const MatrixExpression<T, E>& b);
-
-//! Returns a * b', where every element of matrix b' is b.
-template <typename T, typename E>
-MatrixScalarMul<T, E> operator*(const MatrixExpression<T, E>& a, T b);
-
-//! Returns a' * b, where every element of matrix a' is a.
-template <typename T, typename E>
-MatrixScalarMul<T, E> operator*(T a, const MatrixExpression<T, E>& b);
-
-//! Returns a * b.
-template <typename T, typename ME, typename VE>
-MatrixVectorMul<T, ME, VE> operator*(const MatrixExpression<T, ME>& a,
-                                     const VectorExpression<T, VE>& b);
-
-//! Returns a * b.
-template <typename T, typename E1, typename E2>
-MatrixMul<T, E1, E2> operator*(const MatrixExpression<T, E1>& a,
-                               const MatrixExpression<T, E2>& b);
-
-//! Returns a' / b, where every element of matrix a' is a.
-template <typename T, typename E>
-MatrixScalarDiv<T, E> operator/(const MatrixExpression<T, E>& a, T b);
-
-//! Returns a / b', where every element of matrix b' is b.
-template <typename T, typename E>
-MatrixScalarRDiv<T, E> operator/(T a, const MatrixExpression<T, E>& b);
+template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M1,
+          typename M2>
+auto operator*(const MatrixExpression<T, R1, C1, M1>& a,
+               const MatrixExpression<T, R2, C2, M2>& b);
 }  // namespace CubbyFlow
 
 #include <Core/Matrix/MatrixExpression-Impl.hpp>

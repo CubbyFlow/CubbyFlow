@@ -1,9 +1,9 @@
 #include "pch.hpp"
 
 #include <Core/Math/BLAS.hpp>
-#include <Core/Matrix/MatrixMxN.hpp>
+#include <Core/Matrix/Matrix.hpp>
+#include <Core/Utils/IterationUtils.hpp>
 #include <Core/Utils/MG.hpp>
-#include <Core/Vector/VectorN.hpp>
 
 using namespace CubbyFlow;
 
@@ -20,11 +20,11 @@ void Relax(const typename BLASType::MatrixType& a,
     UNUSED_VARIABLE(maxTolerance);
     UNUSED_VARIABLE(buffer);
 
-    size_t n = a.Rows();
+    size_t n = a.GetRows();
 
     for (unsigned int iter = 0; iter < numberOfIterations; ++iter)
     {
-        x->ForEachIndex([&](size_t i) {
+        ForEachIndex(x->GetRows(), [&](size_t i) {
             double sum = 0.0;
 
             for (size_t j = 0; j < n; ++j)
@@ -43,8 +43,8 @@ void Relax(const typename BLASType::MatrixType& a,
 void Rest(const typename BLASType::VectorType& finer,
           typename BLASType::VectorType* coarser)
 {
-    size_t n = coarser->size();
-    coarser->ParallelForEachIndex([&](size_t i) {
+    size_t n = coarser->GetRows();
+    ParallelForEachIndex(coarser->GetRows(), [&](size_t i) {
         // --*--|--*--|--*--|--*--
         //  1/8   3/8   3/8   1/8
         //           to
@@ -60,9 +60,9 @@ void Rest(const typename BLASType::VectorType& finer,
 void Corr(const typename BLASType::VectorType& coarser,
           typename BLASType::VectorType* finer)
 {
-    size_t n = coarser.size();
+    size_t n = coarser.GetRows();
 
-    coarser.ForEachIndex([&](size_t i) {
+    ForEachIndex(coarser.GetRows(), [&](size_t i) {
         // -----|-----*-----|-----
         //           to
         //  1/4   3/4   3/4   1/4
@@ -140,7 +140,7 @@ TEST(MG, Solve)
     EXPECT_GT(r0, r1);
 
     // Reset solution
-    x[0].Set(0.0);
+    x[0].Fill(0.0);
 
     // Now MultiGrid
     params.maxNumberOfLevels = levels;

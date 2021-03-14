@@ -11,8 +11,7 @@
 #ifndef CUBBYFLOW_SAMPLERS_HPP
 #define CUBBYFLOW_SAMPLERS_HPP
 
-#include <Core/Vector/Vector2.hpp>
-#include <Core/Vector/Vector3.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 namespace CubbyFlow
 {

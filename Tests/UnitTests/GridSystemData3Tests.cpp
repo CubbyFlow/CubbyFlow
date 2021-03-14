@@ -69,14 +69,16 @@ TEST(GridSystemData3, Serialize)
     auto scalar1 = grids.GetAdvectableScalarDataAt(scalarIdx1);
     auto vector1 = grids.GetAdvectableVectorDataAt(vectorIdx1);
 
-    scalar0->Fill([](const Vector3D& pt) { return pt.Length(); });
+    scalar0->Fill([](const Vector3D& pt) -> double { return pt.Length(); });
 
-    vector0->Fill([](const Vector3D& pt) { return pt; });
+    vector0->Fill([](const Vector3D& pt) -> Vector3D { return pt; });
 
-    scalar1->Fill(
-        [](const Vector3D& pt) { return (pt - Vector3D(1, 2, 3)).Length(); });
+    scalar1->Fill([](const Vector3D& pt) -> double {
+        return (pt - Vector3D(1, 2, 3)).Length();
+    });
 
-    vector1->Fill([](const Vector3D& pt) { return pt - Vector3D(1, 2, 3); });
+    vector1->Fill(
+        [](const Vector3D& pt) -> Vector3D { return pt - Vector3D(1, 2, 3); });
 
     grids.Serialize(&buffer);
 
@@ -103,7 +105,7 @@ TEST(GridSystemData3, Serialize)
                 nullptr);
     EXPECT_EQ(scalar0->Resolution(), scalar0_2->Resolution());
     EXPECT_EQ(scalar0->GridSpacing(), scalar0_2->GridSpacing());
-    EXPECT_EQ(scalar0->Origin(), scalar0_2->Origin());
+    EXPECT_EQ(scalar0->GridOrigin(), scalar0_2->GridOrigin());
     EXPECT_EQ(scalar0->GetDataSize(), scalar0_2->GetDataSize());
     EXPECT_EQ(scalar0->GetDataOrigin(), scalar0_2->GetDataOrigin());
     scalar0->ForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
@@ -118,7 +120,7 @@ TEST(GridSystemData3, Serialize)
     EXPECT_TRUE(cell_vector0_2 != nullptr);
     EXPECT_EQ(vector0->Resolution(), vector0_2->Resolution());
     EXPECT_EQ(vector0->GridSpacing(), vector0_2->GridSpacing());
-    EXPECT_EQ(vector0->Origin(), vector0_2->Origin());
+    EXPECT_EQ(vector0->GridOrigin(), vector0_2->GridOrigin());
     EXPECT_EQ(cell_vector0->GetDataSize(), cell_vector0_2->GetDataSize());
     EXPECT_EQ(cell_vector0->GetDataOrigin(), cell_vector0_2->GetDataOrigin());
     cell_vector0->ForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
@@ -130,7 +132,7 @@ TEST(GridSystemData3, Serialize)
                     scalar1_2) != nullptr);
     EXPECT_EQ(scalar1->Resolution(), scalar1_2->Resolution());
     EXPECT_EQ(scalar1->GridSpacing(), scalar1_2->GridSpacing());
-    EXPECT_EQ(scalar1->Origin(), scalar1_2->Origin());
+    EXPECT_EQ(scalar1->GridOrigin(), scalar1_2->GridOrigin());
     EXPECT_EQ(scalar1->GetDataSize(), scalar1_2->GetDataSize());
     EXPECT_EQ(scalar1->GetDataOrigin(), scalar1_2->GetDataOrigin());
     scalar1->ForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
@@ -145,7 +147,7 @@ TEST(GridSystemData3, Serialize)
     EXPECT_TRUE(vert_vector1_2 != nullptr);
     EXPECT_EQ(vector1->Resolution(), vector1_2->Resolution());
     EXPECT_EQ(vector1->GridSpacing(), vector1_2->GridSpacing());
-    EXPECT_EQ(vector1->Origin(), vector1_2->Origin());
+    EXPECT_EQ(vector1->GridOrigin(), vector1_2->GridOrigin());
     EXPECT_EQ(vert_vector1->GetDataSize(), vert_vector1_2->GetDataSize());
     EXPECT_EQ(vert_vector1->GetDataOrigin(), vert_vector1_2->GetDataOrigin());
     vert_vector1->ForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
@@ -156,13 +158,13 @@ TEST(GridSystemData3, Serialize)
     auto velocity2 = grids2.GetVelocity();
     EXPECT_EQ(velocity->Resolution(), velocity2->Resolution());
     EXPECT_EQ(velocity->GridSpacing(), velocity2->GridSpacing());
-    EXPECT_EQ(velocity->Origin(), velocity2->Origin());
-    EXPECT_EQ(velocity->GetUSize(), velocity2->GetUSize());
-    EXPECT_EQ(velocity->GetVSize(), velocity2->GetVSize());
-    EXPECT_EQ(velocity->GetWSize(), velocity2->GetWSize());
-    EXPECT_EQ(velocity->GetUOrigin(), velocity2->GetUOrigin());
-    EXPECT_EQ(velocity->GetVOrigin(), velocity2->GetVOrigin());
-    EXPECT_EQ(velocity->GetWOrigin(), velocity2->GetWOrigin());
+    EXPECT_EQ(velocity->GridOrigin(), velocity2->GridOrigin());
+    EXPECT_EQ(velocity->USize(), velocity2->USize());
+    EXPECT_EQ(velocity->VSize(), velocity2->VSize());
+    EXPECT_EQ(velocity->WSize(), velocity2->WSize());
+    EXPECT_EQ(velocity->UOrigin(), velocity2->UOrigin());
+    EXPECT_EQ(velocity->VOrigin(), velocity2->VOrigin());
+    EXPECT_EQ(velocity->WOrigin(), velocity2->WOrigin());
     velocity->ForEachUIndex([&](size_t i, size_t j, size_t k) {
         EXPECT_EQ(velocity->GetU(i, j, k), velocity2->GetU(i, j, k));
     });

@@ -10,7 +10,7 @@
 
 #include <../ClaraUtils.hpp>
 
-#include <Core/Array/Array2.hpp>
+#include <Core/Array/Array.hpp>
 #include <Core/Emitter/VolumeGridEmitter3.hpp>
 #include <Core/Geometry/Box3.hpp>
 #include <Core/Geometry/ImplicitTriangleMesh3.hpp>
@@ -92,7 +92,7 @@ void SaveVolumeAsVol(const ScalarGrid3Ptr& density, const std::string& rootDir,
         file.write(header, sizeof(header));
 
         Array3<float> data(density->GetDataSize());
-        data.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+        ParallelForEachIndex(data.Size(), [&](size_t i, size_t j, size_t k) {
             float d = static_cast<float>((*density)(i, j, k));
 
             // Blur the edge for less-noisy rendering
@@ -100,28 +100,28 @@ void SaveVolumeAsVol(const ScalarGrid3Ptr& density, const std::string& rootDir,
             {
                 d *= SmoothStep(0.f, EDGE_BLUR_F, static_cast<float>(i));
             }
-            if (i > data.size().x - 1 - EDGE_BLUR)
+            if (i > data.Size().x - 1 - EDGE_BLUR)
             {
                 d *= SmoothStep(0.f, EDGE_BLUR_F,
-                                static_cast<float>((data.size().x - 1) - i));
+                                static_cast<float>((data.Size().x - 1) - i));
             }
             if (j < EDGE_BLUR)
             {
                 d *= SmoothStep(0.f, EDGE_BLUR_F, static_cast<float>(j));
             }
-            if (j > data.size().y - 1 - EDGE_BLUR)
+            if (j > data.Size().y - 1 - EDGE_BLUR)
             {
                 d *= SmoothStep(0.f, EDGE_BLUR_F,
-                                static_cast<float>((data.size().y - 1) - j));
+                                static_cast<float>((data.Size().y - 1) - j));
             }
             if (k < EDGE_BLUR)
             {
                 d *= SmoothStep(0.f, EDGE_BLUR_F, static_cast<float>(k));
             }
-            if (k > data.size().z - 1 - EDGE_BLUR)
+            if (k > data.Size().z - 1 - EDGE_BLUR)
             {
                 d *= SmoothStep(0.f, EDGE_BLUR_F,
-                                static_cast<float>((data.size().z - 1) - k));
+                                static_cast<float>((data.Size().z - 1) - k));
             }
 
             data(i, j, k) = d;
@@ -129,7 +129,7 @@ void SaveVolumeAsVol(const ScalarGrid3Ptr& density, const std::string& rootDir,
 
         file.write(
             reinterpret_cast<const char*>(data.data()),
-            sizeof(float) * data.size().x * data.size().y * data.size().z);
+            sizeof(float) * data.Size().x * data.Size().y * data.Size().z);
 
         file.close();
     }
@@ -146,7 +146,7 @@ void SaveVolumeAsTga(const ScalarGrid3Ptr& density, const std::string& rootDir,
     {
         printf("Writing %s...\n", fileName.c_str());
 
-        Size3 dataSize = density->GetDataSize();
+        Vector3UZ dataSize = density->GetDataSize();
 
         std::array<char, 18> header;
         header.fill(0);
@@ -164,7 +164,7 @@ void SaveVolumeAsTga(const ScalarGrid3Ptr& density, const std::string& rootDir,
         file.write(header.data(), header.size());
 
         Array2<double> hdrImg(dataSize.x, dataSize.y);
-        hdrImg.ParallelForEachIndex([&](size_t i, size_t j) {
+        ParallelForEachIndex(hdrImg.Size(), [&](size_t i, size_t j) {
             double sum = 0.0;
             for (size_t k = 0; k < dataSize.z; ++k)
             {
@@ -192,7 +192,7 @@ void SaveVolumeAsTga(const ScalarGrid3Ptr& density, const std::string& rootDir,
 void PrintInfo(const GridSmokeSolver3Ptr& solver)
 {
     const auto grids = solver->GetGridSystemData();
-    const Size3 resolution = grids->GetResolution();
+    const Vector3UZ resolution = grids->GetResolution();
     const BoundingBox3D domain = grids->GetBoundingBox();
     const Vector3D gridSpacing = grids->GetGridSpacing();
 
@@ -259,7 +259,7 @@ void RunExample1(const std::string& rootDir, size_t resolutionX,
     // Build collider
     const auto sphere = Sphere3::Builder()
                             .WithCenter({ 0.5, 0.3, 0.5 })
-                            .WithRadius(0.075 * domain.GetWidth())
+                            .WithRadius(0.075 * domain.Width())
                             .MakeShared();
 
     const auto collider =
@@ -308,7 +308,7 @@ void RunExample2(const std::string& rootDir, size_t resolutionX,
     // Build collider
     const auto sphere = Sphere3::Builder()
                             .WithCenter({ 0.5, 0.3, 0.5 })
-                            .WithRadius(0.075 * domain.GetWidth())
+                            .WithRadius(0.075 * domain.Width())
                             .MakeShared();
 
     const auto collider =

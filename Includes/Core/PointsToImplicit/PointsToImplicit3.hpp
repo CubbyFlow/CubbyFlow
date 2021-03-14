@@ -11,9 +11,8 @@
 #ifndef CUBBYFLOW_POINTS_TO_IMPLICIT3_HPP
 #define CUBBYFLOW_POINTS_TO_IMPLICIT3_HPP
 
-#include <Core/Array/ArrayAccessor1.hpp>
+#include <Core/Array/ArrayView.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>
-#include <Core/Vector/Vector3.hpp>
 
 namespace CubbyFlow
 {
@@ -40,7 +39,7 @@ class PointsToImplicit3
     PointsToImplicit3& operator=(PointsToImplicit3&&) noexcept = default;
 
     //! Converts the given points to implicit surface scalar field.
-    virtual void Convert(const ConstArrayAccessor1<Vector3D>& points,
+    virtual void Convert(const ConstArrayView1<Vector3D>& points,
                          ScalarGrid3* output) const = 0;
 };
 

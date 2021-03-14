@@ -13,9 +13,9 @@
 #include <Core/Array/ArrayUtils.hpp>
 #include <Core/Emitter/ParticleEmitterSet3.hpp>
 #include <Core/Emitter/VolumeParticleEmitter3.hpp>
-#include <Core/Geometry/BoundingBox3.hpp>
 #include <Core/Geometry/Box3.hpp>
 #include <Core/Geometry/Cylinder3.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet3.hpp>
 #include <Core/Geometry/Plane3.hpp>
 #include <Core/Geometry/RigidBodyCollider3.hpp>
 #include <Core/Geometry/Sphere3.hpp>
@@ -25,7 +25,6 @@
 #include <Core/Solver/Hybrid/APIC/APICSolver3.hpp>
 #include <Core/Solver/Hybrid/FLIP/FLIPSolver3.hpp>
 #include <Core/Solver/Hybrid/PIC/PICSolver3.hpp>
-#include <Core/Geometry/ImplicitSurfaceSet3.hpp>
 #include <Core/Utils/Logging.hpp>
 
 #include <pystring/pystring.h>
@@ -38,6 +37,7 @@
 #endif
 
 #include <fstream>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -49,8 +49,7 @@ void SaveParticleAsPos(const ParticleSystemData3Ptr& particles,
                        const std::string& rootDir, int frameCnt)
 {
     Array1<Vector3D> positions(particles->GetNumberOfParticles());
-    CopyRange1(particles->GetPositions(), particles->GetNumberOfParticles(),
-               &positions);
+    Copy(particles->Positions(), positions.View());
     char baseName[256];
     snprintf(baseName, sizeof(baseName), "frame_%06d.pos", frameCnt);
     std::string fileName = pystring::os::path::join(rootDir, baseName);
@@ -59,7 +58,7 @@ void SaveParticleAsPos(const ParticleSystemData3Ptr& particles,
     {
         printf("Writing %s...\n", fileName.c_str());
         std::vector<uint8_t> buffer;
-        Serialize(positions.ConstAccessor(), &buffer);
+        Serialize<Vector3D>(positions.View(), &buffer);
         file.write(reinterpret_cast<char*>(buffer.data()), buffer.size());
         file.close();
     }
@@ -69,8 +68,7 @@ void SaveParticleAsXYZ(const ParticleSystemData3Ptr& particles,
                        const std::string& rootDir, int frameCnt)
 {
     Array1<Vector3D> positions(particles->GetNumberOfParticles());
-    CopyRange1(particles->GetPositions(), particles->GetNumberOfParticles(),
-               &positions);
+    Copy(particles->Positions(), positions.View());
     char baseName[256];
     snprintf(baseName, sizeof(baseName), "frame_%06d.xyz", frameCnt);
     std::string fileName = pystring::os::path::join(rootDir, baseName);
@@ -89,7 +87,7 @@ void SaveParticleAsXYZ(const ParticleSystemData3Ptr& particles,
 void PrintInfo(const PICSolver3Ptr& solver)
 {
     const auto grids = solver->GetGridSystemData();
-    const Size3 resolution = grids->GetResolution();
+    const Vector3UZ resolution = grids->GetResolution();
     const BoundingBox3D domain = grids->GetBoundingBox();
     const Vector3D gridSpacing = grids->GetGridSpacing();
 
@@ -142,12 +140,12 @@ void RunExample1(const std::string& rootDir, size_t resolutionX,
     // Build emitter
     const auto plane = Plane3::Builder()
                            .WithNormal({ 0, 1, 0 })
-                           .WithPoint({ 0, 0.25 * domain.GetHeight(), 0 })
+                           .WithPoint({ 0, 0.25 * domain.Height(), 0 })
                            .MakeShared();
 
     const auto sphere = Sphere3::Builder()
                             .WithCenter(domain.MidPoint())
-                            .WithRadius(0.15 * domain.GetWidth())
+                            .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
     auto emitter1 = VolumeParticleEmitter3::Builder()
@@ -201,12 +199,12 @@ void RunExample2(const std::string& rootDir, size_t resolutionX,
     // Build emitter
     const auto plane = Plane3::Builder()
                            .WithNormal({ 0, 1, 0 })
-                           .WithPoint({ 0, 0.25 * domain.GetHeight(), 0 })
+                           .WithPoint({ 0, 0.25 * domain.Height(), 0 })
                            .MakeShared();
 
     const auto sphere = Sphere3::Builder()
                             .WithCenter(domain.MidPoint())
-                            .WithRadius(0.15 * domain.GetWidth())
+                            .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
     auto emitter1 = VolumeParticleEmitter3::Builder()
@@ -244,8 +242,8 @@ void RunExample3(const std::string& rootDir, size_t resolutionX,
                  int numberOfFrames, const std::string& format, double fps)
 {
     // Build solver
-    const Size3 resolution{ 3 * resolutionX, 2 * resolutionX,
-                            (3 * resolutionX) / 2 };
+    const Vector3UZ resolution{ 3 * resolutionX, 2 * resolutionX,
+                                (3 * resolutionX) / 2 };
     auto solver = FLIPSolver3::Builder()
                       .WithResolution(resolution)
                       .WithDomainSizeX(3.0)
@@ -255,7 +253,7 @@ void RunExample3(const std::string& rootDir, size_t resolutionX,
     const auto grids = solver->GetGridSystemData();
     const double dx = grids->GetGridSpacing().x;
     const BoundingBox3D domain = grids->GetBoundingBox();
-    const double lz = domain.GetDepth();
+    const double lz = domain.Depth();
 
     // Build emitter
     const auto box1 =
@@ -324,8 +322,8 @@ void RunExample4(const std::string& rootDir, size_t resolutionX,
                  int numberOfFrames, const std::string& format, double fps)
 {
     // Build solver
-    const Size3 resolution{ 3 * resolutionX, 2 * resolutionX,
-                            (3 * resolutionX) / 2 };
+    const Vector3UZ resolution{ 3 * resolutionX, 2 * resolutionX,
+                                (3 * resolutionX) / 2 };
     auto solver = PICSolver3::Builder()
                       .WithResolution(resolution)
                       .WithDomainSizeX(3.0)
@@ -335,7 +333,7 @@ void RunExample4(const std::string& rootDir, size_t resolutionX,
     const auto grids = solver->GetGridSystemData();
     const double dx = grids->GetGridSpacing().x;
     const BoundingBox3D domain = grids->GetBoundingBox();
-    const double lz = domain.GetDepth();
+    const double lz = domain.Depth();
 
     // Build emitter
     const auto box1 =
@@ -405,8 +403,8 @@ void RunExample5(const std::string& rootDir, size_t resolutionX,
                  double fps)
 {
     // Build solver
-    const Size3 resolution{ 3 * resolutionX, 2 * resolutionX,
-                            (3 * resolutionX) / 2 };
+    const Vector3UZ resolution{ 3 * resolutionX, 2 * resolutionX,
+                                (3 * resolutionX) / 2 };
     auto solver = APICSolver3::Builder()
                       .WithResolution(resolution)
                       .WithDomainSizeX(3.0)
@@ -416,7 +414,7 @@ void RunExample5(const std::string& rootDir, size_t resolutionX,
     const auto grids = solver->GetGridSystemData();
     const double dx = grids->GetGridSpacing().x;
     const BoundingBox3D domain = grids->GetBoundingBox();
-    const double lz = domain.GetDepth();
+    const double lz = domain.Depth();
 
     // Build emitter
     const auto box1 =

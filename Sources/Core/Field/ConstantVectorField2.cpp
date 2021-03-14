@@ -19,7 +19,6 @@ ConstantVectorField2::ConstantVectorField2(const Vector2D& value)
     // Do nothing
 }
 
-// TODO: x is unused variable.
 Vector2D ConstantVectorField2::Sample(const Vector2D& x) const
 {
     UNUSED_VARIABLE(x);

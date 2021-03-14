@@ -9,7 +9,6 @@
 // property of any third parties.
 
 #include <Core/Geometry/CustomImplicitSurface2.hpp>
-#include <Core/Utils/LevelSetUtils.hpp>
 
 #include <utility>
 
@@ -53,7 +52,7 @@ Vector2D CustomImplicitSurface2::ClosestPointLocal(
 
 bool CustomImplicitSurface2::IntersectsLocal(const Ray2D& ray) const
 {
-    const BoundingBoxRayIntersection2D intersection =
+    const BoundingBoxRayIntersectionD intersection =
         m_domain.ClosestIntersection(ray);
 
     if (intersection.isIntersecting)
@@ -128,7 +127,7 @@ SurfaceRayIntersection2 CustomImplicitSurface2::ClosestIntersectionLocal(
     const Ray2D& ray) const
 {
     SurfaceRayIntersection2 result;
-    const BoundingBoxRayIntersection2D intersection =
+    const BoundingBoxRayIntersectionD intersection =
         m_domain.ClosestIntersection(ray);
 
     if (intersection.isIntersecting)

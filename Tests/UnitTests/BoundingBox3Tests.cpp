@@ -1,7 +1,7 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
-#include <Core/Geometry/BoundingBox3.hpp>
+#include <Core/Geometry/BoundingBox.hpp>
 
 using namespace CubbyFlow;
 
@@ -52,9 +52,9 @@ TEST(BoundingBox3, BasicGetters)
 {
     BoundingBox3D box(Vector3D(-2.0, 3.0, 5.0), Vector3D(4.0, -2.0, 1.0));
 
-    EXPECT_DOUBLE_EQ(6.0, box.GetWidth());
-    EXPECT_DOUBLE_EQ(5.0, box.GetHeight());
-    EXPECT_DOUBLE_EQ(4.0, box.GetDepth());
+    EXPECT_DOUBLE_EQ(6.0, box.Width());
+    EXPECT_DOUBLE_EQ(5.0, box.Height());
+    EXPECT_DOUBLE_EQ(4.0, box.Depth());
     EXPECT_DOUBLE_EQ(6.0, box.Length(0));
     EXPECT_DOUBLE_EQ(5.0, box.Length(1));
     EXPECT_DOUBLE_EQ(4.0, box.Length(2));
@@ -149,13 +149,13 @@ TEST(BoundingBox3, ClosestIntersection)
     BoundingBox3D box(Vector3D(-2.0, -2.0, -1.0), Vector3D(1.0, 0.0, 1.0));
 
     Ray3D ray1(Vector3D(-4, -3, 0), Vector3D(1, 1, 0).Normalized());
-    BoundingBoxRayIntersection3D intersection1 = box.ClosestIntersection(ray1);
+    BoundingBoxRayIntersectionD intersection1 = box.ClosestIntersection(ray1);
     EXPECT_TRUE(intersection1.isIntersecting);
     EXPECT_DOUBLE_EQ(Vector3D(2, 2, 0).Length(), intersection1.near);
     EXPECT_DOUBLE_EQ(Vector3D(3, 3, 0).Length(), intersection1.far);
 
     Ray3D ray2(Vector3D(0, -1, 0), Vector3D(-2, 1, 1).Normalized());
-    BoundingBoxRayIntersection3D intersection2 = box.ClosestIntersection(ray2);
+    BoundingBoxRayIntersectionD intersection2 = box.ClosestIntersection(ray2);
     EXPECT_TRUE(intersection2.isIntersecting);
     EXPECT_DOUBLE_EQ(Vector3D(2, 1, 1).Length(), intersection2.near);
 }

@@ -9,6 +9,9 @@
 // property of any third parties.
 
 #include <Core/FDM/FDMMGLinearSystem2.hpp>
+#include <Core/Utils/Parallel.hpp>
+
+#include <array>
 
 namespace CubbyFlow
 {
@@ -24,7 +27,7 @@ size_t FDMMGLinearSystem2::GetNumberOfLevels() const
     return A.levels.size();
 }
 
-void FDMMGLinearSystem2::ResizeWithCoarsest(const Size2& coarsestResolution,
+void FDMMGLinearSystem2::ResizeWithCoarsest(const Vector2UZ& coarsestResolution,
                                             size_t numberOfLevels)
 {
     FDMMGUtils2::ResizeArrayWithCoarsest(coarsestResolution, numberOfLevels,
@@ -35,7 +38,7 @@ void FDMMGLinearSystem2::ResizeWithCoarsest(const Size2& coarsestResolution,
                                          &b.levels);
 }
 
-void FDMMGLinearSystem2::ResizeWithFinest(const Size2& finestResolution,
+void FDMMGLinearSystem2::ResizeWithFinest(const Vector2UZ& finestResolution,
                                           size_t maxNumberOfLevels)
 {
     FDMMGUtils2::ResizeArrayWithFinest(finestResolution, maxNumberOfLevels,
@@ -48,8 +51,8 @@ void FDMMGLinearSystem2::ResizeWithFinest(const Size2& finestResolution,
 
 void FDMMGUtils2::Restrict(const FDMVector2& finer, FDMVector2* coarser)
 {
-    assert(finer.size().x == 2 * coarser->size().x);
-    assert(finer.size().y == 2 * coarser->size().y);
+    assert(finer.Size().x == 2 * coarser->Size().x);
+    assert(finer.Size().y == 2 * coarser->Size().y);
 
     // --*--|--*--|--*--|--*--
     //  1/8   3/8   3/8   1/8
@@ -58,11 +61,11 @@ void FDMMGUtils2::Restrict(const FDMVector2& finer, FDMVector2* coarser)
     static const std::array<double, 4> kernel = { { 0.125, 0.375, 0.375,
                                                     0.125 } };
 
-    const Size2 n = coarser->size();
+    const Vector2UZ n = coarser->Size();
     ParallelRangeFor(
         ZERO_SIZE, n.x, ZERO_SIZE, n.y,
         [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd) {
-            std::array<size_t, 4> jIndices;
+            std::array<size_t, 4> jIndices{};
 
             for (size_t j = jBegin; j < jEnd; ++j)
             {
@@ -71,7 +74,7 @@ void FDMMGUtils2::Restrict(const FDMVector2& finer, FDMVector2* coarser)
                 jIndices[2] = 2 * j + 1;
                 jIndices[3] = (j + 1 < n.y) ? 2 * j + 2 : 2 * j + 1;
 
-                std::array<size_t, 4> iIndices;
+                std::array<size_t, 4> iIndices{};
                 for (size_t i = iBegin; i < iEnd; ++i)
                 {
                     iIndices[0] = (i > 0) ? 2 * i - 1 : 2 * i;
@@ -84,7 +87,7 @@ void FDMMGUtils2::Restrict(const FDMVector2& finer, FDMVector2* coarser)
                     {
                         for (size_t x = 0; x < 4; ++x)
                         {
-                            double w = kernel[x] * kernel[y];
+                            const double w = kernel[x] * kernel[y];
                             sum += w * finer(iIndices[x], jIndices[y]);
                         }
                     }
@@ -97,14 +100,14 @@ void FDMMGUtils2::Restrict(const FDMVector2& finer, FDMVector2* coarser)
 
 void FDMMGUtils2::Correct(const FDMVector2& coarser, FDMVector2* finer)
 {
-    assert(finer->size().x == 2 * coarser.size().x);
-    assert(finer->size().y == 2 * coarser.size().y);
+    assert(finer->Size().x == 2 * coarser.Size().x);
+    assert(finer->Size().y == 2 * coarser.Size().y);
 
     // -----|-----*-----|-----
     //           to
     //  1/4   3/4   3/4   1/4
     // --*--|--*--|--*--|--*--
-    const Size2 n = finer->size();
+    const Vector2UZ n = finer->Size();
     ParallelRangeFor(
         ZERO_SIZE, n.x, ZERO_SIZE, n.y,
         [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd) {
@@ -112,10 +115,10 @@ void FDMMGUtils2::Correct(const FDMVector2& coarser, FDMVector2* finer)
             {
                 for (size_t i = iBegin; i < iEnd; ++i)
                 {
-                    std::array<size_t, 2> iIndices;
-                    std::array<size_t, 2> jIndices;
-                    std::array<double, 2> iWeights;
-                    std::array<double, 2> jWeights;
+                    std::array<size_t, 2> iIndices{};
+                    std::array<size_t, 2> jIndices{};
+                    std::array<double, 2> iWeights{};
+                    std::array<double, 2> jWeights{};
 
                     const size_t ci = i / 2;
                     const size_t cj = j / 2;
@@ -154,8 +157,8 @@ void FDMMGUtils2::Correct(const FDMVector2& coarser, FDMVector2* finer)
                     {
                         for (size_t x = 0; x < 2; ++x)
                         {
-                            double w = iWeights[x] * jWeights[y] *
-                                       coarser(iIndices[x], jIndices[y]);
+                            const double w = iWeights[x] * jWeights[y] *
+                                             coarser(iIndices[x], jIndices[y]);
                             (*finer)(i, j) += w;
                         }
                     }

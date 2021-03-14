@@ -11,9 +11,9 @@
 #ifndef CUBBYFLOW_TRANSFORM2_HPP
 #define CUBBYFLOW_TRANSFORM2_HPP
 
-#include <Core/Geometry/BoundingBox2.hpp>
-#include <Core/Geometry/Ray2.hpp>
-#include <Core/Vector/Vector2.hpp>
+#include <Core/Geometry/BoundingBox.hpp>
+#include <Core/Geometry/Ray.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 namespace CubbyFlow
 {

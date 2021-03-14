@@ -28,8 +28,8 @@ bool FDMJacobiSolver3::Solve(FDMLinearSystem3* system)
 {
     ClearCompressedVectors();
 
-    m_xTemp.Resize(system->x.size());
-    m_residual.Resize(system->x.size());
+    m_xTemp.Resize(system->x.Size());
+    m_residual.Resize(system->x.Size());
 
     m_lastNumberOfIterations = m_maxNumberOfIterations;
 
@@ -60,8 +60,8 @@ bool FDMJacobiSolver3::SolveCompressed(FDMCompressedLinearSystem3* system)
 {
     ClearUncompressedVectors();
 
-    m_xTempComp.Resize(system->x.size());
-    m_residualComp.Resize(system->x.size());
+    m_xTempComp.Resize(system->x.GetRows());
+    m_residualComp.Resize(system->x.GetRows());
 
     m_lastNumberOfIterations = m_maxNumberOfIterations;
 
@@ -114,11 +114,11 @@ double FDMJacobiSolver3::GetLastResidual() const
 void FDMJacobiSolver3::Relax(const FDMMatrix3& A, const FDMVector3& b,
                              FDMVector3* x, FDMVector3* xTemp)
 {
-    Size3 size = A.size();
+    Vector3UZ size = A.Size();
     FDMVector3& xRef = *x;
     FDMVector3& xTempRef = *xTemp;
 
-    A.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(size, [&](size_t i, size_t j, size_t k) {
         const double r =
             ((i > 0) ? A(i - 1, j, k).right * xRef(i - 1, j, k) : 0.0) +
             ((i + 1 < size.x) ? A(i, j, k).right * xRef(i + 1, j, k) : 0.0) +
@@ -141,7 +141,7 @@ void FDMJacobiSolver3::Relax(const MatrixCSRD& A, const VectorND& b,
     VectorND& xRef = *x;
     VectorND& xTempRef = *xTemp;
 
-    b.ParallelForEachIndex([&](size_t i) {
+    ParallelForEachIndex(b.GetRows(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 

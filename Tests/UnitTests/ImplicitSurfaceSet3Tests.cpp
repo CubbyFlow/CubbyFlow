@@ -223,12 +223,12 @@ TEST(ImplicitSurfaceSet3, MixedBoundTypes)
 
     const auto plane = Plane3::Builder{}
                            .WithNormal({ 0, 1, 0 })
-                           .WithPoint({ 0, 0.25 * domain.GetHeight(), 0 })
+                           .WithPoint({ 0, 0.25 * domain.Height(), 0 })
                            .MakeShared();
 
     const auto sphere = Sphere3::Builder{}
                             .WithCenter(domain.MidPoint())
-                            .WithRadius(0.15 * domain.GetWidth())
+                            .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
     const auto surfaceSet = ImplicitSurfaceSet3::Builder{}
@@ -268,12 +268,12 @@ TEST(ImplicitSurfaceSet3, IsInside)
 
     const auto plane = Plane3::Builder{}
                            .WithNormal({ 0, 1, 0 })
-                           .WithPoint({ 0, 0.25 * domain.GetHeight(), 0 })
+                           .WithPoint({ 0, 0.25 * domain.Height(), 0 })
                            .MakeShared();
 
     const auto sphere = Sphere3::Builder{}
                             .WithCenter(domain.MidPoint())
-                            .WithRadius(0.15 * domain.GetWidth())
+                            .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
     const auto surfaceSet =

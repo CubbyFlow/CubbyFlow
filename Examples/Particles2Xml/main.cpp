@@ -10,9 +10,9 @@
 
 #include <../ClaraUtils.hpp>
 
-#include <Core/Array/Array1.hpp>
+#include <Core/Array/Array.hpp>
+#include <Core/Matrix/Matrix.hpp>
 #include <Core/Utils/Serialization.hpp>
-#include <Core/Vector/Vector3.hpp>
 
 #include <Clara/include/clara.hpp>
 
@@ -31,7 +31,7 @@ void PrintInfo(size_t numberOfParticles)
 void ParticlesToXML(const Array1<Vector3D>& positions,
                     const std::string& xmlFileName)
 {
-    PrintInfo(positions.size());
+    PrintInfo(positions.Length());
 
     std::ofstream file(xmlFileName.c_str());
     if (file)

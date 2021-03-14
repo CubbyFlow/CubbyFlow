@@ -11,100 +11,69 @@
 #ifndef CUBBYFLOW_ARRAY_UTILS_IMPL_HPP
 #define CUBBYFLOW_ARRAY_UTILS_IMPL_HPP
 
-#include <Core/Array/Array2.hpp>
-#include <Core/Array/Array3.hpp>
-#include <Core/Utils/Parallel.hpp>
-#include <Core/Utils/TypeHelpers.hpp>
-
-#include <iostream>
+#include <Core/Array/Array.hpp>
 
 namespace CubbyFlow
 {
-template <typename ArrayType, typename T>
-void SetRange1(size_t size, const T& value, ArrayType* output)
+template <typename T, size_t N>
+void Fill(ArrayView<T, N> a, const Vector<size_t, N>& begin,
+          const Vector<size_t, N>& end, const T& val)
 {
-    SetRange1(ZERO_SIZE, size, value, output);
+    ForEachIndex(begin, end, [&](auto... idx) { a(idx...) = val; });
 }
 
-template <typename ArrayType, typename T>
-void SetRange1(size_t begin, size_t end, const T& value, ArrayType* output)
+template <typename T, size_t N>
+void Fill(ArrayView<T, N> a, const T& val)
 {
-    ParallelFor(begin, end, [&](size_t i) { (*output)[i] = value; });
-}
-
-template <typename ArrayType1, typename ArrayType2>
-void CopyRange1(const ArrayType1& input, size_t size, ArrayType2* output)
-{
-    CopyRange1(input, 0, size, output);
-}
-
-template <typename ArrayType1, typename ArrayType2>
-void CopyRange1(const ArrayType1& input, size_t begin, size_t end,
-                ArrayType2* output)
-{
-    ParallelFor(begin, end,
-                [&input, &output](size_t i) { (*output)[i] = input[i]; });
-}
-
-template <typename ArrayType1, typename ArrayType2>
-void CopyRange2(const ArrayType1& input, size_t sizeX, size_t sizeY,
-                ArrayType2* output)
-{
-    CopyRange2(input, ZERO_SIZE, sizeX, ZERO_SIZE, sizeY, output);
-}
-
-template <typename ArrayType1, typename ArrayType2>
-void CopyRange2(const ArrayType1& input, size_t beginX, size_t endX,
-                size_t beginY, size_t endY, ArrayType2* output)
-{
-    ParallelFor(beginX, endX, beginY, endY,
-                [&input, &output](size_t i, size_t j) {
-                    (*output)(i, j) = input(i, j);
-                });
-}
-
-template <typename ArrayType1, typename ArrayType2>
-void CopyRange3(const ArrayType1& input, size_t sizeX, size_t sizeY,
-                size_t sizeZ, ArrayType2* output)
-{
-    CopyRange3(input, ZERO_SIZE, sizeX, ZERO_SIZE, sizeY, ZERO_SIZE, sizeZ,
-               output);
-}
-
-template <typename ArrayType1, typename ArrayType2>
-void CopyRange3(const ArrayType1& input, size_t beginX, size_t endX,
-                size_t beginY, size_t endY, size_t beginZ, size_t endZ,
-                ArrayType2* output)
-{
-    ParallelFor(beginX, endX, beginY, endY, beginZ, endZ,
-                [&input, &output](size_t i, size_t j, size_t k) {
-                    (*output)(i, j, k) = input(i, j, k);
-                });
+    Fill(a, Vector<size_t, N>{}, Vector<size_t, N>{ a.Size() }, val);
 }
 
 template <typename T>
-void ExtrapolateToRegion(const ConstArrayAccessor2<T>& input,
-                         const ConstArrayAccessor2<char>& valid,
-                         unsigned int numberOfIterations,
-                         ArrayAccessor2<T> output)
+void Fill(ArrayView<T, 1> a, size_t begin, size_t end, const T& val)
 {
-    const Size2 size = input.size();
+    Fill(a, Vector1UZ{ begin }, Vector1UZ{ end }, val);
+}
 
-    assert(size == valid.size());
-    assert(size == output.size());
+template <typename T, typename U, size_t N>
+void Copy(ArrayView<T, N> src, const Vector<size_t, N>& begin,
+          const Vector<size_t, N>& end, ArrayView<U, N> dst)
+{
+    ForEachIndex(begin, end, [&](auto... idx) { dst(idx...) = src(idx...); });
+}
+
+template <typename T, typename U, size_t N>
+void Copy(ArrayView<T, N> src, ArrayView<U, N> dst)
+{
+    Copy(src, Vector<size_t, N>{}, Vector<size_t, N>{ src.Size() }, dst);
+}
+
+template <typename T, typename U>
+void Copy(ArrayView<T, 1> src, size_t begin, size_t end, ArrayView<U, 1> dst)
+{
+    Copy(src, Vector1UZ{ begin }, Vector1UZ{ end }, dst);
+}
+
+template <typename T, typename U>
+void ExtrapolateToRegion(ArrayView2<T> input, ArrayView2<char> valid,
+                         unsigned int numberOfIterations, ArrayView2<U> output)
+{
+    const Vector2UZ size = input.Size();
+
+    assert(size == valid.Size());
+    assert(size == output.Size());
 
     Array2<char> valid0(size);
     Array2<char> valid1(size);
 
-    valid0.ParallelForEachIndex([&](size_t i, size_t j) {
+    ParallelForEachIndex(valid0.Size(), [&](size_t i, size_t j) {
         valid0(i, j) = valid(i, j);
         output(i, j) = input(i, j);
     });
 
     for (unsigned int iter = 0; iter < numberOfIterations; ++iter)
     {
-        valid0.ForEachIndex([&](size_t i, size_t j) {
-            T sum = Zero<T>();
+        ForEachIndex(valid0.Size(), [&](size_t i, size_t j) {
+            T sum = T{};
             unsigned int count = 0;
 
             if (!valid0(i, j))
@@ -136,7 +105,8 @@ void ExtrapolateToRegion(const ConstArrayAccessor2<T>& input,
                 if (count > 0)
                 {
                     output(i, j) =
-                        sum / static_cast<typename ScalarType<T>::value>(count);
+                        sum /
+                        static_cast<typename GetScalarType<T>::value>(count);
                     valid1(i, j) = 1;
                 }
             }
@@ -150,29 +120,27 @@ void ExtrapolateToRegion(const ConstArrayAccessor2<T>& input,
     }
 }
 
-template <typename T>
-void ExtrapolateToRegion(const ConstArrayAccessor3<T>& input,
-                         const ConstArrayAccessor3<char>& valid,
-                         unsigned int numberOfIterations,
-                         ArrayAccessor3<T> output)
+template <typename T, typename U>
+void ExtrapolateToRegion(ArrayView3<T> input, ArrayView3<char> valid,
+                         unsigned int numberOfIterations, ArrayView3<U> output)
 {
-    const Size3 size = input.size();
+    const Vector3UZ size = input.Size();
 
-    assert(size == valid.size());
-    assert(size == output.size());
+    assert(size == valid.Size());
+    assert(size == output.Size());
 
     Array3<char> valid0(size);
     Array3<char> valid1(size);
 
-    valid0.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(valid0.Size(), [&](size_t i, size_t j, size_t k) {
         valid0(i, j, k) = valid(i, j, k);
         output(i, j, k) = input(i, j, k);
     });
 
     for (unsigned int iter = 0; iter < numberOfIterations; ++iter)
     {
-        valid0.ForEachIndex([&](size_t i, size_t j, size_t k) {
-            T sum = Zero<T>();
+        ForEachIndex(valid0.Size(), [&](size_t i, size_t j, size_t k) {
+            T sum = T{};
             unsigned int count = 0;
 
             if (!valid0(i, j, k))
@@ -216,7 +184,8 @@ void ExtrapolateToRegion(const ConstArrayAccessor3<T>& input,
                 if (count > 0)
                 {
                     output(i, j, k) =
-                        sum / static_cast<typename ScalarType<T>::value>(count);
+                        sum /
+                        static_cast<typename GetScalarType<T>::value>(count);
                     valid1(i, j, k) = 1;
                 }
             }
@@ -227,37 +196,6 @@ void ExtrapolateToRegion(const ConstArrayAccessor3<T>& input,
         });
 
         valid0.Swap(valid1);
-    }
-}
-
-template <typename ArrayType>
-void ConvertToCSV(const ArrayType& data, std::ostream* stream)
-{
-    const Size2 size = data.size();
-
-    for (size_t j = 0; j < size.y; ++j)
-    {
-        for (size_t i = 0; i < size.x; ++i)
-        {
-            auto val = data(i, j);
-
-            // TODO: Hack to handle char and unsigned char
-            if constexpr (sizeof(decltype(val)) == 1)
-            {
-                *stream << static_cast<int>(val);
-            }
-            else
-            {
-                *stream << val;
-            }
-
-            if (i + 1 < size.x)
-            {
-                *stream << ", ";
-            }
-        }
-
-        *stream << std::endl;
     }
 }
 }  // namespace CubbyFlow

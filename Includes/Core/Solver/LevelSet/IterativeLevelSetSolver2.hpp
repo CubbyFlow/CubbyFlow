@@ -108,25 +108,25 @@ class IterativeLevelSetSolver2 : public LevelSetSolver2
 
  protected:
     //! Computes the derivatives for given grid point.
-    virtual void GetDerivatives(ConstArrayAccessor2<double> grid,
+    virtual void GetDerivatives(ConstArrayView2<double> grid,
                                 const Vector2D& gridSpacing, size_t i, size_t j,
                                 std::array<double, 2>* dx,
                                 std::array<double, 2>* dy) const = 0;
 
  private:
-    void Extrapolate(const ConstArrayAccessor2<double>& input,
-                     const ConstArrayAccessor2<double>& sdf,
+    void Extrapolate(const ConstArrayView2<double>& input,
+                     const ConstArrayView2<double>& sdf,
                      const Vector2D& gridSpacing, double maxDistance,
-                     ArrayAccessor2<double> output);
+                     ArrayView2<double> output);
 
     [[nodiscard]] static unsigned int DistanceToNumberOfIterations(
         double distance, double dtau);
 
-    [[nodiscard]] static double Sign(const ConstArrayAccessor2<double>& sdf,
+    [[nodiscard]] static double Sign(const ConstArrayView2<double>& sdf,
                                      const Vector2D& gridSpacing, size_t i,
                                      size_t j);
 
-    [[nodiscard]] double PseudoTimeStep(const ConstArrayAccessor2<double>& sdf,
+    [[nodiscard]] double PseudoTimeStep(const ConstArrayView2<double>& sdf,
                                         const Vector2D& gridSpacing) const;
 
     double m_maxCFL = 0.5;

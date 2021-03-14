@@ -11,10 +11,9 @@
 #ifndef CUBBYFLOW_GRID2_HPP
 #define CUBBYFLOW_GRID2_HPP
 
-#include <Core/Geometry/BoundingBox2.hpp>
-#include <Core/Geometry/Size2.hpp>
+#include <Core/Geometry/BoundingBox.hpp>
+#include <Core/Matrix/Matrix.hpp>
 #include <Core/Utils/Serialization.hpp>
-#include <Core/Vector/Vector2.hpp>
 
 #include <memory>
 #include <string>
@@ -57,10 +56,10 @@ class Grid2 : public Serializable
     [[nodiscard]] virtual std::string TypeName() const = 0;
 
     //! Returns the grid resolution.
-    [[nodiscard]] const Size2& Resolution() const;
+    [[nodiscard]] const Vector2UZ& Resolution() const;
 
     //! Returns the grid origin.
-    [[nodiscard]] const Vector2D& Origin() const;
+    [[nodiscard]] const Vector2D& GridOrigin() const;
 
     //! Returns the grid spacing.
     [[nodiscard]] const Vector2D& GridSpacing() const;
@@ -108,8 +107,8 @@ class Grid2 : public Serializable
  protected:
     //! Sets the size parameters including the resolution, grid spacing, and
     //! origin.
-    void SetSizeParameters(const Size2& resolution, const Vector2D& gridSpacing,
-                           const Vector2D& origin);
+    void SetSizeParameters(const Vector2UZ& resolution,
+                           const Vector2D& gridSpacing, const Vector2D& origin);
 
     //! Swaps the size parameters with given grid \p other.
     void SwapGrid(Grid2* other);
@@ -124,9 +123,9 @@ class Grid2 : public Serializable
     virtual void SetData(const std::vector<double>& data) = 0;
 
  private:
-    Size2 m_resolution;
+    Vector2UZ m_resolution;
     Vector2D m_gridSpacing = Vector2D(1, 1);
-    Vector2D m_origin;
+    Vector2D m_gridOrigin;
     BoundingBox2D m_boundingBox = BoundingBox2D(Vector2D(), Vector2D());
 };
 

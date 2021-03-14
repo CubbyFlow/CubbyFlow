@@ -20,27 +20,27 @@ namespace CubbyFlow
 void GridFractionalBoundaryConditionSolver3::ConstrainVelocity(
     FaceCenteredGrid3* velocity, unsigned int extrapolationDepth)
 {
-    Size3 size = velocity->Resolution();
+    Vector3UZ size = velocity->Resolution();
 
     if (m_colliderSDF == nullptr || m_colliderSDF->Resolution() != size)
     {
         UpdateCollider(GetCollider(), size, velocity->GridSpacing(),
-                       velocity->Origin());
+                       velocity->GridOrigin());
     }
 
-    ArrayAccessor3<double> u = velocity->GetUAccessor();
-    ArrayAccessor3<double> v = velocity->GetVAccessor();
-    ArrayAccessor3<double> w = velocity->GetWAccessor();
-    auto uPos = velocity->GetUPosition();
-    auto vPos = velocity->GetVPosition();
-    auto wPos = velocity->GetWPosition();
+    ArrayView3<double> u = velocity->UView();
+    ArrayView3<double> v = velocity->VView();
+    ArrayView3<double> w = velocity->WView();
+    auto uPos = velocity->UPosition();
+    auto vPos = velocity->VPosition();
+    auto wPos = velocity->WPosition();
 
-    Array3<double> uTemp{ u.size() };
-    Array3<double> vTemp{ v.size() };
-    Array3<double> wTemp{ w.size() };
-    Array3<char> uMarker{ u.size(), 1 };
-    Array3<char> vMarker{ v.size(), 1 };
-    Array3<char> wMarker{ w.size(), 1 };
+    Array3<double> uTemp{ u.Size() };
+    Array3<double> vTemp{ v.Size() };
+    Array3<double> wTemp{ w.Size() };
+    Array3<char> uMarker{ u.Size(), 1 };
+    Array3<char> vMarker{ v.Size(), 1 };
+    Array3<char> wMarker{ w.Size(), 1 };
 
     Vector3D h = velocity->GridSpacing();
 
@@ -109,12 +109,9 @@ void GridFractionalBoundaryConditionSolver3::ConstrainVelocity(
     });
 
     // Free-slip: Extrapolate fluid velocity into the collider
-    ExtrapolateToRegion(velocity->GetUConstAccessor(), uMarker,
-                        extrapolationDepth, u);
-    ExtrapolateToRegion(velocity->GetVConstAccessor(), vMarker,
-                        extrapolationDepth, v);
-    ExtrapolateToRegion(velocity->GetWConstAccessor(), wMarker,
-                        extrapolationDepth, w);
+    ExtrapolateToRegion(velocity->UView(), uMarker, extrapolationDepth, u);
+    ExtrapolateToRegion(velocity->VView(), vMarker, extrapolationDepth, v);
+    ExtrapolateToRegion(velocity->WView(), wMarker, extrapolationDepth, w);
 
     // No-flux: project the extrapolated velocity to the collider's surface
     // normal
@@ -209,19 +206,22 @@ void GridFractionalBoundaryConditionSolver3::ConstrainVelocity(
     });
 
     // Transfer results
-    u.ParallelForEachIndex(
-        [&](size_t i, size_t j, size_t k) { u(i, j, k) = uTemp(i, j, k); });
-    v.ParallelForEachIndex(
-        [&](size_t i, size_t j, size_t k) { v(i, j, k) = vTemp(i, j, k); });
-    w.ParallelForEachIndex(
-        [&](size_t i, size_t j, size_t k) { w(i, j, k) = wTemp(i, j, k); });
+    ParallelForEachIndex(u.Size(), [&](size_t i, size_t j, size_t k) {
+        u(i, j, k) = uTemp(i, j, k);
+    });
+    ParallelForEachIndex(v.Size(), [&](size_t i, size_t j, size_t k) {
+        v(i, j, k) = vTemp(i, j, k);
+    });
+    ParallelForEachIndex(w.Size(), [&](size_t i, size_t j, size_t k) {
+        w(i, j, k) = wTemp(i, j, k);
+    });
 
     // No-flux: Project velocity on the domain boundary if closed
     if (GetClosedDomainBoundaryFlag() & DIRECTION_LEFT)
     {
-        for (size_t k = 0; k < u.size().z; ++k)
+        for (size_t k = 0; k < u.Size().z; ++k)
         {
-            for (size_t j = 0; j < u.size().y; ++j)
+            for (size_t j = 0; j < u.Size().y; ++j)
             {
                 u(0, j, k) = 0;
             }
@@ -229,19 +229,19 @@ void GridFractionalBoundaryConditionSolver3::ConstrainVelocity(
     }
     if (GetClosedDomainBoundaryFlag() & DIRECTION_RIGHT)
     {
-        for (size_t k = 0; k < u.size().z; ++k)
+        for (size_t k = 0; k < u.Size().z; ++k)
         {
-            for (size_t j = 0; j < u.size().y; ++j)
+            for (size_t j = 0; j < u.Size().y; ++j)
             {
-                u(u.size().x - 1, j, k) = 0;
+                u(u.Size().x - 1, j, k) = 0;
             }
         }
     }
     if (GetClosedDomainBoundaryFlag() & DIRECTION_DOWN)
     {
-        for (size_t k = 0; k < v.size().z; ++k)
+        for (size_t k = 0; k < v.Size().z; ++k)
         {
-            for (size_t i = 0; i < v.size().x; ++i)
+            for (size_t i = 0; i < v.Size().x; ++i)
             {
                 v(i, 0, k) = 0;
             }
@@ -249,19 +249,19 @@ void GridFractionalBoundaryConditionSolver3::ConstrainVelocity(
     }
     if (GetClosedDomainBoundaryFlag() & DIRECTION_UP)
     {
-        for (size_t k = 0; k < v.size().z; ++k)
+        for (size_t k = 0; k < v.Size().z; ++k)
         {
-            for (size_t i = 0; i < v.size().x; ++i)
+            for (size_t i = 0; i < v.Size().x; ++i)
             {
-                v(i, v.size().y - 1, k) = 0;
+                v(i, v.Size().y - 1, k) = 0;
             }
         }
     }
     if (GetClosedDomainBoundaryFlag() & DIRECTION_BACK)
     {
-        for (size_t j = 0; j < w.size().y; ++j)
+        for (size_t j = 0; j < w.Size().y; ++j)
         {
-            for (size_t i = 0; i < w.size().x; ++i)
+            for (size_t i = 0; i < w.Size().x; ++i)
             {
                 w(i, j, 0) = 0;
             }
@@ -269,11 +269,11 @@ void GridFractionalBoundaryConditionSolver3::ConstrainVelocity(
     }
     if (GetClosedDomainBoundaryFlag() & DIRECTION_FRONT)
     {
-        for (size_t j = 0; j < w.size().y; ++j)
+        for (size_t j = 0; j < w.Size().y; ++j)
         {
-            for (size_t i = 0; i < w.size().x; ++i)
+            for (size_t i = 0; i < w.Size().x; ++i)
             {
-                w(i, j, w.size().z - 1) = 0;
+                w(i, j, w.Size().z - 1) = 0;
             }
         }
     }
@@ -291,7 +291,7 @@ GridFractionalBoundaryConditionSolver3::GetColliderVelocityField() const
 }
 
 void GridFractionalBoundaryConditionSolver3::OnColliderUpdated(
-    const Size3& gridSize, const Vector3D& gridSpacing,
+    const Vector3UZ& gridSize, const Vector3D& gridSpacing,
     const Vector3D& gridOrigin)
 {
     if (m_colliderSDF == nullptr)

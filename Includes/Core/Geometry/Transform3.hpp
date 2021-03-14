@@ -11,10 +11,10 @@
 #ifndef CUBBYFLOW_TRANSFORM3_HPP
 #define CUBBYFLOW_TRANSFORM3_HPP
 
-#include <Core/Geometry/BoundingBox3.hpp>
-#include <Core/Geometry/Ray3.hpp>
+#include <Core/Geometry/BoundingBox.hpp>
+#include <Core/Geometry/Ray.hpp>
 #include <Core/Math/Quaternion.hpp>
-#include <Core/Vector/Vector3.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 namespace CubbyFlow
 {
@@ -69,8 +69,8 @@ class Transform3
  private:
     Vector3D m_translation;
     QuaternionD m_orientation;
-    Matrix3x3D m_orientationMat3;
-    Matrix3x3D m_inverseOrientationMat3;
+    Matrix3x3D m_orientationMat3 = Matrix3x3D::MakeIdentity();
+    Matrix3x3D m_inverseOrientationMat3 = Matrix3x3D::MakeIdentity();
 };
 }  // namespace CubbyFlow
 

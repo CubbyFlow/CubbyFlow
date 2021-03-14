@@ -14,31 +14,34 @@
 
 #include <Flatbuffers/generated/ScalarGrid2_generated.h>
 
+#include <array>
+
 namespace CubbyFlow
 {
 ScalarGrid2::ScalarGrid2()
-    : m_linearSampler(LinearArraySampler2<double, double>{
-          m_data.ConstAccessor(), Vector2D{ 1, 1 }, Vector2D{} })
+    : m_linearSampler(
+          LinearArraySampler2<double>{ m_data, Vector2D{ 1, 1 }, Vector2D{} })
 {
     // Do nothing
 }
 
 void ScalarGrid2::Clear()
 {
-    Resize(Size2{}, GridSpacing(), Origin(), 0.0);
+    Resize(Vector2UZ{}, GridSpacing(), GridOrigin(), 0.0);
 }
 
 void ScalarGrid2::Resize(size_t resolutionX, size_t resolutionY,
                          double gridSpacingX, double gridSpacingY,
                          double originX, double originY, double initialValue)
 {
-    Resize(Size2{ resolutionX, resolutionY },
+    Resize(Vector2UZ{ resolutionX, resolutionY },
            Vector2D{ gridSpacingX, gridSpacingY }, Vector2D{ originX, originY },
            initialValue);
 }
 
-void ScalarGrid2::Resize(const Size2& resolution, const Vector2D& gridSpacing,
-                         const Vector2D& origin, double initialValue)
+void ScalarGrid2::Resize(const Vector2UZ& resolution,
+                         const Vector2D& gridSpacing, const Vector2D& origin,
+                         double initialValue)
 {
     SetSizeParameters(resolution, gridSpacing, origin);
 
@@ -70,12 +73,12 @@ double& ScalarGrid2::operator()(size_t i, size_t j)
 
 Vector2D ScalarGrid2::GradientAtDataPoint(size_t i, size_t j) const
 {
-    return Gradient2(m_data.ConstAccessor(), GridSpacing(), i, j);
+    return Gradient2(m_data, GridSpacing(), i, j);
 }
 
 double ScalarGrid2::LaplacianAtDataPoint(size_t i, size_t j) const
 {
-    return Laplacian2(m_data.ConstAccessor(), GridSpacing(), i, j);
+    return Laplacian2(m_data, GridSpacing(), i, j);
 }
 
 double ScalarGrid2::Sample(const Vector2D& x) const
@@ -90,9 +93,9 @@ std::function<double(const Vector2D&)> ScalarGrid2::Sampler() const
 
 Vector2D ScalarGrid2::Gradient(const Vector2D& x) const
 {
-    std::array<Point2UI, 4> indices;
+    std::array<Vector2UZ, 4> indices;
     std::array<double, 4> weights{};
-    m_linearSampler.GetCoordinatesAndWeights(x, &indices, &weights);
+    m_linearSampler.GetCoordinatesAndWeights(x, indices, weights);
 
     Vector2D result;
 
@@ -106,9 +109,9 @@ Vector2D ScalarGrid2::Gradient(const Vector2D& x) const
 
 double ScalarGrid2::Laplacian(const Vector2D& x) const
 {
-    std::array<Point2UI, 4> indices;
+    std::array<Vector2UZ, 4> indices;
     std::array<double, 4> weights{};
-    m_linearSampler.GetCoordinatesAndWeights(x, &indices, &weights);
+    m_linearSampler.GetCoordinatesAndWeights(x, indices, weights);
 
     double result = 0.0;
 
@@ -120,22 +123,23 @@ double ScalarGrid2::Laplacian(const Vector2D& x) const
     return result;
 }
 
-ScalarGrid2::ScalarDataAccessor ScalarGrid2::GetDataAccessor()
+ScalarGrid2::ScalarDataView ScalarGrid2::DataView()
 {
-    return m_data.Accessor();
+    return ScalarDataView(m_data);
 }
 
-ScalarGrid2::ConstScalarDataAccessor ScalarGrid2::GetConstDataAccessor() const
+ScalarGrid2::ConstScalarDataView ScalarGrid2::DataView() const
 {
-    return m_data.ConstAccessor();
+    return ConstScalarDataView(m_data);
 }
 
-ScalarGrid2::DataPositionFunc ScalarGrid2::GetDataPosition() const
+ScalarGrid2::DataPositionFunc ScalarGrid2::DataPosition() const
 {
     Vector2D o = GetDataOrigin();
 
     return [this, o](const size_t i, const size_t j) -> Vector2D {
-        return o + GridSpacing() * Vector2D{ { i, j } };
+        return o + ElemMul(GridSpacing(), Vector2D{ static_cast<double>(i),
+                                                    static_cast<double>(j) });
     };
 }
 
@@ -150,7 +154,7 @@ void ScalarGrid2::Fill(double value, ExecutionPolicy policy)
 void ScalarGrid2::Fill(const std::function<double(const Vector2D&)>& func,
                        ExecutionPolicy policy)
 {
-    DataPositionFunc pos = GetDataPosition();
+    DataPositionFunc pos = DataPosition();
 
     ParallelFor(
         ZERO_SIZE, m_data.Width(), ZERO_SIZE, m_data.Height(),
@@ -163,22 +167,22 @@ void ScalarGrid2::Fill(const std::function<double(const Vector2D&)>& func,
 void ScalarGrid2::ForEachDataPointIndex(
     const std::function<void(size_t, size_t)>& func) const
 {
-    m_data.ForEachIndex(func);
+    ForEachIndex(m_data.Size(), func);
 }
 
 void ScalarGrid2::ParallelForEachDataPointIndex(
     const std::function<void(size_t, size_t)>& func) const
 {
-    m_data.ParallelForEachIndex(func);
+    ParallelForEachIndex(m_data.Size(), func);
 }
 
 void ScalarGrid2::Serialize(std::vector<uint8_t>* buffer) const
 {
     flatbuffers::FlatBufferBuilder builder{ 1024 };
 
-    fbs::Size2 fbsResolution = CubbyFlowToFlatbuffers(Resolution());
+    fbs::Vector2UZ fbsResolution = CubbyFlowToFlatbuffers(Resolution());
     fbs::Vector2D fbsGridSpacing = CubbyFlowToFlatbuffers(GridSpacing());
-    fbs::Vector2D fbsOrigin = CubbyFlowToFlatbuffers(Origin());
+    fbs::Vector2D fbsOrigin = CubbyFlowToFlatbuffers(GridOrigin());
 
     std::vector<double> gridData;
     GetData(&gridData);
@@ -225,15 +229,14 @@ void ScalarGrid2::SetScalarGrid(const ScalarGrid2& other)
 {
     SetGrid(other);
 
-    m_data.Set(other.m_data);
+    m_data.CopyFrom(other.m_data);
     ResetSampler();
 }
 
 void ScalarGrid2::ResetSampler()
 {
     m_linearSampler =
-        LinearArraySampler2<double, double>{ m_data.ConstAccessor(),
-                                             GridSpacing(), GetDataOrigin() };
+        LinearArraySampler2<double>{ m_data, GridSpacing(), GetDataOrigin() };
     m_sampler = m_linearSampler.Functor();
 }
 

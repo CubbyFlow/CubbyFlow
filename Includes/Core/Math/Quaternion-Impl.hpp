@@ -154,7 +154,7 @@ void Quaternion<T>::Set(const Vector3<T>& from, const Vector3<T>& to)
         // for axis.
         if (axisLengthSquared < eps)
         {
-            axis = std::get<0>(from.Tangential());
+            axis = std::get<0>(from.Tangentials());
         }
 
         Set(from.Dot(to), axis.x, axis.y, axis.z);
@@ -350,7 +350,7 @@ T Quaternion<T>::Angle() const
 template <typename T>
 void Quaternion<T>::GetAxisAngle(Vector3<T>* axis, T* angle) const
 {
-    axis->Set(x, y, z);
+    *axis = Vector3<T>(x, y, z);
     axis->Normalize();
     *angle = 2 * std::acos(w);
 

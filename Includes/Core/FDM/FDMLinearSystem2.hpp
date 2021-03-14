@@ -11,10 +11,9 @@
 #ifndef CUBBYFLOW_FDM_LINEAR_SYSTEM2_HPP
 #define CUBBYFLOW_FDM_LINEAR_SYSTEM2_HPP
 
-#include <Core/Array/Array2.hpp>
-#include <Core/Geometry/Size2.hpp>
+#include <Core/Array/Array.hpp>
+#include <Core/Matrix/Matrix.hpp>
 #include <Core/Matrix/MatrixCSR.hpp>
-#include <Core/Vector/VectorN.hpp>
 
 namespace CubbyFlow
 {
@@ -44,7 +43,7 @@ struct FDMLinearSystem2
     void Clear();
 
     //! Resizes the arrays with given grid size.
-    void Resize(const Size2& size);
+    void Resize(const Vector2UZ& size);
 
     //! System matrix.
     FDMMatrix2 A;

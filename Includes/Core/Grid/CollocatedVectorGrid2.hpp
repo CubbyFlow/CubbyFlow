@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_COLLOCATED_VECTOR_GRID2_HPP
 #define CUBBYFLOW_COLLOCATED_VECTOR_GRID2_HPP
 
-#include <Core/Array/Array2.hpp>
-#include <Core/Array/ArraySamplers2.hpp>
+#include <Core/Array/Array.hpp>
+#include <Core/Array/ArraySamplers.hpp>
 #include <Core/Grid/VectorGrid2.hpp>
 
 namespace CubbyFlow
@@ -41,7 +41,7 @@ class CollocatedVectorGrid2 : public VectorGrid2
         default;
 
     //! Returns the actual data point size.
-    [[nodiscard]] virtual Size2 GetDataSize() const = 0;
+    [[nodiscard]] virtual Vector2UZ GetDataSize() const = 0;
 
     //!
     //! \brief Returns data position for the grid point at (0, 0).
@@ -63,14 +63,14 @@ class CollocatedVectorGrid2 : public VectorGrid2
     //! Returns curl at data point location.
     [[nodiscard]] double CurlAtDataPoint(size_t i, size_t j) const;
 
-    //! Returns the read-write data array accessor.
-    [[nodiscard]] VectorDataAccessor GetDataAccessor();
+    //! Returns the read-write data array view.
+    [[nodiscard]] VectorDataView DataView();
 
-    //! Returns the read-only data array accessor.
-    [[nodiscard]] ConstVectorDataAccessor GetConstDataAccessor() const;
+    //! Returns the read-only data array view.
+    [[nodiscard]] ConstVectorDataView DataView() const;
 
     //! Returns the function that maps data point to its position.
-    [[nodiscard]] DataPositionFunc GetDataPosition() const;
+    [[nodiscard]] DataPositionFunc DataPosition() const;
 
     //!
     //! \brief Invokes the given function \p func for each data point.
@@ -127,13 +127,13 @@ class CollocatedVectorGrid2 : public VectorGrid2
     void SetData(const std::vector<double>& data) override;
 
  private:
-    void OnResize(const Size2& resolution, const Vector2D& gridSpacing,
+    void OnResize(const Vector2UZ& resolution, const Vector2D& gridSpacing,
                   const Vector2D& origin, const Vector2D& initialValue) final;
 
     void ResetSampler();
 
     Array2<Vector2D> m_data;
-    LinearArraySampler2<Vector2D, double> m_linearSampler;
+    LinearArraySampler2<Vector2D> m_linearSampler;
     std::function<Vector2D(const Vector2D&)> m_sampler;
 };
 

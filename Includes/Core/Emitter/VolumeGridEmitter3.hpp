@@ -15,7 +15,7 @@
 #include <Core/Geometry/ImplicitSurface3.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>
 #include <Core/Grid/VectorGrid3.hpp>
-#include <Core/Vector/Vector3.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 #include <memory>
 

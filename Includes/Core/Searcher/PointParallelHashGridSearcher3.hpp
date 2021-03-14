@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_POINT_PARALLEL_HASH_GRID_SEARCHER3_HPP
 #define CUBBYFLOW_POINT_PARALLEL_HASH_GRID_SEARCHER3_HPP
 
-#include <Core/Geometry/Size3.hpp>
+#include <Core/Matrix/Matrix.hpp>
 #include <Core/Searcher/PointNeighborSearcher3.hpp>
 
 namespace CubbyFlow
@@ -40,7 +40,8 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3
     //! \param[in]  resolution  The resolution.
     //! \param[in]  gridSpacing The grid spacing.
     //!
-    PointParallelHashGridSearcher3(const Size3& resolution, double gridSpacing);
+    PointParallelHashGridSearcher3(const Vector3UZ& resolution,
+                                   double gridSpacing);
 
     //!
     //! \brief      Constructs hash grid with given resolution and grid spacing.
@@ -82,7 +83,7 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3
     //!
     //! \param[in]  points The points to be added.
     //!
-    void Build(const ConstArrayAccessor1<Vector3D>& points) override;
+    void Build(const ConstArrayView1<Vector3D>& points) override;
 
     //!
     //! Invokes the callback function for each nearby point around the origin
@@ -188,7 +189,7 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3
     //! \return     The hash key from bucket index.
     //!
     [[nodiscard]] size_t GetHashKeyFromBucketIndex(
-        const Point3I& bucketIndex) const;
+        const Vector3Z& bucketIndex) const;
 
     //!
     //! Gets the bucket index from a point.
@@ -197,7 +198,7 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3
     //!
     //! \return     The bucket index.
     //!
-    [[nodiscard]] Point3I GetBucketIndex(const Vector3D& position) const;
+    [[nodiscard]] Vector3Z GetBucketIndex(const Vector3D& position) const;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -225,7 +226,7 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3
     void GetNearbyKeys(const Vector3D& position, size_t* nearbyKeys) const;
 
     double m_gridSpacing = 1.0;
-    Point3I m_resolution = Point3I{ 1, 1, 1 };
+    Vector3Z m_resolution = Vector3Z{ 1, 1, 1 };
     std::vector<Vector3D> m_points;
     std::vector<size_t> m_keys;
     std::vector<size_t> m_startIndexTable;
@@ -246,7 +247,7 @@ class PointParallelHashGridSearcher3::Builder final
 {
  public:
     //! Returns builder with resolution.
-    [[nodiscard]] Builder& WithResolution(const Size3& resolution);
+    [[nodiscard]] Builder& WithResolution(const Vector3UZ& resolution);
 
     //! Returns builder with grid spacing.
     [[nodiscard]] Builder& WithGridSpacing(double gridSpacing);
@@ -262,7 +263,7 @@ class PointParallelHashGridSearcher3::Builder final
         const override;
 
  private:
-    Size3 m_resolution{ 64, 64, 64 };
+    Vector3UZ m_resolution{ 64, 64, 64 };
     double m_gridSpacing = 1.0;
 };
 }  // namespace CubbyFlow

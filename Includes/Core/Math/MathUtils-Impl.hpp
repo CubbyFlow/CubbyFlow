@@ -14,43 +14,80 @@
 #include <Core/Utils/Constants.hpp>
 
 #include <algorithm>
+#include <cassert>
 #include <cmath>
 
 namespace CubbyFlow
 {
 template <typename T>
-bool Similar(T x, T y, T eps)
+std::enable_if_t<std::is_arithmetic<T>::value, bool> Similar(T x, T y, T eps)
 {
-    return (std::abs(x - y) <= eps);
+    return std::abs(x - y) <= eps;
 }
 
 template <typename T>
-T Sign(T x)
+std::enable_if_t<std::is_arithmetic<T>::value, T> Sign(T x)
 {
     if (x >= 0)
     {
         return 1;
     }
-    else
-    {
-        return -1;
-    }
+
+    return -1;
 }
 
 template <typename T>
-T AbsMin(T x, T y)
+std::enable_if_t<std::is_arithmetic<T>::value, T> Min3(T x, T y, T z)
+{
+    return std::min(std::min(x, y), z);
+}
+
+template <typename T>
+std::enable_if_t<std::is_arithmetic<T>::value, T> Max3(T x, T y, T z)
+{
+    return std::max(std::max(x, y), z);
+}
+
+template <typename T>
+std::enable_if_t<std::is_arithmetic<T>::value, T> MinN(const T* x, size_t n)
+{
+    T m = x[0];
+
+    for (size_t i = 1; i < n; i++)
+    {
+        m = std::min(m, x[i]);
+    }
+
+    return m;
+}
+
+template <typename T>
+std::enable_if_t<std::is_arithmetic<T>::value, T> MaxN(const T* x, size_t n)
+{
+    T m = x[0];
+
+    for (size_t i = 1; i < n; i++)
+    {
+        m = std::max(m, x[i]);
+    }
+
+    return m;
+}
+
+template <typename T>
+std::enable_if_t<std::is_arithmetic<T>::value, T> AbsMin(T x, T y)
 {
     return (x * x < y * y) ? x : y;
 }
 
 template <typename T>
-T AbsMax(T x, T y)
+std::enable_if_t<std::is_arithmetic<T>::value, T> AbsMax(T x, T y)
 {
     return (x * x > y * y) ? x : y;
 }
 
 template <typename T>
-T AbsMinN(const T* x, size_t n)
+std::enable_if_t<std::is_arithmetic<T>::value, T> AbsMinN(const T* x, size_t n)
 {
     T m = x[0];
 
@@ -63,7 +100,7 @@ T AbsMinN(const T* x, size_t n)
 }
 
 template <typename T>
-T AbsMaxN(const T* x, size_t n)
+std::enable_if_t<std::is_arithmetic<T>::value, T> AbsMaxN(const T* x, size_t n)
 {
     T m = x[0];
 
@@ -76,53 +113,57 @@ T AbsMaxN(const T* x, size_t n)
 }
 
 template <typename T>
-size_t ArgMin2(T x, T y)
+std::enable_if_t<std::is_arithmetic<T>::value, size_t> ArgMin2(T x, T y)
 {
     return (x < y) ? 0 : 1;
 }
 
 template <typename T>
-size_t ArgMax2(T x, T y)
+std::enable_if_t<std::is_arithmetic<T>::value, size_t> ArgMax2(T x, T y)
 {
     return (x > y) ? 0 : 1;
 }
 
 template <typename T>
-size_t ArgMin3(T x, T y, T z)
+std::enable_if_t<std::is_arithmetic<T>::value, size_t> ArgMin3(T x, T y, T z)
 {
     if (x < y)
     {
         return (x < z) ? 0 : 2;
     }
-
-    return (y < z) ? 1 : 2;
+    else
+    {
+        return (y < z) ? 1 : 2;
+    }
 }
 
 template <typename T>
-size_t ArgMax3(T x, T y, T z)
+std::enable_if_t<std::is_arithmetic<T>::value, size_t> ArgMax3(T x, T y, T z)
 {
     if (x > y)
     {
         return (x > z) ? 0 : 2;
     }
-
-    return (y > z) ? 1 : 2;
+    else
+    {
+        return (y > z) ? 1 : 2;
+    }
 }
 
 template <typename T>
-T Square(T x)
+std::enable_if_t<std::is_arithmetic<T>::value, T> Square(T x)
 {
     return x * x;
 }
 
 template <typename T>
-T Cubic(T x)
+std::enable_if_t<std::is_arithmetic<T>::value, T> Cubic(T x)
 {
     return x * x * x;
 }
 
 template <typename T>
-T Clamp(T val, T low, T high)
+std::enable_if_t<std::is_arithmetic<T>::value, T> Clamp(T val, T low, T high)
 {
     if (val < low)
     {
@@ -138,68 +179,146 @@ T Clamp(T val, T low, T high)
 }
 
 template <typename T>
-T DegreesToRadians(T angleInDegrees)
+std::enable_if_t<std::is_arithmetic<T>::value, T> DegreesToRadians(
+    T angleInDegrees)
 {
     return angleInDegrees * PI<T>() / 180;
 }
 
 template <typename T>
-T RadiansToDegrees(T angleInRadians)
+std::enable_if_t<std::is_arithmetic<T>::value, T> RadiansToDegrees(
+    T angleInRadians)
 {
     return angleInRadians * 180 / PI<T>();
 }
 
 template <typename T>
-void GetBarycentric(T x, ssize_t iLow, ssize_t iHigh, ssize_t* i, T* t)
+std::enable_if_t<std::is_arithmetic<T>::value> GetBarycentric(T x, size_t begin,
+                                                              size_t end,
+                                                              size_t& i, T& t)
 {
+    assert(end > begin);
+
     T s = std::floor(x);
-    *i = static_cast<ssize_t>(s);
+    i = static_cast<size_t>(s);
+    const size_t size = end - begin;
 
-    const ssize_t offset = -iLow;
-    iLow += offset;
-    iHigh += offset;
-
-    if (iLow == iHigh || *i < iLow)
+    if (size == 1)
     {
-        *i = iLow;
-        *t = 0;
+        i = begin;
+        t = 0;
     }
-    else if (*i > iHigh - 1)
+    else if (i > end - 2)
     {
-        *i = iHigh - 1;
-        *t = 1;
+        i = end - 2;
+        t = 1;
     }
     else
     {
-        *t = static_cast<T>(x - s);
+        t = static_cast<T>(x - s);
     }
+}
 
-    *i -= offset;
+template <typename T>
+std::enable_if_t<std::is_arithmetic<T>::value> GetBarycentric(T x, size_t end,
+                                                              size_t& i, T& t)
+{
+    assert(end > 0);
+
+    T s = std::floor(x);
+    i = static_cast<size_t>(s);
+    t = x - s;
+
+    if (end == 1)
+    {
+        i = 0;
+        t = 0;
+    }
+    else if (i > end - 2)
+    {
+        i = end - 2;
+        t = 1;
+    }
+}
+
+template <typename T>
+std::enable_if_t<std::is_arithmetic<T>::value> GetBarycentric(T x,
+                                                              ssize_t begin,
+                                                              ssize_t end,
+                                                              ssize_t& i, T& t)
+{
+    assert(end > begin);
+
+    T s = std::floor(x);
+    i = static_cast<ssize_t>(s);
+    const ssize_t size = end - begin;
+
+    if (size == 1 || i < 0)
+    {
+        i = begin;
+        t = 0;
+    }
+    else if (i > end - 2)
+    {
+        i = end - 2;
+        t = 1;
+    }
+    else
+    {
+        t = static_cast<T>(x - s);
+    }
+}
+
+template <typename T>
+std::enable_if_t<std::is_arithmetic<T>::value> GetBarycentric(T x, ssize_t end,
+                                                              ssize_t& i, T& t)
+{
+    assert(end > 0);
+
+    T s = std::floor(x);
+    i = static_cast<ssize_t>(s);
+    t = x - s;
+
+    if (end == 1 || i < 0)
+    {
+        i = 0;
+        t = 0;
+    }
+    else if (i > end - 2)
+    {
+        i = end - 2;
+        t = 1;
+    }
 }
 
 template <typename S, typename T>
-S Lerp(const S& f0, const S& f1, T t)
+std::enable_if_t<std::is_arithmetic<T>::value, S> Lerp(const S& f0, const S& f1,
+                                                       T t)
 {
     return (1 - t) * f0 + t * f1;
 }
 
 template <typename S, typename T>
-S BiLerp(const S& f00, const S& f10, const S& f01, const S& f11, T tx, T ty)
+std::enable_if_t<std::is_arithmetic<T>::value, S> BiLerp(
+    const S& f00, const S& f10, const S& f01, const S& f11, T tx, T ty)
 {
     return Lerp(Lerp(f00, f10, tx), Lerp(f01, f11, tx), ty);
 }
 
 template <typename S, typename T>
-S TriLerp(const S& f000, const S& f100, const S& f010, const S& f110,
-          const S& f001, const S& f101, const S& f011, const S& f111, T tx,
-          T ty, T tz)
+std::enable_if_t<std::is_arithmetic<T>::value, S> TriLerp(
+    const S& f000, const S& f100, const S& f010, const S& f110, const S& f001,
+    const S& f101, const S& f011, const S& f111, T tx, T ty, T tz)
 {
     return Lerp(BiLerp(f000, f100, f010, f110, tx, ty),
                 BiLerp(f001, f101, f011, f111, tx, ty), tz);
 }
 
 template <typename S, typename T>
-S CatmullRom(const S& f0, const S& f1, const S& f2, const S& f3, T t)
+std::enable_if_t<std::is_arithmetic<T>::value, S> CatmullRom(const S& f0,
+                                                             const S& f1,
+                                                             const S& f2,
+                                                             const S& f3, T t)
 {
     S d1 = (f2 - f0) / 2;
     S d2 = (f3 - f1) / 2;
@@ -214,7 +333,8 @@ S CatmullRom(const S& f0, const S& f1, const S& f2, const S& f3, T t)
 }
 
 template <typename T>
-T MonotonicCatmullRom(const T& f0, const T& f1, const T& f2, const T& f3, T t)
+std::enable_if_t<std::is_arithmetic<T>::value, T> MonotonicCatmullRom(
+    const T& f0, const T& f1, const T& f2, const T& f3, T t)
 {
     T d1 = (f2 - f0) / 2;
     T d2 = (f3 - f1) / 2;

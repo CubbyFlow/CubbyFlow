@@ -10,10 +10,12 @@
 
 #include <Core/Grid/CollocatedVectorGrid3.hpp>
 
+#include <array>
+
 namespace CubbyFlow
 {
 CollocatedVectorGrid3::CollocatedVectorGrid3()
-    : m_linearSampler(m_data.ConstAccessor(), Vector3D{ 1, 1, 1 }, Vector3D{})
+    : m_linearSampler(m_data, Vector3D{ 1, 1, 1 }, Vector3D{})
 {
     // Do nothing
 }
@@ -32,7 +34,7 @@ Vector3D& CollocatedVectorGrid3::operator()(size_t i, size_t j, size_t k)
 double CollocatedVectorGrid3::DivergenceAtDataPoint(size_t i, size_t j,
                                                     size_t k) const
 {
-    const Size3 ds = m_data.size();
+    const Vector3UZ ds = m_data.Size();
     const Vector3D& gs = GridSpacing();
 
     assert(i < ds.x && j < ds.y && k < ds.z);
@@ -51,7 +53,7 @@ double CollocatedVectorGrid3::DivergenceAtDataPoint(size_t i, size_t j,
 Vector3D CollocatedVectorGrid3::CurlAtDataPoint(size_t i, size_t j,
                                                 size_t k) const
 {
-    const Size3 ds = m_data.size();
+    const Vector3UZ ds = m_data.Size();
     const Vector3D& gs = GridSpacing();
 
     assert(i < ds.x && j < ds.y && k < ds.z);
@@ -92,9 +94,9 @@ Vector3D CollocatedVectorGrid3::Sample(const Vector3D& x) const
 
 double CollocatedVectorGrid3::Divergence(const Vector3D& x) const
 {
-    std::array<Point3UI, 8> indices;
+    std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights{};
-    m_linearSampler.GetCoordinatesAndWeights(x, &indices, &weights);
+    m_linearSampler.GetCoordinatesAndWeights(x, indices, weights);
 
     double result = 0.0;
     for (int i = 0; i < 8; ++i)
@@ -108,9 +110,9 @@ double CollocatedVectorGrid3::Divergence(const Vector3D& x) const
 
 Vector3D CollocatedVectorGrid3::Curl(const Vector3D& x) const
 {
-    std::array<Point3UI, 8> indices;
+    std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights{};
-    m_linearSampler.GetCoordinatesAndWeights(x, &indices, &weights);
+    m_linearSampler.GetCoordinatesAndWeights(x, indices, weights);
 
     Vector3D result;
     for (int i = 0; i < 8; ++i)
@@ -127,36 +129,38 @@ std::function<Vector3D(const Vector3D&)> CollocatedVectorGrid3::Sampler() const
     return m_sampler;
 }
 
-VectorGrid3::VectorDataAccessor CollocatedVectorGrid3::GetDataAccessor()
+VectorGrid3::VectorDataView CollocatedVectorGrid3::DataView()
 {
-    return m_data.Accessor();
+    return VectorDataView(m_data);
 }
 
-VectorGrid3::ConstVectorDataAccessor
-CollocatedVectorGrid3::GetConstDataAccessor() const
+VectorGrid3::ConstVectorDataView CollocatedVectorGrid3::DataView() const
 {
-    return m_data.ConstAccessor();
+    return ConstVectorDataView(m_data);
 }
 
-VectorGrid3::DataPositionFunc CollocatedVectorGrid3::GetDataPosition() const
+VectorGrid3::DataPositionFunc CollocatedVectorGrid3::DataPosition() const
 {
     Vector3D dataOrigin = GetDataOrigin();
     return [this, dataOrigin](const size_t i, const size_t j,
                               const size_t k) -> Vector3D {
-        return dataOrigin + GridSpacing() * Vector3D{ { i, j, k } };
+        return dataOrigin +
+               ElemMul(GridSpacing(), Vector3D{ { static_cast<double>(i),
+                                                  static_cast<double>(j),
+                                                  static_cast<double>(k) } });
     };
 }
 
 void CollocatedVectorGrid3::ForEachDataPointIndex(
     const std::function<void(size_t, size_t, size_t)>& func) const
 {
-    m_data.ForEachIndex(func);
+    ForEachIndex(m_data.Size(), func);
 }
 
 void CollocatedVectorGrid3::ParallelForEachDataPointIndex(
     const std::function<void(size_t, size_t, size_t)>& func) const
 {
-    m_data.ParallelForEachIndex(func);
+    ParallelForEachIndex(m_data.Size(), func);
 }
 
 void CollocatedVectorGrid3::SwapCollocatedVectorGrid(
@@ -174,11 +178,11 @@ void CollocatedVectorGrid3::SetCollocatedVectorGrid(
 {
     SetGrid(other);
 
-    m_data.Set(other.m_data);
+    m_data.CopyFrom(other.m_data);
     ResetSampler();
 }
 
-void CollocatedVectorGrid3::OnResize(const Size3& resolution,
+void CollocatedVectorGrid3::OnResize(const Vector3UZ& resolution,
                                      const Vector3D& gridSpacing,
                                      const Vector3D& origin,
                                      const Vector3D& initialValue)
@@ -194,8 +198,7 @@ void CollocatedVectorGrid3::OnResize(const Size3& resolution,
 void CollocatedVectorGrid3::ResetSampler()
 {
     m_linearSampler =
-        LinearArraySampler3<Vector3D, double>{ m_data.ConstAccessor(),
-                                               GridSpacing(), GetDataOrigin() };
+        LinearArraySampler3<Vector3D>{ m_data, GridSpacing(), GetDataOrigin() };
     m_sampler = m_linearSampler.Functor();
 }
 
@@ -205,7 +208,9 @@ void CollocatedVectorGrid3::GetData(std::vector<double>* data) const
     data->resize(size);
     size_t cnt = 0;
 
-    m_data.ForEach([&](const Vector3D& value) {
+    ForEachIndex(m_data.Size(), [&](size_t i, size_t j, size_t k) {
+        const Vector3D& value = m_data(i, j, k);
+
         (*data)[cnt++] = value.x;
         (*data)[cnt++] = value.y;
         (*data)[cnt++] = value.z;
@@ -219,10 +224,11 @@ void CollocatedVectorGrid3::SetData(const std::vector<double>& data)
 
     size_t cnt = 0;
 
-    m_data.ForEachIndex([&](const size_t i, const size_t j, const size_t k) {
-        m_data(i, j, k).x = data[cnt++];
-        m_data(i, j, k).y = data[cnt++];
-        m_data(i, j, k).z = data[cnt++];
-    });
+    ForEachIndex(m_data.Size(),
+                 [&](const size_t i, const size_t j, const size_t k) {
+                     m_data(i, j, k).x = data[cnt++];
+                     m_data(i, j, k).y = data[cnt++];
+                     m_data(i, j, k).z = data[cnt++];
+                 });
 }
 }  // namespace CubbyFlow

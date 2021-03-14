@@ -17,9 +17,9 @@ void BccLatticePointGenerator::ForEachPoint(
     const std::function<bool(const Vector3D&)>& callback) const
 {
     const double halfSpacing = spacing / 2.0;
-    const double boxWidth = boundingBox.GetWidth();
-    const double boxHeight = boundingBox.GetHeight();
-    const double boxDepth = boundingBox.GetDepth();
+    const double boxWidth = boundingBox.Width();
+    const double boxHeight = boundingBox.Height();
+    const double boxDepth = boundingBox.Depth();
 
     Vector3D position;
     bool hasOffset = false;

@@ -12,7 +12,7 @@
 #define CUBBYFLOW_VECTOR_FIELD2_HPP
 
 #include <Core/Field/Field2.hpp>
-#include <Core/Vector/Vector2.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 #include <functional>
 #include <memory>

@@ -1,7 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Array/Array2.hpp>
-#include <Core/Array/Array3.hpp>
+#include <Core/Array/Array.hpp>
 #include <Core/Utils/Constants.hpp>
 #include <Core/Utils/Serial.hpp>
 

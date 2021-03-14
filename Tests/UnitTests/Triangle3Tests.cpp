@@ -90,7 +90,7 @@ TEST(Triangle3, SurfaceGetters)
     EXPECT_VECTOR3_EQ(Vector3D(0, 0, -1), cp2);
 
     Vector3D cn1 = tri.ClosestNormal({ 0.4, 0.4, 3.0 });
-    EXPECT_VECTOR3_EQ(Vector3D(1, 2, 2).Normalized(), cn1);
+    EXPECT_VECTOR3_EQ(Vector3D(Vector3D(1, 2, 2).Normalized()), cn1);
 
     Vector3D cn2 = tri.ClosestNormal({ -3.0, -3.0, 0.0 });
     EXPECT_VECTOR3_EQ(Vector3D(1, 0, 0), cn2);
@@ -109,7 +109,7 @@ TEST(Triangle3, SurfaceGetters)
     EXPECT_TRUE(cints1.isIntersecting);
     EXPECT_VECTOR3_EQ(Vector3D(0.4, 0.4, -1), cints1.point);
     EXPECT_DOUBLE_EQ(4.0, cints1.distance);
-    EXPECT_VECTOR3_EQ(Vector3D(1, 2, 2).Normalized(), cints1.normal);
+    EXPECT_VECTOR3_EQ(Vector3D(Vector3D(1, 2, 2).Normalized()), cints1.normal);
 }
 
 TEST(Triangle3, Builder)

@@ -47,7 +47,7 @@ class AnisotropicPointsToImplicit2 final : public PointsToImplicit2
                                  bool isOutputSDF = true);
 
     //! Converts the given points to implicit surface scalar field.
-    void Convert(const ConstArrayAccessor1<Vector2D>& points,
+    void Convert(const ConstArrayView1<Vector2D>& points,
                  ScalarGrid2* output) const override;
 
  private:

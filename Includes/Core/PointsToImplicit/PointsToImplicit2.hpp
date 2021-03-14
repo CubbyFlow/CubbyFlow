@@ -11,9 +11,8 @@
 #ifndef CUBBYFLOW_POINTS_TO_IMPLICIT2_HPP
 #define CUBBYFLOW_POINTS_TO_IMPLICIT2_HPP
 
-#include <Core/Array/ArrayAccessor1.hpp>
+#include <Core/Array/ArrayView.hpp>
 #include <Core/Grid/ScalarGrid2.hpp>
-#include <Core/Vector/Vector2.hpp>
 
 namespace CubbyFlow
 {
@@ -21,7 +20,7 @@ namespace CubbyFlow
 class PointsToImplicit2
 {
  public:
-     //! Default constructor.
+    //! Default constructor.
     PointsToImplicit2() = default;
 
     //! Default copy constructor.
@@ -40,7 +39,7 @@ class PointsToImplicit2
     PointsToImplicit2& operator=(PointsToImplicit2&&) noexcept = default;
 
     //! Converts the given points to implicit surface scalar field.
-    virtual void Convert(const ConstArrayAccessor1<Vector2D>& points,
+    virtual void Convert(const ConstArrayView1<Vector2D>& points,
                          ScalarGrid2* output) const = 0;
 };
 

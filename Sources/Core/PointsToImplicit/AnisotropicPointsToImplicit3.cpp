@@ -9,7 +9,7 @@
 // property of any third parties.
 
 #include <Core/Math/SVD.hpp>
-#include <Core/Matrix/Matrix3x3.hpp>
+#include <Core/Matrix/Matrix.hpp>
 #include <Core/Particle/SPH/SPHSystemData3.hpp>
 #include <Core/PointsToImplicit/AnisotropicPointsToImplicit3.hpp>
 #include <Core/Searcher/PointKdTreeSearcher3.hpp>
@@ -66,7 +66,7 @@ AnisotropicPointsToImplicit3::AnisotropicPointsToImplicit3(
 }
 
 void AnisotropicPointsToImplicit3::Convert(
-    const ConstArrayAccessor1<Vector3D>& points, ScalarGrid3* output) const
+    const ConstArrayView1<Vector3D>& points, ScalarGrid3* output) const
 {
     if (output == nullptr)
     {
@@ -74,7 +74,7 @@ void AnisotropicPointsToImplicit3::Convert(
         return;
     }
 
-    const Size3& res = output->Resolution();
+    const Vector3UZ& res = output->Resolution();
     if (res.x * res.y * res.z == 0)
     {
         CUBBYFLOW_WARN << "Empty grid is provided.";
@@ -105,10 +105,10 @@ void AnisotropicPointsToImplicit3::Convert(
     meanParticles.SetKernelRadius(r);
 
     // Compute G and xMean
-    std::vector<Matrix3x3D> gs(points.size());
-    Array1<Vector3D> xMeans{ points.size() };
+    std::vector<Matrix3x3D> gs(points.Length());
+    Array1<Vector3D> xMeans{ points.Length() };
 
-    ParallelFor(ZERO_SIZE, points.size(), [&](size_t i) {
+    ParallelFor(ZERO_SIZE, points.Length(), [&](size_t i) {
         const Vector3D& x = points[i];
 
         // Compute xMean
@@ -183,7 +183,7 @@ void AnisotropicPointsToImplicit3::Convert(
     // SPH estimator
     meanParticles.SetKernelRadius(h);
     meanParticles.UpdateDensities();
-    const ArrayAccessor<double, 1> d = meanParticles.GetDensities();
+    const ArrayView1<double> d = meanParticles.Densities();
     const double m = meanParticles.GetMass();
 
     PointKdTreeSearcher3 meanNeighborSearcher3;

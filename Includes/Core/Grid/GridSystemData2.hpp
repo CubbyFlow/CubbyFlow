@@ -46,7 +46,7 @@ class GridSystemData2 : public Serializable
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  origin      The origin.
     //!
-    GridSystemData2(const Size2& resolution, const Vector2D& gridSpacing,
+    GridSystemData2(const Vector2UZ& resolution, const Vector2D& gridSpacing,
                     const Vector2D& origin);
 
     //! Copy constructor.
@@ -79,7 +79,7 @@ class GridSystemData2 : public Serializable
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  origin      The origin.
     //!
-    void Resize(const Size2& resolution, const Vector2D& gridSpacing,
+    void Resize(const Vector2UZ& resolution, const Vector2D& gridSpacing,
                 const Vector2D& origin);
 
     //!
@@ -94,7 +94,7 @@ class GridSystemData2 : public Serializable
     //!
     //! \return     Grid cell resolution.
     //!
-    [[nodiscard]] Size2 GetResolution() const;
+    [[nodiscard]] Vector2UZ GetResolution() const;
 
     //! Return the grid spacing.
     [[nodiscard]] Vector2D GetGridSpacing() const;
@@ -228,7 +228,7 @@ class GridSystemData2 : public Serializable
     void Deserialize(const std::vector<uint8_t>& buffer) override;
 
  private:
-    Size2 m_resolution;
+    Vector2UZ m_resolution;
     Vector2D m_gridSpacing;
     Vector2D m_origin;
 

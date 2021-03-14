@@ -41,7 +41,7 @@ class GridFluidSolver3 : public PhysicsAnimation
     GridFluidSolver3();
 
     //! Constructs solver with initial grid size.
-    GridFluidSolver3(const Size3& resolution, const Vector3D& gridSpacing,
+    GridFluidSolver3(const Vector3UZ& resolution, const Vector3D& gridSpacing,
                      const Vector3D& gridOrigin);
 
     //! Deleted copy constructor.
@@ -145,7 +145,7 @@ class GridFluidSolver3 : public PhysicsAnimation
     //! \param[in] newGridSpacing The new grid spacing.
     //! \param[in] newGridOrigin  The new grid origin.
     //!
-    void ResizeGrid(const Size3& newSize, const Vector3D& newGridSpacing,
+    void ResizeGrid(const Vector3UZ& newSize, const Vector3D& newGridSpacing,
                     const Vector3D& newGridOrigin) const;
 
     //!
@@ -155,7 +155,7 @@ class GridFluidSolver3 : public PhysicsAnimation
     //! equivalent to calling gridSystemData()->resolution(), but provides a
     //! shortcut.
     //!
-    [[nodiscard]] Size3 GetResolution() const;
+    [[nodiscard]] Vector3UZ GetResolution() const;
 
     //!
     //! \brief Returns the grid spacing of the grid system data.
@@ -316,7 +316,7 @@ class GridFluidSolverBuilderBase3
 {
  public:
     //! Returns builder with grid resolution.
-    [[nodiscard]] DerivedBuilder& WithResolution(const Size3& resolution);
+    [[nodiscard]] DerivedBuilder& WithResolution(const Vector3UZ& resolution);
 
     //! Returns builder with grid spacing.
     [[nodiscard]] DerivedBuilder& WithGridSpacing(const Vector3D& gridSpacing);
@@ -338,7 +338,7 @@ class GridFluidSolverBuilderBase3
  protected:
     [[nodiscard]] Vector3D GetGridSpacing() const;
 
-    Size3 m_resolution{ 1, 1, 1 };
+    Vector3UZ m_resolution{ 1, 1, 1 };
     Vector3D m_gridSpacing{ 1, 1, 1 };
     Vector3D m_gridOrigin{ 0, 0, 0 };
     double m_domainSizeX = 1.0;
@@ -346,7 +346,7 @@ class GridFluidSolverBuilderBase3
 };
 
 template <typename T>
-T& GridFluidSolverBuilderBase3<T>::WithResolution(const Size3& resolution)
+T& GridFluidSolverBuilderBase3<T>::WithResolution(const Vector3UZ& resolution)
 {
     m_resolution = resolution;
     return static_cast<T&>(*this);
@@ -392,7 +392,7 @@ Vector3D GridFluidSolverBuilderBase3<T>::GetGridSpacing() const
 
     if (m_useDomainSize)
     {
-        gridSpacing.Set(m_domainSizeX / static_cast<double>(m_resolution.x));
+        gridSpacing.Fill(m_domainSizeX / static_cast<double>(m_resolution.x));
     }
 
     return gridSpacing;

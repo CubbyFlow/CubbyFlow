@@ -31,7 +31,7 @@ ZhuBridsonPointsToImplicit3::ZhuBridsonPointsToImplicit3(double kernelRadius,
 }
 
 void ZhuBridsonPointsToImplicit3::Convert(
-    const ConstArrayAccessor1<Vector3D>& points, ScalarGrid3* output) const
+    const ConstArrayView1<Vector3D>& points, ScalarGrid3* output) const
 {
     if (output == nullptr)
     {
@@ -39,7 +39,7 @@ void ZhuBridsonPointsToImplicit3::Convert(
         return;
     }
 
-    const Size3& res = output->Resolution();
+    const Vector3UZ& res = output->Resolution();
     if (res.x * res.y * res.z == 0)
     {
         CUBBYFLOW_WARN << "Empty grid is provided.";

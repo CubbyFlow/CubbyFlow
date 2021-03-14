@@ -206,7 +206,8 @@ void AddVolumeParticleEmitter2(pybind11::module& m)
              )pbdoc")
         .def_property("maxNumberOfParticles",
                       &VolumeParticleEmitter2::GetMaxNumberOfParticles,
-                      &VolumeParticleEmitter2::SetMaxNumberOfParticles, R"pbdoc(
+                      &VolumeParticleEmitter2::SetMaxNumberOfParticles,
+                      R"pbdoc(
              Max number of particles to be emitted.
              )pbdoc")
         .def_property("spacing", &VolumeParticleEmitter2::GetSpacing,
@@ -429,7 +430,8 @@ void AddVolumeParticleEmitter3(pybind11::module& m)
              )pbdoc")
         .def_property("maxNumberOfParticles",
                       &VolumeParticleEmitter3::GetMaxNumberOfParticles,
-                      &VolumeParticleEmitter3::SetMaxNumberOfParticles, R"pbdoc(
+                      &VolumeParticleEmitter3::SetMaxNumberOfParticles,
+                      R"pbdoc(
              Max number of particles to be emitted.
              )pbdoc")
         .def_property("spacing", &VolumeParticleEmitter3::GetSpacing,

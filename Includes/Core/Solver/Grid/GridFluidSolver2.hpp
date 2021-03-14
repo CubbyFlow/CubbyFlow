@@ -41,7 +41,7 @@ class GridFluidSolver2 : public PhysicsAnimation
     GridFluidSolver2();
 
     //! Constructs solver with initial grid size.
-    GridFluidSolver2(const Size2& resolution, const Vector2D& gridSpacing,
+    GridFluidSolver2(const Vector2UZ& resolution, const Vector2D& gridSpacing,
                      const Vector2D& gridOrigin);
 
     //! Deleted copy constructor.
@@ -145,7 +145,7 @@ class GridFluidSolver2 : public PhysicsAnimation
     //! \param[in] newGridSpacing The new grid spacing.
     //! \param[in] newGridOrigin  The new grid origin.
     //!
-    void ResizeGrid(const Size2& newSize, const Vector2D& newGridSpacing,
+    void ResizeGrid(const Vector2UZ& newSize, const Vector2D& newGridSpacing,
                     const Vector2D& newGridOrigin) const;
 
     //!
@@ -155,7 +155,7 @@ class GridFluidSolver2 : public PhysicsAnimation
     //! equivalent to calling GetGridSystemData()->Resolution(), but provides a
     //! shortcut.
     //!
-    [[nodiscard]] Size2 GetResolution() const;
+    [[nodiscard]] Vector2UZ GetResolution() const;
 
     //!
     //! \brief Returns the grid spacing of the grid system data.
@@ -316,7 +316,7 @@ class GridFluidSolverBuilderBase2
 {
  public:
     //! Returns builder with grid resolution.
-    [[nodiscard]] DerivedBuilder& WithResolution(const Size2& resolution);
+    [[nodiscard]] DerivedBuilder& WithResolution(const Vector2UZ& resolution);
 
     //! Returns builder with grid spacing.
     [[nodiscard]] DerivedBuilder& WithGridSpacing(const Vector2D& gridSpacing);
@@ -338,7 +338,7 @@ class GridFluidSolverBuilderBase2
  protected:
     [[nodiscard]] Vector2D GetGridSpacing() const;
 
-    Size2 m_resolution{ 1, 1 };
+    Vector2UZ m_resolution{ 1, 1 };
     Vector2D m_gridSpacing{ 1, 1 };
     Vector2D m_gridOrigin{ 0, 0 };
     double m_domainSizeX = 1.0;
@@ -346,7 +346,7 @@ class GridFluidSolverBuilderBase2
 };
 
 template <typename T>
-T& GridFluidSolverBuilderBase2<T>::WithResolution(const Size2& resolution)
+T& GridFluidSolverBuilderBase2<T>::WithResolution(const Vector2UZ& resolution)
 {
     m_resolution = resolution;
     return static_cast<T&>(*this);
@@ -391,7 +391,7 @@ Vector2D GridFluidSolverBuilderBase2<T>::GetGridSpacing() const
 
     if (m_useDomainSize)
     {
-        gridSpacing.Set(m_domainSizeX / static_cast<double>(m_resolution.x));
+        gridSpacing.Fill(m_domainSizeX / static_cast<double>(m_resolution.x));
     }
 
     return gridSpacing;

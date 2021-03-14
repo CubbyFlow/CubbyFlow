@@ -10,6 +10,7 @@
 
 #include <Core/FDM/FDMLinearSystem3.hpp>
 #include <Core/Math/MathUtils.hpp>
+#include <Core/Utils/IterationUtils.hpp>
 
 #include <cassert>
 
@@ -22,7 +23,7 @@ void FDMLinearSystem3::Clear()
     b.Clear();
 }
 
-void FDMLinearSystem3::Resize(const Size3& size)
+void FDMLinearSystem3::Resize(const Vector3UZ& size)
 {
     A.Resize(size);
     x.Resize(size);
@@ -38,31 +39,31 @@ void FDMCompressedLinearSystem3::Clear()
 
 void FDMBLAS3::Set(double s, FDMVector3* result)
 {
-    result->Set(s);
+    result->Fill(s);
 }
 
 void FDMBLAS3::Set(const FDMVector3& v, FDMVector3* result)
 {
-    result->Set(v);
+    result->CopyFrom(v);
 }
 
 void FDMBLAS3::Set(double s, FDMMatrix3* result)
 {
     FDMMatrixRow3 row;
     row.center = row.right = row.up = row.front = s;
-    result->Set(row);
+    result->Fill(row);
 }
 
 void FDMBLAS3::Set(const FDMMatrix3& m, FDMMatrix3* result)
 {
-    result->Set(m);
+    result->CopyFrom(m);
 }
 
 double FDMBLAS3::Dot(const FDMVector3& a, const FDMVector3& b)
 {
-    const Size3 size = a.size();
+    const Vector3UZ& size = a.Size();
 
-    assert(size == b.size());
+    assert(size == b.Size());
 
     double result = 0.0;
 
@@ -83,22 +84,24 @@ double FDMBLAS3::Dot(const FDMVector3& a, const FDMVector3& b)
 void FDMBLAS3::AXPlusY(double a, const FDMVector3& x, const FDMVector3& y,
                        FDMVector3* result)
 {
-    assert(x.size() == y.size());
-    assert(x.size() == result->size());
+    const Vector3UZ& size = x.Size();
 
-    x.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    assert(x.Size() == y.Size());
+    assert(x.Size() == result->Size());
+
+    ParallelForEachIndex(size, [&](size_t i, size_t j, size_t k) {
         (*result)(i, j, k) = a * x(i, j, k) + y(i, j, k);
     });
 }
 
 void FDMBLAS3::MVM(const FDMMatrix3& m, const FDMVector3& v, FDMVector3* result)
 {
-    Size3 size = m.size();
+    const Vector3UZ& size = m.Size();
 
-    assert(size == v.size());
-    assert(size == result->size());
+    assert(size == v.Size());
+    assert(size == result->Size());
 
-    m.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(size, [&](size_t i, size_t j, size_t k) {
         (*result)(i, j, k) =
             m(i, j, k).center * v(i, j, k) +
             ((i > 0) ? m(i - 1, j, k).right * v(i - 1, j, k) : 0.0) +
@@ -113,13 +116,13 @@ void FDMBLAS3::MVM(const FDMMatrix3& m, const FDMVector3& v, FDMVector3* result)
 void FDMBLAS3::Residual(const FDMMatrix3& a, const FDMVector3& x,
                         const FDMVector3& b, FDMVector3* result)
 {
-    Size3 size = a.size();
+    const Vector3UZ& size = a.Size();
 
-    assert(size == x.size());
-    assert(size == b.size());
-    assert(size == result->size());
+    assert(size == x.Size());
+    assert(size == b.Size());
+    assert(size == result->Size());
 
-    a.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(size, [&](size_t i, size_t j, size_t k) {
         (*result)(i, j, k) =
             b(i, j, k) - a(i, j, k).center * x(i, j, k) -
             ((i > 0) ? a(i - 1, j, k).right * x(i - 1, j, k) : 0.0) -
@@ -138,7 +141,7 @@ double FDMBLAS3::L2Norm(const FDMVector3& v)
 
 double FDMBLAS3::LInfNorm(const FDMVector3& v)
 {
-    const Size3 size = v.size();
+    const Vector3UZ& size = v.Size();
     double result = 0.0;
 
     for (size_t k = 0; k < size.z; ++k)
@@ -157,12 +160,12 @@ double FDMBLAS3::LInfNorm(const FDMVector3& v)
 
 void FDMCompressedBLAS3::Set(double s, VectorND* result)
 {
-    result->Set(s);
+    result->Fill(s);
 }
 
 void FDMCompressedBLAS3::Set(const VectorND& v, VectorND* result)
 {
-    result->Set(v);
+    result->CopyFrom(v);
 }
 
 void FDMCompressedBLAS3::Set(double s, MatrixCSRD* result)
@@ -193,7 +196,7 @@ void FDMCompressedBLAS3::MVM(const MatrixCSRD& m, const VectorND& v,
     const auto ci = m.ColumnIndicesBegin();
     const auto nnz = m.NonZeroBegin();
 
-    v.ParallelForEachIndex([&](size_t i) {
+    ParallelForEachIndex(v.GetRows(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 
@@ -216,7 +219,7 @@ void FDMCompressedBLAS3::Residual(const MatrixCSRD& a, const VectorND& x,
     const auto ci = a.ColumnIndicesBegin();
     const auto nnz = a.NonZeroBegin();
 
-    x.ParallelForEachIndex([&](size_t i) {
+    ParallelForEachIndex(x.GetRows(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 

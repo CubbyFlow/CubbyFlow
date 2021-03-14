@@ -32,13 +32,13 @@ void FDMMGPCGSolver3::Preconditioner::Solve(const FDMVector3& b,
     FDMMGVector3 mgBuffer = system->x;
 
     // Copy input to the top
-    mgX.levels.front().Set(*x);
-    mgB.levels.front().Set(b);
+    mgX.levels.front().CopyFrom(*x);
+    mgB.levels.front().CopyFrom(b);
 
     MGVCycle(system->A, mgParams, &mgX, &mgB, &mgBuffer);
 
     // Copy result to the output
-    x->Set(mgX.levels.front());
+    x->CopyFrom(mgX.levels.front());
 }
 
 FDMMGPCGSolver3::FDMMGPCGSolver3(
@@ -64,17 +64,17 @@ FDMMGPCGSolver3::FDMMGPCGSolver3(
 
 bool FDMMGPCGSolver3::Solve(FDMMGLinearSystem3* system)
 {
-    const Size3 size = system->A.levels.front().size();
+    const Vector3UZ size = system->A.levels.front().Size();
     m_r.Resize(size);
     m_d.Resize(size);
     m_q.Resize(size);
     m_s.Resize(size);
 
-    system->x.levels.front().Set(0.0);
-    m_r.Set(0.0);
-    m_d.Set(0.0);
-    m_q.Set(0.0);
-    m_s.Set(0.0);
+    system->x.levels.front().Fill(0.0);
+    m_r.Fill(0.0);
+    m_d.Fill(0.0);
+    m_q.Fill(0.0);
+    m_s.Fill(0.0);
 
     m_precond.Build(system, GetParams());
 

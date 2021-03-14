@@ -21,7 +21,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2,
     GridBlockedBoundaryConditionSolver2 solver;
     auto collider = std::make_shared<RigidBodyCollider2>(
         std::make_shared<Plane2>(Vector2D(1, 1).Normalized(), Vector2D()));
-    Size2 gridSize(10, 10);
+    Vector2UZ gridSize(10, 10);
     Vector2D gridSpacing(1.0, 1.0);
     Vector2D gridOrigin(-5.0, -5.0);
 
@@ -37,23 +37,23 @@ CUBBYFLOW_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2,
     Array2<double> dataV(10, 10);
     Array2<double> dataM(10, 10);
 
-    dataU.ForEachIndex([&](size_t i, size_t j) {
+    ForEachIndex(dataU.Size(), [&](size_t i, size_t j) {
         Vector2D vel = velocity.ValueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
         dataM(i, j) = static_cast<double>(solver.GetMarker()(i, j));
     });
 
-    SaveData(dataU.ConstAccessor(), "data_#grid2,x.npy");
-    SaveData(dataV.ConstAccessor(), "data_#grid2,y.npy");
-    SaveData(dataM.ConstAccessor(), "marker_#grid2.npy");
+    SaveData(dataU.View(), "data_#grid2,x.npy");
+    SaveData(dataV.View(), "data_#grid2,y.npy");
+    SaveData(dataM.View(), "marker_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F
 
 CUBBYFLOW_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2, ConstrainVelocity)
 {
     double dx = 1.0 / 32.0;
-    FaceCenteredGrid2 velocity(Size2(64, 32), Vector2D(dx, dx), Vector2D());
+    FaceCenteredGrid2 velocity(Vector2UZ(64, 32), Vector2D(dx, dx), Vector2D());
     velocity.Fill(Vector2D(1.0, 0.0));
     BoundingBox2D domain = velocity.BoundingBox();
 
@@ -72,7 +72,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2, ConstrainVelocity)
     // Solver setting
     GridBlockedBoundaryConditionSolver2 solver;
     solver.UpdateCollider(collider, velocity.Resolution(),
-                          velocity.GridSpacing(), velocity.Origin());
+                          velocity.GridSpacing(), velocity.GridOrigin());
     solver.SetClosedDomainBoundaryFlag(DIRECTION_RIGHT | DIRECTION_DOWN |
                                        DIRECTION_UP);
 
@@ -84,16 +84,16 @@ CUBBYFLOW_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2, ConstrainVelocity)
     Array2<double> dataV(64, 32);
     Array2<double> dataM(64, 32);
 
-    dataU.ForEachIndex([&](size_t i, size_t j) {
+    ForEachIndex(dataU.Size(), [&](size_t i, size_t j) {
         Vector2D vel = velocity.ValueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
         dataM(i, j) = static_cast<double>(solver.GetMarker()(i, j));
     });
 
-    SaveData(dataU.ConstAccessor(), "data_#grid2,x.npy");
-    SaveData(dataV.ConstAccessor(), "data_#grid2,y.npy");
-    SaveData(dataM.ConstAccessor(), "marker_#grid2.npy");
+    SaveData(dataU.View(), "data_#grid2,x.npy");
+    SaveData(dataV.View(), "data_#grid2,y.npy");
+    SaveData(dataM.View(), "marker_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -101,7 +101,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2,
                        ConstrainVelocityWithFriction)
 {
     double dx = 1.0 / 32.0;
-    FaceCenteredGrid2 velocity(Size2(64, 32), Vector2D(dx, dx), Vector2D());
+    FaceCenteredGrid2 velocity(Vector2UZ(64, 32), Vector2D(dx, dx), Vector2D());
     velocity.Fill(Vector2D(1.0, 0.0));
     BoundingBox2D domain = velocity.BoundingBox();
 
@@ -121,7 +121,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2,
     // Solver setting
     GridBlockedBoundaryConditionSolver2 solver;
     solver.UpdateCollider(collider, velocity.Resolution(),
-                          velocity.GridSpacing(), velocity.Origin());
+                          velocity.GridSpacing(), velocity.GridOrigin());
     solver.SetClosedDomainBoundaryFlag(DIRECTION_RIGHT | DIRECTION_DOWN |
                                        DIRECTION_UP);
 
@@ -133,16 +133,16 @@ CUBBYFLOW_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2,
     Array2<double> dataV(64, 32);
     Array2<double> dataM(64, 32);
 
-    dataU.ForEachIndex([&](size_t i, size_t j) {
+    ForEachIndex(dataU.Size(), [&](size_t i, size_t j) {
         Vector2D vel = velocity.ValueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
         dataM(i, j) = static_cast<double>(solver.GetMarker()(i, j));
     });
 
-    SaveData(dataU.ConstAccessor(), "data_#grid2,x.npy");
-    SaveData(dataV.ConstAccessor(), "data_#grid2,y.npy");
-    SaveData(dataM.ConstAccessor(), "marker_#grid2.npy");
+    SaveData(dataU.View(), "data_#grid2,x.npy");
+    SaveData(dataV.View(), "data_#grid2,y.npy");
+    SaveData(dataM.View(), "marker_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -152,7 +152,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridFractionalBoundaryConditionSolver2,
                        ConstrainVelocity)
 {
     double dx = 1.0 / 32.0;
-    FaceCenteredGrid2 velocity(Size2(64, 32), Vector2D(dx, dx), Vector2D());
+    FaceCenteredGrid2 velocity(Vector2UZ(64, 32), Vector2D(dx, dx), Vector2D());
     velocity.Fill(Vector2D(1.0, 0.0));
     BoundingBox2D domain = velocity.BoundingBox();
 
@@ -171,7 +171,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridFractionalBoundaryConditionSolver2,
     // Solver setting
     GridFractionalBoundaryConditionSolver2 solver;
     solver.UpdateCollider(collider, velocity.Resolution(),
-                          velocity.GridSpacing(), velocity.Origin());
+                          velocity.GridSpacing(), velocity.GridOrigin());
     solver.SetClosedDomainBoundaryFlag(DIRECTION_RIGHT | DIRECTION_DOWN |
                                        DIRECTION_UP);
 
@@ -182,13 +182,13 @@ CUBBYFLOW_BEGIN_TEST_F(GridFractionalBoundaryConditionSolver2,
     Array2<double> dataU(64, 32);
     Array2<double> dataV(64, 32);
 
-    dataU.ForEachIndex([&](size_t i, size_t j) {
+    ForEachIndex(dataU.Size(), [&](size_t i, size_t j) {
         Vector2D vel = velocity.ValueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
     });
 
-    SaveData(dataU.ConstAccessor(), "data_#grid2,x.npy");
-    SaveData(dataV.ConstAccessor(), "data_#grid2,y.npy");
+    SaveData(dataU.View(), "data_#grid2,x.npy");
+    SaveData(dataV.View(), "data_#grid2,y.npy");
 }
 CUBBYFLOW_END_TEST_F

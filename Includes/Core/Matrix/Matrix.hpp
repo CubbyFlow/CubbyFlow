@@ -11,437 +11,808 @@
 #ifndef CUBBYFLOW_MATRIX_HPP
 #define CUBBYFLOW_MATRIX_HPP
 
+#include <Core/Matrix/MatrixDenseBase.hpp>
 #include <Core/Matrix/MatrixExpression.hpp>
+#include <Core/Utils/Macros.hpp>
+#include <Core/Utils/NestedInitializerList.hpp>
+#include <Core/Utils/TypeHelpers.hpp>
 
 #include <array>
-#include <type_traits>
+#include <cstdint>
 
 namespace CubbyFlow
 {
-//!
-//! \brief Static-sized M x N matrix class.
-//!
-//! This class defines M x N row-major matrix data where its size is determined
-//! statically at compile time.
-//!
-//! \tparam T - Real number type.
-//! \tparam M - Number of rows.
-//! \tparam N - Number of columns.
-//!
-template <typename T, size_t M, size_t N>
-class Matrix final : public MatrixExpression<T, Matrix<T, M, N>>
+template <typename T, size_t Rows, size_t Cols>
+class Matrix final
+    : public MatrixExpression<T, Rows, Cols, Matrix<T, Rows, Cols>>,
+      public MatrixDenseBase<T, Rows, Cols, Matrix<T, Rows, Cols>>
 {
  public:
-    static_assert(
-        M > 0,
-        "Number of rows for static-sized matrix should be greater than zero.");
-    static_assert(N > 0,
-                  "Number of columns for static-sized matrix should be greater "
-                  "than zero.");
-    static_assert(!(M == 2 && N == 2) && !(M == 3 && N == 3) &&
-                      !(M == 4 && N == 4),
-                  "Use specialized matrix for 2z2, 3x3, and 4x4 matrices.");
-    static_assert(std::is_floating_point<T>::value,
-                  "Matrix only can be instantiated with floating point types.");
-
-    using ContainerType = std::array<T, M * N>;
-    using Iterator = typename ContainerType::iterator;
-    using ConstIterator = typename ContainerType::const_iterator;
-
-    //! Default constructor.
-    //! \warning This constructor will create zero matrix.
-    Matrix();
-
-    //! Constructs matrix instance with parameters.
-    template <typename... Params>
-    explicit Matrix(Params... params);
-
-    //!
-    //! \brief Constructs a matrix with given initializer list \p list.
-    //!
-    //! This constructor will build a matrix with given initializer list \p list
-    //! such as
-    //!
-    //! \code{.cpp}
-    //! Matrix<float, 3, 4> mat =
-    //! {
-    //!     {1.f, 2.f, 4.f, 3.f},
-    //!     {9.f, 3.f, 5.f, 1.f},
-    //!     {4.f, 8.f, 1.f, 5.f}
-    //! };
-    //! \endcode
-    //!
-    //! \param list Initializer list that should be copy to the new matrix.
-    //!
-    Matrix(const std::initializer_list<std::initializer_list<T>>& list);
-
-    //! Constructs a matrix with expression template.
-    template <typename E>
-    Matrix(const MatrixExpression<T, E>& other);
-
-    //! Copy constructor.
-    Matrix(const Matrix& other);
-
-    //! Default move constructor.
-    Matrix(Matrix&&) noexcept = default;
-
-    //! Default destructor.
-    ~Matrix() = default;
-
-    //! Copy assignment operator.
-    Matrix& operator=(const Matrix& other);
-
-    //! Default move assignment operator.
-    Matrix& operator=(Matrix&&) noexcept = default;
-
-    //! Sets whole matrix with input scalar.
-    void Set(const T& s);
-
-    //!
-    //! \brief Sets a matrix with given initializer list \p list.
-    //!
-    //! This function will fill the matrix with given initializer list \p list
-    //! such as
-    //!
-    //! \code{.cpp}
-    //! Matrix<float, 3, 4> mat;
-    //! mat.set(
-    //! {
-    //!     {1.f, 2.f, 4.f, 3.f},
-    //!     {9.f, 3.f, 5.f, 1.f},
-    //!     {4.f, 8.f, 1.f, 5.f}
-    //! });
-    //! \endcode
-    //!
-    //! \param list Initializer list that should be copy to the new matrix.
-    //!
-    void Set(const std::initializer_list<std::initializer_list<T>>& list);
-
-    //! Copies from input matrix expression.
-    template <typename E>
-    void Set(const MatrixExpression<T, E>& other);
-
-    //! Sets diagonal elements with input scalar.
-    void SetDiagonal(const T& s);
-
-    //! Sets off-diagonal elements with input scalar.
-    void SetOffDiagonal(const T& s);
-
-    //! Sets i-th row with input vector.
-    template <typename E>
-    void SetRow(size_t i, const VectorExpression<T, E>& row);
-
-    //! Sets j-th column with input vector.
-    template <typename E>
-    void SetColumn(size_t j, const VectorExpression<T, E>& col);
+    static_assert(IsMatrixSizeStatic<Rows, Cols>(),
+                  "This class should be a static-sized matrix.");
 
-    template <typename E>
-    [[nodiscard]] bool IsEqual(const MatrixExpression<T, E>& other) const;
+    using Base = MatrixDenseBase<T, Rows, Cols, Matrix<T, Rows, Cols>>;
+    using Base::CopyFrom;
+    using Base::operator();
 
-    //! Returns true if this matrix is similar to the input matrix within the
-    //! given tolerance.
-    template <typename E>
-    [[nodiscard]] bool IsSimilar(
-        const MatrixExpression<T, E>& other,
-        double tol = std::numeric_limits<double>::epsilon()) const;
+    using ValueType = T;
+    using Reference = T&;
+    using ConstReference = const T&;
+    using Pointer = T*;
+    using ConstPointer = const T*;
+    using Iterator = Pointer;
+    using ConstIterator = ConstPointer;
 
-    //! Returns true if this matrix is a square matrix.
-    [[nodiscard]] static constexpr bool IsSquare();
+    constexpr Matrix() : m_elements{}
+    {
+        // Do nothing
+    }
 
-    //! Returns the size of this matrix.
-    [[nodiscard]] static constexpr Size2 size();
+    Matrix(ConstReference value);
 
-    //! Returns number of rows of this matrix.
-    [[nodiscard]] static constexpr size_t Rows();
+    template <typename... Args>
+    constexpr Matrix(ConstReference first, Args... rest)
+        : m_elements{ { first, static_cast<ValueType>(rest)... } }
+    {
+        // Do nothing
+    }
 
-    //! Returns number of columns of this matrix.
-    [[nodiscard]] static constexpr size_t Cols();
+    template <size_t R, size_t C, typename E>
+    Matrix(const MatrixExpression<T, R, C, E>& expression);
 
-    //! Returns data pointer of this matrix.
-    [[nodiscard]] T* data();
+    Matrix(const NestedInitializerListsT<T, 2>& lst);
 
-    //! Returns constant pointer of this matrix.
-    [[nodiscard]] const T* data() const;
+    Matrix(ConstPointer ptr);
 
-    //! Returns the begin iterator of the matrix.
-    [[nodiscard]] Iterator begin();
+    constexpr Matrix(const Matrix& other) : m_elements(other.m_elements)
+    {
+        // Do nothing
+    }
 
-    //! Returns the begin const iterator of the matrix.
-    [[nodiscard]] ConstIterator begin() const;
+    void Fill(const T& val);
 
-    //! Returns the end iterator of the matrix.
-    [[nodiscard]] Iterator end();
+    void Fill(const std::function<T(size_t i)>& func);
 
-    //! Returns the end const iterator of the matrix.
-    [[nodiscard]] ConstIterator end() const;
+    void Fill(const std::function<T(size_t i, size_t j)>& func);
 
-    //! Returns this matrix + input scalar.
-    [[nodiscard]] MatrixScalarAdd<T, Matrix> Add(const T& s) const;
+    void Swap(Matrix& other);
 
-    //! Returns this matrix + input matrix (element-wise).
-    template <typename E>
-    [[nodiscard]] MatrixAdd<T, Matrix, E> Add(const E& m) const;
+    constexpr size_t GetRows() const;
 
-    //! Returns this matrix - input scalar.
-    [[nodiscard]] MatrixScalarSub<T, Matrix> Sub(const T& s) const;
+    constexpr size_t GetCols() const;
 
-    //! Returns this matrix - input matrix (element-wise).
-    template <typename E>
-    [[nodiscard]] MatrixSub<T, Matrix, E> Sub(const E& m) const;
+    Iterator begin();
 
-    //! Returns this matrix * input scalar.
-    [[nodiscard]] MatrixScalarMul<T, Matrix> Mul(const T& s) const;
+    constexpr ConstIterator begin() const;
 
-    //! Returns this matrix * input vector.
-    template <typename VE>
-    [[nodiscard]] MatrixVectorMul<T, Matrix, VE> Mul(
-        const VectorExpression<T, VE>& v) const;
+    Iterator end();
 
-    //! Returns this matrix * input matrix.
-    template <size_t L>
-    [[nodiscard]] MatrixMul<T, Matrix, Matrix<T, N, L>> Mul(
-        const Matrix<T, N, L>& m) const;
+    constexpr ConstIterator end() const;
 
-    //! Returns this matrix / input scalar.
-    [[nodiscard]] MatrixScalarDiv<T, Matrix> Div(const T& s) const;
+    Pointer data();
 
-    //! Returns input scalar + this matrix.
-    [[nodiscard]] MatrixScalarAdd<T, Matrix> RAdd(const T& s) const;
+    constexpr ConstPointer data() const;
 
-    //! Returns input matrix + this matrix (element-wise).
-    template <typename E>
-    [[nodiscard]] MatrixAdd<T, Matrix, E> RAdd(const E& m) const;
+    Matrix& operator=(const Matrix& other)
+    {
+        m_elements = other.m_elements;
+        return *this;
+    }
 
-    //! Returns input scalar - this matrix.
-    [[nodiscard]] MatrixScalarRSub<T, Matrix> RSub(const T& s) const;
+    Reference operator[](size_t i);
 
-    //! Returns input matrix - this matrix (element-wise).
-    template <typename E>
-    [[nodiscard]] MatrixSub<T, Matrix, E> RSub(const E& m) const;
-
-    //! Returns input scalar * this matrix.
-    [[nodiscard]] MatrixScalarMul<T, Matrix> RMul(const T& s) const;
-
-    //! Returns input matrix * this matrix.
-    template <size_t L>
-    [[nodiscard]] MatrixMul<T, Matrix<T, N, L>, Matrix> RMul(
-        const Matrix<T, N, L>& m) const;
-
-    //! Returns input matrix / this scalar.
-    [[nodiscard]] MatrixScalarRDiv<T, Matrix> RDiv(const T& s) const;
-
-    //! Adds input scalar to this matrix.
-    void IAdd(const T& s);
-
-    //! Adds input matrix to this matrix (element-wise).
-    template <typename E>
-    void IAdd(const E& m);
-
-    //! Subtracts input scalar from this matrix.
-    void ISub(const T& s);
-
-    //! Subtracts input matrix from this matrix (element-wise).
-    template <typename E>
-    void ISub(const E& m);
-
-    //! Multiplies input scalar to this matrix.
-    void IMul(const T& s);
-
-    //! Multiplies input matrix to this matrix.
-    template <typename E>
-    void IMul(const E& m);
-
-    //! Divides this matrix with input scalar.
-    void IDiv(const T& s);
-
-    //! Transposes this matrix.
-    void Transpose();
-
-    //!
-    //! \brief Inverts this matrix.
-    //!
-    //! This function computes the inverse using Gaussian elimination method.
-    //!
-    void Invert();
-
-    //! Returns sum of all elements.
-    [[nodiscard]] T Sum() const;
-
-    //! Returns average of all elements.
-    [[nodiscard]] T Avg() const;
-
-    //! Returns minimum among all elements.
-    [[nodiscard]] T Min() const;
-
-    //! Returns maximum among all elements.
-    [[nodiscard]] T Max() const;
-
-    //! Returns absolute minimum among all elements.
-    [[nodiscard]] T AbsMin() const;
-
-    //! Returns absolute maximum among all elements.
-    [[nodiscard]] T AbsMax() const;
-
-    //! Returns sum of all diagonal elements.
-    //! \warning Should be a square matrix.
-    [[nodiscard]] T Trace() const;
-
-    //! Returns determinant of this matrix.
-    [[nodiscard]] T Determinant() const;
-
-    //! Returns diagonal part of this matrix.
-    [[nodiscard]] MatrixDiagonal<T, Matrix> Diagonal() const;
-
-    //! Returns off-diagonal part of this matrix.
-    [[nodiscard]] MatrixDiagonal<T, Matrix> OffDiagonal() const;
-
-    //! Returns strictly lower triangle part of this matrix.
-    [[nodiscard]] MatrixTriangular<T, Matrix> StrictLowerTri() const;
-
-    //! Returns strictly upper triangle part of this matrix.
-    [[nodiscard]] MatrixTriangular<T, Matrix> StrictUpperTri() const;
-
-    //! Returns lower triangle part of this matrix (including the diagonal).
-    [[nodiscard]] MatrixTriangular<T, Matrix> LowerTri() const;
-
-    //! Returns upper triangle part of this matrix (including the diagonal).
-    [[nodiscard]] MatrixTriangular<T, Matrix> UpperTri() const;
-
-    //! Returns transposed matrix.
-    [[nodiscard]] Matrix<T, N, M> Transposed() const;
-
-    //! Returns inverse matrix.
-    [[nodiscard]] Matrix Inverse() const;
-
-    template <typename U>
-    [[nodiscard]] MatrixTypeCast<U, Matrix, T> CastTo() const;
-
-    //! Assigns input matrix.
-    template <typename E>
-    Matrix& operator=(const E& m);
-
-    //! Addition assignment with input scalar.
-    Matrix& operator+=(const T& s);
-
-    //! Addition assignment with input matrix (element-wise).
-    template <typename E>
-    Matrix& operator+=(const E& m);
-
-    //! Subtraction assignment with input scalar.
-    Matrix& operator-=(const T& s);
-
-    //! Subtraction assignment with input matrix (element-wise).
-    template <typename E>
-    Matrix& operator-=(const E& m);
-
-    //! Multiplication assignment with input scalar.
-    Matrix& operator*=(const T& s);
-
-    //! Multiplication assignment with input matrix.
-    template <typename E>
-    Matrix& operator*=(const E& m);
-
-    //! Division assignment with input scalar.
-    Matrix& operator/=(const T& s);
-
-    //! Returns reference of i-th element.
-    T& operator[](size_t i);
-
-    //! Returns constant reference of i-th element.
-    const T& operator[](size_t i) const;
-
-    //! Returns reference of (i,j) element.
-    T& operator()(size_t i, size_t j);
-
-    //! Returns constant reference of (i,j) element.
-    const T& operator()(size_t i, size_t j) const;
-
-    //! Returns true if is equal to m.
-    template <typename E>
-    bool operator==(const MatrixExpression<T, E>& m) const;
-
-    //! Returns true if is not equal to m.
-    template <typename E>
-    bool operator!=(const MatrixExpression<T, E>& m) const;
-
-    //!
-    //! \brief Iterates the matrix and invoke given \p func for each index.
-    //!
-    //! This function iterates the matrix elements and invoke the callback
-    //! function \p func. The callback function takes matrix's element as its
-    //! input. The order of execution will be the same as the nested for-loop
-    //! below:
-    //!
-    //! \code{.cpp}
-    //! MatrixMxN<double> mat(100, 200, 4.0);
-    //! for (size_t i = 0; i < mat.rows(); ++i)
-    //! {
-    //!     for (size_t j = 0; j < mat.cols(); ++j)
-    //!     {
-    //!         func(mat(i, j));
-    //!     }
-    //! }
-    //! \endcode
-    //!
-    //! Below is the sample usage:
-    //!
-    //! \code{.cpp}
-    //! MatrixMxN<double> mat(100, 200, 4.0);
-    //! mat.forEach([](double elem)
-    //! {
-    //!     printf("%d\n", elem);
-    //! });
-    //! \endcode
-    //!
-    template <typename Callback>
-    void ForEach(Callback func) const;
-
-    //!
-    //! \brief Iterates the matrix and invoke given \p func for each index.
-    //!
-    //! This function iterates the matrix elements and invoke the callback
-    //! function \p func. The callback function takes two parameters which are
-    //! the (i, j) indices of the matrix. The order of execution will be the
-    //! same as the nested for-loop below:
-    //!
-    //! \code{.cpp}
-    //! MatrixMxN<double> mat(100, 200, 4.0);
-    //! for (size_t i = 0; i < mat.rows(); ++i)
-    //! {
-    //!     for (size_t j = 0; j < mat.cols(); ++j)
-    //!     {
-    //!         func(i, j);
-    //!     }
-    //! }
-    //! \endcode
-    //!
-    //! Below is the sample usage:
-    //!
-    //! \code{.cpp}
-    //! MatrixMxN<double> mat(100, 200, 4.0);
-    //! mat.forEachIndex([&](size_t i, size_t j)
-    //! {
-    //!     mat(i, j) = 4.0 * i + 7.0 * j + 1.5;
-    //! });
-    //! \endcode
-    //!
-    template <typename Callback>
-    static void ForEachIndex(Callback func);
-
-    //! Makes a M x N matrix with zeros.
-    [[nodiscard]] static MatrixConstant<T> MakeZero();
-
-    //! Makes a M x N matrix with all diagonal elements to 1, and other elements
-    //! to 0.
-    [[nodiscard]] static MatrixIdentity<T> MakeIdentity();
+    ConstReference operator[](size_t i) const;
 
  private:
-    ContainerType m_elements;
-
-    template <typename... Params>
-    void SetRowAt(size_t i, T v, Params... params);
-    void SetRowAt(size_t i, T v);
+    std::array<T, Rows * Cols> m_elements;
 };
+
+template <typename T>
+class Matrix<T, 1, 1> final : public MatrixExpression<T, 1, 1, Matrix<T, 1, 1>>,
+                              public MatrixDenseBase<T, 1, 1, Matrix<T, 1, 1>>
+{
+ public:
+    using Base = MatrixDenseBase<T, 1, 1, Matrix<T, 1, 1>>;
+    using Base::operator();
+
+    using ValueType = T;
+    using Reference = T&;
+    using ConstReference = const T&;
+    using Pointer = T*;
+    using ConstPointer = const T*;
+    using Iterator = Pointer;
+    using ConstIterator = ConstPointer;
+
+    constexpr Matrix() : x(T{})
+    {
+        // Do nothing
+    }
+
+    constexpr Matrix(const T& _x) : x(_x)
+    {
+        // Do nothing
+    }
+
+    constexpr Matrix(const Matrix& other) : x(other.x)
+    {
+        // Do nothing
+    }
+
+    template <size_t R, size_t C, typename E>
+    Matrix(const MatrixExpression<T, R, C, E>& expression);
+
+    Matrix(const std::initializer_list<T>& lst);
+
+    void Fill(const T& val);
+
+    void Fill(const std::function<T(size_t i)>& func);
+
+    void Fill(const std::function<T(size_t i, size_t j)>& func);
+
+    void Swap(Matrix& other);
+
+    constexpr size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
+    Iterator begin();
+
+    constexpr ConstIterator begin() const;
+
+    Iterator end();
+
+    constexpr ConstIterator end() const;
+
+    Pointer data();
+
+    constexpr ConstPointer data() const;
+
+    Matrix& operator=(const Matrix& other)
+    {
+        x = other.x;
+        return *this;
+    }
+
+    Reference operator[](size_t i);
+
+    ConstReference operator[](size_t i) const;
+
+    ValueType x;
+};
+
+template <typename T>
+class Matrix<T, 2, 1> final : public MatrixExpression<T, 2, 1, Matrix<T, 2, 1>>,
+                              public MatrixDenseBase<T, 2, 1, Matrix<T, 2, 1>>
+{
+ public:
+    using Base = MatrixDenseBase<T, 2, 1, Matrix<T, 2, 1>>;
+    using Base::operator();
+
+    using ValueType = T;
+    using Reference = T&;
+    using ConstReference = const T&;
+    using Pointer = T*;
+    using ConstPointer = const T*;
+    using Iterator = Pointer;
+    using ConstIterator = ConstPointer;
+
+    constexpr Matrix() : x(T{}), y(T{})
+    {
+        // Do nothing
+    }
+
+    constexpr Matrix(const T& _x, const T& _y) : x(_x), y(_y)
+    {
+        // Do nothing
+    }
+
+    constexpr Matrix(const Matrix& other) : x(other.x), y(other.y)
+    {
+        // Do nothing
+    }
+
+    template <size_t R, size_t C, typename E>
+    Matrix(const MatrixExpression<T, R, C, E>& expression);
+
+    Matrix(const std::initializer_list<T>& lst);
+
+    void Fill(const T& val);
+
+    void Fill(const std::function<T(size_t i)>& func);
+
+    void Fill(const std::function<T(size_t i, size_t j)>& func);
+
+    void Swap(Matrix& other);
+
+    constexpr size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
+    Iterator begin();
+
+    constexpr ConstIterator begin() const;
+
+    Iterator end();
+
+    constexpr ConstIterator end() const;
+
+    Pointer data();
+
+    constexpr ConstPointer data() const;
+
+    Matrix& operator=(const Matrix& other)
+    {
+        x = other.x;
+        y = other.y;
+        return *this;
+    }
+
+    Reference operator[](size_t i);
+
+    ConstReference operator[](size_t i) const;
+
+    ValueType x;
+    ValueType y;
+};
+
+template <typename T>
+class Matrix<T, 3, 1> final : public MatrixExpression<T, 3, 1, Matrix<T, 3, 1>>,
+                              public MatrixDenseBase<T, 3, 1, Matrix<T, 3, 1>>
+{
+ public:
+    using Base = MatrixDenseBase<T, 3, 1, Matrix<T, 3, 1>>;
+    using Base::operator();
+
+    using ValueType = T;
+    using Reference = T&;
+    using ConstReference = const T&;
+    using Pointer = T*;
+    using ConstPointer = const T*;
+    using Iterator = Pointer;
+    using ConstIterator = ConstPointer;
+
+    constexpr Matrix() : x(T{}), y(T{}), z(T{})
+    {
+        // Do nothing
+    }
+
+    constexpr Matrix(const Matrix<T, 2, 1>& _xy, const T& _z)
+        : x(_xy.x), y(_xy.y), z(_z)
+    {
+        // Do nothing
+    }
+
+    constexpr Matrix(const T& _x, const T& _y, const T& _z)
+        : x(_x), y(_y), z(_z)
+    {
+        // Do nothing
+    }
+
+    constexpr Matrix(const Matrix& other) : x(other.x), y(other.y), z(other.z)
+    {
+        // Do nothing
+    }
+
+    template <size_t R, size_t C, typename E>
+    Matrix(const MatrixExpression<T, R, C, E>& expression);
+
+    Matrix(const std::initializer_list<T>& lst);
+
+    // Simple setters/modifiers
+
+    void Fill(const T& val);
+
+    void Fill(const std::function<T(size_t i)>& func);
+
+    void Fill(const std::function<T(size_t i, size_t j)>& func);
+
+    void Swap(Matrix& other);
+
+    // Simple getters
+
+    constexpr size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
+    Iterator begin();
+
+    constexpr ConstIterator begin() const;
+
+    Iterator end();
+
+    constexpr ConstIterator end() const;
+
+    Pointer data();
+
+    constexpr ConstPointer data() const;
+
+    Matrix& operator=(const Matrix& other)
+    {
+        x = other.x;
+        y = other.y;
+        z = other.z;
+        return *this;
+    }
+
+    Reference operator[](size_t i);
+
+    ConstReference operator[](size_t i) const;
+
+    ValueType x;
+    ValueType y;
+    ValueType z;
+};
+
+template <typename T>
+class Matrix<T, 4, 1> final : public MatrixExpression<T, 4, 1, Matrix<T, 4, 1>>,
+                              public MatrixDenseBase<T, 4, 1, Matrix<T, 4, 1>>
+{
+ public:
+    using Base = MatrixDenseBase<T, 4, 1, Matrix<T, 4, 1>>;
+    using Base::operator();
+
+    using ValueType = T;
+    using Reference = T&;
+    using ConstReference = const T&;
+    using Pointer = T*;
+    using ConstPointer = const T*;
+    using Iterator = Pointer;
+    using ConstIterator = ConstPointer;
+
+    constexpr Matrix() : x(T{}), y(T{}), z(T{}), w(T{})
+    {
+        // Do nothing
+    }
+
+    constexpr Matrix(const T& _x, const T& _y, const T& _z, const T& _w)
+        : x(_x), y(_y), z(_z), w(_w)
+    {
+        // Do nothing
+    }
+
+    constexpr Matrix(const Matrix& other)
+        : x(other.x), y(other.y), z(other.z), w(other.w)
+    {
+        // Do nothing
+    }
+
+    template <size_t R, size_t C, typename E>
+    Matrix(const MatrixExpression<T, R, C, E>& expression);
+
+    Matrix(const std::initializer_list<T>& lst);
+
+    void Fill(const T& val);
+
+    void Fill(const std::function<T(size_t i)>& func);
+
+    void Fill(const std::function<T(size_t i, size_t j)>& func);
+
+    void Swap(Matrix& other);
+
+    constexpr size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
+    Iterator begin();
+
+    constexpr ConstIterator begin() const;
+
+    Iterator end();
+
+    constexpr ConstIterator end() const;
+
+    Pointer data();
+
+    constexpr ConstPointer data() const;
+
+    Matrix& operator=(const Matrix& other)
+    {
+        x = other.x;
+        y = other.y;
+        z = other.z;
+        w = other.w;
+        return *this;
+    }
+
+    Reference operator[](size_t i);
+
+    ConstReference operator[](size_t i) const;
+
+    ValueType x;
+    ValueType y;
+    ValueType z;
+    ValueType w;
+};
+
+template <typename T>
+class Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC> final
+    : public MatrixExpression<
+          T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC,
+          Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>>,
+      public MatrixDenseBase<
+          T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC,
+          Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>>
+{
+ public:
+    using ValueType = T;
+    using Reference = T&;
+    using ConstReference = const T&;
+    using Pointer = T*;
+    using ConstPointer = const T*;
+    using Iterator = Pointer;
+    using ConstIterator = ConstPointer;
+    using MatrixDenseBase<
+        T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC,
+        Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>>::CopyFrom;
+
+    Matrix();
+
+    Matrix(size_t rows, size_t cols, ConstReference value = ValueType{});
+
+    template <size_t R, size_t C, typename E>
+    Matrix(const MatrixExpression<T, R, C, E>& expression);
+
+    Matrix(const NestedInitializerListsT<T, 2>& lst);
+
+    explicit Matrix(size_t rows, size_t cols, ConstPointer ptr);
+
+    Matrix(const Matrix& other);
+
+    Matrix(Matrix&& other) noexcept;
+
+    void Fill(const T& val);
+
+    void Fill(const std::function<T(size_t i)>& func);
+
+    void Fill(const std::function<T(size_t i, size_t j)>& func);
+
+    void Swap(Matrix& other);
+
+    void Resize(size_t rows, size_t cols, ConstReference val = ValueType{});
+
+    void Clear();
+
+    size_t GetRows() const;
+
+    size_t GetCols() const;
+
+    Iterator begin();
+
+    ConstIterator begin() const;
+
+    Iterator end();
+
+    ConstIterator end() const;
+
+    Pointer data();
+
+    ConstPointer data() const;
+
+    Reference operator[](size_t i);
+
+    ConstReference operator[](size_t i) const;
+
+    Matrix& operator=(const Matrix& other);
+
+    Matrix& operator=(Matrix&& other) noexcept;
+
+ private:
+    std::vector<T> m_elements;
+    size_t m_rows = 0;
+    size_t m_cols = 0;
+};
+
+template <typename T>
+class Matrix<T, MATRIX_SIZE_DYNAMIC, 1> final
+    : public MatrixExpression<T, MATRIX_SIZE_DYNAMIC, 1,
+                              Matrix<T, MATRIX_SIZE_DYNAMIC, 1>>,
+      public MatrixDenseBase<T, MATRIX_SIZE_DYNAMIC, 1,
+                             Matrix<T, MATRIX_SIZE_DYNAMIC, 1>>
+{
+ public:
+    using ValueType = T;
+    using Reference = T&;
+    using ConstReference = const T&;
+    using Pointer = T*;
+    using ConstPointer = const T*;
+    using Iterator = Pointer;
+    using ConstIterator = ConstPointer;
+    using MatrixDenseBase<T, MATRIX_SIZE_DYNAMIC, 1,
+                          Matrix<T, MATRIX_SIZE_DYNAMIC, 1>>::CopyFrom;
+
+    Matrix();
+
+    Matrix(size_t rows, ConstReference value = ValueType{});
+
+    template <size_t R, size_t C, typename E>
+    Matrix(const MatrixExpression<T, R, C, E>& expression);
+
+    Matrix(const std::initializer_list<T>& lst);
+
+    explicit Matrix(size_t rows, ConstPointer ptr);
+
+    Matrix(const Matrix& other);
+
+    Matrix(Matrix&& other) noexcept;
+
+    void Fill(const T& val);
+
+    void Fill(const std::function<T(size_t i)>& func);
+
+    void Fill(const std::function<T(size_t i, size_t j)>& func);
+
+    void Swap(Matrix& other);
+
+    void Resize(size_t rows, ConstReference val = ValueType{});
+
+    void AddElement(ConstReference newElem);
+
+    void AddElement(const Matrix& newElems);
+
+    void Clear();
+
+    size_t GetRows() const;
+
+    constexpr size_t GetCols() const;
+
+    Iterator begin();
+
+    ConstIterator begin() const;
+
+    Iterator end();
+
+    ConstIterator end() const;
+
+    Pointer data();
+
+    ConstPointer data() const;
+
+    Reference operator[](size_t i);
+
+    ConstReference operator[](size_t i) const;
+
+    Matrix& operator=(const Matrix& other);
+
+    Matrix& operator=(Matrix&& other) noexcept;
+
+ private:
+    std::vector<T> m_elements;
+};
+
+template <typename T>
+using Matrix2x2 = Matrix<T, 2, 2>;
+
+template <typename T>
+using Matrix3x3 = Matrix<T, 3, 3>;
+
+template <typename T>
+using Matrix4x4 = Matrix<T, 4, 4>;
+
+using Matrix2x2B = Matrix2x2<int8_t>;
+using Matrix2x2UB = Matrix2x2<uint8_t>;
+using Matrix2x2S = Matrix2x2<int16_t>;
+using Matrix2x2US = Matrix2x2<uint16_t>;
+using Matrix2x2I = Matrix2x2<int32_t>;
+using Matrix2x2UI = Matrix2x2<uint32_t>;
+using Matrix2x2L = Matrix2x2<int64_t>;
+using Matrix2x2UL = Matrix2x2<uint64_t>;
+using Matrix2x2F = Matrix2x2<float>;
+using Matrix2x2D = Matrix2x2<double>;
+using Matrix2x2Z = Matrix2x2<ssize_t>;
+using Matrix2x2UZ = Matrix2x2<size_t>;
+
+using Matrix3x3B = Matrix3x3<int8_t>;
+using Matrix3x3UB = Matrix3x3<uint8_t>;
+using Matrix3x3S = Matrix3x3<int16_t>;
+using Matrix3x3US = Matrix3x3<uint16_t>;
+using Matrix3x3I = Matrix3x3<int32_t>;
+using Matrix3x3UI = Matrix3x3<uint32_t>;
+using Matrix3x3L = Matrix3x3<int64_t>;
+using Matrix3x3UL = Matrix3x3<uint64_t>;
+using Matrix3x3F = Matrix3x3<float>;
+using Matrix3x3D = Matrix3x3<double>;
+using Matrix3x3Z = Matrix3x3<ssize_t>;
+using Matrix3x3UZ = Matrix3x3<size_t>;
+
+using Matrix4x4B = Matrix4x4<int8_t>;
+using Matrix4x4UB = Matrix4x4<uint8_t>;
+using Matrix4x4S = Matrix4x4<int16_t>;
+using Matrix4x4US = Matrix4x4<uint16_t>;
+using Matrix4x4I = Matrix4x4<int32_t>;
+using Matrix4x4UI = Matrix4x4<uint32_t>;
+using Matrix4x4L = Matrix4x4<int64_t>;
+using Matrix4x4UL = Matrix4x4<uint64_t>;
+using Matrix4x4F = Matrix4x4<float>;
+using Matrix4x4D = Matrix4x4<double>;
+using Matrix4x4Z = Matrix4x4<ssize_t>;
+using Matrix4x4UZ = Matrix4x4<size_t>;
+
+template <typename T, size_t Rows>
+using Vector = Matrix<T, Rows, 1>;
+
+template <typename T>
+using Vector1 = Vector<T, 1>;
+
+template <typename T>
+using Vector2 = Vector<T, 2>;
+
+template <typename T>
+using Vector3 = Vector<T, 3>;
+
+template <typename T>
+using Vector4 = Vector<T, 4>;
+
+using Vector1B = Vector1<int8_t>;
+using Vector1UB = Vector1<uint8_t>;
+using Vector1S = Vector1<int16_t>;
+using Vector1US = Vector1<uint16_t>;
+using Vector1I = Vector1<int32_t>;
+using Vector1UI = Vector1<uint32_t>;
+using Vector1L = Vector1<int64_t>;
+using Vector1UL = Vector1<uint64_t>;
+using Vector1F = Vector1<float>;
+using Vector1D = Vector1<double>;
+using Vector1Z = Vector1<ssize_t>;
+using Vector1UZ = Vector1<size_t>;
+
+using Vector2B = Vector2<int8_t>;
+using Vector2UB = Vector2<uint8_t>;
+using Vector2S = Vector2<int16_t>;
+using Vector2US = Vector2<uint16_t>;
+using Vector2I = Vector2<int32_t>;
+using Vector2UI = Vector2<uint32_t>;
+using Vector2L = Vector2<int64_t>;
+using Vector2UL = Vector2<uint64_t>;
+using Vector2F = Vector2<float>;
+using Vector2D = Vector2<double>;
+using Vector2Z = Vector2<ssize_t>;
+using Vector2UZ = Vector2<size_t>;
+
+using Vector3B = Vector3<int8_t>;
+using Vector3UB = Vector3<uint8_t>;
+using Vector3S = Vector3<int16_t>;
+using Vector3US = Vector3<uint16_t>;
+using Vector3I = Vector3<int32_t>;
+using Vector3UI = Vector3<uint32_t>;
+using Vector3L = Vector3<int64_t>;
+using Vector3UL = Vector3<uint64_t>;
+using Vector3F = Vector3<float>;
+using Vector3D = Vector3<double>;
+using Vector3Z = Vector3<ssize_t>;
+using Vector3UZ = Vector3<size_t>;
+
+using Vector4B = Vector4<int8_t>;
+using Vector4UB = Vector4<uint8_t>;
+using Vector4S = Vector4<int16_t>;
+using Vector4US = Vector4<uint16_t>;
+using Vector4I = Vector4<int32_t>;
+using Vector4UI = Vector4<uint32_t>;
+using Vector4L = Vector4<int64_t>;
+using Vector4UL = Vector4<uint64_t>;
+using Vector4F = Vector4<float>;
+using Vector4D = Vector4<double>;
+using Vector4Z = Vector4<ssize_t>;
+using Vector4UZ = Vector4<size_t>;
+
+template <typename T>
+using MatrixMxN = Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>;
+
+using MatrixMxNB = MatrixMxN<int8_t>;
+using MatrixMxNUB = MatrixMxN<uint8_t>;
+using MatrixMxNS = MatrixMxN<int16_t>;
+using MatrixMxNUS = MatrixMxN<uint16_t>;
+using MatrixMxNI = MatrixMxN<int32_t>;
+using MatrixMxNUI = MatrixMxN<uint32_t>;
+using MatrixMxNL = MatrixMxN<int64_t>;
+using MatrixMxNUL = MatrixMxN<uint64_t>;
+using MatrixMxNF = MatrixMxN<float>;
+using MatrixMxND = MatrixMxN<double>;
+using MatrixMxNZ = MatrixMxN<ssize_t>;
+using MatrixMxNUZ = MatrixMxN<size_t>;
+
+template <typename T>
+using VectorN = Matrix<T, MATRIX_SIZE_DYNAMIC, 1>;
+
+using VectorNB = VectorN<int8_t>;
+using VectorNUB = VectorN<uint8_t>;
+using VectorNS = VectorN<int16_t>;
+using VectorNUS = VectorN<uint16_t>;
+using VectorNI = VectorN<int32_t>;
+using VectorNUI = VectorN<uint32_t>;
+using VectorNL = VectorN<int64_t>;
+using VectorNUL = VectorN<uint64_t>;
+using VectorNF = VectorN<float>;
+using VectorND = VectorN<double>;
+using VectorNZ = VectorN<ssize_t>;
+using VectorNUZ = VectorN<size_t>;
+
+template <typename T, size_t Rows, size_t Cols>
+struct GetScalarType<Matrix<T, Rows, Cols>>
+{
+    using value = T;
+};
+
+template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M2>
+void operator+=(Matrix<T, R1, C1>& a, const MatrixExpression<T, R2, C2, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols>
+void operator+=(Matrix<T, Rows, Cols>& a, const T& b);
+
+template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M2>
+void operator-=(Matrix<T, R1, C1>& a, const MatrixExpression<T, R2, C2, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols>
+void operator-=(Matrix<T, Rows, Cols>& a, const T& b);
+
+template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M2>
+void operator*=(Matrix<T, R1, C1>& a, const MatrixExpression<T, R2, C2, M2>& b);
+
+template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M2>
+void ElemIMul(Matrix<T, R1, C1>& a, const MatrixExpression<T, R2, C2, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols>
+void operator*=(Matrix<T, Rows, Cols>& a, const T& b);
+
+template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M2>
+void ElemIDiv(Matrix<T, R1, C1>& a, const MatrixExpression<T, R2, C2, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols>
+void operator/=(Matrix<T, Rows, Cols>& a, const T& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
+constexpr std::enable_if_t<IsMatrixSizeStatic<Rows, Cols>(), bool> operator==(
+    const MatrixExpression<T, Rows, Cols, M1>& a,
+    const MatrixExpression<T, Rows, Cols, M2>& b);
+
+template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M1,
+          typename M2>
+bool operator==(const MatrixExpression<T, R1, C1, M1>& a,
+                const MatrixExpression<T, R2, C2, M2>& b);
+
+template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M1,
+          typename M2>
+bool operator!=(const MatrixExpression<T, R1, C1, M1>& a,
+                const MatrixExpression<T, R2, C2, M2>& b);
+
+template <typename T, size_t Rows, size_t Cols, typename M1,
+          typename BinaryOperation>
+constexpr std::enable_if_t<TraitIsMatrixSizeStatic<Rows, Cols>::value, T>
+Accumulate(const MatrixExpression<T, Rows, Cols, M1>& a, const T& init,
+           BinaryOperation op);
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr std::enable_if_t<TraitIsMatrixSizeStatic<Rows, Cols>::value, T>
+Accumulate(const MatrixExpression<T, Rows, Cols, M1>& a, const T& init);
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr std::enable_if_t<TraitIsMatrixSizeStatic<Rows, Cols>::value, T>
+Accumulate(const MatrixExpression<T, Rows, Cols, M1>& a);
+
+template <typename T, size_t Rows, size_t Cols, typename M1,
+          typename BinaryOperation>
+constexpr std::enable_if_t<TraitIsMatrixSizeDynamic<Rows, Cols>::value, T>
+Accumulate(const MatrixExpression<T, Rows, Cols, M1>& a, const T& init,
+           BinaryOperation op);
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr std::enable_if_t<TraitIsMatrixSizeDynamic<Rows, Cols>::value, T>
+Accumulate(const MatrixExpression<T, Rows, Cols, M1>& a, const T& init);
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr std::enable_if_t<TraitIsMatrixSizeDynamic<Rows, Cols>::value, T>
+Accumulate(const MatrixExpression<T, Rows, Cols, M1>& a);
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr T Product(const MatrixExpression<T, Rows, Cols, M1>& a,
+                    const T& init);
+
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2,
+          typename M3, typename M4>
+std::enable_if_t<IsMatrixSizeStatic<Rows, Cols>(), Matrix<T, Rows, Cols>>
+MonotonicCatmullRom(const MatrixExpression<T, Rows, Cols, M1>& f0,
+                    const MatrixExpression<T, Rows, Cols, M2>& f1,
+                    const MatrixExpression<T, Rows, Cols, M3>& f2,
+                    const MatrixExpression<T, Rows, Cols, M4>& f3, T f);
 }  // namespace CubbyFlow
 
 #include <Core/Matrix/Matrix-Impl.hpp>

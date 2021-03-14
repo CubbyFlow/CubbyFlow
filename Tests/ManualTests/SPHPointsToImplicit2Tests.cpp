@@ -25,10 +25,10 @@ CUBBYFLOW_BEGIN_TEST_F(SPHPointsToImplicit2, ConvertTwo)
     CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
 
     SPHPointsToImplicit2 converter(0.1);
-    converter.Convert(points.ConstAccessor(), &grid);
+    converter.Convert(points.View(), &grid);
 
-    SaveData(grid.GetConstDataAccessor(), "data_#grid2.npy");
-    SaveData(grid.GetConstDataAccessor(), "data_#grid2,iso.npy");
+    SaveData(grid.DataView(), "data_#grid2.npy");
+    SaveData(grid.DataView(), "data_#grid2,iso.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -46,9 +46,9 @@ CUBBYFLOW_BEGIN_TEST_F(SPHPointsToImplicit2, ConvertMany)
     CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
 
     SPHPointsToImplicit2 converter(0.1);
-    converter.Convert(points.ConstAccessor(), &grid);
+    converter.Convert(points.View(), &grid);
 
-    SaveData(grid.GetConstDataAccessor(), "data_#grid2.npy");
-    SaveData(grid.GetConstDataAccessor(), "data_#grid2,iso.npy");
+    SaveData(grid.DataView(), "data_#grid2.npy");
+    SaveData(grid.DataView(), "data_#grid2,iso.npy");
 }
 CUBBYFLOW_END_TEST_F

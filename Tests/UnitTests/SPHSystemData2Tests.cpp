@@ -46,12 +46,12 @@ TEST(SPHSystemData2, Particles)
     data.UpdateDensities();
 
     // See if we get symmetric density profile
-    auto den = data.GetDensities();
+    auto den = data.Densities();
     EXPECT_LT(0.0, den[0]);
     EXPECT_EQ(den[0], den[1]);
 
     Array1<double> values = { 1.0, 1.0 };
-    double midVal = data.Interpolate(Vector2D(0.5, 0), values.ConstAccessor());
+    double midVal = data.Interpolate(Vector2D(0.5, 0), values.View());
     EXPECT_LT(0.0, midVal);
     EXPECT_GT(1.0, midVal);
 }
@@ -87,21 +87,21 @@ TEST(SPHSystemData2, Serialization)
     EXPECT_EQ(2.5, data2.GetRelativeKernelRadius());
     EXPECT_DOUBLE_EQ(2.5 * 0.549, data2.GetKernelRadius());
 
-    EXPECT_EQ(positions.size(), data2.GetNumberOfParticles());
+    EXPECT_EQ(positions.Length(), data2.GetNumberOfParticles());
     auto as0 = data2.ScalarDataAt(a0);
-    for (size_t i = 0; i < positions.size(); ++i)
+    for (size_t i = 0; i < positions.Length(); ++i)
     {
         EXPECT_DOUBLE_EQ(2.0, as0[i]);
     }
 
     auto as1 = data2.ScalarDataAt(a1);
-    for (size_t i = 0; i < positions.size(); ++i)
+    for (size_t i = 0; i < positions.Length(); ++i)
     {
         EXPECT_DOUBLE_EQ(9.0, as1[i]);
     }
 
     auto as2 = data2.VectorDataAt(a2);
-    for (size_t i = 0; i < positions.size(); ++i)
+    for (size_t i = 0; i < positions.Length(); ++i)
     {
         EXPECT_DOUBLE_EQ(1.0, as2[i].x);
         EXPECT_DOUBLE_EQ(-3.0, as2[i].y);

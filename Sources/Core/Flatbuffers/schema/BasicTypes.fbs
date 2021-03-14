@@ -1,12 +1,12 @@
 namespace CubbyFlow.fbs;
 
-struct Size2
+struct Vector2UZ
 {
     x:ulong = 0;
     y:ulong = 0;
 }
 
-struct Size3
+struct Vector3UZ
 {
     x:ulong = 0;
     y:ulong = 0;

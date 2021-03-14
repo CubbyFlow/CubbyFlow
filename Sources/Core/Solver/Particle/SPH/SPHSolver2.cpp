@@ -108,7 +108,7 @@ unsigned int SPHSolver2::GetNumberOfSubTimeSteps(
 {
     SPHSystemData2Ptr particles = GetSPHSystemData();
     const size_t numberOfParticles = particles->GetNumberOfParticles();
-    ArrayAccessor1<Vector2D> f = particles->GetForces();
+    ArrayView1<Vector2D> f = particles->Forces();
 
     const double kernelRadius = particles->GetKernelRadius();
     const double mass = particles->GetMass();
@@ -161,7 +161,7 @@ void SPHSolver2::OnEndAdvanceTimeStep(double timeStepInSeconds)
 
     SPHSystemData2Ptr particles = GetSPHSystemData();
     const size_t numberOfParticles = particles->GetNumberOfParticles();
-    ArrayAccessor1<double> densities = particles->GetDensities();
+    ArrayView1<double> densities = particles->Densities();
 
     double maxDensity = 0.0;
     for (size_t i = 0; i < numberOfParticles; ++i)
@@ -185,10 +185,10 @@ void SPHSolver2::AccumulatePressureForce(double timeStepInSeconds)
     UNUSED_VARIABLE(timeStepInSeconds);
 
     SPHSystemData2Ptr particles = GetSPHSystemData();
-    const ArrayAccessor1<Vector2D> x = particles->GetPositions();
-    const ArrayAccessor1<double> d = particles->GetDensities();
-    const ArrayAccessor1<double> p = particles->GetPressures();
-    const ArrayAccessor1<Vector2D> f = particles->GetForces();
+    const ArrayView1<Vector2D> x = particles->Positions();
+    const ArrayView1<double> d = particles->Densities();
+    const ArrayView1<double> p = particles->Pressures();
+    const ArrayView1<Vector2D> f = particles->Forces();
 
     ComputePressure();
     AccumulatePressureForce(x, d, p, f);
@@ -198,8 +198,8 @@ void SPHSolver2::ComputePressure()
 {
     SPHSystemData2Ptr particles = GetSPHSystemData();
     const size_t numberOfParticles = particles->GetNumberOfParticles();
-    ArrayAccessor1<double> d = particles->GetDensities();
-    ArrayAccessor1<double> p = particles->GetPressures();
+    ArrayView1<double> d = particles->Densities();
+    ArrayView1<double> p = particles->Pressures();
 
     // See Murnaghan-Tait equation of state from
     // https://en.wikipedia.org/wiki/Tait_equation
@@ -214,10 +214,10 @@ void SPHSolver2::ComputePressure()
 }
 
 void SPHSolver2::AccumulatePressureForce(
-    const ConstArrayAccessor1<Vector2D>& positions,
-    const ConstArrayAccessor1<double>& densities,
-    const ConstArrayAccessor1<double>& pressures,
-    ArrayAccessor1<Vector2D> pressureForces)
+    const ConstArrayView1<Vector2D>& positions,
+    const ConstArrayView1<double>& densities,
+    const ConstArrayView1<double>& pressures,
+    ArrayView1<Vector2D> pressureForces)
 {
     SPHSystemData2Ptr particles = GetSPHSystemData();
     const size_t numberOfParticles = particles->GetNumberOfParticles();
@@ -247,10 +247,10 @@ void SPHSolver2::AccumulateViscosityForce()
 {
     SPHSystemData2Ptr particles = GetSPHSystemData();
     const size_t numberOfParticles = particles->GetNumberOfParticles();
-    ArrayAccessor1<Vector2D> x = particles->GetPositions();
-    ArrayAccessor1<Vector2D> v = particles->GetVelocities();
-    ArrayAccessor1<double> d = particles->GetDensities();
-    ArrayAccessor1<Vector2D> f = particles->GetForces();
+    ArrayView1<Vector2D> x = particles->Positions();
+    ArrayView1<Vector2D> v = particles->Velocities();
+    ArrayView1<double> d = particles->Densities();
+    ArrayView1<Vector2D> f = particles->Forces();
 
     const double massSquared = Square(particles->GetMass());
     const SPHSpikyKernel2 kernel{ particles->GetKernelRadius() };
@@ -271,9 +271,9 @@ void SPHSolver2::ComputePseudoViscosity(double timeStepInSeconds)
 {
     SPHSystemData2Ptr particles = GetSPHSystemData();
     const size_t numberOfParticles = particles->GetNumberOfParticles();
-    ArrayAccessor1<Vector2D> x = particles->GetPositions();
-    ArrayAccessor1<Vector2D> v = particles->GetVelocities();
-    ArrayAccessor1<double> d = particles->GetDensities();
+    ArrayView1<Vector2D> x = particles->Positions();
+    ArrayView1<Vector2D> v = particles->Velocities();
+    ArrayView1<double> d = particles->Densities();
 
     const double mass = particles->GetMass();
     const SPHSpikyKernel2 kernel{ particles->GetKernelRadius() };

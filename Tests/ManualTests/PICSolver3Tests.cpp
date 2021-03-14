@@ -38,12 +38,12 @@ CUBBYFLOW_BEGIN_TEST_F(PICSolver3, WaterDrop)
     // Build emitter
     auto plane = Plane3::Builder()
                      .WithNormal({ 0, 1, 0 })
-                     .WithPoint({ 0, 0.25 * domain.GetHeight(), 0 })
+                     .WithPoint({ 0, 0.25 * domain.Height(), 0 })
                      .MakeShared();
 
     auto sphere = Sphere3::Builder()
                       .WithCenter(domain.MidPoint())
-                      .WithRadius(0.15 * domain.GetWidth())
+                      .WithRadius(0.15 * domain.Width())
                       .MakeShared();
 
     auto emitter1 = VolumeParticleEmitter3::Builder()
@@ -82,7 +82,8 @@ CUBBYFLOW_BEGIN_TEST_F(PICSolver3, DamBreakingWithCollider)
     size_t resolutionX = 50;
 
     // Build solver
-    Size3 resolution{ 3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2 };
+    Vector3UZ resolution{ 3 * resolutionX, 2 * resolutionX,
+                          (3 * resolutionX) / 2 };
     auto solver = PICSolver3::Builder()
                       .WithResolution(resolution)
                       .WithDomainSizeX(3.0)
@@ -92,7 +93,7 @@ CUBBYFLOW_BEGIN_TEST_F(PICSolver3, DamBreakingWithCollider)
     auto grids = solver->GetGridSystemData();
     double dx = grids->GetGridSpacing().x;
     BoundingBox3D domain = grids->GetBoundingBox();
-    double lz = domain.GetDepth();
+    double lz = domain.Depth();
 
     // Build emitter
     auto box1 =

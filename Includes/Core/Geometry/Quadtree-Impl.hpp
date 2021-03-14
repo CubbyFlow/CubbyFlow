@@ -34,7 +34,7 @@ void Quadtree<T>::Build(const std::vector<T>& items, const BoundingBox2D& bound,
 
     // Normalize bounding box
     m_bbox = bound;
-    const double maxEdgeLen = std::max(m_bbox.GetWidth(), m_bbox.GetHeight());
+    const double maxEdgeLen = std::max(m_bbox.Width(), m_bbox.Height());
     m_bbox.upperCorner =
         m_bbox.lowerCorner + Vector2D{ maxEdgeLen, maxEdgeLen };
 

@@ -4,62 +4,68 @@
 
 using namespace CubbyFlow;
 
-TEST(MathUtils, GetBarycentric)
+TEST(MathUtils, GetBaryCentric)
 {
     double x = 3.2;
     ssize_t i;
     double t;
 
     // Simplest case
-    GetBarycentric(x, 0, 10, &i, &t);
+    GetBarycentric(x, 0, 11, i, t);
     EXPECT_EQ(3, i);
     EXPECT_NEAR(0.2, t, 1e-9);
 
     // Zero range
     x = 0.7;
-    GetBarycentric(x, 0, 0, &i, &t);
+    GetBarycentric(x, 0, 1, i, t);
     EXPECT_EQ(0, i);
     EXPECT_NEAR(0.0, t, 1e-9);
 
     // Small range
     x = 0.7;
-    GetBarycentric(x, 0, 1, &i, &t);
+    GetBarycentric(x, 0, 2, i, t);
     EXPECT_EQ(0, i);
     EXPECT_NEAR(0.7, t, 1e-9);
 
     // Funky range
     x = 3.2;
-    GetBarycentric(x, -10, 0, &i, &t);
-    EXPECT_EQ(-7, i);
-    EXPECT_NEAR(0.2, t, 1e-9);
+    GetBarycentric(x, -10, 1, i, t);
+    EXPECT_EQ(-1, i);
+    EXPECT_NEAR(1.0, t, 1e-9);
 
     // Funky range 2
     x = 3.2;
-    GetBarycentric(x, -3, 7, &i, &t);
-    EXPECT_EQ(0, i);
+    GetBarycentric(x, -3, 8, i, t);
+    EXPECT_EQ(3, i);
     EXPECT_NEAR(0.2, t, 1e-9);
+
+    // Funky range 3
+    x = 5.4;
+    GetBarycentric(x, 4, 8, i, t);
+    EXPECT_EQ(5, i);
+    EXPECT_NEAR(0.4, t, 1e-9);
 
     // On-the-boarder
     x = 10.0;
-    GetBarycentric(x, 0, 10, &i, &t);
+    GetBarycentric(x, 0, 11, i, t);
     EXPECT_EQ(9, i);
     EXPECT_NEAR(1.0, t, 1e-9);
 
     // On-the-boarder 2
     x = 0.0;
-    GetBarycentric(x, 0, 10, &i, &t);
+    GetBarycentric(x, 0, 11, i, t);
     EXPECT_EQ(0, i);
     EXPECT_NEAR(0.0, t, 1e-9);
 
     // Out-of-bound
     x = 10.1;
-    GetBarycentric(x, 0, 10, &i, &t);
+    GetBarycentric(x, 0, 11, i, t);
     EXPECT_EQ(9, i);
     EXPECT_NEAR(1.0, t, 1e-9);
 
     // Out-of-bound 2
     x = -0.1;
-    GetBarycentric(x, 0, 10, &i, &t);
+    GetBarycentric(x, 0, 11, i, t);
     EXPECT_EQ(0, i);
     EXPECT_NEAR(0.0, t, 1e-9);
 }

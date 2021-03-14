@@ -24,7 +24,7 @@ LevelSetLiquidSolver2::LevelSetLiquidSolver2()
     // Do nothing
 }
 
-LevelSetLiquidSolver2::LevelSetLiquidSolver2(const Size2& resolution,
+LevelSetLiquidSolver2::LevelSetLiquidSolver2(const Vector2UZ& resolution,
                                              const Vector2D& gridSpacing,
                                              const Vector2D& gridOrigin)
     : GridFluidSolver2{ resolution, gridSpacing, gridOrigin }
@@ -155,15 +155,15 @@ void LevelSetLiquidSolver2::ExtrapolateVelocityToAir(double currentCFL)
     ScalarGrid2Ptr sdf = GetSignedDistanceField();
     FaceCenteredGrid2Ptr vel = GetGridSystemData()->GetVelocity();
 
-    ArrayAccessor2<double> u = vel->GetUAccessor();
-    ArrayAccessor2<double> v = vel->GetVAccessor();
-    auto uPos = vel->GetUPosition();
-    auto vPos = vel->GetVPosition();
+    ArrayView2<double> u = vel->UView();
+    ArrayView2<double> v = vel->VView();
+    auto uPos = vel->UPosition();
+    auto vPos = vel->VPosition();
 
-    Array2<char> uMarker{ u.size() };
-    Array2<char> vMarker{ v.size() };
+    Array2<char> uMarker{ u.Size() };
+    Array2<char> vMarker{ v.Size() };
 
-    uMarker.ParallelForEachIndex([&](size_t i, size_t j) {
+    ParallelForEachIndex(uMarker.Size(), [&](size_t i, size_t j) {
         if (IsInsideSDF(sdf->Sample(uPos(i, j))))
         {
             uMarker(i, j) = 1;
@@ -175,7 +175,7 @@ void LevelSetLiquidSolver2::ExtrapolateVelocityToAir(double currentCFL)
         }
     });
 
-    vMarker.ParallelForEachIndex([&](size_t i, size_t j) {
+    ParallelForEachIndex(vMarker.Size(), [&](size_t i, size_t j) {
         if (IsInsideSDF(sdf->Sample(vPos(i, j))))
         {
             vMarker(i, j) = 1;

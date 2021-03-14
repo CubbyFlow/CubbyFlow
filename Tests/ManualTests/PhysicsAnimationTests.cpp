@@ -3,9 +3,9 @@
 #include <ManualTests.hpp>
 
 #include <Core/Animation/PhysicsAnimation.hpp>
-#include <Core/Array/Array1.hpp>
+#include <Core/Array/Array.hpp>
 #include <Core/Field/ConstantVectorField3.hpp>
-#include <Core/Vector/Vector3.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 using namespace CubbyFlow;
 
@@ -188,9 +188,9 @@ CUBBYFLOW_BEGIN_TEST_F(PhysicsAnimation, SimpleMassSpringAnimation)
 
     char fileName[256];
     snprintf(fileName, sizeof(fileName), "data.#line2,0000,x.npy");
-    SaveData(x.ConstAccessor(), fileName);
+    SaveData(x.View(), fileName);
     snprintf(fileName, sizeof(fileName), "data.#line2,0000,y.npy");
-    SaveData(y.ConstAccessor(), fileName);
+    SaveData(y.View(), fileName);
 
     for (Frame frame(0, 1.0 / 60.0); frame.index < 360; frame.Advance())
     {
@@ -199,10 +199,10 @@ CUBBYFLOW_BEGIN_TEST_F(PhysicsAnimation, SimpleMassSpringAnimation)
 
         snprintf(fileName, sizeof(fileName), "data.#line2,%04d,x.npy",
                  frame.index);
-        SaveData(x.ConstAccessor(), fileName);
+        SaveData(x.View(), fileName);
         snprintf(fileName, sizeof(fileName), "data.#line2,%04d,y.npy",
                  frame.index);
-        SaveData(y.ConstAccessor(), fileName);
+        SaveData(y.View(), fileName);
     }
 }
 CUBBYFLOW_END_TEST_F

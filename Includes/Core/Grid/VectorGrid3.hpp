@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_VECTOR_GRID3_HPP
 #define CUBBYFLOW_VECTOR_GRID3_HPP
 
-#include <Core/Array/ArrayAccessor3.hpp>
+#include <Core/Array/ArrayView.hpp>
 #include <Core/Field/VectorField3.hpp>
 #include <Core/Grid/Grid3.hpp>
 
@@ -21,11 +21,11 @@ namespace CubbyFlow
 class VectorGrid3 : public VectorField3, public Grid3
 {
  public:
-    //! Read-write array accessor type.
-    using VectorDataAccessor = ArrayAccessor3<Vector3D>;
+    //! Read-write array view type.
+    using VectorDataView = ArrayView3<Vector3D>;
 
-    //! Read-only array accessor type.
-    using ConstVectorDataAccessor = ConstArrayAccessor3<Vector3D>;
+    //! Read-only array view type.
+    using ConstVectorDataView = ConstArrayView3<Vector3D>;
 
     //! Constructs an empty grid.
     VectorGrid3() = default;
@@ -57,7 +57,7 @@ class VectorGrid3 : public VectorField3, public Grid3
                 double initialValueZ = 0.0);
 
     //! Resizes the grid using given parameters.
-    void Resize(const Size3& resolution,
+    void Resize(const Vector3UZ& resolution,
                 const Vector3D& gridSpacing = Vector3D{ 1, 1, 1 },
                 const Vector3D& origin = Vector3D{},
                 const Vector3D& initialValue = Vector3D{});
@@ -94,8 +94,8 @@ class VectorGrid3 : public VectorField3, public Grid3
     //! overriding class should allocate the internal storage based on its
     //! data layout scheme.
     //!
-    virtual void OnResize(const Size3& resolution, const Vector3D& gridSpacing,
-                          const Vector3D& origin,
+    virtual void OnResize(const Vector3UZ& resolution,
+                          const Vector3D& gridSpacing, const Vector3D& origin,
                           const Vector3D& initialValue) = 0;
 };
 
@@ -126,7 +126,7 @@ class VectorGridBuilder3
 
     //! Returns 3-D vector grid with given parameters.
     [[nodiscard]] virtual VectorGrid3Ptr Build(
-        const Size3& resolution, const Vector3D& gridSpacing,
+        const Vector3UZ& resolution, const Vector3D& gridSpacing,
         const Vector3D& gridOrigin, const Vector3D& initialVal) const = 0;
 };
 

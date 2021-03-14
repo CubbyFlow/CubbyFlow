@@ -69,7 +69,8 @@ class GridFractionalBoundaryConditionSolver3
 
  protected:
     //! Invoked when a new collider is set.
-    void OnColliderUpdated(const Size3& gridSize, const Vector3D& gridSpacing,
+    void OnColliderUpdated(const Vector3UZ& gridSize,
+                           const Vector3D& gridSpacing,
                            const Vector3D& gridOrigin) override;
 
  private:

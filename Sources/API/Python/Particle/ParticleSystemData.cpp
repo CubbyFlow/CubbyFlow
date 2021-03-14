@@ -92,7 +92,15 @@ void AddParticleSystemData2(pybind11::module& m)
         .def_property_readonly(
             "positions",
             [](ParticleSystemData2& instance) {
-                return instance.GetPositions();
+                std::vector<Vector2D> result;
+
+                ArrayView1<Vector2D> view = instance.Positions();
+                for (auto& elem : view)
+                {
+                    result.emplace_back(elem);
+                }
+
+                return result;
             },
             R"pbdoc(
 			Returns the position array (mutable).
@@ -100,14 +108,32 @@ void AddParticleSystemData2(pybind11::module& m)
         .def_property_readonly(
             "velocities",
             [](ParticleSystemData2& instance) {
-                return instance.GetVelocities();
+                std::vector<Vector2D> result;
+
+                ArrayView1<Vector2D> view = instance.Velocities();
+                for (auto& elem : view)
+                {
+                    result.emplace_back(elem);
+                }
+
+                return result;
             },
             R"pbdoc(
 			Returns the velocity array (mutable).
 		)pbdoc")
         .def_property_readonly(
             "forces",
-            [](ParticleSystemData2& instance) { return instance.GetForces(); },
+            [](ParticleSystemData2& instance) {
+                std::vector<Vector2D> result;
+
+                ArrayView1<Vector2D> view = instance.Forces();
+                for (auto& elem : view)
+                {
+                    result.emplace_back(elem);
+                }
+
+                return result;
+            },
             R"pbdoc(
 			Returns the force array (mutable).
 		)pbdoc")
@@ -122,7 +148,15 @@ void AddParticleSystemData2(pybind11::module& m)
         .def(
             "VectorDataAt",
             [](ParticleSystemData2& instance, size_t idx) {
-                return instance.VectorDataAt(idx);
+                std::vector<Vector2D> result;
+
+                ArrayView1<Vector2D> view = instance.VectorDataAt(idx);
+                for (auto& elem : view)
+                {
+                    result.emplace_back(elem);
+                }
+
+                return result;
             },
             R"pbdoc(
 			Returns custom vector data layer at given index (mutable).
@@ -186,9 +220,8 @@ void AddParticleSystemData2(pybind11::module& m)
                     }
                 }
 
-                instance.AddParticles(positions.ConstAccessor(),
-                                      velocities.ConstAccessor(),
-                                      forces.ConstAccessor());
+                instance.AddParticles(positions.View(), velocities.View(),
+                                      forces.View());
             },
             R"pbdoc(
 			Adds particles to the data structure.
@@ -307,7 +340,15 @@ void AddParticleSystemData3(pybind11::module& m)
         .def_property_readonly(
             "positions",
             [](ParticleSystemData3& instance) {
-                return instance.GetPositions();
+                std::vector<Vector3D> result;
+
+                ArrayView1<Vector3D> view = instance.Positions();
+                for (auto& elem : view)
+                {
+                    result.emplace_back(elem);
+                }
+
+                return result;
             },
             R"pbdoc(
 			Returns the position array (mutable).
@@ -315,14 +356,32 @@ void AddParticleSystemData3(pybind11::module& m)
         .def_property_readonly(
             "velocities",
             [](ParticleSystemData3& instance) {
-                return instance.GetVelocities();
+                std::vector<Vector3D> result;
+
+                ArrayView1<Vector3D> view = instance.Velocities();
+                for (auto& elem : view)
+                {
+                    result.emplace_back(elem);
+                }
+
+                return result;
             },
             R"pbdoc(
 			Returns the velocity array (mutable).
 		)pbdoc")
         .def_property_readonly(
             "forces",
-            [](ParticleSystemData3& instance) { return instance.GetForces(); },
+            [](ParticleSystemData3& instance) {
+                std::vector<Vector3D> result;
+
+                ArrayView1<Vector3D> view = instance.Forces();
+                for (auto& elem : view)
+                {
+                    result.emplace_back(elem);
+                }
+
+                return result;
+            },
             R"pbdoc(
 			Returns the force array (mutable).
 		)pbdoc")
@@ -337,7 +396,15 @@ void AddParticleSystemData3(pybind11::module& m)
         .def(
             "VectorDataAt",
             [](ParticleSystemData3& instance, size_t idx) {
-                return instance.VectorDataAt(idx);
+                std::vector<Vector3D> result;
+
+                ArrayView1<Vector3D> view = instance.VectorDataAt(idx);
+                for (auto& elem : view)
+                {
+                    result.emplace_back(elem);
+                }
+
+                return result;
             },
             R"pbdoc(
 			Returns custom vector data layer at given index (mutable).
@@ -401,9 +468,8 @@ void AddParticleSystemData3(pybind11::module& m)
                     }
                 }
 
-                instance.AddParticles(positions.ConstAccessor(),
-                                      velocities.ConstAccessor(),
-                                      forces.ConstAccessor());
+                instance.AddParticles(positions.View(), velocities.View(),
+                                      forces.View());
             },
             R"pbdoc(
 			Adds particles to the data structure.

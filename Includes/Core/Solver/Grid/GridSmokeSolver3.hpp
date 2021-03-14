@@ -35,7 +35,7 @@ class GridSmokeSolver3 : public GridFluidSolver3
     GridSmokeSolver3();
 
     //! Constructs solver with initial grid size.
-    GridSmokeSolver3(const Size3& resolution, const Vector3D& gridSpacing,
+    GridSmokeSolver3(const Vector3UZ& resolution, const Vector3D& gridSpacing,
                      const Vector3D& gridOrigin);
 
     //! Deleted copy constructor.

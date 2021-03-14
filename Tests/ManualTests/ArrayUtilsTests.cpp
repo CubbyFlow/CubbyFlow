@@ -2,9 +2,9 @@
 
 #include <ManualTests.hpp>
 
-#include <Core/Array/Array1.hpp>
+#include <Core/Array/Array.hpp>
 #include <Core/Array/ArrayUtils.hpp>
-#include <Core/Vector/Vector2.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 using namespace CubbyFlow;
 
@@ -36,13 +36,12 @@ CUBBYFLOW_BEGIN_TEST_F(ArrayUtils, ExtrapolateToRegion2)
         }
     }
 
-    SaveData(data.ConstAccessor(), "data0.npy");
-    SaveData(valid.ConstAccessor(), "valid0.npy");
+    SaveData(data.View(), "data0.npy");
+    SaveData(valid.View(), "valid0.npy");
 
-    ExtrapolateToRegion(data.ConstAccessor(), valid.ConstAccessor(), 10,
-                        data.Accessor());
+    ExtrapolateToRegion(data.View(), valid.View(), 10, data.View());
 
-    SaveData(data.ConstAccessor(), "data10.npy");
-    SaveData(valid.ConstAccessor(), "valid10.npy");
+    SaveData(data.View(), "data10.npy");
+    SaveData(valid.View(), "valid10.npy");
 }
 CUBBYFLOW_END_TEST_F

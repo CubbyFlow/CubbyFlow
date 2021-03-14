@@ -36,7 +36,8 @@ class LevelSetLiquidSolver2 : public GridFluidSolver2
     LevelSetLiquidSolver2();
 
     //! Constructs solver with initial grid size.
-    LevelSetLiquidSolver2(const Size2& resolution, const Vector2D& gridSpacing,
+    LevelSetLiquidSolver2(const Vector2UZ& resolution,
+                          const Vector2D& gridSpacing,
                           const Vector2D& gridOrigin);
 
     //! Deleted copy constructor.

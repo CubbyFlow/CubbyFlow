@@ -35,14 +35,14 @@ void GridBackwardEulerDiffusionSolver2::Solve(const ScalarGrid2& source,
 {
     if (m_systemSolver != nullptr)
     {
-        const auto pos = source.GetDataPosition();
+        const auto pos = source.DataPosition();
         const Vector2D& h = source.GridSpacing();
         const Vector2D c =
-            timeIntervalInSeconds * diffusionCoefficient / (h * h);
+            timeIntervalInSeconds * diffusionCoefficient / ElemMul(h, h);
 
         BuildMarkers(source.GetDataSize(), pos, boundarySDF, fluidSDF);
         BuildMatrix(source.GetDataSize(), c);
-        BuildVectors(source.GetConstDataAccessor(), c);
+        BuildVectors(source.DataView(), c);
 
         // Solve the system
         m_systemSolver->Solve(&m_system);
@@ -60,16 +60,16 @@ void GridBackwardEulerDiffusionSolver2::Solve(
 {
     if (m_systemSolver != nullptr)
     {
-        const auto pos = source.GetDataPosition();
+        const auto pos = source.DataPosition();
         const Vector2D& h = source.GridSpacing();
         const Vector2D c =
-            timeIntervalInSeconds * diffusionCoefficient / (h * h);
+            timeIntervalInSeconds * diffusionCoefficient / ElemMul(h, h);
 
         BuildMarkers(source.GetDataSize(), pos, boundarySDF, fluidSDF);
         BuildMatrix(source.GetDataSize(), c);
 
         // u
-        BuildVectors(source.GetConstDataAccessor(), c, 0);
+        BuildVectors(source.DataView(), c, 0);
 
         // Solve the system
         m_systemSolver->Solve(&m_system);
@@ -79,7 +79,7 @@ void GridBackwardEulerDiffusionSolver2::Solve(
             [&](size_t i, size_t j) { (*dest)(i, j).x = m_system.x(i, j); });
 
         // v
-        BuildVectors(source.GetConstDataAccessor(), c, 1);
+        BuildVectors(source.DataView(), c, 1);
 
         // Solve the system
         m_systemSolver->Solve(&m_system);
@@ -101,13 +101,13 @@ void GridBackwardEulerDiffusionSolver2::Solve(const FaceCenteredGrid2& source,
     {
         const Vector2D& h = source.GridSpacing();
         const Vector2D c =
-            timeIntervalInSeconds * diffusionCoefficient / (h * h);
+            timeIntervalInSeconds * diffusionCoefficient / ElemMul(h, h);
 
         // u
-        const auto uPos = source.GetUPosition();
-        BuildMarkers(source.GetUSize(), uPos, boundarySDF, fluidSDF);
-        BuildMatrix(source.GetUSize(), c);
-        BuildVectors(source.GetUConstAccessor(), c);
+        const auto uPos = source.UPosition();
+        BuildMarkers(source.USize(), uPos, boundarySDF, fluidSDF);
+        BuildMatrix(source.USize(), c);
+        BuildVectors(source.UView(), c);
 
         // Solve the system
         m_systemSolver->Solve(&m_system);
@@ -117,10 +117,10 @@ void GridBackwardEulerDiffusionSolver2::Solve(const FaceCenteredGrid2& source,
             [&](size_t i, size_t j) { dest->GetU(i, j) = m_system.x(i, j); });
 
         // v
-        const auto vPos = source.GetVPosition();
-        BuildMarkers(source.GetVSize(), vPos, boundarySDF, fluidSDF);
-        BuildMatrix(source.GetVSize(), c);
-        BuildVectors(source.GetVConstAccessor(), c);
+        const auto vPos = source.VPosition();
+        BuildMarkers(source.VSize(), vPos, boundarySDF, fluidSDF);
+        BuildMatrix(source.VSize(), c);
+        BuildVectors(source.VView(), c);
 
         // Solve the system
         m_systemSolver->Solve(&m_system);
@@ -138,12 +138,12 @@ void GridBackwardEulerDiffusionSolver2::SetLinearSystemSolver(
 }
 
 void GridBackwardEulerDiffusionSolver2::BuildMarkers(
-    const Size2& size, const std::function<Vector2D(size_t, size_t)>& pos,
+    const Vector2UZ& size, const std::function<Vector2D(size_t, size_t)>& pos,
     const ScalarField2& boundarySDF, const ScalarField2& fluidSDF)
 {
     m_markers.Resize(size);
 
-    m_markers.ParallelForEachIndex([&](size_t i, size_t j) {
+    ParallelForEachIndex(m_markers.Size(), [&](size_t i, size_t j) {
         if (IsInsideSDF(boundarySDF.Sample(pos(i, j))))
         {
             m_markers(i, j) = BOUNDARY;
@@ -159,7 +159,7 @@ void GridBackwardEulerDiffusionSolver2::BuildMarkers(
     });
 }
 
-void GridBackwardEulerDiffusionSolver2::BuildMatrix(const Size2& size,
+void GridBackwardEulerDiffusionSolver2::BuildMatrix(const Vector2UZ& size,
                                                     const Vector2D& c)
 {
     m_system.A.Resize(size);
@@ -167,7 +167,7 @@ void GridBackwardEulerDiffusionSolver2::BuildMatrix(const Size2& size,
     bool isBoundaryType = (m_boundaryType == BoundaryType::Dirichlet);
 
     // Build linear system
-    m_system.A.ParallelForEachIndex([&](size_t i, size_t j) {
+    ParallelForEachIndex(m_system.A.Size(), [&](size_t i, size_t j) {
         FDMMatrixRow2& row = m_system.A(i, j);
 
         // Initialize
@@ -220,15 +220,15 @@ void GridBackwardEulerDiffusionSolver2::BuildMatrix(const Size2& size,
 }
 
 void GridBackwardEulerDiffusionSolver2::BuildVectors(
-    const ConstArrayAccessor2<double>& f, const Vector2D& c)
+    const ConstArrayView2<double>& f, const Vector2D& c)
 {
-    Size2 size = f.size();
+    Vector2UZ size = f.Size();
 
     m_system.x.Resize(size, 0.0);
     m_system.b.Resize(size, 0.0);
 
     // Build linear system
-    m_system.x.ParallelForEachIndex([&](size_t i, size_t j) {
+    ParallelForEachIndex(m_system.x.Size(), [&](size_t i, size_t j) {
         m_system.b(i, j) = m_system.x(i, j) = f(i, j);
 
         if (m_boundaryType == BoundaryType::Dirichlet &&
@@ -258,15 +258,15 @@ void GridBackwardEulerDiffusionSolver2::BuildVectors(
 }
 
 void GridBackwardEulerDiffusionSolver2::BuildVectors(
-    const ConstArrayAccessor2<Vector2D>& f, const Vector2D& c, size_t component)
+    const ConstArrayView2<Vector2D>& f, const Vector2D& c, size_t component)
 {
-    Size2 size = f.size();
+    Vector2UZ size = f.Size();
 
     m_system.x.Resize(size, 0.0);
     m_system.b.Resize(size, 0.0);
 
     // Build linear system
-    m_system.x.ParallelForEachIndex([&](size_t i, size_t j) {
+    ParallelForEachIndex(m_system.x.Size(), [&](size_t i, size_t j) {
         m_system.b(i, j) = m_system.x(i, j) = f(i, j)[component];
 
         if (m_boundaryType == BoundaryType::Dirichlet &&

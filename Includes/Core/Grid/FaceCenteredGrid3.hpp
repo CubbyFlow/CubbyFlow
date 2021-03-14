@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_FACE_CENTERED_GRID3_HPP
 #define CUBBYFLOW_FACE_CENTERED_GRID3_HPP
 
-#include <Core/Array/Array3.hpp>
-#include <Core/Array/ArraySamplers3.hpp>
+#include <Core/Array/Array.hpp>
+#include <Core/Array/ArraySamplers.hpp>
 #include <Core/Grid/VectorGrid3.hpp>
 
 namespace CubbyFlow
@@ -31,11 +31,11 @@ class FaceCenteredGrid3 final : public VectorGrid3
 
     class Builder;
 
-    //! Read-write scalar data accessor type.
-    using ScalarDataAccessor = ArrayAccessor3<double>;
+    //! Read-write scalar data view type.
+    using ScalarDataView = ArrayView3<double>;
 
-    //! Read-only scalar data accessor type.
-    using ConstScalarDataAccessor = ConstArrayAccessor3<double>;
+    //! Read-only scalar data view type.
+    using ConstScalarDataView = ConstArrayView3<double>;
 
     //! Constructs empty grid.
     FaceCenteredGrid3();
@@ -49,7 +49,7 @@ class FaceCenteredGrid3 final : public VectorGrid3
                       double initialValueV = 0.0, double initialValueW = 0.0);
 
     //! Resizes the grid using given parameters.
-    FaceCenteredGrid3(const Size3& resolution,
+    FaceCenteredGrid3(const Vector3UZ& resolution,
                       const Vector3D& gridSpacing = Vector3D{ 1.0, 1.0, 1.0 },
                       const Vector3D& origin = Vector3D{},
                       const Vector3D& initialValue = Vector3D{});
@@ -109,41 +109,41 @@ class FaceCenteredGrid3 final : public VectorGrid3
     //! Returns curl at cell-center location.
     [[nodiscard]] Vector3D CurlAtCellCenter(size_t i, size_t j, size_t k) const;
 
-    //! Returns u data accessor.
-    [[nodiscard]] ScalarDataAccessor GetUAccessor();
+    //! Returns u data view.
+    [[nodiscard]] ScalarDataView UView();
 
-    //! Returns read-only u data accessor.
-    [[nodiscard]] ConstScalarDataAccessor GetUConstAccessor() const;
+    //! Returns read-only u data view.
+    [[nodiscard]] ConstScalarDataView UView() const;
 
-    //! Returns v data accessor.
-    [[nodiscard]] ScalarDataAccessor GetVAccessor();
+    //! Returns v data view.
+    [[nodiscard]] ScalarDataView VView();
 
-    //! Returns read-only v data accessor.
-    [[nodiscard]] ConstScalarDataAccessor GetVConstAccessor() const;
+    //! Returns read-only v data view.
+    [[nodiscard]] ConstScalarDataView VView() const;
 
-    //! Returns w data accessor.
-    [[nodiscard]] ScalarDataAccessor GetWAccessor();
+    //! Returns w data view.
+    [[nodiscard]] ScalarDataView WView();
 
-    //! Returns read-only w data accessor.
-    [[nodiscard]] ConstScalarDataAccessor GetWConstAccessor() const;
+    //! Returns read-only w data view.
+    [[nodiscard]] ConstScalarDataView WView() const;
 
     //! Returns function object that maps u data point to its actual position.
-    [[nodiscard]] DataPositionFunc GetUPosition() const;
+    [[nodiscard]] DataPositionFunc UPosition() const;
 
     //! Returns function object that maps v data point to its actual position.
-    [[nodiscard]] DataPositionFunc GetVPosition() const;
+    [[nodiscard]] DataPositionFunc VPosition() const;
 
     //! Returns function object that maps w data point to its actual position.
-    [[nodiscard]] DataPositionFunc GetWPosition() const;
+    [[nodiscard]] DataPositionFunc WPosition() const;
 
     //! Returns data size of the u component.
-    [[nodiscard]] Size3 GetUSize() const;
+    [[nodiscard]] Vector3UZ USize() const;
 
     //! Returns data size of the v component.
-    [[nodiscard]] Size3 GetVSize() const;
+    [[nodiscard]] Vector3UZ VSize() const;
 
     //! Returns data size of the w component.
-    [[nodiscard]] Size3 GetWSize() const;
+    [[nodiscard]] Vector3UZ WSize() const;
 
     //!
     //! \brief Returns u-data position for the grid point at (0, 0, 0).
@@ -151,7 +151,7 @@ class FaceCenteredGrid3 final : public VectorGrid3
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
     //!
-    [[nodiscard]] Vector3D GetUOrigin() const;
+    [[nodiscard]] Vector3D UOrigin() const;
 
     //!
     //! \brief Returns v-data position for the grid point at (0, 0, 0).
@@ -159,7 +159,7 @@ class FaceCenteredGrid3 final : public VectorGrid3
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
     //!
-    [[nodiscard]] Vector3D GetVOrigin() const;
+    [[nodiscard]] Vector3D VOrigin() const;
 
     //!
     //! \brief Returns w-data position for the grid point at (0, 0, 0).
@@ -167,7 +167,7 @@ class FaceCenteredGrid3 final : public VectorGrid3
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
     //!
-    [[nodiscard]] Vector3D GetWOrigin() const;
+    [[nodiscard]] Vector3D WOrigin() const;
 
     //! Fills the grid with given value.
     void Fill(const Vector3D& value,
@@ -270,7 +270,7 @@ class FaceCenteredGrid3 final : public VectorGrid3
 
  protected:
     // VectorGrid3 implementations
-    void OnResize(const Size3& resolution, const Vector3D& gridSpacing,
+    void OnResize(const Vector3UZ& resolution, const Vector3D& gridSpacing,
                   const Vector3D& origin,
                   const Vector3D& initialValue) override;
 
@@ -289,9 +289,9 @@ class FaceCenteredGrid3 final : public VectorGrid3
     Vector3D m_dataOriginU;
     Vector3D m_dataOriginV;
     Vector3D m_dataOriginW;
-    LinearArraySampler3<double, double> m_uLinearSampler;
-    LinearArraySampler3<double, double> m_vLinearSampler;
-    LinearArraySampler3<double, double> m_wLinearSampler;
+    LinearArraySampler3<double> m_uLinearSampler;
+    LinearArraySampler3<double> m_vLinearSampler;
+    LinearArraySampler3<double> m_wLinearSampler;
     std::function<Vector3D(const Vector3D&)> m_sampler;
 };
 
@@ -305,7 +305,7 @@ class FaceCenteredGrid3::Builder final : public VectorGridBuilder3
 {
  public:
     //! Returns builder with resolution.
-    [[nodiscard]] Builder& WithResolution(const Size3& resolution);
+    [[nodiscard]] Builder& WithResolution(const Vector3UZ& resolution);
 
     //! Returns builder with resolution.
     [[nodiscard]] Builder& WithResolution(size_t resolutionX,
@@ -347,11 +347,11 @@ class FaceCenteredGrid3::Builder final : public VectorGridBuilder3
     //! This is an overriding function that implements VectorGridBuilder3.
     //!
     [[nodiscard]] VectorGrid3Ptr Build(
-        const Size3& resolution, const Vector3D& gridSpacing,
+        const Vector3UZ& resolution, const Vector3D& gridSpacing,
         const Vector3D& gridOrigin, const Vector3D& initialVal) const override;
 
  private:
-    Size3 m_resolution{ 1, 1, 1 };
+    Vector3UZ m_resolution{ 1, 1, 1 };
     Vector3D m_gridSpacing{ 1, 1, 1 };
     Vector3D m_gridOrigin{ 0, 0, 0 };
     Vector3D m_initialVal{ 0, 0, 0 };

@@ -21,7 +21,7 @@ PICSolver3::PICSolver3() : PICSolver3{ { 1, 1, 1 }, { 1, 1, 1 }, { 0, 0, 0 } }
     // Do nothing
 }
 
-PICSolver3::PICSolver3(const Size3& resolution, const Vector3D& gridSpacing,
+PICSolver3::PICSolver3(const Vector3UZ& resolution, const Vector3D& gridSpacing,
                        const Vector3D& gridOrigin)
     : GridFluidSolver3{ resolution, gridSpacing, gridOrigin }
 {
@@ -88,7 +88,7 @@ void PICSolver3::OnBeginAdvanceTimeStep(double timeIntervalInSeconds)
 
     timer.Reset();
     ExtrapolateVelocityToAir();
-    CUBBYFLOW_INFO << "ExtrapolateVelocityToAir took "
+    CUBBYFLOW_INFO << "ExtrapolateGetVelocityToAir took "
                    << timer.DurationInSeconds() << " seconds";
 
     ApplyBoundaryCondition();
@@ -98,7 +98,7 @@ void PICSolver3::ComputeAdvection(double timeIntervalInSeconds)
 {
     Timer timer;
     ExtrapolateVelocityToAir();
-    CUBBYFLOW_INFO << "ExtrapolateVelocityToAir took "
+    CUBBYFLOW_INFO << "ExtrapolateGetVelocityToAir took "
                    << timer.DurationInSeconds() << " seconds";
 
     ApplyBoundaryCondition();
@@ -122,43 +122,40 @@ ScalarField3Ptr PICSolver3::GetFluidSDF() const
 void PICSolver3::TransferFromParticlesToGrids()
 {
     FaceCenteredGrid3Ptr flow = GetGridSystemData()->GetVelocity();
-    ArrayAccessor1<Vector3<double>> positions = m_particles->GetPositions();
-    ArrayAccessor1<Vector3<double>> velocities = m_particles->GetVelocities();
+    ArrayView1<Vector3<double>> positions = m_particles->Positions();
+    ArrayView1<Vector3<double>> velocities = m_particles->Velocities();
     size_t numberOfParticles = m_particles->GetNumberOfParticles();
 
     // Clear velocity to zero
     flow->Fill(Vector3D{});
 
     // Weighted-average velocity
-    ArrayAccessor3<double> u = flow->GetUAccessor();
-    ArrayAccessor3<double> v = flow->GetVAccessor();
-    ArrayAccessor3<double> w = flow->GetWAccessor();
-    Array3<double> uWeight{ u.size() };
-    Array3<double> vWeight{ v.size() };
-    Array3<double> wWeight{ w.size() };
-    m_uMarkers.Resize(u.size());
-    m_vMarkers.Resize(v.size());
-    m_wMarkers.Resize(w.size());
-    m_uMarkers.Set(0);
-    m_vMarkers.Set(0);
-    m_wMarkers.Set(0);
+    ArrayView3<double> u = flow->UView();
+    ArrayView3<double> v = flow->VView();
+    ArrayView3<double> w = flow->WView();
+    Array3<double> uWeight{ u.Size() };
+    Array3<double> vWeight{ v.Size() };
+    Array3<double> wWeight{ w.Size() };
+    m_uMarkers.Resize(u.Size());
+    m_vMarkers.Resize(v.Size());
+    m_wMarkers.Resize(w.Size());
+    m_uMarkers.Fill(0);
+    m_vMarkers.Fill(0);
+    m_wMarkers.Fill(0);
 
-    LinearArraySampler3<double, double> uSampler{ flow->GetUConstAccessor(),
-                                                  flow->GridSpacing(),
-                                                  flow->GetUOrigin() };
-    LinearArraySampler3<double, double> vSampler{ flow->GetVConstAccessor(),
-                                                  flow->GridSpacing(),
-                                                  flow->GetVOrigin() };
-    LinearArraySampler3<double, double> wSampler{ flow->GetWConstAccessor(),
-                                                  flow->GridSpacing(),
-                                                  flow->GetWOrigin() };
+    LinearArraySampler3<double> uSampler{ flow->UView(), flow->GridSpacing(),
+                                          flow->UOrigin() };
+    LinearArraySampler3<double> vSampler{ flow->VView(), flow->GridSpacing(),
+                                          flow->VOrigin() };
+    LinearArraySampler3<double> wSampler{ flow->WView(), flow->GridSpacing(),
+                                          flow->WOrigin() };
 
     for (size_t i = 0; i < numberOfParticles; ++i)
     {
-        std::array<Point3UI, 8> indices{};
+        std::array<Vector3UZ, 8> indices{};
         std::array<double, 8> weights{};
 
-        uSampler.GetCoordinatesAndWeights(positions[i], &indices, &weights);
+        uSampler.GetCoordinatesAndWeights(positions[i], indices, weights);
         for (int j = 0; j < 8; ++j)
         {
             u(indices[j]) += velocities[i].x * weights[j];
@@ -166,7 +163,7 @@ void PICSolver3::TransferFromParticlesToGrids()
             m_uMarkers(indices[j]) = 1;
         }
 
-        vSampler.GetCoordinatesAndWeights(positions[i], &indices, &weights);
+        vSampler.GetCoordinatesAndWeights(positions[i], indices, weights);
         for (int j = 0; j < 8; ++j)
         {
             v(indices[j]) += velocities[i].y * weights[j];
@@ -174,7 +171,7 @@ void PICSolver3::TransferFromParticlesToGrids()
             m_vMarkers(indices[j]) = 1;
         }
 
-        wSampler.GetCoordinatesAndWeights(positions[i], &indices, &weights);
+        wSampler.GetCoordinatesAndWeights(positions[i], indices, weights);
         for (int j = 0; j < 8; ++j)
         {
             w(indices[j]) += velocities[i].z * weights[j];
@@ -183,19 +180,19 @@ void PICSolver3::TransferFromParticlesToGrids()
         }
     }
 
-    uWeight.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(uWeight.Size(), [&](size_t i, size_t j, size_t k) {
         if (uWeight(i, j, k) > 0.0)
         {
             u(i, j, k) /= uWeight(i, j, k);
         }
     });
-    vWeight.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(vWeight.Size(), [&](size_t i, size_t j, size_t k) {
         if (vWeight(i, j, k) > 0.0)
         {
             v(i, j, k) /= vWeight(i, j, k);
         }
     });
-    wWeight.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(wWeight.Size(), [&](size_t i, size_t j, size_t k) {
         if (wWeight(i, j, k) > 0.0)
         {
             w(i, j, k) /= wWeight(i, j, k);
@@ -206,8 +203,8 @@ void PICSolver3::TransferFromParticlesToGrids()
 void PICSolver3::TransferFromGridsToParticles()
 {
     FaceCenteredGrid3Ptr flow = GetGridSystemData()->GetVelocity();
-    ArrayAccessor1<Vector3<double>> positions = m_particles->GetPositions();
-    ArrayAccessor1<Vector3<double>> velocities = m_particles->GetVelocities();
+    ArrayView1<Vector3<double>> positions = m_particles->Positions();
+    ArrayView1<Vector3<double>> velocities = m_particles->Velocities();
     const size_t numberOfParticles = m_particles->GetNumberOfParticles();
 
     ParallelFor(ZERO_SIZE, numberOfParticles,
@@ -217,8 +214,8 @@ void PICSolver3::TransferFromGridsToParticles()
 void PICSolver3::MoveParticles(double timeIntervalInSeconds)
 {
     FaceCenteredGrid3Ptr flow = GetGridSystemData()->GetVelocity();
-    ArrayAccessor1<Vector3<double>> positions = m_particles->GetPositions();
-    ArrayAccessor1<Vector3<double>> velocities = m_particles->GetVelocities();
+    ArrayView1<Vector3<double>> positions = m_particles->Positions();
+    ArrayView1<Vector3<double>> velocities = m_particles->Velocities();
     const size_t numberOfParticles = m_particles->GetNumberOfParticles();
     int domainBoundaryFlag = GetClosedDomainBoundaryFlag();
     BoundingBox3D boundingBox = flow->BoundingBox();
@@ -294,23 +291,23 @@ void PICSolver3::MoveParticles(double timeIntervalInSeconds)
     }
 }
 
-void PICSolver3::ExtrapolateVelocityToAir() const
+void PICSolver3::ExtrapolateVelocityToAir()
 {
     FaceCenteredGrid3Ptr vel = GetGridSystemData()->GetVelocity();
-    const ArrayAccessor3<double> u = vel->GetUAccessor();
-    const ArrayAccessor3<double> v = vel->GetVAccessor();
-    const ArrayAccessor3<double> w = vel->GetWAccessor();
+    const ArrayView3<double> u = vel->UView();
+    const ArrayView3<double> v = vel->VView();
+    const ArrayView3<double> w = vel->WView();
 
     const auto depth = static_cast<unsigned int>(std::ceil(GetMaxCFL()));
-    ExtrapolateToRegion(vel->GetUConstAccessor(), m_uMarkers, depth, u);
-    ExtrapolateToRegion(vel->GetVConstAccessor(), m_vMarkers, depth, v);
-    ExtrapolateToRegion(vel->GetWConstAccessor(), m_wMarkers, depth, w);
+    ExtrapolateToRegion(vel->UView(), m_uMarkers, depth, u);
+    ExtrapolateToRegion(vel->VView(), m_vMarkers, depth, v);
+    ExtrapolateToRegion(vel->WView(), m_wMarkers, depth, w);
 }
 
 void PICSolver3::BuildSignedDistanceField()
 {
     ScalarGrid3Ptr sdf = GetSignedDistanceField();
-    auto sdfPos = sdf->GetDataPosition();
+    auto sdfPos = sdf->DataPosition();
     const double maxH = std::max(
         { sdf->GridSpacing().x, sdf->GridSpacing().y, sdf->GridSpacing().z });
     double radius = 1.2 * maxH / std::sqrt(2.0);

@@ -11,10 +11,10 @@
 #ifndef CUBBYFLOW_PARTICLE_SYSTEM_DATA2_HPP
 #define CUBBYFLOW_PARTICLE_SYSTEM_DATA2_HPP
 
-#include <Core/Array/Array1.hpp>
+#include <Core/Array/Array.hpp>
+#include <Core/Matrix/Matrix.hpp>
 #include <Core/Searcher/PointNeighborSearcher2.hpp>
 #include <Core/Utils/Serialization.hpp>
-#include <Core/Vector/Vector2.hpp>
 
 #include <memory>
 #include <vector>
@@ -126,34 +126,34 @@ class ParticleSystemData2 : public Serializable
     virtual void SetMass(double newMass);
 
     //! Returns the position array (immutable).
-    [[nodiscard]] ConstArrayAccessor1<Vector2D> GetPositions() const;
+    [[nodiscard]] ConstArrayView1<Vector2D> Positions() const;
 
     //! Returns the position array (mutable).
-    [[nodiscard]] ArrayAccessor1<Vector2D> GetPositions();
+    [[nodiscard]] ArrayView1<Vector2D> Positions();
 
     //! Returns the velocity array (immutable).
-    [[nodiscard]] ConstArrayAccessor1<Vector2D> GetVelocities() const;
+    [[nodiscard]] ConstArrayView1<Vector2D> Velocities() const;
 
     //! Returns the velocity array (mutable).
-    [[nodiscard]] ArrayAccessor1<Vector2D> GetVelocities();
+    [[nodiscard]] ArrayView1<Vector2D> Velocities();
 
     //! Returns the force array (immutable).
-    [[nodiscard]] ConstArrayAccessor1<Vector2D> GetForces() const;
+    [[nodiscard]] ConstArrayView1<Vector2D> Forces() const;
 
     //! Returns the force array (mutable).
-    [[nodiscard]] ArrayAccessor1<Vector2D> GetForces();
+    [[nodiscard]] ArrayView1<Vector2D> Forces();
 
     //! Returns custom scalar data layer at given index (immutable).
-    [[nodiscard]] ConstArrayAccessor1<double> ScalarDataAt(size_t idx) const;
+    [[nodiscard]] ConstArrayView1<double> ScalarDataAt(size_t idx) const;
 
     //! Returns custom scalar data layer at given index (mutable).
-    [[nodiscard]] ArrayAccessor1<double> ScalarDataAt(size_t idx);
+    [[nodiscard]] ArrayView1<double> ScalarDataAt(size_t idx);
 
     //! Returns custom vector data layer at given index (immutable).
-    [[nodiscard]] ConstArrayAccessor1<Vector2D> VectorDataAt(size_t idx) const;
+    [[nodiscard]] ConstArrayView1<Vector2D> VectorDataAt(size_t idx) const;
 
     //! Returns custom vector data layer at given index (mutable).
-    [[nodiscard]] ArrayAccessor1<Vector2D> VectorDataAt(size_t idx);
+    [[nodiscard]] ArrayView1<Vector2D> VectorDataAt(size_t idx);
 
     //!
     //! \brief      Adds a particle to the data structure.
@@ -186,11 +186,11 @@ class ParticleSystemData2 : public Serializable
     //! \param[in]  newVelocities The new velocities.
     //! \param[in]  newForces     The new forces.
     //!
-    void AddParticles(const ConstArrayAccessor1<Vector2D>& newPositions,
-                      const ConstArrayAccessor1<Vector2D>& newVelocities =
-                          ConstArrayAccessor1<Vector2D>(),
-                      const ConstArrayAccessor1<Vector2D>& newForces =
-                          ConstArrayAccessor1<Vector2D>());
+    void AddParticles(const ConstArrayView1<Vector2D>& newPositions,
+                      const ConstArrayView1<Vector2D>& newVelocities =
+                          ConstArrayView1<Vector2D>(),
+                      const ConstArrayView1<Vector2D>& newForces =
+                          ConstArrayView1<Vector2D>());
 
     //!
     //! \brief      Returns neighbor searcher.

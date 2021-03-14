@@ -10,8 +10,7 @@
 
 #include <API/Python/Geometry/Ray.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Geometry/Ray2.hpp>
-#include <Core/Geometry/Ray3.hpp>
+#include <Core/Geometry/Ray.hpp>
 
 #include <pybind11/pybind11.h>
 

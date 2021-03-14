@@ -27,11 +27,11 @@ CUBBYFLOW_BEGIN_TEST_F(ZhuBridsonPointsToImplicit3, ConvertTwo)
                                    1.0 / 128);
 
     ZhuBridsonPointsToImplicit3 converter(0.6, 0.25);
-    converter.Convert(points.ConstAccessor(), &grid);
+    converter.Convert(points.View(), &grid);
 
     TriangleMesh3 triMesh;
-    MarchingCubes(grid.GetConstDataAccessor(), grid.GridSpacing(),
-                  grid.GetDataOrigin(), &triMesh, 0, DIRECTION_ALL);
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.GetDataOrigin(),
+                  &triMesh, 0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh,
                          "zhu_bridson_points_to_implicit3_convert_two.obj");
@@ -53,11 +53,11 @@ CUBBYFLOW_BEGIN_TEST_F(ZhuBridsonPointsToImplicit3, ConvertMany)
                                    1.0 / 128);
 
     ZhuBridsonPointsToImplicit3 converter(0.2, 0.25);
-    converter.Convert(points.ConstAccessor(), &grid);
+    converter.Convert(points.View(), &grid);
 
     TriangleMesh3 triMesh;
-    MarchingCubes(grid.GetConstDataAccessor(), grid.GridSpacing(),
-                  grid.GetDataOrigin(), &triMesh, 0, DIRECTION_ALL);
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.GetDataOrigin(),
+                  &triMesh, 0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh,
                          "zhu_bridson_points_to_implicit3_convert_many.obj");

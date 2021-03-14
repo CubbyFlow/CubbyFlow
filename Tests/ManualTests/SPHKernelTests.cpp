@@ -2,7 +2,7 @@
 
 #include <ManualTests.hpp>
 
-#include <Core/Array/Array1.hpp>
+#include <Core/Array/Array.hpp>
 #include <Core/Particle/SPH/SPHStdKernel3.hpp>
 
 using namespace CubbyFlow;
@@ -24,8 +24,8 @@ CUBBYFLOW_BEGIN_TEST_F(SPHStdKernel3, Operator)
         y[i] = kernel1(x[i]);
     }
 
-    SaveData(x.ConstAccessor(), "kernel1.#line2,x.npy");
-    SaveData(y.ConstAccessor(), "kernel1.#line2,y.npy");
+    SaveData(x.View(), "kernel1.#line2,x.npy");
+    SaveData(y.View(), "kernel1.#line2,y.npy");
 
     double r2 = 1.2;
     SPHStdKernel3 kernel2(r2);
@@ -37,8 +37,8 @@ CUBBYFLOW_BEGIN_TEST_F(SPHStdKernel3, Operator)
         y[i] = kernel2(x[i]);
     }
 
-    SaveData(x.ConstAccessor(), "kernel2.#line2,x.npy");
-    SaveData(y.ConstAccessor(), "kernel2.#line2,y.npy");
+    SaveData(x.View(), "kernel2.#line2,x.npy");
+    SaveData(y.View(), "kernel2.#line2,y.npy");
 
     double r3 = 1.5;
     SPHStdKernel3 kernel3(r3);
@@ -50,8 +50,8 @@ CUBBYFLOW_BEGIN_TEST_F(SPHStdKernel3, Operator)
         y[i] = kernel3(x[i]);
     }
 
-    SaveData(x.ConstAccessor(), "kernel3.#line2,x.npy");
-    SaveData(y.ConstAccessor(), "kernel3.#line2,y.npy");
+    SaveData(x.View(), "kernel3.#line2,x.npy");
+    SaveData(y.View(), "kernel3.#line2,y.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -76,12 +76,12 @@ CUBBYFLOW_BEGIN_TEST_F(SPHSpikyKernel3, Derivatives)
         y2[i] = spiky.SecondDerivative(std::abs(x[i]));
     }
 
-    SaveData(x.ConstAccessor(), "spiky.#line2,x.npy");
-    SaveData(y0.ConstAccessor(), "spiky.#line2,y.npy");
-    SaveData(x.ConstAccessor(), "spiky_1st.#line2,x.npy");
-    SaveData(y1.ConstAccessor(), "spiky_1st.#line2,y.npy");
-    SaveData(x.ConstAccessor(), "spiky_2nd.#line2,x.npy");
-    SaveData(y2.ConstAccessor(), "spiky_2nd.#line2,y.npy");
+    SaveData(x.View(), "spiky.#line2,x.npy");
+    SaveData(y0.View(), "spiky.#line2,y.npy");
+    SaveData(x.View(), "spiky_1st.#line2,x.npy");
+    SaveData(y1.View(), "spiky_1st.#line2,y.npy");
+    SaveData(x.View(), "spiky_2nd.#line2,x.npy");
+    SaveData(y2.View(), "spiky_2nd.#line2,y.npy");
 
     SPHStdKernel3 stdKernel(r);
 
@@ -94,11 +94,11 @@ CUBBYFLOW_BEGIN_TEST_F(SPHSpikyKernel3, Derivatives)
         y2[i] = stdKernel.SecondDerivative(std::abs(x[i]));
     }
 
-    SaveData(x.ConstAccessor(), "std.#line2,x.npy");
-    SaveData(y0.ConstAccessor(), "std.#line2,y.npy");
-    SaveData(x.ConstAccessor(), "std_1st.#line2,x.npy");
-    SaveData(y1.ConstAccessor(), "std_1st.#line2,y.npy");
-    SaveData(x.ConstAccessor(), "std_2nd.#line2,x.npy");
-    SaveData(y2.ConstAccessor(), "std_2nd.#line2,y.npy");
+    SaveData(x.View(), "std.#line2,x.npy");
+    SaveData(y0.View(), "std.#line2,y.npy");
+    SaveData(x.View(), "std_1st.#line2,x.npy");
+    SaveData(y1.View(), "std_1st.#line2,y.npy");
+    SaveData(x.View(), "std_2nd.#line2,x.npy");
+    SaveData(y2.View(), "std_2nd.#line2,y.npy");
 }
 CUBBYFLOW_END_TEST_F

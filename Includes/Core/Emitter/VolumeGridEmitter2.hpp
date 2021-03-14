@@ -15,7 +15,7 @@
 #include <Core/Geometry/ImplicitSurface2.hpp>
 #include <Core/Grid/ScalarGrid2.hpp>
 #include <Core/Grid/VectorGrid2.hpp>
-#include <Core/Vector/Vector2.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 #include <memory>
 

@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Geometry/BoundingBox2.hpp>
+#include <Core/Geometry/BoundingBox.hpp>
 #include <Core/Particle/SPH/SPHStdKernel2.hpp>
 #include <Core/Particle/SPH/SPHSystemData2.hpp>
 #include <Core/PointGenerator/TrianglePointGenerator.hpp>
@@ -56,30 +56,30 @@ void SPHSystemData2::SetMass(double newMass)
     ParticleSystemData2::SetMass(newMass);
 }
 
-ConstArrayAccessor1<double> SPHSystemData2::GetDensities() const
+ConstArrayView1<double> SPHSystemData2::Densities() const
 {
     return ScalarDataAt(m_densityIdx);
 }
 
-ArrayAccessor1<double> SPHSystemData2::GetDensities()
+ArrayView1<double> SPHSystemData2::Densities()
 {
     return ScalarDataAt(m_densityIdx);
 }
 
-ConstArrayAccessor1<double> SPHSystemData2::GetPressures() const
+ConstArrayView1<double> SPHSystemData2::Pressures() const
 {
     return ScalarDataAt(m_pressureIdx);
 }
 
-ArrayAccessor1<double> SPHSystemData2::GetPressures()
+ArrayView1<double> SPHSystemData2::Pressures()
 {
     return ScalarDataAt(m_pressureIdx);
 }
 
 void SPHSystemData2::UpdateDensities()
 {
-    ArrayAccessor<Vector2D, 1> p = GetPositions();
-    ArrayAccessor<double, 1> d = GetDensities();
+    ArrayView<Vector2D, 1> p = Positions();
+    ArrayView<double, 1> d = Densities();
     const double m = GetMass();
 
     ParallelFor(ZERO_SIZE, GetNumberOfParticles(), [&](size_t i) {
@@ -155,11 +155,11 @@ double SPHSystemData2::SumOfKernelNearby(const Vector2D& origin) const
     return sum;
 }
 
-double SPHSystemData2::Interpolate(
-    const Vector2D& origin, const ConstArrayAccessor1<double>& values) const
+double SPHSystemData2::Interpolate(const Vector2D& origin,
+                                   const ConstArrayView1<double>& values) const
 {
     double sum = 0.0;
-    ConstArrayAccessor<double, 1> d = GetDensities();
+    ConstArrayView1<double> d = Densities();
     SPHStdKernel2 kernel{ m_kernelRadius };
     const double m = GetMass();
 
@@ -176,10 +176,10 @@ double SPHSystemData2::Interpolate(
 }
 
 Vector2D SPHSystemData2::Interpolate(
-    const Vector2D& origin, const ConstArrayAccessor1<Vector2D>& values) const
+    const Vector2D& origin, const ConstArrayView1<Vector2D>& values) const
 {
     Vector2D sum;
-    ConstArrayAccessor<double, 1> d = GetDensities();
+    ConstArrayView1<double> d = Densities();
     SPHStdKernel2 kernel{ m_kernelRadius };
     const double m = GetMass();
 
@@ -195,12 +195,12 @@ Vector2D SPHSystemData2::Interpolate(
     return sum;
 }
 
-Vector2D SPHSystemData2::GradientAt(
-    size_t i, const ConstArrayAccessor1<double>& values) const
+Vector2D SPHSystemData2::GradientAt(size_t i,
+                                    const ConstArrayView1<double>& values) const
 {
     Vector2D sum;
-    const ConstArrayAccessor<Vector2D, 1> p = GetPositions();
-    const ConstArrayAccessor<double, 1> d = GetDensities();
+    const ConstArrayView1<Vector2D> p = Positions();
+    const ConstArrayView1<double> d = Densities();
     const std::vector<size_t>& neighbors = GetNeighborLists()[i];
     const Vector2D origin = p[i];
     const SPHSpikyKernel2 kernel{ m_kernelRadius };
@@ -223,12 +223,12 @@ Vector2D SPHSystemData2::GradientAt(
     return sum;
 }
 
-double SPHSystemData2::LaplacianAt(
-    size_t i, const ConstArrayAccessor1<double>& values) const
+double SPHSystemData2::LaplacianAt(size_t i,
+                                   const ConstArrayView1<double>& values) const
 {
     double sum = 0.0;
-    const ConstArrayAccessor<Vector2D, 1> p = GetPositions();
-    const ConstArrayAccessor<double, 1> d = GetDensities();
+    const ConstArrayView1<Vector2D> p = Positions();
+    const ConstArrayView1<double> d = Densities();
     const std::vector<size_t>& neighbors = GetNeighborLists()[i];
     const Vector2D origin = p[i];
     const SPHSpikyKernel2 kernel{ m_kernelRadius };
@@ -246,11 +246,11 @@ double SPHSystemData2::LaplacianAt(
 }
 
 Vector2D SPHSystemData2::LaplacianAt(
-    size_t i, const ConstArrayAccessor1<Vector2D>& values) const
+    size_t i, const ConstArrayView1<Vector2D>& values) const
 {
     Vector2D sum;
-    const ConstArrayAccessor<Vector2D, 1> p = GetPositions();
-    const ConstArrayAccessor<double, 1> d = GetDensities();
+    const ConstArrayView1<Vector2D> p = Positions();
+    const ConstArrayView1<double> d = Densities();
     const std::vector<size_t>& neighbors = GetNeighborLists()[i];
     const Vector2D origin = p[i];
     const SPHSpikyKernel2 kernel{ m_kernelRadius };
@@ -291,7 +291,7 @@ void SPHSystemData2::ComputeMass()
     double maxNumberDensity = 0.0;
     const SPHStdKernel2 kernel{ m_kernelRadius };
 
-    for (size_t i = 0; i < points.size(); ++i)
+    for (size_t i = 0; i < points.Length(); ++i)
     {
         const Vector2D& point1 = points[i];
         double sum = 0.0;

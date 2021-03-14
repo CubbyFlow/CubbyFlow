@@ -11,6 +11,7 @@
 #ifndef CUBBYFLOW_FDM_ICCG_SOLVER2_HPP
 #define CUBBYFLOW_FDM_ICCG_SOLVER2_HPP
 
+#include <Core/Array/ArrayView.hpp>
 #include <Core/Solver/FDM/FDMLinearSystemSolver2.hpp>
 
 namespace CubbyFlow
@@ -50,7 +51,7 @@ class FDMICCGSolver2 final : public FDMLinearSystemSolver2
 
         void Solve(const FDMVector2& b, FDMVector2* x);
 
-        ConstArrayAccessor2<FDMMatrixRow2> A;
+        ConstArrayView2<FDMMatrixRow2> A;
         FDMVector2 d;
         FDMVector2 y;
     };

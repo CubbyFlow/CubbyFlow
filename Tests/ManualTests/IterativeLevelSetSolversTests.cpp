@@ -17,7 +17,7 @@ CUBBYFLOW_TESTS(LevelSetSolver2);
 
 CUBBYFLOW_BEGIN_TEST_F(LevelSetSolver2, Reinitialize)
 {
-    Size2 size(256, 256);
+    Vector2UZ size(256, 256);
     Vector2D gridSpacing(1.0 / size.x, 1.0 / size.x);
 
     CellCenteredScalarGrid2 data0(size, gridSpacing);
@@ -38,19 +38,21 @@ CUBBYFLOW_BEGIN_TEST_F(LevelSetSolver2, Reinitialize)
 
     CustomVectorField2 flow(flowFunc);
 
-    CellCenteredScalarGrid2 dataU(Size2(20, 20), Vector2D(1 / 20.0, 1 / 20.0));
-    CellCenteredScalarGrid2 dataV(Size2(20, 20), Vector2D(1 / 20.0, 1 / 20.0));
+    CellCenteredScalarGrid2 dataU(Vector2UZ(20, 20),
+                                  Vector2D(1 / 20.0, 1 / 20.0));
+    CellCenteredScalarGrid2 dataV(Vector2UZ(20, 20),
+                                  Vector2D(1 / 20.0, 1 / 20.0));
 
     dataU.Fill([&](const Vector2D& pt) { return flowFunc(pt).x; });
     dataV.Fill([&](const Vector2D& pt) { return flowFunc(pt).y; });
 
-    SaveData(dataU.GetConstDataAccessor(), "flow_#grid2,x.npy");
-    SaveData(dataV.GetConstDataAccessor(), "flow_#grid2,y.npy");
+    SaveData(dataU.DataView(), "flow_#grid2,x.npy");
+    SaveData(dataV.DataView(), "flow_#grid2,y.npy");
 
     CubicSemiLagrangian2 advSolver;
     ENOLevelSetSolver2 lsSolver;
 
-    SaveData(data0.GetConstDataAccessor(), "data0_#grid2,iso.npy");
+    SaveData(data0.DataView(), "data0_#grid2,iso.npy");
 
     for (int i = 0; i < 50; ++i)
     {
@@ -58,13 +60,13 @@ CUBBYFLOW_BEGIN_TEST_F(LevelSetSolver2, Reinitialize)
         lsSolver.Reinitialize(data1, 5.0 * gridSpacing.x, &data0);
     }
 
-    SaveData(data0.GetConstDataAccessor(), "data_#grid2,iso.npy");
+    SaveData(data0.DataView(), "data_#grid2,iso.npy");
 }
 CUBBYFLOW_END_TEST_F
 
 CUBBYFLOW_BEGIN_TEST_F(LevelSetSolver2, NoReinitialize)
 {
-    Size2 size(256, 256);
+    Vector2UZ size(256, 256);
     Vector2D gridSpacing(1.0 / size.x, 1.0 / size.x);
 
     CellCenteredScalarGrid2 data0(size, gridSpacing);
@@ -91,7 +93,7 @@ CUBBYFLOW_BEGIN_TEST_F(LevelSetSolver2, NoReinitialize)
         data0.Swap(&data1);
     }
 
-    SaveData(data0.GetConstDataAccessor(), "data_#grid2,iso.npy");
+    SaveData(data0.DataView(), "data_#grid2,iso.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -105,22 +107,22 @@ CUBBYFLOW_BEGIN_TEST_F(UpwindLevelSetSolver2, ReinitializeSmall)
     // Starting from constant field
     sdf.Fill([](const Vector2D& x) { return 1.0; });
 
-    SaveData(sdf.GetConstDataAccessor(), "constant0_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "constant0_#grid2,iso.npy");
 
     solver.Reinitialize(sdf, 40.0, &temp);
 
-    SaveData(temp.GetConstDataAccessor(), "constant1_#grid2,iso.npy");
+    SaveData(temp.DataView(), "constant1_#grid2,iso.npy");
 
     // Starting from SDF field
     sdf.Fill([](const Vector2D& x) {
         return (x - Vector2D(20, 20)).Length() - 8.0;
     });
 
-    SaveData(sdf.GetConstDataAccessor(), "sdf0_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "sdf0_#grid2,iso.npy");
 
     solver.Reinitialize(sdf, 40.0, &temp);
 
-    SaveData(temp.GetConstDataAccessor(), "sdf1_#grid2,iso.npy");
+    SaveData(temp.DataView(), "sdf1_#grid2,iso.npy");
 
     // Starting from scaled SDF field
     sdf.Fill([](const Vector2D& x) {
@@ -128,11 +130,11 @@ CUBBYFLOW_BEGIN_TEST_F(UpwindLevelSetSolver2, ReinitializeSmall)
         return 2.0 * r;
     });
 
-    SaveData(sdf.GetConstDataAccessor(), "scaled0_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "scaled0_#grid2,iso.npy");
 
     solver.Reinitialize(sdf, 40.0, &temp);
 
-    SaveData(temp.GetConstDataAccessor(), "scaled1_#grid2,iso.npy");
+    SaveData(temp.DataView(), "scaled1_#grid2,iso.npy");
 
     // Starting from scaled SDF field
     sdf.Fill([](const Vector2D& x) {
@@ -140,11 +142,11 @@ CUBBYFLOW_BEGIN_TEST_F(UpwindLevelSetSolver2, ReinitializeSmall)
         return (r < 0.0) ? -0.5 : 0.5;
     });
 
-    SaveData(sdf.GetConstDataAccessor(), "unit_step0_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "unit_step0_#grid2,iso.npy");
 
     solver.Reinitialize(sdf, 40.0, &temp);
 
-    SaveData(temp.GetConstDataAccessor(), "unit_step1_#grid2,iso.npy");
+    SaveData(temp.DataView(), "unit_step1_#grid2,iso.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -156,22 +158,22 @@ CUBBYFLOW_BEGIN_TEST_F(UpwindLevelSetSolver2, Reinitialize)
     // Starting from constant field
     sdf.Fill([](const Vector2D& x) { return 1.0; });
 
-    SaveData(sdf.GetConstDataAccessor(), "constant0_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "constant0_#grid2,iso.npy");
 
     solver.Reinitialize(sdf, 160.0, &temp);
 
-    SaveData(temp.GetConstDataAccessor(), "constant1_#grid2,iso.npy");
+    SaveData(temp.DataView(), "constant1_#grid2,iso.npy");
 
     // Starting from SDF field
     sdf.Fill([](const Vector2D& x) {
         return (x - Vector2D(80, 80)).Length() - 32.0;
     });
 
-    SaveData(sdf.GetConstDataAccessor(), "sdf0_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "sdf0_#grid2,iso.npy");
 
     solver.Reinitialize(sdf, 160.0, &temp);
 
-    SaveData(temp.GetConstDataAccessor(), "sdf1_#grid2,iso.npy");
+    SaveData(temp.DataView(), "sdf1_#grid2,iso.npy");
 
     // Starting from scaled SDF field
     sdf.Fill([](const Vector2D& x) {
@@ -179,11 +181,11 @@ CUBBYFLOW_BEGIN_TEST_F(UpwindLevelSetSolver2, Reinitialize)
         return 2.0 * r;
     });
 
-    SaveData(sdf.GetConstDataAccessor(), "scaled0_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "scaled0_#grid2,iso.npy");
 
     solver.Reinitialize(sdf, 160.0, &temp);
 
-    SaveData(temp.GetConstDataAccessor(), "scaled1_#grid2,iso.npy");
+    SaveData(temp.DataView(), "scaled1_#grid2,iso.npy");
 
     // Starting from scaled SDF field
     sdf.Fill([](const Vector2D& x) {
@@ -191,17 +193,17 @@ CUBBYFLOW_BEGIN_TEST_F(UpwindLevelSetSolver2, Reinitialize)
         return (r < 0.0) ? -0.5 : 0.5;
     });
 
-    SaveData(sdf.GetConstDataAccessor(), "unit_step0_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "unit_step0_#grid2,iso.npy");
 
     solver.Reinitialize(sdf, 160.0, &temp);
 
-    SaveData(temp.GetConstDataAccessor(), "unit_step1_#grid2,iso.npy");
+    SaveData(temp.DataView(), "unit_step1_#grid2,iso.npy");
 }
 CUBBYFLOW_END_TEST_F
 
 CUBBYFLOW_BEGIN_TEST_F(UpwindLevelSetSolver2, Extrapolate)
 {
-    Size2 size(160, 120);
+    Vector2UZ size(160, 120);
     Vector2D gridSpacing(1.0 / size.x, 1.0 / size.x);
     double maxDistance = 20.0 * gridSpacing.x;
 
@@ -228,9 +230,9 @@ CUBBYFLOW_BEGIN_TEST_F(UpwindLevelSetSolver2, Extrapolate)
 
     solver.Extrapolate(input, sdf, maxDistance, &output);
 
-    SaveData(sdf.GetConstDataAccessor(), "sdf_#grid2,iso.npy");
-    SaveData(input.GetConstDataAccessor(), "input_#grid2.npy");
-    SaveData(output.GetConstDataAccessor(), "output_#grid2.npy");
+    SaveData(sdf.DataView(), "sdf_#grid2,iso.npy");
+    SaveData(input.DataView(), "input_#grid2.npy");
+    SaveData(output.DataView(), "output_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -259,8 +261,8 @@ CUBBYFLOW_BEGIN_TEST_F(UpwindLevelSetSolver3, ReinitializeSmall)
         }
     }
 
-    SaveData(sdf2.ConstAccessor(), "sdf_#grid2,iso.npy");
-    SaveData(temp2.ConstAccessor(), "temp_#grid2,iso.npy");
+    SaveData(sdf2.View(), "sdf_#grid2,iso.npy");
+    SaveData(temp2.View(), "temp_#grid2,iso.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -299,8 +301,8 @@ CUBBYFLOW_BEGIN_TEST_F(UpwindLevelSetSolver3, ExtrapolateSmall)
         }
     }
 
-    SaveData(field2.ConstAccessor(), "field_#grid2.npy");
-    SaveData(temp2.ConstAccessor(), "temp_#grid2.npy");
+    SaveData(field2.View(), "field_#grid2.npy");
+    SaveData(temp2.View(), "temp_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -314,22 +316,22 @@ CUBBYFLOW_BEGIN_TEST_F(ENOLevelSetSolver2, ReinitializeSmall)
     // Starting from constant field
     sdf.Fill([](const Vector2D& x) { return 1.0; });
 
-    SaveData(sdf.GetConstDataAccessor(), "constant0_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "constant0_#grid2,iso.npy");
 
     solver.Reinitialize(sdf, 40.0, &temp);
 
-    SaveData(temp.GetConstDataAccessor(), "constant1_#grid2,iso.npy");
+    SaveData(temp.DataView(), "constant1_#grid2,iso.npy");
 
     // Starting from SDF field
     sdf.Fill([](const Vector2D& x) {
         return (x - Vector2D(20, 20)).Length() - 8.0;
     });
 
-    SaveData(sdf.GetConstDataAccessor(), "sdf0_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "sdf0_#grid2,iso.npy");
 
     solver.Reinitialize(sdf, 40.0, &temp);
 
-    SaveData(temp.GetConstDataAccessor(), "sdf1_#grid2,iso.npy");
+    SaveData(temp.DataView(), "sdf1_#grid2,iso.npy");
 
     // Starting from scaled SDF field
     sdf.Fill([](const Vector2D& x) {
@@ -337,11 +339,11 @@ CUBBYFLOW_BEGIN_TEST_F(ENOLevelSetSolver2, ReinitializeSmall)
         return 2.0 * r;
     });
 
-    SaveData(sdf.GetConstDataAccessor(), "scaled0_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "scaled0_#grid2,iso.npy");
 
     solver.Reinitialize(sdf, 40.0, &temp);
 
-    SaveData(temp.GetConstDataAccessor(), "scaled1_#grid2,iso.npy");
+    SaveData(temp.DataView(), "scaled1_#grid2,iso.npy");
 
     // Starting from scaled SDF field
     sdf.Fill([](const Vector2D& x) {
@@ -349,11 +351,11 @@ CUBBYFLOW_BEGIN_TEST_F(ENOLevelSetSolver2, ReinitializeSmall)
         return (r < 0.0) ? -0.5 : 0.5;
     });
 
-    SaveData(sdf.GetConstDataAccessor(), "unit_step0_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "unit_step0_#grid2,iso.npy");
 
     solver.Reinitialize(sdf, 40.0, &temp);
 
-    SaveData(temp.GetConstDataAccessor(), "unit_step1_#grid2,iso.npy");
+    SaveData(temp.DataView(), "unit_step1_#grid2,iso.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -365,22 +367,22 @@ CUBBYFLOW_BEGIN_TEST_F(ENOLevelSetSolver2, Reinitialize)
     // Starting from constant field
     sdf.Fill([](const Vector2D& x) { return 1.0; });
 
-    SaveData(sdf.GetConstDataAccessor(), "constant0_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "constant0_#grid2,iso.npy");
 
     solver.Reinitialize(sdf, 160.0, &temp);
 
-    SaveData(temp.GetConstDataAccessor(), "constant1_#grid2,iso.npy");
+    SaveData(temp.DataView(), "constant1_#grid2,iso.npy");
 
     // Starting from SDF field
     sdf.Fill([](const Vector2D& x) {
         return (x - Vector2D(80, 80)).Length() - 32.0;
     });
 
-    SaveData(sdf.GetConstDataAccessor(), "sdf0_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "sdf0_#grid2,iso.npy");
 
     solver.Reinitialize(sdf, 160.0, &temp);
 
-    SaveData(temp.GetConstDataAccessor(), "sdf1_#grid2,iso.npy");
+    SaveData(temp.DataView(), "sdf1_#grid2,iso.npy");
 
     // Starting from scaled SDF field
     sdf.Fill([](const Vector2D& x) {
@@ -388,11 +390,11 @@ CUBBYFLOW_BEGIN_TEST_F(ENOLevelSetSolver2, Reinitialize)
         return 2.0 * r;
     });
 
-    SaveData(sdf.GetConstDataAccessor(), "scaled0_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "scaled0_#grid2,iso.npy");
 
     solver.Reinitialize(sdf, 160.0, &temp);
 
-    SaveData(temp.GetConstDataAccessor(), "scaled1_#grid2,iso.npy");
+    SaveData(temp.DataView(), "scaled1_#grid2,iso.npy");
 
     // Starting from scaled SDF field
     sdf.Fill([](const Vector2D& x) {
@@ -400,17 +402,17 @@ CUBBYFLOW_BEGIN_TEST_F(ENOLevelSetSolver2, Reinitialize)
         return (r < 0.0) ? -0.5 : 0.5;
     });
 
-    SaveData(sdf.GetConstDataAccessor(), "unit_step0_#grid2,iso.npy");
+    SaveData(sdf.DataView(), "unit_step0_#grid2,iso.npy");
 
     solver.Reinitialize(sdf, 160.0, &temp);
 
-    SaveData(temp.GetConstDataAccessor(), "unit_step1_#grid2,iso.npy");
+    SaveData(temp.DataView(), "unit_step1_#grid2,iso.npy");
 }
 CUBBYFLOW_END_TEST_F
 
 CUBBYFLOW_BEGIN_TEST_F(ENOLevelSetSolver2, Extrapolate)
 {
-    Size2 size(160, 120);
+    Vector2UZ size(160, 120);
     Vector2D gridSpacing(1.0 / size.x, 1.0 / size.x);
     double maxDistance = 20.0 * gridSpacing.x;
 
@@ -437,9 +439,9 @@ CUBBYFLOW_BEGIN_TEST_F(ENOLevelSetSolver2, Extrapolate)
 
     solver.Extrapolate(input, sdf, maxDistance, &output);
 
-    SaveData(sdf.GetConstDataAccessor(), "sdf_#grid2,iso.npy");
-    SaveData(input.GetConstDataAccessor(), "input_#grid2.npy");
-    SaveData(output.GetConstDataAccessor(), "output_#grid2.npy");
+    SaveData(sdf.DataView(), "sdf_#grid2,iso.npy");
+    SaveData(input.DataView(), "input_#grid2.npy");
+    SaveData(output.DataView(), "output_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -467,8 +469,8 @@ CUBBYFLOW_BEGIN_TEST_F(ENOLevelSetSolver3, ReinitializeSmall)
         }
     }
 
-    SaveData(sdf2.ConstAccessor(), "sdf_#grid2,iso.npy");
-    SaveData(temp2.ConstAccessor(), "temp_#grid2,iso.npy");
+    SaveData(sdf2.View(), "sdf_#grid2,iso.npy");
+    SaveData(temp2.View(), "temp_#grid2,iso.npy");
 }
 CUBBYFLOW_END_TEST_F
 
@@ -506,7 +508,7 @@ CUBBYFLOW_BEGIN_TEST_F(ENOLevelSetSolver3, ExtrapolateSmall)
         }
     }
 
-    SaveData(field2.ConstAccessor(), "field_#grid2.npy");
-    SaveData(temp2.ConstAccessor(), "temp_#grid2.npy");
+    SaveData(field2.View(), "field_#grid2.npy");
+    SaveData(temp2.View(), "temp_#grid2.npy");
 }
 CUBBYFLOW_END_TEST_F

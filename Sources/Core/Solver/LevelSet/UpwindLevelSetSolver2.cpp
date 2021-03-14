@@ -18,14 +18,14 @@ UpwindLevelSetSolver2::UpwindLevelSetSolver2()
     SetMaxCFL(0.5);
 }
 
-void UpwindLevelSetSolver2::GetDerivatives(ConstArrayAccessor2<double> grid,
+void UpwindLevelSetSolver2::GetDerivatives(ConstArrayView2<double> grid,
                                            const Vector2D& gridSpacing,
                                            size_t i, size_t j,
                                            std::array<double, 2>* dx,
                                            std::array<double, 2>* dy) const
 {
     double d0[3];
-    const Size2 size = grid.size();
+    const Vector2UZ size = grid.Size();
 
     const size_t im1 = (i < 1) ? 0 : i - 1;
     const size_t ip1 = std::min(i + 1, size.x - 1);

@@ -45,7 +45,7 @@ Vector3<T> UniformSampleCone(T u1, T u2, const Vector3<T>& axis, T angle)
     T phi = static_cast<T>(2.0 * PI<T>()) * u2;
     T x = r * std::cos(phi);
     T z = r * std::sin(phi);
-    auto ts = axis.Tangential();
+    auto ts = axis.Tangentials();
 
     return std::get<0>(ts) * x + axis * y + std::get<1>(ts) * z;
 }
@@ -58,7 +58,7 @@ Vector3<T> UniformSampleHemisphere(T u1, T u2, const Vector3<T>& normal)
     T phi = static_cast<T>(2.0 * PI<T>()) * u2;
     T x = r * std::cos(phi);
     T z = r * std::sin(phi);
-    auto ts = normal.Tangential();
+    auto ts = normal.Tangentials();
 
     return std::get<0>(ts) * x + normal * y + std::get<1>(ts) * z;
 }
@@ -72,7 +72,7 @@ Vector3<T> CosineWeightedSampleHemisphere(T u1, T u2, const Vector3<T>& normal)
     T x = std::cos(phi) * std::sin(theta);
     T z = std::sin(phi) * std::sin(theta);
     Vector3<T> t = Tangential(normal);
-    auto ts = normal.Tangential();
+    auto ts = normal.Tangentials();
 
     return std::get<0>(ts) * x + normal * y + std::get<1>(ts) * z;
 }

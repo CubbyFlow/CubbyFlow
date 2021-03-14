@@ -11,9 +11,9 @@
 #ifndef CUBBYFLOW_SCALAR_GRID3_HPP
 #define CUBBYFLOW_SCALAR_GRID3_HPP
 
-#include <Core/Array/Array3.hpp>
-#include <Core/Array/ArrayAccessor3.hpp>
-#include <Core/Array/ArraySamplers3.hpp>
+#include <Core/Array/Array.hpp>
+#include <Core/Array/ArrayView.hpp>
+#include <Core/Array/ArraySamplers.hpp>
 #include <Core/Field/ScalarField3.hpp>
 #include <Core/Grid/Grid3.hpp>
 
@@ -23,11 +23,11 @@ namespace CubbyFlow
 class ScalarGrid3 : public ScalarField3, public Grid3
 {
  public:
-    //! Read-write array accessor type.
-    using ScalarDataAccessor = ArrayAccessor3<double>;
+    //! Read-write array view type.
+    using ScalarDataView = ArrayView3<double>;
 
-    //! Read-only array accessor type.
-    using ConstScalarDataAccessor = ConstArrayAccessor3<double>;
+    //! Read-only array view type.
+    using ConstScalarDataView = ConstArrayView3<double>;
 
     //! Constructs an empty grid.
     ScalarGrid3();
@@ -53,7 +53,7 @@ class ScalarGrid3 : public ScalarField3, public Grid3
     //! This function returns the size of the grid data which is not necessarily
     //! equal to the grid resolution if the data is not stored at cell-center.
     //!
-    [[nodiscard]] virtual Size3 GetDataSize() const = 0;
+    [[nodiscard]] virtual Vector3UZ GetDataSize() const = 0;
 
     //!
     //! \brief Returns the origin of the grid data.
@@ -78,7 +78,7 @@ class ScalarGrid3 : public ScalarField3, public Grid3
                 double initialValue = 0.0);
 
     //! Resizes the grid using given parameters.
-    void Resize(const Size3& resolution,
+    void Resize(const Vector3UZ& resolution,
                 const Vector3D& gridSpacing = Vector3D(1, 1, 1),
                 const Vector3D& origin = Vector3D(), double initialValue = 0.0);
 
@@ -103,14 +103,14 @@ class ScalarGrid3 : public ScalarField3, public Grid3
     [[nodiscard]] double LaplacianAtDataPoint(size_t i, size_t j,
                                               size_t k) const;
 
-    //! Returns the read-write data array accessor.
-    [[nodiscard]] ScalarDataAccessor GetDataAccessor();
+    //! Returns the read-write data array view.
+    [[nodiscard]] ScalarDataView DataView();
 
-    //! Returns the read-only data array accessor.
-    [[nodiscard]] ConstScalarDataAccessor GetConstDataAccessor() const;
+    //! Returns the read-only data array view.
+    [[nodiscard]] ConstScalarDataView DataView() const;
 
     //! Returns the function that maps data point to its position.
-    [[nodiscard]] DataPositionFunc GetDataPosition() const;
+    [[nodiscard]] DataPositionFunc DataPosition() const;
 
     //! Fills the grid with given value.
     void Fill(double value, ExecutionPolicy policy = ExecutionPolicy::Parallel);
@@ -189,7 +189,7 @@ class ScalarGrid3 : public ScalarField3, public Grid3
     void ResetSampler();
 
     Array3<double> m_data;
-    LinearArraySampler3<double, double> m_linearSampler;
+    LinearArraySampler3<double> m_linearSampler;
     std::function<double(const Vector3D&)> m_sampler;
 };
 
@@ -219,7 +219,7 @@ class ScalarGridBuilder3
     ScalarGridBuilder3& operator=(ScalarGridBuilder3&&) noexcept = default;
 
     //! Returns 3-D scalar grid with given parameters.
-    [[nodiscard]] virtual ScalarGrid3Ptr Build(const Size3& resolution,
+    [[nodiscard]] virtual ScalarGrid3Ptr Build(const Vector3UZ& resolution,
                                                const Vector3D& gridSpacing,
                                                const Vector3D& gridOrigin,
                                                double initialVal) const = 0;

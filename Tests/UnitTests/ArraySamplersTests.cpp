@@ -1,11 +1,7 @@
 #include "pch.hpp"
 
-#include <Core/Array/Array1.hpp>
-#include <Core/Array/Array2.hpp>
-#include <Core/Array/Array3.hpp>
-#include <Core/Array/ArraySamplers1.hpp>
-#include <Core/Array/ArraySamplers2.hpp>
-#include <Core/Array/ArraySamplers3.hpp>
+#include <Core/Array/Array.hpp>
+#include <Core/Array/ArraySamplers.hpp>
 
 using namespace CubbyFlow;
 
@@ -14,8 +10,8 @@ TEST(NearestArraySampler1, Sample)
     {
         Array1<double> grid({ 1.0, 2.0, 3.0, 4.0 });
         double gridSpacing = 1.0, gridOrigin = 0.0;
-        NearestArraySampler1<double, double> sampler(grid.ConstAccessor(),
-                                                     gridSpacing, gridOrigin);
+        NearestArraySampler1<double> sampler(grid.View(), gridSpacing,
+                                             gridOrigin);
 
         double s0 = sampler(0.45);
         EXPECT_LT(std::fabs(s0 - 1.0), 1e-9);
@@ -30,8 +26,8 @@ TEST(NearestArraySampler1, Sample)
     {
         Array1<double> grid({ 1.0, 2.0, 3.0, 4.0 });
         double gridSpacing = 0.5, gridOrigin = -1.0;
-        NearestArraySampler1<double, double> sampler(grid.ConstAccessor(),
-                                                     gridSpacing, gridOrigin);
+        NearestArraySampler1<double> sampler(grid.View(), gridSpacing,
+                                             gridOrigin);
 
         double s0 = sampler(0.45);
         EXPECT_LT(std::fabs(s0 - 4.0), 1e-9);
@@ -46,8 +42,8 @@ TEST(LinearArraySampler1, Sample)
     {
         Array1<double> grid({ 1.0, 2.0, 3.0, 4.0 });
         double gridSpacing = 1.0, gridOrigin = 0.0;
-        LinearArraySampler1<double, double> sampler(grid.ConstAccessor(),
-                                                    gridSpacing, gridOrigin);
+        LinearArraySampler1<double> sampler(grid.View(), gridSpacing,
+                                            gridOrigin);
 
         double s0 = sampler(0.5);
         EXPECT_LT(std::fabs(s0 - 1.5), 1e-9);
@@ -62,8 +58,8 @@ TEST(LinearArraySampler1, Sample)
     {
         Array1<double> grid({ 1.0, 2.0, 3.0, 4.0 });
         double gridSpacing = 0.5, gridOrigin = -1.0;
-        LinearArraySampler1<double, double> sampler(grid.ConstAccessor(),
-                                                    gridSpacing, gridOrigin);
+        LinearArraySampler1<double> sampler(grid.View(), gridSpacing,
+                                            gridOrigin);
 
         double s0 = sampler(0.2);
         EXPECT_LT(std::fabs(s0 - 3.4), 1e-9);
@@ -73,12 +69,12 @@ TEST(LinearArraySampler1, Sample)
     }
 }
 
-TEST(CubicArraySampler1, Sample)
+TEST(MonotonicCatmullRomArraySampler1, Sample)
 {
     Array1<double> grid({ 1.0, 2.0, 3.0, 4.0 });
     double gridSpacing = 1.0, gridOrigin = 0.0;
-    CubicArraySampler1<double, double> sampler(grid.ConstAccessor(),
-                                               gridSpacing, gridOrigin);
+    MonotonicCatmullRomArraySampler1<double> sampler(grid.View(), gridSpacing,
+                                                     gridOrigin);
 
     double s0 = sampler(1.25);
     EXPECT_LT(2.0, s0);
@@ -94,8 +90,8 @@ TEST(NearestArraySampler2, Sample)
                               { 4.0, 5.0, 6.0, 7.0 },
                               { 5.0, 6.0, 7.0, 8.0 } });
         Vector2D gridSpacing(1.0, 1.0), gridOrigin;
-        NearestArraySampler2<double, double> sampler(grid.ConstAccessor(),
-                                                     gridSpacing, gridOrigin);
+        NearestArraySampler2<double> sampler(grid.View(), gridSpacing,
+                                             gridOrigin);
 
         double s0 = sampler(Vector2D(0.45, 0.45));
         EXPECT_LT(std::fabs(s0 - 1.0), 1e-9);
@@ -114,8 +110,8 @@ TEST(NearestArraySampler2, Sample)
                               { 4.0, 5.0, 6.0, 7.0 },
                               { 5.0, 6.0, 7.0, 8.0 } });
         Vector2D gridSpacing(0.5, 0.25), gridOrigin(-1.0, -0.5);
-        NearestArraySampler2<double, double> sampler(grid.ConstAccessor(),
-                                                     gridSpacing, gridOrigin);
+        NearestArraySampler2<double> sampler(grid.View(), gridSpacing,
+                                             gridOrigin);
 
         double s0 = sampler(Vector2D(0.45, 0.4));
         EXPECT_LT(std::fabs(s0 - 8.0), 1e-9);
@@ -134,8 +130,8 @@ TEST(LinearArraySampler2, Sample)
                               { 4.0, 5.0, 6.0, 7.0 },
                               { 5.0, 6.0, 7.0, 8.0 } });
         Vector2D gridSpacing(1.0, 1.0), gridOrigin;
-        LinearArraySampler2<double, double> sampler(grid.ConstAccessor(),
-                                                    gridSpacing, gridOrigin);
+        LinearArraySampler2<double> sampler(grid.View(), gridSpacing,
+                                            gridOrigin);
 
         double s0 = sampler(Vector2D(0.5, 0.5));
         EXPECT_LT(std::fabs(s0 - 2.0), 1e-9);
@@ -151,8 +147,8 @@ TEST(LinearArraySampler2, Sample)
                               { 4.0, 5.0, 6.0, 7.0 },
                               { 5.0, 6.0, 7.0, 8.0 } });
         Vector2D gridSpacing(0.5, 0.25), gridOrigin(-1.0, -0.5);
-        LinearArraySampler2<double, double> sampler(grid.ConstAccessor(),
-                                                    gridSpacing, gridOrigin);
+        LinearArraySampler2<double> sampler(grid.View(), gridSpacing,
+                                            gridOrigin);
 
         double s0 = sampler(Vector2D(0.5, 0.5));
         EXPECT_LT(std::fabs(s0 - 8.0), 1e-9);
@@ -162,7 +158,7 @@ TEST(LinearArraySampler2, Sample)
     }
 }
 
-TEST(CubicArraySampler2, Sample)
+TEST(MonotonicCatmullRomArraySampler2, Sample)
 {
     Array2<double> grid({ { 1.0, 2.0, 3.0, 4.0 },
                           { 2.0, 3.0, 4.0, 5.0 },
@@ -170,15 +166,15 @@ TEST(CubicArraySampler2, Sample)
                           { 4.0, 5.0, 6.0, 7.0 },
                           { 5.0, 6.0, 7.0, 8.0 } });
     Vector2D gridSpacing(1.0, 1.0), gridOrigin;
-    CubicArraySampler2<double, double> sampler(grid.ConstAccessor(),
-                                               gridSpacing, gridOrigin);
+    MonotonicCatmullRomArraySampler2<double> sampler(grid.View(), gridSpacing,
+                                                     gridOrigin);
 
     double s0 = sampler(Vector2D(1.5, 2.8));
     EXPECT_LT(4.0, s0);
     EXPECT_GT(6.0, s0);
 }
 
-TEST(CubicArraySampler3, Sample)
+TEST(MonotonicCatmullRomArraySampler3, Sample)
 {
     Array3<double> grid(4, 4, 4);
     for (size_t k = 0; k < 4; ++k)
@@ -193,8 +189,8 @@ TEST(CubicArraySampler3, Sample)
     }
 
     Vector3D gridSpacing(1.0, 1.0, 1.0), gridOrigin;
-    CubicArraySampler3<double, double> sampler(grid.ConstAccessor(),
-                                               gridSpacing, gridOrigin);
+    MonotonicCatmullRomArraySampler3<double> sampler(grid.View(), gridSpacing,
+                                                     gridOrigin);
 
     double s0 = sampler(Vector3D(1.5, 1.8, 1.2));
     EXPECT_LT(3.0, s0);

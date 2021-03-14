@@ -16,6 +16,7 @@
 #define TINYOBJLOADER_USE_DOUBLE
 #include <tiny_obj_loader.h>
 
+#include <array>
 #include <cassert>
 #include <iostream>
 #include <utility>
@@ -145,12 +146,12 @@ void TriangleMesh3::Clear()
 
 void TriangleMesh3::Set(const TriangleMesh3& other)
 {
-    m_points.Set(other.m_points);
-    m_normals.Set(other.m_normals);
-    m_uvs.Set(other.m_uvs);
-    m_pointIndices.Set(other.m_pointIndices);
-    m_normalIndices.Set(other.m_normalIndices);
-    m_uvIndices.Set(other.m_uvIndices);
+    m_points.CopyFrom(other.m_points);
+    m_normals.CopyFrom(other.m_normals);
+    m_uvs.CopyFrom(other.m_uvs);
+    m_pointIndices.CopyFrom(other.m_pointIndices);
+    m_normalIndices.CopyFrom(other.m_normalIndices);
+    m_uvIndices.CopyFrom(other.m_uvIndices);
 
     InvalidateCache();
 }
@@ -222,32 +223,32 @@ Vector2D& TriangleMesh3::UV(size_t i)
     return m_uvs[i];
 }
 
-const Point3UI& TriangleMesh3::PointIndex(size_t i) const
+const Vector3UZ& TriangleMesh3::PointIndex(size_t i) const
 {
     return m_pointIndices[i];
 }
 
-Point3UI& TriangleMesh3::PointIndex(size_t i)
+Vector3UZ& TriangleMesh3::PointIndex(size_t i)
 {
     return m_pointIndices[i];
 }
 
-const Point3UI& TriangleMesh3::NormalIndex(size_t i) const
+const Vector3UZ& TriangleMesh3::NormalIndex(size_t i) const
 {
     return m_normalIndices[i];
 }
 
-Point3UI& TriangleMesh3::NormalIndex(size_t i)
+Vector3UZ& TriangleMesh3::NormalIndex(size_t i)
 {
     return m_normalIndices[i];
 }
 
-const Point3UI& TriangleMesh3::UVIndex(size_t i) const
+const Vector3UZ& TriangleMesh3::UVIndex(size_t i) const
 {
     return m_uvIndices[i];
 }
 
-Point3UI& TriangleMesh3::UVIndex(size_t i)
+Vector3UZ& TriangleMesh3::UVIndex(size_t i)
 {
     return m_uvIndices[i];
 }
@@ -270,14 +271,7 @@ Triangle3 TriangleMesh3::Triangle(size_t i) const
 
     for (int j = 0; j < 3; ++j)
     {
-        if (HasNormals())
-        {
-            tri.normals[j] = m_normals[m_normalIndices[i][j]];
-        }
-        else
-        {
-            tri.normals[j] = n;
-        }
+        tri.normals[j] = HasNormals() ? m_normals[m_normalIndices[i][j]] : n;
     }
 
     return tri;
@@ -285,32 +279,32 @@ Triangle3 TriangleMesh3::Triangle(size_t i) const
 
 size_t TriangleMesh3::NumberOfPoints() const
 {
-    return m_points.size();
+    return m_points.Length();
 }
 
 size_t TriangleMesh3::NumberOfNormals() const
 {
-    return m_normals.size();
+    return m_normals.Length();
 }
 
 size_t TriangleMesh3::NumberOfUVs() const
 {
-    return m_uvs.size();
+    return m_uvs.Length();
 }
 
 size_t TriangleMesh3::NumberOfTriangles() const
 {
-    return m_pointIndices.size();
+    return m_pointIndices.Length();
 }
 
 bool TriangleMesh3::HasNormals() const
 {
-    return m_normals.size() > 0;
+    return m_normals.Length() > 0;
 }
 
 bool TriangleMesh3::HasUVs() const
 {
-    return m_uvs.size() > 0;
+    return m_uvs.Length() > 0;
 }
 
 void TriangleMesh3::AddPoint(const Vector3D& pt)
@@ -328,19 +322,19 @@ void TriangleMesh3::AddUV(const Vector2D& t)
     m_uvs.Append(t);
 }
 
-void TriangleMesh3::AddPointTriangle(const Point3UI& newPointIndices)
+void TriangleMesh3::AddPointTriangle(const Vector3UZ& newPointIndices)
 {
     m_pointIndices.Append(newPointIndices);
     InvalidateCache();
 }
 
-void TriangleMesh3::AddNormalTriangle(const Point3UI& newNormalIndices)
+void TriangleMesh3::AddNormalTriangle(const Vector3UZ& newNormalIndices)
 {
     m_normalIndices.Append(newNormalIndices);
     InvalidateCache();
 }
 
-void TriangleMesh3::AddUVTriangle(const Point3UI& newUVIndices)
+void TriangleMesh3::AddUVTriangle(const Vector3UZ& newUVIndices)
 {
     m_uvIndices.Append(newUVIndices);
     InvalidateCache();
@@ -348,12 +342,12 @@ void TriangleMesh3::AddUVTriangle(const Point3UI& newUVIndices)
 
 void TriangleMesh3::AddTriangle(const Triangle3& tri)
 {
-    const size_t vStart = m_points.size();
-    const size_t nStart = m_normals.size();
-    const size_t tStart = m_uvs.size();
-    Point3UI newPointIndices;
-    Point3UI newNormalIndices;
-    Point3UI newUvIndices;
+    const size_t vStart = m_points.Length();
+    const size_t nStart = m_normals.Length();
+    const size_t tStart = m_uvs.Length();
+    Vector3UZ newPointIndices;
+    Vector3UZ newNormalIndices;
+    Vector3UZ newUvIndices;
 
     for (size_t i = 0; i < 3; ++i)
     {
@@ -375,14 +369,14 @@ void TriangleMesh3::AddTriangle(const Triangle3& tri)
 
 void TriangleMesh3::SetFaceNormal()
 {
-    m_normals.Resize(m_points.size());
-    m_normalIndices.Set(m_pointIndices);
+    m_normals.Resize(m_points.Length());
+    m_normalIndices.CopyFrom(m_pointIndices);
 
     for (size_t i = 0; i < NumberOfTriangles(); ++i)
     {
         Triangle3 tri = Triangle(i);
         const Vector3D n = tri.FaceNormal();
-        const Point3UI f = m_pointIndices[i];
+        const Vector3UZ f = m_pointIndices[i];
 
         m_normals[f.x] = n;
         m_normals[f.y] = n;
@@ -395,10 +389,10 @@ void TriangleMesh3::SetAngleWeightedVertexNormal()
     m_normals.Clear();
     m_normalIndices.Clear();
 
-    Array1<double> angleWeights(m_points.size());
-    Vector3DArray pseudoNormals(m_points.size());
+    Array1<double> angleWeights(m_points.Length());
+    Vector3DArray pseudoNormals(m_points.Length());
 
-    for (size_t i = 0; i < m_points.size(); ++i)
+    for (size_t i = 0; i < m_points.Length(); ++i)
     {
         angleWeights[i] = 0;
         pseudoNormals[i] = Vector3D{};
@@ -453,7 +447,7 @@ void TriangleMesh3::SetAngleWeightedVertexNormal()
         pseudoNormals[idx[2]] += angle * normal;
     }
 
-    for (size_t i = 0; i < m_points.size(); ++i)
+    for (size_t i = 0; i < m_points.Length(); ++i)
     {
         if (angleWeights[i] > 0)
         {
@@ -462,7 +456,7 @@ void TriangleMesh3::SetAngleWeightedVertexNormal()
     }
 
     std::swap(pseudoNormals, m_normals);
-    m_normalIndices.Set(m_pointIndices);
+    m_normalIndices.CopyFrom(m_pointIndices);
 }
 
 void TriangleMesh3::Scale(double factor)
@@ -629,25 +623,34 @@ bool TriangleMesh3::ReadObj(std::istream* stream)
                 if (!attrib.vertices.empty())
                 {
                     AddPointTriangle(
-                        { shape.mesh.indices[idx].vertex_index,
-                          shape.mesh.indices[idx + 1].vertex_index,
-                          shape.mesh.indices[idx + 2].vertex_index });
+                        { static_cast<size_t>(
+                              shape.mesh.indices[idx].vertex_index),
+                          static_cast<size_t>(
+                              shape.mesh.indices[idx + 1].vertex_index),
+                          static_cast<size_t>(
+                              shape.mesh.indices[idx + 2].vertex_index) });
                 }
 
                 if (!attrib.normals.empty())
                 {
                     AddNormalTriangle(
-                        { shape.mesh.indices[idx].normal_index,
-                          shape.mesh.indices[idx + 1].normal_index,
-                          shape.mesh.indices[idx + 2].normal_index });
+                        { static_cast<size_t>(
+                              shape.mesh.indices[idx].normal_index),
+                          static_cast<size_t>(
+                              shape.mesh.indices[idx + 1].normal_index),
+                          static_cast<size_t>(
+                              shape.mesh.indices[idx + 2].normal_index) });
                 }
 
                 if (!attrib.texcoords.empty())
                 {
                     AddUVTriangle(
-                        { shape.mesh.indices[idx].texcoord_index,
-                          shape.mesh.indices[idx + 1].texcoord_index,
-                          shape.mesh.indices[idx + 2].texcoord_index });
+                        { static_cast<size_t>(
+                              shape.mesh.indices[idx].texcoord_index),
+                          static_cast<size_t>(
+                              shape.mesh.indices[idx + 1].texcoord_index),
+                          static_cast<size_t>(
+                              shape.mesh.indices[idx + 2].texcoord_index) });
                 }
             }
 

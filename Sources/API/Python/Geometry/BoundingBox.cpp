@@ -10,34 +10,48 @@
 
 #include <API/Python/Geometry/BoundingBox.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Geometry/BoundingBox2.hpp>
-#include <Core/Geometry/BoundingBox3.hpp>
+#include <Core/Geometry/BoundingBox.hpp>
 
 #include <pybind11/pybind11.h>
 
 using namespace CubbyFlow;
 
+void AddBoundingBoxRayIntersectionF(pybind11::module& m)
+{
+    pybind11::class_<BoundingBoxRayIntersectionF>(
+        m, "BoundingBoxRayIntersection2F",
+        R"pbdoc(
+        Box-ray intersection result (32-bit float).)pbdoc")
+        .def_readwrite("isIntersecting",
+                       &BoundingBoxRayIntersectionF::isIntersecting,
+                       R"pbdoc(True if the box and ray intersects.)pbdoc")
+        .def_readwrite("near", &BoundingBoxRayIntersectionF::near,
+                       R"pbdoc(Distance to the first intersection point.)pbdoc")
+        .def_readwrite("far", &BoundingBoxRayIntersectionF::far,
+                       R"pbdoc(
+                       Distance to the second (and the last) intersection point.
+                       )pbdoc");
+}
+
+void AddBoundingBoxRayIntersectionD(pybind11::module& m)
+{
+    pybind11::class_<BoundingBoxRayIntersectionD>(m,
+                                                  "BoundingBoxRayIntersectionD",
+                                                  R"pbdoc(
+        Box-ray intersection result (64-bit float).)pbdoc")
+        .def_readwrite("isIntersecting",
+                       &BoundingBoxRayIntersectionD::isIntersecting,
+                       R"pbdoc(True if the box and ray intersects.)pbdoc")
+        .def_readwrite("near", &BoundingBoxRayIntersectionD::near,
+                       R"pbdoc(Distance to the first intersection point.)pbdoc")
+        .def_readwrite("far", &BoundingBoxRayIntersectionD::far,
+                       R"pbdoc(
+                       Distance to the second (and the last) intersection point.
+                       )pbdoc");
+}
+
 void AddBoundingBox2F(pybind11::module& m)
 {
-    pybind11::class_<BoundingBoxRayIntersection2F>(
-        static_cast<pybind11::handle>(m), "BoundingBoxRayIntersection2F",
-        R"pbdoc(
-			2-D box-ray intersection result (32-bit float).
-		)pbdoc")
-        .def_readwrite("isIntersecting",
-                       &BoundingBoxRayIntersection2F::isIntersecting,
-                       R"pbdoc(
-			True if the box and ray intersects.
-		)pbdoc")
-        .def_readwrite("near", &BoundingBoxRayIntersection2F::near,
-                       R"pbdoc(
-			Distance to the first intersection point.
-		)pbdoc")
-        .def_readwrite("far", &BoundingBoxRayIntersection2F::far,
-                       R"pbdoc(
-			Distance to the second (and the last) intersection point.
-		)pbdoc");
-
     pybind11::class_<BoundingBox2F>(static_cast<pybind11::handle>(m),
                                     "BoundingBox2F",
                                     R"pbdoc(
@@ -75,14 +89,14 @@ void AddBoundingBox2F(pybind11::module& m)
                        R"pbdoc(
 			Upper corner of the bounding box.
 		)pbdoc")
-        .def_property_readonly("width", &BoundingBox2F::GetWidth,
+        .def_property_readonly("width", &BoundingBox2F::Width,
                                R"pbdoc(
 			Width of the box.
 		)pbdoc")
-        .def_property_readonly("height", &BoundingBox2F::GetHeight,
-                               R"pbdoc(
-			Height of the box.
-		)pbdoc")
+        .def_property_readonly(
+            "height",
+            [](const BoundingBox2F& instance) { return instance.Height(); },
+            R"pbdoc(Height of the box.)pbdoc")
         .def("Length", &BoundingBox2F::Length,
              R"pbdoc(
 			Returns length of the box in given axis.
@@ -220,25 +234,6 @@ void AddBoundingBox2F(pybind11::module& m)
 
 void AddBoundingBox2D(pybind11::module& m)
 {
-    pybind11::class_<BoundingBoxRayIntersection2D>(
-        static_cast<pybind11::handle>(m), "BoundingBoxRayIntersection2D",
-        R"pbdoc(
-			2-D box-ray intersection result (64-bit float).
-		)pbdoc")
-        .def_readwrite("isIntersecting",
-                       &BoundingBoxRayIntersection2D::isIntersecting,
-                       R"pbdoc(
-			True if the box and ray intersects.
-		)pbdoc")
-        .def_readwrite("near", &BoundingBoxRayIntersection2D::near,
-                       R"pbdoc(
-			Distance to the first intersection point.
-		)pbdoc")
-        .def_readwrite("far", &BoundingBoxRayIntersection2D::far,
-                       R"pbdoc(
-			Distance to the second (and the last) intersection point.
-		)pbdoc");
-
     pybind11::class_<BoundingBox2D>(static_cast<pybind11::handle>(m),
                                     "BoundingBox2D",
                                     R"pbdoc(
@@ -276,14 +271,14 @@ void AddBoundingBox2D(pybind11::module& m)
                        R"pbdoc(
 			Upper corner of the bounding box.
 		)pbdoc")
-        .def_property_readonly("width", &BoundingBox2D::GetWidth,
+        .def_property_readonly("width", &BoundingBox2D::Width,
                                R"pbdoc(
 			Width of the box.
 		)pbdoc")
-        .def_property_readonly("height", &BoundingBox2D::GetHeight,
-                               R"pbdoc(
-			Height of the box.
-		)pbdoc")
+        .def_property_readonly(
+            "height",
+            [](const BoundingBox2D& instance) { return instance.Height(); },
+            R"pbdoc(Height of the box.)pbdoc")
         .def("Length", &BoundingBox2D::Length,
              R"pbdoc(
 			Returns length of the box in given axis.
@@ -421,25 +416,6 @@ void AddBoundingBox2D(pybind11::module& m)
 
 void AddBoundingBox3F(pybind11::module& m)
 {
-    pybind11::class_<BoundingBoxRayIntersection3F>(
-        static_cast<pybind11::handle>(m), "BoundingBoxRayIntersection3F",
-        R"pbdoc(
-			3-D box-ray intersection result (32-bit float).
-		)pbdoc")
-        .def_readwrite("isIntersecting",
-                       &BoundingBoxRayIntersection3F::isIntersecting,
-                       R"pbdoc(
-			True if the box and ray intersects.
-		)pbdoc")
-        .def_readwrite("near", &BoundingBoxRayIntersection3F::near,
-                       R"pbdoc(
-			Distance to the first intersection point.
-		)pbdoc")
-        .def_readwrite("far", &BoundingBoxRayIntersection3F::far,
-                       R"pbdoc(
-			Distance to the second (and the last) intersection point.
-		)pbdoc");
-
     pybind11::class_<BoundingBox3F>(static_cast<pybind11::handle>(m),
                                     "BoundingBox3F",
                                     R"pbdoc(
@@ -477,18 +453,18 @@ void AddBoundingBox3F(pybind11::module& m)
                        R"pbdoc(
 			Upper corner of the bounding box.
 		)pbdoc")
-        .def_property_readonly("width", &BoundingBox3F::GetWidth,
+        .def_property_readonly("width", &BoundingBox3F::Width,
                                R"pbdoc(
 			Width of the box.
 		)pbdoc")
-        .def_property_readonly("height", &BoundingBox3F::GetHeight,
-                               R"pbdoc(
-			Height of the box.
-		)pbdoc")
-        .def_property_readonly("depth", &BoundingBox3F::GetDepth,
-                               R"pbdoc(
-			Depth of the box.
-		)pbdoc")
+        .def_property_readonly(
+            "height",
+            [](const BoundingBox3F& instance) { return instance.Height(); },
+            R"pbdoc(Height of the box.)pbdoc")
+        .def_property_readonly(
+            "depth",
+            [](const BoundingBox3F& instance) { return instance.Depth(); },
+            R"pbdoc(Depth of the box.)pbdoc")
         .def("Length", &BoundingBox3F::Length,
              R"pbdoc(
 			Returns length of the box in given axis.
@@ -626,25 +602,6 @@ void AddBoundingBox3F(pybind11::module& m)
 
 void AddBoundingBox3D(pybind11::module& m)
 {
-    pybind11::class_<BoundingBoxRayIntersection3D>(
-        static_cast<pybind11::handle>(m), "BoundingBoxRayIntersection3D",
-        R"pbdoc(
-			3-D box-ray intersection result (64-bit float).
-		)pbdoc")
-        .def_readwrite("isIntersecting",
-                       &BoundingBoxRayIntersection3D::isIntersecting,
-                       R"pbdoc(
-			True if the box and ray intersects.
-		)pbdoc")
-        .def_readwrite("near", &BoundingBoxRayIntersection3D::near,
-                       R"pbdoc(
-			Distance to the first intersection point.
-		)pbdoc")
-        .def_readwrite("far", &BoundingBoxRayIntersection3D::far,
-                       R"pbdoc(
-			Distance to the second (and the last) intersection point.
-		)pbdoc");
-
     pybind11::class_<BoundingBox3D>(static_cast<pybind11::handle>(m),
                                     "BoundingBox3D",
                                     R"pbdoc(
@@ -682,18 +639,18 @@ void AddBoundingBox3D(pybind11::module& m)
                        R"pbdoc(
 			Upper corner of the bounding box.
 		)pbdoc")
-        .def_property_readonly("width", &BoundingBox3D::GetWidth,
+        .def_property_readonly("width", &BoundingBox3D::Width,
                                R"pbdoc(
 			Width of the box.
 		)pbdoc")
-        .def_property_readonly("height", &BoundingBox3D::GetHeight,
-                               R"pbdoc(
-			Height of the box.
-		)pbdoc")
-        .def_property_readonly("depth", &BoundingBox3D::GetDepth,
-                               R"pbdoc(
-			Depth of the box.
-		)pbdoc")
+        .def_property_readonly(
+            "height",
+            [](const BoundingBox3D& instance) { return instance.Height(); },
+            R"pbdoc(Height of the box.)pbdoc")
+        .def_property_readonly(
+            "depth",
+            [](const BoundingBox3D& instance) { return instance.Depth(); },
+            R"pbdoc(Depth of the box.)pbdoc")
         .def("Length", &BoundingBox3D::Length,
              R"pbdoc(
 			Returns length of the box in given axis.

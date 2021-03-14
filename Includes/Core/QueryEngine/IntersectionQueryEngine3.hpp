@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_INTERSECTION_QUERY_ENGINE3_HPP
 #define CUBBYFLOW_INTERSECTION_QUERY_ENGINE3_HPP
 
-#include <Core/Geometry/BoundingBox3.hpp>
-#include <Core/Vector/Vector3.hpp>
+#include <Core/Geometry/BoundingBox.hpp>
+#include <Core/Matrix/Matrix.hpp>
 
 namespace CubbyFlow
 {

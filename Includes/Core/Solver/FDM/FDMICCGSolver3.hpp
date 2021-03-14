@@ -11,6 +11,7 @@
 #ifndef CUBBYFLOW_FDM_ICCG_SOLVER3_HPP
 #define CUBBYFLOW_FDM_ICCG_SOLVER3_HPP
 
+#include <Core/Array/ArrayView.hpp>
 #include <Core/Solver/FDM/FDMLinearSystemSolver3.hpp>
 
 namespace CubbyFlow
@@ -50,7 +51,7 @@ class FDMICCGSolver3 final : public FDMLinearSystemSolver3
 
         void Solve(const FDMVector3& b, FDMVector3* x);
 
-        ConstArrayAccessor3<FDMMatrixRow3> A;
+        ConstArrayView3<FDMMatrixRow3> A;
         FDMVector3 d;
         FDMVector3 y;
     };

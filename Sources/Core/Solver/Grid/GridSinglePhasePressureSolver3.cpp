@@ -27,12 +27,12 @@ void BuildSingleSystem(FDMMatrix3* A, FDMVector3* b,
                        const Array3<char>& markers,
                        const FaceCenteredGrid3& input)
 {
-    Size3 size = input.Resolution();
+    Vector3UZ size = input.Resolution();
     const Vector3D invH = 1.0 / input.GridSpacing();
-    Vector3D invHSqr = invH * invH;
+    Vector3D invHSqr = ElemMul(invH, invH);
 
     // Build linear system
-    A->ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(A->Size(), [&](size_t i, size_t j, size_t k) {
         FDMMatrixRow3& row = (*A)(i, j, k);
 
         // initialize
@@ -96,18 +96,18 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                        const Array3<char>& markers,
                        const FaceCenteredGrid3& input)
 {
-    Size3 size = input.Resolution();
+    Vector3UZ size = input.Resolution();
     const Vector3D invH = 1.0 / input.GridSpacing();
-    Vector3D invHSqr = invH * invH;
+    Vector3D invHSqr = ElemMul(invH, invH);
 
-    const ConstArrayAccessor3<char> markerAcc = markers.ConstAccessor();
+    ConstArrayView3<char> markerAcc{ markers };
 
     A->Clear();
     b->Clear();
 
     size_t numRows = 0;
     Array3<size_t> coordToIndex{ size };
-    markers.ForEachIndex([&](size_t i, size_t j, size_t k) {
+    ForEachIndex(markers.Size(), [&](size_t i, size_t j, size_t k) {
         const size_t cIdx = markerAcc.Index(i, j, k);
 
         if (markerAcc[cIdx] == FLUID)
@@ -116,12 +116,12 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
         }
     });
 
-    markers.ForEachIndex([&](size_t i, size_t j, size_t k) {
+    ForEachIndex(markers.Size(), [&](size_t i, size_t j, size_t k) {
         const size_t cIdx = markerAcc.Index(i, j, k);
 
         if (markerAcc[cIdx] == FLUID)
         {
-            b->Append(input.DivergenceAtCellCenter(i, j, k));
+            b->AddElement(input.DivergenceAtCellCenter(i, j, k));
 
             std::vector<double> row(1, 0.0);
             std::vector<size_t> colIdx(1, coordToIndex[cIdx]);
@@ -202,7 +202,7 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
         }
     });
 
-    x->Resize(b->size(), 0.0);
+    x->Resize(b->GetRows(), 0.0);
 }
 }  // namespace
 
@@ -296,7 +296,7 @@ const FDMVector3& GridSinglePhasePressureSolver3::GetPressure() const
 }
 
 void GridSinglePhasePressureSolver3::BuildMarkers(
-    const Size3& size,
+    const Vector3UZ& size,
     const std::function<Vector3D(size_t, size_t, size_t)>& pos,
     const ScalarField3& boundarySDF, const ScalarField3& fluidSDF)
 {
@@ -309,29 +309,30 @@ void GridSinglePhasePressureSolver3::BuildMarkers(
     FDMMGUtils3::ResizeArrayWithFinest(size, maxLevels, &m_markers);
 
     // Build top-level markers
-    m_markers[0].ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
-        const Vector3D pt = pos(i, j, k);
+    ParallelForEachIndex(m_markers[0].Size(),
+                         [&](size_t i, size_t j, size_t k) {
+                             const Vector3D pt = pos(i, j, k);
 
-        if (IsInsideSDF(boundarySDF.Sample(pt)))
-        {
-            m_markers[0](i, j, k) = BOUNDARY;
-        }
-        else if (IsInsideSDF(fluidSDF.Sample(pt)))
-        {
-            m_markers[0](i, j, k) = FLUID;
-        }
-        else
-        {
-            m_markers[0](i, j, k) = AIR;
-        }
-    });
+                             if (IsInsideSDF(boundarySDF.Sample(pt)))
+                             {
+                                 m_markers[0](i, j, k) = BOUNDARY;
+                             }
+                             else if (IsInsideSDF(fluidSDF.Sample(pt)))
+                             {
+                                 m_markers[0](i, j, k) = FLUID;
+                             }
+                             else
+                             {
+                                 m_markers[0](i, j, k) = AIR;
+                             }
+                         });
 
     // Build sub-level markers
     for (size_t l = 1; l < m_markers.size(); ++l)
     {
         const Array3<char>& finer = m_markers[l - 1];
         Array3<char>& coarser = m_markers[l];
-        const Size3 n = coarser.size();
+        const Vector3UZ n = coarser.Size();
 
         ParallelRangeFor(
             ZERO_SIZE, n.x, ZERO_SIZE, n.y, ZERO_SIZE, n.z,
@@ -400,11 +401,11 @@ void GridSinglePhasePressureSolver3::BuildMarkers(
 
 void GridSinglePhasePressureSolver3::DecompressSolution()
 {
-    const ConstArrayAccessor3<char> acc = m_markers[0].ConstAccessor();
-    m_system.x.Resize(acc.size());
+    ConstArrayView3<char> acc{ m_markers[0] };
+    m_system.x.Resize(acc.Size());
 
     size_t row = 0;
-    m_markers[0].ForEachIndex([&](size_t i, size_t j, size_t k) {
+    ForEachIndex(m_markers[0].Size(), [&](size_t i, size_t j, size_t k) {
         if (acc(i, j, k) == FLUID)
         {
             m_system.x(i, j, k) = m_compSystem.x[row];
@@ -416,7 +417,7 @@ void GridSinglePhasePressureSolver3::DecompressSolution()
 void GridSinglePhasePressureSolver3::BuildSystem(const FaceCenteredGrid3& input,
                                                  bool useCompressed)
 {
-    const Size3 size = input.Resolution();
+    const Vector3UZ size = input.Resolution();
     size_t numLevels = 1;
 
     if (m_mgSystemSolver == nullptr)
@@ -465,9 +466,9 @@ void GridSinglePhasePressureSolver3::BuildSystem(const FaceCenteredGrid3& input,
     FaceCenteredGrid3 coarser;
     for (size_t l = 1; l < numLevels; ++l)
     {
-        Size3 res = finer->Resolution();
+        Vector3UZ res = finer->Resolution();
         Vector3D h = finer->GridSpacing();
-        const Vector3D& o = finer->Origin();
+        const Vector3D& o = finer->GridOrigin();
         res.x = res.x >> 1;
         res.y = res.y >> 1;
         res.z = res.z >> 1;
@@ -487,19 +488,19 @@ void GridSinglePhasePressureSolver3::BuildSystem(const FaceCenteredGrid3& input,
 void GridSinglePhasePressureSolver3::ApplyPressureGradient(
     const FaceCenteredGrid3& input, FaceCenteredGrid3* output)
 {
-    Size3 size = input.Resolution();
-    ConstArrayAccessor3<double> u = input.GetUConstAccessor();
-    ConstArrayAccessor3<double> v = input.GetVConstAccessor();
-    ConstArrayAccessor3<double> w = input.GetWConstAccessor();
-    ArrayAccessor3<double> u0 = output->GetUAccessor();
-    ArrayAccessor3<double> v0 = output->GetVAccessor();
-    ArrayAccessor3<double> w0 = output->GetWAccessor();
+    Vector3UZ size = input.Resolution();
+    ConstArrayView3<double> u = input.UView();
+    ConstArrayView3<double> v = input.VView();
+    ConstArrayView3<double> w = input.WView();
+    ArrayView3<double> u0 = output->UView();
+    ArrayView3<double> v0 = output->VView();
+    ArrayView3<double> w0 = output->WView();
 
     const FDMVector3& x = GetPressure();
 
     Vector3D invH = 1.0 / input.GridSpacing();
 
-    x.ParallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    ParallelForEachIndex(x.Size(), [&](size_t i, size_t j, size_t k) {
         if (m_markers[0](i, j, k) == FLUID)
         {
             if (i + 1 < size.x && m_markers[0](i + 1, j, k) != BOUNDARY)

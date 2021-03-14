@@ -9,7 +9,7 @@
 // property of any third parties.
 
 #include <Core/Emitter/PointParticleEmitter3.hpp>
-#include <Core/Matrix/Matrix3x3.hpp>
+#include <Core/Matrix/Matrix.hpp>
 #include <Core/Utils/Samplers.hpp>
 
 namespace CubbyFlow
@@ -90,7 +90,7 @@ void PointParticleEmitter3::OnUpdate(double currentTimeInSeconds,
 
         particles->AddParticles(newPositions, newVelocities);
 
-        m_numberOfEmittedParticles += newPositions.size();
+        m_numberOfEmittedParticles += newPositions.Length();
     }
 }
 

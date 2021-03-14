@@ -63,17 +63,17 @@ class SPHSystemData2 : public ParticleSystemData2
     //!
     void SetMass(double newMass) override;
 
-    //! Returns the density array accessor (immutable).
-    [[nodiscard]] ConstArrayAccessor1<double> GetDensities() const;
+    //! Returns the density array view (immutable).
+    [[nodiscard]] ConstArrayView1<double> Densities() const;
 
-    //! Returns the density array accessor (mutable).
-    [[nodiscard]] ArrayAccessor1<double> GetDensities();
+    //! Returns the density array view (mutable).
+    [[nodiscard]] ArrayView1<double> Densities();
 
-    //! Returns the pressure array accessor (immutable).
-    [[nodiscard]] ConstArrayAccessor1<double> GetPressures() const;
+    //! Returns the pressure array view (immutable).
+    [[nodiscard]] ConstArrayView1<double> Pressures() const;
 
-    //! Returns the pressure array accessor (mutable).
-    [[nodiscard]] ArrayAccessor1<double> GetPressures();
+    //! Returns the pressure array view (mutable).
+    [[nodiscard]] ArrayView1<double> Pressures();
 
     //!
     //! \brief Updates the density array with the latest particle positions.
@@ -149,8 +149,7 @@ class SPHSystemData2 : public ParticleSystemData2
     //! (SPHSystemData2::BuildNeighborSearcher) before calling this function.
     //!
     [[nodiscard]] double Interpolate(
-        const Vector2D& origin,
-        const ConstArrayAccessor1<double>& values) const;
+        const Vector2D& origin, const ConstArrayView1<double>& values) const;
 
     //!
     //! \brief Returns interpolated vector value at given origin point.
@@ -164,8 +163,7 @@ class SPHSystemData2 : public ParticleSystemData2
     //! (SPHSystemData2::BuildNeighborSearcher) before calling this function.
     //!
     [[nodiscard]] Vector2D Interpolate(
-        const Vector2D& origin,
-        const ConstArrayAccessor1<Vector2D>& values) const;
+        const Vector2D& origin, const ConstArrayView1<Vector2D>& values) const;
 
     //!
     //! Returns the gradient of the given values at i-th particle.
@@ -174,7 +172,7 @@ class SPHSystemData2 : public ParticleSystemData2
     //! (SPHSystemData2::BuildNeighborLists) before calling this function.
     //!
     [[nodiscard]] Vector2D GradientAt(
-        size_t i, const ConstArrayAccessor1<double>& values) const;
+        size_t i, const ConstArrayView1<double>& values) const;
 
     //!
     //! Returns the Laplacian of the given values at i-th particle.
@@ -183,7 +181,7 @@ class SPHSystemData2 : public ParticleSystemData2
     //! (SPHSystemData2::BuildNeighborLists) before calling this function.
     //!
     [[nodiscard]] double LaplacianAt(
-        size_t i, const ConstArrayAccessor1<double>& values) const;
+        size_t i, const ConstArrayView1<double>& values) const;
 
     //!
     //! Returns the Laplacian of the given values at i-th particle.
@@ -192,7 +190,7 @@ class SPHSystemData2 : public ParticleSystemData2
     //! (SPHSystemData2::BuildNeighborLists) before calling this function.
     //!
     [[nodiscard]] Vector2D LaplacianAt(
-        size_t i, const ConstArrayAccessor1<Vector2D>& values) const;
+        size_t i, const ConstArrayView1<Vector2D>& values) const;
 
     //! Builds neighbor searcher with kernel radius.
     void BuildNeighborSearcher();

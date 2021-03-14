@@ -1,8 +1,7 @@
 #include "pch.hpp"
 
+#include <Core/Matrix/Matrix.hpp>
 #include <Core/Matrix/MatrixCSR.hpp>
-#include <Core/Matrix/MatrixMxN.hpp>
-#include <Core/Vector/VectorN.hpp>
 
 using namespace CubbyFlow;
 
@@ -10,8 +9,8 @@ TEST(MatrixCSR, Constructors)
 {
     const MatrixCSRD emptyMat;
 
-    EXPECT_EQ(0u, emptyMat.Rows());
-    EXPECT_EQ(0u, emptyMat.Cols());
+    EXPECT_EQ(0u, emptyMat.GetRows());
+    EXPECT_EQ(0u, emptyMat.GetCols());
     EXPECT_EQ(0u, emptyMat.NumberOfNonZeros());
     EXPECT_EQ(emptyMat.NonZeroBegin(), emptyMat.NonZeroEnd());
     EXPECT_EQ(1, emptyMat.RowPointersEnd() - emptyMat.RowPointersBegin());
@@ -20,8 +19,8 @@ TEST(MatrixCSR, Constructors)
     const MatrixCSRD matInitLst = { { 1.0, 0.0, 0.0, -3.0 },
                                     { 0.0, 3.0, -5.0, 1.0 },
                                     { -4.0, 0.0, 1.0, 5.0 } };
-    EXPECT_EQ(3u, matInitLst.Rows());
-    EXPECT_EQ(4u, matInitLst.Cols());
+    EXPECT_EQ(3u, matInitLst.GetRows());
+    EXPECT_EQ(4u, matInitLst.GetCols());
     EXPECT_EQ(8u, matInitLst.NumberOfNonZeros());
 
     auto iterInitLst = matInitLst.NonZeroBegin();
@@ -38,8 +37,8 @@ TEST(MatrixCSR, Constructors)
                                   { 0.01, 3.0, -5.0, 1.0 },
                                   { -4.0, 0.01, 1.0, 5.0 } };
     const MatrixCSRD matSparse(matDense, 0.02);
-    EXPECT_EQ(3u, matSparse.Rows());
-    EXPECT_EQ(4u, matSparse.Cols());
+    EXPECT_EQ(3u, matSparse.GetRows());
+    EXPECT_EQ(4u, matSparse.GetCols());
     EXPECT_EQ(8u, matSparse.NumberOfNonZeros());
 
     auto iterSparse = matSparse.NonZeroBegin();
@@ -53,8 +52,8 @@ TEST(MatrixCSR, Constructors)
     EXPECT_EQ(5.0, iterSparse[7]);
 
     MatrixCSRD matCopied = matSparse;
-    EXPECT_EQ(3u, matCopied.Rows());
-    EXPECT_EQ(4u, matCopied.Cols());
+    EXPECT_EQ(3u, matCopied.GetRows());
+    EXPECT_EQ(4u, matCopied.GetCols());
     EXPECT_EQ(8u, matCopied.NumberOfNonZeros());
 
     auto iterCopied = matCopied.NonZeroBegin();
@@ -68,8 +67,8 @@ TEST(MatrixCSR, Constructors)
     EXPECT_EQ(5.0, iterCopied[7]);
 
     const MatrixCSRD matMoved = std::move(matCopied);
-    EXPECT_EQ(3u, matMoved.Rows());
-    EXPECT_EQ(4u, matMoved.Cols());
+    EXPECT_EQ(3u, matMoved.GetRows());
+    EXPECT_EQ(4u, matMoved.GetCols());
     EXPECT_EQ(8u, matMoved.NumberOfNonZeros());
 
     auto iterMovied = matMoved.NonZeroBegin();
@@ -82,8 +81,8 @@ TEST(MatrixCSR, Constructors)
     EXPECT_EQ(1.0, iterMovied[6]);
     EXPECT_EQ(5.0, iterMovied[7]);
 
-    EXPECT_EQ(0u, matCopied.Rows());
-    EXPECT_EQ(0u, matCopied.Cols());
+    EXPECT_EQ(0u, matCopied.GetRows());
+    EXPECT_EQ(0u, matCopied.GetCols());
     EXPECT_EQ(0u, matCopied.NumberOfNonZeros());
     EXPECT_EQ(matCopied.NonZeroBegin(), matCopied.NonZeroEnd());
     EXPECT_EQ(matCopied.RowPointersBegin(), matCopied.RowPointersEnd());
@@ -100,8 +99,8 @@ TEST(MatrixCSR, BasicSetters)
     };
     MatrixCSRD matInitLst;
     matInitLst.Compress(initLst, 0.02);
-    EXPECT_EQ(3u, matInitLst.Rows());
-    EXPECT_EQ(4u, matInitLst.Cols());
+    EXPECT_EQ(3u, matInitLst.GetRows());
+    EXPECT_EQ(4u, matInitLst.GetCols());
     EXPECT_EQ(8u, matInitLst.NumberOfNonZeros());
 
     auto iterInitLst = matInitLst.NonZeroBegin();
@@ -127,8 +126,8 @@ TEST(MatrixCSR, BasicSetters)
                                   { -4.0, 0.01, 1.0, 5.0 } };
     MatrixCSRD matSparse;
     matSparse.Compress(matDense, 0.02);
-    EXPECT_EQ(3u, matSparse.Rows());
-    EXPECT_EQ(4u, matSparse.Cols());
+    EXPECT_EQ(3u, matSparse.GetRows());
+    EXPECT_EQ(4u, matSparse.GetCols());
     EXPECT_EQ(8u, matSparse.NumberOfNonZeros());
 
     auto iterSparse = matSparse.NonZeroBegin();
@@ -145,6 +144,7 @@ TEST(MatrixCSR, BasicSetters)
     matInitLst.Set(matSparse);
     iterInitLst = matInitLst.NonZeroBegin();
 
+    EXPECT_EQ(1.0, iterInitLst[0]);
     for (size_t i = 0; i < 8; ++i)
     {
         EXPECT_EQ(iterSparse[i], iterInitLst[i]);
@@ -161,8 +161,8 @@ TEST(MatrixCSR, BasicSetters)
     matAddElem.AddElement(2, 2, 1.0);
     matAddElem.SetElement(2, 3, 5.0);
 
-    EXPECT_EQ(3u, matAddElem.Rows());
-    EXPECT_EQ(4u, matAddElem.Cols());
+    EXPECT_EQ(3u, matAddElem.GetRows());
+    EXPECT_EQ(4u, matAddElem.GetCols());
     EXPECT_EQ(8u, matAddElem.NumberOfNonZeros());
 
     auto iterAddElem = matAddElem.NonZeroBegin();
@@ -189,8 +189,8 @@ TEST(MatrixCSR, BasicSetters)
     matAddElemRandom.AddElement(1, 2, -5.0);
     matAddElemRandom.AddElement(0, 0, 1.0);
 
-    EXPECT_EQ(3u, matAddElemRandom.Rows());
-    EXPECT_EQ(4u, matAddElemRandom.Cols());
+    EXPECT_EQ(3u, matAddElemRandom.GetRows());
+    EXPECT_EQ(4u, matAddElemRandom.GetCols());
     EXPECT_EQ(8u, matAddElemRandom.NumberOfNonZeros());
 
     auto iterAddElemRandom = matAddElemRandom.NonZeroBegin();
@@ -209,8 +209,8 @@ TEST(MatrixCSR, BasicSetters)
     matAddRow.AddRow({ 3.0, -5.0, 1.0 }, { 1, 2, 3 });
     matAddRow.AddRow({ -4.0, 1.0, 5.0 }, { 0, 2, 3 });
 
-    EXPECT_EQ(3u, matAddRow.Rows());
-    EXPECT_EQ(4u, matAddRow.Cols());
+    EXPECT_EQ(3u, matAddRow.GetRows());
+    EXPECT_EQ(4u, matAddRow.GetCols());
     EXPECT_EQ(8u, matAddRow.NumberOfNonZeros());
 
     auto iterAddRow = matAddRow.NonZeroBegin();
@@ -225,8 +225,8 @@ TEST(MatrixCSR, BasicSetters)
 
     // Clear
     matAddRow.Clear();
-    EXPECT_EQ(0u, matAddRow.Rows());
-    EXPECT_EQ(0u, matAddRow.Cols());
+    EXPECT_EQ(0u, matAddRow.GetRows());
+    EXPECT_EQ(0u, matAddRow.GetCols());
     EXPECT_EQ(0u, matAddRow.NumberOfNonZeros());
     EXPECT_EQ(1u, matAddRow.RowPointersEnd() - matAddRow.RowPointersBegin());
     EXPECT_EQ(0u, matAddRow.RowPointersBegin()[0]);
@@ -275,7 +275,7 @@ TEST(MatrixCSR, BinaryOperatorMethods)
     const VectorND vecA = { -1.0, 9.0, 8.0 };
     const VectorND vecB = matA.Mul(vecA);
     const VectorND ansV = { 41.0, 89.0 };
-    EXPECT_TRUE(ansV.IsEqual(vecB));
+    EXPECT_TRUE(ansV == vecB);
 
     const MatrixCSRD matF = { { 3.0, -1.0 }, { 2.0, 9.0 }, { 2.0, 8.0 } };
     const MatrixCSRD matG = matA.Mul(matF);
@@ -483,7 +483,6 @@ TEST(MatrixCSR, GetterOperators)
                                   { 0.0, 3.0, -5.0, 1.0 },
                                   { -4.0, 0.0, 1.0, 5.0 } };
     const MatrixCSRD matSparse(matDense, 0.02);
-
     for (size_t i = 0; i < 3; ++i)
     {
         for (size_t j = 0; j < 4; ++j)
@@ -496,7 +495,6 @@ TEST(MatrixCSR, GetterOperators)
 TEST(MatrixCSR, Builders)
 {
     const MatrixCSRD matIden = MatrixCSRD::MakeIdentity(5);
-
     for (size_t i = 0; i < 5; ++i)
     {
         for (size_t j = 0; j < 5; ++j)
@@ -517,7 +515,6 @@ TEST(MatrixCSR, OperatorOverloadings)
 {
     const MatrixCSRD matA = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } };
     const MatrixCSRD addResult1 = matA + 3.5;
-
     for (size_t i = 0; i < 6; ++i)
     {
         EXPECT_EQ(i + 4.5, addResult1.NonZero(i));
@@ -557,7 +554,7 @@ TEST(MatrixCSR, OperatorOverloadings)
     const VectorND vecA = { -1.0, 9.0, 8.0 };
     const VectorND vecB = matA * vecA;
     const VectorND ansV = { 41.0, 89.0 };
-    EXPECT_TRUE(ansV.IsEqual(vecB));
+    EXPECT_TRUE(ansV == vecB);
 
     const MatrixCSRD matF = { { 3.0, -1.0 }, { 2.0, 9.0 }, { 2.0, 8.0 } };
     const MatrixCSRD matG = matA * matF;

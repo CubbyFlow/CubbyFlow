@@ -44,8 +44,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridSmokeSolver2, Rising)
     {
         solver->Update(frame);
 
-        SaveData(solver->GetSmokeDensity()->GetConstDataAccessor(),
-                 frame.index);
+        SaveData(solver->GetSmokeDensity()->DataView(), frame.index);
     }
 }
 CUBBYFLOW_END_TEST_F
@@ -86,8 +85,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridSmokeSolver2, RisingWithCollider)
     {
         solver->Update(frame);
 
-        SaveData(solver->GetSmokeDensity()->GetConstDataAccessor(),
-                 frame.index);
+        SaveData(solver->GetSmokeDensity()->DataView(), frame.index);
     }
 }
 CUBBYFLOW_END_TEST_F
@@ -135,8 +133,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridSmokeSolver2, MovingEmitterWithCollider)
     {
         solver->Update(frame);
 
-        SaveData(solver->GetSmokeDensity()->GetConstDataAccessor(),
-                 frame.index);
+        SaveData(solver->GetSmokeDensity()->DataView(), frame.index);
     }
 }
 CUBBYFLOW_END_TEST_F
@@ -180,8 +177,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridSmokeSolver2, RisingWithColliderNonVariational)
     {
         solver->Update(frame);
 
-        SaveData(solver->GetSmokeDensity()->GetConstDataAccessor(),
-                 frame.index);
+        SaveData(solver->GetSmokeDensity()->DataView(), frame.index);
     }
 }
 CUBBYFLOW_END_TEST_F
@@ -227,8 +223,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridSmokeSolver2, RisingWithColliderAndDiffusion)
     {
         solver->Update(frame);
 
-        SaveData(solver->GetSmokeDensity()->GetConstDataAccessor(),
-                 frame.index);
+        SaveData(solver->GetSmokeDensity()->DataView(), frame.index);
     }
 }
 CUBBYFLOW_END_TEST_F
@@ -275,7 +270,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridSmokeSolver3, Rising)
     });
 
     auto grids = solver->GetGridSystemData();
-    Size3 resolution = grids->GetResolution();
+    Vector3UZ resolution = grids->GetResolution();
     Array2<double> output(resolution.x, resolution.y);
     auto density = solver->GetSmokeDensity();
     char fileName[256];
@@ -284,13 +279,13 @@ CUBBYFLOW_BEGIN_TEST_F(GridSmokeSolver3, Rising)
     {
         solver->Update(frame);
 
-        output.Set(0.0);
+        output.Fill(0.0);
         density->ForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
             output(i, j) += (*density)(i, j, k);
         });
         snprintf(fileName, sizeof(fileName), "data.#grid2,%04d.npy",
                  frame.index);
-        SaveData(output.ConstAccessor(), fileName);
+        SaveData(output.View(), fileName);
     }
 }
 CUBBYFLOW_END_TEST_F
@@ -329,7 +324,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridSmokeSolver3, RisingWithCollider)
     // Build collider
     auto sphere = Sphere3::Builder()
                       .WithCenter({ 0.5, 0.3, 0.5 })
-                      .WithRadius(0.075 * domain.GetWidth())
+                      .WithRadius(0.075 * domain.Width())
                       .MakeShared();
 
     auto collider =
@@ -337,7 +332,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridSmokeSolver3, RisingWithCollider)
 
     solver->SetCollider(collider);
 
-    Size3 resolution = grids->GetResolution();
+    Vector3UZ resolution = grids->GetResolution();
     Array2<double> output(resolution.x, resolution.y);
     auto density = solver->GetSmokeDensity();
     char fileName[256];
@@ -346,13 +341,13 @@ CUBBYFLOW_BEGIN_TEST_F(GridSmokeSolver3, RisingWithCollider)
     {
         solver->Update(frame);
 
-        output.Set(0.0);
+        output.Fill(0.0);
         density->ForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
             output(i, j) += (*density)(i, j, k);
         });
         snprintf(fileName, sizeof(fileName), "data.#grid2,%04d.npy",
                  frame.index);
-        SaveData(output.ConstAccessor(), fileName);
+        SaveData(output.View(), fileName);
     }
 }
 CUBBYFLOW_END_TEST_F
@@ -391,7 +386,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridSmokeSolver3, RisingWithColliderLinear)
     // Build collider
     auto sphere = Sphere3::Builder()
                       .WithCenter({ 0.5, 0.3, 0.5 })
-                      .WithRadius(0.075 * domain.GetWidth())
+                      .WithRadius(0.075 * domain.Width())
                       .MakeShared();
 
     auto collider =
@@ -399,7 +394,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridSmokeSolver3, RisingWithColliderLinear)
 
     solver->SetCollider(collider);
 
-    Size3 resolution = grids->GetResolution();
+    Vector3UZ resolution = grids->GetResolution();
     Array2<double> output(resolution.x, resolution.y);
     auto density = solver->GetSmokeDensity();
     char fileName[256];
@@ -408,13 +403,13 @@ CUBBYFLOW_BEGIN_TEST_F(GridSmokeSolver3, RisingWithColliderLinear)
     {
         solver->Update(frame);
 
-        output.Set(0.0);
+        output.Fill(0.0);
         density->ForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
             output(i, j) += (*density)(i, j, k);
         });
         snprintf(fileName, sizeof(fileName), "data.#grid2,%04d.npy",
                  frame.index);
-        SaveData(output.ConstAccessor(), fileName);
+        SaveData(output.View(), fileName);
     }
 }
 CUBBYFLOW_END_TEST_F
