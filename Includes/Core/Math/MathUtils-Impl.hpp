@@ -203,7 +203,7 @@ std::enable_if_t<std::is_arithmetic<T>::value> GetBarycentric(T x, size_t begin,
     i = static_cast<size_t>(s);
     const size_t size = end - begin;
 
-    if (size == 1 || i < 0)
+    if (size == 1)
     {
         i = begin;
         t = 0;
@@ -229,7 +229,7 @@ std::enable_if_t<std::is_arithmetic<T>::value> GetBarycentric(T x, size_t end,
     i = static_cast<size_t>(s);
     t = x - s;
 
-    if (end == 1 || i < 0)
+    if (end == 1)
     {
         i = 0;
         t = 0;
