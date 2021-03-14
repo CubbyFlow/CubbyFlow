@@ -192,6 +192,18 @@ NearestArraySampler<T, N>::NearestArraySampler(const NearestArraySampler& other)
 }
 
 template <typename T, size_t N>
+NearestArraySampler<T, N>& NearestArraySampler<T, N>::operator=(
+    const NearestArraySampler& other)
+{
+    m_view = other.m_view;
+    m_gridSpacing = other.m_gridSpacing;
+    m_invGridSpacing = other.m_invGridSpacing;
+    m_gridOrigin = other.m_gridOrigin;
+
+    return *this;
+}
+
+template <typename T, size_t N>
 T NearestArraySampler<T, N>::operator()(const VectorType& pt) const
 {
     return m_view(GetCoordinate(pt));
@@ -245,6 +257,18 @@ LinearArraySampler<T, N>::LinearArraySampler(const LinearArraySampler& other)
       m_gridOrigin(other.m_gridOrigin)
 {
     // Do nothing
+}
+
+template <typename T, size_t N>
+LinearArraySampler<T, N>& LinearArraySampler<T, N>::operator=(
+    const LinearArraySampler& other)
+{
+    m_view = other.m_view;
+    m_gridSpacing = other.m_gridSpacing;
+    m_invGridSpacing = other.m_invGridSpacing;
+    m_gridOrigin = other.m_gridOrigin;
+
+    return *this;
 }
 
 template <typename T, size_t N>
@@ -339,6 +363,18 @@ CubicArraySampler<T, N, CIOp>::CubicArraySampler(const CubicArraySampler& other)
       m_gridOrigin(other.m_gridOrigin)
 {
     // Do nothing
+}
+
+template <typename T, size_t N, typename CIOp>
+CubicArraySampler<T, N, CIOp>& CubicArraySampler<T, N, CIOp>::operator=(
+    const CubicArraySampler& other)
+{
+    m_view = other.m_view;
+    m_gridSpacing = other.m_gridSpacing;
+    m_invGridSpacing = other.m_invGridSpacing;
+    m_gridOrigin = other.m_gridOrigin;
+
+    return *this;
 }
 
 template <typename T, size_t N, typename CIOp>

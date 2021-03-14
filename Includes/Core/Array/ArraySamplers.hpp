@@ -54,6 +54,9 @@ class NearestArraySampler final
     //! Copy constructor.
     NearestArraySampler(const NearestArraySampler& other);
 
+    //! Copy assignment operator.
+    NearestArraySampler& operator=(const NearestArraySampler& other);
+
     //! Returns sampled value at point \p pt.
     T operator()(const VectorType& pt) const;
 
@@ -117,6 +120,9 @@ class LinearArraySampler final
 
     //! Copy constructor.
     LinearArraySampler(const LinearArraySampler& other);
+
+    //! Copy assignment operator.
+    LinearArraySampler& operator=(const LinearArraySampler& other);
 
     //! Returns sampled value at point \p pt.
     T operator()(const VectorType& pt) const;
@@ -189,6 +195,9 @@ class CubicArraySampler final
 
     //! Copy constructor.
     CubicArraySampler(const CubicArraySampler& other);
+
+    //! Copy assignment operator.
+    CubicArraySampler& operator=(const CubicArraySampler& other);
 
     //! Returns sampled value at point \p pt.
     T operator()(const VectorType& pt) const;

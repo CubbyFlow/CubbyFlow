@@ -432,19 +432,19 @@ T* MatrixCSR<T>::NonZeroData()
 }
 
 template <typename T>
-const T* const MatrixCSR<T>::NonZeroData() const
+const T* MatrixCSR<T>::NonZeroData() const
 {
     return m_nonZeros.data();
 }
 
 template <typename T>
-const size_t* const MatrixCSR<T>::RowPointersData() const
+const size_t* MatrixCSR<T>::RowPointersData() const
 {
     return m_rowPointers.data();
 }
 
 template <typename T>
-const size_t* const MatrixCSR<T>::ColumnIndicesData() const
+const size_t* MatrixCSR<T>::ColumnIndicesData() const
 {
     return m_columnIndices.data();
 }

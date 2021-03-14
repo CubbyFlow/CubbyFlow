@@ -241,13 +241,13 @@ class MatrixCSR final
     T* NonZeroData();
 
     //! Returns constant pointer of the non-zero elements data.
-    const T* const NonZeroData() const;
+    const T* NonZeroData() const;
 
     //! Returns constant pointer of the row pointers data.
-    const size_t* const RowPointersData() const;
+    const size_t* RowPointersData() const;
 
     //! Returns constant pointer of the column indices data.
-    const size_t* const ColumnIndicesData() const;
+    const size_t* ColumnIndicesData() const;
 
     //! Returns the begin iterator of the non-zero elements.
     NonZeroIterator NonZeroBegin();

@@ -34,6 +34,15 @@ Ray<T, N>::Ray(const Ray& other)
 }
 
 template <typename T, size_t N>
+Ray<T, N>& Ray<T, N>::operator=(const Ray& other)
+{
+    origin = other.origin;
+    direction = other.direction;
+
+    return *this;
+}
+
+template <typename T, size_t N>
 typename Ray<T, N>::VectorType Ray<T, N>::PointAt(T t) const
 {
     return origin + t * direction;

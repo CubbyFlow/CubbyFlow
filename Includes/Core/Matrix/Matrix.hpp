@@ -93,6 +93,12 @@ class Matrix final
 
     constexpr ConstPointer data() const;
 
+    Matrix& operator=(const Matrix& other)
+    {
+        m_elements = other.m_elements;
+        return *this;
+    }
+
     Reference operator[](size_t i);
 
     ConstReference operator[](size_t i) const;
@@ -161,6 +167,12 @@ class Matrix<T, 1, 1> final : public MatrixExpression<T, 1, 1, Matrix<T, 1, 1>>,
 
     constexpr ConstPointer data() const;
 
+    Matrix& operator=(const Matrix& other)
+    {
+        x = other.x;
+        return *this;
+    }
+
     Reference operator[](size_t i);
 
     ConstReference operator[](size_t i) const;
@@ -227,6 +239,13 @@ class Matrix<T, 2, 1> final : public MatrixExpression<T, 2, 1, Matrix<T, 2, 1>>,
     Pointer data();
 
     constexpr ConstPointer data() const;
+
+    Matrix& operator=(const Matrix& other)
+    {
+        x = other.x;
+        y = other.y;
+        return *this;
+    }
 
     Reference operator[](size_t i);
 
@@ -307,7 +326,13 @@ class Matrix<T, 3, 1> final : public MatrixExpression<T, 3, 1, Matrix<T, 3, 1>>,
 
     constexpr ConstPointer data() const;
 
-    // Operator overloadings
+    Matrix& operator=(const Matrix& other)
+    {
+        x = other.x;
+        y = other.y;
+        z = other.z;
+        return *this;
+    }
 
     Reference operator[](size_t i);
 
@@ -379,6 +404,15 @@ class Matrix<T, 4, 1> final : public MatrixExpression<T, 4, 1, Matrix<T, 4, 1>>,
     Pointer data();
 
     constexpr ConstPointer data() const;
+
+    Matrix& operator=(const Matrix& other)
+    {
+        x = other.x;
+        y = other.y;
+        z = other.z;
+        w = other.w;
+        return *this;
+    }
 
     Reference operator[](size_t i);
 
