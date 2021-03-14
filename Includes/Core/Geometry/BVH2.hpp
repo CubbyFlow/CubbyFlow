@@ -14,6 +14,8 @@
 #include <Core/QueryEngine/IntersectionQueryEngine2.hpp>
 #include <Core/QueryEngine/NearestNeighborQueryEngine2.hpp>
 
+#include <vector>
+
 namespace CubbyFlow
 {
 //!
