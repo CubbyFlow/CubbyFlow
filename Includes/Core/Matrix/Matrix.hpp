@@ -18,6 +18,7 @@
 #include <Core/Utils/TypeHelpers.hpp>
 
 #include <array>
+#include <cstdint>
 
 namespace CubbyFlow
 {
