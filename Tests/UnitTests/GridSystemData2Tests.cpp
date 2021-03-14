@@ -59,14 +59,16 @@ TEST(GridSystemData2, Serialize)
     auto scalar1 = grids.GetAdvectableScalarDataAt(scalarIdx1);
     auto vector1 = grids.GetAdvectableVectorDataAt(vectorIdx1);
 
-    scalar0->Fill([](const Vector2D& pt) { return pt.Length(); });
+    scalar0->Fill([](const Vector2D& pt) -> double { return pt.Length(); });
 
-    vector0->Fill([](const Vector2D& pt) { return pt; });
+    vector0->Fill([](const Vector2D& pt) -> Vector2D { return pt; });
 
-    scalar1->Fill(
-        [](const Vector2D& pt) { return (pt - Vector2D(1, 2)).Length(); });
+    scalar1->Fill([](const Vector2D& pt) -> double {
+        return (pt - Vector2D(1, 2)).Length();
+    });
 
-    vector1->Fill([](const Vector2D& pt) { return pt - Vector2D(1, 2); });
+    vector1->Fill(
+        [](const Vector2D& pt) -> Vector2D { return pt - Vector2D(1, 2); });
 
     grids.Serialize(&buffer);
 
