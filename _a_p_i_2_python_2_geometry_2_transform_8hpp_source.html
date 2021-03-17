@@ -8,7 +8,7 @@
         <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
         <meta name="generator" content="Doxygen 1.8.13"/>
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <title>CubbyFlow: API/Python/Geometry/Surface.hpp File Reference</title>
+        <title>CubbyFlow: API/Python/Geometry/Transform.hpp Source File</title>
         <!--<link href="tabs.css" rel="stylesheet" type="text/css"/>-->
         <script type="text/javascript" src="dynsections.js"></script>
         <link href="search/search.css" rel="stylesheet" type="text/css"/>
@@ -72,61 +72,13 @@ $(function() {
 </div>
 </div><!-- top -->
 <div class="header">
-  <div class="summary">
-<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">Surface.hpp File Reference</div>  </div>
+<div class="title">Transform.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;pybind11/pybind11.h&gt;</code><br />
-</div>
-<p><a href="_surface_8hpp_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a310cd1425f4663c39d57c17acd2a5c54"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_surface_8hpp.html#a310cd1425f4663c39d57c17acd2a5c54">AddSurface2</a> (pybind11::module &amp;m)</td></tr>
-<tr class="separator:a310cd1425f4663c39d57c17acd2a5c54"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4f718efa3301fb9e23d81a5d794ae73"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_surface_8hpp.html#ae4f718efa3301fb9e23d81a5d794ae73">AddSurface3</a> (pybind11::module &amp;m)</td></tr>
-<tr class="separator:ae4f718efa3301fb9e23d81a5d794ae73"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a310cd1425f4663c39d57c17acd2a5c54"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a310cd1425f4663c39d57c17acd2a5c54">&#9670;&nbsp;</a></span>AddSurface2()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void AddSurface2 </td>
-          <td>(</td>
-          <td class="paramtype">pybind11::module &amp;&#160;</td>
-          <td class="paramname"><em>m</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae4f718efa3301fb9e23d81a5d794ae73"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4f718efa3301fb9e23d81a5d794ae73">&#9670;&nbsp;</a></span>AddSurface3()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void AddSurface3 </td>
-          <td>(</td>
-          <td class="paramtype">pybind11::module &amp;&#160;</td>
-          <td class="paramname"><em>m</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<a href="_a_p_i_2_python_2_geometry_2_transform_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This code is based on Jet framework.</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// Copyright (c) 2018 Doyub Kim</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// CubbyFlow is voxel-based fluid simulation engine for computer games.</span></div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2020 CubbyFlow Team</span></div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// Core Part: Chris Ohk, Junwoo Hwang, Jihong Sin, Seungwoo Yoo</span></div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// AI Part: Dongheon Cho, Minseo Kim</span></div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// We are making my contributions/submissions to this project solely in our</span></div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">// personal capacity and are not conveying any rights to any intellectual</span></div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">// property of any third parties.</span></div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#ifndef CUBBYFLOW_PYTHON_TRANSFORM_HPP</span></div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#define CUBBYFLOW_PYTHON_TRANSFORM_HPP</span></div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;pybind11/pybind11.h&gt;</span></div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keywordtype">void</span> <a class="code" href="_a_p_i_2_python_2_geometry_2_transform_8hpp.html#a59b0ee15cc749ddc327207c1536cd620">AddTransform2</a>(pybind11::module&amp; m);</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordtype">void</span> <a class="code" href="_a_p_i_2_python_2_geometry_2_transform_8hpp.html#a3a2d79c9765540f49fa2490e6e0a356c">AddTransform3</a>(pybind11::module&amp; m);</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#endif</span></div><div class="ttc" id="_a_p_i_2_python_2_geometry_2_transform_8hpp_html_a3a2d79c9765540f49fa2490e6e0a356c"><div class="ttname"><a href="_a_p_i_2_python_2_geometry_2_transform_8hpp.html#a3a2d79c9765540f49fa2490e6e0a356c">AddTransform3</a></div><div class="ttdeci">void AddTransform3(pybind11::module &amp;m)</div></div>
+<div class="ttc" id="_a_p_i_2_python_2_geometry_2_transform_8hpp_html_a59b0ee15cc749ddc327207c1536cd620"><div class="ttname"><a href="_a_p_i_2_python_2_geometry_2_transform_8hpp.html#a59b0ee15cc749ddc327207c1536cd620">AddTransform2</a></div><div class="ttdeci">void AddTransform2(pybind11::module &amp;m)</div></div>
+</div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
 </div>
@@ -135,7 +87,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Mar 14 2021 14:28:50 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 17 2021 15:30:16 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

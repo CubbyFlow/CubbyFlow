@@ -8,7 +8,7 @@
         <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
         <meta name="generator" content="Doxygen 1.8.13"/>
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <title>CubbyFlow: Core/Geometry/Surface3.hpp File Reference</title>
+        <title>CubbyFlow: Core/Geometry/Transform.hpp File Reference</title>
         <!--<link href="tabs.css" rel="stylesheet" type="text/css"/>-->
         <script type="text/javascript" src="dynsections.js"></script>
         <link href="search/search.css" rel="stylesheet" type="text/css"/>
@@ -77,28 +77,26 @@ $(function() {
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle">
-<div class="title">Surface3.hpp File Reference</div>  </div>
+<div class="title">Transform.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;<a class="el" href="_core_2_geometry_2_bounding_box_8hpp_source.html">Core/Geometry/BoundingBox.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="_core_2_geometry_2_ray_8hpp_source.html">Core/Geometry/Ray.hpp</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="_transform3_8hpp_source.html">Core/Geometry/Transform3.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="_core_2_math_2_quaternion_8hpp_source.html">Core/Math/Quaternion.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="_matrix_8hpp_source.html">Core/Matrix/Matrix.hpp</a>&gt;</code><br />
-<code>#include &lt;limits&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
 </div>
-<p><a href="_surface3_8hpp_source.html">Go to the source code of this file.</a></p>
+<p><a href="_core_2_geometry_2_transform_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_cubby_flow_1_1_surface_ray_intersection3.html">CubbyFlow::SurfaceRayIntersection3</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure that represents ray-surface intersection point.  <a href="struct_cubby_flow_1_1_surface_ray_intersection3.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_orientation.html">CubbyFlow::Orientation&lt; N &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_surface3.html">CubbyFlow::Surface3</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract base class for 3-D surface.  <a href="class_cubby_flow_1_1_surface3.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_orientation_3_012_01_4.html">CubbyFlow::Orientation&lt; 2 &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_surface_builder_base3.html">CubbyFlow::SurfaceBuilderBase3&lt; DerivedBuilder &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class for 3-D surface builder.  <a href="class_cubby_flow_1_1_surface_builder_base3.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_orientation_3_013_01_4.html">CubbyFlow::Orientation&lt; 3 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_transform.html">CubbyFlow::Transform&lt; N &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents N-D rigid body transform.  <a href="class_cubby_flow_1_1_transform.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -108,9 +106,14 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a4ad83d545ff738537881aa95fd2ba79a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a4ad83d545ff738537881aa95fd2ba79a">CubbyFlow::Surface3Ptr</a> = std::shared_ptr&lt; Surface3 &gt;</td></tr>
-<tr class="memdesc:a4ad83d545ff738537881aa95fd2ba79a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared pointer for the <a class="el" href="class_cubby_flow_1_1_surface3.html" title="Abstract base class for 3-D surface. ">Surface3</a> type.  <a href="namespace_cubby_flow.html#a4ad83d545ff738537881aa95fd2ba79a">More...</a><br /></td></tr>
-<tr class="separator:a4ad83d545ff738537881aa95fd2ba79a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a603591758216fbee08257f37c005c63d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a603591758216fbee08257f37c005c63d">CubbyFlow::Orientation2</a> = Orientation&lt; 2 &gt;</td></tr>
+<tr class="separator:a603591758216fbee08257f37c005c63d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a785c61c81dc6770e8eeabab08f7dddb9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a785c61c81dc6770e8eeabab08f7dddb9">CubbyFlow::Orientation3</a> = Orientation&lt; 3 &gt;</td></tr>
+<tr class="separator:a785c61c81dc6770e8eeabab08f7dddb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe08701afa32563bf687ea5345a2c19d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#abe08701afa32563bf687ea5345a2c19d">CubbyFlow::Transform2</a> = Transform&lt; 2 &gt;</td></tr>
+<tr class="separator:abe08701afa32563bf687ea5345a2c19d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae166b04fe61ca93d62e485d6421780d4"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ae166b04fe61ca93d62e485d6421780d4">CubbyFlow::Transform3</a> = Transform&lt; 3 &gt;</td></tr>
+<tr class="separator:ae166b04fe61ca93d62e485d6421780d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
@@ -121,7 +124,7 @@ Typedefs</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Mar 14 2021 14:28:50 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 17 2021 15:30:17 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
