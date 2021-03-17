@@ -102,10 +102,25 @@ bool Surface<N>::IsValidGeometry() const
 }
 
 template <size_t N>
+bool Surface<N>::IsInside(const Vector<double, N>& otherPoint) const
+{
+    return isNormalFlipped == !IsInsideLocal(transform.ToLocal(otherPoint));
+}
+
+template <size_t N>
 double Surface<N>::ClosestDistanceLocal(
     const Vector<double, N>& otherPointLocal) const
 {
     return otherPointLocal.DistanceTo(ClosestPointLocal(otherPointLocal));
+}
+
+template <size_t N>
+bool Surface<N>::IsInsideLocal(const Vector<double, N>& otherPointLocal) const
+{
+    const Vector<double, N> cpLocal = ClosestPointLocal(otherPointLocal);
+    const Vector<double, N> normalLocal = ClosestNormalLocal(otherPointLocal);
+
+    return (otherPointLocal - cpLocal).Dot(normalLocal) < 0.0;
 }
 
 template class Surface<2>;

@@ -37,12 +37,6 @@ template <size_t N>
 class Surface
 {
  public:
-    //! Local-to-world transform.
-    Transform<N> transform;
-
-    //! Flips normal.
-    bool isNormalFlipped = false;
-
     //! Constructs a surface with normal direction.
     Surface(const Transform<N>& transform = Transform<N>(),
             bool isNormalFlipped = false);
@@ -84,6 +78,16 @@ class Surface
     //! Returns true if the surface is a valid geometry.
     virtual bool IsValidGeometry() const;
 
+    //! Returns true if \p otherPoint is inside the volume defined by the
+    //! surface.
+    bool IsInside(const Vector<double, N>& otherPoint) const;
+
+    //! Local-to-world transform.
+    Transform<N> transform;
+
+    //! Flips normal.
+    bool isNormalFlipped = false;
+
  protected:
     //! Returns the closest point from the given point \p otherPoint to the
     //! surface in local frame.
@@ -110,6 +114,10 @@ class Surface
     //! point on the surface in local frame.
     virtual double ClosestDistanceLocal(
         const Vector<double, N>& otherPoint) const;
+
+    //! Returns true if \p otherPoint is inside by given \p depth the volume
+    //! defined by the surface in local frame.
+    virtual bool IsInsideLocal(const Vector<double, N>& otherPoint) const;
 };
 
 //! 2-D Surface type.
