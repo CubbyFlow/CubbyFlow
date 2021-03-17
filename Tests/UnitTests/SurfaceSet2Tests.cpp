@@ -27,12 +27,12 @@ TEST(SurfaceSet2, Constructors)
     EXPECT_EQ(sph3->radius,
               std::dynamic_pointer_cast<Sphere2>(sset2.SurfaceAt(2))->radius);
     EXPECT_EQ(Vector2D(), sset2.transform.GetTranslation());
-    EXPECT_EQ(0.0, sset2.transform.GetOrientation());
+    EXPECT_EQ(0.0, sset2.transform.GetOrientation().GetRotation());
 
     SurfaceSet2 sset3({ sph1, sph2, sph3 }, Transform2(Vector2D(1, 2), 0.5),
                       false);
     EXPECT_EQ(Vector2D(1, 2), sset3.transform.GetTranslation());
-    EXPECT_EQ(0.5, sset3.transform.GetOrientation());
+    EXPECT_EQ(0.5, sset3.transform.GetOrientation().GetRotation());
 
     SurfaceSet2 sset4(sset3);
     EXPECT_EQ(3u, sset4.NumberOfSurfaces());
@@ -43,7 +43,7 @@ TEST(SurfaceSet2, Constructors)
     EXPECT_EQ(sph3->radius,
               std::dynamic_pointer_cast<Sphere2>(sset4.SurfaceAt(2))->radius);
     EXPECT_EQ(Vector2D(1, 2), sset4.transform.GetTranslation());
-    EXPECT_EQ(0.5, sset4.transform.GetOrientation());
+    EXPECT_EQ(0.5, sset4.transform.GetOrientation().GetRotation());
 }
 
 TEST(SurfaceSet2, AddSurface)
@@ -70,7 +70,7 @@ TEST(SurfaceSet2, AddSurface)
     EXPECT_EQ(sph3->radius,
               std::dynamic_pointer_cast<Sphere2>(sset1.SurfaceAt(2))->radius);
     EXPECT_EQ(Vector2D(), sset1.transform.GetTranslation());
-    EXPECT_EQ(0.0, sset1.transform.GetOrientation());
+    EXPECT_EQ(0.0, sset1.transform.GetOrientation().GetRotation());
 }
 
 TEST(SurfaceSet2, ClosestPoint)

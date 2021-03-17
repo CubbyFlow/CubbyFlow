@@ -261,7 +261,7 @@ CUBBYFLOW_BEGIN_TEST_F(FLIPSolver3, RotatingTank)
         if (t < 1.0)
         {
             col->GetSurface()->transform.SetOrientation(
-                { { 0, 0, 1 }, 2.0 * t });
+                QuaternionD{ { 0, 0, 1 }, 2.0 * t });
             static_cast<RigidBodyCollider3*>(col)->angularVelocity = { 0, 0,
                                                                        2 };
         }

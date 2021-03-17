@@ -10,8 +10,7 @@
 
 #include <API/Python/Geometry/Transform.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Geometry/Transform2.hpp>
-#include <Core/Geometry/Transform3.hpp>
+#include <Core/Geometry/Transform.hpp>
 #include <Core/Math/Quaternion.hpp>
 
 #include <pybind11/pybind11.h>
