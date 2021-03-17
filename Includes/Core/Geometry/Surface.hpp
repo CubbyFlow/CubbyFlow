@@ -16,6 +16,7 @@
 #include <Core/Matrix/Matrix.hpp>
 
 #include <limits>
+#include <memory>
 
 namespace CubbyFlow
 {
