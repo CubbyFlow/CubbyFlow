@@ -21,7 +21,7 @@ ImplicitTriangleMesh3::ImplicitTriangleMesh3(TriangleMesh3Ptr mesh,
                                              bool _isNormalFlipped)
     : ImplicitSurface3{ _transform, _isNormalFlipped }, m_mesh(std::move(mesh))
 {
-    BoundingBox3D box = m_mesh->BoundingBox();
+    BoundingBox3D box = m_mesh->GetBoundingBox();
     const Vector3D scale{ box.Width(), box.Height(), box.Depth() };
     box.lowerCorner -= margin * scale;
     box.upperCorner += margin * scale;
@@ -68,7 +68,7 @@ bool ImplicitTriangleMesh3::IntersectsLocal(const Ray3D& ray) const
 
 BoundingBox3D ImplicitTriangleMesh3::BoundingBoxLocal() const
 {
-    return m_mesh->BoundingBox();
+    return m_mesh->GetBoundingBox();
 }
 
 Vector3D ImplicitTriangleMesh3::ClosestNormalLocal(

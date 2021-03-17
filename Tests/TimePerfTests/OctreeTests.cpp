@@ -37,13 +37,13 @@ class Octree : public ::benchmark::Fixture
         {
             auto tri = triMesh.Triangle(i);
             triangles.push_back(tri);
-            bound.Merge(tri.BoundingBox());
+            bound.Merge(tri.GetBoundingBox());
         }
 
         const auto triBoxTestFunc = [](const Triangle3& tri,
                                        const BoundingBox3D& box) {
             // TODO: Implement actual intersecting test
-            return tri.BoundingBox().Overlaps(box);
+            return tri.GetBoundingBox().Overlaps(box);
         };
 
         queryEngine.Build(triangles, bound, triBoxTestFunc, 6);

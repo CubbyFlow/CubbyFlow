@@ -794,7 +794,7 @@ void TriangleMesh3::BuildBVH() const
         for (size_t i = 0; i < nTris; ++i)
         {
             ids[i] = i;
-            bounds[i] = Triangle(i).BoundingBox();
+            bounds[i] = Triangle(i).GetBoundingBox();
         }
 
         m_bvh.Build(ids, bounds);

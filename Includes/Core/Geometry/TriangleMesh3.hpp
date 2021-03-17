@@ -13,7 +13,7 @@
 
 #include <Core/Array/Array.hpp>
 #include <Core/Geometry/BVH3.hpp>
-#include <Core/Geometry/Surface3.hpp>
+#include <Core/Geometry/Surface.hpp>
 #include <Core/Geometry/Triangle3.hpp>
 
 namespace CubbyFlow

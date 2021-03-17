@@ -86,7 +86,7 @@ void VolumeParticleEmitter3::Emit(const ParticleSystemData3Ptr& particles,
     BoundingBox3D region = m_maxRegion;
     if (m_implicitSurface->IsBounded())
     {
-        const BoundingBox3D surfaceBBox = m_implicitSurface->BoundingBox();
+        const BoundingBox3D surfaceBBox = m_implicitSurface->GetBoundingBox();
         region.lowerCorner = Max(region.lowerCorner, surfaceBBox.lowerCorner);
         region.upperCorner = Min(region.upperCorner, surfaceBBox.upperCorner);
     }
@@ -307,7 +307,7 @@ VolumeParticleEmitter3::Builder::WithImplicitSurface(
 
     if (!m_isBoundSet)
     {
-        m_maxRegion = m_implicitSurface->BoundingBox();
+        m_maxRegion = m_implicitSurface->GetBoundingBox();
     }
 
     return *this;
@@ -320,7 +320,7 @@ VolumeParticleEmitter3::Builder& VolumeParticleEmitter3::Builder::WithSurface(
 
     if (!m_isBoundSet)
     {
-        m_maxRegion = surface->BoundingBox();
+        m_maxRegion = surface->GetBoundingBox();
     }
 
     return *this;

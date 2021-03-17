@@ -71,7 +71,7 @@ bool SurfaceToImplicit3::IntersectsLocal(const Ray3D& ray) const
 
 BoundingBox3D SurfaceToImplicit3::BoundingBoxLocal() const
 {
-    return m_surface->BoundingBox();
+    return m_surface->GetBoundingBox();
 }
 
 Vector3D SurfaceToImplicit3::ClosestNormalLocal(

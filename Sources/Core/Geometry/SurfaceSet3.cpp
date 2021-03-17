@@ -308,7 +308,7 @@ void SurfaceSet3::BuildBVH() const
             if (surface->IsBounded())
             {
                 surfs.push_back(surface);
-                bounds.push_back(surface->BoundingBox());
+                bounds.push_back(surface->GetBoundingBox());
             }
         }
 

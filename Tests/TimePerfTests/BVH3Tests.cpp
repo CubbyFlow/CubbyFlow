@@ -37,7 +37,7 @@ class BVH3 : public ::benchmark::Fixture
         {
             auto tri = triMesh.Triangle(i);
             triangles.push_back(tri);
-            bounds.push_back(tri.BoundingBox());
+            bounds.push_back(tri.GetBoundingBox());
         }
 
         queryEngine.Build(triangles, bounds);

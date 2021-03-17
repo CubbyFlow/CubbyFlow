@@ -14,12 +14,12 @@ TEST(Cylinder3, Constructors)
     EXPECT_DOUBLE_EQ(0.0, cyl1.center.z);
     EXPECT_DOUBLE_EQ(1.0, cyl1.radius);
     EXPECT_DOUBLE_EQ(1.0, cyl1.height);
-    EXPECT_DOUBLE_EQ(-1.0, cyl1.BoundingBox().lowerCorner.x);
-    EXPECT_DOUBLE_EQ(-0.5, cyl1.BoundingBox().lowerCorner.y);
-    EXPECT_DOUBLE_EQ(-1.0, cyl1.BoundingBox().lowerCorner.z);
-    EXPECT_DOUBLE_EQ(1.0, cyl1.BoundingBox().upperCorner.x);
-    EXPECT_DOUBLE_EQ(0.5, cyl1.BoundingBox().upperCorner.y);
-    EXPECT_DOUBLE_EQ(1.0, cyl1.BoundingBox().upperCorner.z);
+    EXPECT_DOUBLE_EQ(-1.0, cyl1.GetBoundingBox().lowerCorner.x);
+    EXPECT_DOUBLE_EQ(-0.5, cyl1.GetBoundingBox().lowerCorner.y);
+    EXPECT_DOUBLE_EQ(-1.0, cyl1.GetBoundingBox().lowerCorner.z);
+    EXPECT_DOUBLE_EQ(1.0, cyl1.GetBoundingBox().upperCorner.x);
+    EXPECT_DOUBLE_EQ(0.5, cyl1.GetBoundingBox().upperCorner.y);
+    EXPECT_DOUBLE_EQ(1.0, cyl1.GetBoundingBox().upperCorner.z);
 
     Cylinder3 cyl2(Vector3D(1, 2, 3), 4.0, 5.0);
     EXPECT_FALSE(cyl2.isNormalFlipped);
@@ -28,12 +28,12 @@ TEST(Cylinder3, Constructors)
     EXPECT_DOUBLE_EQ(3.0, cyl2.center.z);
     EXPECT_DOUBLE_EQ(4.0, cyl2.radius);
     EXPECT_DOUBLE_EQ(5.0, cyl2.height);
-    EXPECT_DOUBLE_EQ(-3.0, cyl2.BoundingBox().lowerCorner.x);
-    EXPECT_DOUBLE_EQ(-0.5, cyl2.BoundingBox().lowerCorner.y);
-    EXPECT_DOUBLE_EQ(-1.0, cyl2.BoundingBox().lowerCorner.z);
-    EXPECT_DOUBLE_EQ(5.0, cyl2.BoundingBox().upperCorner.x);
-    EXPECT_DOUBLE_EQ(4.5, cyl2.BoundingBox().upperCorner.y);
-    EXPECT_DOUBLE_EQ(7.0, cyl2.BoundingBox().upperCorner.z);
+    EXPECT_DOUBLE_EQ(-3.0, cyl2.GetBoundingBox().lowerCorner.x);
+    EXPECT_DOUBLE_EQ(-0.5, cyl2.GetBoundingBox().lowerCorner.y);
+    EXPECT_DOUBLE_EQ(-1.0, cyl2.GetBoundingBox().lowerCorner.z);
+    EXPECT_DOUBLE_EQ(5.0, cyl2.GetBoundingBox().upperCorner.x);
+    EXPECT_DOUBLE_EQ(4.5, cyl2.GetBoundingBox().upperCorner.y);
+    EXPECT_DOUBLE_EQ(7.0, cyl2.GetBoundingBox().upperCorner.z);
 
     cyl2.isNormalFlipped = true;
     Cylinder3 cyl3(cyl2);
@@ -43,12 +43,12 @@ TEST(Cylinder3, Constructors)
     EXPECT_DOUBLE_EQ(3.0, cyl3.center.z);
     EXPECT_DOUBLE_EQ(4.0, cyl3.radius);
     EXPECT_DOUBLE_EQ(5.0, cyl3.height);
-    EXPECT_DOUBLE_EQ(-3.0, cyl3.BoundingBox().lowerCorner.x);
-    EXPECT_DOUBLE_EQ(-0.5, cyl3.BoundingBox().lowerCorner.y);
-    EXPECT_DOUBLE_EQ(-1.0, cyl3.BoundingBox().lowerCorner.z);
-    EXPECT_DOUBLE_EQ(5.0, cyl3.BoundingBox().upperCorner.x);
-    EXPECT_DOUBLE_EQ(4.5, cyl3.BoundingBox().upperCorner.y);
-    EXPECT_DOUBLE_EQ(7.0, cyl3.BoundingBox().upperCorner.z);
+    EXPECT_DOUBLE_EQ(-3.0, cyl3.GetBoundingBox().lowerCorner.x);
+    EXPECT_DOUBLE_EQ(-0.5, cyl3.GetBoundingBox().lowerCorner.y);
+    EXPECT_DOUBLE_EQ(-1.0, cyl3.GetBoundingBox().lowerCorner.z);
+    EXPECT_DOUBLE_EQ(5.0, cyl3.GetBoundingBox().upperCorner.x);
+    EXPECT_DOUBLE_EQ(4.5, cyl3.GetBoundingBox().upperCorner.y);
+    EXPECT_DOUBLE_EQ(7.0, cyl3.GetBoundingBox().upperCorner.z);
 }
 
 TEST(Cylinder3, ClosestPoint)
@@ -210,10 +210,10 @@ TEST(Cylinder3, ClosestIntersection)
     EXPECT_FALSE(result4_.isIntersecting);
 }
 
-TEST(Cylinder3, BoundingBox)
+TEST(Cylinder3, GetBoundingBox)
 {
     Cylinder3 cyl(Vector3D(1, 2, 3), 4.0, 6.0);
-    BoundingBox3D bbox = cyl.BoundingBox();
+    BoundingBox3D bbox = cyl.GetBoundingBox();
     EXPECT_DOUBLE_EQ(-3.0, bbox.lowerCorner.x);
     EXPECT_DOUBLE_EQ(-1.0, bbox.lowerCorner.y);
     EXPECT_DOUBLE_EQ(-1.0, bbox.lowerCorner.z);
@@ -262,10 +262,10 @@ TEST(Cylinder3, Builder)
     EXPECT_DOUBLE_EQ(3.0, cyl2.center.z);
     EXPECT_DOUBLE_EQ(4.0, cyl2.radius);
     EXPECT_DOUBLE_EQ(5.0, cyl2.height);
-    EXPECT_DOUBLE_EQ(-3.0, cyl2.BoundingBox().lowerCorner.x);
-    EXPECT_DOUBLE_EQ(-0.5, cyl2.BoundingBox().lowerCorner.y);
-    EXPECT_DOUBLE_EQ(-1.0, cyl2.BoundingBox().lowerCorner.z);
-    EXPECT_DOUBLE_EQ(5.0, cyl2.BoundingBox().upperCorner.x);
-    EXPECT_DOUBLE_EQ(4.5, cyl2.BoundingBox().upperCorner.y);
-    EXPECT_DOUBLE_EQ(7.0, cyl2.BoundingBox().upperCorner.z);
+    EXPECT_DOUBLE_EQ(-3.0, cyl2.GetBoundingBox().lowerCorner.x);
+    EXPECT_DOUBLE_EQ(-0.5, cyl2.GetBoundingBox().lowerCorner.y);
+    EXPECT_DOUBLE_EQ(-1.0, cyl2.GetBoundingBox().lowerCorner.z);
+    EXPECT_DOUBLE_EQ(5.0, cyl2.GetBoundingBox().upperCorner.x);
+    EXPECT_DOUBLE_EQ(4.5, cyl2.GetBoundingBox().upperCorner.y);
+    EXPECT_DOUBLE_EQ(7.0, cyl2.GetBoundingBox().upperCorner.z);
 }

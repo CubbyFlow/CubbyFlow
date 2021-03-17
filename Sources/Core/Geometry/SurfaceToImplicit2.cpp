@@ -66,7 +66,7 @@ bool SurfaceToImplicit2::IntersectsLocal(const Ray2D& ray) const
 
 BoundingBox2D SurfaceToImplicit2::BoundingBoxLocal() const
 {
-    return m_surface->BoundingBox();
+    return m_surface->GetBoundingBox();
 }
 
 Vector2D SurfaceToImplicit2::ClosestNormalLocal(

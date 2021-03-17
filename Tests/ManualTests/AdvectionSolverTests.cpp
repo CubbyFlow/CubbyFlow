@@ -63,7 +63,7 @@ CUBBYFLOW_BEGIN_TEST_F(SemiLagrangian2, Zalesak)
     sdf.Fill([box](const Vector2D& pt) {
         double disk = pt.DistanceTo(Vector2D(0.5, 0.75)) - 0.15;
         double slot = box.ClosestDistance(pt);
-        if (!box.BoundingBox().Contains(pt))
+        if (!box.GetBoundingBox().Contains(pt))
         {
             slot *= -1.0;
         }
@@ -99,7 +99,7 @@ CUBBYFLOW_BEGIN_TEST_F(CubicSemiLagrangian2, Zalesak)
     sdf.Fill([box](const Vector2D& pt) {
         double disk = pt.DistanceTo(Vector2D(0.5, 0.75)) - 0.15;
         double slot = box.ClosestDistance(pt);
-        if (!box.BoundingBox().Contains(pt))
+        if (!box.GetBoundingBox().Contains(pt))
         {
             slot *= -1.0;
         }

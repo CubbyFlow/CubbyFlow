@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_IMPLICIT_SURFACE3_HPP
 #define CUBBYFLOW_IMPLICIT_SURFACE3_HPP
 
-#include <Core/Geometry/Surface3.hpp>
+#include <Core/Geometry/Surface.hpp>
 
 namespace CubbyFlow
 {

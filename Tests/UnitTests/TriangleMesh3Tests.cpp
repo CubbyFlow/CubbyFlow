@@ -222,7 +222,7 @@ TEST(TriangleMesh3, IsInside)
     {
         Vector3D p = GetSamplePoints3()[i];
         auto actual = mesh.IsInside(p);
-        auto expected = mesh.BoundingBox().Contains(p);
+        auto expected = mesh.GetBoundingBox().Contains(p);
         EXPECT_EQ(expected, actual);
     }
 }
@@ -237,7 +237,7 @@ TEST(TriangleMesh3, BoundingBox)
 
     EXPECT_BOUNDING_BOX3_EQ(
         BoundingBox3D({ -0.5, -0.5, -0.5 }, { 0.5, 0.5, 0.5 }),
-        mesh.BoundingBox());
+        mesh.GetBoundingBox());
 }
 
 TEST(TriangleMesh3, Builder)

@@ -26,7 +26,7 @@ class TriangleMeshToSDF : public ::benchmark::Fixture
             file.close();
         }
 
-        CubbyFlow::BoundingBox3D box = triMesh.BoundingBox();
+        CubbyFlow::BoundingBox3D box = triMesh.GetBoundingBox();
         const Vector3D scale{ box.Width(), box.Height(), box.Depth() };
         box.lowerCorner -= 0.2 * scale;
         box.upperCorner += 0.2 * scale;

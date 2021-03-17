@@ -405,10 +405,10 @@ TEST(SurfaceSet2, BoundingBox)
                        .MakeShared();
         sset1.AddSurface(sph);
 
-        answer.Merge(sph->BoundingBox());
+        answer.Merge(sph->GetBoundingBox());
     }
 
-    EXPECT_BOUNDING_BOX2_NEAR(answer, sset1.BoundingBox(), 1e-9);
+    EXPECT_BOUNDING_BOX2_NEAR(answer, sset1.GetBoundingBox(), 1e-9);
 
     // Now With GetTranslation instead of center
     SurfaceSet2 sset2;
@@ -422,11 +422,11 @@ TEST(SurfaceSet2, BoundingBox)
                        .MakeShared();
         sset2.AddSurface(sph);
 
-        debug.Merge(sph->BoundingBox());
+        debug.Merge(sph->GetBoundingBox());
     }
 
     EXPECT_BOUNDING_BOX2_NEAR(answer, debug, 1e-9);
-    EXPECT_BOUNDING_BOX2_NEAR(answer, sset2.BoundingBox(), 1e-9);
+    EXPECT_BOUNDING_BOX2_NEAR(answer, sset2.GetBoundingBox(), 1e-9);
 }
 
 TEST(SurfaceSet2, MixedBoundTypes)
@@ -520,23 +520,23 @@ TEST(SurfaceSet2, UpdateQueryEngine)
                           .WithTransform(Transform2{ { 1.0, 2.0 }, 0.0 })
                           .MakeShared();
 
-    const auto bbox1 = surfaceSet->BoundingBox();
+    const auto bbox1 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(BoundingBox2D({ -0.5, 2.5 }, { 0.5, 3.5 }), bbox1);
 
     surfaceSet->transform = Transform2{ { 3.0, -4.0 }, 0.0 };
     surfaceSet->UpdateQueryEngine();
-    const auto bbox2 = surfaceSet->BoundingBox();
+    const auto bbox2 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(BoundingBox2D({ 1.5, -3.5 }, { 2.5, -2.5 }), bbox2);
 
     sphere->transform = Transform2{ { -6.0, 9.0 }, 0.0 };
     surfaceSet->UpdateQueryEngine();
-    const auto bbox3 = surfaceSet->BoundingBox();
+    const auto bbox3 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(BoundingBox2D({ -4.5, 5.5 }, { -3.5, 6.5 }), bbox3);
 
     // Plane is unbounded. Total bbox should ignore it.
     auto plane = Plane2::Builder{}.WithNormal({ 1.0, 0.0 }).MakeShared();
     surfaceSet->AddSurface(plane);
     surfaceSet->UpdateQueryEngine();
-    auto bbox4 = surfaceSet->BoundingBox();
+    auto bbox4 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(BoundingBox2D({ -4.5, 5.5 }, { -3.5, 6.5 }), bbox4);
 }

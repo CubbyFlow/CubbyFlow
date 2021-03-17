@@ -248,7 +248,7 @@ CUBBYFLOW_BEGIN_TEST_F(FLIPSolver3, RotatingTank)
                     .WithLowerCorner({ -0.25, -0.25, -0.25 })
                     .WithUpperCorner({ 0.25, 0.25, 0.25 })
                     .WithTranslation({ 0.5, 0.5, 0.5 })
-                    .WithOrientation({ { 0, 0, 1 }, 0.0 })
+                    .WithOrientation(QuaternionD{ { 0, 0, 1 }, 0.0 })
                     .WithIsNormalFlipped(true)
                     .MakeShared();
 
