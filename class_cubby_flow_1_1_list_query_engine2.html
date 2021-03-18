@@ -90,8 +90,8 @@ Inheritance diagram for CubbyFlow::ListQueryEngine2&lt; T &gt;:</div>
  <div class="center">
   <img src="class_cubby_flow_1_1_list_query_engine2.png" usemap="#CubbyFlow::ListQueryEngine2_3C_20T_20_3E_map" alt=""/>
   <map id="CubbyFlow::ListQueryEngine2_3C_20T_20_3E_map" name="CubbyFlow::ListQueryEngine2_3C_20T_20_3E_map">
-<area href="class_cubby_flow_1_1_intersection_query_engine2.html" title="Abstract base class for 2-D intersection test query engine. " alt="CubbyFlow::IntersectionQueryEngine2&lt; T &gt;" shape="rect" coords="0,0,291,24"/>
-<area href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html" title="Abstract base class for 2-D nearest neighbor query engine. " alt="CubbyFlow::NearestNeighborQueryEngine2&lt; T &gt;" shape="rect" coords="301,0,592,24"/>
+<area href="class_cubby_flow_1_1_intersection_query_engine.html" title="Abstract base class for N-D intersection test query engine. " alt="CubbyFlow::IntersectionQueryEngine&lt; T, N &gt;" shape="rect" coords="0,0,284,24"/>
+<area href="class_cubby_flow_1_1_nearest_neighbor_query_engine.html" title="Abstract base class for N-D nearest neighbor query engine. " alt="CubbyFlow::NearestNeighborQueryEngine&lt; T, N &gt;" shape="rect" coords="294,0,578,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -103,61 +103,46 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac5bf58bcb5fb9912863c614d365e44e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_list_query_engine2.html#ac5bf58bcb5fb9912863c614d365e44e2">Add</a> (const std::vector&lt; T &gt; &amp;items)</td></tr>
 <tr class="memdesc:ac5bf58bcb5fb9912863c614d365e44e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds items to the container.  <a href="#ac5bf58bcb5fb9912863c614d365e44e2">More...</a><br /></td></tr>
 <tr class="separator:ac5bf58bcb5fb9912863c614d365e44e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49a0a63c18571658515366bb9a43b82a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_list_query_engine2.html#a49a0a63c18571658515366bb9a43b82a">IsIntersects</a> (const <a class="el" href="namespace_cubby_flow.html#a898628dfce087aa1cd4f07465621e2f9">BoundingBox2D</a> &amp;box, const <a class="el" href="namespace_cubby_flow.html#a05c3b4f118ebc6734fd650c284a957d1">BoxIntersectionTestFunc2</a>&lt; T &gt; &amp;testFunc) const override</td></tr>
-<tr class="memdesc:a49a0a63c18571658515366bb9a43b82a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if given <code>box</code> intersects with any of the stored items.  <a href="#a49a0a63c18571658515366bb9a43b82a">More...</a><br /></td></tr>
-<tr class="separator:a49a0a63c18571658515366bb9a43b82a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a942e215abcd37a4c59d62f99f8ce857e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_list_query_engine2.html#a942e215abcd37a4c59d62f99f8ce857e">IsIntersects</a> (const <a class="el" href="namespace_cubby_flow.html#ae597e5fddf2332226c75ca43192fadb6">Ray2D</a> &amp;ray, const <a class="el" href="namespace_cubby_flow.html#a603bbb654324b2588790f28ab0560023">RayIntersectionTestFunc2</a>&lt; T &gt; &amp;testFunc) const override</td></tr>
-<tr class="memdesc:a942e215abcd37a4c59d62f99f8ce857e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if given <code>ray</code> intersects with any of the stored items.  <a href="#a942e215abcd37a4c59d62f99f8ce857e">More...</a><br /></td></tr>
-<tr class="separator:a942e215abcd37a4c59d62f99f8ce857e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba70bce5f204778ac78bba1aa220d167"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_list_query_engine2.html#aba70bce5f204778ac78bba1aa220d167">ForEachIntersectingItem</a> (const <a class="el" href="namespace_cubby_flow.html#a898628dfce087aa1cd4f07465621e2f9">BoundingBox2D</a> &amp;box, const <a class="el" href="namespace_cubby_flow.html#a05c3b4f118ebc6734fd650c284a957d1">BoxIntersectionTestFunc2</a>&lt; T &gt; &amp;testFunc, const <a class="el" href="namespace_cubby_flow.html#a47ce5a335c342eeda5ff6e1b6d25a824">IntersectionVisitorFunc2</a>&lt; T &gt; &amp;visitorFunc) const override</td></tr>
-<tr class="memdesc:aba70bce5f204778ac78bba1aa220d167"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes <code>visitorFunc</code> for every intersecting items.  <a href="#aba70bce5f204778ac78bba1aa220d167">More...</a><br /></td></tr>
-<tr class="separator:aba70bce5f204778ac78bba1aa220d167"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d7b996a5a36510e05a5eccd7cad5bdf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_list_query_engine2.html#a2d7b996a5a36510e05a5eccd7cad5bdf">ForEachIntersectingItem</a> (const <a class="el" href="namespace_cubby_flow.html#ae597e5fddf2332226c75ca43192fadb6">Ray2D</a> &amp;ray, const <a class="el" href="namespace_cubby_flow.html#a603bbb654324b2588790f28ab0560023">RayIntersectionTestFunc2</a>&lt; T &gt; &amp;testFunc, const <a class="el" href="namespace_cubby_flow.html#a47ce5a335c342eeda5ff6e1b6d25a824">IntersectionVisitorFunc2</a>&lt; T &gt; &amp;visitorFunc) const override</td></tr>
-<tr class="memdesc:a2d7b996a5a36510e05a5eccd7cad5bdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes <code>visitorFunc</code> for every intersecting items.  <a href="#a2d7b996a5a36510e05a5eccd7cad5bdf">More...</a><br /></td></tr>
-<tr class="separator:a2d7b996a5a36510e05a5eccd7cad5bdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a74c25f494e171b5dbb4d4d371d4508bb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_cubby_flow_1_1_closest_intersection_query_result2.html">ClosestIntersectionQueryResult2</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_list_query_engine2.html#a74c25f494e171b5dbb4d4d371d4508bb">GetClosestIntersection</a> (const <a class="el" href="namespace_cubby_flow.html#ae597e5fddf2332226c75ca43192fadb6">Ray2D</a> &amp;ray, const <a class="el" href="namespace_cubby_flow.html#a62644b81225bdbdded35576966957b55">GetRayIntersectionFunc2</a>&lt; T &gt; &amp;testFunc) const override</td></tr>
-<tr class="memdesc:a74c25f494e171b5dbb4d4d371d4508bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the closest intersection for given <code>ray</code>.  <a href="#a74c25f494e171b5dbb4d4d371d4508bb">More...</a><br /></td></tr>
-<tr class="separator:a74c25f494e171b5dbb4d4d371d4508bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7388d1699191e6a93394088ee443f3e6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_cubby_flow_1_1_nearest_neighbor_query_result2.html">NearestNeighborQueryResult2</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_list_query_engine2.html#a7388d1699191e6a93394088ee443f3e6">GetNearestNeighbor</a> (const <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;pt, const <a class="el" href="namespace_cubby_flow.html#ab62ef4e4c8480ece632a76a8d128e1ae">NearestNeighborDistanceFunc2</a>&lt; T &gt; &amp;distanceFunc) const override</td></tr>
-<tr class="separator:a7388d1699191e6a93394088ee443f3e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_class_cubby_flow_1_1_intersection_query_engine2"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_cubby_flow_1_1_intersection_query_engine2')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_cubby_flow_1_1_intersection_query_engine2.html">CubbyFlow::IntersectionQueryEngine2&lt; T &gt;</a></td></tr>
-<tr class="memitem:a9d1203dc9b03314e8d4978fc816da98a inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_intersection_query_engine2.html#a9d1203dc9b03314e8d4978fc816da98a">IntersectionQueryEngine2</a> ()=default</td></tr>
-<tr class="memdesc:a9d1203dc9b03314e8d4978fc816da98a inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="class_cubby_flow_1_1_intersection_query_engine2.html#a9d1203dc9b03314e8d4978fc816da98a">More...</a><br /></td></tr>
-<tr class="separator:a9d1203dc9b03314e8d4978fc816da98a inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10ad1b4b95b47fbb824cd55e21e39e5d inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_intersection_query_engine2.html#a10ad1b4b95b47fbb824cd55e21e39e5d">IntersectionQueryEngine2</a> (const <a class="el" href="class_cubby_flow_1_1_intersection_query_engine2.html">IntersectionQueryEngine2</a> &amp;)=default</td></tr>
-<tr class="memdesc:a10ad1b4b95b47fbb824cd55e21e39e5d inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default copy constructor.  <a href="class_cubby_flow_1_1_intersection_query_engine2.html#a10ad1b4b95b47fbb824cd55e21e39e5d">More...</a><br /></td></tr>
-<tr class="separator:a10ad1b4b95b47fbb824cd55e21e39e5d inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97ee3f246c654d844a1100c3e43df4ae inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_intersection_query_engine2.html#a97ee3f246c654d844a1100c3e43df4ae">IntersectionQueryEngine2</a> (<a class="el" href="class_cubby_flow_1_1_intersection_query_engine2.html">IntersectionQueryEngine2</a> &amp;&amp;) noexcept=default</td></tr>
-<tr class="memdesc:a97ee3f246c654d844a1100c3e43df4ae inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default move constructor.  <a href="class_cubby_flow_1_1_intersection_query_engine2.html#a97ee3f246c654d844a1100c3e43df4ae">More...</a><br /></td></tr>
-<tr class="separator:a97ee3f246c654d844a1100c3e43df4ae inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4bfb38f95463cb41895d776c0fb634b inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine2"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_intersection_query_engine2.html#ae4bfb38f95463cb41895d776c0fb634b">~IntersectionQueryEngine2</a> ()=default</td></tr>
-<tr class="memdesc:ae4bfb38f95463cb41895d776c0fb634b inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default virtual destructor.  <a href="class_cubby_flow_1_1_intersection_query_engine2.html#ae4bfb38f95463cb41895d776c0fb634b">More...</a><br /></td></tr>
-<tr class="separator:ae4bfb38f95463cb41895d776c0fb634b inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa06e27244d8a65fe1816ff5414fdbed5 inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_intersection_query_engine2.html">IntersectionQueryEngine2</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_intersection_query_engine2.html#aa06e27244d8a65fe1816ff5414fdbed5">operator=</a> (const <a class="el" href="class_cubby_flow_1_1_intersection_query_engine2.html">IntersectionQueryEngine2</a> &amp;)=default</td></tr>
-<tr class="memdesc:aa06e27244d8a65fe1816ff5414fdbed5 inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default copy assignment operator.  <a href="class_cubby_flow_1_1_intersection_query_engine2.html#aa06e27244d8a65fe1816ff5414fdbed5">More...</a><br /></td></tr>
-<tr class="separator:aa06e27244d8a65fe1816ff5414fdbed5 inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65b537e6bbdd318265dc0af2e3d21a65 inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_intersection_query_engine2.html">IntersectionQueryEngine2</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_intersection_query_engine2.html#a65b537e6bbdd318265dc0af2e3d21a65">operator=</a> (<a class="el" href="class_cubby_flow_1_1_intersection_query_engine2.html">IntersectionQueryEngine2</a> &amp;&amp;) noexcept=default</td></tr>
-<tr class="memdesc:a65b537e6bbdd318265dc0af2e3d21a65 inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default move assignment operator.  <a href="class_cubby_flow_1_1_intersection_query_engine2.html#a65b537e6bbdd318265dc0af2e3d21a65">More...</a><br /></td></tr>
-<tr class="separator:a65b537e6bbdd318265dc0af2e3d21a65 inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html">CubbyFlow::NearestNeighborQueryEngine2&lt; T &gt;</a></td></tr>
-<tr class="memitem:af52b33b1aefd35df61b31751e4b54aca inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html#af52b33b1aefd35df61b31751e4b54aca">NearestNeighborQueryEngine2</a> ()=default</td></tr>
-<tr class="memdesc:af52b33b1aefd35df61b31751e4b54aca inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html#af52b33b1aefd35df61b31751e4b54aca">More...</a><br /></td></tr>
-<tr class="separator:af52b33b1aefd35df61b31751e4b54aca inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13890a17c161686926bd91771c1efe1f inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html#a13890a17c161686926bd91771c1efe1f">NearestNeighborQueryEngine2</a> (const <a class="el" href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html">NearestNeighborQueryEngine2</a> &amp;)=default</td></tr>
-<tr class="memdesc:a13890a17c161686926bd91771c1efe1f inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default copy constructor.  <a href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html#a13890a17c161686926bd91771c1efe1f">More...</a><br /></td></tr>
-<tr class="separator:a13890a17c161686926bd91771c1efe1f inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a284ac146dda8f1c2632f958c33421d08 inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html#a284ac146dda8f1c2632f958c33421d08">NearestNeighborQueryEngine2</a> (<a class="el" href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html">NearestNeighborQueryEngine2</a> &amp;&amp;) noexcept=default</td></tr>
-<tr class="memdesc:a284ac146dda8f1c2632f958c33421d08 inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default move constructor.  <a href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html#a284ac146dda8f1c2632f958c33421d08">More...</a><br /></td></tr>
-<tr class="separator:a284ac146dda8f1c2632f958c33421d08 inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19f996c66d62afbeb9e77765f1c5597a inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html#a19f996c66d62afbeb9e77765f1c5597a">~NearestNeighborQueryEngine2</a> ()=default</td></tr>
-<tr class="memdesc:a19f996c66d62afbeb9e77765f1c5597a inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default virtual destructor.  <a href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html#a19f996c66d62afbeb9e77765f1c5597a">More...</a><br /></td></tr>
-<tr class="separator:a19f996c66d62afbeb9e77765f1c5597a inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ff221d4acd5a267d8d719603ee04ed5 inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html">NearestNeighborQueryEngine2</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html#a9ff221d4acd5a267d8d719603ee04ed5">operator=</a> (const <a class="el" href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html">NearestNeighborQueryEngine2</a> &amp;)=default</td></tr>
-<tr class="memdesc:a9ff221d4acd5a267d8d719603ee04ed5 inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default copy assignment operator.  <a href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html#a9ff221d4acd5a267d8d719603ee04ed5">More...</a><br /></td></tr>
-<tr class="separator:a9ff221d4acd5a267d8d719603ee04ed5 inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7d3fddd399d271e57aefa868925733c inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html">NearestNeighborQueryEngine2</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html#aa7d3fddd399d271e57aefa868925733c">operator=</a> (<a class="el" href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html">NearestNeighborQueryEngine2</a> &amp;&amp;) noexcept=default</td></tr>
-<tr class="memdesc:aa7d3fddd399d271e57aefa868925733c inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default move assignment operator.  <a href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html#aa7d3fddd399d271e57aefa868925733c">More...</a><br /></td></tr>
-<tr class="separator:aa7d3fddd399d271e57aefa868925733c inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25ba32c35def265a07c170fbc7c93c3e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_list_query_engine2.html#a25ba32c35def265a07c170fbc7c93c3e">Intersects</a> (const <a class="el" href="namespace_cubby_flow.html#a898628dfce087aa1cd4f07465621e2f9">BoundingBox2D</a> &amp;box, const <a class="el" href="namespace_cubby_flow.html#ae5a5acf4615e5cd0124914de54536ac0">BoxIntersectionTestFunc2</a>&lt; T &gt; &amp;testFunc) const override</td></tr>
+<tr class="memdesc:a25ba32c35def265a07c170fbc7c93c3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if given <code>box</code> intersects with any of the stored items.  <a href="#a25ba32c35def265a07c170fbc7c93c3e">More...</a><br /></td></tr>
+<tr class="separator:a25ba32c35def265a07c170fbc7c93c3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a451c0b61cb3be429ca7b21a5736b6d81"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_list_query_engine2.html#a451c0b61cb3be429ca7b21a5736b6d81">Intersects</a> (const <a class="el" href="namespace_cubby_flow.html#ae597e5fddf2332226c75ca43192fadb6">Ray2D</a> &amp;ray, const <a class="el" href="namespace_cubby_flow.html#a89d898c50ce1bd91c1f3531b80c8f4b4">RayIntersectionTestFunc2</a>&lt; T &gt; &amp;testFunc) const override</td></tr>
+<tr class="memdesc:a451c0b61cb3be429ca7b21a5736b6d81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if given <code>ray</code> intersects with any of the stored items.  <a href="#a451c0b61cb3be429ca7b21a5736b6d81">More...</a><br /></td></tr>
+<tr class="separator:a451c0b61cb3be429ca7b21a5736b6d81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcee194bdb1549aefe985b4b9ffb4a07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_list_query_engine2.html#abcee194bdb1549aefe985b4b9ffb4a07">ForEachIntersectingItem</a> (const <a class="el" href="namespace_cubby_flow.html#a898628dfce087aa1cd4f07465621e2f9">BoundingBox2D</a> &amp;box, const <a class="el" href="namespace_cubby_flow.html#ae5a5acf4615e5cd0124914de54536ac0">BoxIntersectionTestFunc2</a>&lt; T &gt; &amp;testFunc, const <a class="el" href="namespace_cubby_flow.html#a87c7b491f514794a79c1bc75146786ef">IntersectionVisitorFunc</a>&lt; T &gt; &amp;visitorFunc) const override</td></tr>
+<tr class="memdesc:abcee194bdb1549aefe985b4b9ffb4a07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes <code>visitorFunc</code> for every intersecting items.  <a href="#abcee194bdb1549aefe985b4b9ffb4a07">More...</a><br /></td></tr>
+<tr class="separator:abcee194bdb1549aefe985b4b9ffb4a07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a660d73c88e9b1c2cc2b2abc97ea98054"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_list_query_engine2.html#a660d73c88e9b1c2cc2b2abc97ea98054">ForEachIntersectingItem</a> (const <a class="el" href="namespace_cubby_flow.html#ae597e5fddf2332226c75ca43192fadb6">Ray2D</a> &amp;ray, const <a class="el" href="namespace_cubby_flow.html#a89d898c50ce1bd91c1f3531b80c8f4b4">RayIntersectionTestFunc2</a>&lt; T &gt; &amp;testFunc, const <a class="el" href="namespace_cubby_flow.html#a87c7b491f514794a79c1bc75146786ef">IntersectionVisitorFunc</a>&lt; T &gt; &amp;visitorFunc) const override</td></tr>
+<tr class="memdesc:a660d73c88e9b1c2cc2b2abc97ea98054"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes <code>visitorFunc</code> for every intersecting items.  <a href="#a660d73c88e9b1c2cc2b2abc97ea98054">More...</a><br /></td></tr>
+<tr class="separator:a660d73c88e9b1c2cc2b2abc97ea98054"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a535ece7a288f1d515f001e9027a413"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a6a3d7e5a8fe293cca58fae25d09cc531">ClosestIntersectionQueryResult2</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_list_query_engine2.html#a5a535ece7a288f1d515f001e9027a413">ClosestIntersection</a> (const <a class="el" href="namespace_cubby_flow.html#ae597e5fddf2332226c75ca43192fadb6">Ray2D</a> &amp;ray, const <a class="el" href="namespace_cubby_flow.html#af193a80d22612116acf10cf9c144f99c">GetRayIntersectionFunc2</a>&lt; T &gt; &amp;testFunc) const override</td></tr>
+<tr class="memdesc:a5a535ece7a288f1d515f001e9027a413"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the closest intersection for given <code>ray</code>.  <a href="#a5a535ece7a288f1d515f001e9027a413">More...</a><br /></td></tr>
+<tr class="separator:a5a535ece7a288f1d515f001e9027a413"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74dfbd7c0224a7e7cd561d2f2ea2132c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_cubby_flow.html#a59b0efb24232ff2fbd21cc3fef1c77d0">NearestNeighborQueryResult2</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_list_query_engine2.html#a74dfbd7c0224a7e7cd561d2f2ea2132c">Nearest</a> (const <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;pt, const <a class="el" href="namespace_cubby_flow.html#aaff0abe185fab53f3493b563f617eb67">NearestNeighborDistanceFunc2</a>&lt; T &gt; &amp;distanceFunc) const override</td></tr>
+<tr class="separator:a74dfbd7c0224a7e7cd561d2f2ea2132c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_class_cubby_flow_1_1_intersection_query_engine"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_cubby_flow_1_1_intersection_query_engine')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_cubby_flow_1_1_intersection_query_engine.html">CubbyFlow::IntersectionQueryEngine&lt; T, N &gt;</a></td></tr>
+<tr class="memitem:a3bb1b0160a500fb95d3efc10c2747b72 inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_intersection_query_engine.html#a3bb1b0160a500fb95d3efc10c2747b72">~IntersectionQueryEngine</a> ()=default</td></tr>
+<tr class="separator:a3bb1b0160a500fb95d3efc10c2747b72 inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5197ae0831a70e37be6382c298db7f6e inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_intersection_query_engine.html#a5197ae0831a70e37be6382c298db7f6e">Intersects</a> (const <a class="el" href="class_cubby_flow_1_1_bounding_box.html">BoundingBox</a>&lt; double, N &gt; &amp;box, const <a class="el" href="namespace_cubby_flow.html#a0b79bbfe712e9db4fb2c07161d887e2f">BoxIntersectionTestFunc</a>&lt; T, N &gt; &amp;testFunc) const =0</td></tr>
+<tr class="memdesc:a5197ae0831a70e37be6382c298db7f6e inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if given <code>box</code> intersects with any of the stored items.  <a href="class_cubby_flow_1_1_intersection_query_engine.html#a5197ae0831a70e37be6382c298db7f6e">More...</a><br /></td></tr>
+<tr class="separator:a5197ae0831a70e37be6382c298db7f6e inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30cea4438773ac4290d36918cf214874 inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_intersection_query_engine.html#a30cea4438773ac4290d36918cf214874">Intersects</a> (const <a class="el" href="class_cubby_flow_1_1_ray.html">Ray</a>&lt; double, N &gt; &amp;ray, const <a class="el" href="namespace_cubby_flow.html#a607644fa4af81893229782be770f42a1">RayIntersectionTestFunc</a>&lt; T, N &gt; &amp;testFunc) const =0</td></tr>
+<tr class="memdesc:a30cea4438773ac4290d36918cf214874 inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if given <code>ray</code> intersects with any of the stored items.  <a href="class_cubby_flow_1_1_intersection_query_engine.html#a30cea4438773ac4290d36918cf214874">More...</a><br /></td></tr>
+<tr class="separator:a30cea4438773ac4290d36918cf214874 inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad66b05f30574f2e263e0070a635a5c40 inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_intersection_query_engine.html#ad66b05f30574f2e263e0070a635a5c40">ForEachIntersectingItem</a> (const <a class="el" href="class_cubby_flow_1_1_bounding_box.html">BoundingBox</a>&lt; double, N &gt; &amp;box, const <a class="el" href="namespace_cubby_flow.html#a0b79bbfe712e9db4fb2c07161d887e2f">BoxIntersectionTestFunc</a>&lt; T, N &gt; &amp;testFunc, const <a class="el" href="namespace_cubby_flow.html#a87c7b491f514794a79c1bc75146786ef">IntersectionVisitorFunc</a>&lt; T &gt; &amp;visitorFunc) const =0</td></tr>
+<tr class="memdesc:ad66b05f30574f2e263e0070a635a5c40 inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes <code>visitorFunc</code> for every intersecting items.  <a href="class_cubby_flow_1_1_intersection_query_engine.html#ad66b05f30574f2e263e0070a635a5c40">More...</a><br /></td></tr>
+<tr class="separator:ad66b05f30574f2e263e0070a635a5c40 inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad864649fc2a379d6b53747264cf38ba3 inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_intersection_query_engine.html#ad864649fc2a379d6b53747264cf38ba3">ForEachIntersectingItem</a> (const <a class="el" href="class_cubby_flow_1_1_ray.html">Ray</a>&lt; double, N &gt; &amp;ray, const <a class="el" href="namespace_cubby_flow.html#a607644fa4af81893229782be770f42a1">RayIntersectionTestFunc</a>&lt; T, N &gt; &amp;testFunc, const <a class="el" href="namespace_cubby_flow.html#a87c7b491f514794a79c1bc75146786ef">IntersectionVisitorFunc</a>&lt; T &gt; &amp;visitorFunc) const =0</td></tr>
+<tr class="memdesc:ad864649fc2a379d6b53747264cf38ba3 inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes <code>visitorFunc</code> for every intersecting items.  <a href="class_cubby_flow_1_1_intersection_query_engine.html#ad864649fc2a379d6b53747264cf38ba3">More...</a><br /></td></tr>
+<tr class="separator:ad864649fc2a379d6b53747264cf38ba3 inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1138d0dc780fb21681681ef9a45c5ca inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="struct_cubby_flow_1_1_closest_intersection_query_result.html">ClosestIntersectionQueryResult</a>&lt; T, N &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_intersection_query_engine.html#ab1138d0dc780fb21681681ef9a45c5ca">ClosestIntersection</a> (const <a class="el" href="class_cubby_flow_1_1_ray.html">Ray</a>&lt; double, N &gt; &amp;ray, const <a class="el" href="namespace_cubby_flow.html#a74d2ec856e470046e1bb407f977178f4">GetRayIntersectionFunc</a>&lt; T, N &gt; &amp;testFunc) const =0</td></tr>
+<tr class="memdesc:ab1138d0dc780fb21681681ef9a45c5ca inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the closest intersection for given <code>ray</code>.  <a href="class_cubby_flow_1_1_intersection_query_engine.html#ab1138d0dc780fb21681681ef9a45c5ca">More...</a><br /></td></tr>
+<tr class="separator:ab1138d0dc780fb21681681ef9a45c5ca inherit pub_methods_class_cubby_flow_1_1_intersection_query_engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_cubby_flow_1_1_nearest_neighbor_query_engine.html">CubbyFlow::NearestNeighborQueryEngine&lt; T, N &gt;</a></td></tr>
+<tr class="memitem:af396bffa71dbc34f30313f9b81091e1a inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_nearest_neighbor_query_engine.html#af396bffa71dbc34f30313f9b81091e1a">~NearestNeighborQueryEngine</a> ()=default</td></tr>
+<tr class="separator:af396bffa71dbc34f30313f9b81091e1a inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11537528c66663dfb2391905c1875380 inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="struct_cubby_flow_1_1_nearest_neighbor_query_result.html">NearestNeighborQueryResult</a>&lt; T, N &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_nearest_neighbor_query_engine.html#a11537528c66663dfb2391905c1875380">Nearest</a> (const <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; double, N &gt; &amp;pt, const <a class="el" href="namespace_cubby_flow.html#ad1b1fca192b797bd1d962b37c518f35a">NearestNeighborDistanceFunc</a>&lt; T, N &gt; &amp;distanceFunc) const =0</td></tr>
+<tr class="separator:a11537528c66663dfb2391905c1875380 inherit pub_methods_class_cubby_flow_1_1_nearest_neighbor_query_engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename T&gt;<br />
@@ -209,8 +194,48 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="aba70bce5f204778ac78bba1aa220d167"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba70bce5f204778ac78bba1aa220d167">&#9670;&nbsp;</a></span>ForEachIntersectingItem() <span class="overload">[1/2]</span></h2>
+<a id="a5a535ece7a288f1d515f001e9027a413"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a535ece7a288f1d515f001e9027a413">&#9670;&nbsp;</a></span>ClosestIntersection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_cubby_flow.html#a6a3d7e5a8fe293cca58fae25d09cc531">ClosestIntersectionQueryResult2</a>&lt; T &gt; <a class="el" href="class_cubby_flow_1_1_list_query_engine2.html">CubbyFlow::ListQueryEngine2</a>&lt; T &gt;::ClosestIntersection </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#ae597e5fddf2332226c75ca43192fadb6">Ray2D</a> &amp;&#160;</td>
+          <td class="paramname"><em>ray</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#af193a80d22612116acf10cf9c144f99c">GetRayIntersectionFunc2</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>testFunc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the closest intersection for given <code>ray</code>. </p>
+
+</div>
+</div>
+<a id="abcee194bdb1549aefe985b4b9ffb4a07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abcee194bdb1549aefe985b4b9ffb4a07">&#9670;&nbsp;</a></span>ForEachIntersectingItem() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -229,13 +254,13 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a05c3b4f118ebc6734fd650c284a957d1">BoxIntersectionTestFunc2</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#ae5a5acf4615e5cd0124914de54536ac0">BoxIntersectionTestFunc2</a>&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>testFunc</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a47ce5a335c342eeda5ff6e1b6d25a824">IntersectionVisitorFunc2</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a87c7b491f514794a79c1bc75146786ef">IntersectionVisitorFunc</a>&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>visitorFunc</em>&#160;</td>
         </tr>
         <tr>
@@ -246,19 +271,17 @@ template&lt;typename T &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>Invokes <code>visitorFunc</code> for every intersecting items. </p>
 
-<p>Implements <a class="el" href="class_cubby_flow_1_1_intersection_query_engine2.html#ae8f6ec4ebfa264e40764bdbd09dd9ee9">CubbyFlow::IntersectionQueryEngine2&lt; T &gt;</a>.</p>
-
 </div>
 </div>
-<a id="a2d7b996a5a36510e05a5eccd7cad5bdf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2d7b996a5a36510e05a5eccd7cad5bdf">&#9670;&nbsp;</a></span>ForEachIntersectingItem() <span class="overload">[2/2]</span></h2>
+<a id="a660d73c88e9b1c2cc2b2abc97ea98054"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a660d73c88e9b1c2cc2b2abc97ea98054">&#9670;&nbsp;</a></span>ForEachIntersectingItem() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -277,13 +300,13 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a603bbb654324b2588790f28ab0560023">RayIntersectionTestFunc2</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a89d898c50ce1bd91c1f3531b80c8f4b4">RayIntersectionTestFunc2</a>&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>testFunc</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a47ce5a335c342eeda5ff6e1b6d25a824">IntersectionVisitorFunc2</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a87c7b491f514794a79c1bc75146786ef">IntersectionVisitorFunc</a>&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>visitorFunc</em>&#160;</td>
         </tr>
         <tr>
@@ -294,19 +317,17 @@ template&lt;typename T &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>Invokes <code>visitorFunc</code> for every intersecting items. </p>
 
-<p>Implements <a class="el" href="class_cubby_flow_1_1_intersection_query_engine2.html#a253a60b2dc72034c260005f3c7d39336">CubbyFlow::IntersectionQueryEngine2&lt; T &gt;</a>.</p>
-
 </div>
 </div>
-<a id="a74c25f494e171b5dbb4d4d371d4508bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a74c25f494e171b5dbb4d4d371d4508bb">&#9670;&nbsp;</a></span>GetClosestIntersection()</h2>
+<a id="a25ba32c35def265a07c170fbc7c93c3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25ba32c35def265a07c170fbc7c93c3e">&#9670;&nbsp;</a></span>Intersects() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -317,15 +338,15 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_cubby_flow_1_1_closest_intersection_query_result2.html">ClosestIntersectionQueryResult2</a>&lt; T &gt; <a class="el" href="class_cubby_flow_1_1_list_query_engine2.html">CubbyFlow::ListQueryEngine2</a>&lt; T &gt;::GetClosestIntersection </td>
+          <td class="memname">bool <a class="el" href="class_cubby_flow_1_1_list_query_engine2.html">CubbyFlow::ListQueryEngine2</a>&lt; T &gt;::Intersects </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#ae597e5fddf2332226c75ca43192fadb6">Ray2D</a> &amp;&#160;</td>
-          <td class="paramname"><em>ray</em>, </td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a898628dfce087aa1cd4f07465621e2f9">BoundingBox2D</a> &amp;&#160;</td>
+          <td class="paramname"><em>box</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a62644b81225bdbdded35576966957b55">GetRayIntersectionFunc2</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#ae5a5acf4615e5cd0124914de54536ac0">BoxIntersectionTestFunc2</a>&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>testFunc</em>&#160;</td>
         </tr>
         <tr>
@@ -336,19 +357,17 @@ template&lt;typename T &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the closest intersection for given <code>ray</code>. </p>
-
-<p>Implements <a class="el" href="class_cubby_flow_1_1_intersection_query_engine2.html#ac6598731bdd323838a01f55d032da64d">CubbyFlow::IntersectionQueryEngine2&lt; T &gt;</a>.</p>
+<p>Returns true if given <code>box</code> intersects with any of the stored items. </p>
 
 </div>
 </div>
-<a id="a7388d1699191e6a93394088ee443f3e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7388d1699191e6a93394088ee443f3e6">&#9670;&nbsp;</a></span>GetNearestNeighbor()</h2>
+<a id="a451c0b61cb3be429ca7b21a5736b6d81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a451c0b61cb3be429ca7b21a5736b6d81">&#9670;&nbsp;</a></span>Intersects() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -359,7 +378,47 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_cubby_flow_1_1_nearest_neighbor_query_result2.html">NearestNeighborQueryResult2</a>&lt; T &gt; <a class="el" href="class_cubby_flow_1_1_list_query_engine2.html">CubbyFlow::ListQueryEngine2</a>&lt; T &gt;::GetNearestNeighbor </td>
+          <td class="memname">bool <a class="el" href="class_cubby_flow_1_1_list_query_engine2.html">CubbyFlow::ListQueryEngine2</a>&lt; T &gt;::Intersects </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#ae597e5fddf2332226c75ca43192fadb6">Ray2D</a> &amp;&#160;</td>
+          <td class="paramname"><em>ray</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a89d898c50ce1bd91c1f3531b80c8f4b4">RayIntersectionTestFunc2</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>testFunc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns true if given <code>ray</code> intersects with any of the stored items. </p>
+
+</div>
+</div>
+<a id="a74dfbd7c0224a7e7cd561d2f2ea2132c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74dfbd7c0224a7e7cd561d2f2ea2132c">&#9670;&nbsp;</a></span>Nearest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_cubby_flow.html#a59b0efb24232ff2fbd21cc3fef1c77d0">NearestNeighborQueryResult2</a>&lt; T &gt; <a class="el" href="class_cubby_flow_1_1_list_query_engine2.html">CubbyFlow::ListQueryEngine2</a>&lt; T &gt;::Nearest </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a4db57ff3bc35d170bda4f85afce858cc">Vector2D</a> &amp;&#160;</td>
           <td class="paramname"><em>pt</em>, </td>
@@ -367,7 +426,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#ab62ef4e4c8480ece632a76a8d128e1ae">NearestNeighborDistanceFunc2</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#aaff0abe185fab53f3493b563f617eb67">NearestNeighborDistanceFunc2</a>&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>distanceFunc</em>&#160;</td>
         </tr>
         <tr>
@@ -378,97 +437,11 @@ template&lt;typename T &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 <p>Returns the nearest neighbor for given point and distance measure function. </p>
-
-<p>Implements <a class="el" href="class_cubby_flow_1_1_nearest_neighbor_query_engine2.html#a3a33408cf903af5e02dd2992d786ccc3">CubbyFlow::NearestNeighborQueryEngine2&lt; T &gt;</a>.</p>
-
-</div>
-</div>
-<a id="a49a0a63c18571658515366bb9a43b82a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a49a0a63c18571658515366bb9a43b82a">&#9670;&nbsp;</a></span>IsIntersects() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="class_cubby_flow_1_1_list_query_engine2.html">CubbyFlow::ListQueryEngine2</a>&lt; T &gt;::IsIntersects </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a898628dfce087aa1cd4f07465621e2f9">BoundingBox2D</a> &amp;&#160;</td>
-          <td class="paramname"><em>box</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a05c3b4f118ebc6734fd650c284a957d1">BoxIntersectionTestFunc2</a>&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>testFunc</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns true if given <code>box</code> intersects with any of the stored items. </p>
-
-<p>Implements <a class="el" href="class_cubby_flow_1_1_intersection_query_engine2.html#ac571be2ac131d6b6c0226c1d6f413dd1">CubbyFlow::IntersectionQueryEngine2&lt; T &gt;</a>.</p>
-
-</div>
-</div>
-<a id="a942e215abcd37a4c59d62f99f8ce857e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a942e215abcd37a4c59d62f99f8ce857e">&#9670;&nbsp;</a></span>IsIntersects() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="class_cubby_flow_1_1_list_query_engine2.html">CubbyFlow::ListQueryEngine2</a>&lt; T &gt;::IsIntersects </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#ae597e5fddf2332226c75ca43192fadb6">Ray2D</a> &amp;&#160;</td>
-          <td class="paramname"><em>ray</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a603bbb654324b2588790f28ab0560023">RayIntersectionTestFunc2</a>&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>testFunc</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns true if given <code>ray</code> intersects with any of the stored items. </p>
-
-<p>Implements <a class="el" href="class_cubby_flow_1_1_intersection_query_engine2.html#abe8e8857103c4bf63cd2999d334c1a1a">CubbyFlow::IntersectionQueryEngine2&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -485,7 +458,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 17 2021 15:30:18 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Mar 18 2021 14:55:13 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

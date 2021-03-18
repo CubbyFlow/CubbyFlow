@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['nearestneighborqueryengine2_2ehpp',['NearestNeighborQueryEngine2.hpp',['../_nearest_neighbor_query_engine2_8hpp.html',1,'']]],
-  ['nearestneighborqueryengine3_2ehpp',['NearestNeighborQueryEngine3.hpp',['../_nearest_neighbor_query_engine3_8hpp.html',1,'']]],
+  ['nearestneighborqueryengine_2ehpp',['NearestNeighborQueryEngine.hpp',['../_nearest_neighbor_query_engine_8hpp.html',1,'']]],
   ['nestedinitializerlist_2ehpp',['NestedInitializerList.hpp',['../_nested_initializer_list_8hpp.html',1,'']]]
 ];
