@@ -690,7 +690,7 @@ Vector3D TriangleMesh3::ClosestPointLocal(const Vector3D& otherPoint) const
         return tri.ClosestDistance(pt);
     };
 
-    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
+    const auto queryResult = m_bvh.Nearest(otherPoint, distanceFunc);
     return Triangle(*queryResult.item).ClosestPoint(otherPoint);
 }
 
@@ -703,7 +703,7 @@ double TriangleMesh3::ClosestDistanceLocal(const Vector3D& otherPoint) const
         return tri.ClosestDistance(pt);
     };
 
-    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
+    const auto queryResult = m_bvh.Nearest(otherPoint, distanceFunc);
     return queryResult.distance;
 }
 
@@ -716,7 +716,7 @@ bool TriangleMesh3::IntersectsLocal(const Ray3D& ray) const
         return tri.Intersects(_ray);
     };
 
-    return m_bvh.IsIntersects(ray, testFunc);
+    return m_bvh.Intersects(ray, testFunc);
 }
 
 BoundingBox3D TriangleMesh3::BoundingBoxLocal() const
@@ -735,7 +735,7 @@ Vector3D TriangleMesh3::ClosestNormalLocal(const Vector3D& otherPoint) const
         return tri.ClosestDistance(pt);
     };
 
-    const auto queryResult = m_bvh.GetNearestNeighbor(otherPoint, distanceFunc);
+    const auto queryResult = m_bvh.Nearest(otherPoint, distanceFunc);
     return Triangle(*queryResult.item).ClosestNormal(otherPoint);
 }
 
@@ -751,7 +751,7 @@ SurfaceRayIntersection3 TriangleMesh3::ClosestIntersectionLocal(
         return result.distance;
     };
 
-    const auto queryResult = m_bvh.GetClosestIntersection(ray, testFunc);
+    const auto queryResult = m_bvh.ClosestIntersection(ray, testFunc);
 
     SurfaceRayIntersection3 result;
     result.distance = queryResult.distance;

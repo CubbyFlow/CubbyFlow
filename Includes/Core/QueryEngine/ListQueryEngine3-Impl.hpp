@@ -26,7 +26,7 @@ void ListQueryEngine3<T>::Add(const std::vector<T>& items)
 }
 
 template <typename T>
-bool ListQueryEngine3<T>::IsIntersects(
+bool ListQueryEngine3<T>::Intersects(
     const BoundingBox3D& box, const BoxIntersectionTestFunc3<T>& testFunc) const
 {
     for (const auto& item : m_items)
@@ -41,7 +41,7 @@ bool ListQueryEngine3<T>::IsIntersects(
 }
 
 template <typename T>
-bool ListQueryEngine3<T>::IsIntersects(
+bool ListQueryEngine3<T>::Intersects(
     const Ray3D& ray, const RayIntersectionTestFunc3<T>& testFunc) const
 {
     for (const auto& item : m_items)
@@ -58,7 +58,7 @@ bool ListQueryEngine3<T>::IsIntersects(
 template <typename T>
 void ListQueryEngine3<T>::ForEachIntersectingItem(
     const BoundingBox3D& box, const BoxIntersectionTestFunc3<T>& testFunc,
-    const IntersectionVisitorFunc3<T>& visitorFunc) const
+    const IntersectionVisitorFunc<T>& visitorFunc) const
 {
     for (const auto& item : m_items)
     {
@@ -72,7 +72,7 @@ void ListQueryEngine3<T>::ForEachIntersectingItem(
 template <typename T>
 void ListQueryEngine3<T>::ForEachIntersectingItem(
     const Ray3D& ray, const RayIntersectionTestFunc3<T>& testFunc,
-    const IntersectionVisitorFunc3<T>& visitorFunc) const
+    const IntersectionVisitorFunc<T>& visitorFunc) const
 {
     for (const auto& item : m_items)
     {
@@ -84,7 +84,7 @@ void ListQueryEngine3<T>::ForEachIntersectingItem(
 }
 
 template <typename T>
-ClosestIntersectionQueryResult3<T> ListQueryEngine3<T>::GetClosestIntersection(
+ClosestIntersectionQueryResult3<T> ListQueryEngine3<T>::ClosestIntersection(
     const Ray3D& ray, const GetRayIntersectionFunc3<T>& testFunc) const
 {
     ClosestIntersectionQueryResult3<T> best;
@@ -103,7 +103,7 @@ ClosestIntersectionQueryResult3<T> ListQueryEngine3<T>::GetClosestIntersection(
 }
 
 template <typename T>
-NearestNeighborQueryResult3<T> ListQueryEngine3<T>::GetNearestNeighbor(
+NearestNeighborQueryResult3<T> ListQueryEngine3<T>::Nearest(
     const Vector3D& pt,
     const NearestNeighborDistanceFunc3<T>& distanceFunc) const
 {

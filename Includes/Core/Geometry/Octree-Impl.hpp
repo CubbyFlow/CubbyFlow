@@ -57,7 +57,7 @@ void Octree<T>::Clear()
 }
 
 template <typename T>
-NearestNeighborQueryResult3<T> Octree<T>::GetNearestNeighbor(
+NearestNeighborQueryResult3<T> Octree<T>::Nearest(
     const Vector3D& pt,
     const NearestNeighborDistanceFunc3<T>& distanceFunc) const
 {
@@ -147,23 +147,23 @@ NearestNeighborQueryResult3<T> Octree<T>::GetNearestNeighbor(
 }
 
 template <typename T>
-bool Octree<T>::IsIntersects(const BoundingBox3D& box,
-                             const BoxIntersectionTestFunc3<T>& testFunc) const
+bool Octree<T>::Intersects(const BoundingBox3D& box,
+                           const BoxIntersectionTestFunc3<T>& testFunc) const
 {
-    return IsIntersects(box, testFunc, 0, m_bbox);
+    return Intersects(box, testFunc, 0, m_bbox);
 }
 
 template <typename T>
-bool Octree<T>::IsIntersects(const Ray3D& ray,
-                             const RayIntersectionTestFunc3<T>& testFunc) const
+bool Octree<T>::Intersects(const Ray3D& ray,
+                           const RayIntersectionTestFunc3<T>& testFunc) const
 {
-    return IsIntersects(ray, testFunc, 0, m_bbox);
+    return Intersects(ray, testFunc, 0, m_bbox);
 }
 
 template <typename T>
 void Octree<T>::ForEachIntersectingItem(
     const BoundingBox3D& box, const BoxIntersectionTestFunc3<T>& testFunc,
-    const IntersectionVisitorFunc3<T>& visitorFunc) const
+    const IntersectionVisitorFunc<T>& visitorFunc) const
 {
     ForEachIntersectingItem(box, testFunc, visitorFunc, 0, m_bbox);
 }
@@ -171,20 +171,20 @@ void Octree<T>::ForEachIntersectingItem(
 template <typename T>
 void Octree<T>::ForEachIntersectingItem(
     const Ray3D& ray, const RayIntersectionTestFunc3<T>& testFunc,
-    const IntersectionVisitorFunc3<T>& visitorFunc) const
+    const IntersectionVisitorFunc<T>& visitorFunc) const
 {
     ForEachIntersectingItem(ray, testFunc, visitorFunc, 0, m_bbox);
 }
 
 template <typename T>
-ClosestIntersectionQueryResult3<T> Octree<T>::GetClosestIntersection(
+ClosestIntersectionQueryResult3<T> Octree<T>::ClosestIntersection(
     const Ray3D& ray, const GetRayIntersectionFunc3<T>& testFunc) const
 {
     ClosestIntersectionQueryResult3<T> best;
     best.distance = std::numeric_limits<double>::max();
     best.item = nullptr;
 
-    return GetClosestIntersection(ray, testFunc, 0, m_bbox, best);
+    return ClosestIntersection(ray, testFunc, 0, m_bbox, best);
 }
 
 template <typename T>
@@ -294,9 +294,9 @@ void Octree<T>::Build(size_t nodeIdx, size_t depth, const BoundingBox3D& bound,
 }
 
 template <typename T>
-bool Octree<T>::IsIntersects(const BoundingBox3D& box,
-                             const BoxIntersectionTestFunc3<T>& testFunc,
-                             size_t nodeIdx, const BoundingBox3D& bound) const
+bool Octree<T>::Intersects(const BoundingBox3D& box,
+                           const BoxIntersectionTestFunc3<T>& testFunc,
+                           size_t nodeIdx, const BoundingBox3D& bound) const
 {
     if (!box.Overlaps(bound))
     {
@@ -320,9 +320,8 @@ bool Octree<T>::IsIntersects(const BoundingBox3D& box,
     {
         for (int i = 0; i < 8; ++i)
         {
-            if (IsIntersects(
-                    box, testFunc, node.firstChild + i,
-                    BoundingBox3D{ bound.Corner(i), bound.MidPoint() }))
+            if (Intersects(box, testFunc, node.firstChild + i,
+                           BoundingBox3D{ bound.Corner(i), bound.MidPoint() }))
             {
                 return true;
             }
@@ -333,9 +332,9 @@ bool Octree<T>::IsIntersects(const BoundingBox3D& box,
 }
 
 template <typename T>
-bool Octree<T>::IsIntersects(const Ray3D& ray,
-                             const RayIntersectionTestFunc3<T>& testFunc,
-                             size_t nodeIdx, const BoundingBox3D& bound) const
+bool Octree<T>::Intersects(const Ray3D& ray,
+                           const RayIntersectionTestFunc3<T>& testFunc,
+                           size_t nodeIdx, const BoundingBox3D& bound) const
 {
     if (!bound.Intersects(ray))
     {
@@ -359,9 +358,8 @@ bool Octree<T>::IsIntersects(const Ray3D& ray,
     {
         for (int i = 0; i < 8; ++i)
         {
-            if (IsIntersects(
-                    ray, testFunc, node.firstChild + i,
-                    BoundingBox3D{ bound.Corner(i), bound.MidPoint() }))
+            if (Intersects(ray, testFunc, node.firstChild + i,
+                           BoundingBox3D{ bound.Corner(i), bound.MidPoint() }))
             {
                 return true;
             }
@@ -374,7 +372,7 @@ bool Octree<T>::IsIntersects(const Ray3D& ray,
 template <typename T>
 void Octree<T>::ForEachIntersectingItem(
     const BoundingBox3D& box, const BoxIntersectionTestFunc3<T>& testFunc,
-    const IntersectionVisitorFunc3<T>& visitorFunc, size_t nodeIdx,
+    const IntersectionVisitorFunc<T>& visitorFunc, size_t nodeIdx,
     const BoundingBox3D& bound) const
 {
     if (!box.Overlaps(bound))
@@ -409,7 +407,7 @@ void Octree<T>::ForEachIntersectingItem(
 template <typename T>
 void Octree<T>::ForEachIntersectingItem(
     const Ray3D& ray, const RayIntersectionTestFunc3<T>& testFunc,
-    const IntersectionVisitorFunc3<T>& visitorFunc, size_t nodeIdx,
+    const IntersectionVisitorFunc<T>& visitorFunc, size_t nodeIdx,
     const BoundingBox3D& bound) const
 {
     if (!bound.Intersects(ray))
@@ -442,7 +440,7 @@ void Octree<T>::ForEachIntersectingItem(
 }
 
 template <typename T>
-ClosestIntersectionQueryResult3<T> Octree<T>::GetClosestIntersection(
+ClosestIntersectionQueryResult3<T> Octree<T>::ClosestIntersection(
     const Ray3D& ray, const GetRayIntersectionFunc3<T>& testFunc,
     size_t nodeIdx, const BoundingBox3D& bound,
     ClosestIntersectionQueryResult3<T> best) const
@@ -471,7 +469,7 @@ ClosestIntersectionQueryResult3<T> Octree<T>::GetClosestIntersection(
     {
         for (int i = 0; i < 8; ++i)
         {
-            best = GetClosestIntersection(
+            best = ClosestIntersection(
                 ray, testFunc, node.firstChild + i,
                 BoundingBox3D{ bound.Corner(i), bound.MidPoint() }, best);
         }

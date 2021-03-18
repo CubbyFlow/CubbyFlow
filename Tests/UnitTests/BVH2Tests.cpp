@@ -76,7 +76,7 @@ TEST(BVH2, Nearest)
     bvh.Build(points, bounds);
 
     Vector2D testPt(0.5, 0.5);
-    auto nearest = bvh.GetNearestNeighbor(testPt, distanceFunc);
+    auto nearest = bvh.Nearest(testPt, distanceFunc);
     ptrdiff_t answerIdx = 0;
     double bestDist = testPt.DistanceTo(points[answerIdx]);
 
@@ -131,7 +131,7 @@ TEST(BVH2, BBoxIntersects)
         hasOverlaps |= overlapsFunc(GetSamplePoints2()[i], testBox);
     }
 
-    EXPECT_EQ(hasOverlaps, bvh.IsIntersects(testBox, overlapsFunc));
+    EXPECT_EQ(hasOverlaps, bvh.Intersects(testBox, overlapsFunc));
 
     BoundingBox2D testBox2({ 0.2, 0.2 }, { 0.6, 0.5 });
     hasOverlaps = false;
@@ -141,7 +141,7 @@ TEST(BVH2, BBoxIntersects)
         hasOverlaps |= overlapsFunc(GetSamplePoints2()[i], testBox2);
     }
 
-    EXPECT_EQ(hasOverlaps, bvh.IsIntersects(testBox2, overlapsFunc));
+    EXPECT_EQ(hasOverlaps, bvh.Intersects(testBox2, overlapsFunc));
 }
 
 TEST(BVH2, RayIntersects)
@@ -184,7 +184,7 @@ TEST(BVH2, RayIntersects)
         }
 
         // bvh search
-        bool octInts = bvh.IsIntersects(ray, intersectsFunc);
+        bool octInts = bvh.Intersects(ray, intersectsFunc);
 
         EXPECT_EQ(ansInts, octInts);
     }
@@ -240,7 +240,7 @@ TEST(BVH2, ClosestIntersection)
         }
 
         // bvh search
-        auto bvhInts = bvh.GetClosestIntersection(ray, intersectsFunc);
+        auto bvhInts = bvh.ClosestIntersection(ray, intersectsFunc);
 
         EXPECT_DOUBLE_EQ(ansInts.distance, bvhInts.distance);
         EXPECT_EQ(ansInts.item, bvhInts.item);

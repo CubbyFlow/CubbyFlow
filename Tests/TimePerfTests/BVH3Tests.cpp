@@ -63,8 +63,7 @@ BENCHMARK_DEFINE_F(BVH3, Nearest)(benchmark::State& state)
 {
     while (state.KeepRunning())
     {
-        benchmark::DoNotOptimize(
-            queryEngine.GetNearestNeighbor(MakeVec(), DistanceFunc));
+        benchmark::DoNotOptimize(queryEngine.Nearest(MakeVec(), DistanceFunc));
     }
 }
 
@@ -74,7 +73,7 @@ BENCHMARK_DEFINE_F(BVH3, RayIntersects)(benchmark::State& state)
 {
     while (state.KeepRunning())
     {
-        benchmark::DoNotOptimize(queryEngine.IsIntersects(
+        benchmark::DoNotOptimize(queryEngine.Intersects(
             Ray3D(MakeVec(), MakeVec().Normalized()), IntersectsFunc));
     }
 }

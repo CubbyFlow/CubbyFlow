@@ -80,7 +80,7 @@ void BVH2<T>::Clear()
 }
 
 template <typename T>
-NearestNeighborQueryResult2<T> BVH2<T>::GetNearestNeighbor(
+NearestNeighborQueryResult2<T> BVH2<T>::Nearest(
     const Vector2D& pt,
     const NearestNeighborDistanceFunc2<T>& distanceFunc) const
 {
@@ -187,7 +187,7 @@ NearestNeighborQueryResult2<T> BVH2<T>::GetNearestNeighbor(
 }
 
 template <typename T>
-inline bool BVH2<T>::IsIntersects(
+inline bool BVH2<T>::Intersects(
     const BoundingBox2D& box, const BoxIntersectionTestFunc2<T>& testFunc) const
 {
     if (!m_bound.Overlaps(box))
@@ -253,7 +253,7 @@ inline bool BVH2<T>::IsIntersects(
 }
 
 template <typename T>
-inline bool BVH2<T>::IsIntersects(
+inline bool BVH2<T>::Intersects(
     const Ray2D& ray, const RayIntersectionTestFunc2<T>& testFunc) const
 {
     if (!m_bound.Intersects(ray))
@@ -332,7 +332,7 @@ inline bool BVH2<T>::IsIntersects(
 template <typename T>
 inline void BVH2<T>::ForEachIntersectingItem(
     const BoundingBox2D& box, const BoxIntersectionTestFunc2<T>& testFunc,
-    const IntersectionVisitorFunc2<T>& visitorFunc) const
+    const IntersectionVisitorFunc<T>& visitorFunc) const
 {
     if (!m_bound.Overlaps(box))
     {
@@ -397,7 +397,7 @@ inline void BVH2<T>::ForEachIntersectingItem(
 template <typename T>
 inline void BVH2<T>::ForEachIntersectingItem(
     const Ray2D& ray, const RayIntersectionTestFunc2<T>& testFunc,
-    const IntersectionVisitorFunc2<T>& visitorFunc) const
+    const IntersectionVisitorFunc<T>& visitorFunc) const
 {
     if (!m_bound.Intersects(ray))
     {
@@ -471,7 +471,7 @@ inline void BVH2<T>::ForEachIntersectingItem(
 }
 
 template <typename T>
-inline ClosestIntersectionQueryResult2<T> BVH2<T>::GetClosestIntersection(
+inline ClosestIntersectionQueryResult2<T> BVH2<T>::ClosestIntersection(
     const Ray2D& ray, const GetRayIntersectionFunc2<T>& testFunc) const
 {
     ClosestIntersectionQueryResult2<T> best;

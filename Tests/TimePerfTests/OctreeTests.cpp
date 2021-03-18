@@ -69,8 +69,7 @@ BENCHMARK_DEFINE_F(Octree, Nearest)(benchmark::State& state)
 {
     while (state.KeepRunning())
     {
-        benchmark::DoNotOptimize(
-            queryEngine.GetNearestNeighbor(MakeVec(), DistanceFunc));
+        benchmark::DoNotOptimize(queryEngine.Nearest(MakeVec(), DistanceFunc));
     }
 }
 
@@ -80,7 +79,7 @@ BENCHMARK_DEFINE_F(Octree, RayIntersects)(benchmark::State& state)
 {
     while (state.KeepRunning())
     {
-        benchmark::DoNotOptimize(queryEngine.IsIntersects(
+        benchmark::DoNotOptimize(queryEngine.Intersects(
             Ray3D(MakeVec(), MakeVec().Normalized()), IntersectsFunc));
     }
 }

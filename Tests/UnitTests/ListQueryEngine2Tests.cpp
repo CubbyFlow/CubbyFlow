@@ -26,7 +26,7 @@ TEST(ListQueryEngine2, BoxIntersection)
     }
     bool hasIntersection = numIntersections > 0;
 
-    EXPECT_EQ(hasIntersection, engine.IsIntersects(testBox, testFunc));
+    EXPECT_EQ(hasIntersection, engine.Intersects(testBox, testFunc));
 
     BoundingBox2D testBox2({ 0.2, 0.2 }, { 0.6, 0.5 });
     numIntersections = 0;
@@ -36,7 +36,7 @@ TEST(ListQueryEngine2, BoxIntersection)
     }
     hasIntersection = numIntersections > 0;
 
-    EXPECT_EQ(hasIntersection, engine.IsIntersects(testBox2, testFunc));
+    EXPECT_EQ(hasIntersection, engine.Intersects(testBox2, testFunc));
 
     size_t measured = 0;
     engine.ForEachIntersectingItem(testBox2, testFunc, [&](const Vector2D& pt) {
@@ -87,7 +87,7 @@ TEST(ListQueryEngine2, RayIntersection)
         }
 
         // engine search
-        bool engInts = engine.IsIntersects(ray, intersectsFunc);
+        bool engInts = engine.Intersects(ray, intersectsFunc);
 
         EXPECT_EQ(ansInts, engInts);
     }
@@ -135,7 +135,7 @@ TEST(ListQueryEngine2, ClosestIntersection)
         }
 
         // engine search
-        auto engInts = engine.GetClosestIntersection(ray, intersectsFunc);
+        auto engInts = engine.ClosestIntersection(ray, intersectsFunc);
 
         if (ansInts.item != nullptr && engInts.item != nullptr)
         {
@@ -154,7 +154,7 @@ TEST(ListQueryEngine2, ClosestIntersection)
     }
 }
 
-TEST(ListQueryEngine2, NearestNeighbor)
+TEST(ListQueryEngine2, Nearest)
 {
     ListQueryEngine2<Vector2D> engine;
 
@@ -169,7 +169,7 @@ TEST(ListQueryEngine2, NearestNeighbor)
     engine.Add(points);
 
     Vector2D testPt(0.5, 0.5);
-    auto closest = engine.GetNearestNeighbor(testPt, distanceFunc);
+    auto closest = engine.Nearest(testPt, distanceFunc);
 
     Vector2D answer = GetSamplePoints2()[0];
     double bestDist = testPt.DistanceTo(answer);

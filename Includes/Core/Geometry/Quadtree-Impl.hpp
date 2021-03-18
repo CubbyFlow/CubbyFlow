@@ -56,7 +56,7 @@ void Quadtree<T>::Clear()
 }
 
 template <typename T>
-NearestNeighborQueryResult2<T> Quadtree<T>::GetNearestNeighbor(
+NearestNeighborQueryResult2<T> Quadtree<T>::Nearest(
     const Vector2D& pt,
     const NearestNeighborDistanceFunc2<T>& distanceFunc) const
 {
@@ -142,23 +142,23 @@ NearestNeighborQueryResult2<T> Quadtree<T>::GetNearestNeighbor(
 }
 
 template <typename T>
-bool Quadtree<T>::IsIntersects(
-    const BoundingBox2D& box, const BoxIntersectionTestFunc2<T>& testFunc) const
+bool Quadtree<T>::Intersects(const BoundingBox2D& box,
+                             const BoxIntersectionTestFunc2<T>& testFunc) const
 {
-    return IsIntersects(box, testFunc, 0, m_bbox);
+    return Intersects(box, testFunc, 0, m_bbox);
 }
 
 template <typename T>
-bool Quadtree<T>::IsIntersects(
-    const Ray2D& ray, const RayIntersectionTestFunc2<T>& testFunc) const
+bool Quadtree<T>::Intersects(const Ray2D& ray,
+                             const RayIntersectionTestFunc2<T>& testFunc) const
 {
-    return IsIntersects(ray, testFunc, 0, m_bbox);
+    return Intersects(ray, testFunc, 0, m_bbox);
 }
 
 template <typename T>
 void Quadtree<T>::ForEachIntersectingItem(
     const BoundingBox2D& box, const BoxIntersectionTestFunc2<T>& testFunc,
-    const IntersectionVisitorFunc2<T>& visitorFunc) const
+    const IntersectionVisitorFunc<T>& visitorFunc) const
 {
     ForEachIntersectingItem(box, testFunc, visitorFunc, 0, m_bbox);
 }
@@ -166,20 +166,20 @@ void Quadtree<T>::ForEachIntersectingItem(
 template <typename T>
 void Quadtree<T>::ForEachIntersectingItem(
     const Ray2D& ray, const RayIntersectionTestFunc2<T>& testFunc,
-    const IntersectionVisitorFunc2<T>& visitorFunc) const
+    const IntersectionVisitorFunc<T>& visitorFunc) const
 {
     ForEachIntersectingItem(ray, testFunc, visitorFunc, 0, m_bbox);
 }
 
 template <typename T>
-ClosestIntersectionQueryResult2<T> Quadtree<T>::GetClosestIntersection(
+ClosestIntersectionQueryResult2<T> Quadtree<T>::ClosestIntersection(
     const Ray2D& ray, const GetRayIntersectionFunc2<T>& testFunc) const
 {
     ClosestIntersectionQueryResult2<T> best;
     best.distance = std::numeric_limits<double>::max();
     best.item = nullptr;
 
-    return GetClosestIntersection(ray, testFunc, 0, m_bbox, best);
+    return ClosestIntersection(ray, testFunc, 0, m_bbox, best);
 }
 
 template <typename T>
@@ -290,9 +290,9 @@ void Quadtree<T>::Build(size_t nodeIdx, size_t depth,
 }
 
 template <typename T>
-bool Quadtree<T>::IsIntersects(const BoundingBox2D& box,
-                               const BoxIntersectionTestFunc2<T>& testFunc,
-                               size_t nodeIdx, const BoundingBox2D& bound) const
+bool Quadtree<T>::Intersects(const BoundingBox2D& box,
+                             const BoxIntersectionTestFunc2<T>& testFunc,
+                             size_t nodeIdx, const BoundingBox2D& bound) const
 {
     if (!box.Overlaps(bound))
     {
@@ -316,9 +316,8 @@ bool Quadtree<T>::IsIntersects(const BoundingBox2D& box,
     {
         for (int i = 0; i < 4; ++i)
         {
-            if (IsIntersects(
-                    box, testFunc, node.firstChild + i,
-                    BoundingBox2D{ bound.Corner(i), bound.MidPoint() }))
+            if (Intersects(box, testFunc, node.firstChild + i,
+                           BoundingBox2D{ bound.Corner(i), bound.MidPoint() }))
             {
                 return true;
             }
@@ -329,9 +328,9 @@ bool Quadtree<T>::IsIntersects(const BoundingBox2D& box,
 }
 
 template <typename T>
-bool Quadtree<T>::IsIntersects(const Ray2D& ray,
-                               const RayIntersectionTestFunc2<T>& testFunc,
-                               size_t nodeIdx, const BoundingBox2D& bound) const
+bool Quadtree<T>::Intersects(const Ray2D& ray,
+                             const RayIntersectionTestFunc2<T>& testFunc,
+                             size_t nodeIdx, const BoundingBox2D& bound) const
 {
     if (!bound.Intersects(ray))
     {
@@ -355,9 +354,8 @@ bool Quadtree<T>::IsIntersects(const Ray2D& ray,
     {
         for (int i = 0; i < 4; ++i)
         {
-            if (IsIntersects(
-                    ray, testFunc, node.firstChild + i,
-                    BoundingBox2D{ bound.Corner(i), bound.MidPoint() }))
+            if (Intersects(ray, testFunc, node.firstChild + i,
+                           BoundingBox2D{ bound.Corner(i), bound.MidPoint() }))
             {
                 return true;
             }
@@ -370,7 +368,7 @@ bool Quadtree<T>::IsIntersects(const Ray2D& ray,
 template <typename T>
 void Quadtree<T>::ForEachIntersectingItem(
     const BoundingBox2D& box, const BoxIntersectionTestFunc2<T>& testFunc,
-    const IntersectionVisitorFunc2<T>& visitorFunc, size_t nodeIdx,
+    const IntersectionVisitorFunc<T>& visitorFunc, size_t nodeIdx,
     const BoundingBox2D& bound) const
 {
     if (!box.Overlaps(bound))
@@ -405,7 +403,7 @@ void Quadtree<T>::ForEachIntersectingItem(
 template <typename T>
 void Quadtree<T>::ForEachIntersectingItem(
     const Ray2D& ray, const RayIntersectionTestFunc2<T>& testFunc,
-    const IntersectionVisitorFunc2<T>& visitorFunc, size_t nodeIdx,
+    const IntersectionVisitorFunc<T>& visitorFunc, size_t nodeIdx,
     const BoundingBox2D& bound) const
 {
     if (!bound.Intersects(ray))
@@ -438,7 +436,7 @@ void Quadtree<T>::ForEachIntersectingItem(
 }
 
 template <typename T>
-ClosestIntersectionQueryResult2<T> Quadtree<T>::GetClosestIntersection(
+ClosestIntersectionQueryResult2<T> Quadtree<T>::ClosestIntersection(
     const Ray2D& ray, const GetRayIntersectionFunc2<T>& testFunc,
     size_t nodeIdx, const BoundingBox2D& bound,
     ClosestIntersectionQueryResult2<T> best) const
@@ -467,7 +465,7 @@ ClosestIntersectionQueryResult2<T> Quadtree<T>::GetClosestIntersection(
     {
         for (int i = 0; i < 4; ++i)
         {
-            best = GetClosestIntersection(
+            best = ClosestIntersection(
                 ray, testFunc, node.firstChild + i,
                 BoundingBox2D{ bound.Corner(i), bound.MidPoint() }, best);
         }

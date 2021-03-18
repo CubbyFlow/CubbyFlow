@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_OCTREE_HPP
 #define CUBBYFLOW_OCTREE_HPP
 
-#include <Core/QueryEngine/IntersectionQueryEngine3.hpp>
-#include <Core/QueryEngine/NearestNeighborQueryEngine3.hpp>
+#include <Core/QueryEngine/IntersectionQueryEngine.hpp>
+#include <Core/QueryEngine/NearestNeighborQueryEngine.hpp>
 
 namespace CubbyFlow
 {
@@ -62,32 +62,32 @@ class Octree final : public IntersectionQueryEngine3<T>,
 
     //! Returns the nearest neighbor for given point and distance measure
     //! function.
-    [[nodiscard]] NearestNeighborQueryResult3<T> GetNearestNeighbor(
+    [[nodiscard]] NearestNeighborQueryResult3<T> Nearest(
         const Vector3D& pt,
         const NearestNeighborDistanceFunc3<T>& distanceFunc) const override;
 
     //! Returns true if given \p box intersects with any of the stored items.
-    [[nodiscard]] bool IsIntersects(
+    [[nodiscard]] bool Intersects(
         const BoundingBox3D& box,
         const BoxIntersectionTestFunc3<T>& testFunc) const override;
 
     //! Returns true if given \p ray intersects with any of the stored items.
-    [[nodiscard]] bool IsIntersects(
+    [[nodiscard]] bool Intersects(
         const Ray3D& ray,
         const RayIntersectionTestFunc3<T>& testFunc) const override;
 
     //! Invokes \p visitorFunc for every intersecting items.
     void ForEachIntersectingItem(
         const BoundingBox3D& box, const BoxIntersectionTestFunc3<T>& testFunc,
-        const IntersectionVisitorFunc3<T>& visitorFunc) const override;
+        const IntersectionVisitorFunc<T>& visitorFunc) const override;
 
     //! Invokes \p visitorFunc for every intersecting items.
     void ForEachIntersectingItem(
         const Ray3D& ray, const RayIntersectionTestFunc3<T>& testFunc,
-        const IntersectionVisitorFunc3<T>& visitorFunc) const override;
+        const IntersectionVisitorFunc<T>& visitorFunc) const override;
 
     //! Returns the closest intersection for given \p ray.
-    [[nodiscard]] ClosestIntersectionQueryResult3<T> GetClosestIntersection(
+    [[nodiscard]] ClosestIntersectionQueryResult3<T> ClosestIntersection(
         const Ray3D& ray,
         const GetRayIntersectionFunc3<T>& testFunc) const override;
 
@@ -148,28 +148,28 @@ class Octree final : public IntersectionQueryEngine3<T>,
     void Build(size_t nodeIdx, size_t Depth, const BoundingBox3D& Bound,
                const BoxIntersectionTestFunc3<T>& testFunc);
 
-    bool IsIntersects(const BoundingBox3D& box,
+    bool Intersects(const BoundingBox3D& box,
                       const BoxIntersectionTestFunc3<T>& testFunc,
                       size_t nodeIdx, const BoundingBox3D& Bound) const;
 
-    [[nodiscard]] bool IsIntersects(const Ray3D& ray,
+    [[nodiscard]] bool Intersects(const Ray3D& ray,
                                     const RayIntersectionTestFunc3<T>& testFunc,
                                     size_t nodeIdx,
                                     const BoundingBox3D& Bound) const;
 
     void ForEachIntersectingItem(const BoundingBox3D& box,
                                  const BoxIntersectionTestFunc3<T>& testFunc,
-                                 const IntersectionVisitorFunc3<T>& visitorFunc,
+                                 const IntersectionVisitorFunc<T>& visitorFunc,
                                  size_t nodeIdx,
                                  const BoundingBox3D& Bound) const;
 
     void ForEachIntersectingItem(const Ray3D& ray,
                                  const RayIntersectionTestFunc3<T>& testFunc,
-                                 const IntersectionVisitorFunc3<T>& visitorFunc,
+                                 const IntersectionVisitorFunc<T>& visitorFunc,
                                  size_t nodeIdx,
                                  const BoundingBox3D& Bound) const;
 
-    [[nodiscard]] ClosestIntersectionQueryResult3<T> GetClosestIntersection(
+    [[nodiscard]] ClosestIntersectionQueryResult3<T> ClosestIntersection(
         const Ray3D& ray, const GetRayIntersectionFunc3<T>& testFunc,
         size_t nodeIdx, const BoundingBox3D& Bound,
         ClosestIntersectionQueryResult3<T> best) const;

@@ -11,8 +11,8 @@
 #ifndef CUBBYFLOW_BVH2_HPP
 #define CUBBYFLOW_BVH2_HPP
 
-#include <Core/QueryEngine/IntersectionQueryEngine2.hpp>
-#include <Core/QueryEngine/NearestNeighborQueryEngine2.hpp>
+#include <Core/QueryEngine/IntersectionQueryEngine.hpp>
+#include <Core/QueryEngine/NearestNeighborQueryEngine.hpp>
 
 #include <vector>
 
@@ -62,32 +62,32 @@ class BVH2 final : public IntersectionQueryEngine2<T>,
 
     //! Returns the nearest neighbor for given point and distance measure
     //! function.
-    [[nodiscard]] NearestNeighborQueryResult2<T> GetNearestNeighbor(
+    [[nodiscard]] NearestNeighborQueryResult2<T> Nearest(
         const Vector2D& pt,
         const NearestNeighborDistanceFunc2<T>& distanceFunc) const override;
 
     //! Returns true if given \p box intersects with any of the stored items.
-    [[nodiscard]] bool IsIntersects(
+    [[nodiscard]] bool Intersects(
         const BoundingBox2D& box,
         const BoxIntersectionTestFunc2<T>& testFunc) const override;
 
     //! Returns true if given \p ray intersects with any of the stored items.
-    [[nodiscard]] bool IsIntersects(
+    [[nodiscard]] bool Intersects(
         const Ray2D& ray,
         const RayIntersectionTestFunc2<T>& testFunc) const override;
 
     //! Invokes \p visitorFunc for every intersecting items.
     void ForEachIntersectingItem(
         const BoundingBox2D& box, const BoxIntersectionTestFunc2<T>& testFunc,
-        const IntersectionVisitorFunc2<T>& visitorFunc) const override;
+        const IntersectionVisitorFunc<T>& visitorFunc) const override;
 
     //! Invokes \p visitorFunc for every intersecting items.
     void ForEachIntersectingItem(
         const Ray2D& ray, const RayIntersectionTestFunc2<T>& testFunc,
-        const IntersectionVisitorFunc2<T>& visitorFunc) const override;
+        const IntersectionVisitorFunc<T>& visitorFunc) const override;
 
     //! Returns the closest intersection for given \p ray.
-    [[nodiscard]] ClosestIntersectionQueryResult2<T> GetClosestIntersection(
+    [[nodiscard]] ClosestIntersectionQueryResult2<T> ClosestIntersection(
         const Ray2D& ray,
         const GetRayIntersectionFunc2<T>& testFunc) const override;
 
