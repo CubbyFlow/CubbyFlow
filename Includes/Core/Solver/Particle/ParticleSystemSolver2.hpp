@@ -14,7 +14,7 @@
 #include <Core/Animation/PhysicsAnimation.hpp>
 #include <Core/Emitter/ParticleEmitter2.hpp>
 #include <Core/Field/VectorField2.hpp>
-#include <Core/Geometry/Collider2.hpp>
+#include <Core/Geometry/Collider.hpp>
 #include <Core/Matrix/Matrix.hpp>
 #include <Core/Particle/ParticleSystemData2.hpp>
 #include <Core/Utils/Constants.hpp>

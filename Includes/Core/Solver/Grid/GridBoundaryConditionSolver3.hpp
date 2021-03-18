@@ -12,7 +12,7 @@
 #define CUBBYFLOW_GRID_BOUNDARY_CONDITION_SOLVER3_HPP
 
 #include <Core/Field/ScalarField3.hpp>
-#include <Core/Geometry/Collider3.hpp>
+#include <Core/Geometry/Collider.hpp>
 #include <Core/Grid/FaceCenteredGrid3.hpp>
 
 namespace CubbyFlow

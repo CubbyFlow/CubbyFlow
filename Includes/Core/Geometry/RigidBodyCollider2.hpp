@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_RIGID_BODY_COLLIDER2_HPP
 #define CUBBYFLOW_RIGID_BODY_COLLIDER2_HPP
 
-#include <Core/Geometry/Collider2.hpp>
+#include <Core/Geometry/Collider.hpp>
 
 namespace CubbyFlow
 {
