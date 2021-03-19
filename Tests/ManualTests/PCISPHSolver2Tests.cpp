@@ -3,9 +3,9 @@
 #include <ManualTests.hpp>
 
 #include <Core/Emitter/VolumeParticleEmitter2.hpp>
-#include <Core/Geometry/Box2.hpp>
+#include <Core/Geometry/Box.hpp>
 #include <Core/Geometry/ImplicitSurfaceSet2.hpp>
-#include <Core/Geometry/Plane2.hpp>
+#include <Core/Geometry/Plane.hpp>
 #include <Core/Geometry/RigidBodyCollider2.hpp>
 #include <Core/Geometry/Sphere2.hpp>
 #include <Core/Geometry/SurfaceToImplicit2.hpp>

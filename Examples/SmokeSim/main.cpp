@@ -12,7 +12,7 @@
 
 #include <Core/Array/Array.hpp>
 #include <Core/Emitter/VolumeGridEmitter3.hpp>
-#include <Core/Geometry/Box3.hpp>
+#include <Core/Geometry/Box.hpp>
 #include <Core/Geometry/ImplicitTriangleMesh3.hpp>
 #include <Core/Geometry/RigidBodyCollider3.hpp>
 #include <Core/Geometry/Sphere3.hpp>

@@ -1,7 +1,7 @@
 #include "pch.hpp"
 
-#include <Core/Geometry/Box3.hpp>
-#include <Core/Geometry/Plane3.hpp>
+#include <Core/Geometry/Box.hpp>
+#include <Core/Geometry/Plane.hpp>
 #include <Core/Geometry/SurfaceSet3.hpp>
 #include <Core/Geometry/SurfaceToImplicit3.hpp>
 

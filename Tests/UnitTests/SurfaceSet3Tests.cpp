@@ -1,7 +1,7 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
-#include <Core/Geometry/Plane3.hpp>
+#include <Core/Geometry/Plane.hpp>
 #include <Core/Geometry/Sphere3.hpp>
 #include <Core/Geometry/SurfaceSet3.hpp>
 

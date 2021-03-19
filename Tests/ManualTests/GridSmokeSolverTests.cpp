@@ -2,8 +2,7 @@
 
 #include <Core/Emitter/VolumeGridEmitter2.hpp>
 #include <Core/Emitter/VolumeGridEmitter3.hpp>
-#include <Core/Geometry/Box2.hpp>
-#include <Core/Geometry/Box3.hpp>
+#include <Core/Geometry/Box.hpp>
 #include <Core/Geometry/RigidBodyCollider2.hpp>
 #include <Core/Geometry/RigidBodyCollider3.hpp>
 #include <Core/Geometry/Sphere2.hpp>

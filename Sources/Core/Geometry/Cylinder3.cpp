@@ -8,9 +8,9 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Geometry/Box2.hpp>
+#include <Core/Geometry/Box.hpp>
 #include <Core/Geometry/Cylinder3.hpp>
-#include <Core/Geometry/Plane3.hpp>
+#include <Core/Geometry/Plane.hpp>
 
 #include <utility>
 

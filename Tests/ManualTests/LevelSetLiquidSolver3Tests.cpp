@@ -3,7 +3,7 @@
 #include <Core/Array/Array.hpp>
 #include <Core/Geometry/ImplicitSurfaceSet3.hpp>
 #include <Core/Geometry/MarchingCubes.hpp>
-#include <Core/Geometry/Plane3.hpp>
+#include <Core/Geometry/Plane.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver3.hpp>
 #include <Core/Utils/LevelSetUtils.hpp>
 
