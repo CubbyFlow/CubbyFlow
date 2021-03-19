@@ -151,8 +151,7 @@ $(function() {
 <li>MakeShared()
 : <a class="el" href="class_cubby_flow_1_1_a_p_i_c_solver2_1_1_builder.html#a354fa58ff06512d5d51b2507e98d11a3">CubbyFlow::APICSolver2::Builder</a>
 , <a class="el" href="class_cubby_flow_1_1_a_p_i_c_solver3_1_1_builder.html#ad13f6d0405c7b85170f9b4d3ace3dbc9">CubbyFlow::APICSolver3::Builder</a>
-, <a class="el" href="class_cubby_flow_1_1_box2_1_1_builder.html#aa3b6319d1d37275e12574eb7ce669fbe">CubbyFlow::Box2::Builder</a>
-, <a class="el" href="class_cubby_flow_1_1_box3_1_1_builder.html#a59a09375b71623c265f9d3fc92937ef2">CubbyFlow::Box3::Builder</a>
+, <a class="el" href="class_cubby_flow_1_1_box_1_1_builder.html#a7972022046f9ccd9f10f398dfdcc1899">CubbyFlow::Box&lt; N &gt;::Builder</a>
 , <a class="el" href="class_cubby_flow_1_1_cell_centered_scalar_grid2_1_1_builder.html#ab89020044e6afd15389658fb813fcbe2">CubbyFlow::CellCenteredScalarGrid2::Builder</a>
 , <a class="el" href="class_cubby_flow_1_1_cell_centered_scalar_grid3_1_1_builder.html#aed2207e09fa24419ff02bf8775ff6953">CubbyFlow::CellCenteredScalarGrid3::Builder</a>
 , <a class="el" href="class_cubby_flow_1_1_cell_centered_vector_grid2_1_1_builder.html#adc92465608205b4056535e08fe3a3f4a">CubbyFlow::CellCenteredVectorGrid2::Builder</a>
@@ -193,8 +192,7 @@ $(function() {
 , <a class="el" href="class_cubby_flow_1_1_p_c_i_s_p_h_solver3_1_1_builder.html#a25499bb64cd4174e8a97ae7ea657f37e">CubbyFlow::PCISPHSolver3::Builder</a>
 , <a class="el" href="class_cubby_flow_1_1_p_i_c_solver2_1_1_builder.html#a472438733eac8ea5c691db8feaa64c37">CubbyFlow::PICSolver2::Builder</a>
 , <a class="el" href="class_cubby_flow_1_1_p_i_c_solver3_1_1_builder.html#a89872390571970d806dc80859e832a62">CubbyFlow::PICSolver3::Builder</a>
-, <a class="el" href="class_cubby_flow_1_1_plane2_1_1_builder.html#ade6bc1458c7dd672bb66e059f7c4b90f">CubbyFlow::Plane2::Builder</a>
-, <a class="el" href="class_cubby_flow_1_1_plane3_1_1_builder.html#ab1d20ae5e959fac68ef3f2c05ab96ea5">CubbyFlow::Plane3::Builder</a>
+, <a class="el" href="class_cubby_flow_1_1_plane_1_1_builder.html#a3e037a2816b4c56734ac6e12f7cb5b4c">CubbyFlow::Plane&lt; N &gt;::Builder</a>
 , <a class="el" href="class_cubby_flow_1_1_point_hash_grid_searcher2_1_1_builder.html#a65f949b9ee599b9b2276f298324ca0db">CubbyFlow::PointHashGridSearcher2::Builder</a>
 , <a class="el" href="class_cubby_flow_1_1_point_hash_grid_searcher3_1_1_builder.html#a51d562c2430c764d4156effb2f15a708">CubbyFlow::PointHashGridSearcher3::Builder</a>
 , <a class="el" href="class_cubby_flow_1_1_point_kd_tree_searcher2_1_1_builder.html#ac0dd5e3ef85ef4b5fe3754f705dbbdf1">CubbyFlow::PointKdTreeSearcher2::Builder</a>
@@ -229,16 +227,34 @@ $(function() {
 <li>MakeTranslationMatrix()
 : <a class="el" href="class_cubby_flow_1_1_matrix_dense_base.html#a73816d6c8353c101c2106378d2d778ff">CubbyFlow::MatrixDenseBase&lt; T, Rows, Cols, Derived &gt;</a>
 </li>
+<li>MakeUnitW()
+: <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_014_00_011_01_4.html#af7c8f681677ea7ca0512712c310879b8">CubbyFlow::Matrix&lt; T, 4, 1 &gt;</a>
+</li>
+<li>MakeUnitX()
+: <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_011_00_011_01_4.html#a8288ee564be172793e699e1f08f31e1b">CubbyFlow::Matrix&lt; T, 1, 1 &gt;</a>
+, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_012_00_011_01_4.html#a507fffe314646d3be18623f8ec84260c">CubbyFlow::Matrix&lt; T, 2, 1 &gt;</a>
+, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_013_00_011_01_4.html#a8ba80c8418308053f4414e6f13565d0b">CubbyFlow::Matrix&lt; T, 3, 1 &gt;</a>
+, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_014_00_011_01_4.html#a90ff29b124c4c03a7803af49fcae181f">CubbyFlow::Matrix&lt; T, 4, 1 &gt;</a>
+</li>
+<li>MakeUnitY()
+: <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_012_00_011_01_4.html#a51c0fcc43658fbb8855557bdcd65eccb">CubbyFlow::Matrix&lt; T, 2, 1 &gt;</a>
+, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_013_00_011_01_4.html#ad882a8638cc5a0870f4356dc2e662a05">CubbyFlow::Matrix&lt; T, 3, 1 &gt;</a>
+, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_014_00_011_01_4.html#af4112d03cdb65b5d2e5756938786eb74">CubbyFlow::Matrix&lt; T, 4, 1 &gt;</a>
+</li>
+<li>MakeUnitZ()
+: <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_013_00_011_01_4.html#aa34706c34ff0daf6a46fc23f5b036a89">CubbyFlow::Matrix&lt; T, 3, 1 &gt;</a>
+, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_014_00_011_01_4.html#a9f3d5aafdd85b9d755f23461db2e6881">CubbyFlow::Matrix&lt; T, 4, 1 &gt;</a>
+</li>
 <li>MakeZero()
 : <a class="el" href="class_cubby_flow_1_1_matrix_dense_base.html#a42058b277f9bc48ff409d8a6c214d25a">CubbyFlow::MatrixDenseBase&lt; T, Rows, Cols, Derived &gt;</a>
 </li>
 <li>Matrix()
-: <a class="el" href="class_cubby_flow_1_1_matrix.html#a79402f13066ca844cac27ceace45ea4d">CubbyFlow::Matrix&lt; T, Rows, Cols &gt;</a>
-, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_011_00_011_01_4.html#ad69bb1ed11174a4752301c29dc40f756">CubbyFlow::Matrix&lt; T, 1, 1 &gt;</a>
+: <a class="el" href="class_cubby_flow_1_1_matrix.html#a288d3a98ecb783ec2d22ee247a672b0f">CubbyFlow::Matrix&lt; T, Rows, Cols &gt;</a>
+, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_011_00_011_01_4.html#ac0f36207b5705db070cdf43b9a9375db">CubbyFlow::Matrix&lt; T, 1, 1 &gt;</a>
 , <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_012_00_011_01_4.html#aed8b566bc401b5cd27487e1a4583252d">CubbyFlow::Matrix&lt; T, 2, 1 &gt;</a>
-, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_013_00_011_01_4.html#a1e889120591a44cf23a87dd129866bf9">CubbyFlow::Matrix&lt; T, 3, 1 &gt;</a>
-, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_014_00_011_01_4.html#a3bd319fa1d95140c7453030e0aff381a">CubbyFlow::Matrix&lt; T, 4, 1 &gt;</a>
-, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_01_m_a_t_r_i_x___s_i_z_e___d_y_n_a_m_i_c_00_011_01_4.html#a10ef196c7ad3144b8014f773488d496e">CubbyFlow::Matrix&lt; T, MATRIX_SIZE_DYNAMIC, 1 &gt;</a>
+, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_013_00_011_01_4.html#a2960231477ee8236ae7a14fe520d21e3">CubbyFlow::Matrix&lt; T, 3, 1 &gt;</a>
+, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_014_00_011_01_4.html#a59b9088194c2cf91063b22686a5a9f62">CubbyFlow::Matrix&lt; T, 4, 1 &gt;</a>
+, <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_01_m_a_t_r_i_x___s_i_z_e___d_y_n_a_m_i_c_00_011_01_4.html#ae6263f6225cea82a92ab338649bd9c82">CubbyFlow::Matrix&lt; T, MATRIX_SIZE_DYNAMIC, 1 &gt;</a>
 , <a class="el" href="class_cubby_flow_1_1_matrix_3_01_t_00_01_m_a_t_r_i_x___s_i_z_e___d_y_n_a_m_i_c_00_01_m_a_t_r_i_x___s_i_z_e___d_y_n_a_m_i_c_01_4.html#a3e134690ba2b5b0fb49a5bfb8c294d2c">CubbyFlow::Matrix&lt; T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC &gt;</a>
 </li>
 <li>Matrix3()
@@ -251,7 +267,7 @@ $(function() {
 : <a class="el" href="class_cubby_flow_1_1_matrix_constant.html#a9955dbc38f44b4334b8eee8fdd9a07da">CubbyFlow::MatrixConstant&lt; T, Rows, Cols &gt;</a>
 </li>
 <li>MatrixCSR()
-: <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a7a223794f39372903980ce7fa8563abc">CubbyFlow::MatrixCSR&lt; T &gt;</a>
+: <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a6a2b4e5f11e61a9474cdb095d697d27f">CubbyFlow::MatrixCSR&lt; T &gt;</a>
 </li>
 <li>MatrixCSRMatrixMul()
 : <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r_matrix_mul.html#a7ba6b497a3d393d7adccdab54147c6f0">CubbyFlow::MatrixCSRMatrixMul&lt; T, ME &gt;</a>
@@ -344,7 +360,7 @@ $(function() {
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Mar 18 2021 14:55:15 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 19 2021 16:30:00 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

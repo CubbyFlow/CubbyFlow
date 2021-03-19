@@ -218,6 +218,8 @@ var searchData=
   ['surfacebuilderbase',['SurfaceBuilderBase',['../class_cubby_flow_1_1_surface_builder_base.html',1,'CubbyFlow']]],
   ['surfacebuilderbase2',['SurfaceBuilderBase2',['../namespace_cubby_flow.html#a7bcfb60df0e4e98f9375b85268712c97',1,'CubbyFlow']]],
   ['surfacebuilderbase3',['SurfaceBuilderBase3',['../namespace_cubby_flow.html#a44c8ed2680384a4b9f28a42da85caf28',1,'CubbyFlow']]],
+  ['surfacebuilderbase_3c_20n_2c_20box_3c_20n_20_3e_3a_3abuilder_20_3e',['SurfaceBuilderBase&lt; N, Box&lt; N &gt;::Builder &gt;',['../class_cubby_flow_1_1_surface_builder_base.html',1,'CubbyFlow']]],
+  ['surfacebuilderbase_3c_20n_2c_20plane_3c_20n_20_3e_3a_3abuilder_20_3e',['SurfaceBuilderBase&lt; N, Plane&lt; N &gt;::Builder &gt;',['../class_cubby_flow_1_1_surface_builder_base.html',1,'CubbyFlow']]],
   ['surfacerayintersection',['SurfaceRayIntersection',['../struct_cubby_flow_1_1_surface_ray_intersection.html',1,'CubbyFlow']]],
   ['surfacerayintersection2',['SurfaceRayIntersection2',['../namespace_cubby_flow.html#a22bd8a84e99a19d62bbe8d1ac37993f0',1,'CubbyFlow']]],
   ['surfacerayintersection3',['SurfaceRayIntersection3',['../namespace_cubby_flow.html#a3a3658845a0a2f833a171bc9109ad87e',1,'CubbyFlow']]],

@@ -8,7 +8,7 @@
         <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
         <meta name="generator" content="Doxygen 1.8.13"/>
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <title>CubbyFlow: Core/Geometry/Box2.hpp File Reference</title>
+        <title>CubbyFlow: API/Python/Geometry/Box.hpp File Reference</title>
         <!--<link href="tabs.css" rel="stylesheet" type="text/css"/>-->
         <script type="text/javascript" src="dynsections.js"></script>
         <link href="search/search.css" rel="stylesheet" type="text/css"/>
@@ -68,42 +68,64 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_c6310732a22f63c0c2fc5595561e68f1.html">Core</a></li><li class="navelem"><a class="el" href="dir_41c864f8b362cbf9598de792bd07bfbb.html">Geometry</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_19ea4dbfe8f0e4681f60b9b97f7b5d11.html">API</a></li><li class="navelem"><a class="el" href="dir_64f1ee62b3de5469433693db05eb8ed9.html">Python</a></li><li class="navelem"><a class="el" href="dir_de47c616555cf42b24e17349f851a42d.html">Geometry</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#typedef-members">Typedefs</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">Box2.hpp File Reference</div>  </div>
+<div class="title">Box.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;<a class="el" href="_core_2_geometry_2_surface_8hpp_source.html">Core/Geometry/Surface.hpp</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;pybind11/pybind11.h&gt;</code><br />
 </div>
-<p><a href="_box2_8hpp_source.html">Go to the source code of this file.</a></p>
+<p><a href="_a_p_i_2_python_2_geometry_2_box_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_box2.html">CubbyFlow::Box2</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">2-D box geometry.  <a href="class_cubby_flow_1_1_box2.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_box2_1_1_builder.html">CubbyFlow::Box2::Builder</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Front-end to create <a class="el" href="class_cubby_flow_1_1_box2.html" title="2-D box geometry. ">Box2</a> objects step by step.  <a href="class_cubby_flow_1_1_box2_1_1_builder.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:namespace_cubby_flow"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html">CubbyFlow</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a61690196bb15c931f18fc50f6cc654ec"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#a61690196bb15c931f18fc50f6cc654ec">CubbyFlow::Box2Ptr</a> = std::shared_ptr&lt; Box2 &gt;</td></tr>
-<tr class="memdesc:a61690196bb15c931f18fc50f6cc654ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared pointer type for the <a class="el" href="class_cubby_flow_1_1_box2.html" title="2-D box geometry. ">Box2</a>.  <a href="namespace_cubby_flow.html#a61690196bb15c931f18fc50f6cc654ec">More...</a><br /></td></tr>
-<tr class="separator:a61690196bb15c931f18fc50f6cc654ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a6987f862969dc422b62ac8618923529e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_a_p_i_2_python_2_geometry_2_box_8hpp.html#a6987f862969dc422b62ac8618923529e">AddBox2</a> (pybind11::module &amp;m)</td></tr>
+<tr class="separator:a6987f862969dc422b62ac8618923529e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71c7b0c405cf4b4bcfc0086c04bb95e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_a_p_i_2_python_2_geometry_2_box_8hpp.html#a71c7b0c405cf4b4bcfc0086c04bb95e6">AddBox3</a> (pybind11::module &amp;m)</td></tr>
+<tr class="separator:a71c7b0c405cf4b4bcfc0086c04bb95e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a6987f862969dc422b62ac8618923529e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6987f862969dc422b62ac8618923529e">&#9670;&nbsp;</a></span>AddBox2()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AddBox2 </td>
+          <td>(</td>
+          <td class="paramtype">pybind11::module &amp;&#160;</td>
+          <td class="paramname"><em>m</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a71c7b0c405cf4b4bcfc0086c04bb95e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71c7b0c405cf4b4bcfc0086c04bb95e6">&#9670;&nbsp;</a></span>AddBox3()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AddBox3 </td>
+          <td>(</td>
+          <td class="paramtype">pybind11::module &amp;&#160;</td>
+          <td class="paramname"><em>m</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -113,7 +135,7 @@ Typedefs</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Mar 18 2021 14:55:12 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 19 2021 16:29:57 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
