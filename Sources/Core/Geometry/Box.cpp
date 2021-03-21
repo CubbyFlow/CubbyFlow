@@ -161,7 +161,7 @@ SurfaceRayIntersection<N> Box<N>::ClosestIntersectionLocal(
     {
         intersection.distance = bbRayIntersection.near;
         intersection.point = ray.PointAt(bbRayIntersection.near);
-        intersection.normal = Box<N>::ClosestNormal(intersection.point);
+        intersection.normal = ClosestNormalLocal(intersection.point);
     }
 
     return intersection;
