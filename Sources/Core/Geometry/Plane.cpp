@@ -112,7 +112,7 @@ BoundingBox<double, N> Plane<N>::BoundingBoxLocal() const
     }
 
     // Otherwise, the plane does not have bbox.
-    return BoundingBox<double, N>{ -maxCorner, maxCorner };
+    return BoundingBox<double, N>{ maxCorner, maxCorner };
 }
 
 template <size_t N>
