@@ -43,6 +43,9 @@ class SurfaceSet final : public Surface<N>
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;
 
+    //! Returns true if bounding box can be defined.
+    bool IsBounded() const override;
+
     //! Returns true if the surface is a valid geometry.
     bool IsValidGeometry() const override;
 

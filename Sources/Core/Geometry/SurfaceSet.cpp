@@ -47,6 +47,22 @@ void SurfaceSet<N>::UpdateQueryEngine()
 }
 
 template <size_t N>
+bool SurfaceSet<N>::IsBounded() const
+{
+    // All surfaces should be bounded
+    for (const auto& surface : m_surfaces)
+    {
+        if (!surface->IsBounded())
+        {
+            return false;
+        }
+    }
+
+    // Empty set is not bounded
+    return !m_surfaces.IsEmpty();
+}
+
+template <size_t N>
 bool SurfaceSet<N>::IsValidGeometry() const
 {
     // All surfaces should be valid.
