@@ -99,6 +99,24 @@ class BVH final : public IntersectionQueryEngine<T, N>,
     //! Returns the item at \p i.
     const T& Item(size_t i) const;
 
+    //! Returns the number of nodes.
+    size_t NumberOfNodes() const;
+
+    //! Returns the children indices of \p i-th node.
+    std::pair<size_t, size_t> Children(size_t i) const;
+
+    //! Returns true if \p i-th node is a leaf node.
+    bool IsLeaf(size_t i) const;
+
+    //! Returns bounding box of \p i-th node.
+    const BoundingBox<double, N>& NodeBound(size_t i) const;
+
+    //! Returns item of \p i-th node.
+    Iterator ItemOfNode(size_t i);
+
+    //! Returns item of \p i-th node.
+    ConstIterator ItemOfNode(size_t i) const;
+
  private:
     struct Node
     {

@@ -599,6 +599,58 @@ const T& BVH<T, N>::Item(size_t i) const
 }
 
 template <typename T, size_t N>
+size_t BVH<T, N>::NumberOfNodes() const
+{
+    return m_nodes.Length();
+}
+
+template <typename T, size_t N>
+std::pair<size_t, size_t> BVH<T, N>::Children(size_t i) const
+{
+    if (IsLeaf(i))
+    {
+        return std::make_pair(std::numeric_limits<size_t>::max(),
+                              std::numeric_limits<size_t>::max());
+    }
+
+    return std::make_pair(i + 1, m_nodes[i].child);
+}
+
+template <typename T, size_t N>
+bool BVH<T, N>::IsLeaf(size_t i) const
+{
+    return m_nodes[i].IsLeaf();
+}
+
+template <typename T, size_t N>
+const BoundingBox<double, N>& BVH<T, N>::NodeBound(size_t i) const
+{
+    return m_nodes[i].bound;
+}
+
+template <typename T, size_t N>
+typename BVH<T, N>::Iterator BVH<T, N>::ItemOfNode(size_t i)
+{
+    if (IsLeaf(i))
+    {
+        return m_nodes[i].item + begin();
+    }
+
+    return end();
+}
+
+template <typename T, size_t N>
+typename BVH<T, N>::ConstIterator BVH<T, N>::ItemOfNode(size_t i) const
+{
+    if (IsLeaf(i))
+    {
+        return m_nodes[i].item + begin();
+    }
+
+    return end();
+}
+
+template <typename T, size_t N>
 size_t BVH<T, N>::Build(size_t nodeIndex, size_t* itemIndices, size_t nItems,
                         size_t currentDepth)
 {
