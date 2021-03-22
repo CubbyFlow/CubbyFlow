@@ -229,7 +229,7 @@ bool BVH<T, N>::Intersects(const BoundingBox<double, N>& box,
         {
             // get node children pointers for box
             const Node* firstChild = node + 1;
-            const Node* secondChild = static_cast<Node*>(&m_nodes[node->child]);
+            const Node* secondChild = const_cast<Node*>(&m_nodes[node->child]);
 
             // advance to next child node, possibly enqueue other child
             if (!firstChild->bound.Overlaps(box))
@@ -300,11 +300,11 @@ bool BVH<T, N>::Intersects(const Ray<double, N>& ray,
             if (ray.direction[node->flags] > 0.0)
             {
                 firstChild = node + 1;
-                secondChild = static_cast<Node*>(&m_nodes[node->child]);
+                secondChild = const_cast<Node*>(&m_nodes[node->child]);
             }
             else
             {
-                firstChild = static_cast<Node*>(&m_nodes[node->child]);
+                firstChild = const_cast<Node*>(&m_nodes[node->child]);
                 secondChild = node + 1;
             }
 
@@ -374,7 +374,7 @@ void BVH<T, N>::ForEachIntersectingItem(
         {
             // get node children pointers for box
             const Node* firstChild = node + 1;
-            const Node* secondChild = static_cast<Node*>(&m_nodes[node->child]);
+            const Node* secondChild = const_cast<Node*>(&m_nodes[node->child]);
 
             // advance to next child node, possibly enqueue other child
             if (!firstChild->bound.Overlaps(box))
@@ -444,11 +444,11 @@ void BVH<T, N>::ForEachIntersectingItem(
             if (ray.direction[node->flags] > 0.0)
             {
                 firstChild = node + 1;
-                secondChild = static_cast<Node*>(&m_nodes[node->child]);
+                secondChild = const_cast<Node*>(&m_nodes[node->child]);
             }
             else
             {
-                firstChild = static_cast<Node*>(&m_nodes[node->child]);
+                firstChild = const_cast<Node*>(&m_nodes[node->child]);
                 secondChild = node + 1;
             }
 
@@ -526,11 +526,11 @@ ClosestIntersectionQueryResult<T, N> BVH<T, N>::ClosestIntersection(
             if (ray.direction[node->flags] > 0.0)
             {
                 firstChild = node + 1;
-                secondChild = static_cast<Node*>(&m_nodes[node->child]);
+                secondChild = const_cast<Node*>(&m_nodes[node->child]);
             }
             else
             {
-                firstChild = static_cast<Node*>(&m_nodes[node->child]);
+                firstChild = const_cast<Node*>(&m_nodes[node->child]);
                 secondChild = node + 1;
             }
 
@@ -589,7 +589,7 @@ typename BVH<T, N>::ConstIterator BVH<T, N>::end() const
 template <typename T, size_t N>
 size_t BVH<T, N>::NumberOfItems() const
 {
-    return m_items.Size();
+    return m_items.Length();
 }
 
 template <typename T, size_t N>
