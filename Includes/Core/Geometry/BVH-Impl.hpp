@@ -58,6 +58,7 @@ void BVH<T, N>::Build(
     }
 
     m_nodes.Clear();
+    m_bound = BoundingBox<double, N>{};
 
     for (size_t i = 0; i < m_items.Length(); ++i)
     {
