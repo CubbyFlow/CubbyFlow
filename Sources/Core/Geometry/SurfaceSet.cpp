@@ -114,10 +114,10 @@ Vector<double, N> SurfaceSet<N>::ClosestPointLocal(
         return surface->ClosestDistance(pt);
     };
 
-    Vector<double, N> result{ std::numeric_limits<double>::max(),
-                              std::numeric_limits<double>::max() };
-    const auto queryResult = m_bvh.Nearest(otherPoint, distanceFunc);
+    Vector<double, N> result;
+    result.Fill(std::numeric_limits<double>::max());
 
+    const auto queryResult = m_bvh.Nearest(otherPoint, distanceFunc);
     if (queryResult.item != nullptr)
     {
         result = (*queryResult.item)->ClosestPoint(otherPoint);
