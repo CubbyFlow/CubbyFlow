@@ -295,17 +295,19 @@ void SurfaceSet<N>::BuildBVH() const
 {
     if (m_bvhInvalidated)
     {
+        Array1<std::shared_ptr<Surface<N>>> surfs;
         Array1<BoundingBox<double, N>> bounds;
 
-        for (size_t i = 0; i < m_surfaces.Length(); ++i)
+        for (const auto& surface : m_surfaces)
         {
-            if (m_surfaces[i]->IsBounded())
+            if (surface->IsBounded())
             {
-                bounds.Append(m_surfaces[i]->GetBoundingBox());
+                surfs.Append(surface);
+                bounds.Append(surface->GetBoundingBox());
             }
         }
 
-        m_bvh.Build(m_surfaces, bounds);
+        m_bvh.Build(surfs, bounds);
         m_bvhInvalidated = false;
     }
 }
