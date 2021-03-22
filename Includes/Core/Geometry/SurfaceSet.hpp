@@ -101,7 +101,8 @@ using SurfaceSet3Ptr = std::shared_ptr<SurfaceSet3>;
 //! \brief Front-end to create SurfaceSet objects step by step.
 //!
 template <size_t N>
-class SurfaceSet<N>::Builder final : public SurfaceBuilderBase<N, SurfaceSet<N>>
+class SurfaceSet<N>::Builder final
+    : public SurfaceBuilderBase<N, typename SurfaceSet<N>::Builder>
 {
  public:
     //! Returns builder with other surfaces.
@@ -114,7 +115,7 @@ class SurfaceSet<N>::Builder final : public SurfaceBuilderBase<N, SurfaceSet<N>>
     std::shared_ptr<SurfaceSet<N>> MakeShared() const;
 
  private:
-    using Base = SurfaceBuilderBase<N, SurfaceSet<N>>;
+    using Base = SurfaceBuilderBase<N, typename SurfaceSet<N>::Builder>;
     using Base::m_isNormalFlipped;
     using Base::m_transform;
 
