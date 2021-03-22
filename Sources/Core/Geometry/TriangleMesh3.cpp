@@ -61,7 +61,7 @@ WindingNumberGatherData PostOrderTraversal(
     }
     else
     {
-        const auto children = bvh.GetChildren(nodeIndex);
+        const auto children = bvh.Children(nodeIndex);
         data = data + PostOrderTraversal(bvh, children.first, visitorFunc,
                                          leafFunc, initGatherData);
         data = data + PostOrderTraversal(bvh, children.second, visitorFunc,
@@ -789,8 +789,8 @@ void TriangleMesh3::BuildBVH() const
     {
         const size_t nTris = NumberOfTriangles();
 
-        std::vector<size_t> ids(nTris);
-        std::vector<BoundingBox3D> bounds(nTris);
+        Array1<size_t> ids(nTris);
+        Array1<BoundingBox3D> bounds(nTris);
         for (size_t i = 0; i < nTris; ++i)
         {
             ids[i] = i;
@@ -810,7 +810,7 @@ void TriangleMesh3::BuildWindingNumbers() const
     {
         BuildBVH();
 
-        const size_t numNodes = m_bvh.GetNumberOfNodes();
+        const size_t numNodes = m_bvh.NumberOfNodes();
         m_wnAreaWeightedNormalSums.Resize(numNodes);
         m_wnAreaWeightedAvgPositions.Resize(numNodes);
 
@@ -824,7 +824,7 @@ void TriangleMesh3::BuildWindingNumbers() const
         const auto leafFunc = [&](size_t nodeIndex) -> WindingNumberGatherData {
             WindingNumberGatherData result;
 
-            const auto iter = m_bvh.GetItemOfNode(nodeIndex);
+            const auto iter = m_bvh.ItemOfNode(nodeIndex);
             assert(iter != m_bvh.end());
 
             Triangle3 tri = Triangle(*iter);
@@ -887,7 +887,7 @@ double TriangleMesh3::GetFastWindingNumber(const Vector3D& q,
     const double qToP2 = q.DistanceSquaredTo(treeP);
 
     const Vector3D& treeN = m_wnAreaWeightedNormalSums[rootNodeIndex];
-    const BoundingBox3D& treeBound = m_bvh.GetNodeBound(rootNodeIndex);
+    const BoundingBox3D& treeBound = m_bvh.NodeBound(rootNodeIndex);
     const Vector3D treeRVec =
         Max(treeP - treeBound.lowerCorner, treeBound.upperCorner - treeP);
     const double treeR = treeRVec.Length();
@@ -906,13 +906,13 @@ double TriangleMesh3::GetFastWindingNumber(const Vector3D& q,
         if (m_bvh.IsLeaf(rootNodeIndex))
         {
             // Case: q is nearby; use direct sum for tree¡¯s elements
-            const auto iter = m_bvh.GetItemOfNode(rootNodeIndex);
+            const auto iter = m_bvh.ItemOfNode(rootNodeIndex);
             return GetWindingNumber(q, *iter) * INV_FOUR_PI_DOUBLE;
         }
         else
         {
             // Case: Recursive call
-            const auto children = m_bvh.GetChildren(rootNodeIndex);
+            const auto children = m_bvh.Children(rootNodeIndex);
             double wn = 0.0;
             wn += GetFastWindingNumber(q, children.first, accuracy);
             wn += GetFastWindingNumber(q, children.second, accuracy);

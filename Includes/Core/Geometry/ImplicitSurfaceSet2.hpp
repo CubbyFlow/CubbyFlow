@@ -11,10 +11,9 @@
 #ifndef CUBBYFLOW_IMPLICIT_SURFACE_SET2_HPP
 #define CUBBYFLOW_IMPLICIT_SURFACE_SET2_HPP
 
-#include <Core/Geometry/BVH2.hpp>
+#include <Core/Array/Array.hpp>
+#include <Core/Geometry/BVH.hpp>
 #include <Core/Geometry/ImplicitSurface2.hpp>
-
-#include <vector>
 
 namespace CubbyFlow
 {
@@ -34,12 +33,12 @@ class ImplicitSurfaceSet2 final : public ImplicitSurface2
     ImplicitSurfaceSet2() = default;
 
     //! Constructs an implicit surface set using list of other surfaces.
-    explicit ImplicitSurfaceSet2(std::vector<ImplicitSurface2Ptr> surfaces,
+    explicit ImplicitSurfaceSet2(Array1<ImplicitSurface2Ptr> surfaces,
                                  const Transform2& _transform = Transform2{},
                                  bool _isNormalFlipped = false);
 
     //! Constructs an implicit surface set using list of other surfaces.
-    ImplicitSurfaceSet2(const std::vector<Surface2Ptr>& surfaces,
+    ImplicitSurfaceSet2(const Array1<Surface2Ptr>& surfaces,
                         const Transform2& _transform = Transform2{},
                         bool _isNormalFlipped = false);
 
@@ -110,8 +109,8 @@ class ImplicitSurfaceSet2 final : public ImplicitSurface2
 
     void BuildBVH() const;
 
-    std::vector<ImplicitSurface2Ptr> m_surfaces;
-    std::vector<ImplicitSurface2Ptr> m_unboundedSurfaces;
+    Array1<ImplicitSurface2Ptr> m_surfaces;
+    Array1<ImplicitSurface2Ptr> m_unboundedSurfaces;
     mutable BVH2<ImplicitSurface2Ptr> m_bvh;
     mutable bool m_bvhInvalidated = true;
 };
@@ -127,11 +126,11 @@ class ImplicitSurfaceSet2::Builder final : public SurfaceBuilderBase2<Builder>
  public:
     //! Returns builder with surfaces.
     [[nodiscard]] Builder& WithSurfaces(
-        const std::vector<ImplicitSurface2Ptr>& surfaces);
+        const Array1<ImplicitSurface2Ptr>& surfaces);
 
     //! Returns builder with explicit surfaces.
     [[nodiscard]] Builder& WithExplicitSurfaces(
-        const std::vector<Surface2Ptr>& surfaces);
+        const Array1<Surface2Ptr>& surfaces);
 
     //! Builds ImplicitSurfaceSet2.
     [[nodiscard]] ImplicitSurfaceSet2 Build() const;
@@ -140,7 +139,7 @@ class ImplicitSurfaceSet2::Builder final : public SurfaceBuilderBase2<Builder>
     [[nodiscard]] ImplicitSurfaceSet2Ptr MakeShared() const;
 
  private:
-    std::vector<ImplicitSurface2Ptr> m_surfaces;
+    Array1<ImplicitSurface2Ptr> m_surfaces;
 };
 }  // namespace CubbyFlow
 

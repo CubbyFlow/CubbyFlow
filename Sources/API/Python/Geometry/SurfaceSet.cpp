@@ -9,8 +9,7 @@
 // property of any third parties.
 
 #include <API/Python/Geometry/SurfaceSet.hpp>
-#include <Core/Geometry/SurfaceSet2.hpp>
-#include <Core/Geometry/SurfaceSet3.hpp>
+#include <Core/Geometry/SurfaceSet.hpp>
 
 #include <pybind11/pybind11.h>
 
@@ -30,11 +29,11 @@ void AddSurfaceSet2(pybind11::module& m)
             "__init__",
             [](SurfaceSet2& instance, pybind11::list others,
                const Transform2& transform, bool isNormalFlipped) {
-                std::vector<Surface2Ptr> others_;
+                Array1<Surface2Ptr> others_;
 
                 for (size_t i = 0; i < others.size(); ++i)
                 {
-                    others_.push_back(others[i].cast<Surface2Ptr>());
+                    others_.Append(others[i].cast<Surface2Ptr>());
                 }
 
                 new (&instance)
@@ -76,11 +75,11 @@ void AddSurfaceSet3(pybind11::module& m)
             "__init__",
             [](SurfaceSet3& instance, pybind11::list others,
                const Transform3& transform, bool isNormalFlipped) {
-                std::vector<Surface3Ptr> others_;
+                Array1<Surface3Ptr> others_;
 
                 for (size_t i = 0; i < others.size(); ++i)
                 {
-                    others_.push_back(others[i].cast<Surface3Ptr>());
+                    others_.Append(others[i].cast<Surface3Ptr>());
                 }
 
                 new (&instance)

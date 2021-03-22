@@ -11,10 +11,9 @@
 #ifndef CUBBYFLOW_IMPLICIT_SURFACE_SET3_HPP
 #define CUBBYFLOW_IMPLICIT_SURFACE_SET3_HPP
 
-#include <Core/Geometry/BVH3.hpp>
+#include <Core/Array/Array.hpp>
+#include <Core/Geometry/BVH.hpp>
 #include <Core/Geometry/ImplicitSurface3.hpp>
-
-#include <vector>
 
 namespace CubbyFlow
 {
@@ -34,12 +33,12 @@ class ImplicitSurfaceSet3 final : public ImplicitSurface3
     ImplicitSurfaceSet3() = default;
 
     //! Constructs an implicit surface set using list of other surfaces.
-    explicit ImplicitSurfaceSet3(std::vector<ImplicitSurface3Ptr> surfaces,
+    explicit ImplicitSurfaceSet3(Array1<ImplicitSurface3Ptr> surfaces,
                                  const Transform3& _transform = Transform3{},
                                  bool _isNormalFlipped = false);
 
     //! Constructs an implicit surface set using list of other surfaces.
-    ImplicitSurfaceSet3(const std::vector<Surface3Ptr>& surfaces,
+    ImplicitSurfaceSet3(const Array1<Surface3Ptr>& surfaces,
                         const Transform3& _transform = Transform3{},
                         bool _isNormalFlipped = false);
 
@@ -110,8 +109,8 @@ class ImplicitSurfaceSet3 final : public ImplicitSurface3
 
     void BuildBVH() const;
 
-    std::vector<ImplicitSurface3Ptr> m_surfaces;
-    std::vector<ImplicitSurface3Ptr> m_unboundedSurfaces;
+    Array1<ImplicitSurface3Ptr> m_surfaces;
+    Array1<ImplicitSurface3Ptr> m_unboundedSurfaces;
     mutable BVH3<ImplicitSurface3Ptr> m_bvh;
     mutable bool m_bvhInvalidated = true;
 };
@@ -127,11 +126,11 @@ class ImplicitSurfaceSet3::Builder final : public SurfaceBuilderBase3<Builder>
  public:
     //! Returns builder with surfaces.
     [[nodiscard]] Builder& WithSurfaces(
-        const std::vector<ImplicitSurface3Ptr>& surfaces);
+        const Array1<ImplicitSurface3Ptr>& surfaces);
 
     //! Returns builder with explicit surfaces.
     [[nodiscard]] Builder& WithExplicitSurfaces(
-        const std::vector<Surface3Ptr>& surfaces);
+        const Array1<Surface3Ptr>& surfaces);
 
     //! Builds ImplicitSurfaceSet3.
     [[nodiscard]] ImplicitSurfaceSet3 Build() const;
@@ -140,7 +139,7 @@ class ImplicitSurfaceSet3::Builder final : public SurfaceBuilderBase3<Builder>
     [[nodiscard]] ImplicitSurfaceSet3Ptr MakeShared() const;
 
  private:
-    std::vector<ImplicitSurface3Ptr> m_surfaces;
+    Array1<ImplicitSurface3Ptr> m_surfaces;
 };
 }  // namespace CubbyFlow
 

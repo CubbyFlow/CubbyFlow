@@ -3,7 +3,7 @@
 
 #include <Core/Geometry/Plane.hpp>
 #include <Core/Geometry/Sphere2.hpp>
-#include <Core/Geometry/SurfaceSet2.hpp>
+#include <Core/Geometry/SurfaceSet.hpp>
 
 using namespace CubbyFlow;
 

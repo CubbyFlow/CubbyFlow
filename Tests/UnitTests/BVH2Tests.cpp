@@ -1,7 +1,7 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
-#include <Core/Geometry/BVH2.hpp>
+#include <Core/Geometry/BVH.hpp>
 
 using namespace CubbyFlow;
 
@@ -15,8 +15,8 @@ TEST(BVH2, BasicGetters)
 {
     BVH2<Vector2D> bvh;
 
-    std::vector<Vector2D> points{ Vector2D{ 0, 0 }, Vector2D{ 1, 1 } };
-    std::vector<BoundingBox2D> bounds{ points.size() };
+    Array1<Vector2D> points{ Vector2D{ 0, 0 }, Vector2D{ 1, 1 } };
+    Array1<BoundingBox2D> bounds{ points.Length() };
     size_t i = 0;
     BoundingBox2D rootBounds;
 
@@ -32,21 +32,21 @@ TEST(BVH2, BasicGetters)
 
     bvh.Build(points, bounds);
 
-    EXPECT_EQ(2u, bvh.GetNumberOfItems());
-    EXPECT_VECTOR2_EQ(points[0], bvh.GetItem(0));
-    EXPECT_VECTOR2_EQ(points[1], bvh.GetItem(1));
-    EXPECT_EQ(3u, bvh.GetNumberOfNodes());
-    EXPECT_EQ(1u, bvh.GetChildren(0).first);
-    EXPECT_EQ(2u, bvh.GetChildren(0).second);
+    EXPECT_EQ(2u, bvh.NumberOfItems());
+    EXPECT_VECTOR2_EQ(points[0], bvh.Item(0));
+    EXPECT_VECTOR2_EQ(points[1], bvh.Item(1));
+    EXPECT_EQ(3u, bvh.NumberOfNodes());
+    EXPECT_EQ(1u, bvh.Children(0).first);
+    EXPECT_EQ(2u, bvh.Children(0).second);
     EXPECT_FALSE(bvh.IsLeaf(0));
     EXPECT_TRUE(bvh.IsLeaf(1));
     EXPECT_TRUE(bvh.IsLeaf(2));
-    EXPECT_BOUNDING_BOX2_EQ(rootBounds, bvh.GetNodeBound(0));
-    EXPECT_BOUNDING_BOX2_EQ(bounds[0], bvh.GetNodeBound(1));
-    EXPECT_BOUNDING_BOX2_EQ(bounds[1], bvh.GetNodeBound(2));
-    EXPECT_EQ(bvh.end(), bvh.GetItemOfNode(0));
-    EXPECT_EQ(bvh.begin(), bvh.GetItemOfNode(1));
-    EXPECT_EQ(bvh.begin() + 1, bvh.GetItemOfNode(2));
+    EXPECT_BOUNDING_BOX2_EQ(rootBounds, bvh.NodeBound(0));
+    EXPECT_BOUNDING_BOX2_EQ(bounds[0], bvh.NodeBound(1));
+    EXPECT_BOUNDING_BOX2_EQ(bounds[1], bvh.NodeBound(2));
+    EXPECT_EQ(bvh.end(), bvh.ItemOfNode(0));
+    EXPECT_EQ(bvh.begin(), bvh.ItemOfNode(1));
+    EXPECT_EQ(bvh.begin() + 1, bvh.ItemOfNode(2));
 }
 
 TEST(BVH2, Nearest)
@@ -58,12 +58,16 @@ TEST(BVH2, Nearest)
     };
 
     size_t numSamples = GetNumberOfSamplePoints2();
-    std::vector<Vector2D> points(GetSamplePoints2(),
-                                 GetSamplePoints2() + numSamples);
-
-    std::vector<BoundingBox2D> bounds(points.size());
+    Array1<Vector2D> points;
     size_t i = 0;
 
+    const Vector2D* samplePoints = GetSamplePoints2();
+    for (size_t j = 0; j < numSamples; ++j)
+    {
+        points.Append(samplePoints[j]);
+    }
+
+    Array1<BoundingBox2D> bounds(points.Length());
     std::generate(bounds.begin(), bounds.end(), [&]() {
         auto c = points[i++];
         BoundingBox2D box(c, c);
@@ -90,7 +94,7 @@ TEST(BVH2, Nearest)
         }
     }
 
-    EXPECT_EQ(answerIdx, nearest.item - &bvh.GetItem(0));
+    EXPECT_EQ(answerIdx, nearest.item - &bvh.Item(0));
 }
 
 TEST(BVH2, BBoxIntersects)
@@ -106,12 +110,16 @@ TEST(BVH2, BBoxIntersects)
     };
 
     size_t numSamples = GetNumberOfSamplePoints2();
-    std::vector<Vector2D> points(GetSamplePoints2(),
-                                 GetSamplePoints2() + numSamples);
-
-    std::vector<BoundingBox2D> bounds(points.size());
+    Array1<Vector2D> points;
     size_t i = 0;
 
+    const Vector2D* samplePoints = GetSamplePoints2();
+    for (size_t j = 0; j < numSamples; ++j)
+    {
+        points.Append(samplePoints[j]);
+    }
+
+    Array1<BoundingBox2D> bounds(points.Length());
     std::generate(bounds.begin(), bounds.end(), [&]() {
         auto c = points[i++];
         BoundingBox2D box(c, c);
@@ -153,7 +161,7 @@ TEST(BVH2, RayIntersects)
     };
 
     size_t numSamples = GetNumberOfSamplePoints2();
-    std::vector<BoundingBox2D> items(numSamples / 2);
+    Array1<BoundingBox2D> items(numSamples / 2);
     size_t i = 0;
 
     std::generate(items.begin(), items.end(), [&]() {
@@ -208,7 +216,7 @@ TEST(BVH2, ClosestIntersection)
     };
 
     size_t numSamples = GetNumberOfSamplePoints2();
-    std::vector<BoundingBox2D> items(numSamples / 2);
+    Array1<BoundingBox2D> items(numSamples / 2);
     size_t i = 0;
 
     std::generate(items.begin(), items.end(), [&]() {
@@ -235,7 +243,7 @@ TEST(BVH2, ClosestIntersection)
             if (dist < ansInts.distance)
             {
                 ansInts.distance = dist;
-                ansInts.item = &bvh.GetItem(j);
+                ansInts.item = &bvh.Item(j);
             }
         }
 
@@ -256,12 +264,16 @@ TEST(BVH2, ForEachOverlappingItems)
     };
 
     size_t numSamples = GetNumberOfSamplePoints2();
-    std::vector<Vector2D> points(GetSamplePoints2(),
-                                 GetSamplePoints2() + numSamples);
-
-    std::vector<BoundingBox2D> bounds(points.size());
+    Array1<Vector2D> points;
     size_t i = 0;
 
+    const Vector2D* samplePoints = GetSamplePoints2();
+    for (size_t j = 0; j < numSamples; ++j)
+    {
+        points.Append(samplePoints[j]);
+    }
+
+    Array1<BoundingBox2D> bounds(points.Length());
     std::generate(bounds.begin(), bounds.end(), [&]() {
         auto c = points[i++];
         BoundingBox2D box(c, c);

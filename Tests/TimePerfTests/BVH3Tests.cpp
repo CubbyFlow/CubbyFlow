@@ -1,12 +1,13 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/Geometry/BVH3.hpp>
+#include <Core/Geometry/BVH.hpp>
 #include <Core/Geometry/Triangle3.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
 
 #include <fstream>
 #include <random>
 
+using CubbyFlow::Array1;
 using CubbyFlow::BoundingBox3D;
 using CubbyFlow::Ray3D;
 using CubbyFlow::Triangle3;
@@ -31,13 +32,13 @@ class BVH3 : public ::benchmark::Fixture
             file.close();
         }
 
-        std::vector<Triangle3> triangles;
-        std::vector<BoundingBox3D> bounds;
+        Array1<Triangle3> triangles;
+        Array1<BoundingBox3D> bounds;
         for (size_t i = 0; i < triMesh.NumberOfTriangles(); ++i)
         {
             auto tri = triMesh.Triangle(i);
-            triangles.push_back(tri);
-            bounds.push_back(tri.GetBoundingBox());
+            triangles.Append(tri);
+            bounds.Append(tri.GetBoundingBox());
         }
 
         queryEngine.Build(triangles, bounds);

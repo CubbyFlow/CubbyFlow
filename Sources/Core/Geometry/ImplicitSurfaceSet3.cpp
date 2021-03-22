@@ -15,9 +15,9 @@
 
 namespace CubbyFlow
 {
-ImplicitSurfaceSet3::ImplicitSurfaceSet3(
-    std::vector<ImplicitSurface3Ptr> surfaces, const Transform3& _transform,
-    bool _isNormalFlipped)
+ImplicitSurfaceSet3::ImplicitSurfaceSet3(Array1<ImplicitSurface3Ptr> surfaces,
+                                         const Transform3& _transform,
+                                         bool _isNormalFlipped)
     : ImplicitSurface3{ _transform, _isNormalFlipped },
       m_surfaces{ std::move(surfaces) }
 {
@@ -25,16 +25,16 @@ ImplicitSurfaceSet3::ImplicitSurfaceSet3(
     {
         if (!surface->IsBounded())
         {
-            m_unboundedSurfaces.push_back(surface);
+            m_unboundedSurfaces.Append(surface);
         }
     }
 
     InvalidateBVH();
 }
 
-ImplicitSurfaceSet3::ImplicitSurfaceSet3(
-    const std::vector<Surface3Ptr>& surfaces, const Transform3& _transform,
-    bool _isNormalFlipped)
+ImplicitSurfaceSet3::ImplicitSurfaceSet3(const Array1<Surface3Ptr>& surfaces,
+                                         const Transform3& _transform,
+                                         bool _isNormalFlipped)
     : ImplicitSurface3{ _transform, _isNormalFlipped }
 {
     for (const auto& surface : surfaces)
@@ -88,7 +88,7 @@ bool ImplicitSurfaceSet3::IsBounded() const
     }
 
     // Empty set is not bounded
-    return !m_surfaces.empty();
+    return !m_surfaces.IsEmpty();
 }
 
 bool ImplicitSurfaceSet3::IsValidGeometry() const
@@ -103,12 +103,12 @@ bool ImplicitSurfaceSet3::IsValidGeometry() const
     }
 
     // Empty set is not valid.
-    return !m_surfaces.empty();
+    return !m_surfaces.IsEmpty();
 }
 
 size_t ImplicitSurfaceSet3::NumberOfSurfaces() const
 {
-    return m_surfaces.size();
+    return m_surfaces.Length();
 }
 
 const ImplicitSurface3Ptr& ImplicitSurfaceSet3::SurfaceAt(size_t i) const
@@ -123,11 +123,11 @@ void ImplicitSurfaceSet3::AddExplicitSurface(const Surface3Ptr& surface)
 
 void ImplicitSurfaceSet3::AddSurface(const ImplicitSurface3Ptr& surface)
 {
-    m_surfaces.push_back(surface);
+    m_surfaces.Append(surface);
 
     if (!surface->IsBounded())
     {
-        m_unboundedSurfaces.push_back(surface);
+        m_unboundedSurfaces.Append(surface);
     }
 
     InvalidateBVH();
@@ -329,15 +329,15 @@ void ImplicitSurfaceSet3::BuildBVH() const
 {
     if (m_bvhInvalidated)
     {
-        std::vector<ImplicitSurface3Ptr> surfs;
-        std::vector<BoundingBox3D> bounds;
+        Array1<ImplicitSurface3Ptr> surfs;
+        Array1<BoundingBox3D> bounds;
 
         for (const auto& surface : m_surfaces)
         {
             if (surface->IsBounded())
             {
-                surfs.push_back(surface);
-                bounds.push_back(surface->GetBoundingBox());
+                surfs.Append(surface);
+                bounds.Append(surface->GetBoundingBox());
             }
         }
 
@@ -352,7 +352,7 @@ ImplicitSurfaceSet3::Builder ImplicitSurfaceSet3::GetBuilder()
 }
 
 ImplicitSurfaceSet3::Builder& ImplicitSurfaceSet3::Builder::WithSurfaces(
-    const std::vector<ImplicitSurface3Ptr>& surfaces)
+    const Array1<ImplicitSurface3Ptr>& surfaces)
 {
     m_surfaces = surfaces;
     return *this;
@@ -360,13 +360,13 @@ ImplicitSurfaceSet3::Builder& ImplicitSurfaceSet3::Builder::WithSurfaces(
 
 ImplicitSurfaceSet3::Builder&
 ImplicitSurfaceSet3::Builder::WithExplicitSurfaces(
-    const std::vector<Surface3Ptr>& surfaces)
+    const Array1<Surface3Ptr>& surfaces)
 {
-    m_surfaces.clear();
+    m_surfaces.Clear();
 
     for (const auto& surface : surfaces)
     {
-        m_surfaces.push_back(std::make_shared<SurfaceToImplicit3>(surface));
+        m_surfaces.Append(std::make_shared<SurfaceToImplicit3>(surface));
     }
 
     return *this;
