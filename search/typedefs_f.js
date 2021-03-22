@@ -34,7 +34,9 @@ var searchData=
   ['surfacebuilderbase3',['SurfaceBuilderBase3',['../namespace_cubby_flow.html#a44c8ed2680384a4b9f28a42da85caf28',1,'CubbyFlow']]],
   ['surfacerayintersection2',['SurfaceRayIntersection2',['../namespace_cubby_flow.html#a22bd8a84e99a19d62bbe8d1ac37993f0',1,'CubbyFlow']]],
   ['surfacerayintersection3',['SurfaceRayIntersection3',['../namespace_cubby_flow.html#a3a3658845a0a2f833a171bc9109ad87e',1,'CubbyFlow']]],
+  ['surfaceset2',['SurfaceSet2',['../namespace_cubby_flow.html#a12fd8d6d973d56bb8ab0cccbaed3f970',1,'CubbyFlow']]],
   ['surfaceset2ptr',['SurfaceSet2Ptr',['../namespace_cubby_flow.html#a0cf6d51b78e63738173e39e99efbb9a7',1,'CubbyFlow']]],
+  ['surfaceset3',['SurfaceSet3',['../namespace_cubby_flow.html#a29aa31fa534c85e9fd64392634748aa8',1,'CubbyFlow']]],
   ['surfaceset3ptr',['SurfaceSet3Ptr',['../namespace_cubby_flow.html#a206dd7a97c5a1e91c83760f1dbc2bad5',1,'CubbyFlow']]],
   ['surfacetoimplicit2ptr',['SurfaceToImplicit2Ptr',['../namespace_cubby_flow.html#a1a5cfc08fbee96f07c9cf27d8664ec69',1,'CubbyFlow']]],
   ['surfacetoimplicit3ptr',['SurfaceToImplicit3Ptr',['../namespace_cubby_flow.html#a34f20e24d010e1c66b88fdbb73d9c5eb',1,'CubbyFlow']]]

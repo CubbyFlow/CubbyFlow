@@ -75,8 +75,7 @@ $(function() {
 : <a class="el" href="struct_cubby_flow_1_1_bounding_box_ray_intersection.html#a4ecf02fcc68bd78a23b92b44ae60315a">CubbyFlow::BoundingBoxRayIntersection&lt; T &gt;</a>
 </li>
 <li>Nearest()
-: <a class="el" href="class_cubby_flow_1_1_b_v_h2.html#a1ded5f06bcf8f8cea6b564c3dc775f7e">CubbyFlow::BVH2&lt; T &gt;</a>
-, <a class="el" href="class_cubby_flow_1_1_b_v_h3.html#a8c28b4ca26584902606526e39bbd0df0">CubbyFlow::BVH3&lt; T &gt;</a>
+: <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ae8e071367685538e86147aad33de6e21">CubbyFlow::BVH&lt; T, N &gt;</a>
 , <a class="el" href="class_cubby_flow_1_1_list_query_engine2.html#a74dfbd7c0224a7e7cd561d2f2ea2132c">CubbyFlow::ListQueryEngine2&lt; T &gt;</a>
 , <a class="el" href="class_cubby_flow_1_1_list_query_engine3.html#abe86e4eff83cde2761cfc8daa7580ddc">CubbyFlow::ListQueryEngine3&lt; T &gt;</a>
 , <a class="el" href="class_cubby_flow_1_1_nearest_neighbor_query_engine.html#a11537528c66663dfb2391905c1875380">CubbyFlow::NearestNeighborQueryEngine&lt; T, N &gt;</a>
@@ -85,6 +84,9 @@ $(function() {
 </li>
 <li>NearestArraySampler()
 : <a class="el" href="class_cubby_flow_1_1_nearest_array_sampler.html#a7fcdf94817e614865e692146ceb6d882">CubbyFlow::NearestArraySampler&lt; T, N &gt;</a>
+</li>
+<li>NodeBound()
+: <a class="el" href="class_cubby_flow_1_1_b_v_h.html#afad175b8940de0ad95fd0c03930155ec">CubbyFlow::BVH&lt; T, N &gt;</a>
 </li>
 <li>NodeContainerType
 : <a class="el" href="class_cubby_flow_1_1_kd_tree.html#a7c47bc36e80bc7209dd8fed5fc74d88e">CubbyFlow::KdTree&lt; T, K &gt;</a>
@@ -154,6 +156,12 @@ $(function() {
 <li>numberOfFinalIter
 : <a class="el" href="struct_cubby_flow_1_1_m_g_parameters.html#aa86ccfa88eb1881d2f855e6c13efc2fa">CubbyFlow::MGParameters&lt; BlasType &gt;</a>
 </li>
+<li>NumberOfItems()
+: <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a13e2e97758691dadd0f1bb3c0bd02e1e">CubbyFlow::BVH&lt; T, N &gt;</a>
+</li>
+<li>NumberOfNodes()
+: <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a6315b235dbac4ee69482a1edaab545ba">CubbyFlow::BVH&lt; T, N &gt;</a>
+</li>
 <li>NumberOfNonZeros()
 : <a class="el" href="class_cubby_flow_1_1_matrix_c_s_r.html#a23075dcfcdea0105a197d850b9525c35">CubbyFlow::MatrixCSR&lt; T &gt;</a>
 </li>
@@ -169,8 +177,7 @@ $(function() {
 <li>NumberOfSurfaces()
 : <a class="el" href="class_cubby_flow_1_1_implicit_surface_set2.html#a98d5cca7f322f527ffdb1c2d2459d378">CubbyFlow::ImplicitSurfaceSet2</a>
 , <a class="el" href="class_cubby_flow_1_1_implicit_surface_set3.html#a09e8716d1c1f0565da4ccc885105f9d5">CubbyFlow::ImplicitSurfaceSet3</a>
-, <a class="el" href="class_cubby_flow_1_1_surface_set2.html#adb86b984aa2eef6d91a92220c5ec2adf">CubbyFlow::SurfaceSet2</a>
-, <a class="el" href="class_cubby_flow_1_1_surface_set3.html#a703d7c712fecd5c1277f1d2d060a311a">CubbyFlow::SurfaceSet3</a>
+, <a class="el" href="class_cubby_flow_1_1_surface_set.html#a18867df91e8d8ed3cfea65a45affb4ac">CubbyFlow::SurfaceSet&lt; N &gt;</a>
 </li>
 <li>NumberOfTriangles()
 : <a class="el" href="class_cubby_flow_1_1_triangle_mesh3.html#a21777df2055103419abcd7d879cf1b8b">CubbyFlow::TriangleMesh3</a>
@@ -188,7 +195,7 @@ $(function() {
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 19 2021 16:30:00 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 22 2021 12:53:38 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

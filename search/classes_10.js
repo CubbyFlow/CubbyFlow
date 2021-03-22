@@ -35,9 +35,9 @@ var searchData=
   ['surfacebuilderbase',['SurfaceBuilderBase',['../class_cubby_flow_1_1_surface_builder_base.html',1,'CubbyFlow']]],
   ['surfacebuilderbase_3c_20n_2c_20box_3c_20n_20_3e_3a_3abuilder_20_3e',['SurfaceBuilderBase&lt; N, Box&lt; N &gt;::Builder &gt;',['../class_cubby_flow_1_1_surface_builder_base.html',1,'CubbyFlow']]],
   ['surfacebuilderbase_3c_20n_2c_20plane_3c_20n_20_3e_3a_3abuilder_20_3e',['SurfaceBuilderBase&lt; N, Plane&lt; N &gt;::Builder &gt;',['../class_cubby_flow_1_1_surface_builder_base.html',1,'CubbyFlow']]],
+  ['surfacebuilderbase_3c_20n_2c_20surfaceset_3c_20n_20_3e_3a_3abuilder_20_3e',['SurfaceBuilderBase&lt; N, SurfaceSet&lt; N &gt;::Builder &gt;',['../class_cubby_flow_1_1_surface_builder_base.html',1,'CubbyFlow']]],
   ['surfacerayintersection',['SurfaceRayIntersection',['../struct_cubby_flow_1_1_surface_ray_intersection.html',1,'CubbyFlow']]],
-  ['surfaceset2',['SurfaceSet2',['../class_cubby_flow_1_1_surface_set2.html',1,'CubbyFlow']]],
-  ['surfaceset3',['SurfaceSet3',['../class_cubby_flow_1_1_surface_set3.html',1,'CubbyFlow']]],
+  ['surfaceset',['SurfaceSet',['../class_cubby_flow_1_1_surface_set.html',1,'CubbyFlow']]],
   ['surfacetoimplicit2',['SurfaceToImplicit2',['../class_cubby_flow_1_1_surface_to_implicit2.html',1,'CubbyFlow']]],
   ['surfacetoimplicit3',['SurfaceToImplicit3',['../class_cubby_flow_1_1_surface_to_implicit3.html',1,'CubbyFlow']]]
 ];

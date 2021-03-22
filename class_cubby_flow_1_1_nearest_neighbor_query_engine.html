@@ -90,17 +90,11 @@ Inheritance diagram for CubbyFlow::NearestNeighborQueryEngine&lt; T, N &gt;:</di
  <div class="center">
   <img src="class_cubby_flow_1_1_nearest_neighbor_query_engine.png" usemap="#CubbyFlow::NearestNeighborQueryEngine_3C_20T_2C_20N_20_3E_map" alt=""/>
   <map id="CubbyFlow::NearestNeighborQueryEngine_3C_20T_2C_20N_20_3E_map" name="CubbyFlow::NearestNeighborQueryEngine_3C_20T_2C_20N_20_3E_map">
-<area href="class_cubby_flow_1_1_b_v_h2.html" alt="CubbyFlow::BVH2&lt; ImplicitSurface2Ptr &gt;" shape="rect" coords="312,56,614,80"/>
-<area href="class_cubby_flow_1_1_b_v_h2.html" alt="CubbyFlow::BVH2&lt; Surface2Ptr &gt;" shape="rect" coords="312,112,614,136"/>
-<area href="class_cubby_flow_1_1_b_v_h3.html" alt="CubbyFlow::BVH3&lt; ImplicitSurface3Ptr &gt;" shape="rect" coords="312,168,614,192"/>
-<area href="class_cubby_flow_1_1_b_v_h3.html" alt="CubbyFlow::BVH3&lt; size_t &gt;" shape="rect" coords="312,224,614,248"/>
-<area href="class_cubby_flow_1_1_b_v_h3.html" alt="CubbyFlow::BVH3&lt; Surface3Ptr &gt;" shape="rect" coords="312,280,614,304"/>
-<area href="class_cubby_flow_1_1_b_v_h2.html" title="Bounding Volume Hierarchy (BVH) in 2D. " alt="CubbyFlow::BVH2&lt; T &gt;" shape="rect" coords="312,336,614,360"/>
-<area href="class_cubby_flow_1_1_b_v_h3.html" title="Bounding Volume Hierarchy (BVH) in 3D. " alt="CubbyFlow::BVH3&lt; T &gt;" shape="rect" coords="312,392,614,416"/>
-<area href="class_cubby_flow_1_1_list_query_engine2.html" title="Ad-hoc list-based 2-D intersection/nearest-neighbor query engine. " alt="CubbyFlow::ListQueryEngine2&lt; T &gt;" shape="rect" coords="312,448,614,472"/>
-<area href="class_cubby_flow_1_1_list_query_engine3.html" title="Ad-hoc list-based 3-D intersection/nearest-neighbor query engine. " alt="CubbyFlow::ListQueryEngine3&lt; T &gt;" shape="rect" coords="312,504,614,528"/>
-<area href="class_cubby_flow_1_1_octree.html" title="Generic octree data structure. " alt="CubbyFlow::Octree&lt; T &gt;" shape="rect" coords="312,560,614,584"/>
-<area href="class_cubby_flow_1_1_quadtree.html" title="Generic quadtree data structure. " alt="CubbyFlow::Quadtree&lt; T &gt;" shape="rect" coords="312,616,614,640"/>
+<area href="class_cubby_flow_1_1_b_v_h.html" title="Bounding Volume Hierarchy (BVH) in N-D. " alt="CubbyFlow::BVH&lt; T, N &gt;" shape="rect" coords="0,56,302,80"/>
+<area href="class_cubby_flow_1_1_list_query_engine2.html" title="Ad-hoc list-based 2-D intersection/nearest-neighbor query engine. " alt="CubbyFlow::ListQueryEngine2&lt; T &gt;" shape="rect" coords="312,56,614,80"/>
+<area href="class_cubby_flow_1_1_list_query_engine3.html" title="Ad-hoc list-based 3-D intersection/nearest-neighbor query engine. " alt="CubbyFlow::ListQueryEngine3&lt; T &gt;" shape="rect" coords="624,56,926,80"/>
+<area href="class_cubby_flow_1_1_octree.html" title="Generic octree data structure. " alt="CubbyFlow::Octree&lt; T &gt;" shape="rect" coords="936,56,1238,80"/>
+<area href="class_cubby_flow_1_1_quadtree.html" title="Generic quadtree data structure. " alt="CubbyFlow::Quadtree&lt; T &gt;" shape="rect" coords="1248,56,1550,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -123,7 +117,7 @@ class CubbyFlow::NearestNeighborQueryEngine&lt; T, N &gt;</h3>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , size_t N&gt; </div>
+template&lt;typename T, size_t N&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -151,7 +145,7 @@ template&lt;typename T , size_t N&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , size_t N&gt; </div>
+template&lt;typename T, size_t N&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -182,6 +176,8 @@ template&lt;typename T , size_t N&gt; </div>
 </div><div class="memdoc">
 <p>Returns the nearest neighbor for given point and distance measure function. </p>
 
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ae8e071367685538e86147aad33de6e21">CubbyFlow::BVH&lt; T, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ae8e071367685538e86147aad33de6e21">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::Surface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ae8e071367685538e86147aad33de6e21">CubbyFlow::BVH&lt; size_t &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ae8e071367685538e86147aad33de6e21">CubbyFlow::BVH&lt; ImplicitSurface2Ptr &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ae8e071367685538e86147aad33de6e21">CubbyFlow::BVH&lt; ImplicitSurface3Ptr &gt;</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
@@ -196,7 +192,7 @@ template&lt;typename T , size_t N&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 19 2021 16:29:59 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 22 2021 12:53:36 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

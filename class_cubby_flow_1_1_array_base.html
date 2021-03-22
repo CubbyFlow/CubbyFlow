@@ -90,14 +90,20 @@ Inheritance diagram for CubbyFlow::ArrayBase&lt; T, N, DerivedArray &gt;:</div>
  <div class="center">
   <img src="class_cubby_flow_1_1_array_base.png" usemap="#CubbyFlow::ArrayBase_3C_20T_2C_20N_2C_20DerivedArray_20_3E_map" alt=""/>
   <map id="CubbyFlow::ArrayBase_3C_20T_2C_20N_2C_20DerivedArray_20_3E_map" name="CubbyFlow::ArrayBase_3C_20T_2C_20N_2C_20DerivedArray_20_3E_map">
-<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; char &gt;" shape="rect" coords="289,56,568,80"/>
-<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; CubbyFlow::Matrix &gt;" shape="rect" coords="289,112,568,136"/>
-<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; double &gt;" shape="rect" coords="289,168,568,192"/>
-<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; FDMMatrixRow2 &gt;" shape="rect" coords="289,224,568,248"/>
-<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; FDMMatrixRow3 &gt;" shape="rect" coords="289,280,568,304"/>
-<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; Vector2D &gt;" shape="rect" coords="289,336,568,360"/>
-<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; Vector3D &gt;" shape="rect" coords="289,392,568,416"/>
-<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; Vector3UZ &gt;" shape="rect" coords="289,448,568,472"/>
+<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; char &gt;" shape="rect" coords="404,56,798,80"/>
+<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; CubbyFlow::BoundingBox&lt; double, N &gt; &gt;" shape="rect" coords="404,112,798,136"/>
+<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; CubbyFlow::Matrix &gt;" shape="rect" coords="404,168,798,192"/>
+<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; double &gt;" shape="rect" coords="404,224,798,248"/>
+<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; FDMMatrixRow2 &gt;" shape="rect" coords="404,280,798,304"/>
+<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; FDMMatrixRow3 &gt;" shape="rect" coords="404,336,798,360"/>
+<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; ImplicitSurface2Ptr &gt;" shape="rect" coords="404,392,798,416"/>
+<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; ImplicitSurface3Ptr &gt;" shape="rect" coords="404,448,798,472"/>
+<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; Node &gt;" shape="rect" coords="404,504,798,528"/>
+<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; size_t &gt;" shape="rect" coords="404,560,798,584"/>
+<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; std::shared_ptr&lt; CubbyFlow::Surface&lt; N &gt; &gt; &gt;" shape="rect" coords="404,616,798,640"/>
+<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; Vector2D &gt;" shape="rect" coords="404,672,798,696"/>
+<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; Vector3D &gt;" shape="rect" coords="404,728,798,752"/>
+<area href="class_cubby_flow_1_1_array.html" alt="CubbyFlow::Array&lt; Vector3UZ &gt;" shape="rect" coords="404,784,798,808"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -147,6 +153,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1a0ccb4396d4197010b302343c390df7"><td class="memTemplParams" colspan="2">template&lt;size_t M = N&gt; </td></tr>
 <tr class="memitem:a1a0ccb4396d4197010b302343c390df7"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt;(M &gt; 2), size_t &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array_base.html#a1a0ccb4396d4197010b302343c390df7">Depth</a> () const</td></tr>
 <tr class="separator:a1a0ccb4396d4197010b302343c390df7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bad9bec2646aee7fe892c4abd13a27e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array_base.html#a0bad9bec2646aee7fe892c4abd13a27e">IsEmpty</a> () const</td></tr>
+<tr class="separator:a0bad9bec2646aee7fe892c4abd13a27e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5cc981a23b82369f12058769775bc92c"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array_base.html#a5cc981a23b82369f12058769775bc92c">Length</a> () const</td></tr>
 <tr class="separator:a5cc981a23b82369f12058769775bc92c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ce3466c027e821461e0b1cb90e0da95"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_array_base.html#acf63284fbcf9628113fb234d4868794a">Iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array_base.html#a4ce3466c027e821461e0b1cb90e0da95">begin</a> ()</td></tr>
@@ -984,6 +992,25 @@ template&lt;size_t... I&gt; </div>
 
 </div>
 </div>
+<a id="a0bad9bec2646aee7fe892c4abd13a27e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bad9bec2646aee7fe892c4abd13a27e">&#9670;&nbsp;</a></span>IsEmpty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t N, typename D &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="class_cubby_flow_1_1_array_base.html">CubbyFlow::ArrayBase</a>&lt; T, N, D &gt;::IsEmpty </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a5cc981a23b82369f12058769775bc92c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5cc981a23b82369f12058769775bc92c">&#9670;&nbsp;</a></span>Length()</h2>
 
@@ -1502,7 +1529,7 @@ template&lt;typename T, size_t N, typename DerivedArray&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 19 2021 16:29:57 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 22 2021 12:53:35 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

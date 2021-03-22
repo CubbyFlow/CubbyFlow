@@ -90,17 +90,11 @@ Inheritance diagram for CubbyFlow::IntersectionQueryEngine&lt; T, N &gt;:</div>
  <div class="center">
   <img src="class_cubby_flow_1_1_intersection_query_engine.png" usemap="#CubbyFlow::IntersectionQueryEngine_3C_20T_2C_20N_20_3E_map" alt=""/>
   <map id="CubbyFlow::IntersectionQueryEngine_3C_20T_2C_20N_20_3E_map" name="CubbyFlow::IntersectionQueryEngine_3C_20T_2C_20N_20_3E_map">
-<area href="class_cubby_flow_1_1_b_v_h2.html" alt="CubbyFlow::BVH2&lt; ImplicitSurface2Ptr &gt;" shape="rect" coords="281,56,552,80"/>
-<area href="class_cubby_flow_1_1_b_v_h2.html" alt="CubbyFlow::BVH2&lt; Surface2Ptr &gt;" shape="rect" coords="281,112,552,136"/>
-<area href="class_cubby_flow_1_1_b_v_h3.html" alt="CubbyFlow::BVH3&lt; ImplicitSurface3Ptr &gt;" shape="rect" coords="281,168,552,192"/>
-<area href="class_cubby_flow_1_1_b_v_h3.html" alt="CubbyFlow::BVH3&lt; size_t &gt;" shape="rect" coords="281,224,552,248"/>
-<area href="class_cubby_flow_1_1_b_v_h3.html" alt="CubbyFlow::BVH3&lt; Surface3Ptr &gt;" shape="rect" coords="281,280,552,304"/>
-<area href="class_cubby_flow_1_1_b_v_h2.html" title="Bounding Volume Hierarchy (BVH) in 2D. " alt="CubbyFlow::BVH2&lt; T &gt;" shape="rect" coords="281,336,552,360"/>
-<area href="class_cubby_flow_1_1_b_v_h3.html" title="Bounding Volume Hierarchy (BVH) in 3D. " alt="CubbyFlow::BVH3&lt; T &gt;" shape="rect" coords="281,392,552,416"/>
-<area href="class_cubby_flow_1_1_list_query_engine2.html" title="Ad-hoc list-based 2-D intersection/nearest-neighbor query engine. " alt="CubbyFlow::ListQueryEngine2&lt; T &gt;" shape="rect" coords="281,448,552,472"/>
-<area href="class_cubby_flow_1_1_list_query_engine3.html" title="Ad-hoc list-based 3-D intersection/nearest-neighbor query engine. " alt="CubbyFlow::ListQueryEngine3&lt; T &gt;" shape="rect" coords="281,504,552,528"/>
-<area href="class_cubby_flow_1_1_octree.html" title="Generic octree data structure. " alt="CubbyFlow::Octree&lt; T &gt;" shape="rect" coords="281,560,552,584"/>
-<area href="class_cubby_flow_1_1_quadtree.html" title="Generic quadtree data structure. " alt="CubbyFlow::Quadtree&lt; T &gt;" shape="rect" coords="281,616,552,640"/>
+<area href="class_cubby_flow_1_1_b_v_h.html" title="Bounding Volume Hierarchy (BVH) in N-D. " alt="CubbyFlow::BVH&lt; T, N &gt;" shape="rect" coords="0,56,271,80"/>
+<area href="class_cubby_flow_1_1_list_query_engine2.html" title="Ad-hoc list-based 2-D intersection/nearest-neighbor query engine. " alt="CubbyFlow::ListQueryEngine2&lt; T &gt;" shape="rect" coords="281,56,552,80"/>
+<area href="class_cubby_flow_1_1_list_query_engine3.html" title="Ad-hoc list-based 3-D intersection/nearest-neighbor query engine. " alt="CubbyFlow::ListQueryEngine3&lt; T &gt;" shape="rect" coords="562,56,833,80"/>
+<area href="class_cubby_flow_1_1_octree.html" title="Generic octree data structure. " alt="CubbyFlow::Octree&lt; T &gt;" shape="rect" coords="843,56,1114,80"/>
+<area href="class_cubby_flow_1_1_quadtree.html" title="Generic quadtree data structure. " alt="CubbyFlow::Quadtree&lt; T &gt;" shape="rect" coords="1124,56,1395,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -136,7 +130,7 @@ class CubbyFlow::IntersectionQueryEngine&lt; T, N &gt;</h3>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , size_t N&gt; </div>
+template&lt;typename T, size_t N&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -164,7 +158,7 @@ template&lt;typename T , size_t N&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , size_t N&gt; </div>
+template&lt;typename T, size_t N&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -196,6 +190,8 @@ template&lt;typename T , size_t N&gt; </div>
 
 <p>Returns the closest intersection for given <code>ray</code>. </p>
 
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5821c8f0e86b76c5b9f11b4ebd0f0918">CubbyFlow::BVH&lt; T, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5821c8f0e86b76c5b9f11b4ebd0f0918">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::Surface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5821c8f0e86b76c5b9f11b4ebd0f0918">CubbyFlow::BVH&lt; size_t &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5821c8f0e86b76c5b9f11b4ebd0f0918">CubbyFlow::BVH&lt; ImplicitSurface2Ptr &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5821c8f0e86b76c5b9f11b4ebd0f0918">CubbyFlow::BVH&lt; ImplicitSurface3Ptr &gt;</a>.</p>
+
 </div>
 </div>
 <a id="ad66b05f30574f2e263e0070a635a5c40"></a>
@@ -204,7 +200,7 @@ template&lt;typename T , size_t N&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , size_t N&gt; </div>
+template&lt;typename T, size_t N&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -242,6 +238,8 @@ template&lt;typename T , size_t N&gt; </div>
 
 <p>Invokes <code>visitorFunc</code> for every intersecting items. </p>
 
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ab1b2d9b6a998dd0173e2ff11bd563ef3">CubbyFlow::BVH&lt; T, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ab1b2d9b6a998dd0173e2ff11bd563ef3">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::Surface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ab1b2d9b6a998dd0173e2ff11bd563ef3">CubbyFlow::BVH&lt; size_t &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ab1b2d9b6a998dd0173e2ff11bd563ef3">CubbyFlow::BVH&lt; ImplicitSurface2Ptr &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ab1b2d9b6a998dd0173e2ff11bd563ef3">CubbyFlow::BVH&lt; ImplicitSurface3Ptr &gt;</a>.</p>
+
 </div>
 </div>
 <a id="ad864649fc2a379d6b53747264cf38ba3"></a>
@@ -250,7 +248,7 @@ template&lt;typename T , size_t N&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , size_t N&gt; </div>
+template&lt;typename T, size_t N&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -288,6 +286,8 @@ template&lt;typename T , size_t N&gt; </div>
 
 <p>Invokes <code>visitorFunc</code> for every intersecting items. </p>
 
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5902d2d9480b5b8d6212800845218e25">CubbyFlow::BVH&lt; T, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5902d2d9480b5b8d6212800845218e25">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::Surface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5902d2d9480b5b8d6212800845218e25">CubbyFlow::BVH&lt; size_t &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5902d2d9480b5b8d6212800845218e25">CubbyFlow::BVH&lt; ImplicitSurface2Ptr &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5902d2d9480b5b8d6212800845218e25">CubbyFlow::BVH&lt; ImplicitSurface3Ptr &gt;</a>.</p>
+
 </div>
 </div>
 <a id="a5197ae0831a70e37be6382c298db7f6e"></a>
@@ -296,7 +296,7 @@ template&lt;typename T , size_t N&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , size_t N&gt; </div>
+template&lt;typename T, size_t N&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -328,6 +328,8 @@ template&lt;typename T , size_t N&gt; </div>
 
 <p>Returns true if given <code>box</code> intersects with any of the stored items. </p>
 
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a46136cf671850f7ab743622f6f125678">CubbyFlow::BVH&lt; T, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a46136cf671850f7ab743622f6f125678">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::Surface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a46136cf671850f7ab743622f6f125678">CubbyFlow::BVH&lt; size_t &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a46136cf671850f7ab743622f6f125678">CubbyFlow::BVH&lt; ImplicitSurface2Ptr &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a46136cf671850f7ab743622f6f125678">CubbyFlow::BVH&lt; ImplicitSurface3Ptr &gt;</a>.</p>
+
 </div>
 </div>
 <a id="a30cea4438773ac4290d36918cf214874"></a>
@@ -336,7 +338,7 @@ template&lt;typename T , size_t N&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , size_t N&gt; </div>
+template&lt;typename T, size_t N&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -368,6 +370,8 @@ template&lt;typename T , size_t N&gt; </div>
 
 <p>Returns true if given <code>ray</code> intersects with any of the stored items. </p>
 
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a877b97a9c613e2175e16602fb975d7d4">CubbyFlow::BVH&lt; T, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a877b97a9c613e2175e16602fb975d7d4">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::Surface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a877b97a9c613e2175e16602fb975d7d4">CubbyFlow::BVH&lt; size_t &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a877b97a9c613e2175e16602fb975d7d4">CubbyFlow::BVH&lt; ImplicitSurface2Ptr &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a877b97a9c613e2175e16602fb975d7d4">CubbyFlow::BVH&lt; ImplicitSurface3Ptr &gt;</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
@@ -382,7 +386,7 @@ template&lt;typename T , size_t N&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 19 2021 16:29:58 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 22 2021 12:53:36 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
