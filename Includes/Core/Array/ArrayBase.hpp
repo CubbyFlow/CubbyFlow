@@ -55,6 +55,8 @@ class ArrayBase
     template <size_t M = N>
     std::enable_if_t<(M > 2), size_t> Depth() const;
 
+    bool IsEmpty() const;
+
     size_t Length() const;
 
     Iterator begin();
