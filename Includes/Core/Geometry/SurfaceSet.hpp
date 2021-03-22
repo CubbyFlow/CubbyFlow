@@ -67,16 +67,18 @@ class SurfaceSet final : public Surface<N>
 
     BoundingBox<double, N> BoundingBoxLocal() const override;
 
-    double ClosestDistanceLocal(
-        const Vector<double, N>& otherPoint) const override;
-
-    bool IntersectsLocal(const Ray<double, N>& ray) const override;
+    SurfaceRayIntersection<N> ClosestIntersectionLocal(
+        const Ray<double, N>& ray) const override;
 
     Vector<double, N> ClosestNormalLocal(
         const Vector<double, N>& otherPoint) const override;
 
-    SurfaceRayIntersection<N> ClosestIntersectionLocal(
-        const Ray<double, N>& ray) const override;
+    bool IntersectsLocal(const Ray<double, N>& ray) const override;
+
+    double ClosestDistanceLocal(
+        const Vector<double, N>& otherPoint) const override;
+
+    bool IsInsideLocal(const Vector<double, N>& otherPoint) const override;
 
     void InvalidateBVH() const;
 

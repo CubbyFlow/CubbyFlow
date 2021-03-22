@@ -141,87 +141,11 @@ Vector<double, N> SurfaceSet<N>::ClosestPointLocal(
 }
 
 template <size_t N>
-Vector<double, N> SurfaceSet<N>::ClosestNormalLocal(
-    const Vector<double, N>& otherPoint) const
+BoundingBox<double, N> SurfaceSet<N>::BoundingBoxLocal() const
 {
     BuildBVH();
 
-    const auto distanceFunc = [](const std::shared_ptr<Surface<N>>& surface,
-                                 const Vector<double, N>& pt) {
-        return surface->ClosestDistance(pt);
-    };
-
-    Vector<double, N> result{ 1.0, 0.0 };
-    const auto queryResult = m_bvh.Nearest(otherPoint, distanceFunc);
-
-    if (queryResult.item != nullptr)
-    {
-        result = (*queryResult.item)->ClosestNormal(otherPoint);
-    }
-
-    double minDist = queryResult.distance;
-
-    for (const auto& surface : m_unboundedSurfaces)
-    {
-        Vector<double, N> pt = surface->ClosestPoint(otherPoint);
-        const double dist = pt.DistanceTo(otherPoint);
-
-        if (dist < minDist)
-        {
-            minDist = dist;
-            result = surface->ClosestNormal(otherPoint);
-        }
-    }
-
-    return result;
-}
-
-template <size_t N>
-double SurfaceSet<N>::ClosestDistanceLocal(
-    const Vector<double, N>& otherPoint) const
-{
-    BuildBVH();
-
-    const auto distanceFunc = [](const std::shared_ptr<Surface<N>>& surface,
-                                 const Vector<double, N>& pt) {
-        return surface->ClosestDistance(pt);
-    };
-
-    const auto queryResult = m_bvh.Nearest(otherPoint, distanceFunc);
-    double minDist = queryResult.distance;
-
-    for (const auto& surface : m_unboundedSurfaces)
-    {
-        Vector<double, N> pt = surface->ClosestPoint(otherPoint);
-        const double dist = pt.DistanceTo(otherPoint);
-
-        if (dist < minDist)
-        {
-            minDist = dist;
-        }
-    }
-
-    return minDist;
-}
-
-template <size_t N>
-bool SurfaceSet<N>::IntersectsLocal(const Ray<double, N>& ray) const
-{
-    BuildBVH();
-
-    const auto testFunc = [](const std::shared_ptr<Surface<N>>& surface,
-                             const Ray<double, N>& ray) {
-        return surface->Intersects(ray);
-    };
-
-    bool result = m_bvh.Intersects(ray, testFunc);
-
-    for (const auto& surface : m_unboundedSurfaces)
-    {
-        result |= surface->Intersects(ray);
-    }
-
-    return result;
+    return m_bvh.GetBoundingBox();
 }
 
 template <size_t N>
@@ -263,11 +187,101 @@ SurfaceRayIntersection<N> SurfaceSet<N>::ClosestIntersectionLocal(
 }
 
 template <size_t N>
-BoundingBox<double, N> SurfaceSet<N>::BoundingBoxLocal() const
+Vector<double, N> SurfaceSet<N>::ClosestNormalLocal(
+    const Vector<double, N>& otherPoint) const
 {
     BuildBVH();
 
-    return m_bvh.GetBoundingBox();
+    const auto distanceFunc = [](const std::shared_ptr<Surface<N>>& surface,
+                                 const Vector<double, N>& pt) {
+        return surface->ClosestDistance(pt);
+    };
+
+    Vector<double, N> result{ 1.0, 0.0 };
+    const auto queryResult = m_bvh.Nearest(otherPoint, distanceFunc);
+
+    if (queryResult.item != nullptr)
+    {
+        result = (*queryResult.item)->ClosestNormal(otherPoint);
+    }
+
+    double minDist = queryResult.distance;
+
+    for (const auto& surface : m_unboundedSurfaces)
+    {
+        Vector<double, N> pt = surface->ClosestPoint(otherPoint);
+        const double dist = pt.DistanceTo(otherPoint);
+
+        if (dist < minDist)
+        {
+            minDist = dist;
+            result = surface->ClosestNormal(otherPoint);
+        }
+    }
+
+    return result;
+}
+
+template <size_t N>
+bool SurfaceSet<N>::IntersectsLocal(const Ray<double, N>& ray) const
+{
+    BuildBVH();
+
+    const auto testFunc = [](const std::shared_ptr<Surface<N>>& surface,
+                             const Ray<double, N>& ray) {
+        return surface->Intersects(ray);
+    };
+
+    bool result = m_bvh.Intersects(ray, testFunc);
+
+    for (const auto& surface : m_unboundedSurfaces)
+    {
+        result |= surface->Intersects(ray);
+    }
+
+    return result;
+}
+
+template <size_t N>
+double SurfaceSet<N>::ClosestDistanceLocal(
+    const Vector<double, N>& otherPoint) const
+{
+    BuildBVH();
+
+    const auto distanceFunc = [](const std::shared_ptr<Surface<N>>& surface,
+                                 const Vector<double, N>& pt) {
+        return surface->ClosestDistance(pt);
+    };
+
+    const auto queryResult = m_bvh.Nearest(otherPoint, distanceFunc);
+    double minDist = queryResult.distance;
+
+    for (const auto& surface : m_unboundedSurfaces)
+    {
+        Vector<double, N> pt = surface->ClosestPoint(otherPoint);
+        const double dist = pt.DistanceTo(otherPoint);
+
+        if (dist < minDist)
+        {
+            minDist = dist;
+        }
+    }
+
+    return minDist;
+}
+
+template <size_t N>
+bool SurfaceSet<N>::IsInsideLocal(const Vector<double, N>& otherPoint) const
+{
+    for (const auto& surface : m_surfaces)
+    {
+        if (surface->IsInside(otherPoint))
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 template <size_t N>
