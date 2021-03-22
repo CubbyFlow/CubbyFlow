@@ -42,6 +42,7 @@ SurfaceSet<N>::SurfaceSet(const SurfaceSet& other)
 template <size_t N>
 void SurfaceSet<N>::UpdateQueryEngine()
 {
+    InvalidateBVH();
     BuildBVH();
 }
 
