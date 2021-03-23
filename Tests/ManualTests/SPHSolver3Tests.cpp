@@ -8,7 +8,7 @@
 #include <Core/Geometry/Plane.hpp>
 #include <Core/Geometry/RigidBodyCollider3.hpp>
 #include <Core/Geometry/Sphere3.hpp>
-#include <Core/Geometry/SurfaceToImplicit3.hpp>
+#include <Core/Geometry/SurfaceToImplicit.hpp>
 #include <Core/Solver/Particle/SPH/SPHSolver3.hpp>
 
 using namespace CubbyFlow;

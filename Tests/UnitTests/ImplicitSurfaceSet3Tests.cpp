@@ -5,7 +5,7 @@
 #include <Core/Geometry/ImplicitSurfaceSet3.hpp>
 #include <Core/Geometry/Plane.hpp>
 #include <Core/Geometry/Sphere3.hpp>
-#include <Core/Geometry/SurfaceToImplicit3.hpp>
+#include <Core/Geometry/SurfaceToImplicit.hpp>
 
 using namespace CubbyFlow;
 

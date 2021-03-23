@@ -6,8 +6,7 @@
 #include <Core/Emitter/VolumeParticleEmitter3.hpp>
 #include <Core/Geometry/Sphere2.hpp>
 #include <Core/Geometry/Sphere3.hpp>
-#include <Core/Geometry/SurfaceToImplicit2.hpp>
-#include <Core/Geometry/SurfaceToImplicit3.hpp>
+#include <Core/Geometry/SurfaceToImplicit.hpp>
 #include <Core/Solver/Particle/ParticleSystemSolver2.hpp>
 #include <Core/Solver/Particle/ParticleSystemSolver3.hpp>
 

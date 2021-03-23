@@ -3,7 +3,7 @@
 
 #include <Core/Geometry/CustomImplicitSurface2.hpp>
 #include <Core/Geometry/Sphere2.hpp>
-#include <Core/Geometry/SurfaceToImplicit2.hpp>
+#include <Core/Geometry/SurfaceToImplicit.hpp>
 
 using namespace CubbyFlow;
 

@@ -10,7 +10,7 @@
 
 #include <Core/Array/ArrayUtils.hpp>
 #include <Core/Geometry/ImplicitSurface.hpp>
-#include <Core/Geometry/SurfaceToImplicit2.hpp>
+#include <Core/Geometry/SurfaceToImplicit.hpp>
 #include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver2.hpp>
 #include <Core/Utils/LevelSetUtils.hpp>
 #include <Core/Utils/PhysicsHelpers.hpp>

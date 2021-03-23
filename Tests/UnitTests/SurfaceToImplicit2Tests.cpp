@@ -3,7 +3,7 @@
 #include <Core/Geometry/Box.hpp>
 #include <Core/Geometry/Plane.hpp>
 #include <Core/Geometry/SurfaceSet.hpp>
-#include <Core/Geometry/SurfaceToImplicit2.hpp>
+#include <Core/Geometry/SurfaceToImplicit.hpp>
 
 using namespace CubbyFlow;
 

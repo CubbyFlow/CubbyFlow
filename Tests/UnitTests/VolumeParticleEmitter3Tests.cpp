@@ -4,7 +4,7 @@
 #include <Core/Animation/Frame.hpp>
 #include <Core/Emitter/VolumeParticleEmitter3.hpp>
 #include <Core/Geometry/Sphere3.hpp>
-#include <Core/Geometry/SurfaceToImplicit3.hpp>
+#include <Core/Geometry/SurfaceToImplicit.hpp>
 
 using namespace CubbyFlow;
 

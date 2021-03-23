@@ -9,7 +9,7 @@
 // property of any third parties.
 
 #include <Core/Geometry/ImplicitSurfaceSet2.hpp>
-#include <Core/Geometry/SurfaceToImplicit2.hpp>
+#include <Core/Geometry/SurfaceToImplicit.hpp>
 
 #include <utility>
 
