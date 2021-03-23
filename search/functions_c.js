@@ -13,7 +13,7 @@ var searchData=
   ['normalize',['Normalize',['../class_cubby_flow_1_1_quaternion.html#aa3a776f7232250e5acefbaa515599e64',1,'CubbyFlow::Quaternion::Normalize()'],['../class_cubby_flow_1_1_matrix_dense_base.html#a1b3f9d633f2a99e426b28bc91524f44a',1,'CubbyFlow::MatrixDenseBase::Normalize()']]],
   ['normalized',['Normalized',['../class_cubby_flow_1_1_quaternion.html#a690b601cf7a54a6cf3092abdfdf4fad0',1,'CubbyFlow::Quaternion::Normalized()'],['../class_cubby_flow_1_1_matrix_expression.html#ae483e6c54a6fcdaa2b483f54baf76940',1,'CubbyFlow::MatrixExpression::Normalized()']]],
   ['normsquared',['NormSquared',['../class_cubby_flow_1_1_matrix_expression.html#a5037e584e3bd4d88851a4767c3cc0f83',1,'CubbyFlow::MatrixExpression']]],
-  ['numberofcolliders',['NumberOfColliders',['../class_cubby_flow_1_1_collider_set2.html#adf2efca1a89fbc46a354d99f63d516cd',1,'CubbyFlow::ColliderSet2::NumberOfColliders()'],['../class_cubby_flow_1_1_collider_set3.html#a55ef8933492ca008d60bd8f857d32b9a',1,'CubbyFlow::ColliderSet3::NumberOfColliders()']]],
+  ['numberofcolliders',['NumberOfColliders',['../class_cubby_flow_1_1_collider_set.html#a1e7556b8ded60451ea38dd085d206631',1,'CubbyFlow::ColliderSet']]],
   ['numberofitems',['NumberOfItems',['../class_cubby_flow_1_1_b_v_h.html#a13e2e97758691dadd0f1bb3c0bd02e1e',1,'CubbyFlow::BVH']]],
   ['numberofnodes',['NumberOfNodes',['../class_cubby_flow_1_1_b_v_h.html#a6315b235dbac4ee69482a1edaab545ba',1,'CubbyFlow::BVH']]],
   ['numberofnonzeros',['NumberOfNonZeros',['../class_cubby_flow_1_1_matrix_c_s_r.html#a23075dcfcdea0105a197d850b9525c35',1,'CubbyFlow::MatrixCSR']]],

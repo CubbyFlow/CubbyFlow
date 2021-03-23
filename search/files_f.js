@@ -35,9 +35,7 @@ var searchData=
   ['sphsystemdata3_2ehpp',['SPHSystemData3.hpp',['../_s_p_h_system_data3_8hpp.html',1,'']]],
   ['surface_2ehpp',['Surface.hpp',['../_a_p_i_2_python_2_geometry_2_surface_8hpp.html',1,'(Global Namespace)'],['../_core_2_geometry_2_surface_8hpp.html',1,'(Global Namespace)']]],
   ['surfaceset_2ehpp',['SurfaceSet.hpp',['../_a_p_i_2_python_2_geometry_2_surface_set_8hpp.html',1,'(Global Namespace)'],['../_core_2_geometry_2_surface_set_8hpp.html',1,'(Global Namespace)']]],
-  ['surfacetoimplicit_2ehpp',['SurfaceToImplicit.hpp',['../_surface_to_implicit_8hpp.html',1,'']]],
-  ['surfacetoimplicit2_2ehpp',['SurfaceToImplicit2.hpp',['../_surface_to_implicit2_8hpp.html',1,'']]],
-  ['surfacetoimplicit3_2ehpp',['SurfaceToImplicit3.hpp',['../_surface_to_implicit3_8hpp.html',1,'']]],
+  ['surfacetoimplicit_2ehpp',['SurfaceToImplicit.hpp',['../_a_p_i_2_python_2_geometry_2_surface_to_implicit_8hpp.html',1,'(Global Namespace)'],['../_core_2_geometry_2_surface_to_implicit_8hpp.html',1,'(Global Namespace)']]],
   ['svd_2dimpl_2ehpp',['SVD-Impl.hpp',['../_s_v_d-_impl_8hpp.html',1,'']]],
   ['svd_2ehpp',['SVD.hpp',['../_s_v_d_8hpp.html',1,'']]]
 ];

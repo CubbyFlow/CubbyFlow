@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['implicitsurface_2ehpp',['ImplicitSurface.hpp',['../_implicit_surface_8hpp.html',1,'']]],
-  ['implicitsurface2_2ehpp',['ImplicitSurface2.hpp',['../_implicit_surface2_8hpp.html',1,'']]],
-  ['implicitsurface3_2ehpp',['ImplicitSurface3.hpp',['../_implicit_surface3_8hpp.html',1,'']]],
+  ['implicitsurface_2ehpp',['ImplicitSurface.hpp',['../_a_p_i_2_python_2_geometry_2_implicit_surface_8hpp.html',1,'(Global Namespace)'],['../_core_2_geometry_2_implicit_surface_8hpp.html',1,'(Global Namespace)']]],
   ['implicitsurfaceset2_2ehpp',['ImplicitSurfaceSet2.hpp',['../_implicit_surface_set2_8hpp.html',1,'']]],
   ['implicitsurfaceset3_2ehpp',['ImplicitSurfaceSet3.hpp',['../_implicit_surface_set3_8hpp.html',1,'']]],
   ['implicittrianglemesh_2ehpp',['ImplicitTriangleMesh.hpp',['../_implicit_triangle_mesh_8hpp.html',1,'']]],

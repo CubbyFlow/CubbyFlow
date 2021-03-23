@@ -46,7 +46,7 @@ var searchData=
   ['normsquared',['NormSquared',['../class_cubby_flow_1_1_matrix_expression.html#a5037e584e3bd4d88851a4767c3cc0f83',1,'CubbyFlow::MatrixExpression']]],
   ['nullcgpreconditioner',['NullCGPreconditioner',['../struct_cubby_flow_1_1_null_c_g_preconditioner.html',1,'CubbyFlow']]],
   ['numberofcoarsestiter',['numberOfCoarsestIter',['../struct_cubby_flow_1_1_m_g_parameters.html#a4867dfac6a8f1a046a2bf777b9f9af1d',1,'CubbyFlow::MGParameters']]],
-  ['numberofcolliders',['NumberOfColliders',['../class_cubby_flow_1_1_collider_set2.html#adf2efca1a89fbc46a354d99f63d516cd',1,'CubbyFlow::ColliderSet2::NumberOfColliders()'],['../class_cubby_flow_1_1_collider_set3.html#a55ef8933492ca008d60bd8f857d32b9a',1,'CubbyFlow::ColliderSet3::NumberOfColliders()']]],
+  ['numberofcolliders',['NumberOfColliders',['../class_cubby_flow_1_1_collider_set.html#a1e7556b8ded60451ea38dd085d206631',1,'CubbyFlow::ColliderSet']]],
   ['numberofcorrectioniter',['numberOfCorrectionIter',['../struct_cubby_flow_1_1_m_g_parameters.html#a1f3d398180bda0c1053cff425ef08e99',1,'CubbyFlow::MGParameters']]],
   ['numberoffinaliter',['numberOfFinalIter',['../struct_cubby_flow_1_1_m_g_parameters.html#aa86ccfa88eb1881d2f855e6c13efc2fa',1,'CubbyFlow::MGParameters']]],
   ['numberofitems',['NumberOfItems',['../class_cubby_flow_1_1_b_v_h.html#a13e2e97758691dadd0f1bb3c0bd02e1e',1,'CubbyFlow::BVH']]],
