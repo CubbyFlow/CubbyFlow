@@ -13,7 +13,7 @@
 
 #include <Core/Array/Array.hpp>
 #include <Core/Geometry/BVH.hpp>
-#include <Core/Geometry/ImplicitSurface2.hpp>
+#include <Core/Geometry/ImplicitSurface.hpp>
 
 namespace CubbyFlow
 {

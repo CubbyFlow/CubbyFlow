@@ -1,7 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Geometry/ImplicitSurface2.hpp>
-#include <Core/Geometry/ImplicitSurface3.hpp>
+#include <Core/Geometry/ImplicitSurface.hpp>
 #include <Core/Geometry/ImplicitSurfaceSet2.hpp>
 #include <Core/Geometry/ImplicitSurfaceSet3.hpp>
 #include <Core/Geometry/Sphere2.hpp>

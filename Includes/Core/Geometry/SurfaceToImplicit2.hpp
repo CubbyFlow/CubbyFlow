@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_SURFACE_TO_IMPLICIT2_HPP
 #define CUBBYFLOW_SURFACE_TO_IMPLICIT2_HPP
 
-#include <Core/Geometry/ImplicitSurface2.hpp>
+#include <Core/Geometry/ImplicitSurface.hpp>
 
 namespace CubbyFlow
 {
