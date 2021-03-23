@@ -10,8 +10,7 @@
 
 #include <API/Python/Geometry/ColliderSet.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Geometry/ColliderSet2.hpp>
-#include <Core/Geometry/ColliderSet3.hpp>
+#include <Core/Geometry/ColliderSet.hpp>
 
 #include <pybind11/pybind11.h>
 
@@ -27,13 +26,20 @@ void AddColliderSet2(pybind11::module& m)
         .def(pybind11::init([](pybind11::args args) {
                  if (args.size() == 1)
                  {
-                     return new ColliderSet2(
-                         args[0].cast<std::vector<Collider2Ptr>>());
+                     Array1<Collider2Ptr> others_;
+                     auto vec = args[0].cast<std::vector<Collider2Ptr>>();
+
+                     for (const auto& elem : vec)
+                     {
+                         others_.Append(elem);
+                     }
+
+                     return new ColliderSet2{ others_ };
                  }
 
                  if (args.size() == 0)
                  {
-                     return new ColliderSet2();
+                     return new ColliderSet2{};
                  }
 
                  throw std::invalid_argument("Invalid number of arguments.");
@@ -50,7 +56,7 @@ void AddColliderSet2(pybind11::module& m)
         .def_property_readonly("numberOfColliders",
                                &ColliderSet2::NumberOfColliders,
                                R"pbdoc(Number of colliders.)pbdoc")
-        .def("Collider", &ColliderSet2::Collider,
+        .def("GetCollider", &ColliderSet2::GetCollider,
              R"pbdoc(Returns collider at index i.)pbdoc");
 }
 
@@ -64,13 +70,20 @@ void AddColliderSet3(pybind11::module& m)
         .def(pybind11::init([](pybind11::args args) {
                  if (args.size() == 1)
                  {
-                     return new ColliderSet3(
-                         args[0].cast<std::vector<Collider3Ptr>>());
+                     Array1<Collider3Ptr> others_;
+                     auto vec = args[0].cast<std::vector<Collider3Ptr>>();
+
+                     for (const auto& elem : vec)
+                     {
+                         others_.Append(elem);
+                     }
+
+                     return new ColliderSet3{ others_ };
                  }
 
                  if (args.size() == 0)
                  {
-                     return new ColliderSet3();
+                     return new ColliderSet3{};
                  }
 
                  throw std::invalid_argument("Invalid number of arguments.");
@@ -87,6 +100,6 @@ void AddColliderSet3(pybind11::module& m)
         .def_property_readonly("numberOfColliders",
                                &ColliderSet3::NumberOfColliders,
                                R"pbdoc(Number of colliders.)pbdoc")
-        .def("Collider", &ColliderSet3::Collider,
+        .def("GetCollider", &ColliderSet3::GetCollider,
              R"pbdoc(Returns collider at index i.)pbdoc");
 }

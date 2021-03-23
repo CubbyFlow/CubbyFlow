@@ -20,7 +20,8 @@ TEST(SurfaceSet3, Constructors)
                     .WithRadius(0.25)
                     .WithCenter({ -2, 0, 0 })
                     .MakeShared();
-    SurfaceSet3 sset2({ sph1, sph2, sph3 }, Transform3(), false);
+    SurfaceSet3 sset2(Array1<Surface3Ptr>{ sph1, sph2, sph3 }, Transform3{},
+                      false);
     EXPECT_EQ(3u, sset2.NumberOfSurfaces());
     EXPECT_EQ(sph1->radius,
               std::dynamic_pointer_cast<Sphere3>(sset2.SurfaceAt(0))->radius);
@@ -32,7 +33,7 @@ TEST(SurfaceSet3, Constructors)
     EXPECT_EQ(QuaternionD(), sset2.transform.GetOrientation().GetRotation());
 
     SurfaceSet3 sset3(
-        { sph1, sph2, sph3 },
+        Array1<Surface3Ptr>{ sph1, sph2, sph3 },
         Transform3(Vector3D(1, 2, 3), QuaternionD({ 1, 0, 0 }, 0.5)), false);
     EXPECT_EQ(Vector3D(1, 2, 3), sset3.transform.GetTranslation());
     EXPECT_EQ(QuaternionD({ 1, 0, 0 }, 0.5),
@@ -452,7 +453,9 @@ TEST(SurfaceSet3, MixedBoundTypes)
                             .MakeShared();
 
     const auto surfaceSet =
-        SurfaceSet3::Builder().WithSurfaces({ plane, sphere }).MakeShared();
+        SurfaceSet3::Builder()
+            .WithSurfaces(Array1<Surface3Ptr>{ plane, sphere })
+            .MakeShared();
 
     EXPECT_FALSE(surfaceSet->IsBounded());
 
@@ -480,8 +483,9 @@ TEST(SurfaceSet3, IsValidGeometry)
                             .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
-    auto surfaceSet2 =
-        SurfaceSet3::Builder().WithSurfaces({ plane, sphere }).MakeShared();
+    auto surfaceSet2 = SurfaceSet3::Builder()
+                           .WithSurfaces(Array1<Surface3Ptr>{ plane, sphere })
+                           .MakeShared();
 
     EXPECT_TRUE(surfaceSet2->IsValidGeometry());
 
@@ -507,7 +511,7 @@ TEST(SurfaceSet3, IsInside)
 
     const auto surfaceSet =
         SurfaceSet3::Builder{}
-            .WithSurfaces({ plane, sphere })
+            .WithSurfaces(Array1<Surface3Ptr>{ plane, sphere })
             .WithTransform(Transform3{ offset, QuaternionD{} })
             .MakeShared();
 
@@ -525,7 +529,7 @@ TEST(SurfaceSet3, UpdateQueryEngine)
 
     auto surfaceSet =
         SurfaceSet3::Builder{}
-            .WithSurfaces({ sphere })
+            .WithSurfaces(Array1<Surface3Ptr>{ sphere })
             .WithTransform(Transform3{ { 1.0, 2.0, -1.0 }, QuaternionD{} })
             .MakeShared();
 
