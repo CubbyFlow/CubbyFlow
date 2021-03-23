@@ -17,7 +17,7 @@ namespace CubbyFlow
 template <size_t N>
 SurfaceSet<N>::SurfaceSet(
     const ConstArrayView1<std::shared_ptr<Surface<N>>>& others,
-                          const Transform<N>& _transform, bool _isNormalFlipped)
+    const Transform<N>& _transform, bool _isNormalFlipped)
     : Surface<N>(_transform, _isNormalFlipped), m_surfaces(others)
 {
     for (const auto& surface : m_surfaces)
@@ -115,7 +115,8 @@ Vector<double, N> SurfaceSet<N>::ClosestPointLocal(
         return surface->ClosestDistance(pt);
     };
 
-    Vector<double, N> result;
+    Vector<double, N> result =
+        Vector<double, N>::MakeConstant(std::numeric_limits<double>::max());
     result.Fill(std::numeric_limits<double>::max());
 
     const auto queryResult = m_bvh.Nearest(otherPoint, distanceFunc);
@@ -198,7 +199,7 @@ Vector<double, N> SurfaceSet<N>::ClosestNormalLocal(
         return surface->ClosestDistance(pt);
     };
 
-    Vector<double, N> result;
+    Vector<double, N> result = Vector<double, N>::MakeUnitX();
     const auto queryResult = m_bvh.Nearest(otherPoint, distanceFunc);
 
     if (queryResult.item != nullptr)
