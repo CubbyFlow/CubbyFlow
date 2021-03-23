@@ -15,7 +15,8 @@
 namespace CubbyFlow
 {
 template <size_t N>
-SurfaceSet<N>::SurfaceSet(const Array1<std::shared_ptr<Surface<N>>>& others,
+SurfaceSet<N>::SurfaceSet(
+    const ConstArrayView1<std::shared_ptr<Surface<N>>>& others,
                           const Transform<N>& _transform, bool _isNormalFlipped)
     : Surface<N>(_transform, _isNormalFlipped), m_surfaces(others)
 {
@@ -320,7 +321,7 @@ typename SurfaceSet<N>::Builder SurfaceSet<N>::GetBuilder()
 
 template <size_t N>
 typename SurfaceSet<N>::Builder& SurfaceSet<N>::Builder::WithSurfaces(
-    const Array1<std::shared_ptr<Surface<N>>>& others)
+    const ConstArrayView1<std::shared_ptr<Surface<N>>>& others)
 {
     m_surfaces = others;
     return *this;
