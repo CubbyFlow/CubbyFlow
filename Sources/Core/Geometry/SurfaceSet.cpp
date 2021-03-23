@@ -197,7 +197,7 @@ Vector<double, N> SurfaceSet<N>::ClosestNormalLocal(
         return surface->ClosestDistance(pt);
     };
 
-    Vector<double, N> result{ 1.0, 0.0 };
+    Vector<double, N> result;
     const auto queryResult = m_bvh.Nearest(otherPoint, distanceFunc);
 
     if (queryResult.item != nullptr)
