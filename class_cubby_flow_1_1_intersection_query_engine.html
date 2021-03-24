@@ -91,10 +91,9 @@ Inheritance diagram for CubbyFlow::IntersectionQueryEngine&lt; T, N &gt;:</div>
   <img src="class_cubby_flow_1_1_intersection_query_engine.png" usemap="#CubbyFlow::IntersectionQueryEngine_3C_20T_2C_20N_20_3E_map" alt=""/>
   <map id="CubbyFlow::IntersectionQueryEngine_3C_20T_2C_20N_20_3E_map" name="CubbyFlow::IntersectionQueryEngine_3C_20T_2C_20N_20_3E_map">
 <area href="class_cubby_flow_1_1_b_v_h.html" title="Bounding Volume Hierarchy (BVH) in N-D. " alt="CubbyFlow::BVH&lt; T, N &gt;" shape="rect" coords="0,56,271,80"/>
-<area href="class_cubby_flow_1_1_list_query_engine2.html" title="Ad-hoc list-based 2-D intersection/nearest-neighbor query engine. " alt="CubbyFlow::ListQueryEngine2&lt; T &gt;" shape="rect" coords="281,56,552,80"/>
-<area href="class_cubby_flow_1_1_list_query_engine3.html" title="Ad-hoc list-based 3-D intersection/nearest-neighbor query engine. " alt="CubbyFlow::ListQueryEngine3&lt; T &gt;" shape="rect" coords="562,56,833,80"/>
-<area href="class_cubby_flow_1_1_octree.html" title="Generic octree data structure. " alt="CubbyFlow::Octree&lt; T &gt;" shape="rect" coords="843,56,1114,80"/>
-<area href="class_cubby_flow_1_1_quadtree.html" title="Generic quadtree data structure. " alt="CubbyFlow::Quadtree&lt; T &gt;" shape="rect" coords="1124,56,1395,80"/>
+<area href="class_cubby_flow_1_1_list_query_engine.html" title="Ad-hoc list-based N-D intersection/nearest-neighbor query engine. " alt="CubbyFlow::ListQueryEngine&lt; T, N &gt;" shape="rect" coords="281,56,552,80"/>
+<area href="class_cubby_flow_1_1_octree.html" title="Generic octree data structure. " alt="CubbyFlow::Octree&lt; T &gt;" shape="rect" coords="562,56,833,80"/>
+<area href="class_cubby_flow_1_1_quadtree.html" title="Generic quadtree data structure. " alt="CubbyFlow::Quadtree&lt; T &gt;" shape="rect" coords="843,56,1114,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -190,7 +189,7 @@ template&lt;typename T, size_t N&gt; </div>
 
 <p>Returns the closest intersection for given <code>ray</code>. </p>
 
-<p>Implemented in <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5821c8f0e86b76c5b9f11b4ebd0f0918">CubbyFlow::BVH&lt; T, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5821c8f0e86b76c5b9f11b4ebd0f0918">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::Surface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5821c8f0e86b76c5b9f11b4ebd0f0918">CubbyFlow::BVH&lt; size_t &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5821c8f0e86b76c5b9f11b4ebd0f0918">CubbyFlow::BVH&lt; ImplicitSurface2Ptr &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5821c8f0e86b76c5b9f11b4ebd0f0918">CubbyFlow::BVH&lt; ImplicitSurface3Ptr &gt;</a>.</p>
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5821c8f0e86b76c5b9f11b4ebd0f0918">CubbyFlow::BVH&lt; T, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5821c8f0e86b76c5b9f11b4ebd0f0918">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::Surface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5821c8f0e86b76c5b9f11b4ebd0f0918">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::ImplicitSurface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5821c8f0e86b76c5b9f11b4ebd0f0918">CubbyFlow::BVH&lt; size_t &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_list_query_engine.html#a9eaba9a3341e01885a2e3ef2eea6d04a">CubbyFlow::ListQueryEngine&lt; T, N &gt;</a>.</p>
 
 </div>
 </div>
@@ -238,7 +237,7 @@ template&lt;typename T, size_t N&gt; </div>
 
 <p>Invokes <code>visitorFunc</code> for every intersecting items. </p>
 
-<p>Implemented in <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ab1b2d9b6a998dd0173e2ff11bd563ef3">CubbyFlow::BVH&lt; T, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ab1b2d9b6a998dd0173e2ff11bd563ef3">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::Surface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ab1b2d9b6a998dd0173e2ff11bd563ef3">CubbyFlow::BVH&lt; size_t &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ab1b2d9b6a998dd0173e2ff11bd563ef3">CubbyFlow::BVH&lt; ImplicitSurface2Ptr &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ab1b2d9b6a998dd0173e2ff11bd563ef3">CubbyFlow::BVH&lt; ImplicitSurface3Ptr &gt;</a>.</p>
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ab1b2d9b6a998dd0173e2ff11bd563ef3">CubbyFlow::BVH&lt; T, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ab1b2d9b6a998dd0173e2ff11bd563ef3">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::Surface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ab1b2d9b6a998dd0173e2ff11bd563ef3">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::ImplicitSurface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#ab1b2d9b6a998dd0173e2ff11bd563ef3">CubbyFlow::BVH&lt; size_t &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_list_query_engine.html#accef5cae9a0f5f7fff796d812c780011">CubbyFlow::ListQueryEngine&lt; T, N &gt;</a>.</p>
 
 </div>
 </div>
@@ -286,7 +285,7 @@ template&lt;typename T, size_t N&gt; </div>
 
 <p>Invokes <code>visitorFunc</code> for every intersecting items. </p>
 
-<p>Implemented in <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5902d2d9480b5b8d6212800845218e25">CubbyFlow::BVH&lt; T, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5902d2d9480b5b8d6212800845218e25">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::Surface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5902d2d9480b5b8d6212800845218e25">CubbyFlow::BVH&lt; size_t &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5902d2d9480b5b8d6212800845218e25">CubbyFlow::BVH&lt; ImplicitSurface2Ptr &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5902d2d9480b5b8d6212800845218e25">CubbyFlow::BVH&lt; ImplicitSurface3Ptr &gt;</a>.</p>
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5902d2d9480b5b8d6212800845218e25">CubbyFlow::BVH&lt; T, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5902d2d9480b5b8d6212800845218e25">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::Surface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5902d2d9480b5b8d6212800845218e25">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::ImplicitSurface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a5902d2d9480b5b8d6212800845218e25">CubbyFlow::BVH&lt; size_t &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_list_query_engine.html#a27f863015896ab164464be0fe82e93b8">CubbyFlow::ListQueryEngine&lt; T, N &gt;</a>.</p>
 
 </div>
 </div>
@@ -328,7 +327,7 @@ template&lt;typename T, size_t N&gt; </div>
 
 <p>Returns true if given <code>box</code> intersects with any of the stored items. </p>
 
-<p>Implemented in <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a46136cf671850f7ab743622f6f125678">CubbyFlow::BVH&lt; T, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a46136cf671850f7ab743622f6f125678">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::Surface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a46136cf671850f7ab743622f6f125678">CubbyFlow::BVH&lt; size_t &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a46136cf671850f7ab743622f6f125678">CubbyFlow::BVH&lt; ImplicitSurface2Ptr &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a46136cf671850f7ab743622f6f125678">CubbyFlow::BVH&lt; ImplicitSurface3Ptr &gt;</a>.</p>
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a46136cf671850f7ab743622f6f125678">CubbyFlow::BVH&lt; T, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a46136cf671850f7ab743622f6f125678">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::Surface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a46136cf671850f7ab743622f6f125678">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::ImplicitSurface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a46136cf671850f7ab743622f6f125678">CubbyFlow::BVH&lt; size_t &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_list_query_engine.html#a72e71194cb0253b9e8936741cbafe01c">CubbyFlow::ListQueryEngine&lt; T, N &gt;</a>.</p>
 
 </div>
 </div>
@@ -370,7 +369,7 @@ template&lt;typename T, size_t N&gt; </div>
 
 <p>Returns true if given <code>ray</code> intersects with any of the stored items. </p>
 
-<p>Implemented in <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a877b97a9c613e2175e16602fb975d7d4">CubbyFlow::BVH&lt; T, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a877b97a9c613e2175e16602fb975d7d4">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::Surface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a877b97a9c613e2175e16602fb975d7d4">CubbyFlow::BVH&lt; size_t &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a877b97a9c613e2175e16602fb975d7d4">CubbyFlow::BVH&lt; ImplicitSurface2Ptr &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a877b97a9c613e2175e16602fb975d7d4">CubbyFlow::BVH&lt; ImplicitSurface3Ptr &gt;</a>.</p>
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a877b97a9c613e2175e16602fb975d7d4">CubbyFlow::BVH&lt; T, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a877b97a9c613e2175e16602fb975d7d4">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::Surface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a877b97a9c613e2175e16602fb975d7d4">CubbyFlow::BVH&lt; std::shared_ptr&lt; CubbyFlow::ImplicitSurface&lt; N &gt; &gt;, N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_b_v_h.html#a877b97a9c613e2175e16602fb975d7d4">CubbyFlow::BVH&lt; size_t &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_list_query_engine.html#accfcde6d12a1e8e5cdf9620a7846447a">CubbyFlow::ListQueryEngine&lt; T, N &gt;</a>.</p>
 
 </div>
 </div>
@@ -386,7 +385,7 @@ template&lt;typename T, size_t N&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Mar 23 2021 16:16:51 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 24 2021 14:55:07 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

@@ -9,8 +9,7 @@ var searchData=
   ['lineararraysampler',['LinearArraySampler',['../class_cubby_flow_1_1_linear_array_sampler.html',1,'CubbyFlow']]],
   ['lineararraysampler_3c_20cubbyflow_3a_3amatrix_20_3e',['LinearArraySampler&lt; CubbyFlow::Matrix &gt;',['../class_cubby_flow_1_1_linear_array_sampler.html',1,'CubbyFlow']]],
   ['lineararraysampler_3c_20double_20_3e',['LinearArraySampler&lt; double &gt;',['../class_cubby_flow_1_1_linear_array_sampler.html',1,'CubbyFlow']]],
-  ['listqueryengine2',['ListQueryEngine2',['../class_cubby_flow_1_1_list_query_engine2.html',1,'CubbyFlow']]],
-  ['listqueryengine3',['ListQueryEngine3',['../class_cubby_flow_1_1_list_query_engine3.html',1,'CubbyFlow']]],
+  ['listqueryengine',['ListQueryEngine',['../class_cubby_flow_1_1_list_query_engine.html',1,'CubbyFlow']]],
   ['logger',['Logger',['../class_cubby_flow_1_1_logger.html',1,'CubbyFlow']]],
   ['logging',['Logging',['../class_cubby_flow_1_1_logging.html',1,'CubbyFlow']]]
 ];

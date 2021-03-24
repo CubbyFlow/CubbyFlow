@@ -131,6 +131,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a212548aabd35e16a318ade18dcce99eb"><td class="memTemplParams" colspan="2">template&lt;typename OtherDerived , size_t M = N&gt; </td></tr>
 <tr class="memitem:a212548aabd35e16a318ade18dcce99eb"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt;(M==1), void &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array.html#a212548aabd35e16a318ade18dcce99eb">Append</a> (const <a class="el" href="class_cubby_flow_1_1_array_base.html">ArrayBase</a>&lt; T, N, OtherDerived &gt; &amp;extra)</td></tr>
 <tr class="separator:a212548aabd35e16a318ade18dcce99eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04b589335829929b09c59a3b27510721"><td class="memTemplParams" colspan="2">template&lt;typename OtherDerived , size_t M = N&gt; </td></tr>
+<tr class="memitem:a04b589335829929b09c59a3b27510721"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt;(M==1), void &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array.html#a04b589335829929b09c59a3b27510721">Append</a> (const <a class="el" href="class_cubby_flow_1_1_array_base.html">ArrayBase</a>&lt; const T, N, OtherDerived &gt; &amp;extra)</td></tr>
+<tr class="separator:a04b589335829929b09c59a3b27510721"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3065864048f4a7cd24020e02a002268"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array.html#af3065864048f4a7cd24020e02a002268">Clear</a> ()</td></tr>
 <tr class="separator:af3065864048f4a7cd24020e02a002268"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b0cf463fc203eb06ea311879784da88"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array.html#a9b0cf463fc203eb06ea311879784da88">Swap</a> (<a class="el" href="class_cubby_flow_1_1_array.html">Array</a> &amp;other)</td></tr>
@@ -467,7 +470,7 @@ template&lt;typename T, size_t N&gt; </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a325948ed12efc86bd54f83e51810f1ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a325948ed12efc86bd54f83e51810f1ba">&#9670;&nbsp;</a></span>Append() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a325948ed12efc86bd54f83e51810f1ba">&#9670;&nbsp;</a></span>Append() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -489,7 +492,7 @@ template&lt;size_t M&gt; </div>
 </div>
 </div>
 <a id="a212548aabd35e16a318ade18dcce99eb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a212548aabd35e16a318ade18dcce99eb">&#9670;&nbsp;</a></span>Append() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a212548aabd35e16a318ade18dcce99eb">&#9670;&nbsp;</a></span>Append() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -502,6 +505,28 @@ template&lt;typename OtherDerived , size_t M&gt; </div>
           <td class="memname">std::enable_if_t&lt;(M==1), void &gt; <a class="el" href="class_cubby_flow_1_1_array.html">CubbyFlow::Array</a>&lt; T, N &gt;::Append </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_array_base.html">ArrayBase</a>&lt; T, N, OtherDerived &gt; &amp;&#160;</td>
+          <td class="paramname"><em>extra</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a04b589335829929b09c59a3b27510721"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04b589335829929b09c59a3b27510721">&#9670;&nbsp;</a></span>Append() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, size_t N&gt; </div>
+<div class="memtemplate">
+template&lt;typename OtherDerived , size_t M&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if_t&lt;(M==1), void &gt; <a class="el" href="class_cubby_flow_1_1_array.html">CubbyFlow::Array</a>&lt; T, N &gt;::Append </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_array_base.html">ArrayBase</a>&lt; const T, N, OtherDerived &gt; &amp;&#160;</td>
           <td class="paramname"><em>extra</em></td><td>)</td>
           <td></td>
         </tr>
@@ -862,7 +887,7 @@ template&lt;typename T , size_t N&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Mar 23 2021 16:16:50 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 24 2021 14:55:06 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

@@ -100,9 +100,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a0a20a8c3f55eb73f48532a8c57fbb3e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a609af7770dbba25425e189e69a3b480f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array_view.html#a609af7770dbba25425e189e69a3b480f">ArrayView</a> (T *ptr, const <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; size_t, N &gt; &amp;size)</td></tr>
 <tr class="separator:a609af7770dbba25425e189e69a3b480f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a415f3e6a682756ad8c747d7c81fabe"><td class="memTemplParams" colspan="2">template&lt;size_t M = N&gt; </td></tr>
-<tr class="memitem:a7a415f3e6a682756ad8c747d7c81fabe"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array_view.html#a7a415f3e6a682756ad8c747d7c81fabe">ArrayView</a> (typename std::enable_if&lt;(M==1), T &gt;::type *ptr, size_t size)</td></tr>
-<tr class="separator:a7a415f3e6a682756ad8c747d7c81fabe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56e3099551d7acd14343abb10c6a01b1"><td class="memTemplParams" colspan="2">template&lt;size_t M = N&gt; </td></tr>
+<tr class="memitem:a56e3099551d7acd14343abb10c6a01b1"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array_view.html#a56e3099551d7acd14343abb10c6a01b1">ArrayView</a> (std::enable_if_t&lt;(M==1), T *&gt; ptr, size_t size)</td></tr>
+<tr class="separator:a56e3099551d7acd14343abb10c6a01b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca48197717d3e221d240b27a6cb5cdd7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array_view.html#aca48197717d3e221d240b27a6cb5cdd7">ArrayView</a> (<a class="el" href="class_cubby_flow_1_1_array.html">Array</a>&lt; T, N &gt; &amp;other)</td></tr>
 <tr class="separator:aca48197717d3e221d240b27a6cb5cdd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abbf2a6b7fadf74cfc7c90916b38c58d2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_array_view.html#abbf2a6b7fadf74cfc7c90916b38c58d2">ArrayView</a> (const <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a> &amp;other)</td></tr>
@@ -298,8 +298,8 @@ template&lt;typename T, size_t N&gt; </div>
 
 </div>
 </div>
-<a id="a7a415f3e6a682756ad8c747d7c81fabe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a415f3e6a682756ad8c747d7c81fabe">&#9670;&nbsp;</a></span>ArrayView() <span class="overload">[3/6]</span></h2>
+<a id="a56e3099551d7acd14343abb10c6a01b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56e3099551d7acd14343abb10c6a01b1">&#9670;&nbsp;</a></span>ArrayView() <span class="overload">[3/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -311,7 +311,7 @@ template&lt;size_t M&gt; </div>
         <tr>
           <td class="memname"><a class="el" href="class_cubby_flow_1_1_array_view.html">CubbyFlow::ArrayView</a>&lt; T, N &gt;::<a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a> </td>
           <td>(</td>
-          <td class="paramtype">typename std::enable_if&lt;(M==1), T &gt;::type *&#160;</td>
+          <td class="paramtype">std::enable_if_t&lt;(M==1), T *&gt;&#160;</td>
           <td class="paramname"><em>ptr</em>, </td>
         </tr>
         <tr>
@@ -521,7 +521,7 @@ template&lt;typename T, size_t N&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Mar 23 2021 16:16:50 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 24 2021 14:55:06 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
