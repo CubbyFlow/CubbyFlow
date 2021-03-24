@@ -3,7 +3,7 @@
 #include <Core/Geometry/Triangle3.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Matrix/Matrix.hpp>
-#include <Core/QueryEngine/ListQueryEngine3.hpp>
+#include <Core/QueryEngine/ListQueryEngine.hpp>
 
 #include <fstream>
 #include <random>

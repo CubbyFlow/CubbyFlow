@@ -1,15 +1,15 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
-#include <Core/QueryEngine/ListQueryEngine3.hpp>
+#include <Core/QueryEngine/ListQueryEngine.hpp>
 
 using namespace CubbyFlow;
 
 TEST(ListQueryEngine3, BoxIntersection)
 {
     size_t numSamples = GetNumberOfSamplePoints3();
-    std::vector<Vector3D> points(GetSamplePoints3(),
-                                 GetSamplePoints3() + numSamples);
+    Array1<Vector3D> points(numSamples);
+    std::copy_n(GetSamplePoints3(), numSamples, points.begin());
 
     ListQueryEngine3<Vector3D> engine;
     engine.Add(points);
@@ -56,7 +56,7 @@ TEST(ListQueryEngine3, RayIntersection)
     };
 
     size_t numSamples = GetNumberOfSamplePoints3();
-    std::vector<BoundingBox3D> items(numSamples / 2);
+    Array1<BoundingBox3D> items(numSamples / 2);
     size_t i = 0;
 
     std::generate(items.begin(), items.end(), [&]() {
@@ -103,7 +103,7 @@ TEST(ListQueryEngine3, ClosestIntersection)
     };
 
     size_t numSamples = GetNumberOfSamplePoints3();
-    std::vector<BoundingBox3D> items(numSamples / 2);
+    Array1<BoundingBox3D> items(numSamples / 2);
     size_t i = 0;
 
     std::generate(items.begin(), items.end(), [&]() {
@@ -163,8 +163,8 @@ TEST(ListQueryEngine3, Nearest)
     };
 
     size_t numSamples = GetNumberOfSamplePoints3();
-    std::vector<Vector3D> points(GetSamplePoints3(),
-                                 GetSamplePoints3() + numSamples);
+    Array1<Vector3D> points(numSamples);
+    std::copy_n(GetSamplePoints3(), numSamples, points.begin());
 
     engine.Add(points);
 
