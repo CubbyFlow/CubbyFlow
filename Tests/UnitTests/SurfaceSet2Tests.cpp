@@ -2,7 +2,7 @@
 #include "pch.hpp"
 
 #include <Core/Geometry/Plane.hpp>
-#include <Core/Geometry/Sphere2.hpp>
+#include <Core/Geometry/Sphere.hpp>
 #include <Core/Geometry/SurfaceSet.hpp>
 
 using namespace CubbyFlow;

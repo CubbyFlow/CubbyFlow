@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Geometry/Sphere3.hpp>
+#include <Core/Geometry/Sphere.hpp>
 
 using namespace CubbyFlow;
 

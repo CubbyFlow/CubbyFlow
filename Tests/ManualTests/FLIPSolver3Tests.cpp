@@ -9,7 +9,7 @@
 #include <Core/Geometry/ImplicitSurfaceSet.hpp>
 #include <Core/Geometry/Plane.hpp>
 #include <Core/Geometry/RigidBodyCollider.hpp>
-#include <Core/Geometry/Sphere3.hpp>
+#include <Core/Geometry/Sphere.hpp>
 #include <Core/PointGenerator/GridPointGenerator3.hpp>
 #include <Core/Solver/Hybrid/FLIP/FLIPSolver3.hpp>
 

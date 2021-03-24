@@ -2,7 +2,7 @@
 #include "pch.hpp"
 
 #include <Core/Geometry/CustomImplicitSurface2.hpp>
-#include <Core/Geometry/Sphere2.hpp>
+#include <Core/Geometry/Sphere.hpp>
 #include <Core/Geometry/SurfaceToImplicit.hpp>
 
 using namespace CubbyFlow;

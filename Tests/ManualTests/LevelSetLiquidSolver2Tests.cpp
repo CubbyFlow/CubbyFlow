@@ -5,7 +5,7 @@
 #include <Core/Geometry/ImplicitSurfaceSet.hpp>
 #include <Core/Geometry/Plane.hpp>
 #include <Core/Geometry/RigidBodyCollider.hpp>
-#include <Core/Geometry/Sphere2.hpp>
+#include <Core/Geometry/Sphere.hpp>
 #include <Core/Geometry/SurfaceToImplicit.hpp>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver2.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver2.hpp>

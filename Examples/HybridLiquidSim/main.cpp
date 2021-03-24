@@ -18,7 +18,7 @@
 #include <Core/Geometry/ImplicitSurfaceSet.hpp>
 #include <Core/Geometry/Plane.hpp>
 #include <Core/Geometry/RigidBodyCollider.hpp>
-#include <Core/Geometry/Sphere3.hpp>
+#include <Core/Geometry/Sphere.hpp>
 #include <Core/Particle/ParticleSystemData3.hpp>
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>
 #include <Core/PointGenerator/GridPointGenerator3.hpp>

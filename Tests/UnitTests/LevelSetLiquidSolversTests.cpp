@@ -2,8 +2,7 @@
 
 #include <Core/Geometry/ImplicitSurface.hpp>
 #include <Core/Geometry/ImplicitSurfaceSet.hpp>
-#include <Core/Geometry/Sphere2.hpp>
-#include <Core/Geometry/Sphere3.hpp>
+#include <Core/Geometry/Sphere.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver2.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver3.hpp>
 

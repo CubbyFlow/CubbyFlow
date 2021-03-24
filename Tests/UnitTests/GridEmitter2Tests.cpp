@@ -1,7 +1,7 @@
 #include "pch.hpp"
 
 #include <Core/Emitter/VolumeGridEmitter2.hpp>
-#include <Core/Geometry/Sphere2.hpp>
+#include <Core/Geometry/Sphere.hpp>
 #include <Core/Grid/CellCenteredScalarGrid2.hpp>
 #include <Core/Grid/CellCenteredVectorGrid2.hpp>
 #include <Core/Utils/LevelSetUtils.hpp>
