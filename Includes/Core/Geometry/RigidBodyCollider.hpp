@@ -64,6 +64,10 @@ class AngularVelocity<3>
     Vector3D value;
 };
 
+using AngularVelocity2 = AngularVelocity<2>;
+
+using AngularVelocity3 = AngularVelocity<3>;
+
 //!
 //! \brief N-D rigid body collider class.
 //!
