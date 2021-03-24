@@ -25,9 +25,9 @@ def test_collider_set2():
     collider_set.AddCollider(collider3)
     assert collider_set.numberOfColliders == 3
 
-    assert collider1 == collider_set.Collider(0)
-    assert collider2 == collider_set.Collider(1)
-    assert collider3 == collider_set.Collider(2)
+    assert collider1 == collider_set.GetCollider(0)
+    assert collider2 == collider_set.GetCollider(1)
+    assert collider3 == collider_set.GetCollider(2)
 
 
 def test_collider_set3():
@@ -42,6 +42,6 @@ def test_collider_set3():
     collider_set.AddCollider(collider3)
     assert collider_set.numberOfColliders == 3
 
-    assert collider1 == collider_set.Collider(0)
-    assert collider2 == collider_set.Collider(1)
-    assert collider3 == collider_set.Collider(2)
+    assert collider1 == collider_set.GetCollider(0)
+    assert collider2 == collider_set.GetCollider(1)
+    assert collider3 == collider_set.GetCollider(2)
