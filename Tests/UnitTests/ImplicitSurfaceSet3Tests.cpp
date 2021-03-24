@@ -2,7 +2,7 @@
 #include "pch.hpp"
 
 #include <Core/Geometry/Box.hpp>
-#include <Core/Geometry/ImplicitSurfaceSet3.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet.hpp>
 #include <Core/Geometry/Plane.hpp>
 #include <Core/Geometry/Sphere3.hpp>
 #include <Core/Geometry/SurfaceToImplicit.hpp>
@@ -22,7 +22,7 @@ TEST(ImplicitSurfaceSet3, Constructor)
     EXPECT_EQ(1u, sset2.NumberOfSurfaces());
     EXPECT_TRUE(sset2.isNormalFlipped);
 
-    ImplicitSurfaceSet3 sset3({ box });
+    ImplicitSurfaceSet3 sset3(Array1<Surface3Ptr>{ box });
     EXPECT_EQ(1u, sset3.NumberOfSurfaces());
 }
 
@@ -231,9 +231,10 @@ TEST(ImplicitSurfaceSet3, MixedBoundTypes)
                             .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
-    const auto surfaceSet = ImplicitSurfaceSet3::Builder{}
-                                .WithExplicitSurfaces({ plane, sphere })
-                                .MakeShared();
+    const auto surfaceSet =
+        ImplicitSurfaceSet3::Builder{}
+            .WithExplicitSurfaces(Array1<Surface3Ptr>{ plane, sphere })
+            .MakeShared();
 
     EXPECT_FALSE(surfaceSet->IsBounded());
 
@@ -278,7 +279,7 @@ TEST(ImplicitSurfaceSet3, IsInside)
 
     const auto surfaceSet =
         ImplicitSurfaceSet3::Builder{}
-            .WithExplicitSurfaces({ plane, sphere })
+            .WithExplicitSurfaces(Array1<Surface3Ptr>{ plane, sphere })
             .WithTransform(Transform3{ offset, QuaternionD{} })
             .MakeShared();
 
@@ -296,7 +297,7 @@ TEST(ImplicitSurfaceSet3, UpdateQueryEngine)
 
     auto surfaceSet =
         ImplicitSurfaceSet3::Builder{}
-            .WithExplicitSurfaces({ sphere })
+            .WithExplicitSurfaces(Array1<Surface3Ptr>{ sphere })
             .WithTransform(Transform3{ { 1.0, 2.0, -1.0 }, QuaternionD{} })
             .MakeShared();
 

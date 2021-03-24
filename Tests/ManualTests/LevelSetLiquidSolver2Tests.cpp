@@ -2,7 +2,7 @@
 
 #include <Core/Emitter/VolumeGridEmitter2.hpp>
 #include <Core/Geometry/Box.hpp>
-#include <Core/Geometry/ImplicitSurfaceSet2.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet.hpp>
 #include <Core/Geometry/Plane.hpp>
 #include <Core/Geometry/RigidBodyCollider2.hpp>
 #include <Core/Geometry/Sphere2.hpp>
@@ -89,9 +89,10 @@ CUBBYFLOW_BEGIN_TEST_F(LevelSetLiquidSolver2, DropStopAndGo)
                           .WithRadius(0.15)
                           .MakeShared();
 
-        auto surfaceSet = ImplicitSurfaceSet2::Builder()
-                              .WithExplicitSurfaces({ plane, sphere })
-                              .MakeShared();
+        auto surfaceSet =
+            ImplicitSurfaceSet2::Builder()
+                .WithExplicitSurfaces(Array1<Surface2Ptr>{ plane, sphere })
+                .MakeShared();
 
         auto emitter = VolumeGridEmitter2::Builder()
                            .WithSourceRegion(surfaceSet)

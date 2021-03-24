@@ -14,7 +14,7 @@
 #include <Core/Emitter/VolumeParticleEmitter3.hpp>
 #include <Core/Geometry/Box.hpp>
 #include <Core/Geometry/Cylinder3.hpp>
-#include <Core/Geometry/ImplicitSurfaceSet3.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet.hpp>
 #include <Core/Geometry/Plane.hpp>
 #include <Core/Geometry/RigidBodyCollider3.hpp>
 #include <Core/Geometry/Sphere3.hpp>
@@ -134,9 +134,10 @@ void RunExample1(const std::string& rootDir, double targetSpacing,
                             .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
-    const auto surfaceSet = ImplicitSurfaceSet3::GetBuilder()
-                                .WithExplicitSurfaces({ plane, sphere })
-                                .MakeShared();
+    const auto surfaceSet =
+        ImplicitSurfaceSet3::GetBuilder()
+            .WithExplicitSurfaces(Array1<Surface3Ptr>{ plane, sphere })
+            .MakeShared();
 
     const auto emitter = VolumeParticleEmitter3::GetBuilder()
                              .WithImplicitSurface(surfaceSet)
@@ -193,9 +194,10 @@ void RunExample2(const std::string& rootDir, double targetSpacing,
                             .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
-    const auto surfaceSet = ImplicitSurfaceSet3::GetBuilder()
-                                .WithExplicitSurfaces({ plane, sphere })
-                                .MakeShared();
+    const auto surfaceSet =
+        ImplicitSurfaceSet3::GetBuilder()
+            .WithExplicitSurfaces(Array1<Surface3Ptr>{ plane, sphere })
+            .MakeShared();
 
     const auto emitter = VolumeParticleEmitter3::GetBuilder()
                              .WithImplicitSurface(surfaceSet)
@@ -257,9 +259,10 @@ void RunExample3(const std::string& rootDir, double targetSpacing,
             .WithUpperCorner({ 3.5 + 0.001, 0.75 + 0.001, 1.5 * lz + 0.001 })
             .MakeShared();
 
-    const auto boxSet = ImplicitSurfaceSet3::GetBuilder()
-                            .WithExplicitSurfaces({ box1, box2 })
-                            .MakeShared();
+    const auto boxSet =
+        ImplicitSurfaceSet3::GetBuilder()
+            .WithExplicitSurfaces(Array1<Surface3Ptr>{ box1, box2 })
+            .MakeShared();
 
     const auto emitter = VolumeParticleEmitter3::GetBuilder()
                              .WithSurface(boxSet)
@@ -293,9 +296,10 @@ void RunExample3(const std::string& rootDir, double targetSpacing,
                          .WithBoundingBox(domain)
                          .MakeShared();
 
-    const auto surfaceSet = ImplicitSurfaceSet3::GetBuilder()
-                                .WithExplicitSurfaces({ cyl1, cyl2, cyl3, box })
-                                .MakeShared();
+    const auto surfaceSet =
+        ImplicitSurfaceSet3::GetBuilder()
+            .WithExplicitSurfaces(Array1<Surface3Ptr>{ cyl1, cyl2, cyl3, box })
+            .MakeShared();
 
     const auto collider =
         RigidBodyCollider3::GetBuilder().WithSurface(surfaceSet).MakeShared();

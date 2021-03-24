@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Geometry/ImplicitSurfaceSet3.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet.hpp>
 #include <Core/Geometry/Plane.hpp>
 #include <Core/Geometry/RigidBodyCollider3.hpp>
 

@@ -2,7 +2,7 @@
 #include "pch.hpp"
 
 #include <Core/Geometry/Box.hpp>
-#include <Core/Geometry/ImplicitSurfaceSet2.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet.hpp>
 #include <Core/Geometry/Plane.hpp>
 #include <Core/Geometry/Sphere2.hpp>
 #include <Core/Geometry/SurfaceToImplicit.hpp>
@@ -22,7 +22,7 @@ TEST(ImplicitSurfaceSet2, Constructor)
     EXPECT_EQ(1u, sset2.NumberOfSurfaces());
     EXPECT_TRUE(sset2.isNormalFlipped);
 
-    ImplicitSurfaceSet2 sset3({ box });
+    ImplicitSurfaceSet2 sset3(Array1<Surface2Ptr>{ box });
     EXPECT_EQ(1u, sset3.NumberOfSurfaces());
 }
 
@@ -225,9 +225,10 @@ TEST(ImplicitSurfaceSet2, MixedBoundTypes)
                             .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
-    const auto surfaceSet = ImplicitSurfaceSet2::Builder{}
-                                .WithExplicitSurfaces({ plane, sphere })
-                                .MakeShared();
+    const auto surfaceSet =
+        ImplicitSurfaceSet2::Builder{}
+            .WithExplicitSurfaces(Array1<Surface2Ptr>{ plane, sphere })
+            .MakeShared();
 
     EXPECT_FALSE(surfaceSet->IsBounded());
 
@@ -270,10 +271,11 @@ TEST(ImplicitSurfaceSet2, IsInside)
                             .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
-    const auto surfaceSet = ImplicitSurfaceSet2::Builder{}
-                                .WithExplicitSurfaces({ plane, sphere })
-                                .WithTransform(Transform2{ offset, 0.0 })
-                                .MakeShared();
+    const auto surfaceSet =
+        ImplicitSurfaceSet2::Builder{}
+            .WithExplicitSurfaces(Array1<Surface2Ptr>{ plane, sphere })
+            .WithTransform(Transform2{ offset, 0.0 })
+            .MakeShared();
 
     EXPECT_TRUE(surfaceSet->IsInside(Vector2D{ 0.5, 0.25 } + offset));
     EXPECT_TRUE(surfaceSet->IsInside(Vector2D{ 0.5, 1.0 } + offset));
@@ -288,7 +290,7 @@ TEST(ImplicitSurfaceSet2, UpdateQueryEngine)
                       .MakeShared();
 
     auto surfaceSet = ImplicitSurfaceSet2::Builder{}
-                          .WithExplicitSurfaces({ sphere })
+                          .WithExplicitSurfaces(Array1<Surface2Ptr>{ sphere })
                           .WithTransform(Transform2{ { 1.0, 2.0 }, 0.0 })
                           .MakeShared();
 

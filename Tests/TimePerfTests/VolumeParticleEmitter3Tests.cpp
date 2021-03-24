@@ -2,20 +2,23 @@
 
 #include <Core/Emitter/VolumeParticleEmitter3.hpp>
 #include <Core/Geometry/Box.hpp>
-#include <Core/Geometry/ImplicitSurfaceSet3.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet.hpp>
 #include <Core/Particle/ParticleSystemData3.hpp>
 
 #include <memory>
 
+using CubbyFlow::Array1;
 using CubbyFlow::BoundingBox3D;
 using CubbyFlow::Box3;
 using CubbyFlow::ImplicitSurfaceSet3;
 using CubbyFlow::ParticleSystemData3;
+using CubbyFlow::Surface3Ptr;
+using CubbyFlow::VolumeParticleEmitter3Ptr;
 
 class VolumeParticleEmitter3 : public ::benchmark::Fixture
 {
  protected:
-    CubbyFlow::VolumeParticleEmitter3Ptr emitter;
+    VolumeParticleEmitter3Ptr emitter;
 
     void SetUp(const ::benchmark::State&)
     {
@@ -38,9 +41,10 @@ class VolumeParticleEmitter3 : public ::benchmark::Fixture
                             { 3.5 * lx + pd, 0.75 * ly + pd, 1.5 * lz + pd })
                         .MakeShared();
 
-        auto boxSet = ImplicitSurfaceSet3::Builder()
-                          .WithExplicitSurfaces({ box1, box2 })
-                          .MakeShared();
+        auto boxSet =
+            ImplicitSurfaceSet3::Builder()
+                .WithExplicitSurfaces(Array1<Surface3Ptr>{ box1, box2 })
+                .MakeShared();
 
         emitter = CubbyFlow::VolumeParticleEmitter3::Builder()
                       .WithSurface(boxSet)
