@@ -81,6 +81,10 @@ class Array final : public ArrayBase<T, N, Array<T, N>>
     std::enable_if_t<(M == 1), void> Append(
         const ArrayBase<T, N, OtherDerived>& extra);
 
+    template <typename OtherDerived, size_t M = N>
+    std::enable_if_t<(M == 1), void> Append(
+        const ArrayBase<const T, N, OtherDerived>& extra);
+
     void Clear();
 
     void Swap(Array& other);
