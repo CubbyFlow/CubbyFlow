@@ -35,7 +35,7 @@ class ArrayView final : public ArrayBase<T, N, ArrayView<T, N>>
     ArrayView(T* ptr, const Vector<size_t, N>& size);
 
     template <size_t M = N>
-    ArrayView(typename std::enable_if<(M == 1), T>::type* ptr, size_t size);
+    ArrayView(std::enable_if_t<(M == 1), T*> ptr, size_t size);
 
     ArrayView(Array<T, N>& other);
 
@@ -68,8 +68,7 @@ class ArrayView<const T, N> final
     ArrayView(const T* ptr, const Vector<size_t, N>& size);
 
     template <size_t M = N>
-    ArrayView(const typename std::enable_if<(M == 1), T>::type* ptr,
-              size_t size);
+    ArrayView(std::enable_if_t<(M == 1), T*> ptr, size_t size);
 
     ArrayView(const Array<T, N>& other);
 

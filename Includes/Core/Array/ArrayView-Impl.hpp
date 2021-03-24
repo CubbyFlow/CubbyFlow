@@ -29,8 +29,7 @@ ArrayView<T, N>::ArrayView(T* ptr, const Vector<size_t, N>& size) : ArrayView()
 
 template <typename T, size_t N>
 template <size_t M>
-ArrayView<T, N>::ArrayView(typename std::enable_if<(M == 1), T>::type* ptr,
-                           size_t size)
+ArrayView<T, N>::ArrayView(std::enable_if_t<(M == 1), T*> ptr, size_t size)
     : ArrayView(ptr, Vector<size_t, N>{ size })
 {
     // Do nothing
@@ -105,8 +104,8 @@ ArrayView<const T, N>::ArrayView(const T* ptr, const Vector<size_t, N>& size)
 
 template <typename T, size_t N>
 template <size_t M>
-ArrayView<const T, N>::ArrayView(
-    const typename std::enable_if<(M == 1), T>::type* ptr, size_t size)
+ArrayView<const T, N>::ArrayView(const std::enable_if_t<(M == 1), T*> ptr,
+                                 size_t size)
     : ArrayView(ptr, Vector<size_t, N>{ size })
 {
     // Do nothing
