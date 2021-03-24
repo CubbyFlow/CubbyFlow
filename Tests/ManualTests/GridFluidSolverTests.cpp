@@ -2,7 +2,7 @@
 
 #include <ManualTests.hpp>
 
-#include <Core/Geometry/RigidBodyCollider2.hpp>
+#include <Core/Geometry/RigidBodyCollider.hpp>
 #include <Core/Geometry/Sphere2.hpp>
 #include <Core/Geometry/SurfaceToImplicit.hpp>
 #include <Core/Solver/Grid/GridFluidSolver2.hpp>

@@ -2,7 +2,7 @@
 
 #include <Core/Geometry/ImplicitSurfaceSet.hpp>
 #include <Core/Geometry/Plane.hpp>
-#include <Core/Geometry/RigidBodyCollider2.hpp>
+#include <Core/Geometry/RigidBodyCollider.hpp>
 
 using namespace CubbyFlow;
 
@@ -112,7 +112,7 @@ TEST(RigidBodyCollider2, VelocityAt)
     collider.GetSurface()->transform.SetTranslation({ -1, -2 });
     collider.GetSurface()->transform.SetOrientation(0.1);
     collider.linearVelocity = { 1, 3 };
-    collider.angularVelocity = 4.0;
+    collider.angularVelocity.value = 4.0;
 
     Vector2D result = collider.VelocityAt({ 5, 7 });
     EXPECT_DOUBLE_EQ(-35.0, result.x);

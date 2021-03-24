@@ -6,7 +6,7 @@
 #include <Core/Geometry/Box.hpp>
 #include <Core/Geometry/ImplicitSurfaceSet.hpp>
 #include <Core/Geometry/Plane.hpp>
-#include <Core/Geometry/RigidBodyCollider3.hpp>
+#include <Core/Geometry/RigidBodyCollider.hpp>
 #include <Core/Geometry/Sphere3.hpp>
 #include <Core/Geometry/SurfaceToImplicit.hpp>
 #include <Core/Solver/Particle/SPH/SPHSolver3.hpp>

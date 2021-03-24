@@ -8,7 +8,7 @@
 #include <Core/Geometry/Cylinder3.hpp>
 #include <Core/Geometry/ImplicitSurfaceSet.hpp>
 #include <Core/Geometry/Plane.hpp>
-#include <Core/Geometry/RigidBodyCollider3.hpp>
+#include <Core/Geometry/RigidBodyCollider.hpp>
 #include <Core/Geometry/Sphere3.hpp>
 #include <Core/PointGenerator/GridPointGenerator3.hpp>
 #include <Core/Solver/Grid/GridSinglePhasePressureSolver3.hpp>

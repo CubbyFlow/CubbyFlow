@@ -2,7 +2,7 @@
 
 #include <Core/Geometry/Box.hpp>
 #include <Core/Geometry/ColliderSet.hpp>
-#include <Core/Geometry/RigidBodyCollider2.hpp>
+#include <Core/Geometry/RigidBodyCollider.hpp>
 
 using namespace CubbyFlow;
 

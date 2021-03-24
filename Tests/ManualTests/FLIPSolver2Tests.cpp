@@ -4,7 +4,7 @@
 
 #include <Core/Emitter/VolumeParticleEmitter2.hpp>
 #include <Core/Geometry/Box.hpp>
-#include <Core/Geometry/RigidBodyCollider2.hpp>
+#include <Core/Geometry/RigidBodyCollider.hpp>
 #include <Core/Geometry/Sphere2.hpp>
 #include <Core/Solver/Hybrid/FLIP/FLIPSolver2.hpp>
 
@@ -271,11 +271,11 @@ CUBBYFLOW_BEGIN_TEST_F(FLIPSolver2, RotatingTank)
         if (t < 1.0)
         {
             col->GetSurface()->transform.SetOrientation(2.0 * t);
-            static_cast<RigidBodyCollider2*>(col)->angularVelocity = 2.0;
+            static_cast<RigidBodyCollider2*>(col)->angularVelocity.value = 2.0;
         }
         else
         {
-            static_cast<RigidBodyCollider2*>(col)->angularVelocity = 0.0;
+            static_cast<RigidBodyCollider2*>(col)->angularVelocity.value = 0.0;
         }
     });
 

@@ -14,7 +14,7 @@
 #include <Core/Emitter/VolumeGridEmitter3.hpp>
 #include <Core/Geometry/Box.hpp>
 #include <Core/Geometry/ImplicitTriangleMesh3.hpp>
-#include <Core/Geometry/RigidBodyCollider3.hpp>
+#include <Core/Geometry/RigidBodyCollider.hpp>
 #include <Core/Geometry/Sphere3.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>

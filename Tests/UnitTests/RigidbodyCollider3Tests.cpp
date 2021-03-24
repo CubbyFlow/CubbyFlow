@@ -2,7 +2,7 @@
 
 #include <Core/Geometry/ImplicitSurfaceSet.hpp>
 #include <Core/Geometry/Plane.hpp>
-#include <Core/Geometry/RigidBodyCollider3.hpp>
+#include <Core/Geometry/RigidBodyCollider.hpp>
 
 using namespace CubbyFlow;
 
@@ -119,7 +119,7 @@ TEST(RigidBodyCollider3, VelocityAt)
         std::make_shared<Plane3>(Vector3D(0, 1, 0), Vector3D(0, 0, 0)));
 
     collider.linearVelocity = { 1, 3, -2 };
-    collider.angularVelocity = { 0, 0, 4 };
+    collider.angularVelocity.value = { 0, 0, 4 };
     collider.GetSurface()->transform.SetTranslation({ -1, -2, 2 });
     collider.GetSurface()->transform.SetOrientation(
         QuaternionD({ 1, 0, 0 }, 0.1));
