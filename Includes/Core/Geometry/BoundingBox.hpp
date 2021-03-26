@@ -47,6 +47,9 @@ class BoundingBox
 {
  public:
     static_assert(N > 0, "Dimension should be greater than 0");
+    static_assert(
+        std::is_floating_point<T>::value,
+        "BoundingBox only can be instantiated with floating point types");
 
     using VectorType = Vector<T, N>;
     using RayType = Ray<T, N>;
