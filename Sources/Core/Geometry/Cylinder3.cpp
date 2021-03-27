@@ -8,9 +8,9 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Geometry/Box2.hpp>
+#include <Core/Geometry/Box.hpp>
 #include <Core/Geometry/Cylinder3.hpp>
-#include <Core/Geometry/Plane3.hpp>
+#include <Core/Geometry/Plane.hpp>
 
 #include <utility>
 
@@ -88,7 +88,7 @@ bool Cylinder3::IntersectsLocal(const Ray3D& ray) const
     double B = d.Dot(o);
     double C = o.LengthSquared() - Square(radius);
 
-    const BoundingBox3D bbox = BoundingBox();
+    const BoundingBox3D bbox = GetBoundingBox();
     Plane3 upperPlane{ Vector3D{ 0, 1, 0 }, bbox.upperCorner };
     Plane3 lowerPlane{ Vector3D{ 0, -1, 0 }, bbox.lowerCorner };
 

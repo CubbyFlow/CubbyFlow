@@ -10,8 +10,7 @@
 
 #include <API/Python/Geometry/Box.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Geometry/Box2.hpp>
-#include <Core/Geometry/Box3.hpp>
+#include <Core/Geometry/Box.hpp>
 
 #include <pybind11/pybind11.h>
 

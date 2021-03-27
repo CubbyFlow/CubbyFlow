@@ -1,11 +1,11 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
-#include <Core/Geometry/Box3.hpp>
-#include <Core/Geometry/ImplicitSurfaceSet3.hpp>
-#include <Core/Geometry/Plane3.hpp>
-#include <Core/Geometry/Sphere3.hpp>
-#include <Core/Geometry/SurfaceToImplicit3.hpp>
+#include <Core/Geometry/Box.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet.hpp>
+#include <Core/Geometry/Plane.hpp>
+#include <Core/Geometry/Sphere.hpp>
+#include <Core/Geometry/SurfaceToImplicit.hpp>
 
 using namespace CubbyFlow;
 
@@ -22,7 +22,7 @@ TEST(ImplicitSurfaceSet3, Constructor)
     EXPECT_EQ(1u, sset2.NumberOfSurfaces());
     EXPECT_TRUE(sset2.isNormalFlipped);
 
-    ImplicitSurfaceSet3 sset3({ box });
+    ImplicitSurfaceSet3 sset3(Array1<Surface3Ptr>{ box });
     EXPECT_EQ(1u, sset3.NumberOfSurfaces());
 }
 
@@ -170,7 +170,7 @@ TEST(ImplicitSurfaceSet3, BoundingBox)
     sset.AddExplicitSurface(box1);
     sset.AddExplicitSurface(box2);
 
-    auto bbox = sset.BoundingBox();
+    auto bbox = sset.GetBoundingBox();
     EXPECT_DOUBLE_EQ(0.0, bbox.lowerCorner.x);
     EXPECT_DOUBLE_EQ(-3.0, bbox.lowerCorner.y);
     EXPECT_DOUBLE_EQ(-1.0, bbox.lowerCorner.z);
@@ -231,9 +231,10 @@ TEST(ImplicitSurfaceSet3, MixedBoundTypes)
                             .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
-    const auto surfaceSet = ImplicitSurfaceSet3::Builder{}
-                                .WithExplicitSurfaces({ plane, sphere })
-                                .MakeShared();
+    const auto surfaceSet =
+        ImplicitSurfaceSet3::Builder{}
+            .WithExplicitSurfaces(Array1<Surface3Ptr>{ plane, sphere })
+            .MakeShared();
 
     EXPECT_FALSE(surfaceSet->IsBounded());
 
@@ -278,7 +279,7 @@ TEST(ImplicitSurfaceSet3, IsInside)
 
     const auto surfaceSet =
         ImplicitSurfaceSet3::Builder{}
-            .WithExplicitSurfaces({ plane, sphere })
+            .WithExplicitSurfaces(Array1<Surface3Ptr>{ plane, sphere })
             .WithTransform(Transform3{ offset, QuaternionD{} })
             .MakeShared();
 
@@ -296,23 +297,23 @@ TEST(ImplicitSurfaceSet3, UpdateQueryEngine)
 
     auto surfaceSet =
         ImplicitSurfaceSet3::Builder{}
-            .WithExplicitSurfaces({ sphere })
+            .WithExplicitSurfaces(Array1<Surface3Ptr>{ sphere })
             .WithTransform(Transform3{ { 1.0, 2.0, -1.0 }, QuaternionD{} })
             .MakeShared();
 
-    const auto bbox1 = surfaceSet->BoundingBox();
+    const auto bbox1 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(
         BoundingBox3D({ -0.5, 2.5, 0.5 }, { 0.5, 3.5, 1.5 }), bbox1);
 
     surfaceSet->transform = Transform3({ 3.0, -4.0, 7.0 }, QuaternionD{});
     surfaceSet->UpdateQueryEngine();
-    const auto bbox2 = surfaceSet->BoundingBox();
+    const auto bbox2 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(
         BoundingBox3D({ 1.5, -3.5, 4.5 }, { 2.5, -2.5, 5.5 }), bbox2);
 
     sphere->transform = Transform3{ { -6.0, 9.0, 2.0 }, QuaternionD{} };
     surfaceSet->UpdateQueryEngine();
-    const auto bbox3 = surfaceSet->BoundingBox();
+    const auto bbox3 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(
         BoundingBox3D({ -4.5, 5.5, 10.5 }, { -3.5, 6.5, 11.5 }), bbox3);
 
@@ -320,7 +321,7 @@ TEST(ImplicitSurfaceSet3, UpdateQueryEngine)
     auto plane = Plane3::Builder{}.WithNormal({ 1.0, 0.0, 0.0 }).MakeShared();
     surfaceSet->AddExplicitSurface(plane);
     surfaceSet->UpdateQueryEngine();
-    auto bbox4 = surfaceSet->BoundingBox();
+    auto bbox4 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(
         BoundingBox3D({ -4.5, 5.5, 10.5 }, { -3.5, 6.5, 11.5 }), bbox4);
 }

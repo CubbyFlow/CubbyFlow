@@ -12,7 +12,7 @@
 #define CUBBYFLOW_VOLUME_PARTICLE_EMITTER3_HPP
 
 #include <Core/Emitter/ParticleEmitter3.hpp>
-#include <Core/Geometry/ImplicitSurface3.hpp>
+#include <Core/Geometry/ImplicitSurface.hpp>
 #include <Core/PointGenerator/PointGenerator3.hpp>
 
 #include <random>

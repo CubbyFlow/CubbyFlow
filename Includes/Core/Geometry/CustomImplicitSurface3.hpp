@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_CUSTOM_IMPLICIT_SURFACE3_HPP
 #define CUBBYFLOW_CUSTOM_IMPLICIT_SURFACE3_HPP
 
-#include <Core/Geometry/ImplicitSurface3.hpp>
+#include <Core/Geometry/ImplicitSurface.hpp>
 
 #include <functional>
 

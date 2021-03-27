@@ -1,9 +1,9 @@
 #include "pch.hpp"
 
-#include <Core/Geometry/Box2.hpp>
-#include <Core/Geometry/Plane2.hpp>
-#include <Core/Geometry/SurfaceSet2.hpp>
-#include <Core/Geometry/SurfaceToImplicit2.hpp>
+#include <Core/Geometry/Box.hpp>
+#include <Core/Geometry/Plane.hpp>
+#include <Core/Geometry/SurfaceSet.hpp>
+#include <Core/Geometry/SurfaceToImplicit.hpp>
 
 using namespace CubbyFlow;
 
@@ -124,7 +124,7 @@ TEST(SurfaceToImplicit2, BoundingBox)
     auto box = std::make_shared<Box2>(BoundingBox2D({ -1, 2 }, { 5, 3 }));
     SurfaceToImplicit2 s2i(box);
 
-    auto bbox = s2i.BoundingBox();
+    auto bbox = s2i.GetBoundingBox();
     EXPECT_DOUBLE_EQ(-1.0, bbox.lowerCorner.x);
     EXPECT_DOUBLE_EQ(2.0, bbox.lowerCorner.y);
     EXPECT_DOUBLE_EQ(5.0, bbox.upperCorner.x);

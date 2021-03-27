@@ -1,7 +1,7 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
-#include <Core/Geometry/BVH3.hpp>
+#include <Core/Geometry/BVH.hpp>
 
 using namespace CubbyFlow;
 
@@ -15,8 +15,8 @@ TEST(BVH3, BasicGetters)
 {
     BVH3<Vector3D> bvh;
 
-    std::vector<Vector3D> points{ Vector3D{ 0, 0, 0 }, Vector3D{ 1, 1, 1 } };
-    std::vector<BoundingBox3D> bounds{ points.size() };
+    Array1<Vector3D> points{ Vector3D{ 0, 0, 0 }, Vector3D{ 1, 1, 1 } };
+    Array1<BoundingBox3D> bounds{ points.Length() };
     size_t i = 0;
     BoundingBox3D rootBounds;
 
@@ -32,21 +32,21 @@ TEST(BVH3, BasicGetters)
 
     bvh.Build(points, bounds);
 
-    EXPECT_EQ(2u, bvh.GetNumberOfItems());
-    EXPECT_VECTOR3_EQ(points[0], bvh.GetItem(0));
-    EXPECT_VECTOR3_EQ(points[1], bvh.GetItem(1));
-    EXPECT_EQ(3u, bvh.GetNumberOfNodes());
-    EXPECT_EQ(1u, bvh.GetChildren(0).first);
-    EXPECT_EQ(2u, bvh.GetChildren(0).second);
+    EXPECT_EQ(2u, bvh.NumberOfItems());
+    EXPECT_VECTOR3_EQ(points[0], bvh.Item(0));
+    EXPECT_VECTOR3_EQ(points[1], bvh.Item(1));
+    EXPECT_EQ(3u, bvh.NumberOfNodes());
+    EXPECT_EQ(1u, bvh.Children(0).first);
+    EXPECT_EQ(2u, bvh.Children(0).second);
     EXPECT_FALSE(bvh.IsLeaf(0));
     EXPECT_TRUE(bvh.IsLeaf(1));
     EXPECT_TRUE(bvh.IsLeaf(2));
-    EXPECT_BOUNDING_BOX3_EQ(rootBounds, bvh.GetNodeBound(0));
-    EXPECT_BOUNDING_BOX3_EQ(bounds[0], bvh.GetNodeBound(1));
-    EXPECT_BOUNDING_BOX3_EQ(bounds[1], bvh.GetNodeBound(2));
-    EXPECT_EQ(bvh.end(), bvh.GetItemOfNode(0));
-    EXPECT_EQ(bvh.begin(), bvh.GetItemOfNode(1));
-    EXPECT_EQ(bvh.begin() + 1, bvh.GetItemOfNode(2));
+    EXPECT_BOUNDING_BOX3_EQ(rootBounds, bvh.NodeBound(0));
+    EXPECT_BOUNDING_BOX3_EQ(bounds[0], bvh.NodeBound(1));
+    EXPECT_BOUNDING_BOX3_EQ(bounds[1], bvh.NodeBound(2));
+    EXPECT_EQ(bvh.end(), bvh.ItemOfNode(0));
+    EXPECT_EQ(bvh.begin(), bvh.ItemOfNode(1));
+    EXPECT_EQ(bvh.begin() + 1, bvh.ItemOfNode(2));
 }
 
 TEST(BVH3, Nearest)
@@ -58,12 +58,16 @@ TEST(BVH3, Nearest)
     };
 
     size_t numSamples = GetNumberOfSamplePoints3();
-    std::vector<Vector3D> points(GetSamplePoints3(),
-                                 GetSamplePoints3() + numSamples);
-
-    std::vector<BoundingBox3D> bounds(points.size());
+    Array1<Vector3D> points;
     size_t i = 0;
 
+    const Vector3D* samplePoints = GetSamplePoints3();
+    for (size_t j = 0; j < numSamples; ++j)
+    {
+        points.Append(samplePoints[j]);
+    }
+
+    Array1<BoundingBox3D> bounds(points.Length());
     std::generate(bounds.begin(), bounds.end(), [&]() {
         auto c = points[i++];
         BoundingBox3D box(c, c);
@@ -76,7 +80,7 @@ TEST(BVH3, Nearest)
     bvh.Build(points, bounds);
 
     Vector3D testPt(0.5, 0.5, 0.5);
-    auto nearest = bvh.GetNearestNeighbor(testPt, distanceFunc);
+    auto nearest = bvh.Nearest(testPt, distanceFunc);
     ptrdiff_t answerIdx = 0;
     double bestDist = testPt.DistanceTo(points[answerIdx]);
 
@@ -90,7 +94,7 @@ TEST(BVH3, Nearest)
         }
     }
 
-    EXPECT_EQ(answerIdx, nearest.item - &bvh.GetItem(0));
+    EXPECT_EQ(answerIdx, nearest.item - &bvh.Item(0));
 }
 
 TEST(BVH3, BBoxIntersects)
@@ -106,12 +110,16 @@ TEST(BVH3, BBoxIntersects)
     };
 
     size_t numSamples = GetNumberOfSamplePoints3();
-    std::vector<Vector3D> points(GetSamplePoints3(),
-                                 GetSamplePoints3() + numSamples);
-
-    std::vector<BoundingBox3D> bounds(points.size());
+    Array1<Vector3D> points;
     size_t i = 0;
 
+    const Vector3D* samplePoints = GetSamplePoints3();
+    for (size_t j = 0; j < numSamples; ++j)
+    {
+        points.Append(samplePoints[j]);
+    }
+
+    Array1<BoundingBox3D> bounds(points.Length());
     std::generate(bounds.begin(), bounds.end(), [&]() {
         auto c = points[i++];
         BoundingBox3D box(c, c);
@@ -131,7 +139,7 @@ TEST(BVH3, BBoxIntersects)
         hasOverlaps |= overlapsFunc(GetSamplePoints3()[i], testBox);
     }
 
-    EXPECT_EQ(hasOverlaps, bvh.IsIntersects(testBox, overlapsFunc));
+    EXPECT_EQ(hasOverlaps, bvh.Intersects(testBox, overlapsFunc));
 
     BoundingBox3D testBox2({ 0.3, 0.2, 0.1 }, { 0.6, 0.5, 0.4 });
     hasOverlaps = false;
@@ -141,7 +149,7 @@ TEST(BVH3, BBoxIntersects)
         hasOverlaps |= overlapsFunc(GetSamplePoints3()[i], testBox2);
     }
 
-    EXPECT_EQ(hasOverlaps, bvh.IsIntersects(testBox2, overlapsFunc));
+    EXPECT_EQ(hasOverlaps, bvh.Intersects(testBox2, overlapsFunc));
 }
 
 TEST(BVH3, RayIntersects)
@@ -153,7 +161,7 @@ TEST(BVH3, RayIntersects)
     };
 
     size_t numSamples = GetNumberOfSamplePoints3();
-    std::vector<BoundingBox3D> items(numSamples / 2);
+    Array1<BoundingBox3D> items(numSamples / 2);
     size_t i = 0;
 
     std::generate(items.begin(), items.end(), [&]() {
@@ -184,7 +192,7 @@ TEST(BVH3, RayIntersects)
         }
 
         // bvh search
-        bool octInts = bvh.IsIntersects(ray, intersectsFunc);
+        bool octInts = bvh.Intersects(ray, intersectsFunc);
 
         EXPECT_EQ(ansInts, octInts);
     }
@@ -208,7 +216,7 @@ TEST(BVH3, ClosestIntersection)
     };
 
     size_t numSamples = GetNumberOfSamplePoints3();
-    std::vector<BoundingBox3D> items(numSamples / 2);
+    Array1<BoundingBox3D> items(numSamples / 2);
     size_t i = 0;
 
     std::generate(items.begin(), items.end(), [&]() {
@@ -235,12 +243,12 @@ TEST(BVH3, ClosestIntersection)
             if (dist < ansInts.distance)
             {
                 ansInts.distance = dist;
-                ansInts.item = &bvh.GetItem(j);
+                ansInts.item = &bvh.Item(j);
             }
         }
 
         // bvh search
-        auto bvhInts = bvh.GetClosestIntersection(ray, intersectsFunc);
+        auto bvhInts = bvh.ClosestIntersection(ray, intersectsFunc);
 
         EXPECT_DOUBLE_EQ(ansInts.distance, bvhInts.distance);
         EXPECT_EQ(ansInts.item, bvhInts.item);
@@ -256,12 +264,16 @@ TEST(BVH3, ForEachOverlappingItems)
     };
 
     size_t numSamples = GetNumberOfSamplePoints3();
-    std::vector<Vector3D> points(GetSamplePoints3(),
-                                 GetSamplePoints3() + numSamples);
-
-    std::vector<BoundingBox3D> bounds(points.size());
+    Array1<Vector3D> points;
     size_t i = 0;
 
+    const Vector3D* samplePoints = GetSamplePoints3();
+    for (size_t j = 0; j < numSamples; ++j)
+    {
+        points.Append(samplePoints[j]);
+    }
+
+    Array1<BoundingBox3D> bounds(points.Length());
     std::generate(bounds.begin(), bounds.end(), [&]() {
         auto c = points[i++];
         BoundingBox3D box(c, c);

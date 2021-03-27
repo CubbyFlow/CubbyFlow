@@ -10,8 +10,7 @@
 
 #include <API/Python/Geometry/Sphere.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Geometry/Sphere2.hpp>
-#include <Core/Geometry/Sphere3.hpp>
+#include <Core/Geometry/Sphere.hpp>
 
 #include <pybind11/pybind11.h>
 

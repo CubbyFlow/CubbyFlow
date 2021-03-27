@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Geometry/Sphere2.hpp>
+#include <Core/Geometry/Sphere.hpp>
 
 using namespace CubbyFlow;
 
@@ -94,10 +94,10 @@ TEST(Sphere2, ClosestIntersection)
     EXPECT_DOUBLE_EQ(4.0, result3.point.y);
 }
 
-TEST(Sphere2, BoundingBox)
+TEST(Sphere2, GetBoundingBox)
 {
     Sphere2 sph({ 3.0, -1.0 }, 5.0);
-    BoundingBox2D bbox = sph.BoundingBox();
+    BoundingBox2D bbox = sph.GetBoundingBox();
 
     EXPECT_DOUBLE_EQ(-2.0, bbox.lowerCorner.x);
     EXPECT_DOUBLE_EQ(-6.0, bbox.lowerCorner.y);

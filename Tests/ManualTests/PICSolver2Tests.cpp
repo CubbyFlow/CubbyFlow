@@ -3,9 +3,9 @@
 #include <ManualTests.hpp>
 
 #include <Core/Emitter/VolumeParticleEmitter2.hpp>
-#include <Core/Geometry/Box2.hpp>
-#include <Core/Geometry/RigidBodyCollider2.hpp>
-#include <Core/Geometry/Sphere2.hpp>
+#include <Core/Geometry/Box.hpp>
+#include <Core/Geometry/RigidBodyCollider.hpp>
+#include <Core/Geometry/Sphere.hpp>
 #include <Core/Solver/Hybrid/PIC/PICSolver2.hpp>
 
 using namespace CubbyFlow;

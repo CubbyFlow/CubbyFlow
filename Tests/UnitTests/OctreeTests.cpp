@@ -60,7 +60,7 @@ TEST(Octree, Nearest)
                  5);
 
     Vector3D testPt(0.5, 0.5, 0.5);
-    auto nearest = octree.GetNearestNeighbor(testPt, distanceFunc);
+    auto nearest = octree.Nearest(testPt, distanceFunc);
     ptrdiff_t answerIdx = 0;
     double bestDist = testPt.DistanceTo(points[answerIdx]);
 
@@ -99,7 +99,7 @@ TEST(Octree, BBoxIntersects)
         hasOverlaps |= overlapsFunc(GetSamplePoints3()[i], testBox);
     }
 
-    EXPECT_EQ(hasOverlaps, octree.IsIntersects(testBox, overlapsFunc));
+    EXPECT_EQ(hasOverlaps, octree.Intersects(testBox, overlapsFunc));
 
     BoundingBox3D testBox2({ 0.3, 0.2, 0.1 }, { 0.6, 0.5, 0.4 });
     hasOverlaps = false;
@@ -108,7 +108,7 @@ TEST(Octree, BBoxIntersects)
         hasOverlaps |= overlapsFunc(GetSamplePoints3()[i], testBox2);
     }
 
-    EXPECT_EQ(hasOverlaps, octree.IsIntersects(testBox2, overlapsFunc));
+    EXPECT_EQ(hasOverlaps, octree.Intersects(testBox2, overlapsFunc));
 }
 
 TEST(Octree, ForEachOverlappingItems)
@@ -188,7 +188,7 @@ TEST(Octree, RayIntersects)
         }
 
         // octree search
-        bool octInts = octree.IsIntersects(ray, intersectsFunc);
+        bool octInts = octree.Intersects(ray, intersectsFunc);
 
         EXPECT_EQ(ansInts, octInts);
     }
@@ -248,7 +248,7 @@ TEST(Octree, ClosestIntersection)
         }
 
         // octree search
-        auto octInts = octree.GetClosestIntersection(ray, intersectsFunc);
+        auto octInts = octree.ClosestIntersection(ray, intersectsFunc);
 
         EXPECT_DOUBLE_EQ(ansInts.distance, octInts.distance);
         EXPECT_EQ(ansInts.item, octInts.item);

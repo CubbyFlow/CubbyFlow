@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Geometry/Plane2.hpp>
+#include <Core/Geometry/Plane.hpp>
 
 using namespace CubbyFlow;
 

@@ -51,6 +51,12 @@ class Array final : public ArrayBase<T, N, Array<T, N>>
 
     Array(NestedInitializerListsT<T, N> lst);
 
+    template <typename OtherDerived>
+    Array(const ArrayBase<T, N, OtherDerived>& other);
+
+    template <typename OtherDerived>
+    Array(const ArrayBase<const T, N, OtherDerived>& other);
+
     Array(const Array& other);
 
     Array(Array&& other) noexcept;
@@ -74,6 +80,10 @@ class Array final : public ArrayBase<T, N, Array<T, N>>
     template <typename OtherDerived, size_t M = N>
     std::enable_if_t<(M == 1), void> Append(
         const ArrayBase<T, N, OtherDerived>& extra);
+
+    template <typename OtherDerived, size_t M = N>
+    std::enable_if_t<(M == 1), void> Append(
+        const ArrayBase<const T, N, OtherDerived>& extra);
 
     void Clear();
 

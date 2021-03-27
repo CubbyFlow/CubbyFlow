@@ -6,7 +6,7 @@
 #include <Core/Field/ConstantVectorField2.hpp>
 #include <Core/Field/CustomScalarField2.hpp>
 #include <Core/Field/CustomVectorField2.hpp>
-#include <Core/Geometry/Box2.hpp>
+#include <Core/Geometry/Box.hpp>
 #include <Core/Grid/CellCenteredScalarGrid2.hpp>
 #include <Core/Grid/CellCenteredVectorGrid2.hpp>
 #include <Core/Solver/Advection/CubicSemiLagrangian2.hpp>
@@ -63,7 +63,7 @@ CUBBYFLOW_BEGIN_TEST_F(SemiLagrangian2, Zalesak)
     sdf.Fill([box](const Vector2D& pt) {
         double disk = pt.DistanceTo(Vector2D(0.5, 0.75)) - 0.15;
         double slot = box.ClosestDistance(pt);
-        if (!box.BoundingBox().Contains(pt))
+        if (!box.GetBoundingBox().Contains(pt))
         {
             slot *= -1.0;
         }
@@ -99,7 +99,7 @@ CUBBYFLOW_BEGIN_TEST_F(CubicSemiLagrangian2, Zalesak)
     sdf.Fill([box](const Vector2D& pt) {
         double disk = pt.DistanceTo(Vector2D(0.5, 0.75)) - 0.15;
         double slot = box.ClosestDistance(pt);
-        if (!box.BoundingBox().Contains(pt))
+        if (!box.GetBoundingBox().Contains(pt))
         {
             slot *= -1.0;
         }

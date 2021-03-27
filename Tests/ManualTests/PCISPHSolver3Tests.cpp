@@ -3,12 +3,12 @@
 #include <ManualTests.hpp>
 
 #include <Core/Emitter/VolumeParticleEmitter3.hpp>
-#include <Core/Geometry/Box3.hpp>
-#include <Core/Geometry/ImplicitSurfaceSet3.hpp>
-#include <Core/Geometry/Plane3.hpp>
-#include <Core/Geometry/RigidBodyCollider3.hpp>
-#include <Core/Geometry/Sphere3.hpp>
-#include <Core/Geometry/SurfaceToImplicit3.hpp>
+#include <Core/Geometry/Box.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet.hpp>
+#include <Core/Geometry/Plane.hpp>
+#include <Core/Geometry/RigidBodyCollider.hpp>
+#include <Core/Geometry/Sphere.hpp>
+#include <Core/Geometry/SurfaceToImplicit.hpp>
 #include <Core/Solver/Particle/PCISPH/PCISPHSolver3.hpp>
 
 using namespace CubbyFlow;

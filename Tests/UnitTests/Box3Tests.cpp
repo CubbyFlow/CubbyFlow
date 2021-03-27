@@ -1,7 +1,7 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
-#include <Core/Geometry/Box3.hpp>
+#include <Core/Geometry/Box.hpp>
 
 using namespace CubbyFlow;
 
@@ -145,10 +145,10 @@ TEST(Box3, ClosestIntersection)
     EXPECT_FALSE(result2.isIntersecting);
 }
 
-TEST(Box3, BoundingBox)
+TEST(Box3, GetBoundingBox)
 {
     Box3 box(Vector3D(-1, 2, 3), Vector3D(5, 3, 7));
-    BoundingBox3D boundingBox = box.BoundingBox();
+    BoundingBox3D boundingBox = box.GetBoundingBox();
 
     EXPECT_EQ(Vector3D(-1, 2, 3), boundingBox.lowerCorner);
     EXPECT_EQ(Vector3D(5, 3, 7), boundingBox.upperCorner);

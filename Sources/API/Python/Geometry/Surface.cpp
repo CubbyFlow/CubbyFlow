@@ -9,8 +9,7 @@
 // property of any third parties.
 
 #include <API/Python/Geometry/Surface.hpp>
-#include <Core/Geometry/Surface2.hpp>
-#include <Core/Geometry/Surface3.hpp>
+#include <Core/Geometry/Surface.hpp>
 
 #include <pybind11/pybind11.h>
 

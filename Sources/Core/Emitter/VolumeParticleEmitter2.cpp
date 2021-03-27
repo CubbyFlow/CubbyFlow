@@ -9,7 +9,7 @@
 // property of any third parties.
 
 #include <Core/Emitter/VolumeParticleEmitter2.hpp>
-#include <Core/Geometry/SurfaceToImplicit2.hpp>
+#include <Core/Geometry/SurfaceToImplicit.hpp>
 #include <Core/Matrix/Matrix.hpp>
 #include <Core/PointGenerator/TrianglePointGenerator.hpp>
 #include <Core/Searcher/PointHashGridSearcher2.hpp>
@@ -86,7 +86,7 @@ void VolumeParticleEmitter2::Emit(const ParticleSystemData2Ptr& particles,
     BoundingBox2D region = m_maxRegion;
     if (m_implicitSurface->IsBounded())
     {
-        const BoundingBox2D surfaceBBox = m_implicitSurface->BoundingBox();
+        const BoundingBox2D surfaceBBox = m_implicitSurface->GetBoundingBox();
         region.lowerCorner = Max(region.lowerCorner, surfaceBBox.lowerCorner);
         region.upperCorner = Min(region.upperCorner, surfaceBBox.upperCorner);
     }
@@ -312,7 +312,7 @@ VolumeParticleEmitter2::Builder::WithImplicitSurface(
 
     if (!m_isBoundSet)
     {
-        m_maxRegion = m_implicitSurface->BoundingBox();
+        m_maxRegion = m_implicitSurface->GetBoundingBox();
     }
 
     return *this;
@@ -325,7 +325,7 @@ VolumeParticleEmitter2::Builder& VolumeParticleEmitter2::Builder::WithSurface(
 
     if (!m_isBoundSet)
     {
-        m_maxRegion = surface->BoundingBox();
+        m_maxRegion = surface->GetBoundingBox();
     }
 
     return *this;

@@ -195,6 +195,20 @@ Array<T, N>::Array(NestedInitializerListsT<T, N> lst)
 }
 
 template <typename T, size_t N>
+template <typename OtherDerived>
+Array<T, N>::Array(const ArrayBase<T, N, OtherDerived>& other) : Array()
+{
+    CopyFrom(other);
+}
+
+template <typename T, size_t N>
+template <typename OtherDerived>
+Array<T, N>::Array(const ArrayBase<const T, N, OtherDerived>& other) : Array()
+{
+    CopyFrom(other);
+}
+
+template <typename T, size_t N>
 Array<T, N>::Array(const Array& other) : Array()
 {
     CopyFrom(other);
@@ -267,6 +281,16 @@ template <typename T, size_t N>
 template <typename OtherDerived, size_t M>
 std::enable_if_t<(M == 1), void> Array<T, N>::Append(
     const ArrayBase<T, N, OtherDerived>& extra)
+{
+    m_data.insert(m_data.end(), extra.begin(), extra.end());
+
+    Base::SetPtrAndSize(m_data.data(), m_data.size());
+}
+
+template <typename T, size_t N>
+template <typename OtherDerived, size_t M>
+std::enable_if_t<(M == 1), void> Array<T, N>::Append(
+    const ArrayBase<const T, N, OtherDerived>& extra)
 {
     m_data.insert(m_data.end(), extra.begin(), extra.end());
 

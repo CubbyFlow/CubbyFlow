@@ -13,12 +13,12 @@
 #include <Core/Array/ArrayUtils.hpp>
 #include <Core/Emitter/ParticleEmitterSet3.hpp>
 #include <Core/Emitter/VolumeParticleEmitter3.hpp>
-#include <Core/Geometry/Box3.hpp>
+#include <Core/Geometry/Box.hpp>
 #include <Core/Geometry/Cylinder3.hpp>
-#include <Core/Geometry/ImplicitSurfaceSet3.hpp>
-#include <Core/Geometry/Plane3.hpp>
-#include <Core/Geometry/RigidBodyCollider3.hpp>
-#include <Core/Geometry/Sphere3.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet.hpp>
+#include <Core/Geometry/Plane.hpp>
+#include <Core/Geometry/RigidBodyCollider.hpp>
+#include <Core/Geometry/Sphere.hpp>
 #include <Core/Particle/ParticleSystemData3.hpp>
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>
 #include <Core/PointGenerator/GridPointGenerator3.hpp>
@@ -268,9 +268,10 @@ void RunExample3(const std::string& rootDir, size_t resolutionX,
             .WithUpperCorner({ 3.5 + 0.001, 0.75 + 0.001, 1.5 * lz + 0.001 })
             .MakeShared();
 
-    const auto boxSet = ImplicitSurfaceSet3::Builder()
-                            .WithExplicitSurfaces({ box1, box2 })
-                            .MakeShared();
+    const auto boxSet =
+        ImplicitSurfaceSet3::Builder()
+            .WithExplicitSurfaces(Array1<Surface3Ptr>{ box1, box2 })
+            .MakeShared();
 
     auto emitter = VolumeParticleEmitter3::Builder()
                        .WithSurface(boxSet)
@@ -300,9 +301,10 @@ void RunExample3(const std::string& rootDir, size_t resolutionX,
                           .WithHeight(0.75)
                           .MakeShared();
 
-    const auto cylSet = ImplicitSurfaceSet3::Builder()
-                            .WithExplicitSurfaces({ cyl1, cyl2, cyl3 })
-                            .MakeShared();
+    const auto cylSet =
+        ImplicitSurfaceSet3::Builder()
+            .WithExplicitSurfaces(Array1<Surface3Ptr>{ cyl1, cyl2, cyl3 })
+            .MakeShared();
 
     const auto collider =
         RigidBodyCollider3::Builder().WithSurface(cylSet).MakeShared();
@@ -348,9 +350,10 @@ void RunExample4(const std::string& rootDir, size_t resolutionX,
             .WithUpperCorner({ 3.5 + 0.001, 0.75 + 0.001, 1.5 * lz + 0.001 })
             .MakeShared();
 
-    const auto boxSet = ImplicitSurfaceSet3::Builder()
-                            .WithExplicitSurfaces({ box1, box2 })
-                            .MakeShared();
+    const auto boxSet =
+        ImplicitSurfaceSet3::Builder()
+            .WithExplicitSurfaces(Array1<Surface3Ptr>{ box1, box2 })
+            .MakeShared();
 
     auto emitter = VolumeParticleEmitter3::Builder()
                        .WithSurface(boxSet)
@@ -380,9 +383,10 @@ void RunExample4(const std::string& rootDir, size_t resolutionX,
                           .WithHeight(0.75)
                           .MakeShared();
 
-    const auto cylSet = ImplicitSurfaceSet3::Builder()
-                            .WithExplicitSurfaces({ cyl1, cyl2, cyl3 })
-                            .MakeShared();
+    const auto cylSet =
+        ImplicitSurfaceSet3::Builder()
+            .WithExplicitSurfaces(Array1<Surface3Ptr>{ cyl1, cyl2, cyl3 })
+            .MakeShared();
 
     const auto collider =
         RigidBodyCollider3::Builder().WithSurface(cylSet).MakeShared();
@@ -429,9 +433,10 @@ void RunExample5(const std::string& rootDir, size_t resolutionX,
             .WithUpperCorner({ 3.5 + 0.001, 0.75 + 0.001, 1.5 * lz + 0.001 })
             .MakeShared();
 
-    const auto boxSet = ImplicitSurfaceSet3::Builder()
-                            .WithExplicitSurfaces({ box1, box2 })
-                            .MakeShared();
+    const auto boxSet =
+        ImplicitSurfaceSet3::Builder()
+            .WithExplicitSurfaces(Array1<Surface3Ptr>{ box1, box2 })
+            .MakeShared();
 
     auto emitter = VolumeParticleEmitter3::Builder()
                        .WithSurface(boxSet)
@@ -461,9 +466,10 @@ void RunExample5(const std::string& rootDir, size_t resolutionX,
                           .WithHeight(0.75)
                           .MakeShared();
 
-    const auto cylSet = ImplicitSurfaceSet3::Builder()
-                            .WithExplicitSurfaces({ cyl1, cyl2, cyl3 })
-                            .MakeShared();
+    const auto cylSet =
+        ImplicitSurfaceSet3::Builder()
+            .WithExplicitSurfaces(Array1<Surface3Ptr>{ cyl1, cyl2, cyl3 })
+            .MakeShared();
 
     const auto collider =
         RigidBodyCollider3::Builder().WithSurface(cylSet).MakeShared();

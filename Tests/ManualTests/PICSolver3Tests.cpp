@@ -4,12 +4,12 @@
 
 #include <Core/Emitter/ParticleEmitterSet3.hpp>
 #include <Core/Emitter/VolumeParticleEmitter3.hpp>
-#include <Core/Geometry/Box3.hpp>
+#include <Core/Geometry/Box.hpp>
 #include <Core/Geometry/Cylinder3.hpp>
-#include <Core/Geometry/ImplicitSurfaceSet3.hpp>
-#include <Core/Geometry/Plane3.hpp>
-#include <Core/Geometry/RigidBodyCollider3.hpp>
-#include <Core/Geometry/Sphere3.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet.hpp>
+#include <Core/Geometry/Plane.hpp>
+#include <Core/Geometry/RigidBodyCollider.hpp>
+#include <Core/Geometry/Sphere.hpp>
 #include <Core/PointGenerator/GridPointGenerator3.hpp>
 #include <Core/Solver/Hybrid/PIC/PICSolver3.hpp>
 
@@ -109,7 +109,7 @@ CUBBYFLOW_BEGIN_TEST_F(PICSolver3, DamBreakingWithCollider)
             .MakeShared();
 
     auto boxSet = ImplicitSurfaceSet3::Builder()
-                      .WithExplicitSurfaces({ box1, box2 })
+                      .WithExplicitSurfaces(Array1<Surface3Ptr>{ box1, box2 })
                       .MakeShared();
 
     auto emitter = VolumeParticleEmitter3::Builder()
@@ -140,9 +140,10 @@ CUBBYFLOW_BEGIN_TEST_F(PICSolver3, DamBreakingWithCollider)
                     .WithHeight(0.75)
                     .MakeShared();
 
-    auto cylSet = ImplicitSurfaceSet3::Builder()
-                      .WithExplicitSurfaces({ cyl1, cyl2, cyl3 })
-                      .MakeShared();
+    auto cylSet =
+        ImplicitSurfaceSet3::Builder()
+            .WithExplicitSurfaces(Array1<Surface3Ptr>{ cyl1, cyl2, cyl3 })
+            .MakeShared();
 
     auto collider =
         RigidBodyCollider3::Builder().WithSurface(cylSet).MakeShared();

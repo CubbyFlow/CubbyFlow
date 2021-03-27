@@ -9,8 +9,7 @@
 // property of any third parties.
 
 #include <API/Python/Geometry/SurfaceToImplicit.hpp>
-#include <Core/Geometry/SurfaceToImplicit2.hpp>
-#include <Core/Geometry/SurfaceToImplicit3.hpp>
+#include <Core/Geometry/SurfaceToImplicit.hpp>
 
 #include <pybind11/pybind11.h>
 

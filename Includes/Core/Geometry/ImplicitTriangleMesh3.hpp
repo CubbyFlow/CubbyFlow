@@ -12,7 +12,7 @@
 #define CUBBYFLOW_IMPLICIT_TRIANGLE_MESH3_HPP
 
 #include <Core/Geometry/CustomImplicitSurface3.hpp>
-#include <Core/Geometry/ImplicitSurface3.hpp>
+#include <Core/Geometry/ImplicitSurface.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Grid/VertexCenteredScalarGrid3.hpp>
 

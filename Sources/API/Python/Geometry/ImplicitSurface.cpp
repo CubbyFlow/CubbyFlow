@@ -10,8 +10,7 @@
 
 #include <API/Python/Geometry/ImplicitSurface.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Geometry/ImplicitSurface2.hpp>
-#include <Core/Geometry/ImplicitSurface3.hpp>
+#include <Core/Geometry/ImplicitSurface.hpp>
 
 #include <pybind11/pybind11.h>
 

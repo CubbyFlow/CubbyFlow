@@ -59,7 +59,7 @@ TEST(Quadtree, Nearest)
     quadtree.Build(points, BoundingBox2D({ 0, 0 }, { 1, 1 }), overlapsFunc, 5);
 
     Vector2D testPt(0.5, 0.5);
-    auto nearest = quadtree.GetNearestNeighbor(testPt, distanceFunc);
+    auto nearest = quadtree.Nearest(testPt, distanceFunc);
     ptrdiff_t answerIdx = 0;
     double bestDist = testPt.DistanceTo(points[answerIdx]);
 
@@ -97,7 +97,7 @@ TEST(Quadtree, BBoxIntersects)
         hasOverlaps |= overlapsFunc(GetSamplePoints2()[i], testBox);
     }
 
-    EXPECT_EQ(hasOverlaps, quadtree.IsIntersects(testBox, overlapsFunc));
+    EXPECT_EQ(hasOverlaps, quadtree.Intersects(testBox, overlapsFunc));
 
     BoundingBox2D testBox2({ 0.2, 0.2 }, { 0.6, 0.5 });
     hasOverlaps = false;
@@ -106,7 +106,7 @@ TEST(Quadtree, BBoxIntersects)
         hasOverlaps |= overlapsFunc(GetSamplePoints2()[i], testBox2);
     }
 
-    EXPECT_EQ(hasOverlaps, quadtree.IsIntersects(testBox2, overlapsFunc));
+    EXPECT_EQ(hasOverlaps, quadtree.Intersects(testBox2, overlapsFunc));
 }
 
 TEST(Quadtree, ForEachOverlappingItems)
@@ -184,7 +184,7 @@ TEST(Quadtree, RayIntersects)
         }
 
         // quadtree search
-        bool quadInts = quadtree.IsIntersects(ray, intersectsFunc);
+        bool quadInts = quadtree.Intersects(ray, intersectsFunc);
 
         EXPECT_EQ(ansInts, quadInts);
     }
@@ -244,7 +244,7 @@ TEST(Quadtree, ClosestIntersection)
         }
 
         // quadtree search
-        auto quadInts = quadtree.GetClosestIntersection(ray, intersectsFunc);
+        auto quadInts = quadtree.ClosestIntersection(ray, intersectsFunc);
 
         EXPECT_DOUBLE_EQ(ansInts.distance, quadInts.distance);
         EXPECT_EQ(ansInts.item, quadInts.item);

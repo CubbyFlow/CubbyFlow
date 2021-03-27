@@ -1,7 +1,7 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
-#include <Core/Geometry/Transform3.hpp>
+#include <Core/Geometry/Transform.hpp>
 #include <Core/Utils/Constants.hpp>
 
 using namespace CubbyFlow;
@@ -11,14 +11,16 @@ TEST(Transform3, Constructors)
     Transform3 t1;
 
     EXPECT_EQ(Vector3D(), t1.GetTranslation());
-    EXPECT_EQ(0.0, t1.GetOrientation().Angle());
+    EXPECT_EQ(0.0, t1.GetOrientation().GetRotation().Angle());
 
     Transform3 t2({ 2.0, -5.0, 1.0 },
                   QuaternionD({ 0.0, 1.0, 0.0 }, QUARTER_PI_DOUBLE));
 
     EXPECT_EQ(Vector3D(2.0, -5.0, 1.0), t2.GetTranslation());
-    EXPECT_EQ(Vector3D(0.0, 1.0, 0.0), t2.GetOrientation().Axis());
-    EXPECT_DOUBLE_EQ(QUARTER_PI_DOUBLE, t2.GetOrientation().Angle());
+    EXPECT_EQ(Vector3D(0.0, 1.0, 0.0),
+              t2.GetOrientation().GetRotation().Axis());
+    EXPECT_DOUBLE_EQ(QUARTER_PI_DOUBLE,
+                     t2.GetOrientation().GetRotation().Angle());
 }
 
 TEST(Transform3, Transform)

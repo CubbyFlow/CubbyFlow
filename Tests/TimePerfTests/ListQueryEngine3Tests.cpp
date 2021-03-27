@@ -3,7 +3,7 @@
 #include <Core/Geometry/Triangle3.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Matrix/Matrix.hpp>
-#include <Core/QueryEngine/ListQueryEngine3.hpp>
+#include <Core/QueryEngine/ListQueryEngine.hpp>
 
 #include <fstream>
 #include <random>
@@ -59,8 +59,7 @@ BENCHMARK_DEFINE_F(ListQueryEngine3, Nearest)(benchmark::State& state)
 {
     while (state.KeepRunning())
     {
-        benchmark::DoNotOptimize(
-            queryEngine.GetNearestNeighbor(MakeVec(), DistanceFunc));
+        benchmark::DoNotOptimize(queryEngine.Nearest(MakeVec(), DistanceFunc));
     }
 }
 
@@ -70,7 +69,7 @@ BENCHMARK_DEFINE_F(ListQueryEngine3, RayIntersects)(benchmark::State& state)
 {
     while (state.KeepRunning())
     {
-        benchmark::DoNotOptimize(queryEngine.IsIntersects(
+        benchmark::DoNotOptimize(queryEngine.Intersects(
             Ray3D(MakeVec(), MakeVec().Normalized()), IntersectsFunc));
     }
 }

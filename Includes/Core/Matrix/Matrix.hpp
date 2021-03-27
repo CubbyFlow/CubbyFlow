@@ -177,6 +177,8 @@ class Matrix<T, 1, 1> final : public MatrixExpression<T, 1, 1, Matrix<T, 1, 1>>,
 
     ConstReference operator[](size_t i) const;
 
+    constexpr static Matrix MakeUnitX();
+
     ValueType x;
 };
 
@@ -250,6 +252,10 @@ class Matrix<T, 2, 1> final : public MatrixExpression<T, 2, 1, Matrix<T, 2, 1>>,
     Reference operator[](size_t i);
 
     ConstReference operator[](size_t i) const;
+
+    constexpr static Matrix MakeUnitX();
+
+    constexpr static Matrix MakeUnitY();
 
     ValueType x;
     ValueType y;
@@ -338,6 +344,12 @@ class Matrix<T, 3, 1> final : public MatrixExpression<T, 3, 1, Matrix<T, 3, 1>>,
 
     ConstReference operator[](size_t i) const;
 
+    constexpr static Matrix MakeUnitX();
+
+    constexpr static Matrix MakeUnitY();
+
+    constexpr static Matrix MakeUnitZ();
+
     ValueType x;
     ValueType y;
     ValueType z;
@@ -417,6 +429,14 @@ class Matrix<T, 4, 1> final : public MatrixExpression<T, 4, 1, Matrix<T, 4, 1>>,
     Reference operator[](size_t i);
 
     ConstReference operator[](size_t i) const;
+
+    constexpr static Matrix MakeUnitX();
+
+    constexpr static Matrix MakeUnitY();
+
+    constexpr static Matrix MakeUnitZ();
+
+    constexpr static Matrix MakeUnitW();
 
     ValueType x;
     ValueType y;

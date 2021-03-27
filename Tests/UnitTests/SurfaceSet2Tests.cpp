@@ -1,9 +1,9 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
-#include <Core/Geometry/Plane2.hpp>
-#include <Core/Geometry/Sphere2.hpp>
-#include <Core/Geometry/SurfaceSet2.hpp>
+#include <Core/Geometry/Plane.hpp>
+#include <Core/Geometry/Sphere.hpp>
+#include <Core/Geometry/SurfaceSet.hpp>
 
 using namespace CubbyFlow;
 
@@ -18,7 +18,8 @@ TEST(SurfaceSet2, Constructors)
         Sphere2::Builder().WithRadius(0.5).WithCenter({ 0, 3 }).MakeShared();
     auto sph3 =
         Sphere2::Builder().WithRadius(0.25).WithCenter({ -2, 0 }).MakeShared();
-    SurfaceSet2 sset2({ sph1, sph2, sph3 }, Transform2(), false);
+    SurfaceSet2 sset2(Array1<Surface2Ptr>{ sph1, sph2, sph3 }, Transform2{},
+                      false);
     EXPECT_EQ(3u, sset2.NumberOfSurfaces());
     EXPECT_EQ(sph1->radius,
               std::dynamic_pointer_cast<Sphere2>(sset2.SurfaceAt(0))->radius);
@@ -27,12 +28,12 @@ TEST(SurfaceSet2, Constructors)
     EXPECT_EQ(sph3->radius,
               std::dynamic_pointer_cast<Sphere2>(sset2.SurfaceAt(2))->radius);
     EXPECT_EQ(Vector2D(), sset2.transform.GetTranslation());
-    EXPECT_EQ(0.0, sset2.transform.GetOrientation());
+    EXPECT_EQ(0.0, sset2.transform.GetOrientation().GetRotation());
 
-    SurfaceSet2 sset3({ sph1, sph2, sph3 }, Transform2(Vector2D(1, 2), 0.5),
-                      false);
+    SurfaceSet2 sset3(Array1<Surface2Ptr>{ sph1, sph2, sph3 },
+                      Transform2(Vector2D(1, 2), 0.5), false);
     EXPECT_EQ(Vector2D(1, 2), sset3.transform.GetTranslation());
-    EXPECT_EQ(0.5, sset3.transform.GetOrientation());
+    EXPECT_EQ(0.5, sset3.transform.GetOrientation().GetRotation());
 
     SurfaceSet2 sset4(sset3);
     EXPECT_EQ(3u, sset4.NumberOfSurfaces());
@@ -43,7 +44,7 @@ TEST(SurfaceSet2, Constructors)
     EXPECT_EQ(sph3->radius,
               std::dynamic_pointer_cast<Sphere2>(sset4.SurfaceAt(2))->radius);
     EXPECT_EQ(Vector2D(1, 2), sset4.transform.GetTranslation());
-    EXPECT_EQ(0.5, sset4.transform.GetOrientation());
+    EXPECT_EQ(0.5, sset4.transform.GetOrientation().GetRotation());
 }
 
 TEST(SurfaceSet2, AddSurface)
@@ -70,7 +71,7 @@ TEST(SurfaceSet2, AddSurface)
     EXPECT_EQ(sph3->radius,
               std::dynamic_pointer_cast<Sphere2>(sset1.SurfaceAt(2))->radius);
     EXPECT_EQ(Vector2D(), sset1.transform.GetTranslation());
-    EXPECT_EQ(0.0, sset1.transform.GetOrientation());
+    EXPECT_EQ(0.0, sset1.transform.GetOrientation().GetRotation());
 }
 
 TEST(SurfaceSet2, ClosestPoint)
@@ -405,10 +406,10 @@ TEST(SurfaceSet2, BoundingBox)
                        .MakeShared();
         sset1.AddSurface(sph);
 
-        answer.Merge(sph->BoundingBox());
+        answer.Merge(sph->GetBoundingBox());
     }
 
-    EXPECT_BOUNDING_BOX2_NEAR(answer, sset1.BoundingBox(), 1e-9);
+    EXPECT_BOUNDING_BOX2_NEAR(answer, sset1.GetBoundingBox(), 1e-9);
 
     // Now With GetTranslation instead of center
     SurfaceSet2 sset2;
@@ -422,11 +423,11 @@ TEST(SurfaceSet2, BoundingBox)
                        .MakeShared();
         sset2.AddSurface(sph);
 
-        debug.Merge(sph->BoundingBox());
+        debug.Merge(sph->GetBoundingBox());
     }
 
     EXPECT_BOUNDING_BOX2_NEAR(answer, debug, 1e-9);
-    EXPECT_BOUNDING_BOX2_NEAR(answer, sset2.BoundingBox(), 1e-9);
+    EXPECT_BOUNDING_BOX2_NEAR(answer, sset2.GetBoundingBox(), 1e-9);
 }
 
 TEST(SurfaceSet2, MixedBoundTypes)
@@ -443,9 +444,10 @@ TEST(SurfaceSet2, MixedBoundTypes)
                             .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
-    const auto surfaceSet{
-        SurfaceSet2::Builder().WithSurfaces({ plane, sphere }).MakeShared()
-    };
+    const auto surfaceSet{ SurfaceSet2::Builder()
+                               .WithSurfaces(
+                                   Array1<Surface2Ptr>{ plane, sphere })
+                               .MakeShared() };
 
     EXPECT_FALSE(surfaceSet->IsBounded());
 
@@ -473,8 +475,9 @@ TEST(SurfaceSet2, IsValidGeometry)
                             .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
-    auto surfaceSet2 =
-        SurfaceSet2::Builder().WithSurfaces({ plane, sphere }).MakeShared();
+    auto surfaceSet2 = SurfaceSet2::Builder()
+                           .WithSurfaces(Array1<Surface2Ptr>{ plane, sphere })
+                           .MakeShared();
 
     EXPECT_TRUE(surfaceSet2->IsValidGeometry());
 
@@ -498,10 +501,11 @@ TEST(SurfaceSet2, IsInside)
                             .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
-    const auto surfaceSet = SurfaceSet2::Builder{}
-                                .WithSurfaces({ plane, sphere })
-                                .WithTransform(Transform2{ offset, 0.0 })
-                                .MakeShared();
+    const auto surfaceSet =
+        SurfaceSet2::Builder{}
+            .WithSurfaces(Array1<Surface2Ptr>{ plane, sphere })
+            .WithTransform(Transform2{ offset, 0.0 })
+            .MakeShared();
 
     EXPECT_TRUE(surfaceSet->IsInside(Vector2D{ 0.5, 0.25 } + offset));
     EXPECT_TRUE(surfaceSet->IsInside(Vector2D{ 0.5, 1.0 } + offset));
@@ -516,27 +520,27 @@ TEST(SurfaceSet2, UpdateQueryEngine)
                       .MakeShared();
 
     auto surfaceSet = SurfaceSet2::Builder{}
-                          .WithSurfaces({ sphere })
+                          .WithSurfaces(Array1<Surface2Ptr>{ sphere })
                           .WithTransform(Transform2{ { 1.0, 2.0 }, 0.0 })
                           .MakeShared();
 
-    const auto bbox1 = surfaceSet->BoundingBox();
+    const auto bbox1 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(BoundingBox2D({ -0.5, 2.5 }, { 0.5, 3.5 }), bbox1);
 
     surfaceSet->transform = Transform2{ { 3.0, -4.0 }, 0.0 };
     surfaceSet->UpdateQueryEngine();
-    const auto bbox2 = surfaceSet->BoundingBox();
+    const auto bbox2 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(BoundingBox2D({ 1.5, -3.5 }, { 2.5, -2.5 }), bbox2);
 
     sphere->transform = Transform2{ { -6.0, 9.0 }, 0.0 };
     surfaceSet->UpdateQueryEngine();
-    const auto bbox3 = surfaceSet->BoundingBox();
+    const auto bbox3 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(BoundingBox2D({ -4.5, 5.5 }, { -3.5, 6.5 }), bbox3);
 
     // Plane is unbounded. Total bbox should ignore it.
     auto plane = Plane2::Builder{}.WithNormal({ 1.0, 0.0 }).MakeShared();
     surfaceSet->AddSurface(plane);
     surfaceSet->UpdateQueryEngine();
-    auto bbox4 = surfaceSet->BoundingBox();
+    auto bbox4 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(BoundingBox2D({ -4.5, 5.5 }, { -3.5, 6.5 }), bbox4);
 }

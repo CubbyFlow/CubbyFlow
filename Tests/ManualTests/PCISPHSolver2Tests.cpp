@@ -3,12 +3,12 @@
 #include <ManualTests.hpp>
 
 #include <Core/Emitter/VolumeParticleEmitter2.hpp>
-#include <Core/Geometry/Box2.hpp>
-#include <Core/Geometry/ImplicitSurfaceSet2.hpp>
-#include <Core/Geometry/Plane2.hpp>
-#include <Core/Geometry/RigidBodyCollider2.hpp>
-#include <Core/Geometry/Sphere2.hpp>
-#include <Core/Geometry/SurfaceToImplicit2.hpp>
+#include <Core/Geometry/Box.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet.hpp>
+#include <Core/Geometry/Plane.hpp>
+#include <Core/Geometry/RigidBodyCollider.hpp>
+#include <Core/Geometry/Sphere.hpp>
+#include <Core/Geometry/SurfaceToImplicit.hpp>
 #include <Core/Solver/Particle/PCISPH/PCISPHSolver2.hpp>
 
 using namespace CubbyFlow;
@@ -139,11 +139,11 @@ CUBBYFLOW_BEGIN_TEST_F(PCISPHSolver2, RotatingTank)
         if (t < 1.0)
         {
             col->GetSurface()->transform.SetOrientation(2.0 * t);
-            static_cast<RigidBodyCollider2*>(col)->angularVelocity = 2.0;
+            static_cast<RigidBodyCollider2*>(col)->angularVelocity.value = 2.0;
         }
         else
         {
-            static_cast<RigidBodyCollider2*>(col)->angularVelocity = 0.0;
+            static_cast<RigidBodyCollider2*>(col)->angularVelocity.value = 0.0;
         }
     });
 

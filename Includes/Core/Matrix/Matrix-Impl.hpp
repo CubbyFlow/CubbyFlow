@@ -432,6 +432,12 @@ typename Matrix<T, 1, 1>::ConstReference Matrix<T, 1, 1>::operator[](
 }
 
 template <typename T>
+constexpr Matrix<T, 1, 1> Matrix<T, 1, 1>::MakeUnitX()
+{
+    return Matrix<T, 1, 1>{ 1 };
+}
+
+template <typename T>
 template <size_t R, size_t C, typename E>
 Matrix<T, 2, 1>::Matrix(const MatrixExpression<T, R, C, E>& expression)
 {
@@ -541,6 +547,18 @@ typename Matrix<T, 2, 1>::ConstReference Matrix<T, 2, 1>::operator[](
     assert(i < 2);
 
     return (&x)[i];
+}
+
+template <typename T>
+constexpr Matrix<T, 2, 1> Matrix<T, 2, 1>::MakeUnitX()
+{
+    return Matrix<T, 2, 1>{ 1, 0 };
+}
+
+template <typename T>
+constexpr Matrix<T, 2, 1> Matrix<T, 2, 1>::MakeUnitY()
+{
+    return Matrix<T, 2, 1>{ 0, 1 };
 }
 
 template <typename T>
@@ -658,6 +676,24 @@ typename Matrix<T, 3, 1>::ConstReference Matrix<T, 3, 1>::operator[](
     assert(i < 3);
 
     return (&x)[i];
+}
+
+template <typename T>
+constexpr Matrix<T, 3, 1> Matrix<T, 3, 1>::MakeUnitX()
+{
+    return Matrix<T, 3, 1>{ 1, 0, 0 };
+}
+
+template <typename T>
+constexpr Matrix<T, 3, 1> Matrix<T, 3, 1>::MakeUnitY()
+{
+    return Matrix<T, 3, 1>{ 0, 1, 0 };
+}
+
+template <typename T>
+constexpr Matrix<T, 3, 1> Matrix<T, 3, 1>::MakeUnitZ()
+{
+    return Matrix<T, 3, 1>{ 0, 0, 1 };
 }
 
 template <typename T>
@@ -780,6 +816,30 @@ typename Matrix<T, 4, 1>::ConstReference Matrix<T, 4, 1>::operator[](
     assert(i < 4);
 
     return (&x)[i];
+}
+
+template <typename T>
+constexpr Matrix<T, 4, 1> Matrix<T, 4, 1>::MakeUnitX()
+{
+    return Matrix<T, 4, 1>{ 1, 0, 0, 0 };
+}
+
+template <typename T>
+constexpr Matrix<T, 4, 1> Matrix<T, 4, 1>::MakeUnitY()
+{
+    return Matrix<T, 4, 1>{ 0, 1, 0, 0 };
+}
+
+template <typename T>
+constexpr Matrix<T, 4, 1> Matrix<T, 4, 1>::MakeUnitZ()
+{
+    return Matrix<T, 4, 1>{ 0, 0, 1, 0 };
+}
+
+template <typename T>
+constexpr Matrix<T, 4, 1> Matrix<T, 4, 1>::MakeUnitW()
+{
+    return Matrix<T, 4, 1>{ 0, 0, 0, 1 };
 }
 
 template <typename T>

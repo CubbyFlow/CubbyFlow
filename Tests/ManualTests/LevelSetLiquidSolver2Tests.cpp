@@ -1,12 +1,12 @@
 #include "pch.hpp"
 
 #include <Core/Emitter/VolumeGridEmitter2.hpp>
-#include <Core/Geometry/Box2.hpp>
-#include <Core/Geometry/ImplicitSurfaceSet2.hpp>
-#include <Core/Geometry/Plane2.hpp>
-#include <Core/Geometry/RigidBodyCollider2.hpp>
-#include <Core/Geometry/Sphere2.hpp>
-#include <Core/Geometry/SurfaceToImplicit2.hpp>
+#include <Core/Geometry/Box.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet.hpp>
+#include <Core/Geometry/Plane.hpp>
+#include <Core/Geometry/RigidBodyCollider.hpp>
+#include <Core/Geometry/Sphere.hpp>
+#include <Core/Geometry/SurfaceToImplicit.hpp>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver2.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver2.hpp>
 #include <Core/Utils/LevelSetUtils.hpp>
@@ -89,9 +89,10 @@ CUBBYFLOW_BEGIN_TEST_F(LevelSetLiquidSolver2, DropStopAndGo)
                           .WithRadius(0.15)
                           .MakeShared();
 
-        auto surfaceSet = ImplicitSurfaceSet2::Builder()
-                              .WithExplicitSurfaces({ plane, sphere })
-                              .MakeShared();
+        auto surfaceSet =
+            ImplicitSurfaceSet2::Builder()
+                .WithExplicitSurfaces(Array1<Surface2Ptr>{ plane, sphere })
+                .MakeShared();
 
         auto emitter = VolumeGridEmitter2::Builder()
                            .WithSourceRegion(surfaceSet)

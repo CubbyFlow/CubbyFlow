@@ -1,9 +1,9 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
-#include <Core/Geometry/Plane3.hpp>
-#include <Core/Geometry/Sphere3.hpp>
-#include <Core/Geometry/SurfaceSet3.hpp>
+#include <Core/Geometry/Plane.hpp>
+#include <Core/Geometry/Sphere.hpp>
+#include <Core/Geometry/SurfaceSet.hpp>
 
 using namespace CubbyFlow;
 
@@ -20,7 +20,8 @@ TEST(SurfaceSet3, Constructors)
                     .WithRadius(0.25)
                     .WithCenter({ -2, 0, 0 })
                     .MakeShared();
-    SurfaceSet3 sset2({ sph1, sph2, sph3 }, Transform3(), false);
+    SurfaceSet3 sset2(Array1<Surface3Ptr>{ sph1, sph2, sph3 }, Transform3{},
+                      false);
     EXPECT_EQ(3u, sset2.NumberOfSurfaces());
     EXPECT_EQ(sph1->radius,
               std::dynamic_pointer_cast<Sphere3>(sset2.SurfaceAt(0))->radius);
@@ -29,13 +30,14 @@ TEST(SurfaceSet3, Constructors)
     EXPECT_EQ(sph3->radius,
               std::dynamic_pointer_cast<Sphere3>(sset2.SurfaceAt(2))->radius);
     EXPECT_EQ(Vector3D(), sset2.transform.GetTranslation());
-    EXPECT_EQ(QuaternionD(), sset2.transform.GetOrientation());
+    EXPECT_EQ(QuaternionD(), sset2.transform.GetOrientation().GetRotation());
 
     SurfaceSet3 sset3(
-        { sph1, sph2, sph3 },
+        Array1<Surface3Ptr>{ sph1, sph2, sph3 },
         Transform3(Vector3D(1, 2, 3), QuaternionD({ 1, 0, 0 }, 0.5)), false);
     EXPECT_EQ(Vector3D(1, 2, 3), sset3.transform.GetTranslation());
-    EXPECT_EQ(QuaternionD({ 1, 0, 0 }, 0.5), sset3.transform.GetOrientation());
+    EXPECT_EQ(QuaternionD({ 1, 0, 0 }, 0.5),
+              sset3.transform.GetOrientation().GetRotation());
 
     SurfaceSet3 sset4(sset3);
     EXPECT_EQ(3u, sset4.NumberOfSurfaces());
@@ -46,7 +48,8 @@ TEST(SurfaceSet3, Constructors)
     EXPECT_EQ(sph3->radius,
               std::dynamic_pointer_cast<Sphere3>(sset4.SurfaceAt(2))->radius);
     EXPECT_EQ(Vector3D(1, 2, 3), sset4.transform.GetTranslation());
-    EXPECT_EQ(QuaternionD({ 1, 0, 0 }, 0.5), sset4.transform.GetOrientation());
+    EXPECT_EQ(QuaternionD({ 1, 0, 0 }, 0.5),
+              sset4.transform.GetOrientation().GetRotation());
 }
 
 TEST(SurfaceSet3, AddSurface)
@@ -75,7 +78,7 @@ TEST(SurfaceSet3, AddSurface)
     EXPECT_EQ(sph3->radius,
               std::dynamic_pointer_cast<Sphere3>(sset1.SurfaceAt(2))->radius);
     EXPECT_EQ(Vector3D(), sset1.transform.GetTranslation());
-    EXPECT_EQ(QuaternionD(), sset1.transform.GetOrientation());
+    EXPECT_EQ(QuaternionD(), sset1.transform.GetOrientation().GetRotation());
 }
 
 TEST(SurfaceSet3, ClosestPoint)
@@ -411,10 +414,10 @@ TEST(SurfaceSet3, BoundingBox)
                        .MakeShared();
         sset1.AddSurface(sph);
 
-        answer.Merge(sph->BoundingBox());
+        answer.Merge(sph->GetBoundingBox());
     }
 
-    EXPECT_BOUNDING_BOX3_NEAR(answer, sset1.BoundingBox(), 1e-9);
+    EXPECT_BOUNDING_BOX3_NEAR(answer, sset1.GetBoundingBox(), 1e-9);
 
     // Now With GetTranslation instead of center
     SurfaceSet3 sset2;
@@ -428,11 +431,11 @@ TEST(SurfaceSet3, BoundingBox)
                        .MakeShared();
         sset2.AddSurface(sph);
 
-        debug.Merge(sph->BoundingBox());
+        debug.Merge(sph->GetBoundingBox());
     }
 
     EXPECT_BOUNDING_BOX3_NEAR(answer, debug, 1e-9);
-    EXPECT_BOUNDING_BOX3_NEAR(answer, sset2.BoundingBox(), 1e-9);
+    EXPECT_BOUNDING_BOX3_NEAR(answer, sset2.GetBoundingBox(), 1e-9);
 }
 
 TEST(SurfaceSet3, MixedBoundTypes)
@@ -450,7 +453,9 @@ TEST(SurfaceSet3, MixedBoundTypes)
                             .MakeShared();
 
     const auto surfaceSet =
-        SurfaceSet3::Builder().WithSurfaces({ plane, sphere }).MakeShared();
+        SurfaceSet3::Builder()
+            .WithSurfaces(Array1<Surface3Ptr>{ plane, sphere })
+            .MakeShared();
 
     EXPECT_FALSE(surfaceSet->IsBounded());
 
@@ -478,8 +483,9 @@ TEST(SurfaceSet3, IsValidGeometry)
                             .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
-    auto surfaceSet2 =
-        SurfaceSet3::Builder().WithSurfaces({ plane, sphere }).MakeShared();
+    auto surfaceSet2 = SurfaceSet3::Builder()
+                           .WithSurfaces(Array1<Surface3Ptr>{ plane, sphere })
+                           .MakeShared();
 
     EXPECT_TRUE(surfaceSet2->IsValidGeometry());
 
@@ -505,7 +511,7 @@ TEST(SurfaceSet3, IsInside)
 
     const auto surfaceSet =
         SurfaceSet3::Builder{}
-            .WithSurfaces({ plane, sphere })
+            .WithSurfaces(Array1<Surface3Ptr>{ plane, sphere })
             .WithTransform(Transform3{ offset, QuaternionD{} })
             .MakeShared();
 
@@ -523,23 +529,23 @@ TEST(SurfaceSet3, UpdateQueryEngine)
 
     auto surfaceSet =
         SurfaceSet3::Builder{}
-            .WithSurfaces({ sphere })
+            .WithSurfaces(Array1<Surface3Ptr>{ sphere })
             .WithTransform(Transform3{ { 1.0, 2.0, -1.0 }, QuaternionD{} })
             .MakeShared();
 
-    const auto bbox1 = surfaceSet->BoundingBox();
+    const auto bbox1 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(
         BoundingBox3D({ -0.5, 2.5, 0.5 }, { 0.5, 3.5, 1.5 }), bbox1);
 
     surfaceSet->transform = Transform3{ { 3.0, -4.0, 7.0 }, QuaternionD{} };
     surfaceSet->UpdateQueryEngine();
-    const auto bbox2 = surfaceSet->BoundingBox();
+    const auto bbox2 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(
         BoundingBox3D({ 1.5, -3.5, 4.5 }, { 2.5, -2.5, 5.5 }), bbox2);
 
     sphere->transform = Transform3{ { -6.0, 9.0, 2.0 }, QuaternionD{} };
     surfaceSet->UpdateQueryEngine();
-    const auto bbox3 = surfaceSet->BoundingBox();
+    const auto bbox3 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(
         BoundingBox3D({ -4.5, 5.5, 10.5 }, { -3.5, 6.5, 11.5 }), bbox3);
 
@@ -547,7 +553,7 @@ TEST(SurfaceSet3, UpdateQueryEngine)
     auto plane = Plane3::Builder{}.WithNormal({ 1.0, 0.0, 0.0 }).MakeShared();
     surfaceSet->AddSurface(plane);
     surfaceSet->UpdateQueryEngine();
-    auto bbox4 = surfaceSet->BoundingBox();
+    auto bbox4 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(
         BoundingBox3D({ -4.5, 5.5, 10.5 }, { -3.5, 6.5, 11.5 }), bbox4);
 }

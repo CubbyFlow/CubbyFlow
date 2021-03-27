@@ -1,15 +1,15 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
-#include <Core/QueryEngine/ListQueryEngine3.hpp>
+#include <Core/QueryEngine/ListQueryEngine.hpp>
 
 using namespace CubbyFlow;
 
 TEST(ListQueryEngine3, BoxIntersection)
 {
     size_t numSamples = GetNumberOfSamplePoints3();
-    std::vector<Vector3D> points(GetSamplePoints3(),
-                                 GetSamplePoints3() + numSamples);
+    Array1<Vector3D> points(numSamples);
+    std::copy_n(GetSamplePoints3(), numSamples, points.begin());
 
     ListQueryEngine3<Vector3D> engine;
     engine.Add(points);
@@ -26,7 +26,7 @@ TEST(ListQueryEngine3, BoxIntersection)
     }
     bool hasIntersection = numIntersections > 0;
 
-    EXPECT_EQ(hasIntersection, engine.IsIntersects(testBox, testFunc));
+    EXPECT_EQ(hasIntersection, engine.Intersects(testBox, testFunc));
 
     BoundingBox3D testBox2({ 0.3, 0.2, 0.1 }, { 0.6, 0.5, 0.4 });
     numIntersections = 0;
@@ -36,7 +36,7 @@ TEST(ListQueryEngine3, BoxIntersection)
     }
     hasIntersection = numIntersections > 0;
 
-    EXPECT_EQ(hasIntersection, engine.IsIntersects(testBox2, testFunc));
+    EXPECT_EQ(hasIntersection, engine.Intersects(testBox2, testFunc));
 
     size_t measured = 0;
     engine.ForEachIntersectingItem(testBox2, testFunc, [&](const Vector3D& pt) {
@@ -56,7 +56,7 @@ TEST(ListQueryEngine3, RayIntersection)
     };
 
     size_t numSamples = GetNumberOfSamplePoints3();
-    std::vector<BoundingBox3D> items(numSamples / 2);
+    Array1<BoundingBox3D> items(numSamples / 2);
     size_t i = 0;
 
     std::generate(items.begin(), items.end(), [&]() {
@@ -87,7 +87,7 @@ TEST(ListQueryEngine3, RayIntersection)
         }
 
         // engine search
-        bool engInts = engine.IsIntersects(ray, intersectsFunc);
+        bool engInts = engine.Intersects(ray, intersectsFunc);
 
         EXPECT_EQ(ansInts, engInts);
     }
@@ -103,7 +103,7 @@ TEST(ListQueryEngine3, ClosestIntersection)
     };
 
     size_t numSamples = GetNumberOfSamplePoints3();
-    std::vector<BoundingBox3D> items(numSamples / 2);
+    Array1<BoundingBox3D> items(numSamples / 2);
     size_t i = 0;
 
     std::generate(items.begin(), items.end(), [&]() {
@@ -135,7 +135,7 @@ TEST(ListQueryEngine3, ClosestIntersection)
         }
 
         // engine search
-        auto engInts = engine.GetClosestIntersection(ray, intersectsFunc);
+        auto engInts = engine.ClosestIntersection(ray, intersectsFunc);
 
         if (ansInts.item != nullptr && engInts.item != nullptr)
         {
@@ -154,7 +154,7 @@ TEST(ListQueryEngine3, ClosestIntersection)
     }
 }
 
-TEST(ListQueryEngine3, NearestNeighbor)
+TEST(ListQueryEngine3, Nearest)
 {
     ListQueryEngine3<Vector3D> engine;
 
@@ -163,13 +163,13 @@ TEST(ListQueryEngine3, NearestNeighbor)
     };
 
     size_t numSamples = GetNumberOfSamplePoints3();
-    std::vector<Vector3D> points(GetSamplePoints3(),
-                                 GetSamplePoints3() + numSamples);
+    Array1<Vector3D> points(numSamples);
+    std::copy_n(GetSamplePoints3(), numSamples, points.begin());
 
     engine.Add(points);
 
     Vector3D testPt(0.5, 0.5, 0.5);
-    auto closest = engine.GetNearestNeighbor(testPt, distanceFunc);
+    auto closest = engine.Nearest(testPt, distanceFunc);
 
     Vector3D answer = GetSamplePoints3()[0];
     double bestDist = testPt.DistanceTo(answer);

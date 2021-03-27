@@ -12,8 +12,7 @@
 #include <API/Python/Utils/pybind11Utils.hpp>
 #include <Core/Emitter/VolumeParticleEmitter2.hpp>
 #include <Core/Emitter/VolumeParticleEmitter3.hpp>
-#include <Core/Geometry/SurfaceToImplicit2.hpp>
-#include <Core/Geometry/SurfaceToImplicit3.hpp>
+#include <Core/Geometry/SurfaceToImplicit.hpp>
 
 #include <pybind11/pybind11.h>
 
@@ -60,7 +59,7 @@ void AddVolumeParticleEmitter2(pybind11::module& m)
                     // Get initial val for the max region.
                     if (implicitSurface->IsBounded())
                     {
-                        maxRegion = implicitSurface->BoundingBox();
+                        maxRegion = implicitSurface->GetBoundingBox();
                     }
                 };
 
@@ -283,7 +282,7 @@ void AddVolumeParticleEmitter3(pybind11::module& m)
                     // Get initial val for the max region.
                     if (implicitSurface->IsBounded())
                     {
-                        maxRegion = implicitSurface->BoundingBox();
+                        maxRegion = implicitSurface->GetBoundingBox();
                     }
                 };
 

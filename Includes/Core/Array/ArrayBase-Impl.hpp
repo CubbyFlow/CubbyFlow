@@ -75,6 +75,12 @@ std::enable_if_t<(M > 2), size_t> ArrayBase<T, N, D>::Depth() const
 }
 
 template <typename T, size_t N, typename D>
+bool ArrayBase<T, N, D>::IsEmpty() const
+{
+    return Length() == 0;
+}
+
+template <typename T, size_t N, typename D>
 size_t ArrayBase<T, N, D>::Length() const
 {
     return Product<size_t, N>(m_size, 1);

@@ -1,11 +1,11 @@
 #include "UnitTestsUtils.hpp"
 #include "pch.hpp"
 
-#include <Core/Geometry/Box2.hpp>
-#include <Core/Geometry/ImplicitSurfaceSet2.hpp>
-#include <Core/Geometry/Plane2.hpp>
-#include <Core/Geometry/Sphere2.hpp>
-#include <Core/Geometry/SurfaceToImplicit2.hpp>
+#include <Core/Geometry/Box.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet.hpp>
+#include <Core/Geometry/Plane.hpp>
+#include <Core/Geometry/Sphere.hpp>
+#include <Core/Geometry/SurfaceToImplicit.hpp>
 
 using namespace CubbyFlow;
 
@@ -22,7 +22,7 @@ TEST(ImplicitSurfaceSet2, Constructor)
     EXPECT_EQ(1u, sset2.NumberOfSurfaces());
     EXPECT_TRUE(sset2.isNormalFlipped);
 
-    ImplicitSurfaceSet2 sset3({ box });
+    ImplicitSurfaceSet2 sset3(Array1<Surface2Ptr>{ box });
     EXPECT_EQ(1u, sset3.NumberOfSurfaces());
 }
 
@@ -167,7 +167,7 @@ TEST(ImplicitSurfaceSet2, BoundingBox)
     sset.AddExplicitSurface(box1);
     sset.AddExplicitSurface(box2);
 
-    auto bbox = sset.BoundingBox();
+    auto bbox = sset.GetBoundingBox();
     EXPECT_DOUBLE_EQ(0.0, bbox.lowerCorner.x);
     EXPECT_DOUBLE_EQ(0.0, bbox.lowerCorner.y);
     EXPECT_DOUBLE_EQ(5.0, bbox.upperCorner.x);
@@ -225,9 +225,10 @@ TEST(ImplicitSurfaceSet2, MixedBoundTypes)
                             .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
-    const auto surfaceSet = ImplicitSurfaceSet2::Builder{}
-                                .WithExplicitSurfaces({ plane, sphere })
-                                .MakeShared();
+    const auto surfaceSet =
+        ImplicitSurfaceSet2::Builder{}
+            .WithExplicitSurfaces(Array1<Surface2Ptr>{ plane, sphere })
+            .MakeShared();
 
     EXPECT_FALSE(surfaceSet->IsBounded());
 
@@ -270,10 +271,11 @@ TEST(ImplicitSurfaceSet2, IsInside)
                             .WithRadius(0.15 * domain.Width())
                             .MakeShared();
 
-    const auto surfaceSet = ImplicitSurfaceSet2::Builder{}
-                                .WithExplicitSurfaces({ plane, sphere })
-                                .WithTransform(Transform2{ offset, 0.0 })
-                                .MakeShared();
+    const auto surfaceSet =
+        ImplicitSurfaceSet2::Builder{}
+            .WithExplicitSurfaces(Array1<Surface2Ptr>{ plane, sphere })
+            .WithTransform(Transform2{ offset, 0.0 })
+            .MakeShared();
 
     EXPECT_TRUE(surfaceSet->IsInside(Vector2D{ 0.5, 0.25 } + offset));
     EXPECT_TRUE(surfaceSet->IsInside(Vector2D{ 0.5, 1.0 } + offset));
@@ -288,27 +290,27 @@ TEST(ImplicitSurfaceSet2, UpdateQueryEngine)
                       .MakeShared();
 
     auto surfaceSet = ImplicitSurfaceSet2::Builder{}
-                          .WithExplicitSurfaces({ sphere })
+                          .WithExplicitSurfaces(Array1<Surface2Ptr>{ sphere })
                           .WithTransform(Transform2{ { 1.0, 2.0 }, 0.0 })
                           .MakeShared();
 
-    const auto bbox1 = surfaceSet->BoundingBox();
+    const auto bbox1 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(BoundingBox2D({ -0.5, 2.5 }, { 0.5, 3.5 }), bbox1);
 
     surfaceSet->transform = Transform2{ { 3.0, -4.0 }, 0.0 };
     surfaceSet->UpdateQueryEngine();
-    const auto bbox2 = surfaceSet->BoundingBox();
+    const auto bbox2 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(BoundingBox2D({ 1.5, -3.5 }, { 2.5, -2.5 }), bbox2);
 
     sphere->transform = Transform2{ { -6.0, 9.0 }, 0.0 };
     surfaceSet->UpdateQueryEngine();
-    const auto bbox3 = surfaceSet->BoundingBox();
+    const auto bbox3 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(BoundingBox2D({ -4.5, 5.5 }, { -3.5, 6.5 }), bbox3);
 
     // Plane is unbounded. Total bbox should ignore it.
     auto plane = Plane2::Builder{}.WithNormal({ 1.0, 0.0 }).MakeShared();
     surfaceSet->AddExplicitSurface(plane);
     surfaceSet->UpdateQueryEngine();
-    auto bbox4 = surfaceSet->BoundingBox();
+    auto bbox4 = surfaceSet->GetBoundingBox();
     EXPECT_BOUNDING_BOX2_EQ(BoundingBox2D({ -4.5, 5.5 }, { -3.5, 6.5 }), bbox4);
 }

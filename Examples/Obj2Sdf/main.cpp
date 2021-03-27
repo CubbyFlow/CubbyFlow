@@ -90,7 +90,7 @@ int main(int argc, char* argv[])
         exit(EXIT_FAILURE);
     }
 
-    BoundingBox3D box = triMesh.BoundingBox();
+    BoundingBox3D box = triMesh.GetBoundingBox();
     const Vector3D scale(box.Width(), box.Height(), box.Depth());
     box.lowerCorner -= marginScale * scale;
     box.upperCorner += marginScale * scale;

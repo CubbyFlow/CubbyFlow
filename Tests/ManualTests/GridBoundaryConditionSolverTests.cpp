@@ -2,10 +2,10 @@
 
 #include <ManualTests.hpp>
 
-#include <Core/Geometry/ImplicitSurfaceSet2.hpp>
-#include <Core/Geometry/Plane2.hpp>
-#include <Core/Geometry/RigidBodyCollider2.hpp>
-#include <Core/Geometry/Sphere2.hpp>
+#include <Core/Geometry/ImplicitSurfaceSet.hpp>
+#include <Core/Geometry/Plane.hpp>
+#include <Core/Geometry/RigidBodyCollider.hpp>
+#include <Core/Geometry/Sphere.hpp>
 #include <Core/Solver/Grid/GridBlockedBoundaryConditionSolver2.hpp>
 #include <Core/Solver/Grid/GridFractionalBoundaryConditionSolver2.hpp>
 

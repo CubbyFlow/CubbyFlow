@@ -10,8 +10,7 @@
 
 #include <API/Python/Geometry/RigidbodyCollider.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Geometry/RigidBodyCollider2.hpp>
-#include <Core/Geometry/RigidBodyCollider3.hpp>
+#include <Core/Geometry/RigidBodyCollider.hpp>
 
 #include <pybind11/pybind11.h>
 

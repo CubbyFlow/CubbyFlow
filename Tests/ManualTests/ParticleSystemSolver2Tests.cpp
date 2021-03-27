@@ -4,8 +4,8 @@
 
 #include <Core/Emitter/PointParticleEmitter2.hpp>
 #include <Core/Field/ConstantVectorField2.hpp>
-#include <Core/Geometry/Plane2.hpp>
-#include <Core/Geometry/RigidBodyCollider2.hpp>
+#include <Core/Geometry/Plane.hpp>
+#include <Core/Geometry/RigidBodyCollider.hpp>
 #include <Core/Solver/Particle/ParticleSystemSolver2.hpp>
 
 using namespace CubbyFlow;

@@ -83,7 +83,7 @@ CUBBYFLOW_BEGIN_TEST_F(TriangleMeshToSDF, Bunny)
         file.close();
     }
 
-    BoundingBox3D box = triMesh.BoundingBox();
+    BoundingBox3D box = triMesh.GetBoundingBox();
     Vector3D scale(box.Width(), box.Height(), box.Depth());
     box.lowerCorner -= 0.2 * scale;
     box.upperCorner += 0.2 * scale;
@@ -113,7 +113,7 @@ CUBBYFLOW_BEGIN_TEST_F(TriangleMeshToSDF, Dragon)
         file.close();
     }
 
-    BoundingBox3D box = triMesh.BoundingBox();
+    BoundingBox3D box = triMesh.GetBoundingBox();
     Vector3D scale(box.Width(), box.Height(), box.Depth());
     box.lowerCorner -= 0.2 * scale;
     box.upperCorner += 0.2 * scale;

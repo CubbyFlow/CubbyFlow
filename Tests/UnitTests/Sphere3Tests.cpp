@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Geometry/Sphere3.hpp>
+#include <Core/Geometry/Sphere.hpp>
 
 using namespace CubbyFlow;
 
@@ -111,10 +111,10 @@ TEST(Sphere3, ClosestIntersection)
     EXPECT_DOUBLE_EQ(0.0, result3.normal.z);
 }
 
-TEST(Sphere3, BoundingBox)
+TEST(Sphere3, GetBoundingBox)
 {
     Sphere3 sph({ 3.0, -1.0, 2.0 }, 5.0);
-    BoundingBox3D bbox = sph.BoundingBox();
+    BoundingBox3D bbox = sph.GetBoundingBox();
 
     EXPECT_DOUBLE_EQ(-2.0, bbox.lowerCorner.x);
     EXPECT_DOUBLE_EQ(-6.0, bbox.lowerCorner.y);
