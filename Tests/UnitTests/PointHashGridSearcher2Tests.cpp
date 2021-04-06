@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Searcher/PointHashGridSearcher2.hpp>
+#include <Core/Searcher/PointHashGridSearcher.hpp>
 
 using namespace CubbyFlow;
 
@@ -9,7 +9,7 @@ TEST(PointHashGridSearcher2, ForEachNearByPoint)
     Array1<Vector2D> points = { Vector2D(1, 1), Vector2D(3, 4),
                                 Vector2D(-1, 2) };
 
-    PointHashGridSearcher2 searcher(4, 4, std::sqrt(10));
+    PointHashGridSearcher2 searcher(Vector2UZ{ 4, 4 }, std::sqrt(10));
     searcher.Build(points);
 
     searcher.ForEachNearbyPoint(Vector2D(0, 0), std::sqrt(15.0),
@@ -31,7 +31,7 @@ TEST(PointHashGridSearcher2, HasEachNearByPoint)
     Array1<Vector2D> points = { Vector2D(1, 1), Vector2D(3, 4),
                                 Vector2D(4, 5) };
 
-    PointHashGridSearcher2 searcher(4, 4, std::sqrt(10));
+    PointHashGridSearcher2 searcher(Vector2UZ{ 4, 4 }, std::sqrt(10));
     searcher.Build(points);
 
     bool result;
@@ -45,7 +45,7 @@ TEST(PointHashGridSearcher2, Build)
     Array1<Vector2D> points = { Vector2D(3, 4), Vector2D(1, 5),
                                 Vector2D(-3, 0) };
 
-    PointHashGridSearcher2 searcher(4, 4, std::sqrt(10));
+    PointHashGridSearcher2 searcher(Vector2UZ{ 4, 4 }, std::sqrt(10));
     searcher.Build(points);
 
     EXPECT_EQ(Vector2Z(0, 1), searcher.GetBucketIndex(Vector2D(3, 4)));

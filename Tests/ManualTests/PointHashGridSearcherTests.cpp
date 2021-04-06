@@ -6,8 +6,7 @@
 #include <Core/Geometry/BoundingBox.hpp>
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>
 #include <Core/PointGenerator/TrianglePointGenerator.hpp>
-#include <Core/Searcher/PointHashGridSearcher2.hpp>
-#include <Core/Searcher/PointHashGridSearcher3.hpp>
+#include <Core/Searcher/PointHashGridSearcher.hpp>
 #include <Core/Searcher/PointParallelHashGridSearcher2.hpp>
 #include <Core/Searcher/PointParallelHashGridSearcher3.hpp>
 
@@ -24,7 +23,7 @@ CUBBYFLOW_BEGIN_TEST_F(PointHashGridSearcher2, Build)
 
     pointsGenerator.Generate(bbox, spacing, &points);
 
-    PointHashGridSearcher2 pointSearcher(4, 4, 0.18);
+    PointHashGridSearcher2 pointSearcher(Vector2UZ{ 4, 4 }, 0.18);
     pointSearcher.Build(ArrayView1<Vector2D>(points.data(), points.Size()));
 
     Array2<double> grid(4, 4, 0.0);
@@ -35,7 +34,7 @@ CUBBYFLOW_BEGIN_TEST_F(PointHashGridSearcher2, Build)
         {
             size_t key = pointSearcher.GetHashKeyFromBucketIndex(
                 Vector2Z(static_cast<ssize_t>(i), static_cast<ssize_t>(j)));
-            size_t value = pointSearcher.GetBuckets()[key].size();
+            size_t value = pointSearcher.Buckets()[key].Length();
             grid(i, j) += static_cast<double>(value);
         }
     }
@@ -55,7 +54,7 @@ CUBBYFLOW_BEGIN_TEST_F(PointHashGridSearcher3, Build)
 
     pointsGenerator.Generate(bbox, spacing, &points);
 
-    PointHashGridSearcher3 pointSearcher(4, 4, 4, 0.18);
+    PointHashGridSearcher3 pointSearcher(Vector3UZ{ 4, 4, 4 }, 0.18);
     pointSearcher.Build(ArrayView1<Vector3D>(points.data(), points.Size()));
 
     Array2<double> grid(4, 4, 0.0);
@@ -66,7 +65,7 @@ CUBBYFLOW_BEGIN_TEST_F(PointHashGridSearcher3, Build)
         {
             size_t key = pointSearcher.GetHashKeyFromBucketIndex(
                 Vector3Z(static_cast<ssize_t>(i), static_cast<ssize_t>(j), 0));
-            size_t value = pointSearcher.GetBuckets()[key].size();
+            size_t value = pointSearcher.Buckets()[key].Length();
             grid(i, j) += static_cast<double>(value);
         }
     }

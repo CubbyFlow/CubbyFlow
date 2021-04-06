@@ -11,7 +11,7 @@
 #include <Core/Emitter/VolumeParticleEmitter3.hpp>
 #include <Core/Geometry/SurfaceToImplicit.hpp>
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>
-#include <Core/Searcher/PointHashGridSearcher3.hpp>
+#include <Core/Searcher/PointHashGridSearcher.hpp>
 #include <Core/Utils/Logging.hpp>
 #include <Core/Utils/Samplers.hpp>
 

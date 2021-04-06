@@ -12,7 +12,7 @@
 #include <Core/Geometry/SurfaceToImplicit.hpp>
 #include <Core/Matrix/Matrix.hpp>
 #include <Core/PointGenerator/TrianglePointGenerator.hpp>
-#include <Core/Searcher/PointHashGridSearcher2.hpp>
+#include <Core/Searcher/PointHashGridSearcher.hpp>
 #include <Core/Utils/Logging.hpp>
 
 #include <utility>
