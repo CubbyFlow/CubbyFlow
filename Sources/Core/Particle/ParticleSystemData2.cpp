@@ -9,7 +9,7 @@
 // property of any third parties.
 
 #include <Core/Particle/ParticleSystemData2.hpp>
-#include <Core/Searcher/PointNeighborSearcher2.hpp>
+#include <Core/Searcher/PointNeighborSearcher.hpp>
 #include <Core/Searcher/PointParallelHashGridSearcher2.hpp>
 #include <Core/Utils/Factory.hpp>
 #include <Core/Utils/FlatbuffersHelper.hpp>

@@ -12,7 +12,7 @@
 #define CUBBYFLOW_POINT_KDTREE_SEARCHER2_HPP
 
 #include <Core/Geometry/KdTree.hpp>
-#include <Core/Searcher/PointNeighborSearcher2.hpp>
+#include <Core/Searcher/PointNeighborSearcher.hpp>
 
 namespace CubbyFlow
 {
@@ -25,7 +25,7 @@ namespace CubbyFlow
 class PointKdTreeSearcher2 final : public PointNeighborSearcher2
 {
  public:
-    CUBBYFLOW_NEIGHBOR_SEARCHER2_TYPE_NAME(PointKdTreeSearcher2)
+    CUBBYFLOW_NEIGHBOR_SEARCHER_TYPE_NAME(PointKdTreeSearcher2, 2)
 
     class Builder;
 

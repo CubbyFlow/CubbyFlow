@@ -13,7 +13,7 @@
 
 #include <Core/Array/Array.hpp>
 #include <Core/Matrix/Matrix.hpp>
-#include <Core/Searcher/PointNeighborSearcher2.hpp>
+#include <Core/Searcher/PointNeighborSearcher.hpp>
 #include <Core/Utils/Serialization.hpp>
 
 #include <memory>

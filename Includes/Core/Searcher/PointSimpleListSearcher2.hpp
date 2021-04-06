@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_POINT_SIMPLE_LIST_SEARCHER2_HPP
 #define CUBBYFLOW_POINT_SIMPLE_LIST_SEARCHER2_HPP
 
-#include <Core/Searcher/PointNeighborSearcher2.hpp>
+#include <Core/Searcher/PointNeighborSearcher.hpp>
 
 namespace CubbyFlow
 {
@@ -25,7 +25,7 @@ namespace CubbyFlow
 class PointSimpleListSearcher2 final : public PointNeighborSearcher2
 {
  public:
-    CUBBYFLOW_NEIGHBOR_SEARCHER2_TYPE_NAME(PointSimpleListSearcher2)
+    CUBBYFLOW_NEIGHBOR_SEARCHER_TYPE_NAME(PointSimpleListSearcher2, 2)
 
     class Builder;
 

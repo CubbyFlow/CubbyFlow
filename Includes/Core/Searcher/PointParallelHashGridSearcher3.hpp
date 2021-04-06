@@ -12,7 +12,7 @@
 #define CUBBYFLOW_POINT_PARALLEL_HASH_GRID_SEARCHER3_HPP
 
 #include <Core/Matrix/Matrix.hpp>
-#include <Core/Searcher/PointNeighborSearcher3.hpp>
+#include <Core/Searcher/PointNeighborSearcher.hpp>
 
 namespace CubbyFlow
 {
@@ -26,7 +26,7 @@ namespace CubbyFlow
 class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3
 {
  public:
-    CUBBYFLOW_NEIGHBOR_SEARCHER3_TYPE_NAME(PointParallelHashGridSearcher3)
+    CUBBYFLOW_NEIGHBOR_SEARCHER_TYPE_NAME(PointParallelHashGridSearcher3, 3)
 
     class Builder;
 
