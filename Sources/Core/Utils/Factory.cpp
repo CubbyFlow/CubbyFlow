@@ -21,8 +21,7 @@
 #include <Core/Searcher/PointHashGridSearcher.hpp>
 #include <Core/Searcher/PointKdTreeSearcher.hpp>
 #include <Core/Searcher/PointParallelHashGridSearcher.hpp>
-#include <Core/Searcher/PointSimpleListSearcher2.hpp>
-#include <Core/Searcher/PointSimpleListSearcher3.hpp>
+#include <Core/Searcher/PointSimpleListSearcher.hpp>
 #include <Core/Utils/Factory.hpp>
 
 #include <memory>
