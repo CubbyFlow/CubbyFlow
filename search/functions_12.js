@@ -35,5 +35,5 @@ var searchData=
   ['twopi',['TwoPI',['../namespace_cubby_flow.html#a2c384b3ce341b1f1c33a7aa4f3c57360',1,'CubbyFlow']]],
   ['twopi_3c_20double_20_3e',['TwoPI&lt; double &gt;',['../namespace_cubby_flow.html#a60afce53bdaeaa38a15b15afc3ec6a81',1,'CubbyFlow']]],
   ['twopi_3c_20float_20_3e',['TwoPI&lt; float &gt;',['../namespace_cubby_flow.html#a0d10ffeabd47bb130b10cc92af8c3bf0',1,'CubbyFlow']]],
-  ['typename',['TypeName',['../class_cubby_flow_1_1_grid2.html#aec72ca536115a73cc884dcf8cc1ade34',1,'CubbyFlow::Grid2::TypeName()'],['../class_cubby_flow_1_1_grid3.html#aa21b56e4f3f51d430af1f19357e2137d',1,'CubbyFlow::Grid3::TypeName()'],['../class_cubby_flow_1_1_point_neighbor_searcher2.html#ae3712cd92327cc40fd14b2d4f68c7e96',1,'CubbyFlow::PointNeighborSearcher2::TypeName()'],['../class_cubby_flow_1_1_point_neighbor_searcher3.html#ae9ab814feb4034545b3857caa7ce3479',1,'CubbyFlow::PointNeighborSearcher3::TypeName()']]]
+  ['typename',['TypeName',['../class_cubby_flow_1_1_grid2.html#aec72ca536115a73cc884dcf8cc1ade34',1,'CubbyFlow::Grid2::TypeName()'],['../class_cubby_flow_1_1_grid3.html#aa21b56e4f3f51d430af1f19357e2137d',1,'CubbyFlow::Grid3::TypeName()'],['../class_cubby_flow_1_1_point_neighbor_searcher.html#ad97882b8b985503488f2a32ed8763e2d',1,'CubbyFlow::PointNeighborSearcher::TypeName()']]]
 ];

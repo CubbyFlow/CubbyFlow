@@ -30,6 +30,6 @@ var searchData=
   ['flipsolver3ptr',['FLIPSolver3Ptr',['../namespace_cubby_flow.html#ae031962d3d5c65c3d74e5142c82d4e2b',1,'CubbyFlow']]],
   ['fmmlevelsetsolver2ptr',['FMMLevelSetSolver2Ptr',['../namespace_cubby_flow.html#aa336b2644302e12cd60609fc20569285',1,'CubbyFlow']]],
   ['fmmlevelsetsolver3ptr',['FMMLevelSetSolver3Ptr',['../namespace_cubby_flow.html#ac0806cc2c18cbade2dccd07e45294657',1,'CubbyFlow']]],
-  ['foreachnearbypointfunc',['ForEachNearbyPointFunc',['../class_cubby_flow_1_1_point_neighbor_searcher2.html#ab27e472520225769c7b6b34325ceb73e',1,'CubbyFlow::PointNeighborSearcher2::ForEachNearbyPointFunc()'],['../class_cubby_flow_1_1_point_neighbor_searcher3.html#a436b7590e215b5c24d43cb5d17ad2045',1,'CubbyFlow::PointNeighborSearcher3::ForEachNearbyPointFunc()']]],
+  ['foreachnearbypointfunc',['ForEachNearbyPointFunc',['../class_cubby_flow_1_1_point_neighbor_searcher.html#ad576374852e18b0f28078a565187ce7e',1,'CubbyFlow::PointNeighborSearcher']]],
   ['future',['future',['../namespace_cubby_flow_1_1_internal.html#a0800c6124ee647124719eab96fce8284',1,'CubbyFlow::Internal']]]
 ];
