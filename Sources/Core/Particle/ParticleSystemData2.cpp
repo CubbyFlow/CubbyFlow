@@ -10,7 +10,7 @@
 
 #include <Core/Particle/ParticleSystemData2.hpp>
 #include <Core/Searcher/PointNeighborSearcher.hpp>
-#include <Core/Searcher/PointParallelHashGridSearcher2.hpp>
+#include <Core/Searcher/PointParallelHashGridSearcher.hpp>
 #include <Core/Utils/Factory.hpp>
 #include <Core/Utils/FlatbuffersHelper.hpp>
 #include <Core/Utils/Logging.hpp>
@@ -36,7 +36,7 @@ ParticleSystemData2::ParticleSystemData2(size_t numberOfParticles)
 
     // Use PointParallelHashGridSearcher2 by default
     m_neighborSearcher = std::make_shared<PointParallelHashGridSearcher2>(
-        DEFAULT_HASH_GRID_RESOLUTION, DEFAULT_HASH_GRID_RESOLUTION,
+        Vector2UZ{ DEFAULT_HASH_GRID_RESOLUTION, DEFAULT_HASH_GRID_RESOLUTION },
         2.0 * m_radius);
 
     Resize(numberOfParticles);
@@ -244,7 +244,7 @@ void ParticleSystemData2::BuildNeighborSearcher(double maxSearchRadius)
 
     // Use PointParallelHashGridSearcher2 by default
     m_neighborSearcher = std::make_shared<PointParallelHashGridSearcher2>(
-        DEFAULT_HASH_GRID_RESOLUTION, DEFAULT_HASH_GRID_RESOLUTION,
+        Vector2UZ{ DEFAULT_HASH_GRID_RESOLUTION, DEFAULT_HASH_GRID_RESOLUTION },
         2.0 * maxSearchRadius);
 
     m_neighborSearcher->Build(Positions());

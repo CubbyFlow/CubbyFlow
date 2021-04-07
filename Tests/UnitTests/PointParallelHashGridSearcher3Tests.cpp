@@ -1,78 +1,87 @@
 #include "pch.hpp"
 
-#include <Core/Searcher/PointParallelHashGridSearcher3.hpp>
+#include <Core/PointGenerator/BccLatticePointGenerator.hpp>
+#include <Core/Searcher/PointHashGridSearcher.hpp>
+#include <Core/Searcher/PointParallelHashGridSearcher.hpp>
+#include <Core/Utils/PointHashGridUtils.hpp>
 
 using namespace CubbyFlow;
 
 TEST(PointParallelHashGridSearcher3, ForEachNearByPoint)
 {
-    Array1<Vector3D> points = { Vector3D(1, 1, 1), Vector3D(3, 411, 5),
-                                Vector3D(-1, 2, -3) };
+    Array1<Vector3D> points = { Vector3D{ 1, 1, 1 }, Vector3D{ 3, 411, 5 },
+                                Vector3D{ -1, 2, -3 } };
 
-    PointParallelHashGridSearcher3 searcher(Vector3UZ(4, 4, 4), std::sqrt(10));
+    PointParallelHashGridSearcher3 searcher{ Vector3UZ{ 4, 4, 4 },
+                                             std::sqrt(10) };
     searcher.Build(points);
 
-    searcher.ForEachNearbyPoint(Vector3D(0, 0, 0), std::sqrt(15.0),
+    searcher.ForEachNearbyPoint(Vector3D{ 0, 0, 0 }, std::sqrt(15.0),
                                 [&points](size_t i, const Vector3D& pt) {
                                     EXPECT_TRUE(i == 0 || i == 2);
                                     if (i == 0)
                                     {
-                                        EXPECT_EQ(points[0].x, pt.x);
-                                        EXPECT_EQ(points[0].y, pt.y);
-                                        EXPECT_EQ(points[0].z, pt.z);
+                                        EXPECT_EQ(points[0], pt);
                                     }
                                     else if (i == 2)
                                     {
-                                        EXPECT_EQ(points[2].x, pt.x);
-                                        EXPECT_EQ(points[2].y, pt.y);
-                                        EXPECT_EQ(points[2].z, pt.z);
+                                        EXPECT_EQ(points[2], pt);
                                     }
                                 });
 }
 
 TEST(PointParallelHashGridSearcher3, HasEachNearByPoint)
 {
-    Array1<Vector3D> points = { Vector3D(1, 142, 1), Vector3D(3, 4123, 13),
-                                Vector3D(4, 1, 25) };
+    const Array1<Vector3D> points = { Vector3D{ 1, 142, 1 },
+                                      Vector3D{ 3, 4123, 13 },
+                                      Vector3D{ 4, 1, 25 } };
 
-    PointParallelHashGridSearcher3 searcher(Vector3UZ(4, 4, 4), std::sqrt(10));
+    PointParallelHashGridSearcher3 searcher{ Vector3UZ{ 4, 4, 4 },
+                                             std::sqrt(10) };
     searcher.Build(points);
 
-    bool result;
-    result = searcher.HasNearbyPoint(Vector3D(), std::sqrt(15.0));
+    const bool result = searcher.HasNearbyPoint(Vector3D{}, std::sqrt(15.0));
 
     EXPECT_FALSE(result);
 }
 
 TEST(PointParallelHashGridSearcher3, Build)
 {
-    Array1<Vector3D> points = { Vector3D(3, 41, 234), Vector3D(111, 1, 5),
-                                Vector3D(-3, 123, 1123) };
+    Array1<Vector3D> points;
+    BccLatticePointGenerator pointsGenerator;
+    BoundingBox3D bbox{ Vector3D{ 0, 0, 0 }, Vector3D{ 1, 1, 1 } };
+    double spacing = 0.1;
 
-    PointParallelHashGridSearcher3 searcher(Vector3UZ(4, 4, 4), std::sqrt(9));
-    searcher.Build(points);
+    pointsGenerator.Generate(bbox, spacing, &points);
 
-    EXPECT_EQ(37, searcher.GetHashKeyFromBucketIndex(Vector3Z(1, 13, 78)));
-    EXPECT_EQ(17, searcher.GetHashKeyFromBucketIndex(Vector3Z(37, 0, 1)));
-    EXPECT_EQ(39, searcher.GetHashKeyFromBucketIndex(Vector3Z(-1, 41, 374)));
+    PointHashGridSearcher3 pointSearcher{ Vector3UZ{ 4, 4, 4 }, 0.18 };
+    pointSearcher.Build(points);
 
-    std::vector<size_t> resultKey;
-    resultKey.push_back(17);
-    resultKey.push_back(37);
-    resultKey.push_back(39);
+    Array3<size_t> grid(4, 4, 4);
 
-    for (size_t i = 0; i < 3; ++i)
-    {
-        EXPECT_EQ(resultKey[i], searcher.Keys()[i]);
-    }
+    ForEachIndex(grid.Size(), [&](size_t i, size_t j, size_t k) {
+        const size_t key = PointHashGridUtils3::GetHashKeyFromBucketIndex(
+            Vector3Z{ static_cast<ssize_t>(i), static_cast<ssize_t>(j),
+                      static_cast<ssize_t>(k) },
+            Vector3Z{ 4, 4, 4 });
+        const size_t value = pointSearcher.Buckets()[key].Length();
+        grid(i, j, k) = value;
+    });
 
-    EXPECT_EQ(0, searcher.StartIndexTable()[17]);
-    EXPECT_EQ(1, searcher.StartIndexTable()[37]);
-    EXPECT_EQ(2, searcher.StartIndexTable()[39]);
+    PointParallelHashGridSearcher3 parallelSearcher{ Vector3UZ{ 4, 4, 4 },
+                                                     0.18 };
+    parallelSearcher.Build(points);
 
-    EXPECT_EQ(1, searcher.EndIndexTable()[17]);
-    EXPECT_EQ(2, searcher.EndIndexTable()[37]);
-    EXPECT_EQ(3, searcher.EndIndexTable()[39]);
+    ForEachIndex(grid.Size(), [&](size_t i, size_t j, size_t k) {
+        const size_t key = PointHashGridUtils3::GetHashKeyFromBucketIndex(
+            Vector3Z{ static_cast<ssize_t>(i), static_cast<ssize_t>(j),
+                      static_cast<ssize_t>(k) },
+            Vector3Z{ 4, 4, 4 });
+        const size_t start = parallelSearcher.StartIndexTable()[key];
+        const size_t end = parallelSearcher.EndIndexTable()[key];
+        const size_t value = end - start;
+        EXPECT_EQ(grid(i, j, k), value);
+    });
 }
 
 TEST(PointParallelHashGridSearcher3, Serialization)
@@ -80,13 +89,13 @@ TEST(PointParallelHashGridSearcher3, Serialization)
     Array1<Vector3D> points = { Vector3D(0, 1, 3), Vector3D(2, 5, 4),
                                 Vector3D(-1, 3, 0) };
 
-    PointParallelHashGridSearcher3 searcher(4, 4, 4, std::sqrt(10));
+    PointParallelHashGridSearcher3 searcher(Vector3UZ{ 4, 4, 4 }, std::sqrt(10));
     searcher.Build(points);
 
     std::vector<uint8_t> buffer;
     searcher.Serialize(&buffer);
 
-    PointParallelHashGridSearcher3 searcher2(1, 1, 1, 1.0);
+    PointParallelHashGridSearcher3 searcher2(Vector3UZ{ 1, 1, 1 }, 1.0);
     searcher2.Deserialize(buffer);
 
     int cnt = 0;

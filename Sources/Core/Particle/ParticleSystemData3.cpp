@@ -10,7 +10,7 @@
 
 #include <Core/Particle/ParticleSystemData3.hpp>
 #include <Core/Searcher/PointNeighborSearcher.hpp>
-#include <Core/Searcher/PointParallelHashGridSearcher3.hpp>
+#include <Core/Searcher/PointParallelHashGridSearcher.hpp>
 #include <Core/Utils/Factory.hpp>
 #include <Core/Utils/FlatbuffersHelper.hpp>
 #include <Core/Utils/Logging.hpp>
@@ -36,8 +36,9 @@ ParticleSystemData3::ParticleSystemData3(size_t NumberOfParticles)
 
     // Use PointParallelHashGridSearcher3 by default
     m_neighborSearcher = std::make_shared<PointParallelHashGridSearcher3>(
-        DEFAULT_HASH_GRID_RESOLUTION, DEFAULT_HASH_GRID_RESOLUTION,
-        DEFAULT_HASH_GRID_RESOLUTION, 2.0 * m_radius);
+        Vector3UZ{ DEFAULT_HASH_GRID_RESOLUTION, DEFAULT_HASH_GRID_RESOLUTION,
+                   DEFAULT_HASH_GRID_RESOLUTION },
+        2.0 * m_radius);
 
     Resize(NumberOfParticles);
 }
@@ -244,8 +245,9 @@ void ParticleSystemData3::BuildNeighborSearcher(double maxSearchRadius)
 
     // Use PointParallelHashGridSearcher3 by default
     m_neighborSearcher = std::make_shared<PointParallelHashGridSearcher3>(
-        DEFAULT_HASH_GRID_RESOLUTION, DEFAULT_HASH_GRID_RESOLUTION,
-        DEFAULT_HASH_GRID_RESOLUTION, 2.0 * maxSearchRadius);
+        Vector3UZ{ DEFAULT_HASH_GRID_RESOLUTION, DEFAULT_HASH_GRID_RESOLUTION,
+                   DEFAULT_HASH_GRID_RESOLUTION },
+        2.0 * maxSearchRadius);
 
     m_neighborSearcher->Build(Positions());
 
