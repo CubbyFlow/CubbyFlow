@@ -10,25 +10,13 @@
 
 #include <Core/Searcher/PointHashGridSearcher.hpp>
 #include <Core/Utils/FlatbuffersHelper.hpp>
+#include <Core/Utils/PointHashGridUtils.hpp>
 
 #include <Flatbuffers/generated/PointHashGridSearcher2_generated.h>
 #include <Flatbuffers/generated/PointHashGridSearcher3_generated.h>
 
 namespace CubbyFlow
 {
-inline size_t HashKey(const Vector<ssize_t, 2>& index,
-                      const Vector<ssize_t, 2>& resolution)
-{
-    return static_cast<size_t>(index.y * resolution.x + index.x);
-}
-
-inline size_t HashKey(const Vector<ssize_t, 3>& index,
-                      const Vector<ssize_t, 3>& resolution)
-{
-    return static_cast<size_t>(
-        (index.z * resolution.y + index.y) * resolution.x + index.x);
-}
-
 template <size_t N>
 PointHashGridSearcher<N>::PointHashGridSearcher(
     const Vector<size_t, N>& resolution, double gridSpacing)
@@ -67,7 +55,8 @@ void PointHashGridSearcher<N>::Build(
     {
         m_points[i] = points[i];
 
-        const size_t key = GetHashKeyFromPosition(points[i]);
+        const size_t key = PointHashGridUtils<N>::GetHashKeyFromPosition(
+            points[i], m_gridSpacing, m_resolution);
         m_buckets[key].Append(i);
     }
 }
@@ -85,7 +74,8 @@ void PointHashGridSearcher<N>::ForEachNearbyPoint(
     constexpr int numKeys = 1 << N;
     size_t nearbyKeys[numKeys];
 
-    GetNearbyKeys(origin, nearbyKeys);
+    PointHashGridUtils<N>::GetNearbyKeys(origin, m_gridSpacing, m_resolution,
+                                         nearbyKeys);
 
     const double queryRadiusSquared = radius * radius;
 
@@ -120,7 +110,8 @@ bool PointHashGridSearcher<N>::HasNearbyPoint(const Vector<double, N>& origin,
     constexpr int numKeys = 1 << N;
     size_t nearbyKeys[numKeys];
 
-    GetNearbyKeys(origin, nearbyKeys);
+    PointHashGridUtils<N>::GetNearbyKeys(origin, m_gridSpacing, m_resolution,
+                                         nearbyKeys);
 
     const double queryRadiusSquared = radius * radius;
 
@@ -158,7 +149,8 @@ void PointHashGridSearcher<N>::Add(const Vector<double, N>& point)
         size_t i = m_points.Length();
         m_points.Append(point);
 
-        const size_t key = GetHashKeyFromPosition(point);
+        const size_t key = PointHashGridUtils<N>::GetHashKeyFromPosition(
+            point, m_gridSpacing, m_resolution);
         m_buckets[key].Append(i);
     }
 }
@@ -167,80 +159,6 @@ template <size_t N>
 const Array1<Array1<size_t>>& PointHashGridSearcher<N>::Buckets() const
 {
     return m_buckets;
-}
-
-template <size_t N>
-Vector<ssize_t, N> PointHashGridSearcher<N>::GetBucketIndex(
-    const Vector<double, N>& position) const
-{
-    Vector<ssize_t, N> bucketIndex;
-    bucketIndex = Floor(position / m_gridSpacing).template CastTo<ssize_t>();
-
-    return bucketIndex;
-}
-
-template <size_t N>
-size_t PointHashGridSearcher<N>::GetHashKeyFromPosition(
-    const Vector<double, N>& position) const
-{
-    Vector<ssize_t, N> bucketIndex = GetBucketIndex(position);
-    return GetHashKeyFromBucketIndex(bucketIndex);
-}
-
-template <size_t N>
-size_t PointHashGridSearcher<N>::GetHashKeyFromBucketIndex(
-    const Vector<ssize_t, N>& bucketIndex) const
-{
-    Vector<ssize_t, N> wrappedIndex = bucketIndex;
-
-    for (size_t i = 0; i < N; ++i)
-    {
-        wrappedIndex[i] = bucketIndex[i] % m_resolution[i];
-
-        if (wrappedIndex[i] < 0)
-        {
-            wrappedIndex[i] += m_resolution[i];
-        }
-    }
-
-    return HashKey(wrappedIndex, m_resolution);
-}
-
-template <size_t N>
-void PointHashGridSearcher<N>::GetNearbyKeys(const Vector<double, N>& position,
-                                             size_t* nearbyKeys) const
-{
-    constexpr int numKeys = 1 << N;
-
-    Vector<ssize_t, N> originIndex = GetBucketIndex(position);
-    Vector<ssize_t, N> nearbyBucketIndices[numKeys];
-
-    for (int i = 0; i < numKeys; ++i)
-    {
-        nearbyBucketIndices[i] = originIndex;
-    }
-
-    for (size_t axis = 0; axis < N; ++axis)
-    {
-        int offset =
-            (static_cast<double>(originIndex[axis]) + 0.5) * m_gridSpacing <=
-                    position[axis]
-                ? 1
-                : -1;
-
-        for (int j = 0; j < numKeys; ++j)
-        {
-            if (j & (numKeys >> axis))
-            {
-                nearbyBucketIndices[j][axis] += offset;
-            }
-        }
-    }
-
-    for (int i = 0; i < numKeys; ++i)
-    {
-        nearbyKeys[i] = GetHashKeyFromBucketIndex(nearbyBucketIndices[i]);
-    }
 }
 
 template <size_t N>
@@ -279,6 +197,13 @@ template <size_t N>
 void PointHashGridSearcher<N>::Deserialize(const std::vector<uint8_t>& buffer)
 {
     Deserialize(buffer, *this);
+}
+
+template <size_t N>
+typename PointHashGridSearcher<N>::Builder
+PointHashGridSearcher<N>::GetBuilder()
+{
+    return Builder{};
 }
 
 template <size_t N>
@@ -466,13 +391,6 @@ std::enable_if_t<M == 3, void> PointHashGridSearcher<N>::Deserialize(
                        searcher.m_buckets[i].begin(),
                        [](uint64_t val) { return static_cast<size_t>(val); });
     }
-}
-
-template <size_t N>
-typename PointHashGridSearcher<N>::Builder
-PointHashGridSearcher<N>::GetBuilder()
-{
-    return Builder{};
 }
 
 template <size_t N>
