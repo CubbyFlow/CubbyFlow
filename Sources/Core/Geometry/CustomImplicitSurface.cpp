@@ -85,8 +85,8 @@ bool CustomImplicitSurface<N>::IntersectsLocal(const Ray<double, N>& ray) const
 
         while (t <= end)
         {
-            pt = ray.pointAt(t);
-            const double newPhi = _func(pt);
+            pt = ray.PointAt(t);
+            const double newPhi = m_func(pt);
             const double newPhiAbs = std::fabs(newPhi);
 
             if (newPhi * prevPhi < 0.0)
@@ -165,7 +165,7 @@ SurfaceRayIntersection<N> CustomImplicitSurface<N>::ClosestIntersectionLocal(
         while (t <= end)
         {
             pt = ray.PointAt(t);
-            const double newPhi = _func(pt);
+            const double newPhi = m_func(pt);
             const double newPhiAbs = std::fabs(newPhi);
 
             if (newPhi * prevPhi < 0.0)
