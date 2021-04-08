@@ -13,22 +13,22 @@
 namespace CubbyFlow
 {
 template <size_t N>
-Vector<double, N> ScalarField<N>::Gradient(const Vector<double, N> &) const
+Vector<double, N> ScalarField<N>::Gradient(const Vector<double, N>&) const
 {
     return Vector<double, N>{};
 }
 
 template <size_t N>
-double ScalarField<N>::Laplacian(const Vector<double, N> &) const
+double ScalarField<N>::Laplacian(const Vector<double, N>&) const
 {
     return 0.0;
 }
 
 template <size_t N>
-std::function<double(const Vector<double, N> &)> ScalarField<N>::Sampler() const
+std::function<double(const Vector<double, N>&)> ScalarField<N>::Sampler() const
 {
-    const ScalarField *self = this;
-    return [self](const Vector<double, N> &x) -> double {
+    const ScalarField* self = this;
+    return [self](const Vector<double, N>& x) -> double {
         return self->Sample(x);
     };
 }
