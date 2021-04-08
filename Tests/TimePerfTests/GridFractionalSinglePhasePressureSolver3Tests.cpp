@@ -1,7 +1,7 @@
 #include "benchmark/benchmark.h"
 
 #include <Core/Field/ConstantScalarField.hpp>
-#include <Core/Field/ConstantVectorField3.hpp>
+#include <Core/Field/ConstantVectorField.hpp>
 #include <Core/Grid/CellCenteredScalarGrid3.hpp>
 #include <Core/Grid/FaceCenteredGrid3.hpp>
 #include <Core/Matrix/Matrix.hpp>

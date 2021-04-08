@@ -3,7 +3,7 @@
 #include <ManualTests.hpp>
 
 #include <Core/Array/Array.hpp>
-#include <Core/Field/ConstantVectorField2.hpp>
+#include <Core/Field/ConstantVectorField.hpp>
 #include <Core/Field/CustomScalarField.hpp>
 #include <Core/Field/CustomVectorField.hpp>
 #include <Core/Geometry/Box.hpp>

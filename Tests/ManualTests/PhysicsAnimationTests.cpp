@@ -4,7 +4,7 @@
 
 #include <Core/Animation/PhysicsAnimation.hpp>
 #include <Core/Array/Array.hpp>
-#include <Core/Field/ConstantVectorField3.hpp>
+#include <Core/Field/ConstantVectorField.hpp>
 #include <Core/Matrix/Matrix.hpp>
 
 using namespace CubbyFlow;

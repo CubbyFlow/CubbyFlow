@@ -9,7 +9,7 @@
 // property of any third parties.
 
 #include <Core/Array/ArrayUtils.hpp>
-#include <Core/Field/ConstantVectorField2.hpp>
+#include <Core/Field/ConstantVectorField.hpp>
 #include <Core/Solver/Particle/ParticleSystemSolver2.hpp>
 #include <Core/Utils/Logging.hpp>
 #include <Core/Utils/Parallel.hpp>
