@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_CONSTANT_SCALAR_FIELD3_HPP
 #define CUBBYFLOW_CONSTANT_SCALAR_FIELD3_HPP
 
-#include <Core/Field/ScalarField3.hpp>
+#include <Core/Field/ScalarField.hpp>
 
 namespace CubbyFlow
 {

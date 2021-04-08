@@ -14,7 +14,7 @@
 #include <Core/Array/Array.hpp>
 #include <Core/Array/ArrayView.hpp>
 #include <Core/Array/ArraySamplers.hpp>
-#include <Core/Field/ScalarField3.hpp>
+#include <Core/Field/ScalarField.hpp>
 #include <Core/Grid/Grid3.hpp>
 
 namespace CubbyFlow

@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_CUSTOM_SCALAR_FIELD2_HPP
 #define CUBBYFLOW_CUSTOM_SCALAR_FIELD2_HPP
 
-#include <Core/Field/ScalarField2.hpp>
+#include <Core/Field/ScalarField.hpp>
 
 namespace CubbyFlow
 {
