@@ -2,9 +2,7 @@ var searchData=
 [
   ['samplers_2dimpl_2ehpp',['Samplers-Impl.hpp',['../_samplers-_impl_8hpp.html',1,'']]],
   ['samplers_2ehpp',['Samplers.hpp',['../_samplers_8hpp.html',1,'']]],
-  ['scalarfield_2ehpp',['ScalarField.hpp',['../_scalar_field_8hpp.html',1,'']]],
-  ['scalarfield2_2ehpp',['ScalarField2.hpp',['../_scalar_field2_8hpp.html',1,'']]],
-  ['scalarfield3_2ehpp',['ScalarField3.hpp',['../_scalar_field3_8hpp.html',1,'']]],
+  ['scalarfield_2ehpp',['ScalarField.hpp',['../_a_p_i_2_python_2_field_2_scalar_field_8hpp.html',1,'(Global Namespace)'],['../_core_2_field_2_scalar_field_8hpp.html',1,'(Global Namespace)']]],
   ['scalargrid_2ehpp',['ScalarGrid.hpp',['../_scalar_grid_8hpp.html',1,'']]],
   ['scalargrid2_2ehpp',['ScalarGrid2.hpp',['../_scalar_grid2_8hpp.html',1,'']]],
   ['scalargrid3_2ehpp',['ScalarGrid3.hpp',['../_scalar_grid3_8hpp.html',1,'']]],

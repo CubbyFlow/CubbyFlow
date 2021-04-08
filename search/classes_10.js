@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['scalarfield2',['ScalarField2',['../class_cubby_flow_1_1_scalar_field2.html',1,'CubbyFlow']]],
-  ['scalarfield3',['ScalarField3',['../class_cubby_flow_1_1_scalar_field3.html',1,'CubbyFlow']]],
+  ['scalarfield',['ScalarField',['../class_cubby_flow_1_1_scalar_field.html',1,'CubbyFlow']]],
   ['scalargrid2',['ScalarGrid2',['../class_cubby_flow_1_1_scalar_grid2.html',1,'CubbyFlow']]],
   ['scalargrid3',['ScalarGrid3',['../class_cubby_flow_1_1_scalar_grid3.html',1,'CubbyFlow']]],
   ['scalargridbuilder2',['ScalarGridBuilder2',['../class_cubby_flow_1_1_scalar_grid_builder2.html',1,'CubbyFlow']]],
@@ -33,6 +32,7 @@ var searchData=
   ['surface',['Surface',['../class_cubby_flow_1_1_surface.html',1,'CubbyFlow']]],
   ['surfacebuilderbase',['SurfaceBuilderBase',['../class_cubby_flow_1_1_surface_builder_base.html',1,'CubbyFlow']]],
   ['surfacebuilderbase_3c_20n_2c_20box_3c_20n_20_3e_3a_3abuilder_20_3e',['SurfaceBuilderBase&lt; N, Box&lt; N &gt;::Builder &gt;',['../class_cubby_flow_1_1_surface_builder_base.html',1,'CubbyFlow']]],
+  ['surfacebuilderbase_3c_20n_2c_20customimplicitsurface_3c_20n_20_3e_3a_3abuilder_20_3e',['SurfaceBuilderBase&lt; N, CustomImplicitSurface&lt; N &gt;::Builder &gt;',['../class_cubby_flow_1_1_surface_builder_base.html',1,'CubbyFlow']]],
   ['surfacebuilderbase_3c_20n_2c_20implicitsurfaceset_3c_20n_20_3e_3a_3abuilder_20_3e',['SurfaceBuilderBase&lt; N, ImplicitSurfaceSet&lt; N &gt;::Builder &gt;',['../class_cubby_flow_1_1_surface_builder_base.html',1,'CubbyFlow']]],
   ['surfacebuilderbase_3c_20n_2c_20plane_3c_20n_20_3e_3a_3abuilder_20_3e',['SurfaceBuilderBase&lt; N, Plane&lt; N &gt;::Builder &gt;',['../class_cubby_flow_1_1_surface_builder_base.html',1,'CubbyFlow']]],
   ['surfacebuilderbase_3c_20n_2c_20sphere_3c_20n_20_3e_3a_3abuilder_20_3e',['SurfaceBuilderBase&lt; N, Sphere&lt; N &gt;::Builder &gt;',['../class_cubby_flow_1_1_surface_builder_base.html',1,'CubbyFlow']]],
