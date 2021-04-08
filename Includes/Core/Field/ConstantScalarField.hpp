@@ -31,7 +31,7 @@ class ConstantScalarField final : public ScalarField<N>
     //! Returns the sampler function.
     std::function<double(const Vector<double, N>&)> Sampler() const override;
 
-    //! Returns builder fox ConstantScalarField.
+    //! Returns builder for ConstantScalarField.
     static Builder GetBuilder();
 
  private:

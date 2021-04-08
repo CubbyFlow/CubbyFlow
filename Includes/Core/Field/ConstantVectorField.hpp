@@ -32,7 +32,7 @@ class ConstantVectorField final : public VectorField<N>
     std::function<Vector<double, N>(const Vector<double, N>&)> Sampler()
         const override;
 
-    //! Returns builder fox ConstantVectorField.
+    //! Returns builder for ConstantVectorField.
     static Builder GetBuilder();
 
  private:

@@ -70,7 +70,7 @@ class CustomVectorField final : public VectorField<N>
     std::function<Vector<double, N>(const Vector<double, N>&)> Sampler()
         const override;
 
-    //! Returns builder fox CustomVectorField.
+    //! Returns builder for CustomVectorField.
     static Builder GetBuilder();
 
  private:
