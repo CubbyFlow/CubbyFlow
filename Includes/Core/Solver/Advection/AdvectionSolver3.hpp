@@ -12,7 +12,7 @@
 #define CUBBYFLOW_ADVECTION_SOLVER3_HPP
 
 #include <Core/Field/ConstantScalarField3.hpp>
-#include <Core/Field/VectorField3.hpp>
+#include <Core/Field/VectorField.hpp>
 #include <Core/Grid/CollocatedVectorGrid3.hpp>
 #include <Core/Grid/FaceCenteredGrid3.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>

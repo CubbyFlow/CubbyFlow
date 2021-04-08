@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_CUSTOM_VECTOR_FIELD2_HPP
 #define CUBBYFLOW_CUSTOM_VECTOR_FIELD2_HPP
 
-#include <Core/Field/VectorField2.hpp>
+#include <Core/Field/VectorField.hpp>
 
 namespace CubbyFlow
 {

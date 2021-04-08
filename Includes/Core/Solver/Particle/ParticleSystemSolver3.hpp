@@ -13,7 +13,7 @@
 
 #include <Core/Animation/PhysicsAnimation.hpp>
 #include <Core/Emitter/ParticleEmitter3.hpp>
-#include <Core/Field/VectorField3.hpp>
+#include <Core/Field/VectorField.hpp>
 #include <Core/Geometry/Collider.hpp>
 #include <Core/Matrix/Matrix.hpp>
 #include <Core/Particle/ParticleSystemData3.hpp>

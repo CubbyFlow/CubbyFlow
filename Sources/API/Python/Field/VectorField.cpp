@@ -9,8 +9,7 @@
 // property of any third parties.
 
 #include <API/Python/Field/VectorField.hpp>
-#include <Core/Field/VectorField2.hpp>
-#include <Core/Field/VectorField3.hpp>
+#include <Core/Field/VectorField.hpp>
 
 #include <pybind11/pybind11.h>
 

@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_CONSTANT_VECTOR_FIELD3_HPP
 #define CUBBYFLOW_CONSTANT_VECTOR_FIELD3_HPP
 
-#include <Core/Field/VectorField3.hpp>
+#include <Core/Field/VectorField.hpp>
 
 namespace CubbyFlow
 {

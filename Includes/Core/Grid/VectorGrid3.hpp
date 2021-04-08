@@ -12,7 +12,7 @@
 #define CUBBYFLOW_VECTOR_GRID3_HPP
 
 #include <Core/Array/ArrayView.hpp>
-#include <Core/Field/VectorField3.hpp>
+#include <Core/Field/VectorField.hpp>
 #include <Core/Grid/Grid3.hpp>
 
 namespace CubbyFlow
