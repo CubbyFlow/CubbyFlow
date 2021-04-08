@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Field/CustomVectorField2.hpp>
+#include <Core/Field/CustomVectorField.hpp>
 #include <Core/Grid/CellCenteredScalarGrid2.hpp>
 #include <Core/Grid/CellCenteredScalarGrid3.hpp>
 #include <Core/Solver/Advection/CubicSemiLagrangian2.hpp>

@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_GRID_FRACTIONAL_BOUNDARY_CONDITION_SOLVER2_HPP
 #define CUBBYFLOW_GRID_FRACTIONAL_BOUNDARY_CONDITION_SOLVER2_HPP
 
-#include <Core/Field/CustomVectorField2.hpp>
+#include <Core/Field/CustomVectorField.hpp>
 #include <Core/Grid/CellCenteredScalarGrid2.hpp>
 #include <Core/Solver/Grid/GridBoundaryConditionSolver2.hpp>
 

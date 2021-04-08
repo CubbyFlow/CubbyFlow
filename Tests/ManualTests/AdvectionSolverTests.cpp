@@ -5,7 +5,7 @@
 #include <Core/Array/Array.hpp>
 #include <Core/Field/ConstantVectorField2.hpp>
 #include <Core/Field/CustomScalarField.hpp>
-#include <Core/Field/CustomVectorField2.hpp>
+#include <Core/Field/CustomVectorField.hpp>
 #include <Core/Geometry/Box.hpp>
 #include <Core/Grid/CellCenteredScalarGrid2.hpp>
 #include <Core/Grid/CellCenteredVectorGrid2.hpp>
