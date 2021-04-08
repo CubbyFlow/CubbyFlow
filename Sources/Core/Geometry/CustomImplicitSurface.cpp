@@ -159,6 +159,7 @@ SurfaceRayIntersection<N> CustomImplicitSurface<N>::ClosestIntersectionLocal(
         }
 
         double t = start;
+        double prev = t;
         Vector<double, N> pt = ray.PointAt(t);
         double prevPhi = m_func(pt);
 
@@ -171,7 +172,7 @@ SurfaceRayIntersection<N> CustomImplicitSurface<N>::ClosestIntersectionLocal(
             if (newPhi * prevPhi < 0.0)
             {
                 const double frac = prevPhi / (prevPhi - newPhi);
-                const double sub = t + m_rayMarchingResolution * frac;
+                const double sub = prev + m_rayMarchingResolution * frac;
 
                 result.isIntersecting = true;
                 result.distance = sub;
@@ -186,6 +187,7 @@ SurfaceRayIntersection<N> CustomImplicitSurface<N>::ClosestIntersectionLocal(
                 return result;
             }
 
+            prev = t;
             t += std::max(newPhiAbs, m_rayMarchingResolution);
             prevPhi = newPhi;
         }
