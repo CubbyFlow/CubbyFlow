@@ -10,8 +10,7 @@
 
 #include <API/Python/Field/ConstantScalarField.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Field/ConstantScalarField2.hpp>
-#include <Core/Field/ConstantScalarField3.hpp>
+#include <Core/Field/ConstantScalarField.hpp>
 
 #include <pybind11/pybind11.h>
 

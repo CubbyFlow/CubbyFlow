@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_ADVECTION_SOLVER2_HPP
 #define CUBBYFLOW_ADVECTION_SOLVER2_HPP
 
-#include <Core/Field/ConstantScalarField2.hpp>
+#include <Core/Field/ConstantScalarField.hpp>
 #include <Core/Field/VectorField.hpp>
 #include <Core/Grid/CollocatedVectorGrid2.hpp>
 #include <Core/Grid/FaceCenteredGrid2.hpp>

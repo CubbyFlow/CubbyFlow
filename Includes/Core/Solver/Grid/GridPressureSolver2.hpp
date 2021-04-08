@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_GRID_PRESSURE_SOLVER2_HPP
 #define CUBBYFLOW_GRID_PRESSURE_SOLVER2_HPP
 
-#include <Core/Field/ConstantScalarField2.hpp>
+#include <Core/Field/ConstantScalarField.hpp>
 #include <Core/Field/ConstantVectorField2.hpp>
 #include <Core/Grid/FaceCenteredGrid2.hpp>
 #include <Core/Solver/Grid/GridBoundaryConditionSolver2.hpp>

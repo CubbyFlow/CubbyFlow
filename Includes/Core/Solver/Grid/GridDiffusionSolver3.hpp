@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_GRID_DIFFUSION_SOLVER3_HPP
 #define CUBBYFLOW_GRID_DIFFUSION_SOLVER3_HPP
 
-#include <Core/Field/ConstantScalarField3.hpp>
+#include <Core/Field/ConstantScalarField.hpp>
 #include <Core/Grid/CollocatedVectorGrid3.hpp>
 #include <Core/Grid/FaceCenteredGrid3.hpp>
 #include <Core/Grid/ScalarGrid3.hpp>
