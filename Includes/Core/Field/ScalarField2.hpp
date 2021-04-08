@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_SCALAR_FIELD2_HPP
 #define CUBBYFLOW_SCALAR_FIELD2_HPP
 
-#include <Core/Field/Field2.hpp>
+#include <Core/Field/Field.hpp>
 #include <Core/Matrix/Matrix.hpp>
 
 #include <functional>

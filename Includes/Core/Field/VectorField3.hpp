@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_VECTOR_FIELD3_HPP
 #define CUBBYFLOW_VECTOR_FIELD3_HPP
 
-#include <Core/Field/Field3.hpp>
+#include <Core/Field/Field.hpp>
 #include <Core/Matrix/Matrix.hpp>
 
 #include <functional>
