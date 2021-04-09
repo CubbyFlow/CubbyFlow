@@ -27,8 +27,10 @@ PointKdTreeSearcher<N>::PointKdTreeSearcher(const PointKdTreeSearcher& other)
 
 template <size_t N>
 void PointKdTreeSearcher<N>::Build(
-    const ConstArrayView1<Vector<double, N>>& points)
+    const ConstArrayView1<Vector<double, N>>& points, double maxSearchRadius)
 {
+    UNUSED_VARIABLE(maxSearchRadius);
+
     m_tree.Build(points);
 }
 

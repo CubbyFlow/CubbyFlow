@@ -36,8 +36,10 @@ PointHashGridSearcher<N>::PointHashGridSearcher(
 
 template <size_t N>
 void PointHashGridSearcher<N>::Build(
-    const ConstArrayView1<Vector<double, N>>& points)
+    const ConstArrayView1<Vector<double, N>>& points, double maxSearchRadius)
 {
+    m_gridSpacing = 2.0 * maxSearchRadius;
+
     m_buckets.Clear();
     m_points.Clear();
 
@@ -142,7 +144,7 @@ void PointHashGridSearcher<N>::Add(const Vector<double, N>& point)
     if (m_buckets.IsEmpty())
     {
         Array1<Vector<double, N>> arr = { point };
-        Build(arr);
+        Build(arr, 0.5 * m_gridSpacing);
     }
     else
     {

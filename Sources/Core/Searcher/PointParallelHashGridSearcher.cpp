@@ -44,8 +44,10 @@ PointParallelHashGridSearcher<N>::PointParallelHashGridSearcher(
 
 template <size_t N>
 void PointParallelHashGridSearcher<N>::Build(
-    const ConstArrayView1<Vector<double, N>>& points)
+    const ConstArrayView1<Vector<double, N>>& points, double maxSearchRadius)
 {
+    m_gridSpacing = 2.0 * maxSearchRadius;
+
     m_points.Clear();
     m_keys.Clear();
     m_startIndexTable.Clear();

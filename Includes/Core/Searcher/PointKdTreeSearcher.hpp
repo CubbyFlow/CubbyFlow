@@ -31,6 +31,7 @@ class PointKdTreeSearcher final : public PointNeighborSearcher<N>
     class Builder;
 
     using typename PointNeighborSearcher<N>::ForEachNearbyPointFunc;
+    using PointNeighborSearcher<N>::Build;
 
     //! Constructs an empty kD-tree instance.
     PointKdTreeSearcher() = default;
@@ -38,8 +39,10 @@ class PointKdTreeSearcher final : public PointNeighborSearcher<N>
     //! Copy constructor.
     PointKdTreeSearcher(const PointKdTreeSearcher& other);
 
-    //! Builds internal acceleration structure for given points list.
-    void Build(const ConstArrayView1<Vector<double, N>>& points) override;
+    //! Builds internal acceleration structure for given points list and max
+    //! search radius.
+    void Build(const ConstArrayView1<Vector<double, N>>& points,
+               double maxSearchRadius) override;
 
     //!
     //! Invokes the callback function for each nearby point around the origin

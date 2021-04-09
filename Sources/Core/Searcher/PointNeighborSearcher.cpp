@@ -10,8 +10,17 @@
 
 #include <Core/Searcher/PointNeighborSearcher.hpp>
 
+#include <limits>
+
 namespace CubbyFlow
 {
+template <size_t N>
+void PointNeighborSearcher<N>::Build(
+    const ConstArrayView1<Vector<double, N>>& points)
+{
+    Build(points, std::numeric_limits<double>::max());
+}
+
 template class PointNeighborSearcher<2>;
 
 template class PointNeighborSearcher<3>;
