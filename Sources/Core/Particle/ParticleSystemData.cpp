@@ -24,17 +24,35 @@ namespace CubbyFlow
 {
 static const size_t DEFAULT_HASH_GRID_RESOLUTION = 64;
 
-const fbs::ParticleSystemData2*
-GetFlatbuffersParticleSystemData<2>::GetParticleSystemData(const uint8_t* data)
+template <size_t N>
+struct GetFlatbuffersParticleSystemData
 {
-    return fbs::GetParticleSystemData2(data);
-}
+    // Do nothing
+};
 
-const fbs::ParticleSystemData3*
-GetFlatbuffersParticleSystemData<3>::GetParticleSystemData(const uint8_t* data)
+template <>
+struct GetFlatbuffersParticleSystemData<2>
 {
-    return fbs::GetParticleSystemData3(data);
-}
+    using Offset = flatbuffers::Offset<fbs::ParticleSystemData2>;
+
+    static const fbs::ParticleSystemData2* GetParticleSystemData(
+        const uint8_t* data)
+    {
+        return fbs::GetParticleSystemData2(data);
+    }
+};
+
+template <>
+struct GetFlatbuffersParticleSystemData<3>
+{
+    using Offset = flatbuffers::Offset<fbs::ParticleSystemData3>;
+
+    static const fbs::ParticleSystemData3* GetParticleSystemData(
+        const uint8_t* data)
+    {
+        return fbs::GetParticleSystemData3(data);
+    }
+};
 
 template <size_t N>
 ParticleSystemData<N>::ParticleSystemData() : ParticleSystemData{ 0 }

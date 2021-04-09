@@ -37,30 +37,6 @@ struct ParticleSystemData3;
 
 namespace CubbyFlow
 {
-template <size_t N>
-struct GetFlatbuffersParticleSystemData
-{
-    // Do nothing
-};
-
-template <>
-struct GetFlatbuffersParticleSystemData<2>
-{
-    using Offset = flatbuffers::Offset<fbs::ParticleSystemData2>;
-
-    static const fbs::ParticleSystemData2* GetParticleSystemData(
-        const uint8_t* data);
-};
-
-template <>
-struct GetFlatbuffersParticleSystemData<3>
-{
-    using Offset = flatbuffers::Offset<fbs::ParticleSystemData3>;
-
-    static const fbs::ParticleSystemData3* GetParticleSystemData(
-        const uint8_t* data);
-};
-
 //!
 //! \brief      N-D particle system data.
 //!
