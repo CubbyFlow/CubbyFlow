@@ -55,7 +55,7 @@ void PCISPHSolver2::AccumulatePressureForce(double timeIntervalInSeconds)
     SPHSystemData2Ptr particles = GetSPHSystemData();
     const size_t numberOfParticles = particles->NumberOfParticles();
     const double delta = ComputeDelta(timeIntervalInSeconds);
-    const double targetDensity = particles->GetTargetDensity();
+    const double targetDensity = particles->TargetDensity();
     const double mass = particles->Mass();
 
     ArrayView1<double> p = particles->Pressures();
@@ -67,7 +67,7 @@ void PCISPHSolver2::AccumulatePressureForce(double timeIntervalInSeconds)
     // Predicted density ds
     Array1<double> ds(numberOfParticles, 0.0);
 
-    SPHStdKernel2 kernel{ particles->GetKernelRadius() };
+    SPHStdKernel2 kernel{ particles->KernelRadius() };
 
     // Initialize buffers
     ParallelFor(ZERO_SIZE, numberOfParticles, [&](size_t i) {
@@ -175,7 +175,7 @@ void PCISPHSolver2::OnBeginAdvanceTimeStep(double timeStepInSeconds)
 double PCISPHSolver2::ComputeDelta(double timeStepInSeconds) const
 {
     const SPHSystemData2Ptr particles = GetSPHSystemData();
-    const double kernelRadius = particles->GetKernelRadius();
+    const double kernelRadius = particles->KernelRadius();
 
     Array1<Vector2D> points;
     const TrianglePointGenerator pointsGenerator;
@@ -183,8 +183,7 @@ double PCISPHSolver2::ComputeDelta(double timeStepInSeconds) const
     BoundingBox2D sampleBound{ origin, origin };
     sampleBound.Expand(1.5 * kernelRadius);
 
-    pointsGenerator.Generate(sampleBound, particles->GetTargetSpacing(),
-                             &points);
+    pointsGenerator.Generate(sampleBound, particles->TargetSpacing(), &points);
 
     const SPHSpikyKernel2 kernel{ kernelRadius };
 
@@ -220,7 +219,7 @@ double PCISPHSolver2::ComputeBeta(double timeStepInSeconds) const
 {
     const SPHSystemData2Ptr particles = GetSPHSystemData();
     return 2.0 * Square(particles->Mass() * timeStepInSeconds /
-                        particles->GetTargetDensity());
+                        particles->TargetDensity());
 }
 
 PCISPHSolver2::Builder PCISPHSolver2::GetBuilder()

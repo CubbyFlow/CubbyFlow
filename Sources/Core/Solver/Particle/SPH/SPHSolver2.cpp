@@ -110,7 +110,7 @@ unsigned int SPHSolver2::GetNumberOfSubTimeSteps(
     const size_t numberOfParticles = particles->NumberOfParticles();
     ArrayView1<Vector2D> f = particles->Forces();
 
-    const double kernelRadius = particles->GetKernelRadius();
+    const double kernelRadius = particles->KernelRadius();
     const double mass = particles->Mass();
 
     double maxForceMagnitude = 0.0;
@@ -171,7 +171,7 @@ void SPHSolver2::OnEndAdvanceTimeStep(double timeStepInSeconds)
 
     CUBBYFLOW_INFO << "Max density: " << maxDensity << " "
                    << "Max density / target density ratio: "
-                   << maxDensity / particles->GetTargetDensity();
+                   << maxDensity / particles->TargetDensity();
 }
 
 void SPHSolver2::AccumulateNonPressureForces(double timeStepInSeconds)
@@ -203,7 +203,7 @@ void SPHSolver2::ComputePressure()
 
     // See Murnaghan-Tait equation of state from
     // https://en.wikipedia.org/wiki/Tait_equation
-    const double targetDensity = particles->GetTargetDensity();
+    const double targetDensity = particles->TargetDensity();
     const double eosScale = targetDensity * Square(m_speedOfSound);
 
     ParallelFor(ZERO_SIZE, numberOfParticles, [&](size_t i) {
@@ -223,7 +223,7 @@ void SPHSolver2::AccumulatePressureForce(
     const size_t numberOfParticles = particles->NumberOfParticles();
 
     const double massSquared = Square(particles->Mass());
-    const SPHSpikyKernel2 kernel{ particles->GetKernelRadius() };
+    const SPHSpikyKernel2 kernel{ particles->KernelRadius() };
 
     ParallelFor(ZERO_SIZE, numberOfParticles, [&](size_t i) {
         const Array1<size_t>& neighbors = particles->NeighborLists()[i];
@@ -253,7 +253,7 @@ void SPHSolver2::AccumulateViscosityForce()
     ArrayView1<Vector2D> f = particles->Forces();
 
     const double massSquared = Square(particles->Mass());
-    const SPHSpikyKernel2 kernel{ particles->GetKernelRadius() };
+    const SPHSpikyKernel2 kernel{ particles->KernelRadius() };
 
     ParallelFor(ZERO_SIZE, numberOfParticles, [&](size_t i) {
         const Array1<size_t>& neighbors = particles->NeighborLists()[i];
@@ -276,7 +276,7 @@ void SPHSolver2::ComputePseudoViscosity(double timeStepInSeconds)
     ArrayView1<double> d = particles->Densities();
 
     const double mass = particles->Mass();
-    const SPHSpikyKernel2 kernel{ particles->GetKernelRadius() };
+    const SPHSpikyKernel2 kernel{ particles->KernelRadius() };
 
     Array1<Vector2D> smoothedVelocities{ numberOfParticles };
 

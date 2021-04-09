@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Particle/SPH/SPHSystemData2.hpp>
+#include <Core/Particle/SPH/SPHSystemData.hpp>
 
 using namespace CubbyFlow;
 
@@ -12,24 +12,24 @@ TEST(SPHSystemData2, Parameters)
     data.SetTargetSpacing(0.549);
     data.SetRelativeKernelRadius(2.5);
 
-    EXPECT_EQ(123.0, data.GetTargetDensity());
-    EXPECT_EQ(0.549, data.GetTargetSpacing());
+    EXPECT_EQ(123.0, data.TargetDensity());
+    EXPECT_EQ(0.549, data.TargetSpacing());
     EXPECT_EQ(0.549, data.Radius());
-    EXPECT_EQ(2.5, data.GetRelativeKernelRadius());
-    EXPECT_DOUBLE_EQ(2.5 * 0.549, data.GetKernelRadius());
+    EXPECT_EQ(2.5, data.RelativeKernelRadius());
+    EXPECT_DOUBLE_EQ(2.5 * 0.549, data.KernelRadius());
 
     data.SetKernelRadius(1.9);
-    EXPECT_DOUBLE_EQ(1.9, data.GetKernelRadius());
-    EXPECT_DOUBLE_EQ(1.9 / 2.5, data.GetTargetSpacing());
+    EXPECT_DOUBLE_EQ(1.9, data.KernelRadius());
+    EXPECT_DOUBLE_EQ(1.9 / 2.5, data.TargetSpacing());
 
     data.SetRadius(0.413);
-    EXPECT_EQ(0.413, data.GetTargetSpacing());
+    EXPECT_EQ(0.413, data.TargetSpacing());
     EXPECT_EQ(0.413, data.Radius());
-    EXPECT_EQ(2.5, data.GetRelativeKernelRadius());
-    EXPECT_DOUBLE_EQ(2.5 * 0.413, data.GetKernelRadius());
+    EXPECT_EQ(2.5, data.RelativeKernelRadius());
+    EXPECT_DOUBLE_EQ(2.5 * 0.413, data.KernelRadius());
 
     data.SetMass(2.0 * data.Mass());
-    EXPECT_DOUBLE_EQ(246.0, data.GetTargetDensity());
+    EXPECT_DOUBLE_EQ(246.0, data.TargetDensity());
 }
 
 TEST(SPHSystemData2, Particles)
@@ -81,11 +81,11 @@ TEST(SPHSystemData2, Serialization)
     SPHSystemData2 data2;
     data2.Deserialize(buffer);
 
-    EXPECT_EQ(123.0, data2.GetTargetDensity());
-    EXPECT_EQ(0.549, data2.GetTargetSpacing());
+    EXPECT_EQ(123.0, data2.TargetDensity());
+    EXPECT_EQ(0.549, data2.TargetSpacing());
     EXPECT_EQ(0.549, data2.Radius());
-    EXPECT_EQ(2.5, data2.GetRelativeKernelRadius());
-    EXPECT_DOUBLE_EQ(2.5 * 0.549, data2.GetKernelRadius());
+    EXPECT_EQ(2.5, data2.RelativeKernelRadius());
+    EXPECT_DOUBLE_EQ(2.5 * 0.549, data2.KernelRadius());
 
     EXPECT_EQ(positions.Length(), data2.NumberOfParticles());
     auto as0 = data2.ScalarDataAt(a0);

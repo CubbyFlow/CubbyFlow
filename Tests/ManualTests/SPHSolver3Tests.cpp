@@ -22,7 +22,7 @@ CUBBYFLOW_BEGIN_TEST_F(SPHSolver3, SteadyState)
     solver.SetPseudoViscosityCoefficient(10.0);
 
     SPHSystemData3Ptr particles = solver.GetSPHSystemData();
-    const double targetSpacing = particles->GetTargetSpacing();
+    const double targetSpacing = particles->TargetSpacing();
 
     BoundingBox3D initialBound(Vector3D(), Vector3D(1, 0.5, 1));
     initialBound.Expand(-targetSpacing);
@@ -30,7 +30,7 @@ CUBBYFLOW_BEGIN_TEST_F(SPHSolver3, SteadyState)
     auto emitter = std::make_shared<VolumeParticleEmitter3>(
         std::make_shared<SurfaceToImplicit3>(
             std::make_shared<Sphere3>(Vector3D(), 10.0)),
-        initialBound, particles->GetTargetSpacing(), Vector3D());
+        initialBound, particles->TargetSpacing(), Vector3D());
     emitter->SetJitter(0.0);
     solver.SetEmitter(emitter);
 
