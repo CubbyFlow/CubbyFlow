@@ -123,7 +123,7 @@ inline double SPHStdKernel3::SecondDerivative(double distance) const
     }
 
     const double x = distance * distance / h2;
-    return 945.0 / (32.0 * PI_DOUBLE * h5) * (1 - x) * (3 * x - 1);
+    return 945.0 / (32.0 * PI_DOUBLE * h5) * (1 - x) * (5 * x - 1);
 }
 
 inline Vector3D SPHStdKernel3::Gradient(const Vector3D& point) const
