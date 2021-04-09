@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_SPH_SYSTEM_DATA3_HPP
 #define CUBBYFLOW_SPH_SYSTEM_DATA3_HPP
 
-#include <Core/Particle/ParticleSystemData3.hpp>
+#include <Core/Particle/ParticleSystemData.hpp>
 
 namespace CubbyFlow
 {

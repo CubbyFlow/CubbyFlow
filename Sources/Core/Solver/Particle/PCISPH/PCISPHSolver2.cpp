@@ -53,10 +53,10 @@ void PCISPHSolver2::SetMaxNumberOfIterations(unsigned int n)
 void PCISPHSolver2::AccumulatePressureForce(double timeIntervalInSeconds)
 {
     SPHSystemData2Ptr particles = GetSPHSystemData();
-    const size_t numberOfParticles = particles->GetNumberOfParticles();
+    const size_t numberOfParticles = particles->NumberOfParticles();
     const double delta = ComputeDelta(timeIntervalInSeconds);
     const double targetDensity = particles->GetTargetDensity();
-    const double mass = particles->GetMass();
+    const double mass = particles->Mass();
 
     ArrayView1<double> p = particles->Pressures();
     ArrayView1<double> d = particles->Densities();
@@ -97,7 +97,7 @@ void PCISPHSolver2::AccumulatePressureForce(double timeIntervalInSeconds)
         // Compute pressure from density error
         ParallelFor(ZERO_SIZE, numberOfParticles, [&](size_t i) {
             double weightSum = 0.0;
-            const auto& neighbors = particles->GetNeighborLists()[i];
+            const auto& neighbors = particles->NeighborLists()[i];
 
             for (size_t j : neighbors)
             {
@@ -165,7 +165,7 @@ void PCISPHSolver2::OnBeginAdvanceTimeStep(double timeStepInSeconds)
 
     // Allocate temp buffers
     const size_t numberOfParticles =
-        GetParticleSystemData()->GetNumberOfParticles();
+        GetParticleSystemData()->NumberOfParticles();
     m_tempPositions.Resize(numberOfParticles);
     m_tempVelocities.Resize(numberOfParticles);
     m_pressureForces.Resize(numberOfParticles);
@@ -219,7 +219,7 @@ double PCISPHSolver2::ComputeDelta(double timeStepInSeconds) const
 double PCISPHSolver2::ComputeBeta(double timeStepInSeconds) const
 {
     const SPHSystemData2Ptr particles = GetSPHSystemData();
-    return 2.0 * Square(particles->GetMass() * timeStepInSeconds /
+    return 2.0 * Square(particles->Mass() * timeStepInSeconds /
                         particles->GetTargetDensity());
 }
 

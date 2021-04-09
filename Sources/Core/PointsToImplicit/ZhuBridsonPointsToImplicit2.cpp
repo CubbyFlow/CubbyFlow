@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Particle/ParticleSystemData2.hpp>
+#include <Core/Particle/ParticleSystemData.hpp>
 #include <Core/PointsToImplicit/ZhuBridsonPointsToImplicit2.hpp>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver2.hpp>
 #include <Core/Utils/Logging.hpp>
@@ -57,7 +57,7 @@ void ZhuBridsonPointsToImplicit2::Convert(
     particles.AddParticles(points);
     particles.BuildNeighborSearcher(m_kernelRadius);
 
-    const auto neighborSearcher = particles.GetNeighborSearcher();
+    const auto neighborSearcher = particles.NeighborSearcher();
     const double isoContValue = m_cutOffThreshold * m_kernelRadius;
 
     auto temp = output->Clone();

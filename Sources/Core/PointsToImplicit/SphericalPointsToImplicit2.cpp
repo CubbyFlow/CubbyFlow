@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Particle/ParticleSystemData2.hpp>
+#include <Core/Particle/ParticleSystemData.hpp>
 #include <Core/PointsToImplicit/SphericalPointsToImplicit2.hpp>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver2.hpp>
 #include <Core/Utils/Logging.hpp>
@@ -50,7 +50,7 @@ void SphericalPointsToImplicit2::Convert(
     particles.BuildNeighborSearcher(2.0 * m_radius);
 
     const PointNeighborSearcher2Ptr neighborSearcher =
-        particles.GetNeighborSearcher();
+        particles.NeighborSearcher();
 
     std::shared_ptr<ScalarGrid2> temp = output->Clone();
     temp->Fill([&](const Vector2D& x) {

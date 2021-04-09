@@ -107,11 +107,11 @@ unsigned int SPHSolver3::GetNumberOfSubTimeSteps(
     double timeIntervalInSeconds) const
 {
     SPHSystemData3Ptr particles = GetSPHSystemData();
-    const size_t numberOfParticles = particles->GetNumberOfParticles();
+    const size_t numberOfParticles = particles->NumberOfParticles();
     ArrayView1<Vector3D> f = particles->Forces();
 
     const double kernelRadius = particles->GetKernelRadius();
-    const double mass = particles->GetMass();
+    const double mass = particles->Mass();
 
     double maxForceMagnitude = 0.0;
 
@@ -160,7 +160,7 @@ void SPHSolver3::OnEndAdvanceTimeStep(double timeStepInSeconds)
     ComputePseudoViscosity(timeStepInSeconds);
 
     SPHSystemData3Ptr particles = GetSPHSystemData();
-    const size_t numberOfParticles = particles->GetNumberOfParticles();
+    const size_t numberOfParticles = particles->NumberOfParticles();
     ArrayView1<double> densities = particles->Densities();
 
     double maxDensity = 0.0;
@@ -197,7 +197,7 @@ void SPHSolver3::AccumulatePressureForce(double timeStepInSeconds)
 void SPHSolver3::ComputePressure()
 {
     SPHSystemData3Ptr particles = GetSPHSystemData();
-    const size_t numberOfParticles = particles->GetNumberOfParticles();
+    const size_t numberOfParticles = particles->NumberOfParticles();
     ArrayView1<double> d = particles->Densities();
     ArrayView1<double> p = particles->Pressures();
 
@@ -220,13 +220,13 @@ void SPHSolver3::AccumulatePressureForce(
     ArrayView1<Vector3D> pressureForces)
 {
     SPHSystemData3Ptr particles = GetSPHSystemData();
-    const size_t numberOfParticles = particles->GetNumberOfParticles();
+    const size_t numberOfParticles = particles->NumberOfParticles();
 
-    const double massSquared = Square(particles->GetMass());
+    const double massSquared = Square(particles->Mass());
     const SPHSpikyKernel3 kernel{ particles->GetKernelRadius() };
 
     ParallelFor(ZERO_SIZE, numberOfParticles, [&](size_t i) {
-        const auto& neighbors = particles->GetNeighborLists()[i];
+        const auto& neighbors = particles->NeighborLists()[i];
         for (size_t j : neighbors)
         {
             const double dist = positions[i].DistanceTo(positions[j]);
@@ -246,17 +246,17 @@ void SPHSolver3::AccumulatePressureForce(
 void SPHSolver3::AccumulateViscosityForce()
 {
     SPHSystemData3Ptr particles = GetSPHSystemData();
-    const size_t numberOfParticles = particles->GetNumberOfParticles();
+    const size_t numberOfParticles = particles->NumberOfParticles();
     ArrayView1<Vector3D> x = particles->Positions();
     ArrayView1<Vector3D> v = particles->Velocities();
     ArrayView1<double> d = particles->Densities();
     ArrayView1<Vector3D> f = particles->Forces();
 
-    const double massSquared = Square(particles->GetMass());
+    const double massSquared = Square(particles->Mass());
     const SPHSpikyKernel3 kernel{ particles->GetKernelRadius() };
 
     ParallelFor(ZERO_SIZE, numberOfParticles, [&](size_t i) {
-        const auto& neighbors = particles->GetNeighborLists()[i];
+        const auto& neighbors = particles->NeighborLists()[i];
         for (size_t j : neighbors)
         {
             const double dist = x[i].DistanceTo(x[j]);
@@ -270,12 +270,12 @@ void SPHSolver3::AccumulateViscosityForce()
 void SPHSolver3::ComputePseudoViscosity(double timeStepInSeconds)
 {
     SPHSystemData3Ptr particles = GetSPHSystemData();
-    const size_t numberOfParticles = particles->GetNumberOfParticles();
+    const size_t numberOfParticles = particles->NumberOfParticles();
     ArrayView1<Vector3D> x = particles->Positions();
     ArrayView1<Vector3D> v = particles->Velocities();
     ArrayView1<double> d = particles->Densities();
 
-    const double mass = particles->GetMass();
+    const double mass = particles->Mass();
     const SPHSpikyKernel3 kernel{ particles->GetKernelRadius() };
 
     Array1<Vector3D> smoothedVelocities{ numberOfParticles };
@@ -284,7 +284,7 @@ void SPHSolver3::ComputePseudoViscosity(double timeStepInSeconds)
         double weightSum = 0.0;
         Vector3D smoothedVelocity;
 
-        const auto& neighbors = particles->GetNeighborLists()[i];
+        const auto& neighbors = particles->NeighborLists()[i];
         for (size_t j : neighbors)
         {
             const double dist = x[i].DistanceTo(x[j]);

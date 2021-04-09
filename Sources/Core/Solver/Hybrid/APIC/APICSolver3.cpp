@@ -32,7 +32,7 @@ void APICSolver3::TransferFromParticlesToGrids()
     const ParticleSystemData3Ptr particles = GetParticleSystemData();
     const ArrayView1<Vector3<double>> positions = particles->Positions();
     ArrayView1<Vector3<double>> velocities = particles->Velocities();
-    const size_t numberOfParticles = particles->GetNumberOfParticles();
+    const size_t numberOfParticles = particles->NumberOfParticles();
     const Vector3<double> hh = flow->GridSpacing() / 2.0;
     const BoundingBox3D& bbox = flow->BoundingBox();
 
@@ -151,7 +151,7 @@ void APICSolver3::TransferFromGridsToParticles()
     const ParticleSystemData3Ptr particles = GetParticleSystemData();
     const ArrayView1<Vector3<double>> positions = particles->Positions();
     ArrayView1<Vector3<double>> velocities = particles->Velocities();
-    const size_t numberOfParticles = particles->GetNumberOfParticles();
+    const size_t numberOfParticles = particles->NumberOfParticles();
     const Vector3<double> hh = flow->GridSpacing() / 2.0;
     const BoundingBox3D& bbox = flow->BoundingBox();
 

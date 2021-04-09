@@ -12,7 +12,7 @@
 #define CUBBYFLOW_PIC_SOLVER3_HPP
 
 #include <Core/Emitter/ParticleEmitter3.hpp>
-#include <Core/Particle/ParticleSystemData3.hpp>
+#include <Core/Particle/ParticleSystemData.hpp>
 #include <Core/Solver/Grid/GridFluidSolver3.hpp>
 
 namespace CubbyFlow

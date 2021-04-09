@@ -16,7 +16,7 @@
 #include <Core/Field/VectorField.hpp>
 #include <Core/Geometry/Collider.hpp>
 #include <Core/Matrix/Matrix.hpp>
-#include <Core/Particle/ParticleSystemData3.hpp>
+#include <Core/Particle/ParticleSystemData.hpp>
 #include <Core/Utils/Constants.hpp>
 
 namespace CubbyFlow

@@ -51,7 +51,7 @@ void SPHSystemData3::SetRadius(double newRadius)
 
 void SPHSystemData3::SetMass(double newMass)
 {
-    const double incRatio = newMass / GetMass();
+    const double incRatio = newMass / Mass();
     m_targetDensity *= incRatio;
     ParticleSystemData3::SetMass(newMass);
 }
@@ -80,9 +80,9 @@ void SPHSystemData3::UpdateDensities()
 {
     ArrayView<Vector3D, 1> p = Positions();
     ArrayView<double, 1> d = Densities();
-    const double m = GetMass();
+    const double m = Mass();
 
-    ParallelFor(ZERO_SIZE, GetNumberOfParticles(), [&](size_t i) {
+    ParallelFor(ZERO_SIZE, NumberOfParticles(), [&](size_t i) {
         const double sum = SumOfKernelNearby(p[i]);
         d[i] = m * sum;
     });
@@ -146,7 +146,7 @@ double SPHSystemData3::SumOfKernelNearby(const Vector3D& origin) const
     double sum = 0.0;
     SPHStdKernel3 kernel{ m_kernelRadius };
 
-    GetNeighborSearcher()->ForEachNearbyPoint(
+    NeighborSearcher()->ForEachNearbyPoint(
         origin, m_kernelRadius, [&](size_t, const Vector3D& neighborPosition) {
             const double dist = origin.DistanceTo(neighborPosition);
             sum += kernel(dist);
@@ -161,9 +161,9 @@ double SPHSystemData3::Interpolate(const Vector3D& origin,
     double sum = 0.0;
     ConstArrayView1<double> d = Densities();
     SPHStdKernel3 kernel{ m_kernelRadius };
-    const double m = GetMass();
+    const double m = Mass();
 
-    GetNeighborSearcher()->ForEachNearbyPoint(
+    NeighborSearcher()->ForEachNearbyPoint(
         origin, m_kernelRadius,
         [&](size_t i, const Vector3D& neighborPosition) {
             const double dist = origin.DistanceTo(neighborPosition);
@@ -181,9 +181,9 @@ Vector3D SPHSystemData3::Interpolate(
     Vector3D sum;
     ConstArrayView1<double> d = Densities();
     SPHStdKernel3 kernel{ m_kernelRadius };
-    const double m = GetMass();
+    const double m = Mass();
 
-    GetNeighborSearcher()->ForEachNearbyPoint(
+    NeighborSearcher()->ForEachNearbyPoint(
         origin, m_kernelRadius,
         [&](size_t i, const Vector3D& neighborPosition) {
             const double dist = origin.DistanceTo(neighborPosition);
@@ -201,10 +201,10 @@ Vector3D SPHSystemData3::GradientAt(size_t i,
     Vector3D sum;
     const ConstArrayView1<Vector3D> p = Positions();
     const ConstArrayView1<double> d = Densities();
-    const std::vector<size_t>& neighbors = GetNeighborLists()[i];
+    const Array1<size_t>& neighbors = NeighborLists()[i];
     const Vector3D origin = p[i];
     const SPHSpikyKernel3 kernel{ m_kernelRadius };
-    const double m = GetMass();
+    const double m = Mass();
 
     for (size_t j : neighbors)
     {
@@ -229,10 +229,10 @@ double SPHSystemData3::LaplacianAt(size_t i,
     double sum = 0.0;
     const ConstArrayView1<Vector3D> p = Positions();
     const ConstArrayView1<double> d = Densities();
-    const std::vector<size_t>& neighbors = GetNeighborLists()[i];
+    const Array1<size_t>& neighbors = NeighborLists()[i];
     const Vector3D origin = p[i];
     const SPHSpikyKernel3 kernel{ m_kernelRadius };
-    const double m = GetMass();
+    const double m = Mass();
 
     for (size_t j : neighbors)
     {
@@ -251,10 +251,10 @@ Vector3D SPHSystemData3::LaplacianAt(
     Vector3D sum;
     const ConstArrayView1<Vector3D> p = Positions();
     const ConstArrayView1<double> d = Densities();
-    const std::vector<size_t>& neighbors = GetNeighborLists()[i];
+    const Array1<size_t>& neighbors = NeighborLists()[i];
     const Vector3D origin = p[i];
     const SPHSpikyKernel3 kernel{ m_kernelRadius };
-    const double m = GetMass();
+    const double m = Mass();
 
     for (size_t j : neighbors)
     {
@@ -318,7 +318,7 @@ void SPHSystemData3::Serialize(std::vector<uint8_t>* buffer) const
     flatbuffers::FlatBufferBuilder builder{ 1024 };
     flatbuffers::Offset<fbs::ParticleSystemData3> fbsParticleSystemData;
 
-    SerializeParticleSystemData(&builder, &fbsParticleSystemData);
+    ParticleSystemData3::Serialize(*this, &builder, &fbsParticleSystemData);
 
     const flatbuffers::Offset<fbs::SPHSystemData3> fbsSPHSystemData =
         CreateSPHSystemData3(builder, fbsParticleSystemData, m_targetDensity,
@@ -340,7 +340,7 @@ void SPHSystemData3::Deserialize(const std::vector<uint8_t>& buffer)
         fbs::GetSPHSystemData3(buffer.data());
 
     const fbs::ParticleSystemData3* base = fbsSPHSystemData->base();
-    DeserializeParticleSystemData(base);
+    ParticleSystemData3::Deserialize(base, *this);
 
     // SPH specific
     m_targetDensity = fbsSPHSystemData->targetDensity();

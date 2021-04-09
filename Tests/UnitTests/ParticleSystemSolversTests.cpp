@@ -10,7 +10,7 @@ TEST(ParticleSystemSolver2, Constructor)
     ParticleSystemSolver2 solver;
 
     auto data = solver.GetParticleSystemData();
-    EXPECT_EQ(0u, data->GetNumberOfParticles());
+    EXPECT_EQ(0u, data->NumberOfParticles());
 
     auto wind = solver.GetWind();
     EXPECT_TRUE(wind != nullptr);
@@ -54,7 +54,7 @@ TEST(ParticleSystemSolver2, Update)
     Frame frame(0, 1.0 / 60.0);
     solver.Update(frame);
 
-    for (size_t i = 0; i < data->GetNumberOfParticles(); ++i)
+    for (size_t i = 0; i < data->NumberOfParticles(); ++i)
     {
         EXPECT_DOUBLE_EQ(0.0, data->Positions()[i].x);
         EXPECT_NE(0, data->Positions()[i].y);
@@ -69,7 +69,7 @@ TEST(ParticleSystemSolver3, Constructor)
     ParticleSystemSolver3 solver;
 
     auto data = solver.GetParticleSystemData();
-    EXPECT_EQ(0u, data->GetNumberOfParticles());
+    EXPECT_EQ(0u, data->NumberOfParticles());
 
     auto wind = solver.GetWind();
     EXPECT_TRUE(wind != nullptr);
@@ -113,7 +113,7 @@ TEST(ParticleSystemSolver3, Update)
     Frame frame(0, 1.0 / 60.0);
     solver.Update(frame);
 
-    for (size_t i = 0; i < data->GetNumberOfParticles(); ++i)
+    for (size_t i = 0; i < data->NumberOfParticles(); ++i)
     {
         EXPECT_DOUBLE_EQ(0.0, data->Positions()[i].x);
         EXPECT_NE(0, data->Positions()[i].y);

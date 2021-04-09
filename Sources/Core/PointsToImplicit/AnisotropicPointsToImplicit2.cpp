@@ -181,7 +181,7 @@ void AnisotropicPointsToImplicit2::Convert(
     meanParticles.SetKernelRadius(h);
     meanParticles.UpdateDensities();
     const ArrayView1<double> d = meanParticles.Densities();
-    const double m = meanParticles.GetMass();
+    const double m = meanParticles.Mass();
 
     PointKdTreeSearcher2 meanNeighborSearcher2;
     meanNeighborSearcher2.Build(xMeans);

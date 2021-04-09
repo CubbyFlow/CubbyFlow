@@ -164,7 +164,7 @@ void ParticleSystemSolver3::BeginAdvanceTimeStep(double timeStepInSeconds)
                    << " seconds";
 
     // Allocate buffers
-    const size_t n = m_particleSystemData->GetNumberOfParticles();
+    const size_t n = m_particleSystemData->NumberOfParticles();
     m_newPositions.Resize(n);
     m_newVelocities.Resize(n);
 
@@ -174,7 +174,7 @@ void ParticleSystemSolver3::BeginAdvanceTimeStep(double timeStepInSeconds)
 void ParticleSystemSolver3::EndAdvanceTimeStep(double timeStepInSeconds)
 {
     // Update data
-    const size_t n = m_particleSystemData->GetNumberOfParticles();
+    const size_t n = m_particleSystemData->NumberOfParticles();
     ArrayView1<Vector3D> positions = m_particleSystemData->Positions();
     ArrayView1<Vector3D> velocities = m_particleSystemData->Velocities();
 
@@ -207,8 +207,8 @@ void ParticleSystemSolver3::ResolveCollision(ArrayView1<Vector3D> newPositions,
     if (m_collider != nullptr)
     {
         const size_t numberOfParticles =
-            m_particleSystemData->GetNumberOfParticles();
-        const double radius = m_particleSystemData->GetRadius();
+            m_particleSystemData->NumberOfParticles();
+        const double radius = m_particleSystemData->Radius();
 
         ParallelFor(ZERO_SIZE, numberOfParticles, [&](size_t i) {
             m_collider->ResolveCollision(radius, m_restitutionCoefficient,
@@ -225,11 +225,11 @@ void ParticleSystemSolver3::SetParticleSystemData(
 
 void ParticleSystemSolver3::AccumulateExternalForces()
 {
-    const size_t n = m_particleSystemData->GetNumberOfParticles();
+    const size_t n = m_particleSystemData->NumberOfParticles();
     ArrayView1<Vector3D> forces = m_particleSystemData->Forces();
     ArrayView1<Vector3D> velocities = m_particleSystemData->Velocities();
     ArrayView1<Vector3D> positions = m_particleSystemData->Positions();
-    const double mass = m_particleSystemData->GetMass();
+    const double mass = m_particleSystemData->Mass();
 
     ParallelFor(ZERO_SIZE, n, [&](size_t i) {
         // Gravity
@@ -246,11 +246,11 @@ void ParticleSystemSolver3::AccumulateExternalForces()
 
 void ParticleSystemSolver3::TimeIntegration(double timeStepInSeconds)
 {
-    const size_t n = m_particleSystemData->GetNumberOfParticles();
+    const size_t n = m_particleSystemData->NumberOfParticles();
     ArrayView1<Vector3D> forces = m_particleSystemData->Forces();
     ArrayView1<Vector3D> velocities = m_particleSystemData->Velocities();
     ArrayView1<Vector3D> positions = m_particleSystemData->Positions();
-    const double mass = m_particleSystemData->GetMass();
+    const double mass = m_particleSystemData->Mass();
 
     ParallelFor(ZERO_SIZE, n, [&](size_t i) {
         // Integrate velocity first

@@ -19,7 +19,7 @@
 #include <Core/Geometry/Plane.hpp>
 #include <Core/Geometry/RigidBodyCollider.hpp>
 #include <Core/Geometry/Sphere.hpp>
-#include <Core/Particle/ParticleSystemData3.hpp>
+#include <Core/Particle/ParticleSystemData.hpp>
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>
 #include <Core/PointGenerator/GridPointGenerator3.hpp>
 #include <Core/Solver/Hybrid/APIC/APICSolver3.hpp>
@@ -48,7 +48,7 @@ using namespace CubbyFlow;
 void SaveParticleAsPos(const ParticleSystemData3Ptr& particles,
                        const std::string& rootDir, int frameCnt)
 {
-    Array1<Vector3D> positions(particles->GetNumberOfParticles());
+    Array1<Vector3D> positions(particles->NumberOfParticles());
     Copy(particles->Positions(), positions.View());
     char baseName[256];
     snprintf(baseName, sizeof(baseName), "frame_%06d.pos", frameCnt);
@@ -67,7 +67,7 @@ void SaveParticleAsPos(const ParticleSystemData3Ptr& particles,
 void SaveParticleAsXYZ(const ParticleSystemData3Ptr& particles,
                        const std::string& rootDir, int frameCnt)
 {
-    Array1<Vector3D> positions(particles->GetNumberOfParticles());
+    Array1<Vector3D> positions(particles->NumberOfParticles());
     Copy(particles->Positions(), positions.View());
     char baseName[256];
     snprintf(baseName, sizeof(baseName), "frame_%06d.xyz", frameCnt);
@@ -529,7 +529,7 @@ void RunExample6(const std::string& rootDir, size_t resolutionX,
         });
 
     printf("Number of particles: %zu\n",
-           solver->GetParticleSystemData()->GetNumberOfParticles());
+           solver->GetParticleSystemData()->NumberOfParticles());
 
     // Print simulation info
     printf("Running example 6 (sphere boundary with APIC)\n");

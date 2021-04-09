@@ -65,7 +65,7 @@ void FLIPSolver3::TransferFromGridsToParticles()
     ArrayView1<Vector3<double>> velocities =
         GetParticleSystemData()->Velocities();
     const size_t numberOfParticles =
-        GetParticleSystemData()->GetNumberOfParticles();
+        GetParticleSystemData()->NumberOfParticles();
 
     // Compute delta
     flow->ParallelForEachUIndex([&](size_t i, size_t j, size_t k) {

@@ -66,7 +66,7 @@ void PICSolver3::OnInitialize()
 void PICSolver3::OnBeginAdvanceTimeStep(double timeIntervalInSeconds)
 {
     CUBBYFLOW_INFO << "Number of PIC-type particles: "
-                   << m_particles->GetNumberOfParticles();
+                   << m_particles->NumberOfParticles();
 
     Timer timer;
     UpdateParticleEmitter(timeIntervalInSeconds);
@@ -74,7 +74,7 @@ void PICSolver3::OnBeginAdvanceTimeStep(double timeIntervalInSeconds)
                    << timer.DurationInSeconds() << " seconds";
 
     CUBBYFLOW_INFO << "Number of PIC-type particles: "
-                   << m_particles->GetNumberOfParticles();
+                   << m_particles->NumberOfParticles();
 
     timer.Reset();
     TransferFromParticlesToGrids();
@@ -124,7 +124,7 @@ void PICSolver3::TransferFromParticlesToGrids()
     FaceCenteredGrid3Ptr flow = GetGridSystemData()->GetVelocity();
     ArrayView1<Vector3<double>> positions = m_particles->Positions();
     ArrayView1<Vector3<double>> velocities = m_particles->Velocities();
-    size_t numberOfParticles = m_particles->GetNumberOfParticles();
+    size_t numberOfParticles = m_particles->NumberOfParticles();
 
     // Clear velocity to zero
     flow->Fill(Vector3D{});
@@ -205,7 +205,7 @@ void PICSolver3::TransferFromGridsToParticles()
     FaceCenteredGrid3Ptr flow = GetGridSystemData()->GetVelocity();
     ArrayView1<Vector3<double>> positions = m_particles->Positions();
     ArrayView1<Vector3<double>> velocities = m_particles->Velocities();
-    const size_t numberOfParticles = m_particles->GetNumberOfParticles();
+    const size_t numberOfParticles = m_particles->NumberOfParticles();
 
     ParallelFor(ZERO_SIZE, numberOfParticles,
                 [&](size_t i) { velocities[i] = flow->Sample(positions[i]); });
@@ -216,7 +216,7 @@ void PICSolver3::MoveParticles(double timeIntervalInSeconds)
     FaceCenteredGrid3Ptr flow = GetGridSystemData()->GetVelocity();
     ArrayView1<Vector3<double>> positions = m_particles->Positions();
     ArrayView1<Vector3<double>> velocities = m_particles->Velocities();
-    const size_t numberOfParticles = m_particles->GetNumberOfParticles();
+    const size_t numberOfParticles = m_particles->NumberOfParticles();
     int domainBoundaryFlag = GetClosedDomainBoundaryFlag();
     BoundingBox3D boundingBox = flow->BoundingBox();
 
@@ -314,7 +314,7 @@ void PICSolver3::BuildSignedDistanceField()
     double sdfBandRadius = 2.0 * radius;
 
     m_particles->BuildNeighborSearcher(2 * radius);
-    PointNeighborSearcher3Ptr searcher = m_particles->GetNeighborSearcher();
+    PointNeighborSearcher3Ptr searcher = m_particles->NeighborSearcher();
     sdf->ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
         Vector3D pt = sdfPos(i, j, k);
         double minDist = sdfBandRadius;

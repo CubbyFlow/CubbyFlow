@@ -25,28 +25,28 @@ TEST(PointParticleEmitter2, Emit)
 
     Frame frame(0, 1.0);
     emitter.Update(frame.TimeInSeconds(), frame.timeIntervalInSeconds);
-    EXPECT_EQ(4u, particles->GetNumberOfParticles());
+    EXPECT_EQ(4u, particles->NumberOfParticles());
 
     frame.Advance();
     emitter.Update(frame.TimeInSeconds(), frame.timeIntervalInSeconds);
-    EXPECT_EQ(8u, particles->GetNumberOfParticles());
+    EXPECT_EQ(8u, particles->NumberOfParticles());
 
     frame.Advance();
     emitter.Update(frame.TimeInSeconds(), frame.timeIntervalInSeconds);
-    EXPECT_EQ(12u, particles->GetNumberOfParticles());
+    EXPECT_EQ(12u, particles->NumberOfParticles());
 
     frame.Advance();
     emitter.Update(frame.TimeInSeconds(), frame.timeIntervalInSeconds);
-    EXPECT_EQ(16u, particles->GetNumberOfParticles());
+    EXPECT_EQ(16u, particles->NumberOfParticles());
 
     frame.Advance();
     emitter.Update(frame.TimeInSeconds(), frame.timeIntervalInSeconds);
-    EXPECT_EQ(18u, particles->GetNumberOfParticles());
+    EXPECT_EQ(18u, particles->NumberOfParticles());
 
     auto pos = particles->Positions();
     auto vel = particles->Velocities();
 
-    for (size_t i = 0; i < particles->GetNumberOfParticles(); ++i)
+    for (size_t i = 0; i < particles->NumberOfParticles(); ++i)
     {
         EXPECT_DOUBLE_EQ(1.0, pos[i].x);
         EXPECT_DOUBLE_EQ(2.0, pos[i].y);

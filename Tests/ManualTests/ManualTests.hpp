@@ -126,7 +126,7 @@ inline void CreateDirectory(const std::string& dirName)
             const std::shared_ptr<ParticleSystem>& particles,                  \
             unsigned int frameNum)                                             \
         {                                                                      \
-            size_t n = particles->GetNumberOfParticles();                      \
+            size_t n = particles->NumberOfParticles();                         \
             Array1<double> x(n);                                               \
             Array1<double> y(n);                                               \
             auto positions = particles->Positions();                           \
