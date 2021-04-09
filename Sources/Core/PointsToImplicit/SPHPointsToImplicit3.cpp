@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Particle/SPH/SPHSystemData.hpp>
+#include <Core/Particle/SPHSystemData.hpp>
 #include <Core/PointsToImplicit/SPHPointsToImplicit3.hpp>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver3.hpp>
 #include <Core/Utils/Logging.hpp>

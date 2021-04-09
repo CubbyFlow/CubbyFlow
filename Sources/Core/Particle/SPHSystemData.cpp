@@ -9,8 +9,8 @@
 // property of any third parties.
 
 #include <Core/Geometry/BoundingBox.hpp>
-#include <Core/Particle/SPH/SPHStdKernel.hpp>
-#include <Core/Particle/SPH/SPHSystemData.hpp>
+#include <Core/Particle/SPHStdKernel.hpp>
+#include <Core/Particle/SPHSystemData.hpp>
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>
 #include <Core/PointGenerator/TrianglePointGenerator.hpp>
 

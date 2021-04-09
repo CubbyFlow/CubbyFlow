@@ -9,7 +9,7 @@
 // property of any third parties.
 
 #include <API/Python/Particle/SPH/SPHSystemData.hpp>
-#include <Core/Particle/SPH/SPHSystemData.hpp>
+#include <Core/Particle/SPHSystemData.hpp>
 
 #include <pybind11/pybind11.h>
 

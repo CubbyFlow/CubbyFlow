@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Particle/SPH/SPHStdKernel.hpp>
+#include <Core/Particle/SPHStdKernel.hpp>
 #include <Core/Solver/Particle/SPH/SPHSolver3.hpp>
 #include <Core/Utils/Logging.hpp>
 #include <Core/Utils/PhysicsHelpers.hpp>

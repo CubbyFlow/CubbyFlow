@@ -4,7 +4,7 @@
 
 #include <Core/Geometry/BoundingBox.hpp>
 #include <Core/Grid/CellCenteredScalarGrid2.hpp>
-#include <Core/Particle/SPH/SPHSystemData.hpp>
+#include <Core/Particle/SPHSystemData.hpp>
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>
 #include <Core/PointGenerator/TrianglePointGenerator.hpp>
 #include <Core/Utils/Parallel.hpp>

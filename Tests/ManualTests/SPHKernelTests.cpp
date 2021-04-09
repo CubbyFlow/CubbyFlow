@@ -3,7 +3,7 @@
 #include <ManualTests.hpp>
 
 #include <Core/Array/Array.hpp>
-#include <Core/Particle/SPH/SPHStdKernel.hpp>
+#include <Core/Particle/SPHStdKernel.hpp>
 
 using namespace CubbyFlow;
 

@@ -223,6 +223,6 @@ using SPHSpikyKernel2 = SPHSpikyKernel<2>;
 using SPHSpikyKernel3 = SPHSpikyKernel<3>;
 }  // namespace CubbyFlow
 
-#include <Core/Particle/SPH/SPHStdKernel-Impl.hpp>
+#include <Core/Particle/SPHStdKernel-Impl.hpp>
 
 #endif
