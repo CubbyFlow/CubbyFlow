@@ -115,9 +115,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad97882b8b985503488f2a32ed8763e2d"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_point_neighbor_searcher.html#ad97882b8b985503488f2a32ed8763e2d">TypeName</a> () const =0</td></tr>
 <tr class="memdesc:ad97882b8b985503488f2a32ed8763e2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type name of the derived class.  <a href="#ad97882b8b985503488f2a32ed8763e2d">More...</a><br /></td></tr>
 <tr class="separator:ad97882b8b985503488f2a32ed8763e2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af406cdf262a7efa78714759757a5f843"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_point_neighbor_searcher.html#af406cdf262a7efa78714759757a5f843">Build</a> (const <a class="el" href="namespace_cubby_flow.html#a6c7e5a4d20594fa6e144e3d10fc1c7de">ConstArrayView1</a>&lt; <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; double, N &gt;&gt; &amp;points)=0</td></tr>
-<tr class="memdesc:af406cdf262a7efa78714759757a5f843"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds internal acceleration structure for given points list.  <a href="#af406cdf262a7efa78714759757a5f843">More...</a><br /></td></tr>
-<tr class="separator:af406cdf262a7efa78714759757a5f843"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91b835ad14dfbcc80bfcb9a393f67fb0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_point_neighbor_searcher.html#a91b835ad14dfbcc80bfcb9a393f67fb0">Build</a> (const <a class="el" href="namespace_cubby_flow.html#a6c7e5a4d20594fa6e144e3d10fc1c7de">ConstArrayView1</a>&lt; <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; double, N &gt;&gt; &amp;points)</td></tr>
+<tr class="memdesc:a91b835ad14dfbcc80bfcb9a393f67fb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds internal acceleration structure for given points list.  <a href="#a91b835ad14dfbcc80bfcb9a393f67fb0">More...</a><br /></td></tr>
+<tr class="separator:a91b835ad14dfbcc80bfcb9a393f67fb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd8a6b14e4f5fabc1707905df902acfe"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_point_neighbor_searcher.html#acd8a6b14e4f5fabc1707905df902acfe">Build</a> (const <a class="el" href="namespace_cubby_flow.html#a6c7e5a4d20594fa6e144e3d10fc1c7de">ConstArrayView1</a>&lt; <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; double, N &gt;&gt; &amp;points, double maxSearchRadius)=0</td></tr>
+<tr class="separator:acd8a6b14e4f5fabc1707905df902acfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9a1f5d9092f8566c05c1c9089cef312"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_point_neighbor_searcher.html#ab9a1f5d9092f8566c05c1c9089cef312">ForEachNearbyPoint</a> (const <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; double, N &gt; &amp;origin, double radius, const <a class="el" href="class_cubby_flow_1_1_point_neighbor_searcher.html#ad576374852e18b0f28078a565187ce7e">ForEachNearbyPointFunc</a> &amp;callback) const =0</td></tr>
 <tr class="separator:ab9a1f5d9092f8566c05c1c9089cef312"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a7cec2768d13ea9408e672cf956c512"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_point_neighbor_searcher.html#a3a7cec2768d13ea9408e672cf956c512">HasNearbyPoint</a> (const <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; double, N &gt; &amp;origin, double radius) const =0</td></tr>
@@ -235,8 +237,8 @@ template&lt;size_t N&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="af406cdf262a7efa78714759757a5f843"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af406cdf262a7efa78714759757a5f843">&#9670;&nbsp;</a></span>Build()</h2>
+<a id="a91b835ad14dfbcc80bfcb9a393f67fb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91b835ad14dfbcc80bfcb9a393f67fb0">&#9670;&nbsp;</a></span>Build() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -256,14 +258,53 @@ template&lt;size_t N&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>Builds internal acceleration structure for given points list. </p>
 
-<p>Implemented in <a class="el" href="class_cubby_flow_1_1_point_parallel_hash_grid_searcher.html#a5658a1c91465757da0d7315af9f5f05f">CubbyFlow::PointParallelHashGridSearcher&lt; N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_point_hash_grid_searcher.html#a9245ba468df19fbdbc72bc8dad94012c">CubbyFlow::PointHashGridSearcher&lt; N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_point_simple_list_searcher.html#a2a66597685ed35effca04f2731f79971">CubbyFlow::PointSimpleListSearcher&lt; N &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_point_kd_tree_searcher.html#a89364e1d5b58ee7f03f7af6fbdc82d20">CubbyFlow::PointKdTreeSearcher&lt; N &gt;</a>.</p>
+</div>
+</div>
+<a id="acd8a6b14e4f5fabc1707905df902acfe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd8a6b14e4f5fabc1707905df902acfe">&#9670;&nbsp;</a></span>Build() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void <a class="el" href="class_cubby_flow_1_1_point_neighbor_searcher.html">CubbyFlow::PointNeighborSearcher</a>&lt; N &gt;::Build </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a6c7e5a4d20594fa6e144e3d10fc1c7de">ConstArrayView1</a>&lt; <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; double, N &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>points</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>maxSearchRadius</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Builds internal acceleration structure for given points list and max search radius. </p>
+
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_point_parallel_hash_grid_searcher.html#adc3781be39f47482ad9d54c1298a57cc">CubbyFlow::PointParallelHashGridSearcher&lt; N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_point_hash_grid_searcher.html#a724cba2ff14cc0280001940976ac14a2">CubbyFlow::PointHashGridSearcher&lt; N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_point_simple_list_searcher.html#a23ea960753f69a4d128642ffee82230a">CubbyFlow::PointSimpleListSearcher&lt; N &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_point_kd_tree_searcher.html#a4dc3fb60d56792e931846a1d3739e7d9">CubbyFlow::PointKdTreeSearcher&lt; N &gt;</a>.</p>
 
 </div>
 </div>
@@ -444,7 +485,7 @@ template&lt;size_t N&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 8 2021 15:44:59 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 9 2021 11:34:48 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

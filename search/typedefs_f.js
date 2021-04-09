@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['scalardata',['ScalarData',['../class_cubby_flow_1_1_particle_system_data2.html#a021349e9cb33063d52860ff2534c2a42',1,'CubbyFlow::ParticleSystemData2::ScalarData()'],['../class_cubby_flow_1_1_particle_system_data3.html#afac99f46130b2ad754324ad1d4762596',1,'CubbyFlow::ParticleSystemData3::ScalarData()']]],
+  ['scalardata',['ScalarData',['../class_cubby_flow_1_1_particle_system_data.html#a146cb7f122d8de0246ceb53a3a221cd8',1,'CubbyFlow::ParticleSystemData']]],
   ['scalardataview',['ScalarDataView',['../class_cubby_flow_1_1_face_centered_grid2.html#a3ed716b3dc871b3fad99c21ecd749502',1,'CubbyFlow::FaceCenteredGrid2::ScalarDataView()'],['../class_cubby_flow_1_1_face_centered_grid3.html#aaf057a0eb4199bbc7b2cf749bf397bab',1,'CubbyFlow::FaceCenteredGrid3::ScalarDataView()'],['../class_cubby_flow_1_1_scalar_grid2.html#af7a6b7d1ccbad0acbd0bc6c47b192222',1,'CubbyFlow::ScalarGrid2::ScalarDataView()'],['../class_cubby_flow_1_1_scalar_grid3.html#ab44994f5153d4906bb5cab22e47aa957',1,'CubbyFlow::ScalarGrid3::ScalarDataView()']]],
   ['scalarfield2',['ScalarField2',['../namespace_cubby_flow.html#a452f65f1b63d7642b38fd23fda823ca6',1,'CubbyFlow']]],
   ['scalarfield2ptr',['ScalarField2Ptr',['../namespace_cubby_flow.html#a7630ba43eff0cf8384150daef0065f95',1,'CubbyFlow']]],
@@ -28,7 +28,13 @@ var searchData=
   ['sphpointstoimplicit3ptr',['SPHPointsToImplicit3Ptr',['../namespace_cubby_flow.html#a5226d8d02f8883a450af79498d7aed8f',1,'CubbyFlow']]],
   ['sphsolver2ptr',['SPHSolver2Ptr',['../namespace_cubby_flow.html#a2183f40ed334db0ab3ea2d539f9ad4b5',1,'CubbyFlow']]],
   ['sphsolver3ptr',['SPHSolver3Ptr',['../namespace_cubby_flow.html#a1c411c57fc908a58c45d54a9356e60c2',1,'CubbyFlow']]],
+  ['sphspikykernel2',['SPHSpikyKernel2',['../namespace_cubby_flow.html#ab1ce9002576a26e5654ece074c6570c1',1,'CubbyFlow']]],
+  ['sphspikykernel3',['SPHSpikyKernel3',['../namespace_cubby_flow.html#a7260a819440a6279cb4c8ef0ad956c38',1,'CubbyFlow']]],
+  ['sphstdkernel2',['SPHStdKernel2',['../namespace_cubby_flow.html#a54666b2097ceccfdc8fbbd9a6a4e27b2',1,'CubbyFlow']]],
+  ['sphstdkernel3',['SPHStdKernel3',['../namespace_cubby_flow.html#a8e8b86e7d8bf116e7b077a7a5bb60fcb',1,'CubbyFlow']]],
+  ['sphsystemdata2',['SPHSystemData2',['../namespace_cubby_flow.html#a5896fa12d80c7b62d4cd487bb1095246',1,'CubbyFlow']]],
   ['sphsystemdata2ptr',['SPHSystemData2Ptr',['../namespace_cubby_flow.html#a6b4a055b393903de55e72a1a425f75c4',1,'CubbyFlow']]],
+  ['sphsystemdata3',['SPHSystemData3',['../namespace_cubby_flow.html#a0229c62723ce117e74dce781fcdcf64d',1,'CubbyFlow']]],
   ['sphsystemdata3ptr',['SPHSystemData3Ptr',['../namespace_cubby_flow.html#a109080308f79296c5b76b250ec80964e',1,'CubbyFlow']]],
   ['surface2',['Surface2',['../namespace_cubby_flow.html#a81b20eb1bb50beecc659712f56a4dcbc',1,'CubbyFlow']]],
   ['surface2ptr',['Surface2Ptr',['../namespace_cubby_flow.html#a7fef7b5ca2d8284c3f45e7573d7e5d84',1,'CubbyFlow']]],
