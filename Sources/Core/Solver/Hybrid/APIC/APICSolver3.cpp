@@ -34,7 +34,7 @@ void APICSolver3::TransferFromParticlesToGrids()
     ArrayView1<Vector3<double>> velocities = particles->Velocities();
     const size_t numberOfParticles = particles->NumberOfParticles();
     const Vector3<double> hh = flow->GridSpacing() / 2.0;
-    const BoundingBox3D& bbox = flow->BoundingBox();
+    const BoundingBox3D& bbox = flow->GetBoundingBox();
 
     // Allocate buffers
     m_cX.Resize(numberOfParticles);
@@ -48,9 +48,9 @@ void APICSolver3::TransferFromParticlesToGrids()
     ArrayView3<double> u = flow->UView();
     ArrayView3<double> v = flow->VView();
     ArrayView3<double> w = flow->WView();
-    const auto uPos = flow->UPosition();
-    const auto vPos = flow->VPosition();
-    const auto wPos = flow->WPosition();
+    const auto uPos = Unroll3(flow->UPosition());
+    const auto vPos = Unroll3(flow->VPosition());
+    const auto wPos = Unroll3(flow->WPosition());
     Array3<double> uWeight{ u.Size() };
     Array3<double> vWeight{ v.Size() };
     Array3<double> wWeight{ w.Size() };
@@ -153,7 +153,7 @@ void APICSolver3::TransferFromGridsToParticles()
     ArrayView1<Vector3<double>> velocities = particles->Velocities();
     const size_t numberOfParticles = particles->NumberOfParticles();
     const Vector3<double> hh = flow->GridSpacing() / 2.0;
-    const BoundingBox3D& bbox = flow->BoundingBox();
+    const BoundingBox3D& bbox = flow->GetBoundingBox();
 
     // Allocate buffers
     m_cX.Resize(numberOfParticles);

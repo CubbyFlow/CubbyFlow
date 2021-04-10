@@ -26,7 +26,7 @@ namespace CubbyFlow
 class VertexCenteredScalarGrid3 final : public ScalarGrid3
 {
  public:
-    CUBBYFLOW_GRID3_TYPE_NAME(VertexCenteredScalarGrid3)
+    CUBBYFLOW_GRID_TYPE_NAME(VertexCenteredScalarGrid, 3)
 
     class Builder;
 

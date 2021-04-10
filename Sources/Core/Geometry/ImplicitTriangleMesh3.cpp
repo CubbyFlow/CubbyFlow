@@ -44,7 +44,7 @@ ImplicitTriangleMesh3::ImplicitTriangleMesh3(TriangleMesh3Ptr mesh,
             .WithSignedDistanceFunction([&](const Vector3D& pt) -> double {
                 return m_grid->Sample(pt);
             })
-            .WithDomain(m_grid->BoundingBox())
+            .WithDomain(m_grid->GetBoundingBox())
             .WithResolution(dx)
             .MakeShared();
 }

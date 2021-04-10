@@ -25,15 +25,15 @@ void GridFractionalBoundaryConditionSolver3::ConstrainVelocity(
     if (m_colliderSDF == nullptr || m_colliderSDF->Resolution() != size)
     {
         UpdateCollider(GetCollider(), size, velocity->GridSpacing(),
-                       velocity->GridOrigin());
+                       velocity->Origin());
     }
 
     ArrayView3<double> u = velocity->UView();
     ArrayView3<double> v = velocity->VView();
     ArrayView3<double> w = velocity->WView();
-    auto uPos = velocity->UPosition();
-    auto vPos = velocity->VPosition();
-    auto wPos = velocity->WPosition();
+    auto uPos = Unroll3(velocity->UPosition());
+    auto vPos = Unroll3(velocity->VPosition());
+    auto wPos = Unroll3(velocity->WPosition());
 
     Array3<double> uTemp{ u.Size() };
     Array3<double> vTemp{ v.Size() };

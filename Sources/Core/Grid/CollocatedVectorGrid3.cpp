@@ -142,12 +142,10 @@ VectorGrid3::ConstVectorDataView CollocatedVectorGrid3::DataView() const
 VectorGrid3::DataPositionFunc CollocatedVectorGrid3::DataPosition() const
 {
     Vector3D dataOrigin = GetDataOrigin();
-    return [this, dataOrigin](const size_t i, const size_t j,
-                              const size_t k) -> Vector3D {
-        return dataOrigin +
-               ElemMul(GridSpacing(), Vector3D{ { static_cast<double>(i),
-                                                  static_cast<double>(j),
-                                                  static_cast<double>(k) } });
+    Vector3D gridSpacing = GridSpacing();
+
+    return [dataOrigin, gridSpacing](const Vector3UZ& idx) -> Vector3D {
+        return dataOrigin + ElemMul(gridSpacing, idx.CastTo<double>());
     };
 }
 
@@ -202,25 +200,25 @@ void CollocatedVectorGrid3::ResetSampler()
     m_sampler = m_linearSampler.Functor();
 }
 
-void CollocatedVectorGrid3::GetData(std::vector<double>* data) const
+void CollocatedVectorGrid3::GetData(Array1<double>& data) const
 {
     const size_t size = 3 * GetDataSize().x * GetDataSize().y * GetDataSize().z;
-    data->resize(size);
+    data.Resize(size);
     size_t cnt = 0;
 
     ForEachIndex(m_data.Size(), [&](size_t i, size_t j, size_t k) {
         const Vector3D& value = m_data(i, j, k);
 
-        (*data)[cnt++] = value.x;
-        (*data)[cnt++] = value.y;
-        (*data)[cnt++] = value.z;
+        data[cnt++] = value.x;
+        data[cnt++] = value.y;
+        data[cnt++] = value.z;
     });
 }
 
-void CollocatedVectorGrid3::SetData(const std::vector<double>& data)
+void CollocatedVectorGrid3::SetData(const ConstArrayView1<double>& data)
 {
     assert(3 * GetDataSize().x * GetDataSize().y * GetDataSize().z ==
-           data.size());
+           data.Length());
 
     size_t cnt = 0;
 

@@ -36,7 +36,7 @@ CUBBYFLOW_BEGIN_TEST_F(SPHSystemData2, Interpolate)
 
     CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
 
-    auto gridPos = grid.DataPosition();
+    auto gridPos = Unroll2(grid.DataPosition());
     ParallelFor(ZERO_SIZE, grid.GetDataSize().x, ZERO_SIZE,
                 grid.GetDataSize().y, [&](size_t i, size_t j) {
                     Vector2D xy = gridPos(i, j);
@@ -85,7 +85,7 @@ CUBBYFLOW_BEGIN_TEST_F(SPHSystemData2, Gradient)
     CellCenteredScalarGrid2 grid(64, 64, 1.0 / 64, 1.0 / 64);
     CellCenteredScalarGrid2 grid2(64, 64, 1.0 / 64, 1.0 / 64);
 
-    auto gridPos = grid.DataPosition();
+    auto gridPos = Unroll2(grid.DataPosition());
     ParallelFor(ZERO_SIZE, grid.GetDataSize().x, ZERO_SIZE,
                 grid.GetDataSize().y, [&](size_t i, size_t j) {
                     Vector2D xy = gridPos(i, j);
@@ -141,7 +141,7 @@ CUBBYFLOW_BEGIN_TEST_F(SPHSystemData2, Laplacian)
 
     CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
 
-    auto gridPos = grid.DataPosition();
+    auto gridPos = Unroll2(grid.DataPosition());
     ParallelFor(ZERO_SIZE, grid.GetDataSize().x, ZERO_SIZE,
                 grid.GetDataSize().y, [&](size_t i, size_t j) {
                     Vector2D xy = gridPos(i, j);
@@ -185,7 +185,7 @@ CUBBYFLOW_BEGIN_TEST_F(SPHSystemData3, Interpolate)
 
     CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
 
-    auto gridPos = grid.DataPosition();
+    auto gridPos = Unroll2(grid.DataPosition());
     ParallelFor(ZERO_SIZE, grid.GetDataSize().x, ZERO_SIZE,
                 grid.GetDataSize().y, [&](size_t i, size_t j) {
                     Vector2D xy = gridPos(i, j);
@@ -234,7 +234,7 @@ CUBBYFLOW_BEGIN_TEST_F(SPHSystemData3, Gradient)
     CellCenteredScalarGrid2 grid(64, 64, 1.0 / 64, 1.0 / 64);
     CellCenteredScalarGrid2 grid2(64, 64, 1.0 / 64, 1.0 / 64);
 
-    auto gridPos = grid.DataPosition();
+    auto gridPos = Unroll2(grid.DataPosition());
     ParallelFor(ZERO_SIZE, grid.GetDataSize().x, ZERO_SIZE,
                 grid.GetDataSize().y, [&](size_t i, size_t j) {
                     Vector2D xy = gridPos(i, j);
@@ -290,7 +290,7 @@ CUBBYFLOW_BEGIN_TEST_F(SPHSystemData3, Laplacian)
 
     CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
 
-    auto gridPos = grid.DataPosition();
+    auto gridPos = Unroll2(grid.DataPosition());
     ParallelFor(ZERO_SIZE, grid.GetDataSize().x, ZERO_SIZE,
                 grid.GetDataSize().y, [&](size_t i, size_t j) {
                     Vector2D xy = gridPos(i, j);

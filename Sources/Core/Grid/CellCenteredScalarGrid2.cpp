@@ -50,7 +50,7 @@ Vector2UZ CellCenteredScalarGrid2::GetDataSize() const
 
 Vector2D CellCenteredScalarGrid2::GetDataOrigin() const
 {
-    return GridOrigin() + 0.5 * GridSpacing();
+    return Origin() + 0.5 * GridSpacing();
 }
 
 std::shared_ptr<ScalarGrid2> CellCenteredScalarGrid2::Clone() const

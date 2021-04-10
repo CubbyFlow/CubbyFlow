@@ -89,7 +89,7 @@ void IterativeLevelSetSolver2::Extrapolate(const ScalarGrid2& input,
     }
 
     Array2<double> sdfGrid{ input.GetDataSize() };
-    auto pos = input.DataPosition();
+    auto pos = Unroll2(input.DataPosition());
     ParallelForEachIndex(sdfGrid.Size(), [&](size_t i, size_t j) {
         sdfGrid(i, j) = sdf.Sample(pos(i, j));
     });
@@ -111,7 +111,7 @@ void IterativeLevelSetSolver2::Extrapolate(const CollocatedVectorGrid2& input,
     }
 
     Array2<double> sdfGrid{ input.GetDataSize() };
-    auto pos = input.DataPosition();
+    auto pos = Unroll2(input.DataPosition());
     ParallelForEachIndex(sdfGrid.Size(), [&](size_t i, size_t j) {
         sdfGrid(i, j) = sdf.Sample(pos(i, j));
     });
@@ -152,7 +152,7 @@ void IterativeLevelSetSolver2::Extrapolate(const FaceCenteredGrid2& input,
     const Vector2D& gridSpacing = input.GridSpacing();
 
     const ConstArrayView2<double> u = input.UView();
-    auto uPos = input.UPosition();
+    auto uPos = Unroll2(input.UPosition());
     Array2<double> sdfAtU{ u.Size() };
     input.ParallelForEachUIndex(
         [&](size_t i, size_t j) { sdfAtU(i, j) = sdf.Sample(uPos(i, j)); });
@@ -160,7 +160,7 @@ void IterativeLevelSetSolver2::Extrapolate(const FaceCenteredGrid2& input,
     Extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->UView());
 
     const ConstArrayView2<double> v = input.VView();
-    auto vPos = input.VPosition();
+    auto vPos = Unroll2(input.VPosition());
     Array2<double> sdfAtV{ v.Size() };
     input.ParallelForEachVIndex(
         [&](size_t i, size_t j) { sdfAtV(i, j) = sdf.Sample(vPos(i, j)); });

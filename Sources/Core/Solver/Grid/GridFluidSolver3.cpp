@@ -431,7 +431,7 @@ void GridFluidSolver3::ApplyBoundaryCondition() const
 void GridFluidSolver3::ExtrapolateIntoCollider(ScalarGrid3* grid)
 {
     Array3<char> marker(grid->GetDataSize());
-    auto pos = grid->DataPosition();
+    auto pos = Unroll3(grid->DataPosition());
 
     ParallelForEachIndex(marker.Size(), [&](size_t i, size_t j, size_t k) {
         if (IsInsideSDF(GetColliderSDF()->Sample(pos(i, j, k))))
@@ -451,7 +451,7 @@ void GridFluidSolver3::ExtrapolateIntoCollider(ScalarGrid3* grid)
 void GridFluidSolver3::ExtrapolateIntoCollider(CollocatedVectorGrid3* grid)
 {
     Array3<char> marker(grid->GetDataSize());
-    auto pos = grid->DataPosition();
+    auto pos = Unroll3(grid->DataPosition());
 
     ParallelForEachIndex(marker.Size(), [&](size_t i, size_t j, size_t k) {
         if (IsInsideSDF(GetColliderSDF()->Sample(pos(i, j, k))))
@@ -474,9 +474,9 @@ void GridFluidSolver3::ExtrapolateIntoCollider(FaceCenteredGrid3* grid)
     const ArrayView3<double> v = grid->VView();
     const ArrayView3<double> w = grid->WView();
 
-    auto uPos = grid->UPosition();
-    auto vPos = grid->VPosition();
-    auto wPos = grid->WPosition();
+    auto uPos = Unroll3(grid->UPosition());
+    auto vPos = Unroll3(grid->VPosition());
+    auto wPos = Unroll3(grid->WPosition());
 
     Array3<char> uMarker{ u.Size() };
     Array3<char> vMarker{ v.Size() };

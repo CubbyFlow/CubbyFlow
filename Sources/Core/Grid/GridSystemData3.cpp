@@ -140,7 +140,7 @@ Vector3D GridSystemData3::GetOrigin() const
 
 BoundingBox3D GridSystemData3::GetBoundingBox() const
 {
-    return m_velocity->BoundingBox();
+    return m_velocity->GetBoundingBox();
 }
 
 size_t GridSystemData3::AddScalarData(const ScalarGridBuilder3Ptr& Builder,

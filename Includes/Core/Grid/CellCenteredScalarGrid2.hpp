@@ -26,7 +26,7 @@ namespace CubbyFlow
 class CellCenteredScalarGrid2 final : public ScalarGrid2
 {
  public:
-    CUBBYFLOW_GRID2_TYPE_NAME(CellCenteredScalarGrid2)
+    CUBBYFLOW_GRID_TYPE_NAME(CellCenteredScalarGrid, 2)
 
     class Builder;
 

@@ -143,9 +143,9 @@ void BuildSingleSystem(FDMMatrix3* A, FDMVector3* b,
                        const FaceCenteredGrid3& input)
 {
     const Vector3UZ size = input.Resolution();
-    const auto uPos = input.UPosition();
-    const auto vPos = input.VPosition();
-    const auto wPos = input.WPosition();
+    const auto uPos = Unroll3(input.UPosition());
+    const auto vPos = Unroll3(input.VPosition());
+    const auto wPos = Unroll3(input.WPosition());
 
     const Vector3D invH = 1.0 / input.GridSpacing();
     const Vector3D invHSqr = ElemMul(invH, invH);
@@ -351,9 +351,9 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                        const FaceCenteredGrid3& input)
 {
     const Vector3UZ size = input.Resolution();
-    const auto uPos = input.UPosition();
-    const auto vPos = input.VPosition();
-    const auto wPos = input.WPosition();
+    const auto uPos = Unroll3(input.UPosition());
+    const auto vPos = Unroll3(input.VPosition());
+    const auto wPos = Unroll3(input.WPosition());
 
     const Vector3D invH = 1.0 / input.GridSpacing();
     const Vector3D invHSqr = ElemMul(invH, invH);
@@ -685,10 +685,10 @@ void GridFractionalSinglePhasePressureSolver3::BuildWeights(
     }
 
     // Build top-level grids
-    auto cellPos = input.CellCenterPosition();
-    auto uPos = input.UPosition();
-    auto vPos = input.VPosition();
-    auto wPos = input.WPosition();
+    auto cellPos = Unroll3(input.CellCenterPosition());
+    auto uPos = Unroll3(input.UPosition());
+    auto vPos = Unroll3(input.VPosition());
+    auto wPos = Unroll3(input.WPosition());
     m_boundaryVel = boundaryVelocity.Sampler();
     Vector3D h = input.GridSpacing();
 
@@ -863,7 +863,7 @@ void GridFractionalSinglePhasePressureSolver3::BuildSystem(
     {
         Vector3UZ res = finer->Resolution();
         Vector3D h = finer->GridSpacing();
-        const Vector3D& o = finer->GridOrigin();
+        const Vector3D& o = finer->Origin();
         res.x = res.x >> 1;
         res.y = res.y >> 1;
         res.z = res.z >> 1;

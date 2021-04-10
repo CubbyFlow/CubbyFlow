@@ -81,7 +81,7 @@ void AnisotropicPointsToImplicit3::Convert(
         return;
     }
 
-    const BoundingBox3D& bbox = output->BoundingBox();
+    const BoundingBox3D& bbox = output->GetBoundingBox();
     if (bbox.IsEmpty())
     {
         CUBBYFLOW_WARN << "Empty domain is provided.";

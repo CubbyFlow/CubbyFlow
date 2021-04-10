@@ -75,7 +75,7 @@ void GridForwardEulerDiffusionSolver3::Solve(const ScalarGrid3& source,
 {
     ConstArrayView3<double> src = source.DataView();
     Vector3D h = source.GridSpacing();
-    const auto pos = source.DataPosition();
+    const auto pos = Unroll3(source.DataPosition());
 
     BuildMarkers(source.Resolution(), pos, boundarySDF, fluidSDF);
 
@@ -100,7 +100,7 @@ void GridForwardEulerDiffusionSolver3::Solve(
 {
     ConstArrayView3<Vector3<double>> src = source.DataView();
     Vector3D h = source.GridSpacing();
-    const auto pos = source.DataPosition();
+    const auto pos = Unroll3(source.DataPosition());
 
     BuildMarkers(source.Resolution(), pos, boundarySDF, fluidSDF);
 
@@ -131,9 +131,9 @@ void GridForwardEulerDiffusionSolver3::Solve(const FaceCenteredGrid3& source,
     ArrayView3<double> u = dest->UView();
     ArrayView3<double> v = dest->VView();
     ArrayView3<double> w = dest->WView();
-    auto uPos = source.UPosition();
-    auto vPos = source.VPosition();
-    auto wPos = source.WPosition();
+    auto uPos = Unroll3(source.UPosition());
+    auto vPos = Unroll3(source.VPosition());
+    auto wPos = Unroll3(source.WPosition());
     Vector3D h = source.GridSpacing();
 
     BuildMarkers(source.USize(), uPos, boundarySDF, fluidSDF);

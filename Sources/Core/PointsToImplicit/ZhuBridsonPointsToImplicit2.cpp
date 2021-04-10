@@ -46,7 +46,7 @@ void ZhuBridsonPointsToImplicit2::Convert(
         return;
     }
 
-    const BoundingBox2D& bbox = output->BoundingBox();
+    const BoundingBox2D& bbox = output->GetBoundingBox();
     if (bbox.IsEmpty())
     {
         CUBBYFLOW_WARN << "Empty domain is provided.";
@@ -79,7 +79,7 @@ void ZhuBridsonPointsToImplicit2::Convert(
         }
         else
         {
-            return output->BoundingBox().DiagonalLength();
+            return output->GetBoundingBox().DiagonalLength();
         }
     });
 

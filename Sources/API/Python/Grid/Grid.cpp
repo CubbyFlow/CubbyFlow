@@ -9,8 +9,7 @@
 // property of any third parties.
 
 #include <API/Python/Grid/Grid.hpp>
-#include <Core/Grid/Grid2.hpp>
-#include <Core/Grid/Grid3.hpp>
+#include <Core/Grid/Grid.hpp>
 
 #include <pybind11/functional.h>
 #include <pybind11/pybind11.h>
@@ -31,11 +30,11 @@ void AddGrid2(pybind11::module& m)
 		)pbdoc")
         .def_property_readonly("resolution", &Grid2::Resolution,
                                R"pbdoc(Resolution of the grid.)pbdoc")
-        .def_property_readonly("gridOrigin", &Grid2::GridOrigin,
+        .def_property_readonly("gridOrigin", &Grid2::Origin,
                                R"pbdoc(Origin of the grid.)pbdoc")
         .def_property_readonly("gridSpacing", &Grid2::GridSpacing,
                                R"pbdoc(Spacing between grid points.)pbdoc")
-        .def_property_readonly("boundingBox", &Grid2::BoundingBox,
+        .def_property_readonly("boundingBox", &Grid2::GetBoundingBox,
                                R"pbdoc(Bounding box of the entire grid.)pbdoc")
         .def_property_readonly(
             "cellCenterPosition", &Grid2::CellCenterPosition,
@@ -84,11 +83,11 @@ void AddGrid3(pybind11::module& m)
 		)pbdoc")
         .def_property_readonly("resolution", &Grid3::Resolution,
                                R"pbdoc(Resolution of the grid.)pbdoc")
-        .def_property_readonly("gridOrigin", &Grid3::GridOrigin,
+        .def_property_readonly("gridOrigin", &Grid3::Origin,
                                R"pbdoc(Origin of the grid.)pbdoc")
         .def_property_readonly("gridSpacing", &Grid3::GridSpacing,
                                R"pbdoc(Spacing between grid points.)pbdoc")
-        .def_property_readonly("boundingBox", &Grid3::BoundingBox,
+        .def_property_readonly("boundingBox", &Grid3::GetBoundingBox,
                                R"pbdoc(Bounding box of the entire grid.)pbdoc")
         .def_property_readonly(
             "cellCenterPosition", &Grid3::CellCenterPosition,

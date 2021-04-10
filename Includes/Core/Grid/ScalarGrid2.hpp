@@ -15,7 +15,7 @@
 #include <Core/Array/ArraySamplers.hpp>
 #include <Core/Array/ArrayView.hpp>
 #include <Core/Field/ScalarField.hpp>
-#include <Core/Grid/Grid2.hpp>
+#include <Core/Grid/Grid.hpp>
 
 namespace CubbyFlow
 {
@@ -177,10 +177,10 @@ class ScalarGrid2 : public ScalarField2, public Grid2
     void SetScalarGrid(const ScalarGrid2& other);
 
     //! Fetches the data into a continuous linear array.
-    void GetData(std::vector<double>* data) const override;
+    void GetData(Array1<double>& data) const override;
 
     //! Sets the data from a continuous linear array.
-    void SetData(const std::vector<double>& data) override;
+    void SetData(const ConstArrayView1<double>& data) override;
 
  private:
     void ResetSampler();

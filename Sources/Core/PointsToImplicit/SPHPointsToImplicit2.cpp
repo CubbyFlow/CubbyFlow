@@ -41,7 +41,7 @@ void SPHPointsToImplicit2::Convert(const ConstArrayView1<Vector2D>& points,
         return;
     }
 
-    const BoundingBox2D& bbox = output->BoundingBox();
+    const BoundingBox2D& bbox = output->GetBoundingBox();
     if (bbox.IsEmpty())
     {
         CUBBYFLOW_WARN << "Empty domain is provided.";

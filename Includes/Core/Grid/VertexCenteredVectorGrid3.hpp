@@ -26,7 +26,7 @@ namespace CubbyFlow
 class VertexCenteredVectorGrid3 final : public CollocatedVectorGrid3
 {
  public:
-    CUBBYFLOW_GRID3_TYPE_NAME(VertexCenteredVectorGrid3)
+    CUBBYFLOW_GRID_TYPE_NAME(VertexCenteredVectorGrid, 3)
 
     class Builder;
 

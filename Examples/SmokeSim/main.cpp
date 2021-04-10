@@ -80,7 +80,7 @@ void SaveVolumeAsVol(const ScalarGrid3Ptr& density, const std::string& rootDir,
         encoding[3] = static_cast<int32_t>(density->GetDataSize().z);
         encoding[4] = 1;  // number of channels
 
-        const BoundingBox3D domain = density->BoundingBox();
+        const BoundingBox3D domain = density->GetBoundingBox();
         float* bbox = reinterpret_cast<float*>(encoding + 5);
         bbox[0] = static_cast<float>(domain.lowerCorner.x);
         bbox[1] = static_cast<float>(domain.lowerCorner.y);

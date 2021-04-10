@@ -109,7 +109,7 @@ int main(int argc, char* argv[])
                                    box.lowerCorner.x, box.lowerCorner.y,
                                    box.lowerCorner.z);
 
-    const BoundingBox3D domain = grid.BoundingBox();
+    const BoundingBox3D domain = grid.GetBoundingBox();
     printf("Domain size: [%f, %f, %f] x [%f, %f, %f]\n", domain.lowerCorner.x,
            domain.lowerCorner.y, domain.lowerCorner.z, domain.upperCorner.x,
            domain.upperCorner.y, domain.upperCorner.z);
@@ -136,8 +136,8 @@ int main(int argc, char* argv[])
     }
 
     TriangleMesh3 triMesh2;
-    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.GridOrigin(),
-                  &triMesh2, 0, DIRECTION_ALL);
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.Origin(), &triMesh2,
+                  0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh2, outputFileName + "_previz.obj");
 

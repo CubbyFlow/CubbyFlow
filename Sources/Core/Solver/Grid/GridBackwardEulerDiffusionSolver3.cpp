@@ -33,7 +33,7 @@ void GridBackwardEulerDiffusionSolver3::Solve(const ScalarGrid3& source,
                                               const ScalarField3& boundarySDF,
                                               const ScalarField3& fluidSDF)
 {
-    const auto pos = source.DataPosition();
+    const auto pos = Unroll3(source.DataPosition());
     const Vector3D& h = source.GridSpacing();
     const Vector3D c =
         timeIntervalInSeconds * diffusionCoefficient / ElemMul(h, h);
@@ -59,7 +59,7 @@ void GridBackwardEulerDiffusionSolver3::Solve(
     double timeIntervalInSeconds, CollocatedVectorGrid3* dest,
     const ScalarField3& boundarySDF, const ScalarField3& fluidSDF)
 {
-    const auto pos = source.DataPosition();
+    const auto pos = Unroll3(source.DataPosition());
     const Vector3D& h = source.GridSpacing();
     const Vector3D c =
         timeIntervalInSeconds * diffusionCoefficient / ElemMul(h, h);
@@ -122,7 +122,7 @@ void GridBackwardEulerDiffusionSolver3::Solve(const FaceCenteredGrid3& source,
         timeIntervalInSeconds * diffusionCoefficient / ElemMul(h, h);
 
     // u
-    const auto uPos = source.UPosition();
+    const auto uPos = Unroll3(source.UPosition());
     BuildMarkers(source.USize(), uPos, boundarySDF, fluidSDF);
     BuildMatrix(source.USize(), c);
     BuildVectors(source.UView(), c);
@@ -139,7 +139,7 @@ void GridBackwardEulerDiffusionSolver3::Solve(const FaceCenteredGrid3& source,
     }
 
     // v
-    const auto vPos = source.VPosition();
+    const auto vPos = Unroll3(source.VPosition());
     BuildMarkers(source.VSize(), vPos, boundarySDF, fluidSDF);
     BuildMatrix(source.VSize(), c);
     BuildVectors(source.VView(), c);
@@ -156,7 +156,7 @@ void GridBackwardEulerDiffusionSolver3::Solve(const FaceCenteredGrid3& source,
     }
 
     // w
-    const auto wPos = source.WPosition();
+    const auto wPos = Unroll3(source.WPosition());
     BuildMarkers(source.WSize(), wPos, boundarySDF, fluidSDF);
     BuildMatrix(source.WSize(), c);
     BuildVectors(source.WView(), c);

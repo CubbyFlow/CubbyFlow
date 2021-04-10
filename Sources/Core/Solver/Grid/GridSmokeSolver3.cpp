@@ -183,9 +183,9 @@ void GridSmokeSolver3::ComputeBuoyancyForce(double timeIntervalInSeconds)
         ArrayView3<double> u = vel->UView();
         ArrayView3<double> v = vel->VView();
         ArrayView3<double> w = vel->WView();
-        auto uPos = vel->UPosition();
-        auto vPos = vel->VPosition();
-        auto wPos = vel->WPosition();
+        auto uPos = Unroll3(vel->UPosition());
+        auto vPos = Unroll3(vel->VPosition());
+        auto wPos = Unroll3(vel->WPosition());
 
         if (std::abs(up.x) > std::numeric_limits<double>::epsilon())
         {

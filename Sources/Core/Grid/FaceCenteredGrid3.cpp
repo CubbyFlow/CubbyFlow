@@ -236,41 +236,32 @@ FaceCenteredGrid3::ConstScalarDataView FaceCenteredGrid3::WView() const
 
 VectorGrid3::DataPositionFunc FaceCenteredGrid3::UPosition() const
 {
+    Vector3D dataOriginU = m_dataOriginU;
     Vector3D h = GridSpacing();
 
-    return
-        [this, h](const size_t i, const size_t j, const size_t k) -> Vector3D {
-            return m_dataOriginU +
-                   ElemMul(h, Vector3D{ { static_cast<double>(i),
-                                          static_cast<double>(j),
-                                          static_cast<double>(k) } });
-        };
+    return [h, dataOriginU](const Vector3UZ& idx) -> Vector3D {
+        return dataOriginU + ElemMul(h, idx.CastTo<double>());
+    };
 }
 
 VectorGrid3::DataPositionFunc FaceCenteredGrid3::VPosition() const
 {
+    Vector3D dataOriginV = m_dataOriginV;
     Vector3D h = GridSpacing();
 
-    return
-        [this, h](const size_t i, const size_t j, const size_t k) -> Vector3D {
-            return m_dataOriginV +
-                   ElemMul(h, Vector3D{ { static_cast<double>(i),
-                                          static_cast<double>(j),
-                                          static_cast<double>(k) } });
-        };
+    return [h, dataOriginV](const Vector3UZ& idx) -> Vector3D {
+        return dataOriginV + ElemMul(h, idx.CastTo<double>());
+    };
 }
 
 VectorGrid3::DataPositionFunc FaceCenteredGrid3::WPosition() const
 {
+    Vector3D dataOriginW = m_dataOriginW;
     Vector3D h = GridSpacing();
 
-    return
-        [this, h](const size_t i, const size_t j, const size_t k) -> Vector3D {
-            return m_dataOriginW +
-                   ElemMul(h, Vector3D{ { static_cast<double>(i),
-                                          static_cast<double>(j),
-                                          static_cast<double>(k) } });
-        };
+    return [h, dataOriginW](const Vector3UZ& idx) -> Vector3D {
+        return dataOriginW + ElemMul(h, idx.CastTo<double>());
+    };
 }
 
 Vector3UZ FaceCenteredGrid3::USize() const
@@ -334,7 +325,7 @@ void FaceCenteredGrid3::Fill(
     const std::function<Vector3D(const Vector3D&)>& func,
     ExecutionPolicy policy)
 {
-    DataPositionFunc uPos = UPosition();
+    auto uPos = Unroll3(UPosition());
     ParallelFor(
         ZERO_SIZE, m_dataU.Width(), ZERO_SIZE, m_dataU.Height(), ZERO_SIZE,
         m_dataU.Depth(),
@@ -343,7 +334,7 @@ void FaceCenteredGrid3::Fill(
         },
         policy);
 
-    DataPositionFunc vPos = VPosition();
+    auto vPos = Unroll3(VPosition());
     ParallelFor(
         ZERO_SIZE, m_dataV.Width(), ZERO_SIZE, m_dataV.Height(), ZERO_SIZE,
         m_dataV.Depth(),
@@ -352,7 +343,7 @@ void FaceCenteredGrid3::Fill(
         },
         policy);
 
-    DataPositionFunc wPos = WPosition();
+    auto wPos = Unroll3(WPosition());
     ParallelFor(
         ZERO_SIZE, m_dataW.Width(), ZERO_SIZE, m_dataW.Height(), ZERO_SIZE,
         m_dataW.Depth(),
@@ -420,12 +411,12 @@ double FaceCenteredGrid3::Divergence(const Vector3D& x) const
     const Vector3UZ res = Resolution();
     size_t i, j, k;
     double fx, fy, fz;
-    const Vector3D cellCenterOrigin = GridOrigin() + 0.5 * GridSpacing();
+    const Vector3D cellCenterOrigin = Origin() + 0.5 * GridSpacing();
     const Vector3D normalizedX = ElemDiv((x - cellCenterOrigin), GridSpacing());
 
-    GetBarycentric(normalizedX.x, static_cast<size_t>(res.x), i, fx);
-    GetBarycentric(normalizedX.y, static_cast<size_t>(res.y), j, fy);
-    GetBarycentric(normalizedX.z, static_cast<size_t>(res.z), k, fz);
+    GetBarycentric(normalizedX.x, res.x, i, fx);
+    GetBarycentric(normalizedX.y, res.y, j, fy);
+    GetBarycentric(normalizedX.z, res.z, k, fz);
 
     std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights{};
@@ -464,12 +455,12 @@ Vector3D FaceCenteredGrid3::Curl(const Vector3D& x) const
     const Vector3UZ res = Resolution();
     size_t i, j, k;
     double fx, fy, fz;
-    const Vector3D cellCenterOrigin = GridOrigin() + 0.5 * GridSpacing();
+    const Vector3D cellCenterOrigin = Origin() + 0.5 * GridSpacing();
     const Vector3D normalizedX = ElemDiv((x - cellCenterOrigin), GridSpacing());
 
-    GetBarycentric(normalizedX.x, static_cast<size_t>(res.x), i, fx);
-    GetBarycentric(normalizedX.y, static_cast<size_t>(res.y), j, fy);
-    GetBarycentric(normalizedX.z, static_cast<size_t>(res.z), k, fz);
+    GetBarycentric(normalizedX.x, res.x, i, fx);
+    GetBarycentric(normalizedX.y, res.y, j, fy);
+    GetBarycentric(normalizedX.z, res.z, k, fz);
 
     std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights{};
@@ -556,28 +547,28 @@ FaceCenteredGrid3::Builder FaceCenteredGrid3::GetBuilder()
     return Builder{};
 }
 
-void FaceCenteredGrid3::GetData(std::vector<double>* data) const
+void FaceCenteredGrid3::GetData(Array1<double>& data) const
 {
     const size_t size = USize().x * USize().y * USize().z +
                         VSize().x * VSize().y * VSize().z +
                         WSize().x * WSize().y * WSize().z;
-    data->resize(size);
+    data.Resize(size);
     size_t cnt = 0;
 
     std::for_each(m_dataU.begin(), m_dataU.end(),
-                  [&](double value) { (*data)[cnt++] = value; });
+                  [&](double value) { data[cnt++] = value; });
     std::for_each(m_dataV.begin(), m_dataV.end(),
-                  [&](double value) { (*data)[cnt++] = value; });
+                  [&](double value) { data[cnt++] = value; });
     std::for_each(m_dataW.begin(), m_dataW.end(),
-                  [&](double value) { (*data)[cnt++] = value; });
+                  [&](double value) { data[cnt++] = value; });
 }
 
-void FaceCenteredGrid3::SetData(const std::vector<double>& data)
+void FaceCenteredGrid3::SetData(const ConstArrayView1<double>& data)
 {
     assert(USize().x * USize().y * USize().z +
                VSize().x * VSize().y * VSize().z +
                WSize().x * WSize().y * WSize().z ==
-           data.size());
+           data.Length());
 
     size_t cnt = 0;
 

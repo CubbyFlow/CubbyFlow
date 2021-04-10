@@ -181,23 +181,21 @@ FaceCenteredGrid2::ConstScalarDataView FaceCenteredGrid2::VView() const
 
 VectorGrid2::DataPositionFunc FaceCenteredGrid2::UPosition() const
 {
+    Vector2D dataOriginU = m_dataOriginU;
     Vector2D h = GridSpacing();
 
-    return [this, h](const size_t i, const size_t j) -> Vector2D {
-        return m_dataOriginU +
-               ElemMul(h, Vector2D{ { static_cast<double>(i),
-                                      static_cast<double>(j) } });
+    return [h, dataOriginU](const Vector2UZ& idx) -> Vector2D {
+        return dataOriginU + ElemMul(h, idx.CastTo<double>());
     };
 }
 
 VectorGrid2::DataPositionFunc FaceCenteredGrid2::VPosition() const
 {
+    Vector2D dataOriginV = m_dataOriginV;
     Vector2D h = GridSpacing();
 
-    return [this, h](const size_t i, const size_t j) -> Vector2D {
-        return m_dataOriginV +
-               ElemMul(h, Vector2D{ { static_cast<double>(i),
-                                      static_cast<double>(j) } });
+    return [h, dataOriginV](const Vector2UZ& idx) -> Vector2D {
+        return dataOriginV + ElemMul(h, idx.CastTo<double>());
     };
 }
 
@@ -242,7 +240,7 @@ void FaceCenteredGrid2::Fill(
     const std::function<Vector2D(const Vector2D&)>& func,
     ExecutionPolicy policy)
 {
-    DataPositionFunc uPos = UPosition();
+    auto uPos = Unroll2(UPosition());
     ParallelFor(
         ZERO_SIZE, m_dataU.Width(), ZERO_SIZE, m_dataU.Height(),
         [this, &func, &uPos](const size_t i, const size_t j) {
@@ -250,7 +248,7 @@ void FaceCenteredGrid2::Fill(
         },
         policy);
 
-    DataPositionFunc vPos = VPosition();
+    auto vPos = Unroll2(VPosition());
     ParallelFor(
         ZERO_SIZE, m_dataV.Width(), ZERO_SIZE, m_dataV.Height(),
         [this, &func, &vPos](const size_t i, const size_t j) {
@@ -304,11 +302,11 @@ double FaceCenteredGrid2::Divergence(const Vector2D& x) const
 {
     size_t i, j;
     double fx, fy;
-    const Vector2D cellCenterOrigin = GridOrigin() + 0.5 * GridSpacing();
+    const Vector2D cellCenterOrigin = Origin() + 0.5 * GridSpacing();
     const Vector2D normalizedX = ElemDiv((x - cellCenterOrigin), GridSpacing());
 
-    GetBarycentric(normalizedX.x, static_cast<size_t>(Resolution().x), i, fx);
-    GetBarycentric(normalizedX.y, static_cast<size_t>(Resolution().y), j, fy);
+    GetBarycentric(normalizedX.x, Resolution().x, i, fx);
+    GetBarycentric(normalizedX.y, Resolution().y, j, fy);
 
     std::array<Vector2UZ, 4> indices;
     std::array<double, 4> weights{};
@@ -338,11 +336,11 @@ double FaceCenteredGrid2::Curl(const Vector2D& x) const
 {
     size_t i, j;
     double fx, fy;
-    const Vector2D cellCenterOrigin = GridOrigin() + 0.5 * GridSpacing();
+    const Vector2D cellCenterOrigin = Origin() + 0.5 * GridSpacing();
     const Vector2D normalizedX = ElemDiv((x - cellCenterOrigin), GridSpacing());
 
-    GetBarycentric(normalizedX.x, static_cast<size_t>(Resolution().x), i, fx);
-    GetBarycentric(normalizedX.y, static_cast<size_t>(Resolution().y), j, fy);
+    GetBarycentric(normalizedX.x, Resolution().x, i, fx);
+    GetBarycentric(normalizedX.y, Resolution().y, j, fy);
 
     std::array<Vector2UZ, 4> indices;
     std::array<double, 4> weights{};
@@ -410,21 +408,21 @@ FaceCenteredGrid2::Builder FaceCenteredGrid2::GetBuilder()
     return Builder{};
 }
 
-void FaceCenteredGrid2::GetData(std::vector<double>* data) const
+void FaceCenteredGrid2::GetData(Array1<double>& data) const
 {
     const size_t size = USize().x * USize().y + VSize().x * VSize().y;
-    data->resize(size);
+    data.Resize(size);
     size_t cnt = 0;
 
     std::for_each(m_dataU.begin(), m_dataU.end(),
-                  [&](double value) { (*data)[cnt++] = value; });
+                  [&](double value) { data[cnt++] = value; });
     std::for_each(m_dataV.begin(), m_dataV.end(),
-                  [&](double value) { (*data)[cnt++] = value; });
+                  [&](double value) { data[cnt++] = value; });
 }
 
-void FaceCenteredGrid2::SetData(const std::vector<double>& data)
+void FaceCenteredGrid2::SetData(const ConstArrayView1<double>& data)
 {
-    assert(USize().x * USize().y + VSize().x * VSize().y == data.size());
+    assert(USize().x * USize().y + VSize().x * VSize().y == data.Length());
 
     size_t cnt = 0;
 

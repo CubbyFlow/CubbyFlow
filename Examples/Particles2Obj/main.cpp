@@ -107,7 +107,7 @@ void ParticlesToObj(const Array1<Vector3D>& positions,
     }
 
     VertexCenteredScalarGrid3 sdf(resolution, gridSpacing, origin);
-    PrintInfo(resolution, sdf.BoundingBox(), gridSpacing, positions.Length(),
+    PrintInfo(resolution, sdf.GetBoundingBox(), gridSpacing, positions.Length(),
               method);
 
     converter->Convert(positions, &sdf);

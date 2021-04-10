@@ -27,7 +27,7 @@ ScalarGrid3::ScalarGrid3()
 
 void ScalarGrid3::Clear()
 {
-    Resize(Vector3UZ{}, GridSpacing(), GridOrigin(), 0.0);
+    Resize(Vector3UZ{}, GridSpacing(), Origin(), 0.0);
 }
 
 void ScalarGrid3::Resize(size_t resolutionX, size_t resolutionY,
@@ -140,15 +140,12 @@ ScalarGrid3::ConstScalarDataView ScalarGrid3::DataView() const
 
 ScalarGrid3::DataPositionFunc ScalarGrid3::DataPosition() const
 {
-    Vector3D o = GetDataOrigin();
+    Vector3D dataOrigin = GetDataOrigin();
+    Vector3D gridSpacing = GridSpacing();
 
-    return
-        [this, o](const size_t i, const size_t j, const size_t k) -> Vector3D {
-            return o + ElemMul(GridSpacing(),
-                               Vector3D{ { static_cast<double>(i),
-                                           static_cast<double>(j),
-                                           static_cast<double>(k) } });
-        };
+    return [dataOrigin, gridSpacing](const Vector3UZ& idx) -> Vector3D {
+        return dataOrigin + ElemMul(gridSpacing, idx.CastTo<double>());
+    };
 }
 
 void ScalarGrid3::Fill(double value, ExecutionPolicy policy)
@@ -165,7 +162,7 @@ void ScalarGrid3::Fill(double value, ExecutionPolicy policy)
 void ScalarGrid3::Fill(const std::function<double(const Vector3D&)>& func,
                        ExecutionPolicy policy)
 {
-    DataPositionFunc pos = DataPosition();
+    auto pos = Unroll3(DataPosition());
 
     ParallelFor(
         ZERO_SIZE, m_data.Width(), ZERO_SIZE, m_data.Height(), ZERO_SIZE,
@@ -194,12 +191,12 @@ void ScalarGrid3::Serialize(std::vector<uint8_t>* buffer) const
 
     fbs::Vector3UZ fbsResolution = CubbyFlowToFlatbuffers(Resolution());
     fbs::Vector3D fbsGridSpacing = CubbyFlowToFlatbuffers(GridSpacing());
-    fbs::Vector3D fbsOrigin = CubbyFlowToFlatbuffers(GridOrigin());
+    fbs::Vector3D fbsOrigin = CubbyFlowToFlatbuffers(Origin());
 
-    std::vector<double> gridData;
-    GetData(&gridData);
+    Array1<double> gridData;
+    GetData(gridData);
     const flatbuffers::Offset<flatbuffers::Vector<double>> data =
-        builder.CreateVector(gridData.data(), gridData.size());
+        builder.CreateVector(gridData.data(), gridData.Length());
 
     const flatbuffers::Offset<fbs::ScalarGrid3> fbsGrid = CreateScalarGrid3(
         builder, &fbsResolution, &fbsGridSpacing, &fbsOrigin, data);
@@ -222,7 +219,7 @@ void ScalarGrid3::Deserialize(const std::vector<uint8_t>& buffer)
            FlatbuffersToCubbyFlow(*fbsGrid->origin()));
 
     const flatbuffers::Vector<double>* data = fbsGrid->data();
-    std::vector<double> gridData(data->size());
+    Array1<double> gridData(data->size());
     std::copy(data->begin(), data->end(), gridData.begin());
 
     SetData(gridData);
@@ -252,16 +249,17 @@ void ScalarGrid3::ResetSampler()
     m_sampler = m_linearSampler.Functor();
 }
 
-void ScalarGrid3::GetData(std::vector<double>* data) const
+void ScalarGrid3::GetData(Array1<double>& data) const
 {
     const size_t size = GetDataSize().x * GetDataSize().y * GetDataSize().z;
-    data->resize(size);
-    std::copy(m_data.begin(), m_data.end(), data->begin());
+    data.Resize(size);
+    std::copy(m_data.begin(), m_data.end(), data.begin());
 }
 
-void ScalarGrid3::SetData(const std::vector<double>& data)
+void ScalarGrid3::SetData(const ConstArrayView1<double>& data)
 {
-    assert(GetDataSize().x * GetDataSize().y * GetDataSize().z == data.size());
+    assert(GetDataSize().x * GetDataSize().y * GetDataSize().z ==
+           data.Length());
 
     std::copy(data.begin(), data.end(), m_data.begin());
 }

@@ -440,7 +440,7 @@ void FMMLevelSetSolver3::Extrapolate(const ScalarGrid3& input,
     }
 
     Array3<double> sdfGrid{ input.GetDataSize() };
-    auto pos = input.DataPosition();
+    auto pos = Unroll3(input.DataPosition());
     ParallelForEachIndex(sdfGrid.Size(), [&](size_t i, size_t j, size_t k) {
         sdfGrid(i, j, k) = sdf.Sample(pos(i, j, k));
     });
@@ -460,7 +460,7 @@ void FMMLevelSetSolver3::Extrapolate(const CollocatedVectorGrid3& input,
     }
 
     Array3<double> sdfGrid{ input.GetDataSize() };
-    auto pos = input.DataPosition();
+    auto pos = Unroll3(input.DataPosition());
     ParallelForEachIndex(sdfGrid.Size(), [&](size_t i, size_t j, size_t k) {
         sdfGrid(i, j, k) = sdf.Sample(pos(i, j, k));
     });
@@ -506,7 +506,7 @@ void FMMLevelSetSolver3::Extrapolate(const FaceCenteredGrid3& input,
     const Vector3D& gridSpacing = input.GridSpacing();
 
     const ConstArrayView3<double> u = input.UView();
-    auto uPos = input.UPosition();
+    auto uPos = Unroll3(input.UPosition());
     Array3<double> sdfAtU{ u.Size() };
     input.ParallelForEachUIndex([&](size_t i, size_t j, size_t k) {
         sdfAtU(i, j, k) = sdf.Sample(uPos(i, j, k));
@@ -515,7 +515,7 @@ void FMMLevelSetSolver3::Extrapolate(const FaceCenteredGrid3& input,
     Extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->UView());
 
     const ConstArrayView3<double> v = input.VView();
-    auto vPos = input.VPosition();
+    auto vPos = Unroll3(input.VPosition());
     Array3<double> sdfAtV{ v.Size() };
     input.ParallelForEachVIndex([&](size_t i, size_t j, size_t k) {
         sdfAtV(i, j, k) = sdf.Sample(vPos(i, j, k));
@@ -524,7 +524,7 @@ void FMMLevelSetSolver3::Extrapolate(const FaceCenteredGrid3& input,
     Extrapolate(v, sdfAtV, gridSpacing, maxDistance, output->VView());
 
     const ConstArrayView3<double> w = input.WView();
-    auto wPos = input.WPosition();
+    auto wPos = Unroll3(input.WPosition());
     Array3<double> sdfAtW{ w.Size() };
     input.ParallelForEachWIndex([&](size_t i, size_t j, size_t k) {
         sdfAtW(i, j, k) = sdf.Sample(wPos(i, j, k));

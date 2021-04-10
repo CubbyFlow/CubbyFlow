@@ -33,7 +33,7 @@ void APICSolver2::TransferFromParticlesToGrids()
     ArrayView1<Vector2<double>> velocities = particles->Velocities();
     const size_t numberOfParticles = particles->NumberOfParticles();
     const Vector2<double> hh = flow->GridSpacing() / 2.0;
-    const BoundingBox2D& bbox = flow->BoundingBox();
+    const BoundingBox2D& bbox = flow->GetBoundingBox();
 
     // Allocate buffers
     m_cX.Resize(numberOfParticles);
@@ -45,8 +45,8 @@ void APICSolver2::TransferFromParticlesToGrids()
     // Weighted-average velocity
     ArrayView2<double> u = flow->UView();
     ArrayView2<double> v = flow->VView();
-    const auto uPos = flow->UPosition();
-    const auto vPos = flow->VPosition();
+    const auto uPos = Unroll2(flow->UPosition());
+    const auto vPos = Unroll2(flow->VPosition());
     Array2<double> uWeight{ u.Size() };
     Array2<double> vWeight{ v.Size() };
     m_uMarkers.Resize(u.Size());
@@ -117,7 +117,7 @@ void APICSolver2::TransferFromGridsToParticles()
     ArrayView1<Vector2<double>> velocities = particles->Velocities();
     const size_t numberOfParticles = particles->NumberOfParticles();
     const Vector2<double> hh = flow->GridSpacing() / 2.0;
-    const BoundingBox2D& bbox = flow->BoundingBox();
+    const BoundingBox2D& bbox = flow->GetBoundingBox();
 
     // Allocate buffers
     m_cX.Resize(numberOfParticles);

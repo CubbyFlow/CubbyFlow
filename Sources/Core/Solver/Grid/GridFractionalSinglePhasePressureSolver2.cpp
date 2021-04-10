@@ -114,8 +114,8 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
                        const FaceCenteredGrid2& input)
 {
     const Vector2UZ size = input.Resolution();
-    const auto uPos = input.UPosition();
-    const auto vPos = input.VPosition();
+    const auto uPos = Unroll2(input.UPosition());
+    const auto vPos = Unroll2(input.VPosition());
 
     const Vector2D invH = 1.0 / input.GridSpacing();
     const Vector2D invHSqr = ElemMul(invH, invH);
@@ -263,8 +263,8 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                        const FaceCenteredGrid2& input)
 {
     const Vector2UZ size = input.Resolution();
-    const auto uPos = input.UPosition();
-    const auto vPos = input.VPosition();
+    const auto uPos = Unroll2(input.UPosition());
+    const auto vPos = Unroll2(input.VPosition());
 
     const Vector2D invH = 1.0 / input.GridSpacing();
     const Vector2D invHSqr = ElemMul(invH, invH);
@@ -535,9 +535,9 @@ void GridFractionalSinglePhasePressureSolver2::BuildWeights(
     }
 
     // Build top-level grids
-    auto cellPos = input.CellCenterPosition();
-    auto uPos = input.UPosition();
-    auto vPos = input.VPosition();
+    auto cellPos = Unroll2(input.CellCenterPosition());
+    auto uPos = Unroll2(input.UPosition());
+    auto vPos = Unroll2(input.VPosition());
     m_boundaryVel = boundaryVelocity.Sampler();
     Vector2D h = input.GridSpacing();
 
@@ -669,7 +669,7 @@ void GridFractionalSinglePhasePressureSolver2::BuildSystem(
     {
         Vector2UZ res = finer->Resolution();
         Vector2D h = finer->GridSpacing();
-        const Vector2D o = finer->GridOrigin();
+        const Vector2D o = finer->Origin();
         res.x = res.x >> 1;
         res.y = res.y >> 1;
         h *= 2.0;

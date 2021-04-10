@@ -197,7 +197,7 @@ void PICSolver2::MoveParticles(double timeIntervalInSeconds)
     ArrayView1<Vector2<double>> velocities = m_particles->Velocities();
     const size_t numberOfParticles = m_particles->NumberOfParticles();
     int domainBoundaryFlag = GetClosedDomainBoundaryFlag();
-    BoundingBox2D boundingBox = flow->BoundingBox();
+    BoundingBox2D boundingBox = flow->GetBoundingBox();
 
     ParallelFor(ZERO_SIZE, numberOfParticles, [&](size_t i) {
         Vector2D pt0 = positions[i];
@@ -272,7 +272,7 @@ void PICSolver2::ExtrapolateVelocityToAir()
 void PICSolver2::BuildSignedDistanceField()
 {
     ScalarGrid2Ptr sdf = GetSignedDistanceField();
-    auto sdfPos = sdf->DataPosition();
+    auto sdfPos = Unroll2(sdf->DataPosition());
     const double maxH = std::max(sdf->GridSpacing().x, sdf->GridSpacing().y);
     double radius = 1.2 * maxH / std::sqrt(2.0);
 

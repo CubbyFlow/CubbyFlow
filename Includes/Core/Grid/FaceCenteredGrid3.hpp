@@ -27,7 +27,7 @@ namespace CubbyFlow
 class FaceCenteredGrid3 final : public VectorGrid3
 {
  public:
-    CUBBYFLOW_GRID3_TYPE_NAME(FaceCenteredGrid3)
+    CUBBYFLOW_GRID_TYPE_NAME(FaceCenteredGrid, 3)
 
     class Builder;
 
@@ -275,10 +275,10 @@ class FaceCenteredGrid3 final : public VectorGrid3
                   const Vector3D& initialValue) override;
 
     //! Fetches the data into a continuous linear array.
-    void GetData(std::vector<double>* data) const override;
+    void GetData(Array1<double>& data) const override;
 
     //! Sets the data from a continuous linear array.
-    void SetData(const std::vector<double>& data) override;
+    void SetData(const ConstArrayView1<double>& data) override;
 
  private:
     void ResetSampler();

@@ -106,7 +106,7 @@ void VolumeGridEmitter3::Emit()
         const auto& grid = std::get<0>(target);
         const auto& mapper = std::get<1>(target);
 
-        auto pos = grid->DataPosition();
+        auto pos = Unroll3(grid->DataPosition());
         grid->ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
             const Vector3D gx = pos(i, j, k);
             const double sdf = GetSourceRegion()->SignedDistance(gx);
@@ -124,7 +124,7 @@ void VolumeGridEmitter3::Emit()
             std::dynamic_pointer_cast<CollocatedVectorGrid3>(grid);
         if (collocated != nullptr)
         {
-            auto pos = collocated->DataPosition();
+            auto pos = Unroll3(collocated->DataPosition());
             collocated->ParallelForEachDataPointIndex(
                 [&](size_t i, size_t j, size_t k) {
                     const Vector3D gx = pos(i, j, k);
@@ -144,9 +144,9 @@ void VolumeGridEmitter3::Emit()
             std::dynamic_pointer_cast<FaceCenteredGrid3>(grid);
         if (faceCentered != nullptr)
         {
-            auto uPos = faceCentered->UPosition();
-            auto vPos = faceCentered->VPosition();
-            auto wPos = faceCentered->WPosition();
+            auto uPos = Unroll3(faceCentered->UPosition());
+            auto vPos = Unroll3(faceCentered->VPosition());
+            auto wPos = Unroll3(faceCentered->WPosition());
 
             faceCentered->ParallelForEachUIndex(
                 [&](size_t i, size_t j, size_t k) {

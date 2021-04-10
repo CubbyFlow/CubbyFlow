@@ -65,8 +65,8 @@ CUBBYFLOW_BEGIN_TEST_F(TriangleMeshToSDF, Cube)
     SaveData(temp.View(), "sdf_#grid2.npy");
 
     TriangleMesh3 triMesh2;
-    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.GridOrigin(),
-                  &triMesh2, 0, DIRECTION_ALL);
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.Origin(), &triMesh2,
+                  0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh2, "cube.obj");
 }
@@ -95,8 +95,8 @@ CUBBYFLOW_BEGIN_TEST_F(TriangleMeshToSDF, Bunny)
     TriangleMeshToSDF(triMesh, &grid);
 
     TriangleMesh3 triMesh2;
-    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.GridOrigin(),
-                  &triMesh2, 0, DIRECTION_ALL);
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.Origin(), &triMesh2,
+                  0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh2, "bunny.obj");
 }
@@ -125,8 +125,8 @@ CUBBYFLOW_BEGIN_TEST_F(TriangleMeshToSDF, Dragon)
     TriangleMeshToSDF(triMesh, &grid);
 
     TriangleMesh3 triMesh2;
-    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.GridOrigin(),
-                  &triMesh2, 0, DIRECTION_ALL);
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.Origin(), &triMesh2,
+                  0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh2, "dragon.obj");
 }

@@ -20,8 +20,8 @@ void SemiLagrangian3::Advect(const ScalarGrid3& input, const VectorField3& flow,
         GetScalarSamplerFunc(input);
     double h = std::min(output->GridSpacing().x, output->GridSpacing().y);
 
-    ScalarGrid3::DataPositionFunc inputDataPos = input.DataPosition();
-    ScalarGrid3::DataPositionFunc outputDataPos = output->DataPosition();
+    auto inputDataPos = Unroll3(input.DataPosition());
+    auto outputDataPos = Unroll3(output->DataPosition());
     ArrayView<double, 3> outputDataAcc = output->DataView();
 
     output->ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
@@ -43,9 +43,8 @@ void SemiLagrangian3::Advect(const CollocatedVectorGrid3& input,
         GetVectorSamplerFunc(input);
     double h = std::min(output->GridSpacing().x, output->GridSpacing().y);
 
-    CollocatedVectorGrid3::DataPositionFunc inputDataPos = input.DataPosition();
-    CollocatedVectorGrid3::DataPositionFunc outputDataPos =
-        output->DataPosition();
+    auto inputDataPos = Unroll3(input.DataPosition());
+    auto outputDataPos = Unroll3(output->DataPosition());
     ArrayView<Vector<double, 3>, 3> outputDataAcc = output->DataView();
 
     output->ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
@@ -67,8 +66,8 @@ void SemiLagrangian3::Advect(const FaceCenteredGrid3& input,
         GetVectorSamplerFunc(input);
     double h = std::min(output->GridSpacing().x, output->GridSpacing().y);
 
-    FaceCenteredGrid3::DataPositionFunc uSourceDataPos = input.UPosition();
-    FaceCenteredGrid3::DataPositionFunc uTargetDataPos = output->UPosition();
+    auto uSourceDataPos = Unroll3(input.UPosition());
+    auto uTargetDataPos = Unroll3(output->UPosition());
     ArrayView<double, 3> uTargetDataAcc = output->UView();
 
     output->ParallelForEachUIndex([&](size_t i, size_t j, size_t k) {
@@ -80,8 +79,8 @@ void SemiLagrangian3::Advect(const FaceCenteredGrid3& input,
         }
     });
 
-    FaceCenteredGrid3::DataPositionFunc vSourceDataPos = input.VPosition();
-    FaceCenteredGrid3::DataPositionFunc vTargetDataPos = output->VPosition();
+    auto vSourceDataPos = Unroll3(input.VPosition());
+    auto vTargetDataPos = Unroll3(output->VPosition());
     ArrayView<double, 3> vTargetDataAcc = output->VView();
 
     output->ParallelForEachVIndex([&](size_t i, size_t j, size_t k) {
@@ -93,8 +92,8 @@ void SemiLagrangian3::Advect(const FaceCenteredGrid3& input,
         }
     });
 
-    FaceCenteredGrid3::DataPositionFunc wSourceDataPos = input.WPosition();
-    FaceCenteredGrid3::DataPositionFunc wTargetDataPos = output->WPosition();
+    auto wSourceDataPos = Unroll3(input.WPosition());
+    auto wTargetDataPos = Unroll3(output->WPosition());
     ArrayView<double, 3> wTargetDataAcc = output->WView();
 
     output->ParallelForEachWIndex([&](size_t i, size_t j, size_t k) {

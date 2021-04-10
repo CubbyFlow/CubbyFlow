@@ -183,7 +183,7 @@ void GridSinglePhasePressureSolver2::Solve(const FaceCenteredGrid2& input,
     UNUSED_VARIABLE(timeIntervalInSeconds);
     UNUSED_VARIABLE(boundaryVelocity);
 
-    const auto pos = input.CellCenterPosition();
+    const auto pos = Unroll2(input.CellCenterPosition());
 
     BuildMarkers(input.Resolution(), pos, boundarySDF, fluidSDF);
     BuildSystem(input, useCompressed);
@@ -411,7 +411,7 @@ void GridSinglePhasePressureSolver2::BuildSystem(const FaceCenteredGrid2& input,
     {
         Vector2UZ res = finer->Resolution();
         Vector2D h = finer->GridSpacing();
-        const Vector2D& o = finer->GridOrigin();
+        const Vector2D& o = finer->Origin();
         res.x = res.x >> 1;
         res.y = res.y >> 1;
         h *= 2.0;

@@ -41,7 +41,7 @@ void SPHPointsToImplicit3::Convert(const ConstArrayView1<Vector3D>& points,
         return;
     }
 
-    const BoundingBox3D& bbox = output->BoundingBox();
+    const BoundingBox3D& bbox = output->GetBoundingBox();
     if (bbox.IsEmpty())
     {
         CUBBYFLOW_WARN << "Empty domain is provided.";

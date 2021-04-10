@@ -20,8 +20,8 @@ void SemiLagrangian2::Advect(const ScalarGrid2& input, const VectorField2& flow,
         GetScalarSamplerFunc(input);
     double h = std::min(output->GridSpacing().x, output->GridSpacing().y);
 
-    ScalarGrid2::DataPositionFunc inputDataPos = input.DataPosition();
-    ScalarGrid2::DataPositionFunc outputDataPos = output->DataPosition();
+    auto inputDataPos = Unroll2(input.DataPosition());
+    auto outputDataPos = Unroll2(output->DataPosition());
     ArrayView<double, 2> outputDataAcc = output->DataView();
 
     output->ParallelForEachDataPointIndex([&](size_t i, size_t j) {
@@ -43,9 +43,8 @@ void SemiLagrangian2::Advect(const CollocatedVectorGrid2& input,
         GetVectorSamplerFunc(input);
     double h = std::min(output->GridSpacing().x, output->GridSpacing().y);
 
-    CollocatedVectorGrid2::DataPositionFunc inputDataPos = input.DataPosition();
-    CollocatedVectorGrid2::DataPositionFunc outputDataPos =
-        output->DataPosition();
+    auto inputDataPos = Unroll2(input.DataPosition());
+    auto outputDataPos = Unroll2(output->DataPosition());
     ArrayView<Vector<double, 2>, 2> outputDataAcc = output->DataView();
 
     output->ParallelForEachDataPointIndex([&](size_t i, size_t j) {
@@ -67,8 +66,8 @@ void SemiLagrangian2::Advect(const FaceCenteredGrid2& input,
         GetVectorSamplerFunc(input);
     double h = std::min(output->GridSpacing().x, output->GridSpacing().y);
 
-    FaceCenteredGrid2::DataPositionFunc uSourceDataPos = input.UPosition();
-    FaceCenteredGrid2::DataPositionFunc uTargetDataPos = output->UPosition();
+    auto uSourceDataPos = Unroll2(input.UPosition());
+    auto uTargetDataPos = Unroll2(output->UPosition());
     ArrayView<double, 2> uTargetDataAcc = output->UView();
 
     output->ParallelForEachUIndex([&](size_t i, size_t j) {
@@ -80,8 +79,8 @@ void SemiLagrangian2::Advect(const FaceCenteredGrid2& input,
         }
     });
 
-    FaceCenteredGrid2::DataPositionFunc vSourceDataPos = input.VPosition();
-    FaceCenteredGrid2::DataPositionFunc vTargetDataPos = output->VPosition();
+    auto vSourceDataPos = Unroll2(input.VPosition());
+    auto vTargetDataPos = Unroll2(output->VPosition());
     ArrayView<double, 2> vTargetDataAcc = output->VView();
 
     output->ParallelForEachVIndex([&](size_t i, size_t j) {

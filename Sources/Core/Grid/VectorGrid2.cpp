@@ -17,7 +17,7 @@ namespace CubbyFlow
 {
 void VectorGrid2::Clear()
 {
-    Resize(Vector2UZ{}, GridSpacing(), GridOrigin(), Vector2D{});
+    Resize(Vector2UZ{}, GridSpacing(), Origin(), Vector2D{});
 }
 
 void VectorGrid2::Resize(size_t resolutionX, size_t resolutionY,
@@ -57,12 +57,12 @@ void VectorGrid2::Serialize(std::vector<uint8_t>* buffer) const
 
     fbs::Vector2UZ fbsResolution = CubbyFlowToFlatbuffers(Resolution());
     fbs::Vector2D fbsGridSpacing = CubbyFlowToFlatbuffers(GridSpacing());
-    fbs::Vector2D fbsOrigin = CubbyFlowToFlatbuffers(GridOrigin());
+    fbs::Vector2D fbsOrigin = CubbyFlowToFlatbuffers(Origin());
 
-    std::vector<double> gridData;
-    GetData(&gridData);
+    Array1<double> gridData;
+    GetData(gridData);
     const flatbuffers::Offset<flatbuffers::Vector<double>> data =
-        builder.CreateVector(gridData.data(), gridData.size());
+        builder.CreateVector(gridData.data(), gridData.Length());
 
     const flatbuffers::Offset<fbs::VectorGrid2> fbsGrid = CreateVectorGrid2(
         builder, &fbsResolution, &fbsGridSpacing, &fbsOrigin, data);
@@ -85,7 +85,7 @@ void VectorGrid2::Deserialize(const std::vector<uint8_t>& buffer)
            FlatbuffersToCubbyFlow(*fbsGrid->origin()));
 
     const flatbuffers::Vector<double>* data = fbsGrid->data();
-    std::vector<double> gridData(data->size());
+    Array1<double> gridData(data->size());
     std::copy(data->begin(), data->end(), gridData.begin());
 
     SetData(gridData);

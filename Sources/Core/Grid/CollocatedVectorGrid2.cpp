@@ -120,10 +120,10 @@ VectorGrid2::ConstVectorDataView CollocatedVectorGrid2::DataView() const
 VectorGrid2::DataPositionFunc CollocatedVectorGrid2::DataPosition() const
 {
     Vector2D dataOrigin = GetDataOrigin();
-    return [this, dataOrigin](const size_t i, const size_t j) -> Vector2D {
-        return dataOrigin +
-               ElemMul(GridSpacing(), Vector2D{ { static_cast<double>(i),
-                                                  static_cast<double>(j) } });
+    Vector2D gridSpacing = GridSpacing();
+
+    return [dataOrigin, gridSpacing](const Vector2UZ& idx) -> Vector2D {
+        return dataOrigin + ElemMul(gridSpacing, idx.CastTo<double>());
     };
 }
 
@@ -178,23 +178,23 @@ void CollocatedVectorGrid2::ResetSampler()
     m_sampler = m_linearSampler.Functor();
 }
 
-void CollocatedVectorGrid2::GetData(std::vector<double>* data) const
+void CollocatedVectorGrid2::GetData(Array1<double>& data) const
 {
     const size_t size = 2 * GetDataSize().x * GetDataSize().y;
-    data->resize(size);
+    data.Resize(size);
     size_t cnt = 0;
 
     ForEachIndex(m_data.Size(), [&](size_t i, size_t j) {
         const Vector2D& value = m_data(i, j);
 
-        (*data)[cnt++] = value.x;
-        (*data)[cnt++] = value.y;
+        data[cnt++] = value.x;
+        data[cnt++] = value.y;
     });
 }
 
-void CollocatedVectorGrid2::SetData(const std::vector<double>& data)
+void CollocatedVectorGrid2::SetData(const ConstArrayView1<double>& data)
 {
-    assert(2 * GetDataSize().x * GetDataSize().y == data.size());
+    assert(2 * GetDataSize().x * GetDataSize().y == data.Length());
 
     size_t cnt = 0;
 

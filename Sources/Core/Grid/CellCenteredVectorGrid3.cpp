@@ -53,7 +53,7 @@ Vector3UZ CellCenteredVectorGrid3::GetDataSize() const
 
 Vector3D CellCenteredVectorGrid3::GetDataOrigin() const
 {
-    return GridOrigin() + 0.5 * GridSpacing();
+    return Origin() + 0.5 * GridSpacing();
 }
 
 void CellCenteredVectorGrid3::Swap(Grid3* other)
@@ -90,7 +90,7 @@ void CellCenteredVectorGrid3::Fill(
 {
     const Vector3UZ size = GetDataSize();
     ArrayView<Vector<double, 3>, 3> acc = DataView();
-    DataPositionFunc pos = DataPosition();
+    auto pos = Unroll3(DataPosition());
 
     ParallelFor(
         ZERO_SIZE, size.x, ZERO_SIZE, size.y, ZERO_SIZE, size.z,

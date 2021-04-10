@@ -51,7 +51,7 @@ Vector2UZ CellCenteredVectorGrid2::GetDataSize() const
 
 Vector2D CellCenteredVectorGrid2::GetDataOrigin() const
 {
-    return GridOrigin() + 0.5 * GridSpacing();
+    return Origin() + 0.5 * GridSpacing();
 }
 
 void CellCenteredVectorGrid2::Swap(Grid2* other)
@@ -86,7 +86,7 @@ void CellCenteredVectorGrid2::Fill(
 {
     const Vector2UZ size = GetDataSize();
     ArrayView<Vector<double, 2>, 2> acc = DataView();
-    DataPositionFunc pos = DataPosition();
+    auto pos = Unroll2(DataPosition());
 
     ParallelFor(
         ZERO_SIZE, size.x, ZERO_SIZE, size.y,

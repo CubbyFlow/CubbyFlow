@@ -38,8 +38,8 @@ CUBBYFLOW_BEGIN_TEST_F(MarchingCubes, FourCubes)
     VertexCenteredScalarGrid3 grid(2, 1, 2);
     grid.Fill([](const Vector3D& x) { return x.y - 0.5; });
 
-    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.GridOrigin(),
-                  &triMesh, 0, DIRECTION_ALL);
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.Origin(), &triMesh,
+                  0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh, "four_cubes.obj");
 }
@@ -54,8 +54,8 @@ CUBBYFLOW_BEGIN_TEST_F(MarchingCubes, Sphere)
         return x.DistanceTo(Vector3D{ 8.0, 8.0, 8.0 }) - 3.0;
     });
 
-    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.GridOrigin(),
-                  &triMesh, 0, DIRECTION_ALL);
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.Origin(), &triMesh,
+                  0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh, "sphere.obj");
 
@@ -65,8 +65,8 @@ CUBBYFLOW_BEGIN_TEST_F(MarchingCubes, Sphere)
 
     triMesh.Clear();
 
-    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.GridOrigin(),
-                  &triMesh, 0, DIRECTION_ALL);
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.Origin(), &triMesh,
+                  0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh, "clamped_sphere.obj");
 
@@ -76,8 +76,8 @@ CUBBYFLOW_BEGIN_TEST_F(MarchingCubes, Sphere)
 
     triMesh.Clear();
 
-    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.GridOrigin(),
-                  &triMesh, 0, DIRECTION_ALL);
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.Origin(), &triMesh,
+                  0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh, "clamped_sphere2.obj");
 }

@@ -140,7 +140,7 @@ Vector2D GridSystemData2::GetOrigin() const
 
 BoundingBox2D GridSystemData2::GetBoundingBox() const
 {
-    return m_velocity->BoundingBox();
+    return m_velocity->GetBoundingBox();
 }
 
 size_t GridSystemData2::AddScalarData(const ScalarGridBuilder2Ptr& builder,
