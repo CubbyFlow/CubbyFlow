@@ -339,7 +339,7 @@ Matrix<T, 1, 1>::Matrix(const std::initializer_list<T>& lst)
 {
     assert(lst.size() > 0);
 
-    x = static_cast<T>(*lst.begin());
+    x = *lst.begin();
 }
 
 template <typename T>
@@ -453,8 +453,8 @@ Matrix<T, 2, 1>::Matrix(const std::initializer_list<T>& lst)
     assert(lst.size() > 1);
 
     auto iter = lst.begin();
-    x = static_cast<T>(*(iter++));
-    y = static_cast<T>(*(iter));
+    x = *(iter++);
+    y = *(iter);
 }
 
 template <typename T>
@@ -578,9 +578,9 @@ Matrix<T, 3, 1>::Matrix(const std::initializer_list<T>& lst)
     assert(lst.size() > 2);
 
     auto iter = lst.begin();
-    x = static_cast<T>(*(iter++));
-    y = static_cast<T>(*(iter++));
-    z = static_cast<T>(*(iter));
+    x = *(iter++);
+    y = *(iter++);
+    z = *(iter);
 }
 
 template <typename T>
@@ -714,10 +714,10 @@ Matrix<T, 4, 1>::Matrix(const std::initializer_list<T>& lst)
     assert(lst.size() > 3);
 
     auto iter = lst.begin();
-    x = static_cast<T>(*(iter++));
-    y = static_cast<T>(*(iter++));
-    z = static_cast<T>(*(iter++));
-    w = static_cast<T>(*(iter));
+    x = *(iter++);
+    y = *(iter++);
+    z = *(iter++);
+    w = *(iter);
 }
 
 template <typename T>
