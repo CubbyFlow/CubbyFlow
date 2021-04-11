@@ -1,10 +1,8 @@
 var searchData=
 [
   ['vectorfield',['VectorField',['../class_cubby_flow_1_1_vector_field.html',1,'CubbyFlow']]],
-  ['vectorgrid2',['VectorGrid2',['../class_cubby_flow_1_1_vector_grid2.html',1,'CubbyFlow']]],
-  ['vectorgrid3',['VectorGrid3',['../class_cubby_flow_1_1_vector_grid3.html',1,'CubbyFlow']]],
-  ['vectorgridbuilder2',['VectorGridBuilder2',['../class_cubby_flow_1_1_vector_grid_builder2.html',1,'CubbyFlow']]],
-  ['vectorgridbuilder3',['VectorGridBuilder3',['../class_cubby_flow_1_1_vector_grid_builder3.html',1,'CubbyFlow']]],
+  ['vectorgrid',['VectorGrid',['../class_cubby_flow_1_1_vector_grid.html',1,'CubbyFlow']]],
+  ['vectorgridbuilder',['VectorGridBuilder',['../class_cubby_flow_1_1_vector_grid_builder.html',1,'CubbyFlow']]],
   ['vertexcenteredscalargrid2',['VertexCenteredScalarGrid2',['../class_cubby_flow_1_1_vertex_centered_scalar_grid2.html',1,'CubbyFlow']]],
   ['vertexcenteredscalargrid3',['VertexCenteredScalarGrid3',['../class_cubby_flow_1_1_vertex_centered_scalar_grid3.html',1,'CubbyFlow']]],
   ['vertexcenteredvectorgrid2',['VertexCenteredVectorGrid2',['../class_cubby_flow_1_1_vertex_centered_vector_grid2.html',1,'CubbyFlow']]],

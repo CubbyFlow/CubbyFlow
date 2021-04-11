@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['grid_2ehpp',['Grid.hpp',['../_grid_8hpp.html',1,'']]],
-  ['grid2_2ehpp',['Grid2.hpp',['../_grid2_8hpp.html',1,'']]],
-  ['grid3_2ehpp',['Grid3.hpp',['../_grid3_8hpp.html',1,'']]],
+  ['grid_2ehpp',['Grid.hpp',['../_a_p_i_2_python_2_grid_2_grid_8hpp.html',1,'(Global Namespace)'],['../_core_2_grid_2_grid_8hpp.html',1,'(Global Namespace)']]],
   ['gridbackwardeulerdiffusionsolver_2ehpp',['GridBackwardEulerDiffusionSolver.hpp',['../_grid_backward_euler_diffusion_solver_8hpp.html',1,'']]],
   ['gridbackwardeulerdiffusionsolver2_2ehpp',['GridBackwardEulerDiffusionSolver2.hpp',['../_grid_backward_euler_diffusion_solver2_8hpp.html',1,'']]],
   ['gridbackwardeulerdiffusionsolver3_2ehpp',['GridBackwardEulerDiffusionSolver3.hpp',['../_grid_backward_euler_diffusion_solver3_8hpp.html',1,'']]],

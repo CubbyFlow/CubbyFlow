@@ -1,10 +1,8 @@
 var searchData=
 [
   ['scalarfield',['ScalarField',['../class_cubby_flow_1_1_scalar_field.html',1,'CubbyFlow']]],
-  ['scalargrid2',['ScalarGrid2',['../class_cubby_flow_1_1_scalar_grid2.html',1,'CubbyFlow']]],
-  ['scalargrid3',['ScalarGrid3',['../class_cubby_flow_1_1_scalar_grid3.html',1,'CubbyFlow']]],
-  ['scalargridbuilder2',['ScalarGridBuilder2',['../class_cubby_flow_1_1_scalar_grid_builder2.html',1,'CubbyFlow']]],
-  ['scalargridbuilder3',['ScalarGridBuilder3',['../class_cubby_flow_1_1_scalar_grid_builder3.html',1,'CubbyFlow']]],
+  ['scalargrid',['ScalarGrid',['../class_cubby_flow_1_1_scalar_grid.html',1,'CubbyFlow']]],
+  ['scalargridbuilder',['ScalarGridBuilder',['../class_cubby_flow_1_1_scalar_grid_builder.html',1,'CubbyFlow']]],
   ['scalarmatrixelemwisebinaryop',['ScalarMatrixElemWiseBinaryOp',['../class_cubby_flow_1_1_scalar_matrix_elem_wise_binary_op.html',1,'CubbyFlow']]],
   ['semilagrangian2',['SemiLagrangian2',['../class_cubby_flow_1_1_semi_lagrangian2.html',1,'CubbyFlow']]],
   ['semilagrangian3',['SemiLagrangian3',['../class_cubby_flow_1_1_semi_lagrangian3.html',1,'CubbyFlow']]],

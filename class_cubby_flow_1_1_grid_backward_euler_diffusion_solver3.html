@@ -122,7 +122,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4ba930aeb680c5ece5cb87ac001a515c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_grid_backward_euler_diffusion_solver3.html">GridBackwardEulerDiffusionSolver3</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid_backward_euler_diffusion_solver3.html#a4ba930aeb680c5ece5cb87ac001a515c">operator=</a> (<a class="el" href="class_cubby_flow_1_1_grid_backward_euler_diffusion_solver3.html">GridBackwardEulerDiffusionSolver3</a> &amp;&amp;) noexcept=delete</td></tr>
 <tr class="memdesc:a4ba930aeb680c5ece5cb87ac001a515c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deleted move assignment operator.  <a href="#a4ba930aeb680c5ece5cb87ac001a515c">More...</a><br /></td></tr>
 <tr class="separator:a4ba930aeb680c5ece5cb87ac001a515c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb86f9abd1da6d7bec40db1c2ae733f3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid_backward_euler_diffusion_solver3.html#abb86f9abd1da6d7bec40db1c2ae733f3">Solve</a> (const <a class="el" href="class_cubby_flow_1_1_scalar_grid3.html">ScalarGrid3</a> &amp;source, double diffusionCoefficient, double timeIntervalInSeconds, <a class="el" href="class_cubby_flow_1_1_scalar_grid3.html">ScalarGrid3</a> *dest, const <a class="el" href="namespace_cubby_flow.html#a9078ae4e60564ce57f0cbabde307dcc1">ScalarField3</a> &amp;boundarySDF=<a class="el" href="namespace_cubby_flow.html#a8e6c83acb5ea6565372c03ceb3766fb6">ConstantScalarField3</a>{ std::numeric_limits&lt; double &gt;::max() }, const <a class="el" href="namespace_cubby_flow.html#a9078ae4e60564ce57f0cbabde307dcc1">ScalarField3</a> &amp;fluidSDF=<a class="el" href="namespace_cubby_flow.html#a8e6c83acb5ea6565372c03ceb3766fb6">ConstantScalarField3</a>{ -std::numeric_limits&lt; double &gt;::max() }) override</td></tr>
+<tr class="memitem:abb86f9abd1da6d7bec40db1c2ae733f3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid_backward_euler_diffusion_solver3.html#abb86f9abd1da6d7bec40db1c2ae733f3">Solve</a> (const <a class="el" href="namespace_cubby_flow.html#a407ff38caabd6f0bcd6d44d367fcb8c5">ScalarGrid3</a> &amp;source, double diffusionCoefficient, double timeIntervalInSeconds, <a class="el" href="namespace_cubby_flow.html#a407ff38caabd6f0bcd6d44d367fcb8c5">ScalarGrid3</a> *dest, const <a class="el" href="namespace_cubby_flow.html#a9078ae4e60564ce57f0cbabde307dcc1">ScalarField3</a> &amp;boundarySDF=<a class="el" href="namespace_cubby_flow.html#a8e6c83acb5ea6565372c03ceb3766fb6">ConstantScalarField3</a>{ std::numeric_limits&lt; double &gt;::max() }, const <a class="el" href="namespace_cubby_flow.html#a9078ae4e60564ce57f0cbabde307dcc1">ScalarField3</a> &amp;fluidSDF=<a class="el" href="namespace_cubby_flow.html#a8e6c83acb5ea6565372c03ceb3766fb6">ConstantScalarField3</a>{ -std::numeric_limits&lt; double &gt;::max() }) override</td></tr>
 <tr class="separator:abb86f9abd1da6d7bec40db1c2ae733f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b7ca88e8a2d73b25d94c6a1ad66ed4c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid_backward_euler_diffusion_solver3.html#a3b7ca88e8a2d73b25d94c6a1ad66ed4c">Solve</a> (const <a class="el" href="class_cubby_flow_1_1_collocated_vector_grid3.html">CollocatedVectorGrid3</a> &amp;source, double diffusionCoefficient, double timeIntervalInSeconds, <a class="el" href="class_cubby_flow_1_1_collocated_vector_grid3.html">CollocatedVectorGrid3</a> *dest, const <a class="el" href="namespace_cubby_flow.html#a9078ae4e60564ce57f0cbabde307dcc1">ScalarField3</a> &amp;boundarySDF=<a class="el" href="namespace_cubby_flow.html#a8e6c83acb5ea6565372c03ceb3766fb6">ConstantScalarField3</a>{ std::numeric_limits&lt; double &gt;::max() }, const <a class="el" href="namespace_cubby_flow.html#a9078ae4e60564ce57f0cbabde307dcc1">ScalarField3</a> &amp;fluidSDF=<a class="el" href="namespace_cubby_flow.html#a8e6c83acb5ea6565372c03ceb3766fb6">ConstantScalarField3</a>{ -std::numeric_limits&lt; double &gt;::max() }) override</td></tr>
 <tr class="separator:a3b7ca88e8a2d73b25d94c6a1ad66ed4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -382,7 +382,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void CubbyFlow::GridBackwardEulerDiffusionSolver3::Solve </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_scalar_grid3.html">ScalarGrid3</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespace_cubby_flow.html#a407ff38caabd6f0bcd6d44d367fcb8c5">ScalarGrid3</a> &amp;&#160;</td>
           <td class="paramname"><em>source</em>, </td>
         </tr>
         <tr>
@@ -400,7 +400,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_cubby_flow_1_1_scalar_grid3.html">ScalarGrid3</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_cubby_flow.html#a407ff38caabd6f0bcd6d44d367fcb8c5">ScalarGrid3</a> *&#160;</td>
           <td class="paramname"><em>dest</em>, </td>
         </tr>
         <tr>
@@ -604,7 +604,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 9 2021 11:34:48 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 11 2021 06:41:34 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
