@@ -9,8 +9,7 @@
 // property of any third parties.
 
 #include <API/Python/Grid/VectorGrid.hpp>
-#include <Core/Grid/VectorGrid2.hpp>
-#include <Core/Grid/VectorGrid3.hpp>
+#include <Core/Grid/VectorGrid.hpp>
 
 #include <pybind11/functional.h>
 #include <pybind11/pybind11.h>

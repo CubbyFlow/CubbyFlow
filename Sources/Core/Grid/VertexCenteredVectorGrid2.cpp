@@ -17,8 +17,8 @@ VertexCenteredVectorGrid2::VertexCenteredVectorGrid2(
     double gridSpacingY, double originX, double originY, double initialValueU,
     double initialValueV)
 {
-    Resize(resolutionX, resolutionY, gridSpacingX, gridSpacingY, originX,
-           originY, initialValueU, initialValueV);
+    Resize({ resolutionX, resolutionY }, { gridSpacingX, gridSpacingY },
+           { originX, originY }, { initialValueU, initialValueV });
 }
 
 VertexCenteredVectorGrid2::VertexCenteredVectorGrid2(

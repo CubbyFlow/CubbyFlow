@@ -12,8 +12,7 @@
 #define CUBBYFLOW_FACTORY_HPP
 
 #include <Core/Grid/ScalarGrid.hpp>
-#include <Core/Grid/VectorGrid2.hpp>
-#include <Core/Grid/VectorGrid3.hpp>
+#include <Core/Grid/VectorGrid.hpp>
 #include <Core/Searcher/PointNeighborSearcher.hpp>
 
 namespace CubbyFlow

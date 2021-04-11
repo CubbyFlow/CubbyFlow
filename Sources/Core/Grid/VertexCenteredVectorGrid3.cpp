@@ -18,9 +18,10 @@ VertexCenteredVectorGrid3::VertexCenteredVectorGrid3(
     double originX, double originY, double originZ, double initialValueU,
     double initialValueV, double initialValueW)
 {
-    Resize(resolutionX, resolutionY, resolutionZ, gridSpacingX, gridSpacingY,
-           gridSpacingZ, originX, originY, originZ, initialValueU,
-           initialValueV, initialValueW);
+    Resize({ resolutionX, resolutionY, resolutionZ },
+           { gridSpacingX, gridSpacingY, gridSpacingZ },
+           { originX, originY, originZ },
+           { initialValueU, initialValueV, initialValueW });
 }
 
 VertexCenteredVectorGrid3::VertexCenteredVectorGrid3(

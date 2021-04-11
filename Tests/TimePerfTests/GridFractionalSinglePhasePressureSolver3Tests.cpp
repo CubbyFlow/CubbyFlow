@@ -25,7 +25,7 @@ class GridFractionalSinglePhasePressureSolver3 : public ::benchmark::Fixture
         const auto n = static_cast<size_t>(state.range(0));
         const auto height = static_cast<double>(state.range(1));
 
-        vel.Resize(n, n, n);
+        vel.Resize({ n, n, n });
         vel.Fill(Vector3D());
 
         for (size_t k = 0; k < n; ++k)

@@ -17,8 +17,8 @@ CellCenteredVectorGrid2::CellCenteredVectorGrid2(
     double gridSpacingY, double originX, double originY, double initialValueU,
     double initialValueV)
 {
-    Resize(resolutionX, resolutionY, gridSpacingX, gridSpacingY, originX,
-           originY, initialValueU, initialValueV);
+    Resize({ resolutionX, resolutionY }, { gridSpacingX, gridSpacingY },
+           { originX, originY }, { initialValueU, initialValueV });
 }
 
 CellCenteredVectorGrid2::CellCenteredVectorGrid2(const Vector2UZ& resolution,

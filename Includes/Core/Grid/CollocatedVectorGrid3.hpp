@@ -13,7 +13,7 @@
 
 #include <Core/Array/Array.hpp>
 #include <Core/Array/ArraySamplers.hpp>
-#include <Core/Grid/VectorGrid3.hpp>
+#include <Core/Grid/VectorGrid.hpp>
 
 namespace CubbyFlow
 {
