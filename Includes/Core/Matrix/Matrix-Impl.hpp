@@ -438,6 +438,12 @@ constexpr Matrix<T, 1, 1> Matrix<T, 1, 1>::MakeUnitX()
 }
 
 template <typename T>
+constexpr Matrix<T, 1, 1> Matrix<T, 1, 1>::MakeUnit(size_t)
+{
+    return MakeUnitX();
+}
+
+template <typename T>
 template <size_t R, size_t C, typename E>
 Matrix<T, 2, 1>::Matrix(const MatrixExpression<T, R, C, E>& expression)
 {
@@ -559,6 +565,12 @@ template <typename T>
 constexpr Matrix<T, 2, 1> Matrix<T, 2, 1>::MakeUnitY()
 {
     return Matrix<T, 2, 1>{ 0, 1 };
+}
+
+template <typename T>
+constexpr Matrix<T, 2, 1> Matrix<T, 2, 1>::MakeUnit(size_t i)
+{
+    return Matrix<T, 2, 1>(i == 0, i == 1);
 }
 
 template <typename T>
@@ -694,6 +706,12 @@ template <typename T>
 constexpr Matrix<T, 3, 1> Matrix<T, 3, 1>::MakeUnitZ()
 {
     return Matrix<T, 3, 1>{ 0, 0, 1 };
+}
+
+template <typename T>
+constexpr Matrix<T, 3, 1> Matrix<T, 3, 1>::MakeUnit(size_t i)
+{
+    return Matrix<T, 3, 1>(i == 0, i == 1, i == 2);
 }
 
 template <typename T>
@@ -840,6 +858,12 @@ template <typename T>
 constexpr Matrix<T, 4, 1> Matrix<T, 4, 1>::MakeUnitW()
 {
     return Matrix<T, 4, 1>{ 0, 0, 0, 1 };
+}
+
+template <typename T>
+constexpr Matrix<T, 4, 1> Matrix<T, 4, 1>::MakeUnit(size_t i)
+{
+    return Matrix<T, 4, 1>(i == 0, i == 1, i == 2, i == 3);
 }
 
 template <typename T>
