@@ -14,7 +14,7 @@
 #include <Core/Geometry/BoundingBox.hpp>
 #include <Core/Geometry/MarchingCubes.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
-#include <Core/Grid/ScalarGrid3.hpp>
+#include <Core/Grid/ScalarGrid.hpp>
 #include <Core/Grid/VertexCenteredScalarGrid3.hpp>
 #include <Core/PointsToImplicit/AnisotropicPointsToImplicit3.hpp>
 #include <Core/PointsToImplicit/SPHPointsToImplicit3.hpp>
@@ -61,7 +61,7 @@ void PrintInfo(const Vector3UZ& resolution, const BoundingBox3D& domain,
 void TriangulateAndSave(const ScalarGrid3& sdf, const std::string& objFileName)
 {
     TriangleMesh3 mesh;
-    MarchingCubes(sdf.DataView(), sdf.GridSpacing(), sdf.GetDataOrigin(), &mesh,
+    MarchingCubes(sdf.DataView(), sdf.GridSpacing(), sdf.DataOrigin(), &mesh,
                   0.0, DIRECTION_ALL);
 
     std::ofstream file(objFileName.c_str());

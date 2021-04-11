@@ -34,8 +34,8 @@ ImplicitTriangleMesh3::ImplicitTriangleMesh3(TriangleMesh3Ptr mesh,
     const double dx = box.Width() / static_cast<double>(resolutionX);
 
     m_grid = std::make_shared<VertexCenteredScalarGrid3>();
-    m_grid->Resize(resolutionX, resolutionY, resolutionZ, dx, dx, dx,
-                   box.lowerCorner.x, box.lowerCorner.y, box.lowerCorner.z);
+    m_grid->Resize({ resolutionX, resolutionY, resolutionZ }, { dx, dx, dx },
+                   { box.lowerCorner.x, box.lowerCorner.y, box.lowerCorner.z });
 
     TriangleMeshToSDF(*m_mesh, m_grid.get());
 

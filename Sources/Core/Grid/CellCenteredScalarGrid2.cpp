@@ -16,8 +16,8 @@ CellCenteredScalarGrid2::CellCenteredScalarGrid2(
     size_t resolutionX, size_t resolutionY, double gridSpacingX,
     double gridSpacingY, double originX, double originY, double initialValue)
 {
-    Resize(resolutionX, resolutionY, gridSpacingX, gridSpacingY, originX,
-           originY, initialValue);
+    Resize({ resolutionX, resolutionY }, { gridSpacingX, gridSpacingY },
+           { originX, originY }, initialValue);
 }
 
 CellCenteredScalarGrid2::CellCenteredScalarGrid2(const Vector2UZ& resolution,
@@ -42,13 +42,13 @@ CellCenteredScalarGrid2& CellCenteredScalarGrid2::operator=(
     return *this;
 }
 
-Vector2UZ CellCenteredScalarGrid2::GetDataSize() const
+Vector2UZ CellCenteredScalarGrid2::DataSize() const
 {
     // The size of the data should be the same as the grid resolution.
     return Resolution();
 }
 
-Vector2D CellCenteredScalarGrid2::GetDataOrigin() const
+Vector2D CellCenteredScalarGrid2::DataOrigin() const
 {
     return Origin() + 0.5 * GridSpacing();
 }

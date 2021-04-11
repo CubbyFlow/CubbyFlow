@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_VERTEX_CENTERED_SCALAR_GRID3_HPP
 #define CUBBYFLOW_VERTEX_CENTERED_SCALAR_GRID3_HPP
 
-#include <Core/Grid/ScalarGrid3.hpp>
+#include <Core/Grid/ScalarGrid.hpp>
 
 namespace CubbyFlow
 {
@@ -68,12 +68,12 @@ class VertexCenteredScalarGrid3 final : public ScalarGrid3
         delete;
 
     //! Returns the actual data point size.
-    [[nodiscard]] Vector3UZ GetDataSize() const override;
+    [[nodiscard]] Vector3UZ DataSize() const override;
 
     //! Returns data position for the grid point at (0, 0, 0).
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
-    [[nodiscard]] Vector3D GetDataOrigin() const override;
+    [[nodiscard]] Vector3D DataOrigin() const override;
 
     //! Returns the copy of the grid instance.
     [[nodiscard]] std::shared_ptr<ScalarGrid3> Clone() const override;

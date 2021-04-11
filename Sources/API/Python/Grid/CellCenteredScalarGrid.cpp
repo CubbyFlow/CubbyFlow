@@ -55,13 +55,12 @@ void AddCellCenteredScalarGrid2(pybind11::module& m)
 				- gridOrigin : Origin point at the grid.
 				- domainSizeX : Domain size in x-direction.
 			)pbdoc")
-        .def_property_readonly("dataSize",
-                               &CellCenteredScalarGrid2::GetDataSize,
+        .def_property_readonly("dataSize", &CellCenteredScalarGrid2::DataSize,
                                R"pbdoc(
 			Returns the actual data point size.
 		)pbdoc")
         .def_property_readonly("dataOrigin",
-                               &CellCenteredScalarGrid2::GetDataOrigin,
+                               &CellCenteredScalarGrid2::DataOrigin,
                                R"pbdoc(
 			Returns data position for the grid point at (0, 0).
 
@@ -117,13 +116,12 @@ void AddCellCenteredScalarGrid3(pybind11::module& m)
 				- gridOrigin : Origin point at the grid.
 				- domainSizeX : Domain size in x-direction.
 		)pbdoc")
-        .def_property_readonly("dataSize",
-                               &CellCenteredScalarGrid3::GetDataSize,
+        .def_property_readonly("dataSize", &CellCenteredScalarGrid3::DataSize,
                                R"pbdoc(
 			Returns the actual data point size.
 		)pbdoc")
         .def_property_readonly("dataOrigin",
-                               &CellCenteredScalarGrid3::GetDataOrigin,
+                               &CellCenteredScalarGrid3::DataOrigin,
                                R"pbdoc(
 			Returns data position for the grid point at (0, 0, 0).
 

@@ -16,7 +16,7 @@ std::function<double(const Vector2D&)>
 CubicSemiLagrangian2::GetScalarSamplerFunc(const ScalarGrid2& source) const
 {
     const auto sourceSampler = MonotonicCatmullRomArraySampler2<double>{
-        source.DataView(), source.GridSpacing(), source.GetDataOrigin()
+        source.DataView(), source.GridSpacing(), source.DataOrigin()
     };
     return sourceSampler.Functor();
 }

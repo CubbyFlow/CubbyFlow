@@ -21,7 +21,7 @@
 #include <Core/Geometry/RigidBodyCollider.hpp>
 #include <Core/Geometry/Sphere.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
-#include <Core/Grid/ScalarGrid3.hpp>
+#include <Core/Grid/ScalarGrid.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver3.hpp>
 #include <Core/Utils/Logging.hpp>
 
@@ -63,7 +63,7 @@ void TriangulateAndSave(const ScalarGrid3Ptr& sdf, const std::string& rootDir,
 {
     TriangleMesh3 mesh;
     const int flag = DIRECTION_ALL & ~DIRECTION_DOWN;
-    MarchingCubes(sdf->DataView(), sdf->GridSpacing(), sdf->GetDataOrigin(),
+    MarchingCubes(sdf->DataView(), sdf->GridSpacing(), sdf->DataOrigin(),
                   &mesh, 0.0, flag);
     SaveTriangleMesh(mesh, rootDir, frameCnt);
 }

@@ -13,7 +13,7 @@
 
 #include <Core/Grid/CollocatedVectorGrid2.hpp>
 #include <Core/Grid/FaceCenteredGrid2.hpp>
-#include <Core/Grid/ScalarGrid2.hpp>
+#include <Core/Grid/ScalarGrid.hpp>
 
 #include <memory>
 

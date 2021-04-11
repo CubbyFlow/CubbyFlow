@@ -10,14 +10,14 @@
 
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Geometry/TriangleMeshToSDF.hpp>
-#include <Core/Grid/ScalarGrid3.hpp>
+#include <Core/Grid/ScalarGrid.hpp>
 #include <Core/Matrix/Matrix.hpp>
 
 namespace CubbyFlow
 {
 void TriangleMeshToSDF(const TriangleMesh3& mesh, ScalarGrid3* sdf)
 {
-    const Vector3UZ size = sdf->GetDataSize();
+    const Vector3UZ size = sdf->DataSize();
     if (size.x * size.y * size.z == 0)
     {
         return;

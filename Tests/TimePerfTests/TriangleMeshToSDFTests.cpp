@@ -31,9 +31,10 @@ class TriangleMeshToSDF : public ::benchmark::Fixture
         box.lowerCorner -= 0.2 * scale;
         box.upperCorner += 0.2 * scale;
 
-        grid.Resize(100, 100, 100, box.Width() / 100, box.Height() / 100,
-                    box.Depth() / 100, box.lowerCorner.x, box.lowerCorner.y,
-                    box.lowerCorner.z);
+        grid.Resize(
+            { 100, 100, 100 },
+            { box.Width() / 100, box.Height() / 100, box.Depth() / 100 },
+            { box.lowerCorner.x, box.lowerCorner.y, box.lowerCorner.z });
     }
 };
 

@@ -16,8 +16,8 @@ VertexCenteredScalarGrid2::VertexCenteredScalarGrid2(
     size_t resolutionX, size_t resolutionY, double gridSpacingX,
     double gridSpacingY, double originX, double originY, double initialValue)
 {
-    Resize(resolutionX, resolutionY, gridSpacingX, gridSpacingY, originX,
-           originY, initialValue);
+    Resize({ resolutionX, resolutionY }, { gridSpacingX, gridSpacingY },
+           { originX, originY }, initialValue);
 }
 
 VertexCenteredScalarGrid2::VertexCenteredScalarGrid2(
@@ -41,7 +41,7 @@ VertexCenteredScalarGrid2& VertexCenteredScalarGrid2::operator=(
     return *this;
 }
 
-Vector2UZ VertexCenteredScalarGrid2::GetDataSize() const
+Vector2UZ VertexCenteredScalarGrid2::DataSize() const
 {
     if (Resolution() != Vector2UZ{ 0, 0 })
     {
@@ -51,7 +51,7 @@ Vector2UZ VertexCenteredScalarGrid2::GetDataSize() const
     return Vector2UZ{ 0, 0 };
 }
 
-Vector2D VertexCenteredScalarGrid2::GetDataOrigin() const
+Vector2D VertexCenteredScalarGrid2::DataOrigin() const
 {
     return Origin();
 }

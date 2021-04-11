@@ -17,8 +17,9 @@ VertexCenteredScalarGrid3::VertexCenteredScalarGrid3(
     double gridSpacingX, double gridSpacingY, double gridSpacingZ,
     double originX, double originY, double originZ, double initialValue)
 {
-    Resize(resolutionX, resolutionY, resolutionZ, gridSpacingX, gridSpacingY,
-           gridSpacingZ, originX, originY, originZ, initialValue);
+    Resize({ resolutionX, resolutionY, resolutionZ },
+           { gridSpacingX, gridSpacingY, gridSpacingZ },
+           { originX, originY, originZ }, initialValue);
 }
 
 VertexCenteredScalarGrid3::VertexCenteredScalarGrid3(
@@ -42,7 +43,7 @@ VertexCenteredScalarGrid3& VertexCenteredScalarGrid3::operator=(
     return *this;
 }
 
-Vector3UZ VertexCenteredScalarGrid3::GetDataSize() const
+Vector3UZ VertexCenteredScalarGrid3::DataSize() const
 {
     if (Resolution() != Vector3UZ{ 0, 0, 0 })
     {
@@ -52,7 +53,7 @@ Vector3UZ VertexCenteredScalarGrid3::GetDataSize() const
     return Vector3UZ{ 0, 0, 0 };
 }
 
-Vector3D VertexCenteredScalarGrid3::GetDataOrigin() const
+Vector3D VertexCenteredScalarGrid3::DataOrigin() const
 {
     return Origin();
 }

@@ -30,7 +30,7 @@ CUBBYFLOW_BEGIN_TEST_F(SPHPointsToImplicit3, ConvertTwo)
     converter.Convert(points.View(), &grid);
 
     TriangleMesh3 triMesh;
-    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.GetDataOrigin(),
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.DataOrigin(),
                   &triMesh, 0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh, "sph_points_to_implicit3_convert_two.obj");
@@ -55,7 +55,7 @@ CUBBYFLOW_BEGIN_TEST_F(SPHPointsToImplicit3, ConvertMany)
     converter.Convert(points.View(), &grid);
 
     TriangleMesh3 triMesh;
-    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.GetDataOrigin(),
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.DataOrigin(),
                   &triMesh, 0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh, "sph_points_to_implicit3_convert_many.obj");

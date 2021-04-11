@@ -12,7 +12,7 @@
 #define CUBBYFLOW_GRID_SYSTM_DATA3_HPP
 
 #include <Core/Grid/FaceCenteredGrid3.hpp>
-#include <Core/Grid/ScalarGrid3.hpp>
+#include <Core/Grid/ScalarGrid.hpp>
 #include <Core/Utils/Serialization.hpp>
 
 namespace CubbyFlow

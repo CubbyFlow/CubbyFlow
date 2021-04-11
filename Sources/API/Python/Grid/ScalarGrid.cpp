@@ -10,8 +10,7 @@
 
 #include <API/Python/Grid/ScalarGrid.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Grid/ScalarGrid2.hpp>
-#include <Core/Grid/ScalarGrid3.hpp>
+#include <Core/Grid/ScalarGrid.hpp>
 
 #include <pybind11/functional.h>
 #include <pybind11/pybind11.h>
@@ -20,18 +19,23 @@ using namespace CubbyFlow;
 
 void AddScalarGrid2(pybind11::module& m)
 {
+    using GradientAtDataPointFunc =
+        Vector2D (ScalarGrid2::*)(const Vector2UZ&) const;
+    using LaplacianAtDataPointFunc =
+        double (ScalarGrid2::*)(const Vector2UZ&) const;
+
     pybind11::class_<ScalarGrid2, ScalarGrid2Ptr, ScalarField2, Grid2>(
         static_cast<pybind11::handle>(m), "ScalarGrid2",
         R"pbdoc(
 			Abstract base class for 2-D scalar grid structure.
 		)pbdoc")
-        .def_property_readonly("dataSize", &ScalarGrid2::GetDataSize,
+        .def_property_readonly("dataSize", &ScalarGrid2::DataSize,
                                R"pbdoc(
                                Returns the size of the grid data.
                                This function returns the size of the grid data which is not necessarily
                                equal to the grid resolution if the data is not stored at cell-center.
                                )pbdoc")
-        .def_property_readonly("dataOrigin", &ScalarGrid2::GetDataOrigin,
+        .def_property_readonly("dataOrigin", &ScalarGrid2::DataOrigin,
                                R"pbdoc(
                                Returns the origin of the grid data.
                                This function returns data position for the grid point at (0, 0).
@@ -69,41 +73,7 @@ void AddScalarGrid2(pybind11::module& m)
         .def(
             "__getitem__",
             [](const ScalarGrid2& instance, pybind11::object obj) -> double {
-                if (pybind11::isinstance<pybind11::tuple>(
-                        static_cast<pybind11::handle>(obj)))
-                {
-                    auto tidx = obj.cast<pybind11::tuple>();
-                    if (tidx.size() == 2)
-                    {
-                        return instance(tidx[0].cast<size_t>(),
-                                        tidx[1].cast<size_t>());
-                    }
-                    else
-                    {
-                        throw std::invalid_argument(
-                            "Size of index tuple must be 2.");
-                    }
-                }
-                else if (pybind11::isinstance<pybind11::list>(
-                             static_cast<pybind11::handle>(obj)))
-                {
-                    auto lidx = obj.cast<pybind11::list>();
-                    if (lidx.size() == 2)
-                    {
-                        return instance(lidx[0].cast<size_t>(),
-                                        lidx[1].cast<size_t>());
-                    }
-                    else
-                    {
-                        throw std::invalid_argument(
-                            "Size of index list must be 2.");
-                    }
-                }
-                else
-                {
-                    throw std::invalid_argument(
-                        "Input type must be tuple or list");
-                }
+                return instance(ObjectToVector2UZ(obj));
             },
             R"pbdoc(
 			Returns the grid data at given data point.
@@ -116,41 +86,7 @@ void AddScalarGrid2(pybind11::module& m)
         .def(
             "__setitem__",
             [](ScalarGrid2& instance, pybind11::object obj, double val) {
-                if (pybind11::isinstance<pybind11::tuple>(
-                        static_cast<pybind11::handle>(obj)))
-                {
-                    auto tidx = obj.cast<pybind11::tuple>();
-                    if (tidx.size() == 2)
-                    {
-                        instance(tidx[0].cast<size_t>(),
-                                 tidx[1].cast<size_t>()) = val;
-                    }
-                    else
-                    {
-                        throw std::invalid_argument(
-                            "Size of index tuple must be 2.");
-                    }
-                }
-                else if (pybind11::isinstance<pybind11::list>(
-                             static_cast<pybind11::handle>(obj)))
-                {
-                    auto lidx = obj.cast<pybind11::list>();
-                    if (lidx.size() == 2)
-                    {
-                        instance(lidx[0].cast<size_t>(),
-                                 lidx[1].cast<size_t>()) = val;
-                    }
-                    else
-                    {
-                        throw std::invalid_argument(
-                            "Size of index list must be 2.");
-                    }
-                }
-                else
-                {
-                    throw std::invalid_argument(
-                        "Input type must be tuple or list");
-                }
+                instance(ObjectToVector2UZ(obj)) = val;
             },
             R"pbdoc(
 			Sets the grid data at given data point.
@@ -161,26 +97,28 @@ void AddScalarGrid2(pybind11::module& m)
 			- val : Value to set.
 		)pbdoc",
             pybind11::arg("idx"), pybind11::arg("val"))
-        .def("GradientAtDataPoint", &ScalarGrid2::GradientAtDataPoint,
+        .def("GradientAtDataPoint",
+             static_cast<GradientAtDataPointFunc>(
+                 &ScalarGrid2::GradientAtDataPoint),
              R"pbdoc(
 			Returns the gradient vector at given data point.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
+			- idx : Data point index (i, j).
 		)pbdoc",
-             pybind11::arg("i"), pybind11::arg("j"))
-        .def("LaplacianAtDataPoint", &ScalarGrid2::LaplacianAtDataPoint,
+             pybind11::arg("idx"))
+        .def("LaplacianAtDataPoint",
+             static_cast<LaplacianAtDataPointFunc>(
+                 &ScalarGrid2::LaplacianAtDataPoint),
              R"pbdoc(
 			Returns the Laplacian at given data point.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
+			- idx : Data point index (i, j).
 		)pbdoc",
-             pybind11::arg("i"), pybind11::arg("j"))
+             pybind11::arg("idx"))
         .def("DataView",
              static_cast<ArrayView2<double> (ScalarGrid2::*)()>(
                  &ScalarGrid2::DataView),
@@ -259,18 +197,23 @@ void AddScalarGrid2(pybind11::module& m)
 
 void AddScalarGrid3(pybind11::module& m)
 {
+    using GradientAtDataPointFunc =
+        Vector3D (ScalarGrid3::*)(const Vector3UZ&) const;
+    using LaplacianAtDataPointFunc =
+        double (ScalarGrid3::*)(const Vector3UZ&) const;
+
     pybind11::class_<ScalarGrid3, ScalarGrid3Ptr, ScalarField3, Grid3>(
         static_cast<pybind11::handle>(m), "ScalarGrid3",
         R"pbdoc(
 			Abstract base class for 3-D scalar grid structure.
 		)pbdoc")
-        .def_property_readonly("dataSize", &ScalarGrid3::GetDataSize,
+        .def_property_readonly("dataSize", &ScalarGrid3::DataSize,
                                R"pbdoc(
                                Returns the size of the grid data.
                                This function returns the size of the grid data which is not necessarily
                                equal to the grid resolution if the data is not stored at cell-center.
                                )pbdoc")
-        .def_property_readonly("dataOrigin", &ScalarGrid3::GetDataOrigin,
+        .def_property_readonly("dataOrigin", &ScalarGrid3::DataOrigin,
                                R"pbdoc(
                                Returns the origin of the grid data.
                                This function returns data position for the grid point at (0, 0).
@@ -308,43 +251,7 @@ void AddScalarGrid3(pybind11::module& m)
         .def(
             "__getitem__",
             [](const ScalarGrid3& instance, pybind11::object obj) -> double {
-                if (pybind11::isinstance<pybind11::tuple>(
-                        static_cast<pybind11::handle>(obj)))
-                {
-                    auto tidx = obj.cast<pybind11::tuple>();
-                    if (tidx.size() == 3)
-                    {
-                        return instance(tidx[0].cast<size_t>(),
-                                        tidx[1].cast<size_t>(),
-                                        tidx[2].cast<size_t>());
-                    }
-                    else
-                    {
-                        throw std::invalid_argument(
-                            "Size of index tuple must be 3.");
-                    }
-                }
-                else if (pybind11::isinstance<pybind11::list>(
-                             static_cast<pybind11::handle>(obj)))
-                {
-                    auto lidx = obj.cast<pybind11::list>();
-                    if (lidx.size() == 3)
-                    {
-                        return instance(lidx[0].cast<size_t>(),
-                                        lidx[1].cast<size_t>(),
-                                        lidx[2].cast<size_t>());
-                    }
-                    else
-                    {
-                        throw std::invalid_argument(
-                            "Size of index list must be 3.");
-                    }
-                }
-                else
-                {
-                    throw std::invalid_argument(
-                        "Input type must be tuple or list");
-                }
+                return instance(ObjectToVector3UZ(obj));
             },
             R"pbdoc(
 			Returns the grid data at given data point.
@@ -357,41 +264,7 @@ void AddScalarGrid3(pybind11::module& m)
         .def(
             "__setitem__",
             [](ScalarGrid3& instance, pybind11::object obj, double val) {
-                if (pybind11::isinstance<pybind11::tuple>(
-                        static_cast<pybind11::handle>(obj)))
-                {
-                    auto tidx = obj.cast<pybind11::tuple>();
-                    if (tidx.size() == 3)
-                    {
-                        instance(tidx[0].cast<size_t>(), tidx[1].cast<size_t>(),
-                                 tidx[2].cast<size_t>()) = val;
-                    }
-                    else
-                    {
-                        throw std::invalid_argument(
-                            "Size of index tuple must be 3.");
-                    }
-                }
-                else if (pybind11::isinstance<pybind11::list>(
-                             static_cast<pybind11::handle>(obj)))
-                {
-                    auto lidx = obj.cast<pybind11::list>();
-                    if (lidx.size() == 3)
-                    {
-                        instance(lidx[0].cast<size_t>(), lidx[1].cast<size_t>(),
-                                 lidx[2].cast<size_t>()) = val;
-                    }
-                    else
-                    {
-                        throw std::invalid_argument(
-                            "Size of index list must be 3.");
-                    }
-                }
-                else
-                {
-                    throw std::invalid_argument(
-                        "Input type must be tuple or list");
-                }
+                instance(ObjectToVector3UZ(obj)) = val;
             },
             R"pbdoc(
 			Sets the grid data at given data point.
@@ -402,28 +275,28 @@ void AddScalarGrid3(pybind11::module& m)
 			- val : Value to set.
 		)pbdoc",
             pybind11::arg("idx"), pybind11::arg("val"))
-        .def("GradientAtDataPoint", &ScalarGrid3::GradientAtDataPoint,
+        .def("GradientAtDataPoint",
+             static_cast<GradientAtDataPointFunc>(
+                 &ScalarGrid3::GradientAtDataPoint),
              R"pbdoc(
 			Returns the gradient vector at given data point.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
-			- k : Data point index k.
+            - idx : Data point index (i, j, k).
 		)pbdoc",
-             pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("k"))
-        .def("LaplacianAtDataPoint", &ScalarGrid3::LaplacianAtDataPoint,
+             pybind11::arg("idx"))
+        .def("LaplacianAtDataPoint",
+             static_cast<LaplacianAtDataPointFunc>(
+                 &ScalarGrid3::LaplacianAtDataPoint),
              R"pbdoc(
 			Returns the Laplacian at given data point.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
-			- k : Data point index k.
+            - idx : Data point index (i, j, k).
 		)pbdoc",
-             pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("k"))
+             pybind11::arg("idx"))
         .def("DataView",
              static_cast<ArrayView3<double> (ScalarGrid3::*)()>(
                  &ScalarGrid3::DataView),

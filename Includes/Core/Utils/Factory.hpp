@@ -11,8 +11,7 @@
 #ifndef CUBBYFLOW_FACTORY_HPP
 #define CUBBYFLOW_FACTORY_HPP
 
-#include <Core/Grid/ScalarGrid2.hpp>
-#include <Core/Grid/ScalarGrid3.hpp>
+#include <Core/Grid/ScalarGrid.hpp>
 #include <Core/Grid/VectorGrid2.hpp>
 #include <Core/Grid/VectorGrid3.hpp>
 #include <Core/Searcher/PointNeighborSearcher.hpp>

@@ -257,7 +257,7 @@ void FMMLevelSetSolver3::Reinitialize(const ScalarGrid3& inputSDF,
         };
     }
 
-    Vector3UZ size = inputSDF.GetDataSize();
+    Vector3UZ size = inputSDF.DataSize();
     Vector3D gridSpacing = inputSDF.GridSpacing();
     const Vector3D invGridSpacing = 1.0 / gridSpacing;
     Vector3D invGridSpacingSqr = ElemMul(invGridSpacing, invGridSpacing);
@@ -439,7 +439,7 @@ void FMMLevelSetSolver3::Extrapolate(const ScalarGrid3& input,
         throw std::invalid_argument{ "input and output have not same shape." };
     }
 
-    Array3<double> sdfGrid{ input.GetDataSize() };
+    Array3<double> sdfGrid{ input.DataSize() };
     auto pos = Unroll3(input.DataPosition());
     ParallelForEachIndex(sdfGrid.Size(), [&](size_t i, size_t j, size_t k) {
         sdfGrid(i, j, k) = sdf.Sample(pos(i, j, k));

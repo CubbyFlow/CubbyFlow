@@ -93,8 +93,8 @@ TEST(GridSystemData2, Serialize)
     EXPECT_EQ(scalar0->Resolution(), scalar0_2->Resolution());
     EXPECT_EQ(scalar0->GridSpacing(), scalar0_2->GridSpacing());
     EXPECT_EQ(scalar0->Origin(), scalar0_2->Origin());
-    EXPECT_EQ(scalar0->GetDataSize(), scalar0_2->GetDataSize());
-    EXPECT_EQ(scalar0->GetDataOrigin(), scalar0_2->GetDataOrigin());
+    EXPECT_EQ(scalar0->DataSize(), scalar0_2->DataSize());
+    EXPECT_EQ(scalar0->DataOrigin(), scalar0_2->DataOrigin());
     scalar0->ForEachDataPointIndex([&](size_t i, size_t j) {
         EXPECT_EQ((*scalar0)(i, j), (*scalar0_2)(i, j));
     });
@@ -120,8 +120,8 @@ TEST(GridSystemData2, Serialize)
     EXPECT_EQ(scalar1->Resolution(), scalar1_2->Resolution());
     EXPECT_EQ(scalar1->GridSpacing(), scalar1_2->GridSpacing());
     EXPECT_EQ(scalar1->Origin(), scalar1_2->Origin());
-    EXPECT_EQ(scalar1->GetDataSize(), scalar1_2->GetDataSize());
-    EXPECT_EQ(scalar1->GetDataOrigin(), scalar1_2->GetDataOrigin());
+    EXPECT_EQ(scalar1->DataSize(), scalar1_2->DataSize());
+    EXPECT_EQ(scalar1->DataOrigin(), scalar1_2->DataOrigin());
     scalar1->ForEachDataPointIndex([&](size_t i, size_t j) {
         EXPECT_EQ((*scalar1)(i, j), (*scalar1_2)(i, j));
     });

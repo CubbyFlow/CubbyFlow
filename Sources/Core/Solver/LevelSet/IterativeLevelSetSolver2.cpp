@@ -19,7 +19,7 @@ void IterativeLevelSetSolver2::Reinitialize(const ScalarGrid2& inputSDF,
                                             double maxDistance,
                                             ScalarGrid2* outputSDF)
 {
-    const Vector2UZ size = inputSDF.GetDataSize();
+    const Vector2UZ size = inputSDF.DataSize();
     const Vector2D gridSpacing = inputSDF.GridSpacing();
 
     if (!inputSDF.HasSameShape(*outputSDF))
@@ -88,7 +88,7 @@ void IterativeLevelSetSolver2::Extrapolate(const ScalarGrid2& input,
         };
     }
 
-    Array2<double> sdfGrid{ input.GetDataSize() };
+    Array2<double> sdfGrid{ input.DataSize() };
     auto pos = Unroll2(input.DataPosition());
     ParallelForEachIndex(sdfGrid.Size(), [&](size_t i, size_t j) {
         sdfGrid(i, j) = sdf.Sample(pos(i, j));

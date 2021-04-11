@@ -17,8 +17,9 @@ CellCenteredScalarGrid3::CellCenteredScalarGrid3(
     double gridSpacingX, double gridSpacingY, double gridSpacingZ,
     double originX, double originY, double originZ, double initialValue)
 {
-    Resize(resolutionX, resolutionY, resolutionZ, gridSpacingX, gridSpacingY,
-           gridSpacingZ, originX, originY, originZ, initialValue);
+    Resize({ resolutionX, resolutionY, resolutionZ },
+           { gridSpacingX, gridSpacingY, gridSpacingZ },
+           { originX, originY, originZ }, initialValue);
 }
 
 CellCenteredScalarGrid3::CellCenteredScalarGrid3(const Vector3UZ& resolution,
@@ -43,13 +44,13 @@ CellCenteredScalarGrid3& CellCenteredScalarGrid3::operator=(
     return *this;
 }
 
-Vector3UZ CellCenteredScalarGrid3::GetDataSize() const
+Vector3UZ CellCenteredScalarGrid3::DataSize() const
 {
     // The size of the data should be the same as the grid resolution.
     return Resolution();
 }
 
-Vector3D CellCenteredScalarGrid3::GetDataOrigin() const
+Vector3D CellCenteredScalarGrid3::DataOrigin() const
 {
     return Origin() + 0.5 * GridSpacing();
 }

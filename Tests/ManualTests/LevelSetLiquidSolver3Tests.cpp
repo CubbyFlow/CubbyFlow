@@ -29,8 +29,8 @@ void TriangulateAndSave(const ScalarGrid3Ptr& sdf, const std::string& fileName)
     TriangleMesh3 mesh;
     int flag = DIRECTION_ALL & ~DIRECTION_DOWN;
 
-    MarchingCubes(sdf->DataView(), sdf->GridSpacing(), sdf->GetDataOrigin(),
-                  &mesh, 0.0, flag);
+    MarchingCubes(sdf->DataView(), sdf->GridSpacing(), sdf->DataOrigin(), &mesh,
+                  0.0, flag);
     SaveTriangleMesh(mesh, fileName);
 }
 }  // namespace

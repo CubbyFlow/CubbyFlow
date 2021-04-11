@@ -14,10 +14,10 @@ TEST(VertexCenteredScalarGrid2, Constructors)
     EXPECT_DOUBLE_EQ(1.0, grid1.GridSpacing().y);
     EXPECT_DOUBLE_EQ(0.0, grid1.Origin().x);
     EXPECT_DOUBLE_EQ(0.0, grid1.Origin().y);
-    EXPECT_EQ(0u, grid1.GetDataSize().x);
-    EXPECT_EQ(0u, grid1.GetDataSize().y);
-    EXPECT_DOUBLE_EQ(0.0, grid1.GetDataOrigin().x);
-    EXPECT_DOUBLE_EQ(0.0, grid1.GetDataOrigin().y);
+    EXPECT_EQ(0u, grid1.DataSize().x);
+    EXPECT_EQ(0u, grid1.DataSize().y);
+    EXPECT_DOUBLE_EQ(0.0, grid1.DataOrigin().x);
+    EXPECT_DOUBLE_EQ(0.0, grid1.DataOrigin().y);
 
     // Constructor with params
     VertexCenteredScalarGrid2 grid2(5, 4, 1.0, 2.0, 3.0, 4.0, 5.0);
@@ -27,10 +27,10 @@ TEST(VertexCenteredScalarGrid2, Constructors)
     EXPECT_DOUBLE_EQ(2.0, grid2.GridSpacing().y);
     EXPECT_DOUBLE_EQ(3.0, grid2.Origin().x);
     EXPECT_DOUBLE_EQ(4.0, grid2.Origin().y);
-    EXPECT_EQ(6u, grid2.GetDataSize().x);
-    EXPECT_EQ(5u, grid2.GetDataSize().y);
-    EXPECT_DOUBLE_EQ(3.0, grid2.GetDataOrigin().x);
-    EXPECT_DOUBLE_EQ(4.0, grid2.GetDataOrigin().y);
+    EXPECT_EQ(6u, grid2.DataSize().x);
+    EXPECT_EQ(5u, grid2.DataSize().y);
+    EXPECT_DOUBLE_EQ(3.0, grid2.DataOrigin().x);
+    EXPECT_DOUBLE_EQ(4.0, grid2.DataOrigin().y);
     grid2.ForEachDataPointIndex(
         [&](size_t i, size_t j) { EXPECT_DOUBLE_EQ(5.0, grid2(i, j)); });
 
@@ -42,10 +42,10 @@ TEST(VertexCenteredScalarGrid2, Constructors)
     EXPECT_DOUBLE_EQ(2.0, grid3.GridSpacing().y);
     EXPECT_DOUBLE_EQ(3.0, grid3.Origin().x);
     EXPECT_DOUBLE_EQ(4.0, grid3.Origin().y);
-    EXPECT_EQ(6u, grid3.GetDataSize().x);
-    EXPECT_EQ(5u, grid3.GetDataSize().y);
-    EXPECT_DOUBLE_EQ(3.0, grid3.GetDataOrigin().x);
-    EXPECT_DOUBLE_EQ(4.0, grid3.GetDataOrigin().y);
+    EXPECT_EQ(6u, grid3.DataSize().x);
+    EXPECT_EQ(5u, grid3.DataSize().y);
+    EXPECT_DOUBLE_EQ(3.0, grid3.DataOrigin().x);
+    EXPECT_DOUBLE_EQ(4.0, grid3.DataOrigin().y);
     grid3.ForEachDataPointIndex(
         [&](size_t i, size_t j) { EXPECT_DOUBLE_EQ(5.0, grid3(i, j)); });
 }
@@ -62,10 +62,10 @@ TEST(VertexCenteredScalarGrid2, Swap)
     EXPECT_DOUBLE_EQ(3.0, grid1.GridSpacing().y);
     EXPECT_DOUBLE_EQ(1.0, grid1.Origin().x);
     EXPECT_DOUBLE_EQ(5.0, grid1.Origin().y);
-    EXPECT_EQ(4u, grid1.GetDataSize().x);
-    EXPECT_EQ(9u, grid1.GetDataSize().y);
-    EXPECT_DOUBLE_EQ(1.0, grid1.GetDataOrigin().x);
-    EXPECT_DOUBLE_EQ(5.0, grid1.GetDataOrigin().y);
+    EXPECT_EQ(4u, grid1.DataSize().x);
+    EXPECT_EQ(9u, grid1.DataSize().y);
+    EXPECT_DOUBLE_EQ(1.0, grid1.DataOrigin().x);
+    EXPECT_DOUBLE_EQ(5.0, grid1.DataOrigin().y);
     grid1.ForEachDataPointIndex(
         [&](size_t i, size_t j) { EXPECT_DOUBLE_EQ(4.0, grid1(i, j)); });
 
@@ -75,10 +75,10 @@ TEST(VertexCenteredScalarGrid2, Swap)
     EXPECT_DOUBLE_EQ(2.0, grid2.GridSpacing().y);
     EXPECT_DOUBLE_EQ(3.0, grid2.Origin().x);
     EXPECT_DOUBLE_EQ(4.0, grid2.Origin().y);
-    EXPECT_EQ(6u, grid2.GetDataSize().x);
-    EXPECT_EQ(5u, grid2.GetDataSize().y);
-    EXPECT_DOUBLE_EQ(3.0, grid2.GetDataOrigin().x);
-    EXPECT_DOUBLE_EQ(4.0, grid2.GetDataOrigin().y);
+    EXPECT_EQ(6u, grid2.DataSize().x);
+    EXPECT_EQ(5u, grid2.DataSize().y);
+    EXPECT_DOUBLE_EQ(3.0, grid2.DataOrigin().x);
+    EXPECT_DOUBLE_EQ(4.0, grid2.DataOrigin().y);
     grid2.ForEachDataPointIndex(
         [&](size_t i, size_t j) { EXPECT_DOUBLE_EQ(5.0, grid2(i, j)); });
 }
@@ -95,10 +95,10 @@ TEST(VertexCenteredScalarGrid2, Set)
     EXPECT_DOUBLE_EQ(3.0, grid1.GridSpacing().y);
     EXPECT_DOUBLE_EQ(1.0, grid1.Origin().x);
     EXPECT_DOUBLE_EQ(5.0, grid1.Origin().y);
-    EXPECT_EQ(4u, grid1.GetDataSize().x);
-    EXPECT_EQ(9u, grid1.GetDataSize().y);
-    EXPECT_DOUBLE_EQ(1.0, grid1.GetDataOrigin().x);
-    EXPECT_DOUBLE_EQ(5.0, grid1.GetDataOrigin().y);
+    EXPECT_EQ(4u, grid1.DataSize().x);
+    EXPECT_EQ(9u, grid1.DataSize().y);
+    EXPECT_DOUBLE_EQ(1.0, grid1.DataOrigin().x);
+    EXPECT_DOUBLE_EQ(5.0, grid1.DataOrigin().y);
     grid1.ForEachDataPointIndex(
         [&](size_t i, size_t j) { EXPECT_DOUBLE_EQ(4.0, grid1(i, j)); });
 }
@@ -115,10 +115,10 @@ TEST(VertexCenteredScalarGrid2, AssignmentOperator)
     EXPECT_DOUBLE_EQ(3.0, grid1.GridSpacing().y);
     EXPECT_DOUBLE_EQ(1.0, grid1.Origin().x);
     EXPECT_DOUBLE_EQ(5.0, grid1.Origin().y);
-    EXPECT_EQ(4u, grid1.GetDataSize().x);
-    EXPECT_EQ(9u, grid1.GetDataSize().y);
-    EXPECT_DOUBLE_EQ(1.0, grid1.GetDataOrigin().x);
-    EXPECT_DOUBLE_EQ(5.0, grid1.GetDataOrigin().y);
+    EXPECT_EQ(4u, grid1.DataSize().x);
+    EXPECT_EQ(9u, grid1.DataSize().y);
+    EXPECT_DOUBLE_EQ(1.0, grid1.DataOrigin().x);
+    EXPECT_DOUBLE_EQ(5.0, grid1.DataOrigin().y);
     grid1.ForEachDataPointIndex(
         [&](size_t i, size_t j) { EXPECT_DOUBLE_EQ(4.0, grid1(i, j)); });
 }
@@ -134,10 +134,10 @@ TEST(VertexCenteredScalarGrid2, Clone)
     EXPECT_DOUBLE_EQ(3.0, grid1->GridSpacing().y);
     EXPECT_DOUBLE_EQ(1.0, grid1->Origin().x);
     EXPECT_DOUBLE_EQ(5.0, grid1->Origin().y);
-    EXPECT_EQ(4u, grid1->GetDataSize().x);
-    EXPECT_EQ(9u, grid1->GetDataSize().y);
-    EXPECT_DOUBLE_EQ(1.0, grid1->GetDataOrigin().x);
-    EXPECT_DOUBLE_EQ(5.0, grid1->GetDataOrigin().y);
+    EXPECT_EQ(4u, grid1->DataSize().x);
+    EXPECT_EQ(9u, grid1->DataSize().y);
+    EXPECT_DOUBLE_EQ(1.0, grid1->DataOrigin().x);
+    EXPECT_DOUBLE_EQ(5.0, grid1->DataOrigin().y);
     grid1->ForEachDataPointIndex(
         [&](size_t i, size_t j) { EXPECT_DOUBLE_EQ(4.0, (*grid1)(i, j)); });
 }
@@ -158,10 +158,10 @@ TEST(VertexCenteredScalarGrid2, Builder)
         EXPECT_DOUBLE_EQ(3.0, grid1->GridSpacing().y);
         EXPECT_DOUBLE_EQ(1.0, grid1->Origin().x);
         EXPECT_DOUBLE_EQ(5.0, grid1->Origin().y);
-        EXPECT_EQ(4u, grid1->GetDataSize().x);
-        EXPECT_EQ(9u, grid1->GetDataSize().y);
-        EXPECT_DOUBLE_EQ(1.0, grid1->GetDataOrigin().x);
-        EXPECT_DOUBLE_EQ(5.0, grid1->GetDataOrigin().y);
+        EXPECT_EQ(4u, grid1->DataSize().x);
+        EXPECT_EQ(9u, grid1->DataSize().y);
+        EXPECT_DOUBLE_EQ(1.0, grid1->DataOrigin().x);
+        EXPECT_DOUBLE_EQ(5.0, grid1->DataOrigin().y);
         grid1->ForEachDataPointIndex(
             [&](size_t i, size_t j) { EXPECT_DOUBLE_EQ(4.0, (*grid1)(i, j)); });
     }
@@ -180,10 +180,10 @@ TEST(VertexCenteredScalarGrid2, Builder)
         EXPECT_DOUBLE_EQ(3.0, grid1.GridSpacing().y);
         EXPECT_DOUBLE_EQ(1.0, grid1.Origin().x);
         EXPECT_DOUBLE_EQ(5.0, grid1.Origin().y);
-        EXPECT_EQ(4u, grid1.GetDataSize().x);
-        EXPECT_EQ(9u, grid1.GetDataSize().y);
-        EXPECT_DOUBLE_EQ(1.0, grid1.GetDataOrigin().x);
-        EXPECT_DOUBLE_EQ(5.0, grid1.GetDataOrigin().y);
+        EXPECT_EQ(4u, grid1.DataSize().x);
+        EXPECT_EQ(9u, grid1.DataSize().y);
+        EXPECT_DOUBLE_EQ(1.0, grid1.DataOrigin().x);
+        EXPECT_DOUBLE_EQ(5.0, grid1.DataOrigin().y);
         grid1.ForEachDataPointIndex(
             [&](size_t i, size_t j) { EXPECT_DOUBLE_EQ(4.0, grid1(i, j)); });
     }
@@ -194,9 +194,9 @@ TEST(VertexCenteredScalarGrid2, Fill)
     VertexCenteredScalarGrid2 grid(5, 4, 1.0, 1.0, 0.0, 0.0, 0.0);
     grid.Fill(42.0);
 
-    for (size_t j = 0; j < grid.GetDataSize().y; ++j)
+    for (size_t j = 0; j < grid.DataSize().y; ++j)
     {
-        for (size_t i = 0; i < grid.GetDataSize().x; ++i)
+        for (size_t i = 0; i < grid.DataSize().x; ++i)
         {
             EXPECT_DOUBLE_EQ(42.0, grid(i, j));
         }

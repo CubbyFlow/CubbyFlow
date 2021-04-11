@@ -38,8 +38,8 @@ void GridBackwardEulerDiffusionSolver3::Solve(const ScalarGrid3& source,
     const Vector3D c =
         timeIntervalInSeconds * diffusionCoefficient / ElemMul(h, h);
 
-    BuildMarkers(source.GetDataSize(), pos, boundarySDF, fluidSDF);
-    BuildMatrix(source.GetDataSize(), c);
+    BuildMarkers(source.DataSize(), pos, boundarySDF, fluidSDF);
+    BuildMatrix(source.DataSize(), c);
     BuildVectors(source.DataView(), c);
 
     if (m_systemSolver != nullptr)

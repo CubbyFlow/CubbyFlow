@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_CELL_CENTERED_SCALAR_GRID2_HPP
 #define CUBBYFLOW_CELL_CENTERED_SCALAR_GRID2_HPP
 
-#include <Core/Grid/ScalarGrid2.hpp>
+#include <Core/Grid/ScalarGrid.hpp>
 
 namespace CubbyFlow
 {
@@ -64,12 +64,12 @@ class CellCenteredScalarGrid2 final : public ScalarGrid2
         delete;
 
     //! Returns the actual data point size.
-    [[nodiscard]] Vector2UZ GetDataSize() const override;
+    [[nodiscard]] Vector2UZ DataSize() const override;
 
     //! Returns data position for the grid point at (0, 0).
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
-    [[nodiscard]] Vector2D GetDataOrigin() const override;
+    [[nodiscard]] Vector2D DataOrigin() const override;
 
     //!
     //! \brief Swaps the contents with the given \p other grid.
