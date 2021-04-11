@@ -335,7 +335,7 @@ void ScalarGrid<N>::ResetSampler()
 template <size_t N>
 void ScalarGrid<N>::GetData(Array1<double>& data) const
 {
-    size_t size = Product(DataSize(), ONE_SIZE);
+    const size_t size = Product(DataSize(), ONE_SIZE);
     data.Resize(size);
     std::copy(m_data.begin(), m_data.end(), data.begin());
 }
