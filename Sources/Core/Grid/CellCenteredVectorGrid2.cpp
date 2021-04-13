@@ -43,13 +43,13 @@ CellCenteredVectorGrid2& CellCenteredVectorGrid2::operator=(
     return *this;
 }
 
-Vector2UZ CellCenteredVectorGrid2::GetDataSize() const
+Vector2UZ CellCenteredVectorGrid2::DataSize() const
 {
     // The size of the data should be the same as the grid resolution.
     return Resolution();
 }
 
-Vector2D CellCenteredVectorGrid2::GetDataOrigin() const
+Vector2D CellCenteredVectorGrid2::DataOrigin() const
 {
     return Origin() + 0.5 * GridSpacing();
 }
@@ -71,7 +71,7 @@ void CellCenteredVectorGrid2::Set(const CellCenteredVectorGrid2& other)
 void CellCenteredVectorGrid2::Fill(const Vector2D& value,
                                    ExecutionPolicy policy)
 {
-    const Vector2UZ size = GetDataSize();
+    const Vector2UZ size = DataSize();
     auto acc = DataView();
 
     ParallelFor(
@@ -84,7 +84,7 @@ void CellCenteredVectorGrid2::Fill(
     const std::function<Vector2D(const Vector2D&)>& func,
     ExecutionPolicy policy)
 {
-    const Vector2UZ size = GetDataSize();
+    const Vector2UZ size = DataSize();
     ArrayView<Vector<double, 2>, 2> acc = DataView();
     auto pos = Unroll2(DataPosition());
 

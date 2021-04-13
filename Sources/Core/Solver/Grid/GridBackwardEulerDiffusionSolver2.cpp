@@ -65,8 +65,8 @@ void GridBackwardEulerDiffusionSolver2::Solve(
         const Vector2D c =
             timeIntervalInSeconds * diffusionCoefficient / ElemMul(h, h);
 
-        BuildMarkers(source.GetDataSize(), pos, boundarySDF, fluidSDF);
-        BuildMatrix(source.GetDataSize(), c);
+        BuildMarkers(source.DataSize(), pos, boundarySDF, fluidSDF);
+        BuildMatrix(source.DataSize(), c);
 
         // u
         BuildVectors(source.DataView(), c, 0);

@@ -450,7 +450,7 @@ void GridFluidSolver3::ExtrapolateIntoCollider(ScalarGrid3* grid)
 
 void GridFluidSolver3::ExtrapolateIntoCollider(CollocatedVectorGrid3* grid)
 {
-    Array3<char> marker(grid->GetDataSize());
+    Array3<char> marker(grid->DataSize());
     auto pos = Unroll3(grid->DataPosition());
 
     ParallelForEachIndex(marker.Size(), [&](size_t i, size_t j, size_t k) {

@@ -46,13 +46,13 @@ CellCenteredVectorGrid3& CellCenteredVectorGrid3::operator=(
     return *this;
 }
 
-Vector3UZ CellCenteredVectorGrid3::GetDataSize() const
+Vector3UZ CellCenteredVectorGrid3::DataSize() const
 {
     // The size of the data should be the same as the grid resolution.
     return Resolution();
 }
 
-Vector3D CellCenteredVectorGrid3::GetDataOrigin() const
+Vector3D CellCenteredVectorGrid3::DataOrigin() const
 {
     return Origin() + 0.5 * GridSpacing();
 }
@@ -74,7 +74,7 @@ void CellCenteredVectorGrid3::Set(const CellCenteredVectorGrid3& other)
 void CellCenteredVectorGrid3::Fill(const Vector3D& value,
                                    ExecutionPolicy policy)
 {
-    const Vector3UZ size = GetDataSize();
+    const Vector3UZ size = DataSize();
     auto acc = DataView();
 
     ParallelFor(
@@ -89,7 +89,7 @@ void CellCenteredVectorGrid3::Fill(
     const std::function<Vector3D(const Vector3D&)>& func,
     ExecutionPolicy policy)
 {
-    const Vector3UZ size = GetDataSize();
+    const Vector3UZ size = DataSize();
     ArrayView<Vector<double, 3>, 3> acc = DataView();
     auto pos = Unroll3(DataPosition());
 

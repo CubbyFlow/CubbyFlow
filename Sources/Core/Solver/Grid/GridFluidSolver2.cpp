@@ -442,7 +442,7 @@ void GridFluidSolver2::ExtrapolateIntoCollider(ScalarGrid2* grid)
 
 void GridFluidSolver2::ExtrapolateIntoCollider(CollocatedVectorGrid2* grid)
 {
-    Array2<char> marker(grid->GetDataSize());
+    Array2<char> marker(grid->DataSize());
     auto pos = Unroll2(grid->DataPosition());
 
     ParallelForEachIndex(marker.Size(), [&](size_t i, size_t j) {

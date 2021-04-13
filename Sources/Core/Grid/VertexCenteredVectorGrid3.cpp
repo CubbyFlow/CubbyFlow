@@ -45,7 +45,7 @@ VertexCenteredVectorGrid3& VertexCenteredVectorGrid3::operator=(
     return *this;
 }
 
-Vector3UZ VertexCenteredVectorGrid3::GetDataSize() const
+Vector3UZ VertexCenteredVectorGrid3::DataSize() const
 {
     if (Resolution() != Vector3UZ{ 0, 0, 0 })
     {
@@ -55,7 +55,7 @@ Vector3UZ VertexCenteredVectorGrid3::GetDataSize() const
     return Vector3UZ{ 0, 0, 0 };
 }
 
-Vector3D VertexCenteredVectorGrid3::GetDataOrigin() const
+Vector3D VertexCenteredVectorGrid3::DataOrigin() const
 {
     return Origin();
 }
@@ -72,7 +72,7 @@ void VertexCenteredVectorGrid3::Swap(Grid3* other)
 void VertexCenteredVectorGrid3::Fill(const Vector3D& value,
                                      ExecutionPolicy policy)
 {
-    const Vector3UZ size = GetDataSize();
+    const Vector3UZ size = DataSize();
     ArrayView<Vector<double, 3>, 3> acc = DataView();
 
     ParallelFor(
@@ -87,7 +87,7 @@ void VertexCenteredVectorGrid3::Fill(
     const std::function<Vector3D(const Vector3D&)>& func,
     ExecutionPolicy policy)
 {
-    const Vector3UZ size = GetDataSize();
+    const Vector3UZ size = DataSize();
     ArrayView<Vector<double, 3>, 3> acc = DataView();
     auto pos = Unroll3(DataPosition());
 

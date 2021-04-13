@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_LEVEL_SET_SOLVER3_HPP
 #define CUBBYFLOW_LEVEL_SET_SOLVER3_HPP
 
-#include <Core/Grid/CollocatedVectorGrid3.hpp>
+#include <Core/Grid/CollocatedVectorGrid.hpp>
 #include <Core/Grid/FaceCenteredGrid3.hpp>
 #include <Core/Grid/ScalarGrid.hpp>
 

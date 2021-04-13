@@ -26,7 +26,7 @@ CubicSemiLagrangian2::GetVectorSamplerFunc(
     const CollocatedVectorGrid2& source) const
 {
     const auto sourceSampler = MonotonicCatmullRomArraySampler2<Vector2D>{
-        source.DataView(), source.GridSpacing(), source.GetDataOrigin()
+        source.DataView(), source.GridSpacing(), source.DataOrigin()
     };
     return sourceSampler.Functor();
 }

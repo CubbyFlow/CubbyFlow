@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_CELL_CENTERED_VECTOR_GRID3_HPP
 #define CUBBYFLOW_CELL_CENTERED_VECTOR_GRID3_HPP
 
-#include <Core/Grid/CollocatedVectorGrid3.hpp>
+#include <Core/Grid/CollocatedVectorGrid.hpp>
 
 namespace CubbyFlow
 {
@@ -69,12 +69,12 @@ class CellCenteredVectorGrid3 final : public CollocatedVectorGrid3
         delete;
 
     //! Returns the actual data point size.
-    [[nodiscard]] Vector3UZ GetDataSize() const override;
+    [[nodiscard]] Vector3UZ DataSize() const override;
 
     //! Returns data position for the grid point at (0, 0, 0).
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
-    [[nodiscard]] Vector3D GetDataOrigin() const override;
+    [[nodiscard]] Vector3D DataOrigin() const override;
 
     //! Returns the copy of the grid instance.
     [[nodiscard]] std::shared_ptr<VectorGrid3> Clone() const override;

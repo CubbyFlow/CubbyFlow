@@ -42,7 +42,7 @@ VertexCenteredVectorGrid2& VertexCenteredVectorGrid2::operator=(
     return *this;
 }
 
-Vector2UZ VertexCenteredVectorGrid2::GetDataSize() const
+Vector2UZ VertexCenteredVectorGrid2::DataSize() const
 {
     if (Resolution() != Vector2UZ{ 0, 0 })
     {
@@ -52,7 +52,7 @@ Vector2UZ VertexCenteredVectorGrid2::GetDataSize() const
     return Vector2UZ{ 0, 0 };
 }
 
-Vector2D VertexCenteredVectorGrid2::GetDataOrigin() const
+Vector2D VertexCenteredVectorGrid2::DataOrigin() const
 {
     return Origin();
 }
@@ -69,7 +69,7 @@ void VertexCenteredVectorGrid2::Swap(Grid2* other)
 void VertexCenteredVectorGrid2::Fill(const Vector2D& value,
                                      ExecutionPolicy policy)
 {
-    const Vector2UZ size = GetDataSize();
+    const Vector2UZ size = DataSize();
     ArrayView<Vector<double, 2>, 2> acc = DataView();
 
     ParallelFor(
@@ -82,7 +82,7 @@ void VertexCenteredVectorGrid2::Fill(
     const std::function<Vector2D(const Vector2D&)>& func,
     ExecutionPolicy policy)
 {
-    const Vector2UZ size = GetDataSize();
+    const Vector2UZ size = DataSize();
     ArrayView<Vector<double, 2>, 2> acc = DataView();
     auto pos = Unroll2(DataPosition());
 

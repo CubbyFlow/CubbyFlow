@@ -459,7 +459,7 @@ void FMMLevelSetSolver3::Extrapolate(const CollocatedVectorGrid3& input,
         throw std::invalid_argument{ "input and output have not same shape." };
     }
 
-    Array3<double> sdfGrid{ input.GetDataSize() };
+    Array3<double> sdfGrid{ input.DataSize() };
     auto pos = Unroll3(input.DataPosition());
     ParallelForEachIndex(sdfGrid.Size(), [&](size_t i, size_t j, size_t k) {
         sdfGrid(i, j, k) = sdf.Sample(pos(i, j, k));
@@ -467,12 +467,12 @@ void FMMLevelSetSolver3::Extrapolate(const CollocatedVectorGrid3& input,
 
     const Vector3D gridSpacing = input.GridSpacing();
 
-    Array3<double> u{ input.GetDataSize() };
-    Array3<double> u0{ input.GetDataSize() };
-    Array3<double> v{ input.GetDataSize() };
-    Array3<double> v0{ input.GetDataSize() };
-    Array3<double> w{ input.GetDataSize() };
-    Array3<double> w0{ input.GetDataSize() };
+    Array3<double> u{ input.DataSize() };
+    Array3<double> u0{ input.DataSize() };
+    Array3<double> v{ input.DataSize() };
+    Array3<double> v0{ input.DataSize() };
+    Array3<double> w{ input.DataSize() };
+    Array3<double> w0{ input.DataSize() };
 
     input.ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
         u(i, j, k) = input(i, j, k).x;

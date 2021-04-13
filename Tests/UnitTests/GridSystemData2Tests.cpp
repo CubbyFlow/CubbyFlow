@@ -108,8 +108,8 @@ TEST(GridSystemData2, Serialize)
     EXPECT_EQ(vector0->Resolution(), vector0_2->Resolution());
     EXPECT_EQ(vector0->GridSpacing(), vector0_2->GridSpacing());
     EXPECT_EQ(vector0->Origin(), vector0_2->Origin());
-    EXPECT_EQ(cell_vector0->GetDataSize(), cell_vector0_2->GetDataSize());
-    EXPECT_EQ(cell_vector0->GetDataOrigin(), cell_vector0_2->GetDataOrigin());
+    EXPECT_EQ(cell_vector0->DataSize(), cell_vector0_2->DataSize());
+    EXPECT_EQ(cell_vector0->DataOrigin(), cell_vector0_2->DataOrigin());
     cell_vector0->ForEachDataPointIndex([&](size_t i, size_t j) {
         EXPECT_EQ((*cell_vector0)(i, j), (*cell_vector0_2)(i, j));
     });
@@ -135,8 +135,8 @@ TEST(GridSystemData2, Serialize)
     EXPECT_EQ(vector1->Resolution(), vector1_2->Resolution());
     EXPECT_EQ(vector1->GridSpacing(), vector1_2->GridSpacing());
     EXPECT_EQ(vector1->Origin(), vector1_2->Origin());
-    EXPECT_EQ(vert_vector1->GetDataSize(), vert_vector1_2->GetDataSize());
-    EXPECT_EQ(vert_vector1->GetDataOrigin(), vert_vector1_2->GetDataOrigin());
+    EXPECT_EQ(vert_vector1->DataSize(), vert_vector1_2->DataSize());
+    EXPECT_EQ(vert_vector1->DataOrigin(), vert_vector1_2->DataOrigin());
     vert_vector1->ForEachDataPointIndex([&](size_t i, size_t j) {
         EXPECT_EQ((*vert_vector1)(i, j), (*vert_vector1_2)(i, j));
     });

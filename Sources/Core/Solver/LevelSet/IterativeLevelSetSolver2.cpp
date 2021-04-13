@@ -110,7 +110,7 @@ void IterativeLevelSetSolver2::Extrapolate(const CollocatedVectorGrid2& input,
         };
     }
 
-    Array2<double> sdfGrid{ input.GetDataSize() };
+    Array2<double> sdfGrid{ input.DataSize() };
     auto pos = Unroll2(input.DataPosition());
     ParallelForEachIndex(sdfGrid.Size(), [&](size_t i, size_t j) {
         sdfGrid(i, j) = sdf.Sample(pos(i, j));
@@ -118,10 +118,10 @@ void IterativeLevelSetSolver2::Extrapolate(const CollocatedVectorGrid2& input,
 
     const Vector2D gridSpacing = input.GridSpacing();
 
-    Array2<double> u{ input.GetDataSize() };
-    Array2<double> u0{ input.GetDataSize() };
-    Array2<double> v{ input.GetDataSize() };
-    Array2<double> v0{ input.GetDataSize() };
+    Array2<double> u{ input.DataSize() };
+    Array2<double> u0{ input.DataSize() };
+    Array2<double> v{ input.DataSize() };
+    Array2<double> v0{ input.DataSize() };
 
     input.ParallelForEachDataPointIndex([&](size_t i, size_t j) {
         u(i, j) = input(i, j).x;
