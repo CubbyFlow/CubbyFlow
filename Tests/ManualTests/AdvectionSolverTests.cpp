@@ -7,7 +7,7 @@
 #include <Core/Field/CustomScalarField.hpp>
 #include <Core/Field/CustomVectorField.hpp>
 #include <Core/Geometry/Box.hpp>
-#include <Core/Grid/CellCenteredScalarGrid2.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Grid/CellCenteredVectorGrid2.hpp>
 #include <Core/Solver/Advection/CubicSemiLagrangian2.hpp>
 #include <Core/Solver/Advection/SemiLagrangian2.hpp>
@@ -58,8 +58,8 @@ CUBBYFLOW_END_TEST_F
 CUBBYFLOW_BEGIN_TEST_F(SemiLagrangian2, Zalesak)
 {
     Box2 box(Vector2D(0.5 - 0.025, 0.6), Vector2D(0.5 + 0.025, 0.85));
-    CellCenteredScalarGrid2 sdf(200, 200, 1.0 / 200.0, 1.0 / 200.0);
-    CellCenteredScalarGrid2 sdf2(200, 200, 1.0 / 200.0, 1.0 / 200.0);
+    CellCenteredScalarGrid2 sdf({ 200, 200 }, { 1.0 / 200.0, 1.0 / 200.0 });
+    CellCenteredScalarGrid2 sdf2({ 200, 200 }, { 1.0 / 200.0, 1.0 / 200.0 });
     sdf.Fill([box](const Vector2D& pt) {
         double disk = pt.DistanceTo(Vector2D(0.5, 0.75)) - 0.15;
         double slot = box.ClosestDistance(pt);
@@ -94,8 +94,8 @@ CUBBYFLOW_TESTS(CubicSemiLagrangian2);
 CUBBYFLOW_BEGIN_TEST_F(CubicSemiLagrangian2, Zalesak)
 {
     Box2 box(Vector2D(0.5 - 0.025, 0.6), Vector2D(0.5 + 0.025, 0.85));
-    CellCenteredScalarGrid2 sdf(200, 200, 1.0 / 200.0, 1.0 / 200.0);
-    CellCenteredScalarGrid2 sdf2(200, 200, 1.0 / 200.0, 1.0 / 200.0);
+    CellCenteredScalarGrid2 sdf({ 200, 200 }, { 1.0 / 200.0, 1.0 / 200.0 });
+    CellCenteredScalarGrid2 sdf2({ 200, 200 }, { 1.0 / 200.0, 1.0 / 200.0 });
     sdf.Fill([box](const Vector2D& pt) {
         double disk = pt.DistanceTo(Vector2D(0.5, 0.75)) - 0.15;
         double slot = box.ClosestDistance(pt);

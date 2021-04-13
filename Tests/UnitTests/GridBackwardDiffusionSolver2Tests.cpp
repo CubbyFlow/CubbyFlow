@@ -1,14 +1,14 @@
 #include "pch.hpp"
 
-#include <Core/Grid/CellCenteredScalarGrid2.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Solver/Grid/GridBackwardEulerDiffusionSolver2.hpp>
 
 using namespace CubbyFlow;
 
 TEST(GridBackwardEulerDiffusionSolver2, Solve)
 {
-    CellCenteredScalarGrid2 src(3, 3, 1.0, 1.0, 0.0, 0.0);
-    CellCenteredScalarGrid2 dst(3, 3, 1.0, 1.0, 0.0, 0.0);
+    CellCenteredScalarGrid2 src({ 3, 3 }, { 1.0, 1.0 }, { 0.0, 0.0 });
+    CellCenteredScalarGrid2 dst({ 3, 3 }, { 1.0, 1.0 }, { 0.0, 0.0 });
 
     src(1, 1) = 1.0;
 

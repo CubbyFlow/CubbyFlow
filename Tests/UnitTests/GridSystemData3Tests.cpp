@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Grid/CellCenteredScalarGrid3.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Grid/CellCenteredVectorGrid3.hpp>
 #include <Core/Grid/GridSystemData3.hpp>
 #include <Core/Grid/VertexCenteredScalarGrid3.hpp>

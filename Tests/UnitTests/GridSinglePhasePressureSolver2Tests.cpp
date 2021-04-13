@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Grid/CellCenteredScalarGrid2.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Solver/Grid/GridSinglePhasePressureSolver2.hpp>
 
 using namespace CubbyFlow;
@@ -128,7 +128,7 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseCompressed)
 TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseWithBoundary)
 {
     FaceCenteredGrid2 vel(3, 3);
-    CellCenteredScalarGrid2 boundarySDF(3, 3);
+    CellCenteredScalarGrid2 boundarySDF({ 3, 3 });
 
     for (size_t j = 0; j < 3; ++j)
     {
@@ -195,7 +195,7 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseWithBoundary)
 TEST(GridSinglePhasePressureSolver2, SolveFreeSurface)
 {
     FaceCenteredGrid2 vel(3, 3);
-    CellCenteredScalarGrid2 fluidSDF(3, 3);
+    CellCenteredScalarGrid2 fluidSDF({ 3, 3 });
 
     for (size_t j = 0; j < 3; ++j)
     {
@@ -257,7 +257,7 @@ TEST(GridSinglePhasePressureSolver2, SolveFreeSurface)
 TEST(GridSinglePhasePressureSolver2, SolveFreeSurfaceCompressed)
 {
     FaceCenteredGrid2 vel(3, 3);
-    CellCenteredScalarGrid2 fluidSDF(3, 3);
+    CellCenteredScalarGrid2 fluidSDF({ 3, 3 });
 
     for (size_t j = 0; j < 3; ++j)
     {
@@ -319,8 +319,8 @@ TEST(GridSinglePhasePressureSolver2, SolveFreeSurfaceCompressed)
 TEST(GridSinglePhasePressureSolver2, SolveFreeSurfaceWithBoundary)
 {
     FaceCenteredGrid2 vel(3, 3);
-    CellCenteredScalarGrid2 fluidSDF(3, 3);
-    CellCenteredScalarGrid2 boundarySDF(3, 3);
+    CellCenteredScalarGrid2 fluidSDF({ 3, 3 });
+    CellCenteredScalarGrid2 boundarySDF({ 3, 3 });
 
     for (size_t j = 0; j < 3; ++j)
     {

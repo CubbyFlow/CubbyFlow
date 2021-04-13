@@ -2,7 +2,7 @@
 
 #include "gtest/gtest.h"
 
-#include <Core/Grid/CellCenteredScalarGrid3.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Grid/FaceCenteredGrid3.hpp>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.hpp>
 
@@ -13,7 +13,7 @@ namespace
 void RunExperiment(size_t n, double height, bool compressed)
 {
     FaceCenteredGrid3 vel(n, n, n);
-    CellCenteredScalarGrid3 fluidSDF(n, n, n);
+    CellCenteredScalarGrid3 fluidSDF({ n, n, n });
 
     vel.Fill(Vector3D());
 

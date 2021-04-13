@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Grid/CellCenteredScalarGrid3.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.hpp>
 
 using namespace CubbyFlow;
@@ -8,7 +8,7 @@ using namespace CubbyFlow;
 TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurface)
 {
     FaceCenteredGrid3 vel(3, 3, 3);
-    CellCenteredScalarGrid3 fluidSDF(3, 3, 3);
+    CellCenteredScalarGrid3 fluidSDF({ 3, 3, 3 });
 
     vel.Fill(Vector3D());
 
@@ -87,7 +87,7 @@ TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurface)
 TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurfaceCompressed)
 {
     FaceCenteredGrid3 vel(3, 3, 3);
-    CellCenteredScalarGrid3 fluidSDF(3, 3, 3);
+    CellCenteredScalarGrid3 fluidSDF({ 3, 3, 3 });
 
     vel.Fill(Vector3D());
 

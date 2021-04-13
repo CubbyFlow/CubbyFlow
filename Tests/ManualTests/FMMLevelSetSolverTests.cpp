@@ -3,8 +3,7 @@
 #include <ManualTests.hpp>
 
 #include <Core/Array/ArrayUtils.hpp>
-#include <Core/Grid/CellCenteredScalarGrid2.hpp>
-#include <Core/Grid/CellCenteredScalarGrid3.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver2.hpp>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver3.hpp>
 
@@ -16,7 +15,7 @@ CUBBYFLOW_TESTS(FMMLevelSetSolver2);
 
 CUBBYFLOW_BEGIN_TEST_F(FMMLevelSetSolver2, ReinitializeSmall)
 {
-    CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
+    CellCenteredScalarGrid2 sdf({ 40, 30 }), temp({ 40, 30 });
     FMMLevelSetSolver2 solver;
 
     // Starting from constant field
@@ -63,7 +62,7 @@ CUBBYFLOW_END_TEST_F
 
 CUBBYFLOW_BEGIN_TEST_F(FMMLevelSetSolver2, Reinitialize)
 {
-    CellCenteredScalarGrid2 sdf(160, 120), temp(160, 120);
+    CellCenteredScalarGrid2 sdf({ 160, 120 }), temp({ 160, 120 });
     FMMLevelSetSolver2 solver;
 
     // Starting from constant field
@@ -147,7 +146,7 @@ CUBBYFLOW_TESTS(FMMLevelSetSolver3);
 
 CUBBYFLOW_BEGIN_TEST_F(FMMLevelSetSolver3, ReinitializeSmall)
 {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({ 40, 30, 50 }), temp({ 40, 30, 50 });
 
     sdf.Fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).Length() - 8.0;
@@ -174,8 +173,8 @@ CUBBYFLOW_END_TEST_F
 
 CUBBYFLOW_BEGIN_TEST_F(FMMLevelSetSolver3, ExtrapolateSmall)
 {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
-    CellCenteredScalarGrid3 field(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({ 40, 30, 50 }), temp({ 40, 30, 50 });
+    CellCenteredScalarGrid3 field({ 40, 30, 50 });
 
     sdf.Fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).Length() - 8.0;

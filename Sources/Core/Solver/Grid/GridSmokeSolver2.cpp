@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Grid/CellCenteredScalarGrid2.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Solver/Grid/GridSmokeSolver2.hpp>
 
 namespace CubbyFlow

@@ -1,8 +1,7 @@
 #include "pch.hpp"
 
 #include <Core/Field/CustomVectorField.hpp>
-#include <Core/Grid/CellCenteredScalarGrid2.hpp>
-#include <Core/Grid/CellCenteredScalarGrid3.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Solver/Advection/CubicSemiLagrangian2.hpp>
 #include <Core/Solver/LevelSet/ENOLevelSetSolver2.hpp>
 #include <Core/Solver/LevelSet/ENOLevelSetSolver3.hpp>
@@ -101,7 +100,7 @@ CUBBYFLOW_TESTS(UpwindLevelSetSolver2);
 
 CUBBYFLOW_BEGIN_TEST_F(UpwindLevelSetSolver2, ReinitializeSmall)
 {
-    CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
+    CellCenteredScalarGrid2 sdf({ 40, 30 }), temp({ 40, 30 });
     UpwindLevelSetSolver2 solver;
 
     // Starting from constant field
@@ -152,7 +151,7 @@ CUBBYFLOW_END_TEST_F
 
 CUBBYFLOW_BEGIN_TEST_F(UpwindLevelSetSolver2, Reinitialize)
 {
-    CellCenteredScalarGrid2 sdf(160, 120), temp(160, 120);
+    CellCenteredScalarGrid2 sdf({ 160, 120 }), temp({ 160, 120 });
     UpwindLevelSetSolver2 solver;
 
     // Starting from constant field
@@ -240,7 +239,7 @@ CUBBYFLOW_TESTS(UpwindLevelSetSolver3);
 
 CUBBYFLOW_BEGIN_TEST_F(UpwindLevelSetSolver3, ReinitializeSmall)
 {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({ 40, 30, 50 }), temp({ 40, 30, 50 });
 
     sdf.Fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).Length() - 8.0;
@@ -268,8 +267,8 @@ CUBBYFLOW_END_TEST_F
 
 CUBBYFLOW_BEGIN_TEST_F(UpwindLevelSetSolver3, ExtrapolateSmall)
 {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
-    CellCenteredScalarGrid3 field(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({ 40, 30, 50 }), temp({ 40, 30, 50 });
+    CellCenteredScalarGrid3 field({ 40, 30, 50 });
 
     sdf.Fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).Length() - 8.0;
@@ -310,7 +309,7 @@ CUBBYFLOW_TESTS(ENOLevelSetSolver2);
 
 CUBBYFLOW_BEGIN_TEST_F(ENOLevelSetSolver2, ReinitializeSmall)
 {
-    CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
+    CellCenteredScalarGrid2 sdf({ 40, 30 }), temp({ 40, 30 });
     ENOLevelSetSolver2 solver;
 
     // Starting from constant field
@@ -361,7 +360,7 @@ CUBBYFLOW_END_TEST_F
 
 CUBBYFLOW_BEGIN_TEST_F(ENOLevelSetSolver2, Reinitialize)
 {
-    CellCenteredScalarGrid2 sdf(160, 120), temp(160, 120);
+    CellCenteredScalarGrid2 sdf({ 160, 120 }), temp({ 160, 120 });
     ENOLevelSetSolver2 solver;
 
     // Starting from constant field
@@ -449,7 +448,7 @@ CUBBYFLOW_TESTS(ENOLevelSetSolver3);
 
 CUBBYFLOW_BEGIN_TEST_F(ENOLevelSetSolver3, ReinitializeSmall)
 {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({ 40, 30, 50 }), temp({ 40, 30, 50 });
 
     sdf.Fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).Length() - 8.0;
@@ -476,8 +475,8 @@ CUBBYFLOW_END_TEST_F
 
 CUBBYFLOW_BEGIN_TEST_F(ENOLevelSetSolver3, ExtrapolateSmall)
 {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
-    CellCenteredScalarGrid3 field(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({ 40, 30, 50 }), temp({ 40, 30, 50 });
+    CellCenteredScalarGrid3 field({ 40, 30, 50 });
 
     sdf.Fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).Length() - 8.0;

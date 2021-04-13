@@ -4,8 +4,7 @@
 
 #include <Core/Array/Array.hpp>
 #include <Core/Field/CustomScalarField.hpp>
-#include <Core/Grid/CellCenteredScalarGrid2.hpp>
-#include <Core/Grid/CellCenteredScalarGrid3.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Solver/Grid/GridBackwardEulerDiffusionSolver2.hpp>
 #include <Core/Solver/Grid/GridBackwardEulerDiffusionSolver3.hpp>
 #include <Core/Solver/Grid/GridForwardEulerDiffusionSolver2.hpp>

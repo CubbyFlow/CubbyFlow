@@ -8,8 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Grid/CellCenteredScalarGrid2.hpp>
-#include <Core/Grid/CellCenteredScalarGrid3.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Grid/CellCenteredVectorGrid2.hpp>
 #include <Core/Grid/CellCenteredVectorGrid3.hpp>
 #include <Core/Grid/FaceCenteredGrid2.hpp>

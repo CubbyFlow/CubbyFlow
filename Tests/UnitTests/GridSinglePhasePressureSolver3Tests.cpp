@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Grid/CellCenteredScalarGrid3.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Solver/Grid/GridSinglePhasePressureSolver3.hpp>
 
 using namespace CubbyFlow;
@@ -82,7 +82,7 @@ TEST(GridSinglePhasePressureSolver3, SolveSinglePhase)
 TEST(GridSinglePhasePressureSolver3, SolveSinglePhaseWithBoundary)
 {
     FaceCenteredGrid3 vel(3, 3, 3);
-    CellCenteredScalarGrid3 boundarySDF(3, 3, 3);
+    CellCenteredScalarGrid3 boundarySDF({ 3, 3, 3 });
 
     vel.Fill(Vector3D());
 
@@ -167,7 +167,7 @@ TEST(GridSinglePhasePressureSolver3, SolveSinglePhaseWithBoundary)
 TEST(GridSinglePhasePressureSolver3, SolveFreeSurface)
 {
     FaceCenteredGrid3 vel(3, 3, 3);
-    CellCenteredScalarGrid3 fluidSDF(3, 3, 3);
+    CellCenteredScalarGrid3 fluidSDF({ 3, 3, 3 });
 
     vel.Fill(Vector3D());
 
@@ -246,7 +246,7 @@ TEST(GridSinglePhasePressureSolver3, SolveFreeSurface)
 TEST(GridSinglePhasePressureSolver3, SolveFreeSurfaceCompressed)
 {
     FaceCenteredGrid3 vel(3, 3, 3);
-    CellCenteredScalarGrid3 fluidSDF(3, 3, 3);
+    CellCenteredScalarGrid3 fluidSDF({ 3, 3, 3 });
 
     vel.Fill(Vector3D());
 
@@ -325,8 +325,8 @@ TEST(GridSinglePhasePressureSolver3, SolveFreeSurfaceCompressed)
 TEST(GridSinglePhasePressureSolver3, SolveFreeSurfaceWithBoundary)
 {
     FaceCenteredGrid3 vel(3, 3, 3);
-    CellCenteredScalarGrid3 fluidSDF(3, 3, 3);
-    CellCenteredScalarGrid3 boundarySDF(3, 3, 3);
+    CellCenteredScalarGrid3 fluidSDF({ 3, 3, 3 });
+    CellCenteredScalarGrid3 boundarySDF({ 3, 3, 3 });
 
     vel.Fill(Vector3D());
 

@@ -1,7 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Grid/CellCenteredScalarGrid2.hpp>
-#include <Core/Grid/CellCenteredScalarGrid3.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Solver/LevelSet/ENOLevelSetSolver2.hpp>
 #include <Core/Solver/LevelSet/ENOLevelSetSolver3.hpp>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver2.hpp>
@@ -13,7 +12,7 @@ using namespace CubbyFlow;
 
 TEST(UpwindLevelSetSolver2, Reinitialize)
 {
-    CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
+    CellCenteredScalarGrid2 sdf({ 40, 30 }), temp({ 40, 30 });
 
     sdf.Fill([](const Vector2D& x) {
         return (x - Vector2D(20, 20)).Length() - 8.0;
@@ -33,8 +32,8 @@ TEST(UpwindLevelSetSolver2, Reinitialize)
 
 TEST(UpwindLevelSetSolver2, Extrapolate)
 {
-    CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
-    CellCenteredScalarGrid2 field(40, 30);
+    CellCenteredScalarGrid2 sdf({ 40, 30 }), temp({ 40, 30 });
+    CellCenteredScalarGrid2 field({ 40, 30 });
 
     sdf.Fill([](const Vector2D& x) {
         return (x - Vector2D(20, 20)).Length() - 8.0;
@@ -55,7 +54,7 @@ TEST(UpwindLevelSetSolver2, Extrapolate)
 
 TEST(UpwindLevelSetSolver3, Reinitialize)
 {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({ 40, 30, 50 }), temp({ 40, 30, 50 });
 
     sdf.Fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).Length() - 8.0;
@@ -79,8 +78,8 @@ TEST(UpwindLevelSetSolver3, Reinitialize)
 
 TEST(UpwindLevelSetSolver3, Extrapolate)
 {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
-    CellCenteredScalarGrid3 field(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({ 40, 30, 50 }), temp({ 40, 30, 50 });
+    CellCenteredScalarGrid3 field({ 40, 30, 50 });
 
     sdf.Fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).Length() - 8.0;
@@ -105,7 +104,7 @@ TEST(UpwindLevelSetSolver3, Extrapolate)
 
 TEST(ENOLevelSetSolver2, Reinitialize)
 {
-    CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
+    CellCenteredScalarGrid2 sdf({ 40, 30 }), temp({ 40, 30 });
 
     sdf.Fill([](const Vector2D& x) {
         return (x - Vector2D(20, 20)).Length() - 8.0;
@@ -125,8 +124,8 @@ TEST(ENOLevelSetSolver2, Reinitialize)
 
 TEST(ENOLevelSetSolver2, Extrapolate)
 {
-    CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
-    CellCenteredScalarGrid2 field(40, 30);
+    CellCenteredScalarGrid2 sdf({ 40, 30 }), temp({ 40, 30 });
+    CellCenteredScalarGrid2 field({ 40, 30 });
 
     sdf.Fill([](const Vector2D& x) {
         return (x - Vector2D(20, 20)).Length() - 8.0;
@@ -147,7 +146,7 @@ TEST(ENOLevelSetSolver2, Extrapolate)
 
 TEST(ENOLevelSetSolver3, Reinitialize)
 {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({ 40, 30, 50 }), temp({ 40, 30, 50 });
 
     sdf.Fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).Length() - 8.0;
@@ -164,7 +163,6 @@ TEST(ENOLevelSetSolver3, Reinitialize)
             {
                 EXPECT_NEAR(sdf(i, j, k), temp(i, j, k), 0.5)
                     << i << ", " << j << ", " << k;
-                ;
             }
         }
     }
@@ -172,8 +170,8 @@ TEST(ENOLevelSetSolver3, Reinitialize)
 
 TEST(ENOLevelSetSolver3, Extrapolate)
 {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
-    CellCenteredScalarGrid3 field(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({ 40, 30, 50 }), temp({ 40, 30, 50 });
+    CellCenteredScalarGrid3 field({ 40, 30, 50 });
 
     sdf.Fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).Length() - 8.0;
@@ -191,7 +189,6 @@ TEST(ENOLevelSetSolver3, Extrapolate)
             {
                 EXPECT_DOUBLE_EQ(5.0, temp(i, j, k))
                     << i << ", " << j << ", " << k;
-                ;
             }
         }
     }
@@ -199,7 +196,7 @@ TEST(ENOLevelSetSolver3, Extrapolate)
 
 TEST(FMMLevelSetSolver2, Reinitialize)
 {
-    CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
+    CellCenteredScalarGrid2 sdf({ 40, 30 }), temp({ 40, 30 });
 
     sdf.Fill([](const Vector2D& x) {
         return (x - Vector2D(20, 20)).Length() - 8.0;
@@ -219,8 +216,8 @@ TEST(FMMLevelSetSolver2, Reinitialize)
 
 TEST(FMMLevelSetSolver2, Extrapolate)
 {
-    CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
-    CellCenteredScalarGrid2 field(40, 30);
+    CellCenteredScalarGrid2 sdf({ 40, 30 }), temp({ 40, 30 });
+    CellCenteredScalarGrid2 field({ 40, 30 });
 
     sdf.Fill([](const Vector2D& x) {
         return (x - Vector2D(20, 20)).Length() - 8.0;
@@ -241,7 +238,7 @@ TEST(FMMLevelSetSolver2, Extrapolate)
 
 TEST(FMMLevelSetSolver3, Reinitialize)
 {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({ 40, 30, 50 }), temp({ 40, 30, 50 });
 
     sdf.Fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).Length() - 8.0;
@@ -258,7 +255,6 @@ TEST(FMMLevelSetSolver3, Reinitialize)
             {
                 EXPECT_NEAR(sdf(i, j, k), temp(i, j, k), 0.9)
                     << i << ", " << j << ", " << k;
-                ;
             }
         }
     }
@@ -266,8 +262,8 @@ TEST(FMMLevelSetSolver3, Reinitialize)
 
 TEST(FMMLevelSetSolver3, Extrapolate)
 {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
-    CellCenteredScalarGrid3 field(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({ 40, 30, 50 }), temp({ 40, 30, 50 });
+    CellCenteredScalarGrid3 field({ 40, 30, 50 });
 
     sdf.Fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).Length() - 8.0;
@@ -285,7 +281,6 @@ TEST(FMMLevelSetSolver3, Extrapolate)
             {
                 EXPECT_DOUBLE_EQ(5.0, temp(i, j, k))
                     << i << ", " << j << ", " << k;
-                ;
             }
         }
     }

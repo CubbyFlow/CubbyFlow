@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Grid/CellCenteredScalarGrid3.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 
 using namespace CubbyFlow;
 
@@ -25,7 +25,8 @@ TEST(CellCenteredScalarGrid3, Constructors)
     EXPECT_DOUBLE_EQ(0.5, grid1.DataOrigin().z);
 
     // Constructor with params
-    CellCenteredScalarGrid3 grid2(5, 4, 3, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
+    CellCenteredScalarGrid3 grid2({ 5, 4, 3 }, { 1.0, 2.0, 3.0 },
+                                  { 4.0, 5.0, 6.0 }, 7.0);
     EXPECT_EQ(5u, grid2.Resolution().x);
     EXPECT_EQ(4u, grid2.Resolution().y);
     EXPECT_EQ(3u, grid2.Resolution().z);
@@ -69,8 +70,10 @@ TEST(CellCenteredScalarGrid3, Constructors)
 
 TEST(CellCenteredScalarGrid3, Swap)
 {
-    CellCenteredScalarGrid3 grid1(5, 4, 3, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-    CellCenteredScalarGrid3 grid2(3, 8, 5, 2.0, 3.0, 1.0, 5.0, 4.0, 7.0, 8.0);
+    CellCenteredScalarGrid3 grid1({ 5, 4, 3 }, { 1.0, 2.0, 3.0 },
+                                  { 4.0, 5.0, 6.0 }, 7.0);
+    CellCenteredScalarGrid3 grid2({ 3, 8, 5 }, { 2.0, 3.0, 1.0 },
+                                  { 5.0, 4.0, 7.0 }, 8.0);
     grid1.Swap(&grid2);
 
     EXPECT_EQ(3u, grid1.Resolution().x);
@@ -114,8 +117,10 @@ TEST(CellCenteredScalarGrid3, Swap)
 
 TEST(CellCenteredScalarGrid3, Set)
 {
-    CellCenteredScalarGrid3 grid1(5, 4, 3, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-    CellCenteredScalarGrid3 grid2(3, 8, 5, 2.0, 3.0, 1.0, 5.0, 4.0, 7.0, 8.0);
+    CellCenteredScalarGrid3 grid1({ 5, 4, 3 }, { 1.0, 2.0, 3.0 },
+                                  { 4.0, 5.0, 6.0 }, 7.0);
+    CellCenteredScalarGrid3 grid2({ 3, 8, 5 }, { 2.0, 3.0, 1.0 },
+                                  { 5.0, 4.0, 7.0 }, 8.0);
     grid1.Set(grid2);
 
     EXPECT_EQ(3u, grid1.Resolution().x);
@@ -141,7 +146,8 @@ TEST(CellCenteredScalarGrid3, Set)
 TEST(CellCenteredScalarGrid3, AssignmentOperator)
 {
     CellCenteredScalarGrid3 grid1;
-    CellCenteredScalarGrid3 grid2(3, 8, 5, 2.0, 3.0, 1.0, 5.0, 4.0, 7.0, 8.0);
+    CellCenteredScalarGrid3 grid2({ 3, 8, 5 }, { 2.0, 3.0, 1.0 },
+                                  { 5.0, 4.0, 7.0 }, 8.0);
     grid1 = grid2;
 
     EXPECT_EQ(3u, grid1.Resolution().x);
@@ -166,7 +172,8 @@ TEST(CellCenteredScalarGrid3, AssignmentOperator)
 
 TEST(CellCenteredScalarGrid3, Clone)
 {
-    CellCenteredScalarGrid3 grid2(3, 8, 5, 2.0, 3.0, 1.0, 5.0, 4.0, 7.0, 8.0);
+    CellCenteredScalarGrid3 grid2({ 3, 8, 5 }, { 2.0, 3.0, 1.0 },
+                                  { 5.0, 4.0, 7.0 }, 8.0);
     auto grid1 = grid2.Clone();
 
     EXPECT_EQ(3u, grid1->Resolution().x);
@@ -220,9 +227,9 @@ TEST(CellCenteredScalarGrid3, Builder)
 
     {
         auto grid1 = CellCenteredScalarGrid3::GetBuilder()
-                         .WithResolution(3, 8, 5)
-                         .WithGridSpacing(2, 3, 1)
-                         .WithOrigin(5, 4, 7)
+                         .WithResolution({ 3, 8, 5 })
+                         .WithGridSpacing({ 2, 3, 1 })
+                         .WithOrigin({ 5, 4, 7 })
                          .WithInitialValue(8.0)
                          .Build();
 
@@ -249,7 +256,8 @@ TEST(CellCenteredScalarGrid3, Builder)
 
 TEST(CellCenteredScalarGrid3, Fill)
 {
-    CellCenteredScalarGrid3 grid(5, 4, 6, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0);
+    CellCenteredScalarGrid3 grid({ 5, 4, 6 }, { 1.0, 1.0, 1.0 },
+                                 { 0.0, 0.0, 0.0 }, 0.0);
     grid.Fill(42.0);
 
     for (size_t k = 0; k < grid.DataSize().z; ++k)
@@ -281,7 +289,7 @@ TEST(CellCenteredScalarGrid3, Fill)
 
 TEST(CellCenteredScalarGrid3, GradientAtDataPoint)
 {
-    CellCenteredScalarGrid3 grid(5, 8, 6, 2.0, 3.0, 1.5);
+    CellCenteredScalarGrid3 grid({ 5, 8, 6 }, { 2.0, 3.0, 1.5 });
 
     grid.Fill(1.0);
 
@@ -318,7 +326,7 @@ TEST(CellCenteredScalarGrid3, GradientAtDataPoint)
 
 TEST(CellCenteredScalarGrid3, LaplacianAtAtDataPoint)
 {
-    CellCenteredScalarGrid3 grid(5, 8, 6, 2.0, 3.0, 1.5);
+    CellCenteredScalarGrid3 grid({ 5, 8, 6 }, { 2.0, 3.0, 1.5 });
 
     grid.Fill(1.0);
 
@@ -351,7 +359,8 @@ TEST(CellCenteredScalarGrid3, LaplacianAtAtDataPoint)
 
 TEST(CellCenteredScalarGrid3, Serialization)
 {
-    CellCenteredScalarGrid3 grid1(5, 4, 3, 1.0, 2.0, 3.0, -5.0, 3.0, 1.0);
+    CellCenteredScalarGrid3 grid1({ 5, 4, 3 }, { 1.0, 2.0, 3.0 },
+                                  { -5.0, 3.0, 1.0 });
     grid1.Fill([&](const Vector3D& pt) { return pt.x + pt.y + pt.z; });
 
     // Serialize to in-memory stream
@@ -359,7 +368,8 @@ TEST(CellCenteredScalarGrid3, Serialization)
     grid1.Serialize(&buffer1);
 
     // Deserialize to non-zero array
-    CellCenteredScalarGrid3 grid2(1, 2, 4, 0.5, 1.0, 2.0, 0.5, 2.0, -3.0);
+    CellCenteredScalarGrid3 grid2({ 1, 2, 4 }, { 0.5, 1.0, 2.0 },
+                                  { 0.5, 2.0, -3.0 });
     grid2.Deserialize(buffer1);
     EXPECT_EQ(5u, grid2.Resolution().x);
     EXPECT_EQ(4u, grid2.Resolution().y);

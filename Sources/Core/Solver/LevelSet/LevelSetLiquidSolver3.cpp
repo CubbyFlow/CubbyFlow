@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Grid/CellCenteredScalarGrid3.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Solver/LevelSet/ENOLevelSetSolver3.hpp>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver3.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver3.hpp>
