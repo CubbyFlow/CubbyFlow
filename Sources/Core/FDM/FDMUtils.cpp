@@ -247,4 +247,98 @@ Vector3D Laplacian3(const ConstArrayView3<Vector3D>& data,
            (dUp - dDown) / Square(gridSpacing.y) +
            (dFront - dBack) / Square(gridSpacing.z);
 }
+
+double Divergence2(const ConstArrayView2<Vector2D>& data,
+                   const Vector2D& gridSpacing, size_t i, size_t j)
+{
+    const Vector2UZ& ds = data.Size();
+
+    assert(i < ds.x && j < ds.y);
+
+    const double left = data((i > 0) ? i - 1 : i, j).x;
+    const double right = data((i + 1 < ds.x) ? i + 1 : i, j).x;
+    const double down = data(i, (j > 0) ? j - 1 : j).y;
+    const double up = data(i, (j + 1 < ds.y) ? j + 1 : j).y;
+
+    return 0.5 * (right - left) / gridSpacing.x +
+           0.5 * (up - down) / gridSpacing.y;
+}
+
+double Divergence3(const ConstArrayView3<Vector3D>& data,
+                   const Vector3D& gridSpacing, size_t i, size_t j, size_t k)
+{
+    const Vector3UZ ds = data.Size();
+
+    assert(i < ds.x && j < ds.y && k < ds.z);
+
+    const double left = data((i > 0) ? i - 1 : i, j, k).x;
+    const double right = data((i + 1 < ds.x) ? i + 1 : i, j, k).x;
+    const double down = data(i, (j > 0) ? j - 1 : j, k).y;
+    const double up = data(i, (j + 1 < ds.y) ? j + 1 : j, k).y;
+    const double back = data(i, j, (k > 0) ? k - 1 : k).z;
+    const double front = data(i, j, (k + 1 < ds.z) ? k + 1 : k).z;
+
+    return 0.5 * (right - left) / gridSpacing.x +
+           0.5 * (up - down) / gridSpacing.y +
+           0.5 * (front - back) / gridSpacing.z;
+}
+
+double Curl2(const ConstArrayView2<Vector2D>& data, const Vector2D& gridSpacing,
+             size_t i, size_t j)
+{
+    const Vector2UZ ds = data.Size();
+
+    assert(i < ds.x && j < ds.y);
+
+    const Vector2D left = data((i > 0) ? i - 1 : i, j);
+    const Vector2D right = data((i + 1 < ds.x) ? i + 1 : i, j);
+    const Vector2D bottom = data(i, (j > 0) ? j - 1 : j);
+    const Vector2D top = data(i, (j + 1 < ds.y) ? j + 1 : j);
+
+    const double Fx_ym = bottom.x;
+    const double Fx_yp = top.x;
+
+    const double Fy_xm = left.y;
+    const double Fy_xp = right.y;
+
+    return 0.5 * (Fy_xp - Fy_xm) / gridSpacing.x -
+           0.5 * (Fx_yp - Fx_ym) / gridSpacing.y;
+}
+
+Vector3D Curl3(const ConstArrayView3<Vector3D>& data,
+               const Vector3D& gridSpacing, size_t i, size_t j, size_t k)
+{
+    const Vector3UZ ds = data.Size();
+
+    assert(i < ds.x && j < ds.y && k < ds.z);
+
+    const Vector3D left = data((i > 0) ? i - 1 : i, j, k);
+    const Vector3D right = data((i + 1 < ds.x) ? i + 1 : i, j, k);
+    const Vector3D down = data(i, (j > 0) ? j - 1 : j, k);
+    const Vector3D up = data(i, (j + 1 < ds.y) ? j + 1 : j, k);
+    const Vector3D back = data(i, j, (k > 0) ? k - 1 : k);
+    const Vector3D front = data(i, j, (k + 1 < ds.z) ? k + 1 : k);
+
+    const double Fx_ym = down.x;
+    const double Fx_yp = up.x;
+    const double Fx_zm = back.x;
+    const double Fx_zp = front.x;
+
+    const double Fy_xm = left.y;
+    const double Fy_xp = right.y;
+    const double Fy_zm = back.y;
+    const double Fy_zp = front.y;
+
+    const double Fz_xm = left.z;
+    const double Fz_xp = right.z;
+    const double Fz_ym = down.z;
+    const double Fz_yp = up.z;
+
+    return Vector3D{ 0.5 * (Fz_yp - Fz_ym) / gridSpacing.y -
+                         0.5 * (Fy_zp - Fy_zm) / gridSpacing.z,
+                     0.5 * (Fx_zp - Fx_zm) / gridSpacing.z -
+                         0.5 * (Fz_xp - Fz_xm) / gridSpacing.x,
+                     0.5 * (Fy_xp - Fy_xm) / gridSpacing.x -
+                         0.5 * (Fx_yp - Fx_ym) / gridSpacing.y };
+}
 }  // namespace CubbyFlow

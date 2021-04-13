@@ -57,6 +57,26 @@ double Laplacian3(const ConstArrayView3<double>& data,
 //!        \p data, \p gridSpacing, and array index (\p i, \p j, \p k).
 Vector3D Laplacian3(const ConstArrayView3<Vector3D>& data,
                     const Vector3D& gridSpacing, size_t i, size_t j, size_t k);
+
+//! \brief Returns divergence value from given 2-D vector grid-like array
+//!        \p data, \p gridSpacing, and array index (\p i, \p j).
+double Divergence2(const ConstArrayView2<Vector2D>& data,
+                   const Vector2D& gridSpacing, size_t i, size_t j);
+
+//! \brief Returns diverence value from given 3-D vector grid-like array
+//!        \p data, \p gridSpacing, and array index (\p i, \p j, \p k).
+double Divergence3(const ConstArrayView3<Vector3D>& data,
+                   const Vector3D& gridSpacing, size_t i, size_t j, size_t k);
+
+//! \brief Returns curl value from given 2-D vector grid-like array
+//!        \p data, \p gridSpacing, and array index (\p i, \p j).
+double Curl2(const ConstArrayView2<Vector2D>& data, const Vector2D& gridSpacing,
+             size_t i, size_t j);
+
+//! \brief Returns curl value from given 3-D vector grid-like array
+//!        \p data, \p gridSpacing, and array index (\p i, \p j, \p k).
+Vector3D Curl3(const ConstArrayView3<Vector3D>& data,
+               const Vector3D& gridSpacing, size_t i, size_t j, size_t k);
 }  // namespace CubbyFlow
 
 #endif
