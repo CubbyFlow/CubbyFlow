@@ -10,8 +10,7 @@
 
 #include <API/Python/Grid/VertexCenteredVectorGrid.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Grid/VertexCenteredVectorGrid2.hpp>
-#include <Core/Grid/VertexCenteredVectorGrid3.hpp>
+#include <Core/Grid/VertexCenteredVectorGrid.hpp>
 
 #include <pybind11/pybind11.h>
 

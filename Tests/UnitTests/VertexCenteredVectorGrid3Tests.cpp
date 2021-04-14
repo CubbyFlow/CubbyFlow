@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Grid/VertexCenteredVectorGrid3.hpp>
+#include <Core/Grid/VertexCenteredVectorGrid.hpp>
 
 using namespace CubbyFlow;
 
@@ -25,8 +25,8 @@ TEST(VertexCenteredVectorGrid3, Constructors)
     EXPECT_DOUBLE_EQ(0.0, grid1.DataOrigin().z);
 
     // Constructor with params
-    VertexCenteredVectorGrid3 grid2(5, 4, 3, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0,
-                                    8.0, 9.0);
+    VertexCenteredVectorGrid3 grid2({ 5, 4, 3 }, { 1.0, 2.0, 3.0 },
+                                    { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 });
     EXPECT_EQ(5u, grid2.Resolution().x);
     EXPECT_EQ(4u, grid2.Resolution().y);
     EXPECT_EQ(3u, grid2.Resolution().z);
@@ -74,10 +74,10 @@ TEST(VertexCenteredVectorGrid3, Constructors)
 
 TEST(VertexCenteredVectorGrid3, Swap)
 {
-    VertexCenteredVectorGrid3 grid1(5, 4, 3, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0,
-                                    8.0, 9.0);
-    VertexCenteredVectorGrid3 grid2(3, 8, 5, 2.0, 3.0, 1.0, 5.0, 4.0, 7.0, 8.0,
-                                    1.0, 3.0);
+    VertexCenteredVectorGrid3 grid1({ 5, 4, 3 }, { 1.0, 2.0, 3.0 },
+                                    { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 });
+    VertexCenteredVectorGrid3 grid2({ 3, 8, 5 }, { 2.0, 3.0, 1.0 },
+                                    { 5.0, 4.0, 7.0 }, { 8.0, 1.0, 3.0 });
     grid1.Swap(&grid2);
 
     EXPECT_EQ(3u, grid1.Resolution().x);
@@ -125,10 +125,10 @@ TEST(VertexCenteredVectorGrid3, Swap)
 
 TEST(VertexCenteredVectorGrid3, Set)
 {
-    VertexCenteredVectorGrid3 grid1(5, 4, 3, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0,
-                                    8.0, 9.0);
-    VertexCenteredVectorGrid3 grid2(3, 8, 5, 2.0, 3.0, 1.0, 5.0, 4.0, 7.0, 8.0,
-                                    1.0, 3.0);
+    VertexCenteredVectorGrid3 grid1({ 5, 4, 3 }, { 1.0, 2.0, 3.0 },
+                                    { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 });
+    VertexCenteredVectorGrid3 grid2({ 3, 8, 5 }, { 2.0, 3.0, 1.0 },
+                                    { 5.0, 4.0, 7.0 }, { 8.0, 1.0, 3.0 });
     grid1.Set(grid2);
 
     EXPECT_EQ(3u, grid1.Resolution().x);
@@ -156,8 +156,8 @@ TEST(VertexCenteredVectorGrid3, Set)
 TEST(VertexCenteredVectorGrid3, AssignmentOperator)
 {
     VertexCenteredVectorGrid3 grid1;
-    VertexCenteredVectorGrid3 grid2(3, 8, 5, 2.0, 3.0, 1.0, 5.0, 4.0, 7.0, 8.0,
-                                    1.0, 3.0);
+    VertexCenteredVectorGrid3 grid2({ 3, 8, 5 }, { 2.0, 3.0, 1.0 },
+                                    { 5.0, 4.0, 7.0 }, { 8.0, 1.0, 3.0 });
     grid1 = grid2;
 
     EXPECT_EQ(3u, grid1.Resolution().x);
@@ -184,8 +184,8 @@ TEST(VertexCenteredVectorGrid3, AssignmentOperator)
 
 TEST(VertexCenteredVectorGrid3, Clone)
 {
-    VertexCenteredVectorGrid3 grid2(3, 8, 5, 2.0, 3.0, 1.0, 5.0, 4.0, 7.0, 8.0,
-                                    1.0, 3.0);
+    VertexCenteredVectorGrid3 grid2({ 3, 8, 5 }, { 2.0, 3.0, 1.0 },
+                                    { 5.0, 4.0, 7.0 }, { 8.0, 1.0, 3.0 });
     auto grid1 = grid2.Clone();
 
     auto grid3 = std::dynamic_pointer_cast<VertexCenteredVectorGrid3>(grid1);
@@ -248,10 +248,10 @@ TEST(VertexCenteredVectorGrid3, Builder)
 
     {
         auto grid1 = VertexCenteredVectorGrid3::GetBuilder()
-                         .WithResolution(3, 8, 5)
-                         .WithGridSpacing(2.0, 3.0, 1.0)
-                         .WithOrigin(5, 4, 7)
-                         .WithInitialValue(8, 1, 3)
+                         .WithResolution({ 3, 8, 5 })
+                         .WithGridSpacing({ 2.0, 3.0, 1.0 })
+                         .WithOrigin({ 5, 4, 7 })
+                         .WithInitialValue({ 8, 1, 3 })
                          .Build();
 
         EXPECT_EQ(3u, grid1.Resolution().x);
@@ -279,8 +279,8 @@ TEST(VertexCenteredVectorGrid3, Builder)
 
 TEST(VertexCenteredVectorGrid3, Fill)
 {
-    VertexCenteredVectorGrid3 grid(5, 4, 6, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0,
-                                   0.0, 0.0);
+    VertexCenteredVectorGrid3 grid({ 5, 4, 6 }, { 1.0, 1.0, 1.0 },
+                                   { 0.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0 });
     grid.Fill(Vector3D(42.0, 27.0, 31.0));
 
     for (size_t k = 0; k < grid.DataSize().z; ++k)
@@ -333,7 +333,7 @@ TEST(VertexCenteredVectorGrid3, Fill)
 
 TEST(VertexCenteredVectorGrid3, DivergenceAtDataPoint)
 {
-    VertexCenteredVectorGrid3 grid(5, 8, 6);
+    VertexCenteredVectorGrid3 grid({ 5, 8, 6 });
 
     grid.Fill(Vector3D(1.0, -2.0, 3.0));
 
@@ -364,7 +364,7 @@ TEST(VertexCenteredVectorGrid3, DivergenceAtDataPoint)
 
 TEST(VertexCenteredVectorGrid3, CurlAtDataPoint)
 {
-    VertexCenteredVectorGrid3 grid(5, 8, 6, 2.0, 3.0, 1.5);
+    VertexCenteredVectorGrid3 grid({ 5, 8, 6 }, { 2.0, 3.0, 1.5 });
 
     grid.Fill(Vector3D(1.0, -2.0, 3.0));
 
@@ -401,7 +401,8 @@ TEST(VertexCenteredVectorGrid3, CurlAtDataPoint)
 
 TEST(VertexCenteredVectorGrid3, Serialization)
 {
-    VertexCenteredVectorGrid3 grid1(5, 4, 3, 1.0, 2.0, 3.0, -5.0, 3.0, 1.0);
+    VertexCenteredVectorGrid3 grid1({ 5, 4, 3 }, { 1.0, 2.0, 3.0 },
+                                    { -5.0, 3.0, 1.0 });
     grid1.Fill([&](const Vector3D& pt) { return Vector3D(pt.x, pt.y, pt.z); });
 
     // Serialize to in-memory stream
@@ -409,7 +410,8 @@ TEST(VertexCenteredVectorGrid3, Serialization)
     grid1.Serialize(&buffer1);
 
     // Deserialize to non-zero array
-    VertexCenteredVectorGrid3 grid2(1, 2, 4, 0.5, 1.0, 2.0, 0.5, 2.0, -3.0);
+    VertexCenteredVectorGrid3 grid2({ 1, 2, 4 }, { 0.5, 1.0, 2.0 },
+                                    { 0.5, 2.0, -3.0 });
     grid2.Deserialize(buffer1);
     EXPECT_EQ(5u, grid2.Resolution().x);
     EXPECT_EQ(4u, grid2.Resolution().y);

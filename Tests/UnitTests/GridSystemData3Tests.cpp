@@ -4,7 +4,7 @@
 #include <Core/Grid/CellCenteredVectorGrid.hpp>
 #include <Core/Grid/GridSystemData3.hpp>
 #include <Core/Grid/VertexCenteredScalarGrid.hpp>
-#include <Core/Grid/VertexCenteredVectorGrid3.hpp>
+#include <Core/Grid/VertexCenteredVectorGrid.hpp>
 
 using namespace CubbyFlow;
 
