@@ -27,7 +27,7 @@ template <size_t N>
 class CellCenteredVectorGrid final : public CollocatedVectorGrid<N>
 {
  public:
-    CUBBYFLOW_GRID_TYPE_NAME(CellCenteredVectorGrid, 2)
+    CUBBYFLOW_GRID_TYPE_NAME(CellCenteredVectorGrid, N)
 
     class Builder;
 
