@@ -1,7 +1,7 @@
 #include "pch.hpp"
 
 #include <Core/Grid/CellCenteredScalarGrid.hpp>
-#include <Core/Grid/CellCenteredVectorGrid2.hpp>
+#include <Core/Grid/CellCenteredVectorGrid.hpp>
 #include <Core/Grid/GridSystemData2.hpp>
 #include <Core/Grid/VertexCenteredScalarGrid2.hpp>
 #include <Core/Grid/VertexCenteredVectorGrid2.hpp>

@@ -10,8 +10,7 @@
 
 #include <API/Python/Grid/CellCenteredVectorGrid.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Grid/CellCenteredVectorGrid2.hpp>
-#include <Core/Grid/CellCenteredVectorGrid3.hpp>
+#include <Core/Grid/CellCenteredVectorGrid.hpp>
 
 #include <pybind11/pybind11.h>
 

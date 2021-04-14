@@ -9,8 +9,7 @@
 // property of any third parties.
 
 #include <Core/Grid/CellCenteredScalarGrid.hpp>
-#include <Core/Grid/CellCenteredVectorGrid2.hpp>
-#include <Core/Grid/CellCenteredVectorGrid3.hpp>
+#include <Core/Grid/CellCenteredVectorGrid.hpp>
 #include <Core/Grid/FaceCenteredGrid2.hpp>
 #include <Core/Grid/FaceCenteredGrid3.hpp>
 #include <Core/Grid/VertexCenteredScalarGrid2.hpp>

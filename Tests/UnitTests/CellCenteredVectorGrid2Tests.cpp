@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Grid/CellCenteredVectorGrid2.hpp>
+#include <Core/Grid/CellCenteredVectorGrid.hpp>
 
 using namespace CubbyFlow;
 
@@ -20,7 +20,8 @@ TEST(CellCenteredVectorGrid2, Constructors)
     EXPECT_DOUBLE_EQ(0.5, grid1.DataOrigin().y);
 
     // Constructor with params
-    CellCenteredVectorGrid2 grid2(5, 4, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+    CellCenteredVectorGrid2 grid2({ 5, 4 }, { 1.0, 2.0 }, { 3.0, 4.0 },
+                                  { 5.0, 6.0 });
     EXPECT_EQ(5u, grid2.Resolution().x);
     EXPECT_EQ(4u, grid2.Resolution().y);
     EXPECT_DOUBLE_EQ(1.0, grid2.GridSpacing().x);
@@ -56,8 +57,10 @@ TEST(CellCenteredVectorGrid2, Constructors)
 
 TEST(CellCenteredVectorGrid2, Swap)
 {
-    CellCenteredVectorGrid2 grid1(5, 4, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
-    CellCenteredVectorGrid2 grid2(3, 8, 2.0, 3.0, 1.0, 5.0, 4.0, 7.0);
+    CellCenteredVectorGrid2 grid1({ 5, 4 }, { 1.0, 2.0 }, { 3.0, 4.0 },
+                                  { 5.0, 6.0 });
+    CellCenteredVectorGrid2 grid2({ 3, 8 }, { 2.0, 3.0 }, { 1.0, 5.0 },
+                                  { 4.0, 7.0 });
     grid1.Swap(&grid2);
 
     EXPECT_EQ(3u, grid1.Resolution().x);
@@ -93,8 +96,10 @@ TEST(CellCenteredVectorGrid2, Swap)
 
 TEST(CellCenteredVectorGrid2, Set)
 {
-    CellCenteredVectorGrid2 grid1(5, 4, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
-    CellCenteredVectorGrid2 grid2(3, 8, 2.0, 3.0, 1.0, 5.0, 4.0, 7.0);
+    CellCenteredVectorGrid2 grid1({ 5, 4 }, { 1.0, 2.0 }, { 3.0, 4.0 },
+                                  { 5.0, 6.0 });
+    CellCenteredVectorGrid2 grid2({ 3, 8 }, { 2.0, 3.0 }, { 1.0, 5.0 },
+                                  { 4.0, 7.0 });
     grid1.Set(grid2);
 
     EXPECT_EQ(3u, grid1.Resolution().x);
@@ -116,7 +121,8 @@ TEST(CellCenteredVectorGrid2, Set)
 TEST(CellCenteredVectorGrid2, AssignmentOperator)
 {
     CellCenteredVectorGrid2 grid1;
-    CellCenteredVectorGrid2 grid2(3, 8, 2.0, 3.0, 1.0, 5.0, 4.0, 7.0);
+    CellCenteredVectorGrid2 grid2({ 3, 8 }, { 2.0, 3.0 }, { 1.0, 5.0 },
+                                  { 4.0, 7.0 });
     grid1 = grid2;
 
     EXPECT_EQ(3u, grid1.Resolution().x);
@@ -137,7 +143,8 @@ TEST(CellCenteredVectorGrid2, AssignmentOperator)
 
 TEST(CellCenteredVectorGrid2, Clone)
 {
-    CellCenteredVectorGrid2 grid2(3, 8, 2.0, 3.0, 1.0, 5.0, 4.0, 7.0);
+    CellCenteredVectorGrid2 grid2({ 3, 8 }, { 2.0, 3.0 }, { 1.0, 5.0 },
+                                  { 4.0, 7.0 });
     auto grid1 = grid2.Clone();
 
     auto grid3 = std::dynamic_pointer_cast<CellCenteredVectorGrid2>(grid1);
@@ -187,10 +194,10 @@ TEST(CellCenteredVectorGrid2, Builder)
 
     {
         auto grid1 = CellCenteredVectorGrid2::GetBuilder()
-                         .WithResolution(3, 8)
-                         .WithGridSpacing(2, 3)
-                         .WithOrigin(1, 5)
-                         .WithInitialValue(4, 7)
+                         .WithResolution({ 3, 8 })
+                         .WithGridSpacing({ 2, 3 })
+                         .WithOrigin({ 1, 5 })
+                         .WithInitialValue({ 4, 7 })
                          .Build();
 
         EXPECT_EQ(3u, grid1.Resolution().x);
@@ -212,7 +219,8 @@ TEST(CellCenteredVectorGrid2, Builder)
 
 TEST(CellCenteredVectorGrid2, Fill)
 {
-    CellCenteredVectorGrid2 grid(5, 4, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0);
+    CellCenteredVectorGrid2 grid({ 5, 4 }, { 1.0, 1.0 }, { 0.0, 0.0 },
+                                 { 0.0, 0.0 });
     grid.Fill(Vector2D(42.0, 27.0));
 
     for (size_t j = 0; j < grid.DataSize().y; ++j)
@@ -256,7 +264,7 @@ TEST(CellCenteredVectorGrid2, Fill)
 
 TEST(CellCenteredVectorGrid2, DivergenceAtDataPoint)
 {
-    CellCenteredVectorGrid2 grid(5, 8, 2.0, 3.0);
+    CellCenteredVectorGrid2 grid({ 5, 8 }, { 2.0, 3.0 });
 
     grid.Fill(Vector2D(1.0, -2.0));
 
@@ -281,7 +289,7 @@ TEST(CellCenteredVectorGrid2, DivergenceAtDataPoint)
 
 TEST(CellCenteredVectorGrid2, CurlAtAtDataPoint)
 {
-    CellCenteredVectorGrid2 grid(5, 8, 2.0, 3.0);
+    CellCenteredVectorGrid2 grid({ 5, 8 }, { 2.0, 3.0 });
 
     grid.Fill(Vector2D(1.0, -2.0));
 
@@ -306,7 +314,7 @@ TEST(CellCenteredVectorGrid2, CurlAtAtDataPoint)
 
 TEST(CellCenteredVectorGrid2, Serialization)
 {
-    CellCenteredVectorGrid2 grid1(5, 4, 1.0, 2.0, -5.0, 3.0);
+    CellCenteredVectorGrid2 grid1({ 5, 4 }, { 1.0, 2.0 }, { -5.0, 3.0 });
     grid1.Fill([&](const Vector2D& pt) { return Vector2D(pt.x, pt.y); });
 
     // Serialize to in-memory stream
@@ -314,7 +322,7 @@ TEST(CellCenteredVectorGrid2, Serialization)
     grid1.Serialize(&buffer1);
 
     // Deserialize to non-zero array
-    CellCenteredVectorGrid2 grid2(1, 2, 0.5, 1.0, 0.5, 2.0);
+    CellCenteredVectorGrid2 grid2({ 1, 2 }, { 0.5, 1.0 }, { 0.5, 2.0 });
     grid2.Deserialize(buffer1);
     EXPECT_EQ(5u, grid2.Resolution().x);
     EXPECT_EQ(4u, grid2.Resolution().y);

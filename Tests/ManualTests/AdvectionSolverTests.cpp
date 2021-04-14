@@ -8,7 +8,7 @@
 #include <Core/Field/CustomVectorField.hpp>
 #include <Core/Geometry/Box.hpp>
 #include <Core/Grid/CellCenteredScalarGrid.hpp>
-#include <Core/Grid/CellCenteredVectorGrid2.hpp>
+#include <Core/Grid/CellCenteredVectorGrid.hpp>
 #include <Core/Solver/Advection/CubicSemiLagrangian2.hpp>
 #include <Core/Solver/Advection/SemiLagrangian2.hpp>
 #include <Core/Utils/Constants.hpp>
@@ -21,8 +21,8 @@ CUBBYFLOW_TESTS(SemiLagrangian2);
 
 CUBBYFLOW_BEGIN_TEST_F(SemiLagrangian2, Boundary)
 {
-    CellCenteredVectorGrid2 src(200, 200, 1.0 / 200.0, 1.0 / 200.0);
-    CellCenteredVectorGrid2 dst(200, 200, 1.0 / 200.0, 1.0 / 200.0);
+    CellCenteredVectorGrid2 src({ 200, 200 }, { 1.0 / 200.0, 1.0 / 200.0 });
+    CellCenteredVectorGrid2 dst({ 200, 200 }, { 1.0 / 200.0, 1.0 / 200.0 });
     src.Fill([&](const Vector2D& pt) -> Vector2D {
         return { 0.5 * (std::sin(15 * pt.x) + 1.0),
                  0.5 * (std::sin(15 * pt.y) + 1.0) };
