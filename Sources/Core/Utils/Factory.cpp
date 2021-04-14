@@ -12,8 +12,7 @@
 #include <Core/Grid/CellCenteredVectorGrid.hpp>
 #include <Core/Grid/FaceCenteredGrid2.hpp>
 #include <Core/Grid/FaceCenteredGrid3.hpp>
-#include <Core/Grid/VertexCenteredScalarGrid2.hpp>
-#include <Core/Grid/VertexCenteredScalarGrid3.hpp>
+#include <Core/Grid/VertexCenteredScalarGrid.hpp>
 #include <Core/Grid/VertexCenteredVectorGrid2.hpp>
 #include <Core/Grid/VertexCenteredVectorGrid3.hpp>
 #include <Core/Searcher/PointHashGridSearcher.hpp>

@@ -14,7 +14,7 @@
 #include <Core/Geometry/CustomImplicitSurface.hpp>
 #include <Core/Geometry/ImplicitSurface.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
-#include <Core/Grid/VertexCenteredScalarGrid3.hpp>
+#include <Core/Grid/VertexCenteredScalarGrid.hpp>
 
 namespace CubbyFlow
 {

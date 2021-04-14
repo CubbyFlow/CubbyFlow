@@ -5,7 +5,7 @@
 #include <Core/Array/Array.hpp>
 #include <Core/Geometry/MarchingCubes.hpp>
 #include <Core/Geometry/TriangleMeshToSDF.hpp>
-#include <Core/Grid/VertexCenteredScalarGrid3.hpp>
+#include <Core/Grid/VertexCenteredScalarGrid.hpp>
 
 using namespace CubbyFlow;
 
@@ -48,8 +48,8 @@ CUBBYFLOW_BEGIN_TEST_F(TriangleMeshToSDF, Cube)
     triMesh.AddPointTriangle({ 1, 5, 7 });
     triMesh.AddPointTriangle({ 1, 7, 3 });
 
-    VertexCenteredScalarGrid3 grid(64, 64, 64, 3.0 / 64, 3.0 / 64, 3.0 / 64,
-                                   -1.0, -1.0, -1.0);
+    VertexCenteredScalarGrid3 grid(
+        { 64, 64, 64 }, { 3.0 / 64, 3.0 / 64, 3.0 / 64 }, { -1.0, -1.0, -1.0 });
 
     TriangleMeshToSDF(triMesh, &grid);
 
@@ -89,8 +89,9 @@ CUBBYFLOW_BEGIN_TEST_F(TriangleMeshToSDF, Bunny)
     box.upperCorner += 0.2 * scale;
 
     VertexCenteredScalarGrid3 grid(
-        100, 100, 100, box.Width() / 100, box.Height() / 100, box.Depth() / 100,
-        box.lowerCorner.x, box.lowerCorner.y, box.lowerCorner.z);
+        { 100, 100, 100 },
+        { box.Width() / 100, box.Height() / 100, box.Depth() / 100 },
+        { box.lowerCorner.x, box.lowerCorner.y, box.lowerCorner.z });
 
     TriangleMeshToSDF(triMesh, &grid);
 
@@ -119,8 +120,9 @@ CUBBYFLOW_BEGIN_TEST_F(TriangleMeshToSDF, Dragon)
     box.upperCorner += 0.2 * scale;
 
     VertexCenteredScalarGrid3 grid(
-        100, 100, 100, box.Width() / 100, box.Height() / 100, box.Depth() / 100,
-        box.lowerCorner.x, box.lowerCorner.y, box.lowerCorner.z);
+        { 100, 100, 100 },
+        { box.Width() / 100, box.Height() / 100, box.Depth() / 100 },
+        { box.lowerCorner.x, box.lowerCorner.y, box.lowerCorner.z });
 
     TriangleMeshToSDF(triMesh, &grid);
 

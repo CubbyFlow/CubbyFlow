@@ -1,7 +1,7 @@
 #include "benchmark/benchmark.h"
 
 #include <Core/Geometry/TriangleMeshToSDF.hpp>
-#include <Core/Grid/VertexCenteredScalarGrid3.hpp>
+#include <Core/Grid/VertexCenteredScalarGrid.hpp>
 
 #include <fstream>
 #include <random>

@@ -3,7 +3,7 @@
 #include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Grid/CellCenteredVectorGrid.hpp>
 #include <Core/Grid/GridSystemData3.hpp>
-#include <Core/Grid/VertexCenteredScalarGrid3.hpp>
+#include <Core/Grid/VertexCenteredScalarGrid.hpp>
 #include <Core/Grid/VertexCenteredVectorGrid3.hpp>
 
 using namespace CubbyFlow;

@@ -4,7 +4,7 @@
 
 #include <Core/Array/Array.hpp>
 #include <Core/Geometry/MarchingCubes.hpp>
-#include <Core/Grid/VertexCenteredScalarGrid3.hpp>
+#include <Core/Grid/VertexCenteredScalarGrid.hpp>
 
 using namespace CubbyFlow;
 
@@ -35,7 +35,7 @@ CUBBYFLOW_BEGIN_TEST_F(MarchingCubes, FourCubes)
 {
     TriangleMesh3 triMesh;
 
-    VertexCenteredScalarGrid3 grid(2, 1, 2);
+    VertexCenteredScalarGrid3 grid({ 2, 1, 2 });
     grid.Fill([](const Vector3D& x) { return x.y - 0.5; });
 
     MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.Origin(), &triMesh,
@@ -49,7 +49,7 @@ CUBBYFLOW_BEGIN_TEST_F(MarchingCubes, Sphere)
 {
     TriangleMesh3 triMesh;
 
-    VertexCenteredScalarGrid3 grid(16, 16, 16);
+    VertexCenteredScalarGrid3 grid({ 16, 16, 16 });
     grid.Fill([](const Vector3D& x) {
         return x.DistanceTo(Vector3D{ 8.0, 8.0, 8.0 }) - 3.0;
     });

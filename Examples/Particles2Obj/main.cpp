@@ -15,7 +15,7 @@
 #include <Core/Geometry/MarchingCubes.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Grid/ScalarGrid.hpp>
-#include <Core/Grid/VertexCenteredScalarGrid3.hpp>
+#include <Core/Grid/VertexCenteredScalarGrid.hpp>
 #include <Core/PointsToImplicit/AnisotropicPointsToImplicit3.hpp>
 #include <Core/PointsToImplicit/SPHPointsToImplicit3.hpp>
 #include <Core/PointsToImplicit/SphericalPointsToImplicit3.hpp>

@@ -13,7 +13,7 @@
 #include <Core/Geometry/MarchingCubes.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
 #include <Core/Geometry/TriangleMeshToSDF.hpp>
-#include <Core/Grid/VertexCenteredScalarGrid3.hpp>
+#include <Core/Grid/VertexCenteredScalarGrid.hpp>
 
 #include <Clara/include/clara.hpp>
 
@@ -105,9 +105,9 @@ int main(int argc, char* argv[])
 
     const double dx = box.Width() / resX;
 
-    VertexCenteredScalarGrid3 grid(resX, resolutionY, resolutionZ, dx, dx, dx,
-                                   box.lowerCorner.x, box.lowerCorner.y,
-                                   box.lowerCorner.z);
+    VertexCenteredScalarGrid3 grid(
+        { resX, resolutionY, resolutionZ }, { dx, dx, dx },
+        { box.lowerCorner.x, box.lowerCorner.y, box.lowerCorner.z });
 
     const BoundingBox3D domain = grid.GetBoundingBox();
     printf("Domain size: [%f, %f, %f] x [%f, %f, %f]\n", domain.lowerCorner.x,

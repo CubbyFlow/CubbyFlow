@@ -3,7 +3,7 @@
 #include <ManualTests.hpp>
 
 #include <Core/Geometry/MarchingCubes.hpp>
-#include <Core/Grid/VertexCenteredScalarGrid3.hpp>
+#include <Core/Grid/VertexCenteredScalarGrid.hpp>
 #include <Core/PointsToImplicit/AnisotropicPointsToImplicit3.hpp>
 
 #include <random>
@@ -23,8 +23,8 @@ CUBBYFLOW_BEGIN_TEST_F(AnisotropicPointsToImplicit3, ConvertTwo)
         points.Append({ dist(rng), dist(rng), dist(rng) });
     }
 
-    VertexCenteredScalarGrid3 grid(128, 128, 128, 1.0 / 128, 1.0 / 128,
-                                   1.0 / 128);
+    VertexCenteredScalarGrid3 grid({ 128, 128, 128 },
+                                   { 1.0 / 128, 1.0 / 128, 1.0 / 128 });
 
     AnisotropicPointsToImplicit3 converter(0.3);
     converter.Convert(points.View(), &grid);
@@ -49,8 +49,8 @@ CUBBYFLOW_BEGIN_TEST_F(AnisotropicPointsToImplicit3, ConvertMany)
         points.Append({ dist(rng), dist(rng), dist(rng) });
     }
 
-    VertexCenteredScalarGrid3 grid(128, 128, 128, 1.0 / 128, 1.0 / 128,
-                                   1.0 / 128);
+    VertexCenteredScalarGrid3 grid({ 128, 128, 128 },
+                                   { 1.0 / 128, 1.0 / 128, 1.0 / 128 });
 
     AnisotropicPointsToImplicit3 converter(0.1);
     converter.Convert(points.View(), &grid);
