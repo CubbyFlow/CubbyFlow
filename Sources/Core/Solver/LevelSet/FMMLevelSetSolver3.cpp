@@ -440,7 +440,7 @@ void FMMLevelSetSolver3::Extrapolate(const ScalarGrid3& input,
     }
 
     Array3<double> sdfGrid{ input.DataSize() };
-    auto pos = Unroll3(input.DataPosition());
+    GridDataPositionFunc<3> pos = input.DataPosition();
     ParallelForEachIndex(sdfGrid.Size(), [&](size_t i, size_t j, size_t k) {
         sdfGrid(i, j, k) = sdf.Sample(pos(i, j, k));
     });
@@ -460,7 +460,7 @@ void FMMLevelSetSolver3::Extrapolate(const CollocatedVectorGrid3& input,
     }
 
     Array3<double> sdfGrid{ input.DataSize() };
-    auto pos = Unroll3(input.DataPosition());
+    GridDataPositionFunc<3> pos = input.DataPosition();
     ParallelForEachIndex(sdfGrid.Size(), [&](size_t i, size_t j, size_t k) {
         sdfGrid(i, j, k) = sdf.Sample(pos(i, j, k));
     });

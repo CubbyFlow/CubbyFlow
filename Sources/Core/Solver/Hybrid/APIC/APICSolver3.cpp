@@ -48,9 +48,9 @@ void APICSolver3::TransferFromParticlesToGrids()
     ArrayView3<double> u = flow->UView();
     ArrayView3<double> v = flow->VView();
     ArrayView3<double> w = flow->WView();
-    const auto uPos = Unroll3(flow->UPosition());
-    const auto vPos = Unroll3(flow->VPosition());
-    const auto wPos = Unroll3(flow->WPosition());
+    const auto uPos = flow->UPosition();
+    const auto vPos = flow->VPosition();
+    const auto wPos = flow->WPosition();
     Array3<double> uWeight{ u.Size() };
     Array3<double> vWeight{ v.Size() };
     Array3<double> wWeight{ w.Size() };
@@ -82,7 +82,7 @@ void APICSolver3::TransferFromParticlesToGrids()
 
         for (int j = 0; j < 8; ++j)
         {
-            Vector3D gridPos = uPos(indices[j].x, indices[j].y, indices[j].z);
+            Vector3D gridPos = uPos(indices[j]);
             double apicTerm = m_cX[i].Dot(gridPos - uPosClamped);
 
             u(indices[j]) += weights[j] * (velocities[i].x + apicTerm);
@@ -99,7 +99,7 @@ void APICSolver3::TransferFromParticlesToGrids()
 
         for (int j = 0; j < 8; ++j)
         {
-            Vector3D gridPos = vPos(indices[j].x, indices[j].y, indices[j].z);
+            Vector3D gridPos = vPos(indices[j]);
             double apicTerm = m_cY[i].Dot(gridPos - vPosClamped);
 
             v(indices[j]) += weights[j] * (velocities[i].y + apicTerm);
@@ -116,7 +116,7 @@ void APICSolver3::TransferFromParticlesToGrids()
 
         for (int j = 0; j < 8; ++j)
         {
-            Vector3D gridPos = wPos(indices[j].x, indices[j].y, indices[j].z);
+            Vector3D gridPos = wPos(indices[j]);
             double apicTerm = m_cZ[i].Dot(gridPos - wPosClamped);
 
             w(indices[j]) += weights[j] * (velocities[i].z + apicTerm);

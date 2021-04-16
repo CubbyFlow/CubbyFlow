@@ -183,7 +183,7 @@ void GridSinglePhasePressureSolver2::Solve(const FaceCenteredGrid2& input,
     UNUSED_VARIABLE(timeIntervalInSeconds);
     UNUSED_VARIABLE(boundaryVelocity);
 
-    const auto pos = Unroll2(input.CellCenterPosition());
+    const GridDataPositionFunc<2> pos = input.CellCenterPosition();
 
     BuildMarkers(input.Resolution(), pos, boundarySDF, fluidSDF);
     BuildSystem(input, useCompressed);

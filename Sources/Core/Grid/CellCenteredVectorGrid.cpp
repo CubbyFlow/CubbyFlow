@@ -81,12 +81,12 @@ void CellCenteredVectorGrid<N>::Fill(
 {
     Vector<size_t, N> size = DataSize();
     auto acc = DataView();
-    DataPositionFunc pos = DataPosition();
+    auto pos = DataPosition();
 
     ParallelForEachIndex(
         Vector<size_t, N>::MakeZero(), size,
         [&func, &acc, &pos](auto... indices) {
-            acc(indices...) = func(pos(Vector<size_t, N>(indices...)));
+            acc(indices...) = func(pos(indices...));
         },
         policy);
 }

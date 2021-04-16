@@ -39,13 +39,11 @@ class FaceCenteredGrid final : public VectorGrid<N>
     using VectorGrid<N>::Resolution;
     using VectorGrid<N>::GridSpacing;
 
-    using typename VectorGrid<N>::DataPositionFunc;
-
     //! Read-write scalar data view type.
-    typedef ArrayView<double, N> ScalarDataView;
+    using ScalarDataView = ArrayView<double, N>;
 
     //! Read-only scalar data view type.
-    typedef ArrayView<const double, N> ConstScalarDataView;
+    using ConstScalarDataView = ArrayView<const double, N>;
 
     //! Constructs empty grid.
     FaceCenteredGrid();
@@ -210,20 +208,20 @@ class FaceCenteredGrid final : public VectorGrid<N>
     ConstScalarDataView DataView(size_t i) const;
 
     //! Returns function object that maps u data point to its actual position.
-    DataPositionFunc UPosition() const;
+    GridDataPositionFunc<N> UPosition() const;
 
     //! Returns function object that maps v data point to its actual position.
-    DataPositionFunc VPosition() const;
+    GridDataPositionFunc<N> VPosition() const;
 
     //! Returns function object that maps w data point to its actual position.
     template <size_t M = N>
-    std::enable_if_t<M == 3, DataPositionFunc> WPosition() const
+    std::enable_if_t<M == 3, GridDataPositionFunc<N>> WPosition() const
     {
         return DataPosition(2);
     }
 
     //! Returns function object that maps data point to its actual position.
-    DataPositionFunc DataPosition(size_t i) const;
+    GridDataPositionFunc<N> DataPosition(size_t i) const;
 
     //! Returns data size of the u component.
     Vector<size_t, N> USize() const;

@@ -26,8 +26,8 @@ void GridBlockedBoundaryConditionSolver2::ConstrainVelocity(
     Vector2UZ size = velocity->Resolution();
     ArrayView2<double> u = velocity->UView();
     ArrayView2<double> v = velocity->VView();
-    auto uPos = Unroll2(velocity->UPosition());
-    auto vPos = Unroll2(velocity->VPosition());
+    GridDataPositionFunc<2> uPos = velocity->UPosition();
+    GridDataPositionFunc<2> vPos = velocity->VPosition();
 
     ForEachIndex(m_marker.Size(), [&](size_t i, size_t j) {
         if (m_marker(i, j) == COLLIDER)

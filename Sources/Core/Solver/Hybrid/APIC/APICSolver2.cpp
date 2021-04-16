@@ -45,8 +45,8 @@ void APICSolver2::TransferFromParticlesToGrids()
     // Weighted-average velocity
     ArrayView2<double> u = flow->UView();
     ArrayView2<double> v = flow->VView();
-    const auto uPos = Unroll2(flow->UPosition());
-    const auto vPos = Unroll2(flow->VPosition());
+    const auto uPos = flow->UPosition();
+    const auto vPos = flow->VPosition();
     Array2<double> uWeight{ u.Size() };
     Array2<double> vWeight{ v.Size() };
     m_uMarkers.Resize(u.Size());
@@ -71,7 +71,7 @@ void APICSolver2::TransferFromParticlesToGrids()
 
         for (int j = 0; j < 4; ++j)
         {
-            Vector2D gridPos = uPos(indices[j].x, indices[j].y);
+            Vector2D gridPos = uPos(indices[j]);
             double apicTerm = m_cX[i].Dot(gridPos - uPosClamped);
 
             u(indices[j]) += weights[j] * (velocities[i].x + apicTerm);
@@ -86,7 +86,7 @@ void APICSolver2::TransferFromParticlesToGrids()
 
         for (int j = 0; j < 4; ++j)
         {
-            Vector2D gridPos = vPos(indices[j].x, indices[j].y);
+            Vector2D gridPos = vPos(indices[j]);
             double apicTerm = m_cY[i].Dot(gridPos - vPosClamped);
 
             v(indices[j]) += weights[j] * (velocities[i].y + apicTerm);

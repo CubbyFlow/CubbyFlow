@@ -31,7 +31,6 @@ class CellCenteredVectorGrid final : public CollocatedVectorGrid<N>
 
     class Builder;
 
-    using typename CollocatedVectorGrid<N>::DataPositionFunc;
     using CollocatedVectorGrid<N>::Resize;
     using CollocatedVectorGrid<N>::Resolution;
     using CollocatedVectorGrid<N>::Origin;

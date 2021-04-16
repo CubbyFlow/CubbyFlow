@@ -87,12 +87,12 @@ void VertexCenteredVectorGrid<N>::Fill(
 {
     Vector<size_t, N> size = DataSize();
     auto view = DataView();
-    DataPositionFunc pos = DataPosition();
+    auto pos = DataPosition();
 
     ParallelForEachIndex(
         Vector<size_t, N>::MakeZero(), size,
         [&func, &view, &pos](auto... indices) {
-            view(indices...) = func(pos(Vector<size_t, N>(indices...)));
+            view(indices...) = func(pos(indices...));
         },
         policy);
 }

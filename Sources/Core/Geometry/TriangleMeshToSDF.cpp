@@ -23,7 +23,7 @@ void TriangleMeshToSDF(const TriangleMesh3& mesh, ScalarGrid3* sdf)
         return;
     }
 
-    const auto pos = Unroll3(sdf->DataPosition());
+    const GridDataPositionFunc<3> pos = sdf->DataPosition();
     mesh.UpdateQueryEngine();
     sdf->ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
         const Vector3D p = pos(i, j, k);

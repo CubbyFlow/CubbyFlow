@@ -307,7 +307,7 @@ void PICSolver3::ExtrapolateVelocityToAir()
 void PICSolver3::BuildSignedDistanceField()
 {
     ScalarGrid3Ptr sdf = GetSignedDistanceField();
-    auto sdfPos = Unroll3(sdf->DataPosition());
+    GridDataPositionFunc<3> sdfPos = sdf->DataPosition();
     const double maxH = std::max(
         { sdf->GridSpacing().x, sdf->GridSpacing().y, sdf->GridSpacing().z });
     double radius = 1.2 * maxH / std::sqrt(2.0);

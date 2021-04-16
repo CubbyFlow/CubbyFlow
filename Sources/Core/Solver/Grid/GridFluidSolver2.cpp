@@ -423,7 +423,7 @@ void GridFluidSolver2::ApplyBoundaryCondition() const
 void GridFluidSolver2::ExtrapolateIntoCollider(ScalarGrid2* grid)
 {
     Array2<char> marker(grid->DataSize());
-    auto pos = Unroll2(grid->DataPosition());
+    GridDataPositionFunc<2> pos = grid->DataPosition();
 
     ParallelForEachIndex(marker.Size(), [&](size_t i, size_t j) {
         if (IsInsideSDF(GetColliderSDF()->Sample(pos(i, j))))
@@ -443,7 +443,7 @@ void GridFluidSolver2::ExtrapolateIntoCollider(ScalarGrid2* grid)
 void GridFluidSolver2::ExtrapolateIntoCollider(CollocatedVectorGrid2* grid)
 {
     Array2<char> marker(grid->DataSize());
-    auto pos = Unroll2(grid->DataPosition());
+    GridDataPositionFunc<2> pos = grid->DataPosition();
 
     ParallelForEachIndex(marker.Size(), [&](size_t i, size_t j) {
         if (IsInsideSDF(GetColliderSDF()->Sample(pos(i, j))))
@@ -464,8 +464,8 @@ void GridFluidSolver2::ExtrapolateIntoCollider(FaceCenteredGrid2* grid)
 {
     const ArrayView2<double> u = grid->UView();
     const ArrayView2<double> v = grid->VView();
-    auto uPos = Unroll2(grid->UPosition());
-    auto vPos = Unroll2(grid->VPosition());
+    GridDataPositionFunc<2> uPos = grid->UPosition();
+    GridDataPositionFunc<2> vPos = grid->VPosition();
 
     Array2<char> uMarker{ u.Size() };
     Array2<char> vMarker{ v.Size() };

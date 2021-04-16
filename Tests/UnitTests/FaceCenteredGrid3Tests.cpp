@@ -261,7 +261,7 @@ TEST(FaceCenteredGrid3, ValueAtCellCenter)
         return Vector3D(3.0 * x.y + 1.0, 5.0 * x.z + 7.0, -1.0 * x.x - 9.0);
     });
 
-    auto pos = Unroll3(grid.CellCenterPosition());
+    GridDataPositionFunc<3> pos = grid.CellCenterPosition();
     grid.ForEachCellIndex([&](size_t i, size_t j, size_t k) {
         Vector3D val = grid.ValueAtCellCenter(i, j, k);
         Vector3D x = pos(i, j, k);
@@ -280,7 +280,7 @@ TEST(FaceCenteredGrid3, Sample)
         return Vector3D(3.0 * x.y + 1.0, 5.0 * x.z + 7.0, -1.0 * x.x - 9.0);
     });
 
-    auto pos = Unroll3(grid.CellCenterPosition());
+    GridDataPositionFunc<3> pos = grid.CellCenterPosition();
     grid.ForEachCellIndex([&](size_t i, size_t j, size_t k) {
         Vector3D x = pos(i, j, k);
         Vector3D val = grid.Sample(x);

@@ -156,8 +156,8 @@ void LevelSetLiquidSolver2::ExtrapolateVelocityToAir(double currentCFL)
 
     ArrayView2<double> u = vel->UView();
     ArrayView2<double> v = vel->VView();
-    auto uPos = Unroll2(vel->UPosition());
-    auto vPos = Unroll2(vel->VPosition());
+    GridDataPositionFunc<2> uPos = vel->UPosition();
+    GridDataPositionFunc<2> vPos = vel->VPosition();
 
     Array2<char> uMarker{ u.Size() };
     Array2<char> vMarker{ v.Size() };

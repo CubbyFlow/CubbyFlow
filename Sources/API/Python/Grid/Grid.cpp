@@ -9,6 +9,7 @@
 // property of any third parties.
 
 #include <API/Python/Grid/Grid.hpp>
+#include <API/Python/Utils/pybind11Utils.hpp>
 #include <Core/Grid/Grid.hpp>
 
 #include <pybind11/functional.h>
@@ -18,6 +19,29 @@ using namespace CubbyFlow;
 
 void AddGrid2(pybind11::module& m)
 {
+    pybind11::class_<GridDataPositionFunc<2>>(m, "GridDataPositionFunc2")
+        .def("__call__",
+             [](const GridDataPositionFunc<2>& instance, pybind11::args args) {
+                 size_t i, j;
+                 if (args.size() == 1)
+                 {
+                     const Vector2UZ idx = ObjectToVector2UZ(args[0]);
+                     i = idx.x;
+                     j = idx.y;
+                 }
+                 else if (args.size() == 2)
+                 {
+                     i = args[0].cast<size_t>();
+                     j = args[1].cast<size_t>();
+                 }
+                 else
+                 {
+                     throw std::invalid_argument("Too many arguments.");
+                 }
+
+                 return instance(i, j);
+             });
+
     pybind11::class_<Grid2, Grid2Ptr, Serializable>(
         static_cast<pybind11::handle>(m), "Grid2",
         R"pbdoc(
@@ -71,6 +95,31 @@ void AddGrid2(pybind11::module& m)
 
 void AddGrid3(pybind11::module& m)
 {
+    pybind11::class_<GridDataPositionFunc<3>>(m, "GridDataPositionFunc3")
+        .def("__call__",
+             [](const GridDataPositionFunc<3>& instance, pybind11::args args) {
+                 size_t i, j, k;
+                 if (args.size() == 1)
+                 {
+                     const Vector3UZ idx = ObjectToVector3UZ(args[0]);
+                     i = idx.x;
+                     j = idx.y;
+                     k = idx.z;
+                 }
+                 else if (args.size() == 3)
+                 {
+                     i = args[0].cast<size_t>();
+                     j = args[1].cast<size_t>();
+                     k = args[2].cast<size_t>();
+                 }
+                 else
+                 {
+                     throw std::invalid_argument("Too few/many arguments.");
+                 }
+
+                 return instance(i, j, k);
+             });
+
     pybind11::class_<Grid3, Grid3Ptr, Serializable>(
         static_cast<pybind11::handle>(m), "Grid3",
         R"pbdoc(

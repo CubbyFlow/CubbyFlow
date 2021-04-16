@@ -31,7 +31,6 @@ class ScalarGrid : public ScalarField<N>, public Grid<N>
     using ConstScalarDataView = ArrayView<const double, N>;
 
     // Import Grid members
-    using typename Grid<N>::DataPositionFunc;
     using Grid<N>::GridSpacing;
     using Grid<N>::Origin;
     using Grid<N>::Resolution;
@@ -123,7 +122,7 @@ class ScalarGrid : public ScalarField<N>, public Grid<N>
     ConstScalarDataView DataView() const;
 
     //! Returns the function that maps data point to its position.
-    DataPositionFunc DataPosition() const;
+    GridDataPositionFunc<N> DataPosition() const;
 
     //! Fills the grid with given value.
     void Fill(double value, ExecutionPolicy policy = ExecutionPolicy::Parallel);

@@ -20,8 +20,8 @@ void SemiLagrangian2::Advect(const ScalarGrid2& input, const VectorField2& flow,
         GetScalarSamplerFunc(input);
     double h = std::min(output->GridSpacing().x, output->GridSpacing().y);
 
-    auto inputDataPos = Unroll2(input.DataPosition());
-    auto outputDataPos = Unroll2(output->DataPosition());
+    GridDataPositionFunc<2> inputDataPos = input.DataPosition();
+    GridDataPositionFunc<2> outputDataPos = output->DataPosition();
     ArrayView<double, 2> outputDataAcc = output->DataView();
 
     output->ParallelForEachDataPointIndex([&](size_t i, size_t j) {
@@ -43,8 +43,8 @@ void SemiLagrangian2::Advect(const CollocatedVectorGrid2& input,
         GetVectorSamplerFunc(input);
     double h = std::min(output->GridSpacing().x, output->GridSpacing().y);
 
-    auto inputDataPos = Unroll2(input.DataPosition());
-    auto outputDataPos = Unroll2(output->DataPosition());
+    GridDataPositionFunc<2> inputDataPos = input.DataPosition();
+    GridDataPositionFunc<2> outputDataPos = output->DataPosition();
     ArrayView<Vector<double, 2>, 2> outputDataAcc = output->DataView();
 
     output->ParallelForEachDataPointIndex([&](size_t i, size_t j) {
