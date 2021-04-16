@@ -71,9 +71,9 @@ void TriangulateAndSave(const ScalarGrid3Ptr& sdf, const std::string& rootDir,
 void PrintInfo(const LevelSetLiquidSolver3Ptr& solver)
 {
     const auto grids = solver->GetGridSystemData();
-    const Vector3UZ resolution = grids->GetResolution();
+    const Vector3UZ resolution = grids->Resolution();
     const BoundingBox3D domain = grids->GetBoundingBox();
-    const Vector3D gridSpacing = grids->GetGridSpacing();
+    const Vector3D gridSpacing = grids->GridSpacing();
 
     printf("Resolution: %zu x %zu x %zu\n", resolution.x, resolution.y,
            resolution.z);

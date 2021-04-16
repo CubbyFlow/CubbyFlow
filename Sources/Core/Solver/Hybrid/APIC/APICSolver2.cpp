@@ -27,7 +27,7 @@ APICSolver2::APICSolver2(const Vector2UZ& resolution,
 
 void APICSolver2::TransferFromParticlesToGrids()
 {
-    FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
+    FaceCenteredGrid2Ptr flow = GetGridSystemData()->Velocity();
     const ParticleSystemData2Ptr particles = GetParticleSystemData();
     const ArrayView1<Vector2<double>> positions = particles->Positions();
     ArrayView1<Vector2<double>> velocities = particles->Velocities();
@@ -111,7 +111,7 @@ void APICSolver2::TransferFromParticlesToGrids()
 
 void APICSolver2::TransferFromGridsToParticles()
 {
-    const FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
+    const FaceCenteredGrid2Ptr flow = GetGridSystemData()->Velocity();
     ParticleSystemData2Ptr particles = GetParticleSystemData();
     ArrayView1<Vector2<double>> positions = particles->Positions();
     ArrayView1<Vector2<double>> velocities = particles->Velocities();

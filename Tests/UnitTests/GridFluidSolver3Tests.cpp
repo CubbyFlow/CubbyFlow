@@ -20,10 +20,10 @@ TEST(GridFluidSolver3, Constructor)
 
     // Check grid system data
     EXPECT_TRUE(solver.GetGridSystemData() != nullptr);
-    EXPECT_EQ(1u, solver.GetGridSystemData()->GetResolution().x);
-    EXPECT_EQ(1u, solver.GetGridSystemData()->GetResolution().y);
-    EXPECT_EQ(1u, solver.GetGridSystemData()->GetResolution().z);
-    EXPECT_EQ(solver.GetGridSystemData()->GetVelocity(), solver.GetVelocity());
+    EXPECT_EQ(1u, solver.GetGridSystemData()->Resolution().x);
+    EXPECT_EQ(1u, solver.GetGridSystemData()->Resolution().y);
+    EXPECT_EQ(1u, solver.GetGridSystemData()->Resolution().z);
+    EXPECT_EQ(solver.GetGridSystemData()->Velocity(), solver.GetVelocity());
 
     // Collider should be null
     EXPECT_TRUE(solver.GetCollider() == nullptr);

@@ -87,9 +87,9 @@ void SaveParticleAsXYZ(const ParticleSystemData3Ptr& particles,
 void PrintInfo(const PICSolver3Ptr& solver)
 {
     const auto grids = solver->GetGridSystemData();
-    const Vector3UZ resolution = grids->GetResolution();
+    const Vector3UZ resolution = grids->Resolution();
     const BoundingBox3D domain = grids->GetBoundingBox();
-    const Vector3D gridSpacing = grids->GetGridSpacing();
+    const Vector3D gridSpacing = grids->GridSpacing();
 
     printf("Resolution: %zu x %zu x %zu\n", resolution.x, resolution.y,
            resolution.z);
@@ -133,7 +133,7 @@ void RunExample1(const std::string& rootDir, size_t resolutionX,
     const auto grids = solver->GetGridSystemData();
     auto particles = solver->GetParticleSystemData();
 
-    const Vector3D gridSpacing = grids->GetGridSpacing();
+    const Vector3D gridSpacing = grids->GridSpacing();
     const double dx = gridSpacing.x;
     BoundingBox3D domain = grids->GetBoundingBox();
 
@@ -192,7 +192,7 @@ void RunExample2(const std::string& rootDir, size_t resolutionX,
     const auto grids = solver->GetGridSystemData();
     auto particles = solver->GetParticleSystemData();
 
-    const Vector3D gridSpacing = grids->GetGridSpacing();
+    const Vector3D gridSpacing = grids->GridSpacing();
     double dx = gridSpacing.x;
     BoundingBox3D domain = grids->GetBoundingBox();
 
@@ -251,7 +251,7 @@ void RunExample3(const std::string& rootDir, size_t resolutionX,
     solver->SetUseCompressedLinearSystem(true);
 
     const auto grids = solver->GetGridSystemData();
-    const double dx = grids->GetGridSpacing().x;
+    const double dx = grids->GridSpacing().x;
     const BoundingBox3D domain = grids->GetBoundingBox();
     const double lz = domain.Depth();
 
@@ -333,7 +333,7 @@ void RunExample4(const std::string& rootDir, size_t resolutionX,
     solver->SetUseCompressedLinearSystem(true);
 
     const auto grids = solver->GetGridSystemData();
-    const double dx = grids->GetGridSpacing().x;
+    const double dx = grids->GridSpacing().x;
     const BoundingBox3D domain = grids->GetBoundingBox();
     const double lz = domain.Depth();
 
@@ -416,7 +416,7 @@ void RunExample5(const std::string& rootDir, size_t resolutionX,
     solver->SetUseCompressedLinearSystem(true);
 
     const auto grids = solver->GetGridSystemData();
-    const double dx = grids->GetGridSpacing().x;
+    const double dx = grids->GridSpacing().x;
     const BoundingBox3D domain = grids->GetBoundingBox();
     const double lz = domain.Depth();
 

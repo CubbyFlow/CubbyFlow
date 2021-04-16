@@ -31,7 +31,7 @@ CUBBYFLOW_BEGIN_TEST_F(PICSolver3, WaterDrop)
     auto grids = solver->GetGridSystemData();
     auto particles = solver->GetParticleSystemData();
 
-    Vector3D gridSpacing = grids->GetGridSpacing();
+    Vector3D gridSpacing = grids->GridSpacing();
     double dx = gridSpacing.x;
     BoundingBox3D domain = grids->GetBoundingBox();
 
@@ -91,7 +91,7 @@ CUBBYFLOW_BEGIN_TEST_F(PICSolver3, DamBreakingWithCollider)
     solver->SetUseCompressedLinearSystem(true);
 
     auto grids = solver->GetGridSystemData();
-    double dx = grids->GetGridSpacing().x;
+    double dx = grids->GridSpacing().x;
     BoundingBox3D domain = grids->GetBoundingBox();
     double lz = domain.Depth();
 

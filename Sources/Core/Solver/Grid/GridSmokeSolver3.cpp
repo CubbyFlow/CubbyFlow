@@ -93,12 +93,12 @@ void GridSmokeSolver3::SetTemperatureDecayFactor(double newValue)
 
 ScalarGrid3Ptr GridSmokeSolver3::GetSmokeDensity() const
 {
-    return GetGridSystemData()->GetAdvectableScalarDataAt(m_smokeDensityDataID);
+    return GetGridSystemData()->AdvectableScalarDataAt(m_smokeDensityDataID);
 }
 
 ScalarGrid3Ptr GridSmokeSolver3::GetTemperature() const
 {
-    return GetGridSystemData()->GetAdvectableScalarDataAt(m_temperatureDataID);
+    return GetGridSystemData()->AdvectableScalarDataAt(m_temperatureDataID);
 }
 
 void GridSmokeSolver3::OnEndAdvanceTimeStep(double timeIntervalInSeconds)
@@ -157,7 +157,7 @@ void GridSmokeSolver3::ComputeDiffusion(double timeIntervalInSeconds)
 void GridSmokeSolver3::ComputeBuoyancyForce(double timeIntervalInSeconds)
 {
     const GridSystemData3Ptr grids = GetGridSystemData();
-    FaceCenteredGrid3Ptr vel = grids->GetVelocity();
+    FaceCenteredGrid3Ptr vel = grids->Velocity();
 
     Vector3D up{ 0, 0, 1 };
     if (GetGravity().LengthSquared() > std::numeric_limits<double>::epsilon())

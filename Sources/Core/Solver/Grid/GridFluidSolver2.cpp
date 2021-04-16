@@ -61,7 +61,7 @@ void GridFluidSolver2::SetViscosityCoefficient(double newValue)
 
 double GridFluidSolver2::GetCFL(double timeIntervalInSeconds) const
 {
-    FaceCenteredGrid2Ptr vel = m_grids->GetVelocity();
+    FaceCenteredGrid2Ptr vel = m_grids->Velocity();
     double maxVel = 0.0;
 
     vel->ForEachCellIndex([&](size_t i, size_t j) {
@@ -71,7 +71,7 @@ double GridFluidSolver2::GetCFL(double timeIntervalInSeconds) const
         maxVel = std::max(maxVel, v.y);
     });
 
-    const Vector2D gridSpacing = m_grids->GetGridSpacing();
+    const Vector2D gridSpacing = m_grids->GridSpacing();
     const double minGridSize = std::min(gridSpacing.x, gridSpacing.y);
 
     return maxVel * timeIntervalInSeconds / minGridSize;
@@ -164,22 +164,22 @@ void GridFluidSolver2::ResizeGrid(const Vector2UZ& newSize,
 
 Vector2UZ GridFluidSolver2::GetResolution() const
 {
-    return m_grids->GetResolution();
+    return m_grids->Resolution();
 }
 
 Vector2D GridFluidSolver2::GetGridSpacing() const
 {
-    return m_grids->GetGridSpacing();
+    return m_grids->GridSpacing();
 }
 
 Vector2D GridFluidSolver2::GetGridOrigin() const
 {
-    return m_grids->GetOrigin();
+    return m_grids->Origin();
 }
 
 const FaceCenteredGrid2Ptr& GridFluidSolver2::GetVelocity() const
 {
-    return m_grids->GetVelocity();
+    return m_grids->Velocity();
 }
 
 const Collider2Ptr& GridFluidSolver2::GetCollider() const
@@ -220,7 +220,7 @@ void GridFluidSolver2::OnInitialize()
 void GridFluidSolver2::OnAdvanceTimeStep(double timeIntervalInSeconds)
 {
     // The minimum grid resolution is 1x1.
-    if (m_grids->GetResolution().x == 0 || m_grids->GetResolution().y == 0)
+    if (m_grids->Resolution().x == 0 || m_grids->Resolution().y == 0)
     {
         CUBBYFLOW_WARN << "Empty grid. Skipping the simulation.";
         return;
@@ -312,11 +312,11 @@ void GridFluidSolver2::ComputeAdvection(double timeIntervalInSeconds)
     if (m_advectionSolver != nullptr)
     {
         // Solve advections for custom scalar fields
-        size_t n = m_grids->GetNumberOfAdvectableScalarData();
+        size_t n = m_grids->NumberOfAdvectableScalarData();
 
         for (size_t i = 0; i < n; ++i)
         {
-            ScalarGrid2Ptr grid = m_grids->GetAdvectableScalarDataAt(i);
+            ScalarGrid2Ptr grid = m_grids->AdvectableScalarDataAt(i);
             std::shared_ptr<ScalarGrid2> grid0 = grid->Clone();
 
             m_advectionSolver->Advect(*grid0, *vel, timeIntervalInSeconds,
@@ -325,8 +325,8 @@ void GridFluidSolver2::ComputeAdvection(double timeIntervalInSeconds)
         }
 
         // Solve advections for custom vector fields
-        n = m_grids->GetNumberOfAdvectableVectorData();
-        const size_t velIdx = m_grids->GetVelocityIndex();
+        n = m_grids->NumberOfAdvectableVectorData();
+        const size_t velIdx = m_grids->VelocityIndex();
 
         for (size_t i = 0; i < n; ++i)
         {
@@ -336,7 +336,7 @@ void GridFluidSolver2::ComputeAdvection(double timeIntervalInSeconds)
                 continue;
             }
 
-            VectorGrid2Ptr grid = m_grids->GetAdvectableVectorDataAt(i);
+            VectorGrid2Ptr grid = m_grids->AdvectableVectorDataAt(i);
             std::shared_ptr<VectorGrid2> grid0 = grid->Clone();
 
             std::shared_ptr<CollocatedVectorGrid2> collocated =
@@ -387,7 +387,7 @@ void GridFluidSolver2::ComputeGravity(double timeIntervalInSeconds)
 {
     if (m_gravity.LengthSquared() > std::numeric_limits<double>::epsilon())
     {
-        FaceCenteredGrid2Ptr vel = m_grids->GetVelocity();
+        FaceCenteredGrid2Ptr vel = m_grids->Velocity();
         ArrayView2<double> u = vel->UView();
         ArrayView2<double> v = vel->VView();
 
@@ -411,7 +411,7 @@ void GridFluidSolver2::ComputeGravity(double timeIntervalInSeconds)
 
 void GridFluidSolver2::ApplyBoundaryCondition() const
 {
-    const FaceCenteredGrid2Ptr vel = m_grids->GetVelocity();
+    const FaceCenteredGrid2Ptr vel = m_grids->Velocity();
 
     if (vel != nullptr && m_boundaryConditionSolver != nullptr)
     {
@@ -524,8 +524,8 @@ void GridFluidSolver2::BeginAdvanceTimeStep(double timeIntervalInSeconds)
     if (m_boundaryConditionSolver != nullptr)
     {
         m_boundaryConditionSolver->UpdateCollider(
-            m_collider, m_grids->GetResolution(), m_grids->GetGridSpacing(),
-            m_grids->GetOrigin());
+            m_collider, m_grids->Resolution(), m_grids->GridSpacing(),
+            m_grids->Origin());
     }
 
     // Apply boundary condition to the velocity field in case the field got

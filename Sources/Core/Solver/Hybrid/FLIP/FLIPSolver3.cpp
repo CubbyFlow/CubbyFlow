@@ -41,10 +41,10 @@ void FLIPSolver3::TransferFromParticlesToGrids()
     PICSolver3::TransferFromParticlesToGrids();
 
     // Store snapshot
-    const FaceCenteredGrid3Ptr vel = GetGridSystemData()->GetVelocity();
-    ConstArrayView3<double> u = GetGridSystemData()->GetVelocity()->UView();
-    ConstArrayView3<double> v = GetGridSystemData()->GetVelocity()->VView();
-    ConstArrayView3<double> w = GetGridSystemData()->GetVelocity()->WView();
+    const FaceCenteredGrid3Ptr vel = GetGridSystemData()->Velocity();
+    ConstArrayView3<double> u = GetGridSystemData()->Velocity()->UView();
+    ConstArrayView3<double> v = GetGridSystemData()->Velocity()->VView();
+    ConstArrayView3<double> w = GetGridSystemData()->Velocity()->WView();
     m_uDelta.Resize(u.Size());
     m_vDelta.Resize(v.Size());
     m_wDelta.Resize(w.Size());
@@ -59,7 +59,7 @@ void FLIPSolver3::TransferFromParticlesToGrids()
 
 void FLIPSolver3::TransferFromGridsToParticles()
 {
-    FaceCenteredGrid3Ptr flow = GetGridSystemData()->GetVelocity();
+    FaceCenteredGrid3Ptr flow = GetGridSystemData()->Velocity();
     ArrayView1<Vector3<double>> positions =
         GetParticleSystemData()->Positions();
     ArrayView1<Vector3<double>> velocities =

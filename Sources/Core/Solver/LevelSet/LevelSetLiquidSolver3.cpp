@@ -38,7 +38,7 @@ LevelSetLiquidSolver3::LevelSetLiquidSolver3(const Vector3UZ& resolution,
 
 ScalarGrid3Ptr LevelSetLiquidSolver3::GetSignedDistanceField() const
 {
-    return GetGridSystemData()->GetAdvectableScalarDataAt(
+    return GetGridSystemData()->AdvectableScalarDataAt(
         m_signedDistanceFieldId);
 }
 
@@ -153,7 +153,7 @@ void LevelSetLiquidSolver3::Reinitialize(double currentCfl)
 void LevelSetLiquidSolver3::ExtrapolateVelocityToAir(double currentCFL)
 {
     ScalarGrid3Ptr sdf = GetSignedDistanceField();
-    FaceCenteredGrid3Ptr vel = GetGridSystemData()->GetVelocity();
+    FaceCenteredGrid3Ptr vel = GetGridSystemData()->Velocity();
 
     ArrayView3<double> u = vel->UView();
     ArrayView3<double> v = vel->VView();

@@ -34,7 +34,7 @@ PICSolver2::PICSolver2(const Vector2UZ& resolution, const Vector2D& gridSpacing,
 
 ScalarGrid2Ptr PICSolver2::GetSignedDistanceField() const
 {
-    return GetGridSystemData()->GetScalarDataAt(m_signedDistanceFieldID);
+    return GetGridSystemData()->ScalarDataAt(m_signedDistanceFieldID);
 }
 
 const ParticleSystemData2Ptr& PICSolver2::GetParticleSystemData() const
@@ -118,7 +118,7 @@ ScalarField2Ptr PICSolver2::GetFluidSDF() const
 
 void PICSolver2::TransferFromParticlesToGrids()
 {
-    FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
+    FaceCenteredGrid2Ptr flow = GetGridSystemData()->Velocity();
     ArrayView1<Vector2<double>> positions = m_particles->Positions();
     ArrayView1<Vector2<double>> velocities = m_particles->Velocities();
     const size_t numberOfParticles = m_particles->NumberOfParticles();
@@ -181,7 +181,7 @@ void PICSolver2::TransferFromParticlesToGrids()
 
 void PICSolver2::TransferFromGridsToParticles()
 {
-    FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
+    FaceCenteredGrid2Ptr flow = GetGridSystemData()->Velocity();
     ArrayView1<Vector2<double>> positions = m_particles->Positions();
     ArrayView1<Vector2<double>> velocities = m_particles->Velocities();
     const size_t numberOfParticles = m_particles->NumberOfParticles();
@@ -192,7 +192,7 @@ void PICSolver2::TransferFromGridsToParticles()
 
 void PICSolver2::MoveParticles(double timeIntervalInSeconds)
 {
-    FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
+    FaceCenteredGrid2Ptr flow = GetGridSystemData()->Velocity();
     ArrayView1<Vector2<double>> positions = m_particles->Positions();
     ArrayView1<Vector2<double>> velocities = m_particles->Velocities();
     const size_t numberOfParticles = m_particles->NumberOfParticles();
@@ -260,7 +260,7 @@ void PICSolver2::MoveParticles(double timeIntervalInSeconds)
 
 void PICSolver2::ExtrapolateVelocityToAir()
 {
-    FaceCenteredGrid2Ptr vel = GetGridSystemData()->GetVelocity();
+    FaceCenteredGrid2Ptr vel = GetGridSystemData()->Velocity();
     const ArrayView2<double> u = vel->UView();
     const ArrayView2<double> v = vel->VView();
 

@@ -26,7 +26,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressure)
     GridSystemData2Ptr data = solver.GetGridSystemData();
     double dx = 1.0 / 32.0;
     data->Resize(Vector2UZ(64, 32), Vector2D(dx, dx), Vector2D());
-    data->GetVelocity()->Fill(Vector2D(1.0, 0.0));
+    data->Velocity()->Fill(Vector2D(1.0, 0.0));
 
     BoundingBox2D domain = data->GetBoundingBox();
 
@@ -45,10 +45,10 @@ CUBBYFLOW_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressure)
     Array2<double> pressure(64, 32);
 
     ForEachIndex(dataU.Size(), [&](size_t i, size_t j) {
-        Vector2D vel = data->GetVelocity()->ValueAtCellCenter(i, j);
+        Vector2D vel = data->Velocity()->ValueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
-        div(i, j) = data->GetVelocity()->DivergenceAtCellCenter(i, j);
+        div(i, j) = data->Velocity()->DivergenceAtCellCenter(i, j);
         pressure(i, j) = ppe->GetPressure()(i, j);
     });
 
@@ -73,7 +73,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridFluidSolver2,
     GridSystemData2Ptr data = solver.GetGridSystemData();
     double dx = 1.0 / 32.0;
     data->Resize(Vector2UZ(64, 32), Vector2D(dx, dx), Vector2D());
-    data->GetVelocity()->Fill(Vector2D(1.0, 0.0));
+    data->Velocity()->Fill(Vector2D(1.0, 0.0));
 
     BoundingBox2D domain = data->GetBoundingBox();
 
@@ -92,10 +92,10 @@ CUBBYFLOW_BEGIN_TEST_F(GridFluidSolver2,
     Array2<double> pressure(64, 32);
 
     ForEachIndex(dataU.Size(), [&](size_t i, size_t j) {
-        Vector2D vel = data->GetVelocity()->ValueAtCellCenter(i, j);
+        Vector2D vel = data->Velocity()->ValueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
-        div(i, j) = data->GetVelocity()->DivergenceAtCellCenter(i, j);
+        div(i, j) = data->Velocity()->DivergenceAtCellCenter(i, j);
         pressure(i, j) = ppe->GetPressure()(i, j);
     });
 
@@ -123,7 +123,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressureOpen)
     GridSystemData2Ptr data = solver.GetGridSystemData();
     double dx = 1.0 / 32.0;
     data->Resize(Vector2UZ(64, 32), Vector2D(dx, dx), Vector2D());
-    data->GetVelocity()->Fill(Vector2D(1.0, 0.0));
+    data->Velocity()->Fill(Vector2D(1.0, 0.0));
 
     BoundingBox2D domain = data->GetBoundingBox();
 
@@ -142,10 +142,10 @@ CUBBYFLOW_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressureOpen)
     Array2<double> pressure(64, 32);
 
     ForEachIndex(dataU.Size(), [&](size_t i, size_t j) {
-        Vector2D vel = data->GetVelocity()->ValueAtCellCenter(i, j);
+        Vector2D vel = data->Velocity()->ValueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
-        div(i, j) = data->GetVelocity()->DivergenceAtCellCenter(i, j);
+        div(i, j) = data->Velocity()->DivergenceAtCellCenter(i, j);
         pressure(i, j) = ppe->GetPressure()(i, j);
     });
 
