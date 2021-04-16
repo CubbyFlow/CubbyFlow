@@ -13,7 +13,7 @@
 
 #include <Core/Field/ScalarField.hpp>
 #include <Core/Geometry/Collider.hpp>
-#include <Core/Grid/FaceCenteredGrid3.hpp>
+#include <Core/Grid/FaceCenteredGrid.hpp>
 
 namespace CubbyFlow
 {

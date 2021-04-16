@@ -103,10 +103,10 @@ class GridForwardEulerDiffusionSolver3 final : public GridDiffusionSolver3
                    -std::numeric_limits<double>::max() }) override;
 
  private:
-    void BuildMarkers(
-        const Vector3UZ& size,
-        const std::function<Vector3D(size_t, size_t, size_t)>& pos,
-        const ScalarField3& boundarySDF, const ScalarField3& fluidSDF);
+    void BuildMarkers(const Vector3UZ& size,
+                      const std::function<Vector3D(const Vector3UZ&)>& pos,
+                      const ScalarField3& boundarySDF,
+                      const ScalarField3& fluidSDF);
 
     Array3<char> m_markers;
 };

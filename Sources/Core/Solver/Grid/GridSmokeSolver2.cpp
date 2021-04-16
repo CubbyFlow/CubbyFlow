@@ -181,28 +181,28 @@ void GridSmokeSolver2::ComputeBuoyancyForce(double timeIntervalInSeconds)
 
         ArrayView2<double> u = vel->UView();
         ArrayView2<double> v = vel->VView();
-        auto uPos = Unroll2(vel->UPosition());
-        auto vPos = Unroll2(vel->VPosition());
+        auto uPos = vel->UPosition();
+        auto vPos = vel->VPosition();
 
         if (std::abs(up.x) > std::numeric_limits<double>::epsilon())
         {
-            vel->ParallelForEachUIndex([&](size_t i, size_t j) {
-                const Vector2D pt = uPos(i, j);
+            vel->ParallelForEachUIndex([&](const Vector2UZ& idx) {
+                const Vector2D pt = uPos(idx);
                 const double fBuoy =
                     m_buoyancySmokeDensityFactor * den->Sample(pt) +
                     m_buoyancyTemperatureFactor * (temp->Sample(pt) - tAmb);
-                u(i, j) += timeIntervalInSeconds * fBuoy * up.x;
+                u(idx) += timeIntervalInSeconds * fBuoy * up.x;
             });
         }
 
         if (std::abs(up.y) > std::numeric_limits<double>::epsilon())
         {
-            vel->ParallelForEachVIndex([&](size_t i, size_t j) {
-                const Vector2D pt = vPos(i, j);
+            vel->ParallelForEachVIndex([&](const Vector2UZ& idx) {
+                const Vector2D pt = vPos(idx);
                 const double fBuoy =
                     m_buoyancySmokeDensityFactor * den->Sample(pt) +
                     m_buoyancyTemperatureFactor * (temp->Sample(pt) - tAmb);
-                v(i, j) += timeIntervalInSeconds * fBuoy * up.y;
+                v(idx) += timeIntervalInSeconds * fBuoy * up.y;
             });
         }
 

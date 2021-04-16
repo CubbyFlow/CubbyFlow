@@ -50,11 +50,11 @@ void FLIPSolver3::TransferFromParticlesToGrids()
     m_wDelta.Resize(w.Size());
 
     vel->ParallelForEachUIndex(
-        [&](size_t i, size_t j, size_t k) { m_uDelta(i, j, k) = u(i, j, k); });
+        [&](const Vector3UZ& idx) { m_uDelta(idx) = u(idx); });
     vel->ParallelForEachVIndex(
-        [&](size_t i, size_t j, size_t k) { m_vDelta(i, j, k) = v(i, j, k); });
+        [&](const Vector3UZ& idx) { m_vDelta(idx) = v(idx); });
     vel->ParallelForEachWIndex(
-        [&](size_t i, size_t j, size_t k) { m_wDelta(i, j, k) = w(i, j, k); });
+        [&](const Vector3UZ& idx) { m_wDelta(idx) = w(idx); });
 }
 
 void FLIPSolver3::TransferFromGridsToParticles()
@@ -68,16 +68,16 @@ void FLIPSolver3::TransferFromGridsToParticles()
         GetParticleSystemData()->NumberOfParticles();
 
     // Compute delta
-    flow->ParallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-        m_uDelta(i, j, k) = flow->GetU(i, j, k) - m_uDelta(i, j, k);
+    flow->ParallelForEachUIndex([&](const Vector3UZ& idx) {
+        m_uDelta(idx) = flow->U(idx) - m_uDelta(idx);
     });
 
-    flow->ParallelForEachVIndex([&](size_t i, size_t j, size_t k) {
-        m_vDelta(i, j, k) = flow->GetV(i, j, k) - m_vDelta(i, j, k);
+    flow->ParallelForEachVIndex([&](const Vector3UZ& idx) {
+        m_vDelta(idx) = flow->V(idx) - m_vDelta(idx);
     });
 
-    flow->ParallelForEachWIndex([&](size_t i, size_t j, size_t k) {
-        m_wDelta(i, j, k) = flow->GetW(i, j, k) - m_wDelta(i, j, k);
+    flow->ParallelForEachWIndex([&](const Vector3UZ& idx) {
+        m_wDelta(idx) = flow->W(idx) - m_wDelta(idx);
     });
 
     LinearArraySampler3<double> uSampler{ m_uDelta.View(),

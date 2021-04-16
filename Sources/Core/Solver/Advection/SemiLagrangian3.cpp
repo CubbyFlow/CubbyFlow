@@ -66,42 +66,42 @@ void SemiLagrangian3::Advect(const FaceCenteredGrid3& input,
         GetVectorSamplerFunc(input);
     double h = std::min(output->GridSpacing().x, output->GridSpacing().y);
 
-    auto uSourceDataPos = Unroll3(input.UPosition());
-    auto uTargetDataPos = Unroll3(output->UPosition());
+    auto uSourceDataPos = input.UPosition();
+    auto uTargetDataPos = output->UPosition();
     ArrayView<double, 3> uTargetDataAcc = output->UView();
 
-    output->ParallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-        if (boundarySDF.Sample(uSourceDataPos(i, j, k)) > 0.0)
+    output->ParallelForEachUIndex([&](const Vector3UZ& idx) {
+        if (boundarySDF.Sample(uSourceDataPos(idx)) > 0.0)
         {
             const Vector3D pt =
-                BackTrace(flow, dt, h, uTargetDataPos(i, j, k), boundarySDF);
-            uTargetDataAcc(i, j, k) = inputSamplerFunc(pt).x;
+                BackTrace(flow, dt, h, uTargetDataPos(idx), boundarySDF);
+            uTargetDataAcc(idx) = inputSamplerFunc(pt).x;
         }
     });
 
-    auto vSourceDataPos = Unroll3(input.VPosition());
-    auto vTargetDataPos = Unroll3(output->VPosition());
+    auto vSourceDataPos = input.VPosition();
+    auto vTargetDataPos = output->VPosition();
     ArrayView<double, 3> vTargetDataAcc = output->VView();
 
-    output->ParallelForEachVIndex([&](size_t i, size_t j, size_t k) {
-        if (boundarySDF.Sample(vSourceDataPos(i, j, k)) > 0.0)
+    output->ParallelForEachVIndex([&](const Vector3UZ& idx) {
+        if (boundarySDF.Sample(vSourceDataPos(idx)) > 0.0)
         {
             const Vector3D pt =
-                BackTrace(flow, dt, h, vTargetDataPos(i, j, k), boundarySDF);
-            vTargetDataAcc(i, j, k) = inputSamplerFunc(pt).y;
+                BackTrace(flow, dt, h, vTargetDataPos(idx), boundarySDF);
+            vTargetDataAcc(idx) = inputSamplerFunc(pt).y;
         }
     });
 
-    auto wSourceDataPos = Unroll3(input.WPosition());
-    auto wTargetDataPos = Unroll3(output->WPosition());
+    auto wSourceDataPos = input.WPosition();
+    auto wTargetDataPos = output->WPosition();
     ArrayView<double, 3> wTargetDataAcc = output->WView();
 
-    output->ParallelForEachWIndex([&](size_t i, size_t j, size_t k) {
-        if (boundarySDF.Sample(wSourceDataPos(i, j, k)) > 0.0)
+    output->ParallelForEachWIndex([&](const Vector3UZ& idx) {
+        if (boundarySDF.Sample(wSourceDataPos(idx)) > 0.0)
         {
             const Vector3D pt =
-                BackTrace(flow, dt, h, wTargetDataPos(i, j, k), boundarySDF);
-            wTargetDataAcc(i, j, k) = inputSamplerFunc(pt).z;
+                BackTrace(flow, dt, h, wTargetDataPos(idx), boundarySDF);
+            wTargetDataAcc(idx) = inputSamplerFunc(pt).z;
         }
     });
 }

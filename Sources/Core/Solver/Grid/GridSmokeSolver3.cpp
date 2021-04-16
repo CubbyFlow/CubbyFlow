@@ -183,40 +183,40 @@ void GridSmokeSolver3::ComputeBuoyancyForce(double timeIntervalInSeconds)
         ArrayView3<double> u = vel->UView();
         ArrayView3<double> v = vel->VView();
         ArrayView3<double> w = vel->WView();
-        auto uPos = Unroll3(vel->UPosition());
-        auto vPos = Unroll3(vel->VPosition());
-        auto wPos = Unroll3(vel->WPosition());
+        auto uPos = vel->UPosition();
+        auto vPos = vel->VPosition();
+        auto wPos = vel->WPosition();
 
         if (std::abs(up.x) > std::numeric_limits<double>::epsilon())
         {
-            vel->ParallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-                const Vector3D pt = uPos(i, j, k);
+            vel->ParallelForEachUIndex([&](const Vector3UZ& idx) {
+                const Vector3D pt = uPos(idx);
                 const double fBuoy =
                     m_buoyancySmokeDensityFactor * den->Sample(pt) +
                     m_buoyancyTemperatureFactor * (temp->Sample(pt) - tAmb);
-                u(i, j, k) += timeIntervalInSeconds * fBuoy * up.x;
+                u(idx) += timeIntervalInSeconds * fBuoy * up.x;
             });
         }
 
         if (std::abs(up.y) > std::numeric_limits<double>::epsilon())
         {
-            vel->ParallelForEachVIndex([&](size_t i, size_t j, size_t k) {
-                const Vector3D pt = vPos(i, j, k);
+            vel->ParallelForEachVIndex([&](const Vector3UZ& idx) {
+                const Vector3D pt = vPos(idx);
                 const double fBuoy =
                     m_buoyancySmokeDensityFactor * den->Sample(pt) +
                     m_buoyancyTemperatureFactor * (temp->Sample(pt) - tAmb);
-                v(i, j, k) += timeIntervalInSeconds * fBuoy * up.y;
+                v(idx) += timeIntervalInSeconds * fBuoy * up.y;
             });
         }
 
         if (std::abs(up.z) > std::numeric_limits<double>::epsilon())
         {
-            vel->ParallelForEachWIndex([&](size_t i, size_t j, size_t k) {
-                const Vector3D pt = wPos(i, j, k);
+            vel->ParallelForEachWIndex([&](const Vector3UZ& idx) {
+                const Vector3D pt = wPos(idx);
                 const double fBuoy =
                     m_buoyancySmokeDensityFactor * den->Sample(pt) +
                     m_buoyancyTemperatureFactor * (temp->Sample(pt) - tAmb);
-                w(i, j, k) += timeIntervalInSeconds * fBuoy * up.z;
+                w(idx) += timeIntervalInSeconds * fBuoy * up.z;
             });
         }
 

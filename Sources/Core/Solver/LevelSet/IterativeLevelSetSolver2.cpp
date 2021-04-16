@@ -152,18 +152,18 @@ void IterativeLevelSetSolver2::Extrapolate(const FaceCenteredGrid2& input,
     const Vector2D& gridSpacing = input.GridSpacing();
 
     const ConstArrayView2<double> u = input.UView();
-    auto uPos = Unroll2(input.UPosition());
+    auto uPos = input.UPosition();
     Array2<double> sdfAtU{ u.Size() };
     input.ParallelForEachUIndex(
-        [&](size_t i, size_t j) { sdfAtU(i, j) = sdf.Sample(uPos(i, j)); });
+        [&](const Vector2UZ& idx) { sdfAtU(idx) = sdf.Sample(uPos(idx)); });
 
     Extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->UView());
 
     const ConstArrayView2<double> v = input.VView();
-    auto vPos = Unroll2(input.VPosition());
+    auto vPos = input.VPosition();
     Array2<double> sdfAtV{ v.Size() };
     input.ParallelForEachVIndex(
-        [&](size_t i, size_t j) { sdfAtV(i, j) = sdf.Sample(vPos(i, j)); });
+        [&](const Vector2UZ& idx) { sdfAtV(idx) = sdf.Sample(vPos(idx)); });
 
     Extrapolate(v, sdfAtV, gridSpacing, maxDistance, output->VView());
 }

@@ -506,29 +506,26 @@ void FMMLevelSetSolver3::Extrapolate(const FaceCenteredGrid3& input,
     const Vector3D& gridSpacing = input.GridSpacing();
 
     const ConstArrayView3<double> u = input.UView();
-    auto uPos = Unroll3(input.UPosition());
+    auto uPos = input.UPosition();
     Array3<double> sdfAtU{ u.Size() };
-    input.ParallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-        sdfAtU(i, j, k) = sdf.Sample(uPos(i, j, k));
-    });
+    input.ParallelForEachUIndex(
+        [&](const Vector3UZ& idx) { sdfAtU(idx) = sdf.Sample(uPos(idx)); });
 
     Extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->UView());
 
     const ConstArrayView3<double> v = input.VView();
-    auto vPos = Unroll3(input.VPosition());
+    auto vPos = input.VPosition();
     Array3<double> sdfAtV{ v.Size() };
-    input.ParallelForEachVIndex([&](size_t i, size_t j, size_t k) {
-        sdfAtV(i, j, k) = sdf.Sample(vPos(i, j, k));
-    });
+    input.ParallelForEachVIndex(
+        [&](const Vector3UZ& idx) { sdfAtV(idx) = sdf.Sample(vPos(idx)); });
 
     Extrapolate(v, sdfAtV, gridSpacing, maxDistance, output->VView());
 
     const ConstArrayView3<double> w = input.WView();
-    auto wPos = Unroll3(input.WPosition());
+    auto wPos = input.WPosition();
     Array3<double> sdfAtW{ w.Size() };
-    input.ParallelForEachWIndex([&](size_t i, size_t j, size_t k) {
-        sdfAtW(i, j, k) = sdf.Sample(wPos(i, j, k));
-    });
+    input.ParallelForEachWIndex(
+        [&](const Vector3UZ& idx) { sdfAtW(idx) = sdf.Sample(wPos(idx)); });
 
     Extrapolate(w, sdfAtW, gridSpacing, maxDistance, output->WView());
 }

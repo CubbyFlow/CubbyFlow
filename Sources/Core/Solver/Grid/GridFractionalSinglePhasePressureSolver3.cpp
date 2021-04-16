@@ -10,7 +10,7 @@
 
 //
 // Adopted the code from:
-// http://www.cs.GetUbc.ca/labs/imager/tr/2007/Batty_VariationalFluids/
+// http://www.cs.ubc.ca/labs/imager/tr/2007/Batty_VariationalFluids/
 // and
 // https://github.com/christopherbatty/FluidRigidCoupling2D
 //
@@ -182,11 +182,11 @@ void BuildSingleSystem(FDMMatrix3* A, FDMVector3* b,
                 }
 
                 (*b)(i, j, k) +=
-                    uWeights(i + 1, j, k) * input.GetU(i + 1, j, k) * invH.x;
+                    uWeights(i + 1, j, k) * input.U(i + 1, j, k) * invH.x;
             }
             else
             {
-                (*b)(i, j, k) += input.GetU(i + 1, j, k) * invH.x;
+                (*b)(i, j, k) += input.U(i + 1, j, k) * invH.x;
             }
 
             if (i > 0)
@@ -205,12 +205,11 @@ void BuildSingleSystem(FDMMatrix3* A, FDMVector3* b,
                     row.center += term / theta;
                 }
 
-                (*b)(i, j, k) -=
-                    uWeights(i, j, k) * input.GetU(i, j, k) * invH.x;
+                (*b)(i, j, k) -= uWeights(i, j, k) * input.U(i, j, k) * invH.x;
             }
             else
             {
-                (*b)(i, j, k) -= input.GetU(i, j, k) * invH.x;
+                (*b)(i, j, k) -= input.U(i, j, k) * invH.x;
             }
 
             if (j + 1 < size.y)
@@ -231,11 +230,11 @@ void BuildSingleSystem(FDMMatrix3* A, FDMVector3* b,
                 }
 
                 (*b)(i, j, k) +=
-                    vWeights(i, j + 1, k) * input.GetV(i, j + 1, k) * invH.y;
+                    vWeights(i, j + 1, k) * input.V(i, j + 1, k) * invH.y;
             }
             else
             {
-                (*b)(i, j, k) += input.GetV(i, j + 1, k) * invH.y;
+                (*b)(i, j, k) += input.V(i, j + 1, k) * invH.y;
             }
 
             if (j > 0)
@@ -254,12 +253,11 @@ void BuildSingleSystem(FDMMatrix3* A, FDMVector3* b,
                     row.center += term / theta;
                 }
 
-                (*b)(i, j, k) -=
-                    vWeights(i, j, k) * input.GetV(i, j, k) * invH.y;
+                (*b)(i, j, k) -= vWeights(i, j, k) * input.V(i, j, k) * invH.y;
             }
             else
             {
-                (*b)(i, j, k) -= input.GetV(i, j, k) * invH.y;
+                (*b)(i, j, k) -= input.V(i, j, k) * invH.y;
             }
 
             if (k + 1 < size.z)
@@ -280,11 +278,11 @@ void BuildSingleSystem(FDMMatrix3* A, FDMVector3* b,
                 }
 
                 (*b)(i, j, k) +=
-                    wWeights(i, j, k + 1) * input.GetW(i, j, k + 1) * invH.z;
+                    wWeights(i, j, k + 1) * input.W(i, j, k + 1) * invH.z;
             }
             else
             {
-                (*b)(i, j, k) += input.GetW(i, j, k + 1) * invH.z;
+                (*b)(i, j, k) += input.W(i, j, k + 1) * invH.z;
             }
 
             if (k > 0)
@@ -303,12 +301,11 @@ void BuildSingleSystem(FDMMatrix3* A, FDMVector3* b,
                     row.center += term / theta;
                 }
 
-                (*b)(i, j, k) -=
-                    wWeights(i, j, k) * input.GetW(i, j, k) * invH.z;
+                (*b)(i, j, k) -= wWeights(i, j, k) * input.W(i, j, k) * invH.z;
             }
             else
             {
-                (*b)(i, j, k) -= input.GetW(i, j, k) * invH.z;
+                (*b)(i, j, k) -= input.W(i, j, k) * invH.z;
             }
 
             // Accumulate contributions from the moving boundary
@@ -406,12 +403,11 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                     row[0] += term / theta;
                 }
 
-                bijk +=
-                    uWeights(i + 1, j, k) * input.GetU(i + 1, j, k) * invH.x;
+                bijk += uWeights(i + 1, j, k) * input.U(i + 1, j, k) * invH.x;
             }
             else
             {
-                bijk += input.GetU(i + 1, j, k) * invH.x;
+                bijk += input.U(i + 1, j, k) * invH.x;
             }
 
             if (i > 0)
@@ -432,11 +428,11 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                     row[0] += term / theta;
                 }
 
-                bijk -= uWeights(i, j, k) * input.GetU(i, j, k) * invH.x;
+                bijk -= uWeights(i, j, k) * input.U(i, j, k) * invH.x;
             }
             else
             {
-                bijk -= input.GetU(i, j, k) * invH.x;
+                bijk -= input.U(i, j, k) * invH.x;
             }
 
             if (j + 1 < size.y)
@@ -457,12 +453,11 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                     row[0] += term / theta;
                 }
 
-                bijk +=
-                    vWeights(i, j + 1, k) * input.GetV(i, j + 1, k) * invH.y;
+                bijk += vWeights(i, j + 1, k) * input.V(i, j + 1, k) * invH.y;
             }
             else
             {
-                bijk += input.GetV(i, j + 1, k) * invH.y;
+                bijk += input.V(i, j + 1, k) * invH.y;
             }
 
             if (j > 0)
@@ -483,11 +478,11 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                     row[0] += term / theta;
                 }
 
-                bijk -= vWeights(i, j, k) * input.GetV(i, j, k) * invH.y;
+                bijk -= vWeights(i, j, k) * input.V(i, j, k) * invH.y;
             }
             else
             {
-                bijk -= input.GetV(i, j, k) * invH.y;
+                bijk -= input.V(i, j, k) * invH.y;
             }
 
             if (k + 1 < size.z)
@@ -508,12 +503,11 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                     row[0] += term / theta;
                 }
 
-                bijk +=
-                    wWeights(i, j, k + 1) * input.GetW(i, j, k + 1) * invH.z;
+                bijk += wWeights(i, j, k + 1) * input.W(i, j, k + 1) * invH.z;
             }
             else
             {
-                bijk += input.GetW(i, j, k + 1) * invH.z;
+                bijk += input.W(i, j, k + 1) * invH.z;
             }
 
             if (k > 0)
@@ -534,11 +528,11 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                     row[0] += term / theta;
                 }
 
-                bijk -= wWeights(i, j, k) * input.GetW(i, j, k) * invH.z;
+                bijk -= wWeights(i, j, k) * input.W(i, j, k) * invH.z;
             }
             else
             {
-                bijk -= input.GetW(i, j, k) * invH.z;
+                bijk -= input.W(i, j, k) * invH.z;
             }
 
             // Accumulate contributions from the moving boundary

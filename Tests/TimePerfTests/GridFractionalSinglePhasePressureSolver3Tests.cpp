@@ -3,7 +3,7 @@
 #include <Core/Field/ConstantScalarField.hpp>
 #include <Core/Field/ConstantVectorField.hpp>
 #include <Core/Grid/CellCenteredScalarGrid.hpp>
-#include <Core/Grid/FaceCenteredGrid3.hpp>
+#include <Core/Grid/FaceCenteredGrid.hpp>
 #include <Core/Matrix/Matrix.hpp>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.hpp>
 
@@ -36,11 +36,11 @@ class GridFractionalSinglePhasePressureSolver3 : public ::benchmark::Fixture
                 {
                     if (j == 0 || j == n)
                     {
-                        vel.GetV(i, j, k) = 0.0;
+                        vel.V(i, j, k) = 0.0;
                     }
                     else
                     {
-                        vel.GetV(i, j, k) = 1.0;
+                        vel.V(i, j, k) = 1.0;
                     }
                 }
             }

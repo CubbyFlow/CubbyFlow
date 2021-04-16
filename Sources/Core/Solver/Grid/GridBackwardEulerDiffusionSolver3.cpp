@@ -76,9 +76,8 @@ void GridBackwardEulerDiffusionSolver3::Solve(
         m_systemSolver->Solve(&m_system);
 
         // Assign the solution
-        source.ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
-            (*dest)(i, j, k).x = m_system.x(i, j, k);
-        });
+        source.ParallelForEachDataPointIndex(
+            [&](const Vector3UZ& idx) { (*dest)(idx).x = m_system.x(idx); });
     }
 
     // v
@@ -90,9 +89,8 @@ void GridBackwardEulerDiffusionSolver3::Solve(
         m_systemSolver->Solve(&m_system);
 
         // Assign the solution
-        source.ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
-            (*dest)(i, j, k).y = m_system.x(i, j, k);
-        });
+        source.ParallelForEachDataPointIndex(
+            [&](const Vector3UZ& idx) { (*dest)(idx).y = m_system.x(idx); });
     }
 
     // w
@@ -104,9 +102,8 @@ void GridBackwardEulerDiffusionSolver3::Solve(
         m_systemSolver->Solve(&m_system);
 
         // Assign the solution
-        source.ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
-            (*dest)(i, j, k).z = m_system.x(i, j, k);
-        });
+        source.ParallelForEachDataPointIndex(
+            [&](const Vector3UZ& idx) { (*dest)(idx).z = m_system.x(idx); });
     }
 }
 
@@ -133,9 +130,8 @@ void GridBackwardEulerDiffusionSolver3::Solve(const FaceCenteredGrid3& source,
         m_systemSolver->Solve(&m_system);
 
         // Assign the solution
-        source.ParallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-            dest->GetU(i, j, k) = m_system.x(i, j, k);
-        });
+        source.ParallelForEachUIndex(
+            [&](const Vector3UZ& idx) { dest->U(idx) = m_system.x(idx); });
     }
 
     // v
@@ -150,9 +146,8 @@ void GridBackwardEulerDiffusionSolver3::Solve(const FaceCenteredGrid3& source,
         m_systemSolver->Solve(&m_system);
 
         // Assign the solution
-        source.ParallelForEachVIndex([&](size_t i, size_t j, size_t k) {
-            dest->GetV(i, j, k) = m_system.x(i, j, k);
-        });
+        source.ParallelForEachVIndex(
+            [&](const Vector3UZ& idx) { dest->V(idx) = m_system.x(idx); });
     }
 
     // w
@@ -167,9 +162,8 @@ void GridBackwardEulerDiffusionSolver3::Solve(const FaceCenteredGrid3& source,
         m_systemSolver->Solve(&m_system);
 
         // Assign the solution
-        source.ParallelForEachWIndex([&](size_t i, size_t j, size_t k) {
-            dest->GetW(i, j, k) = m_system.x(i, j, k);
-        });
+        source.ParallelForEachWIndex(
+            [&](const Vector3UZ& idx) { dest->W(idx) = m_system.x(idx); });
     }
 }
 

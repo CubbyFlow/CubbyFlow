@@ -62,7 +62,7 @@ void GridForwardEulerDiffusionSolver2::Solve(const ScalarGrid2& source,
 {
     ConstArrayView2<double> src = source.DataView();
     Vector2D h = source.GridSpacing();
-    const auto pos = Unroll2(source.DataPosition());
+    const auto pos = source.DataPosition();
 
     BuildMarkers(source.Resolution(), pos, boundarySDF, fluidSDF);
 
@@ -87,20 +87,20 @@ void GridForwardEulerDiffusionSolver2::Solve(
 {
     ConstArrayView2<Vector2<double>> src = source.DataView();
     Vector2D h = source.GridSpacing();
-    const auto pos = Unroll2(source.DataPosition());
+    const auto pos = source.DataPosition();
 
     BuildMarkers(source.Resolution(), pos, boundarySDF, fluidSDF);
 
-    source.ParallelForEachDataPointIndex([&](size_t i, size_t j) {
-        if (m_markers(i, j) == FLUID)
+    source.ParallelForEachDataPointIndex([&](const Vector2UZ& idx) {
+        if (m_markers(idx) == FLUID)
         {
-            (*dest)(i, j) = src(i, j) + diffusionCoefficient *
-                                            timeIntervalInSeconds *
-                                            Laplacian(src, m_markers, h, i, j);
+            (*dest)(idx) =
+                src(idx) + diffusionCoefficient * timeIntervalInSeconds *
+                               Laplacian(src, m_markers, h, idx.x, idx.y);
         }
         else
         {
-            (*dest)(i, j) = src(i, j);
+            (*dest)(idx) = src(idx);
         }
     });
 }
@@ -116,53 +116,53 @@ void GridForwardEulerDiffusionSolver2::Solve(const FaceCenteredGrid2& source,
     ConstArrayView2<double> vSrc = source.VView();
     ArrayView2<double> u = dest->UView();
     ArrayView2<double> v = dest->VView();
-    const auto uPos = Unroll2(source.UPosition());
-    const auto vPos = Unroll2(source.VPosition());
+    const auto uPos = source.UPosition();
+    const auto vPos = source.VPosition();
     Vector2D h = source.GridSpacing();
 
     BuildMarkers(source.USize(), uPos, boundarySDF, fluidSDF);
 
-    source.ParallelForEachUIndex([&](size_t i, size_t j) {
-        if (m_markers(i, j) == FLUID)
+    source.ParallelForEachUIndex([&](const Vector2UZ& idx) {
+        if (m_markers(idx) == FLUID)
         {
-            u(i, j) = uSrc(i, j) + diffusionCoefficient *
-                                       timeIntervalInSeconds *
-                                       Laplacian(uSrc, m_markers, h, i, j);
+            u(idx) =
+                uSrc(idx) + diffusionCoefficient * timeIntervalInSeconds *
+                                Laplacian(uSrc, m_markers, h, idx.x, idx.y);
         }
         else
         {
-            u(i, j) = uSrc(i, j);
+            u(idx) = uSrc(idx);
         }
     });
 
     BuildMarkers(source.VSize(), vPos, boundarySDF, fluidSDF);
 
-    source.ParallelForEachVIndex([&](size_t i, size_t j) {
-        if (m_markers(i, j) == FLUID)
+    source.ParallelForEachVIndex([&](const Vector2UZ& idx) {
+        if (m_markers(idx) == FLUID)
         {
-            v(i, j) = vSrc(i, j) + diffusionCoefficient *
-                                       timeIntervalInSeconds *
-                                       Laplacian(vSrc, m_markers, h, i, j);
+            v(idx) =
+                vSrc(idx) + diffusionCoefficient * timeIntervalInSeconds *
+                                Laplacian(vSrc, m_markers, h, idx.x, idx.y);
         }
         else
         {
-            v(i, j) = vSrc(i, j);
+            v(idx) = vSrc(idx);
         }
     });
 }
 
 void GridForwardEulerDiffusionSolver2::BuildMarkers(
-    const Vector2UZ& size, const std::function<Vector2D(size_t, size_t)>& pos,
+    const Vector2UZ& size, const std::function<Vector2D(const Vector2UZ&)>& pos,
     const ScalarField2& boundarySDF, const ScalarField2& fluidSDF)
 {
     m_markers.Resize(size);
 
     ForEachIndex(m_markers.Size(), [&](size_t i, size_t j) {
-        if (IsInsideSDF(boundarySDF.Sample(pos(i, j))))
+        if (IsInsideSDF(boundarySDF.Sample(pos(Vector2UZ{ i, j }))))
         {
             m_markers(i, j) = BOUNDARY;
         }
-        else if (IsInsideSDF(fluidSDF.Sample(pos(i, j))))
+        else if (IsInsideSDF(fluidSDF.Sample(pos(Vector2UZ{ i, j }))))
         {
             m_markers(i, j) = FLUID;
         }

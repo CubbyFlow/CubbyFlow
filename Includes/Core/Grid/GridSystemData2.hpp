@@ -11,7 +11,7 @@
 #ifndef CUBBYFLOW_GRID_SYSTM_DATA2_HPP
 #define CUBBYFLOW_GRID_SYSTM_DATA2_HPP
 
-#include <Core/Grid/FaceCenteredGrid2.hpp>
+#include <Core/Grid/FaceCenteredGrid.hpp>
 #include <Core/Grid/ScalarGrid.hpp>
 #include <Core/Utils/Serialization.hpp>
 

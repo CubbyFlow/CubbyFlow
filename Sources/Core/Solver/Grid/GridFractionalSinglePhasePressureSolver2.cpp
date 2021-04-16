@@ -151,12 +151,11 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
                     row.center += term / theta;
                 }
 
-                (*b)(i, j) +=
-                    uWeights(i + 1, j) * input.GetU(i + 1, j) * invH.x;
+                (*b)(i, j) += uWeights(i + 1, j) * input.U(i + 1, j) * invH.x;
             }
             else
             {
-                (*b)(i, j) += input.GetU(i + 1, j) * invH.x;
+                (*b)(i, j) += input.U(i + 1, j) * invH.x;
             }
 
             if (i > 0)
@@ -175,11 +174,11 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
                     row.center += term / theta;
                 }
 
-                (*b)(i, j) -= uWeights(i, j) * input.GetU(i, j) * invH.x;
+                (*b)(i, j) -= uWeights(i, j) * input.U(i, j) * invH.x;
             }
             else
             {
-                (*b)(i, j) -= input.GetU(i, j) * invH.x;
+                (*b)(i, j) -= input.U(i, j) * invH.x;
             }
 
             if (j + 1 < size.y)
@@ -199,12 +198,11 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
                     row.center += term / theta;
                 }
 
-                (*b)(i, j) +=
-                    vWeights(i, j + 1) * input.GetV(i, j + 1) * invH.y;
+                (*b)(i, j) += vWeights(i, j + 1) * input.V(i, j + 1) * invH.y;
             }
             else
             {
-                (*b)(i, j) += input.GetV(i, j + 1) * invH.y;
+                (*b)(i, j) += input.V(i, j + 1) * invH.y;
             }
 
             if (j > 0)
@@ -223,11 +221,11 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
                     row.center += term / theta;
                 }
 
-                (*b)(i, j) -= vWeights(i, j) * input.GetV(i, j) * invH.y;
+                (*b)(i, j) -= vWeights(i, j) * input.V(i, j) * invH.y;
             }
             else
             {
-                (*b)(i, j) -= input.GetV(i, j) * invH.y;
+                (*b)(i, j) -= input.V(i, j) * invH.y;
             }
 
             // Accumulate contributions from the moving boundary
@@ -317,11 +315,11 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                     row[0] += term / theta;
                 }
 
-                bij += uWeights(i + 1, j) * input.GetU(i + 1, j) * invH.x;
+                bij += uWeights(i + 1, j) * input.U(i + 1, j) * invH.x;
             }
             else
             {
-                bij += input.GetU(i + 1, j) * invH.x;
+                bij += input.U(i + 1, j) * invH.x;
             }
 
             if (i > 0)
@@ -342,11 +340,11 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                     row[0] += term / theta;
                 }
 
-                bij -= uWeights(i, j) * input.GetU(i, j) * invH.x;
+                bij -= uWeights(i, j) * input.U(i, j) * invH.x;
             }
             else
             {
-                bij -= input.GetU(i, j) * invH.x;
+                bij -= input.U(i, j) * invH.x;
             }
 
             if (j + 1 < size.y)
@@ -367,11 +365,11 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                     row[0] += term / theta;
                 }
 
-                bij += vWeights(i, j + 1) * input.GetV(i, j + 1) * invH.y;
+                bij += vWeights(i, j + 1) * input.V(i, j + 1) * invH.y;
             }
             else
             {
-                bij += input.GetV(i, j + 1) * invH.y;
+                bij += input.V(i, j + 1) * invH.y;
             }
 
             if (j > 0)
@@ -392,11 +390,11 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                     row[0] += term / theta;
                 }
 
-                bij -= vWeights(i, j) * input.GetV(i, j) * invH.y;
+                bij -= vWeights(i, j) * input.V(i, j) * invH.y;
             }
             else
             {
-                bij -= input.GetV(i, j) * invH.y;
+                bij -= input.V(i, j) * invH.y;
             }
 
             // Accumulate contributions from the moving boundary

@@ -13,7 +13,7 @@
 
 #include <Core/Field/ConstantScalarField.hpp>
 #include <Core/Grid/CollocatedVectorGrid.hpp>
-#include <Core/Grid/FaceCenteredGrid3.hpp>
+#include <Core/Grid/FaceCenteredGrid.hpp>
 #include <Core/Grid/ScalarGrid.hpp>
 
 namespace CubbyFlow

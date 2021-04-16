@@ -394,22 +394,22 @@ void GridFluidSolver3::ComputeGravity(double timeIntervalInSeconds)
 
         if (std::abs(m_gravity.x) > std::numeric_limits<double>::epsilon())
         {
-            vel->ForEachUIndex([&](size_t i, size_t j, size_t k) {
-                u(i, j, k) += timeIntervalInSeconds * m_gravity.x;
+            vel->ForEachUIndex([&](const Vector3UZ& idx) {
+                u(idx) += timeIntervalInSeconds * m_gravity.x;
             });
         }
 
         if (std::abs(m_gravity.y) > std::numeric_limits<double>::epsilon())
         {
-            vel->ForEachVIndex([&](size_t i, size_t j, size_t k) {
-                v(i, j, k) += timeIntervalInSeconds * m_gravity.y;
+            vel->ForEachVIndex([&](const Vector3UZ& idx) {
+                v(idx) += timeIntervalInSeconds * m_gravity.y;
             });
         }
 
         if (std::abs(m_gravity.z) > std::numeric_limits<double>::epsilon())
         {
-            vel->ForEachWIndex([&](size_t i, size_t j, size_t k) {
-                w(i, j, k) += timeIntervalInSeconds * m_gravity.z;
+            vel->ForEachWIndex([&](const Vector3UZ& idx) {
+                w(idx) += timeIntervalInSeconds * m_gravity.z;
             });
         }
 
