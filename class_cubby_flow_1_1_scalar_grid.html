@@ -92,14 +92,12 @@ Inheritance diagram for CubbyFlow::ScalarGrid&lt; N &gt;:</div>
  <div class="center">
   <img src="class_cubby_flow_1_1_scalar_grid.png" usemap="#CubbyFlow::ScalarGrid_3C_20N_20_3E_map" alt=""/>
   <map id="CubbyFlow::ScalarGrid_3C_20N_20_3E_map" name="CubbyFlow::ScalarGrid_3C_20N_20_3E_map">
-<area href="class_cubby_flow_1_1_scalar_field.html" title="Abstract base class for N-D scalar field. " alt="CubbyFlow::ScalarField&lt; N &gt;" shape="rect" coords="249,56,488,80"/>
-<area href="class_cubby_flow_1_1_grid.html" title="Abstract base class for N-D cartesian grid structure. " alt="CubbyFlow::Grid&lt; N &gt;" shape="rect" coords="498,56,737,80"/>
-<area href="class_cubby_flow_1_1_field.html" title="Abstract base class for N-D fields. " alt="CubbyFlow::Field&lt; N &gt;" shape="rect" coords="249,0,488,24"/>
-<area href="class_cubby_flow_1_1_serializable.html" title="Abstract base class for any serializable class. " alt="CubbyFlow::Serializable" shape="rect" coords="498,0,737,24"/>
-<area href="class_cubby_flow_1_1_cell_centered_scalar_grid2.html" title="2-D Cell-centered scalar grid structure. " alt="CubbyFlow::CellCenteredScalarGrid2" shape="rect" coords="0,168,239,192"/>
-<area href="class_cubby_flow_1_1_cell_centered_scalar_grid3.html" title="3-D Cell-centered scalar grid structure. " alt="CubbyFlow::CellCenteredScalarGrid3" shape="rect" coords="249,168,488,192"/>
-<area href="class_cubby_flow_1_1_vertex_centered_scalar_grid2.html" title="2-D Vertex-centered scalar grid structure. " alt="CubbyFlow::VertexCenteredScalarGrid2" shape="rect" coords="498,168,737,192"/>
-<area href="class_cubby_flow_1_1_vertex_centered_scalar_grid3.html" title="3-D Vertex-centered scalar grid structure. " alt="CubbyFlow::VertexCenteredScalarGrid3" shape="rect" coords="747,168,986,192"/>
+<area href="class_cubby_flow_1_1_scalar_field.html" title="Abstract base class for N-D scalar field. " alt="CubbyFlow::ScalarField&lt; N &gt;" shape="rect" coords="0,56,265,80"/>
+<area href="class_cubby_flow_1_1_grid.html" title="Abstract base class for N-D cartesian grid structure. " alt="CubbyFlow::Grid&lt; N &gt;" shape="rect" coords="275,56,540,80"/>
+<area href="class_cubby_flow_1_1_field.html" title="Abstract base class for N-D fields. " alt="CubbyFlow::Field&lt; N &gt;" shape="rect" coords="0,0,265,24"/>
+<area href="class_cubby_flow_1_1_serializable.html" title="Abstract base class for any serializable class. " alt="CubbyFlow::Serializable" shape="rect" coords="275,0,540,24"/>
+<area href="class_cubby_flow_1_1_cell_centered_scalar_grid.html" title="N-D Cell-centered scalar grid structure. " alt="CubbyFlow::CellCenteredScalarGrid&lt; N &gt;" shape="rect" coords="0,168,265,192"/>
+<area href="class_cubby_flow_1_1_vertex_centered_scalar_grid.html" title="N-D Vertex-centered scalar grid structure. " alt="CubbyFlow::VertexCenteredScalarGrid&lt; N &gt;" shape="rect" coords="275,168,540,192"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -111,10 +109,6 @@ Public Types</h2></td></tr>
 <tr class="memitem:a0c99b7809d1885f9980fbfe69d84084b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_scalar_grid.html#a0c99b7809d1885f9980fbfe69d84084b">ConstScalarDataView</a> = <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; const double, N &gt;</td></tr>
 <tr class="memdesc:a0c99b7809d1885f9980fbfe69d84084b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only array view type.  <a href="#a0c99b7809d1885f9980fbfe69d84084b">More...</a><br /></td></tr>
 <tr class="separator:a0c99b7809d1885f9980fbfe69d84084b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_types_class_cubby_flow_1_1_grid"><td colspan="2" onclick="javascript:toggleInherit('pub_types_class_cubby_flow_1_1_grid')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="class_cubby_flow_1_1_grid.html">CubbyFlow::Grid&lt; N &gt;</a></td></tr>
-<tr class="memitem:a4f7751d2dd62e29297f0059a06c3fd40 inherit pub_types_class_cubby_flow_1_1_grid"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid.html#a4f7751d2dd62e29297f0059a06c3fd40">DataPositionFunc</a> = std::function&lt; <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; double, N &gt;(const <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; size_t, N &gt; &amp;)&gt;</td></tr>
-<tr class="memdesc:a4f7751d2dd62e29297f0059a06c3fd40 inherit pub_types_class_cubby_flow_1_1_grid"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function type for mapping data index to actual position.  <a href="class_cubby_flow_1_1_grid.html#a4f7751d2dd62e29297f0059a06c3fd40">More...</a><br /></td></tr>
-<tr class="separator:a4f7751d2dd62e29297f0059a06c3fd40 inherit pub_types_class_cubby_flow_1_1_grid"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -176,9 +170,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a92099d811d7f6505c72dfc3dfa8bfe1d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_scalar_grid.html#a0c99b7809d1885f9980fbfe69d84084b">ConstScalarDataView</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_scalar_grid.html#a92099d811d7f6505c72dfc3dfa8bfe1d">DataView</a> () const</td></tr>
 <tr class="memdesc:a92099d811d7f6505c72dfc3dfa8bfe1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the read-only data array accessor.  <a href="#a92099d811d7f6505c72dfc3dfa8bfe1d">More...</a><br /></td></tr>
 <tr class="separator:a92099d811d7f6505c72dfc3dfa8bfe1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae84baafea187c7721739a35d56fb4796"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_grid.html#a4f7751d2dd62e29297f0059a06c3fd40">DataPositionFunc</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_scalar_grid.html#ae84baafea187c7721739a35d56fb4796">DataPosition</a> () const</td></tr>
-<tr class="memdesc:ae84baafea187c7721739a35d56fb4796"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the function that maps data point to its position.  <a href="#ae84baafea187c7721739a35d56fb4796">More...</a><br /></td></tr>
-<tr class="separator:ae84baafea187c7721739a35d56fb4796"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09d5057e2545c5f56807ddfddc598fe5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_grid_data_position_func.html">GridDataPositionFunc</a>&lt; N &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_scalar_grid.html#a09d5057e2545c5f56807ddfddc598fe5">DataPosition</a> () const</td></tr>
+<tr class="memdesc:a09d5057e2545c5f56807ddfddc598fe5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the function that maps data point to its position.  <a href="#a09d5057e2545c5f56807ddfddc598fe5">More...</a><br /></td></tr>
+<tr class="separator:a09d5057e2545c5f56807ddfddc598fe5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f1043906bdb68ecc9a8bab808e78720"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_scalar_grid.html#a4f1043906bdb68ecc9a8bab808e78720">Fill</a> (double value, <a class="el" href="namespace_cubby_flow.html#afca17441ed562aa8c59856e36c532101">ExecutionPolicy</a> policy=<a class="el" href="namespace_cubby_flow.html#afca17441ed562aa8c59856e36c532101a98402eecfbcefc336954458a01752131">ExecutionPolicy::Parallel</a>)</td></tr>
 <tr class="memdesc:a4f1043906bdb68ecc9a8bab808e78720"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills the grid with given value.  <a href="#a4f1043906bdb68ecc9a8bab808e78720">More...</a><br /></td></tr>
 <tr class="separator:a4f1043906bdb68ecc9a8bab808e78720"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -255,9 +249,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4ddeaebd16bad24c4904a9cb8818e78b inherit pub_methods_class_cubby_flow_1_1_grid"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_cubby_flow_1_1_bounding_box.html">BoundingBox</a>&lt; double, N &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid.html#a4ddeaebd16bad24c4904a9cb8818e78b">GetBoundingBox</a> () const</td></tr>
 <tr class="memdesc:a4ddeaebd16bad24c4904a9cb8818e78b inherit pub_methods_class_cubby_flow_1_1_grid"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the bounding box of the grid.  <a href="class_cubby_flow_1_1_grid.html#a4ddeaebd16bad24c4904a9cb8818e78b">More...</a><br /></td></tr>
 <tr class="separator:a4ddeaebd16bad24c4904a9cb8818e78b inherit pub_methods_class_cubby_flow_1_1_grid"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebdc185af47eab5ce59ec4c9d42bf002 inherit pub_methods_class_cubby_flow_1_1_grid"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_grid.html#a4f7751d2dd62e29297f0059a06c3fd40">DataPositionFunc</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid.html#aebdc185af47eab5ce59ec4c9d42bf002">CellCenterPosition</a> () const</td></tr>
-<tr class="memdesc:aebdc185af47eab5ce59ec4c9d42bf002 inherit pub_methods_class_cubby_flow_1_1_grid"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the function that maps grid index to the cell-center position.  <a href="class_cubby_flow_1_1_grid.html#aebdc185af47eab5ce59ec4c9d42bf002">More...</a><br /></td></tr>
-<tr class="separator:aebdc185af47eab5ce59ec4c9d42bf002 inherit pub_methods_class_cubby_flow_1_1_grid"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0711e25f5409d4dba2bc3d2eac2fd11f inherit pub_methods_class_cubby_flow_1_1_grid"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_grid_data_position_func.html">GridDataPositionFunc</a>&lt; N &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid.html#a0711e25f5409d4dba2bc3d2eac2fd11f">CellCenterPosition</a> () const</td></tr>
+<tr class="memdesc:a0711e25f5409d4dba2bc3d2eac2fd11f inherit pub_methods_class_cubby_flow_1_1_grid"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the function that maps grid index to the cell-center position.  <a href="class_cubby_flow_1_1_grid.html#a0711e25f5409d4dba2bc3d2eac2fd11f">More...</a><br /></td></tr>
+<tr class="separator:a0711e25f5409d4dba2bc3d2eac2fd11f inherit pub_methods_class_cubby_flow_1_1_grid"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa20c9a0e088b78b427b95eac1f5582b inherit pub_methods_class_cubby_flow_1_1_grid"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid.html#afa20c9a0e088b78b427b95eac1f5582b">ForEachCellIndex</a> (const std::function&lt; void(const <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; size_t, N &gt; &amp;)&gt; &amp;func) const</td></tr>
 <tr class="memdesc:afa20c9a0e088b78b427b95eac1f5582b inherit pub_methods_class_cubby_flow_1_1_grid"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the given function <code>func</code> for each grid cell.  <a href="class_cubby_flow_1_1_grid.html#afa20c9a0e088b78b427b95eac1f5582b">More...</a><br /></td></tr>
 <tr class="separator:afa20c9a0e088b78b427b95eac1f5582b inherit pub_methods_class_cubby_flow_1_1_grid"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -468,7 +462,7 @@ template&lt;size_t N&gt; </div>
 
 <p>Returns the copy of the grid instance. </p>
 
-<p>Implemented in <a class="el" href="class_cubby_flow_1_1_cell_centered_scalar_grid2.html#a88ec26c4378d90aa7189e5eb85f0edd3">CubbyFlow::CellCenteredScalarGrid2</a>, <a class="el" href="class_cubby_flow_1_1_vertex_centered_scalar_grid3.html#ade85ecb8d4975c77ca8d99260e3b5496">CubbyFlow::VertexCenteredScalarGrid3</a>, <a class="el" href="class_cubby_flow_1_1_cell_centered_scalar_grid3.html#a9843f46d5cf264d0564ad2e076a1eac7">CubbyFlow::CellCenteredScalarGrid3</a>, and <a class="el" href="class_cubby_flow_1_1_vertex_centered_scalar_grid2.html#a50c72e773bfee74aace78d4ee8cc9e4d">CubbyFlow::VertexCenteredScalarGrid2</a>.</p>
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_cell_centered_scalar_grid.html#a13cc82f85eba82d65bc8009cd745dcf2">CubbyFlow::CellCenteredScalarGrid&lt; N &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_vertex_centered_scalar_grid.html#a0b91e2f85172150960d93163d0e03b87">CubbyFlow::VertexCenteredScalarGrid&lt; N &gt;</a>.</p>
 
 </div>
 </div>
@@ -500,12 +494,12 @@ template&lt;size_t N&gt; </div>
 <p>Returns the origin of the grid data. </p>
 <p>This function returns data position for the grid point at (0, 0, ...). Note that this is different from origin() since origin() returns the lower corner point of the bounding box. </p>
 
-<p>Implemented in <a class="el" href="class_cubby_flow_1_1_vertex_centered_scalar_grid3.html#aaec42094c99f967b98b9d37559f76476">CubbyFlow::VertexCenteredScalarGrid3</a>, <a class="el" href="class_cubby_flow_1_1_cell_centered_scalar_grid3.html#ae57beb7b844551ae3af9d1f574223d13">CubbyFlow::CellCenteredScalarGrid3</a>, <a class="el" href="class_cubby_flow_1_1_vertex_centered_scalar_grid2.html#ab74f6c45b4f930444fa2f2b474f87213">CubbyFlow::VertexCenteredScalarGrid2</a>, and <a class="el" href="class_cubby_flow_1_1_cell_centered_scalar_grid2.html#a45d1773780b56e0d876bbe7241981139">CubbyFlow::CellCenteredScalarGrid2</a>.</p>
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_cell_centered_scalar_grid.html#a7ff33fffabd8242d8ab5a7d00aa2e361">CubbyFlow::CellCenteredScalarGrid&lt; N &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_vertex_centered_scalar_grid.html#a2b087223b6363613082eb0084a074c13">CubbyFlow::VertexCenteredScalarGrid&lt; N &gt;</a>.</p>
 
 </div>
 </div>
-<a id="ae84baafea187c7721739a35d56fb4796"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae84baafea187c7721739a35d56fb4796">&#9670;&nbsp;</a></span>DataPosition()</h2>
+<a id="a09d5057e2545c5f56807ddfddc598fe5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09d5057e2545c5f56807ddfddc598fe5">&#9670;&nbsp;</a></span>DataPosition()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -513,7 +507,7 @@ template&lt;size_t N&gt; </div>
 template&lt;size_t N&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_cubby_flow_1_1_grid.html#a4f7751d2dd62e29297f0059a06c3fd40">DataPositionFunc</a> <a class="el" href="class_cubby_flow_1_1_scalar_grid.html">CubbyFlow::ScalarGrid</a>&lt; N &gt;::DataPosition </td>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_grid_data_position_func.html">GridDataPositionFunc</a>&lt;N&gt; <a class="el" href="class_cubby_flow_1_1_scalar_grid.html">CubbyFlow::ScalarGrid</a>&lt; N &gt;::DataPosition </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -553,7 +547,7 @@ template&lt;size_t N&gt; </div>
 <p>Returns the size of the grid data. </p>
 <p>This function returns the size of the grid data which is not necessarily equal to the grid resolution if the data is not stored at cell-center. </p>
 
-<p>Implemented in <a class="el" href="class_cubby_flow_1_1_vertex_centered_scalar_grid3.html#afbdccd37aadf06e114deeb904f041b6c">CubbyFlow::VertexCenteredScalarGrid3</a>, <a class="el" href="class_cubby_flow_1_1_cell_centered_scalar_grid3.html#a136cfb565146324b1c4c14c4b8c38edb">CubbyFlow::CellCenteredScalarGrid3</a>, <a class="el" href="class_cubby_flow_1_1_vertex_centered_scalar_grid2.html#ae79b8e9fd8c42e46b3c27559ca6868c5">CubbyFlow::VertexCenteredScalarGrid2</a>, and <a class="el" href="class_cubby_flow_1_1_cell_centered_scalar_grid2.html#a4bc684155eeffee6a1b329938bb889b9">CubbyFlow::CellCenteredScalarGrid2</a>.</p>
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_cell_centered_scalar_grid.html#ad5eb2b41b8acc90114cd1cb0c76181d9">CubbyFlow::CellCenteredScalarGrid&lt; N &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_vertex_centered_scalar_grid.html#af525cda6f581b94a15c0b4cd2aac2e35">CubbyFlow::VertexCenteredScalarGrid&lt; N &gt;</a>.</p>
 
 </div>
 </div>
@@ -1490,7 +1484,7 @@ template&lt;size_t N&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 11 2021 06:41:35 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 16 2021 16:49:27 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['facecenteredgrid2',['FaceCenteredGrid2',['../class_cubby_flow_1_1_face_centered_grid2.html',1,'CubbyFlow']]],
-  ['facecenteredgrid3',['FaceCenteredGrid3',['../class_cubby_flow_1_1_face_centered_grid3.html',1,'CubbyFlow']]],
+  ['facecenteredgrid',['FaceCenteredGrid',['../class_cubby_flow_1_1_face_centered_grid.html',1,'CubbyFlow']]],
   ['factory',['Factory',['../class_cubby_flow_1_1_factory.html',1,'CubbyFlow']]],
   ['fdmblas2',['FDMBLAS2',['../struct_cubby_flow_1_1_f_d_m_b_l_a_s2.html',1,'CubbyFlow']]],
   ['fdmblas3',['FDMBLAS3',['../struct_cubby_flow_1_1_f_d_m_b_l_a_s3.html',1,'CubbyFlow']]],

@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['facecenteredgrid_2ehpp',['FaceCenteredGrid.hpp',['../_face_centered_grid_8hpp.html',1,'']]],
-  ['facecenteredgrid2_2ehpp',['FaceCenteredGrid2.hpp',['../_face_centered_grid2_8hpp.html',1,'']]],
-  ['facecenteredgrid3_2ehpp',['FaceCenteredGrid3.hpp',['../_face_centered_grid3_8hpp.html',1,'']]],
+  ['facecenteredgrid_2ehpp',['FaceCenteredGrid.hpp',['../_a_p_i_2_python_2_grid_2_face_centered_grid_8hpp.html',1,'(Global Namespace)'],['../_core_2_grid_2_face_centered_grid_8hpp.html',1,'(Global Namespace)']]],
   ['factory_2ehpp',['Factory.hpp',['../_factory_8hpp.html',1,'']]],
   ['fdmcgsolver_2ehpp',['FDMCGSolver.hpp',['../_f_d_m_c_g_solver_8hpp.html',1,'']]],
   ['fdmcgsolver2_2ehpp',['FDMCGSolver2.hpp',['../_f_d_m_c_g_solver2_8hpp.html',1,'']]],

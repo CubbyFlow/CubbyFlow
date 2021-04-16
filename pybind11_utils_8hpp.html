@@ -74,6 +74,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">pybind11Utils.hpp File Reference</div>  </div>
@@ -90,6 +91,13 @@ $(function() {
 Namespaces</h2></td></tr>
 <tr class="memitem:namespace_cubby_flow"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html">CubbyFlow</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ac35fef4ce6410bc2205a826978baa47e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pybind11_utils_8hpp.html#ac35fef4ce6410bc2205a826978baa47e">CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION2</a>(Class,  Func)</td></tr>
+<tr class="separator:ac35fef4ce6410bc2205a826978baa47e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbcbde1460d0a03c81ef7ad533bd18aa"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pybind11_utils_8hpp.html#afbcbde1460d0a03c81ef7ad533bd18aa">CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION3</a>(Class,  Func)</td></tr>
+<tr class="separator:afbcbde1460d0a03c81ef7ad533bd18aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -181,6 +189,65 @@ Functions</h2></td></tr>
 <tr class="memitem:ac250bb31a221f145d9eea1dc378625d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_cubby_flow.html#ac250bb31a221f145d9eea1dc378625d3">CubbyFlow::ParseGridResizeParams</a> (pybind11::args args, pybind11::kwargs kwargs, Vector2UZ &amp;resolution, Vector2D &amp;gridSpacing, Vector2D &amp;gridOrigin)</td></tr>
 <tr class="separator:ac250bb31a221f145d9eea1dc378625d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ac35fef4ce6410bc2205a826978baa47e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac35fef4ce6410bc2205a826978baa47e">&#9670;&nbsp;</a></span>CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION2</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">Class, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">Func&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">[](<span class="keyword">const</span> Class&amp; instance, pybind11::args args) {                     \</div><div class="line">        if (args.size() == 1)                                            \</div><div class="line">        {                                                                \</div><div class="line">            return instance.Func(<a class="code" href="namespace_cubby_flow.html#a16074a0925a4808b1b89667f60a6067e">ObjectToVector2UZ</a>(args[0]));            \</div><div class="line">        }                                                                \</div><div class="line">        else                                                             \</div><div class="line">        {                                                                \</div><div class="line">            throw std::invalid_argument(<span class="stringliteral">&quot;Invalid number of arguments.&quot;</span>); \</div><div class="line">        }                                                                \</div><div class="line">    }</div><div class="ttc" id="namespace_cubby_flow_html_a16074a0925a4808b1b89667f60a6067e"><div class="ttname"><a href="namespace_cubby_flow.html#a16074a0925a4808b1b89667f60a6067e">CubbyFlow::ObjectToVector2UZ</a></div><div class="ttdeci">Vector2UZ ObjectToVector2UZ(const pybind11::object &amp;obj)</div><div class="ttdef"><b>Definition:</b> pybind11Utils.hpp:272</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="afbcbde1460d0a03c81ef7ad533bd18aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afbcbde1460d0a03c81ef7ad533bd18aa">&#9670;&nbsp;</a></span>CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION3</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION3</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">Class, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">Func&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">[](<span class="keyword">const</span> Class&amp; instance, pybind11::args args) {                     \</div><div class="line">        if (args.size() == 1)                                            \</div><div class="line">        {                                                                \</div><div class="line">            return instance.Func(<a class="code" href="namespace_cubby_flow.html#a97b95718f5b44bb691acb4151b735dfe">ObjectToVector3UZ</a>(args[0]));            \</div><div class="line">        }                                                                \</div><div class="line">        else                                                             \</div><div class="line">        {                                                                \</div><div class="line">            throw std::invalid_argument(<span class="stringliteral">&quot;Invalid number of arguments.&quot;</span>); \</div><div class="line">        }                                                                \</div><div class="line">    }</div><div class="ttc" id="namespace_cubby_flow_html_a97b95718f5b44bb691acb4151b735dfe"><div class="ttname"><a href="namespace_cubby_flow.html#a97b95718f5b44bb691acb4151b735dfe">CubbyFlow::ObjectToVector3UZ</a></div><div class="ttdeci">Vector3UZ ObjectToVector3UZ(const pybind11::object &amp;obj)</div><div class="ttdef"><b>Definition:</b> pybind11Utils.hpp:294</div></div>
+</div><!-- fragment -->
+</div>
+</div>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -190,7 +257,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 11 2021 06:41:33 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 16 2021 16:49:26 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

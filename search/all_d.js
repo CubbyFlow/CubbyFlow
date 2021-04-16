@@ -2,7 +2,7 @@ var searchData=
 [
   ['near',['near',['../struct_cubby_flow_1_1_bounding_box_ray_intersection.html#a4ecf02fcc68bd78a23b92b44ae60315a',1,'CubbyFlow::BoundingBoxRayIntersection']]],
   ['nearest',['Nearest',['../class_cubby_flow_1_1_b_v_h.html#ae8e071367685538e86147aad33de6e21',1,'CubbyFlow::BVH::Nearest()'],['../class_cubby_flow_1_1_octree.html#a1fd402ad605e7a3066e8dc9a7cb83351',1,'CubbyFlow::Octree::Nearest()'],['../class_cubby_flow_1_1_quadtree.html#a743ef8f9ef730103087eccf1dfb68518',1,'CubbyFlow::Quadtree::Nearest()'],['../class_cubby_flow_1_1_list_query_engine.html#ad27ca8f8cff0754c410376dfeda566ad',1,'CubbyFlow::ListQueryEngine::Nearest()'],['../class_cubby_flow_1_1_nearest_neighbor_query_engine.html#a11537528c66663dfb2391905c1875380',1,'CubbyFlow::NearestNeighborQueryEngine::Nearest()']]],
-  ['nearestarraysampler',['NearestArraySampler',['../class_cubby_flow_1_1_nearest_array_sampler.html',1,'CubbyFlow::NearestArraySampler&lt; T, N &gt;'],['../class_cubby_flow_1_1_nearest_array_sampler.html#a7fcdf94817e614865e692146ceb6d882',1,'CubbyFlow::NearestArraySampler::NearestArraySampler(const ArrayView&lt; const T, N &gt; &amp;view, const VectorType &amp;gridSpacing, const VectorType &amp;gridOrigin)'],['../class_cubby_flow_1_1_nearest_array_sampler.html#a9d0051e623fc9daceb4c645716a062ea',1,'CubbyFlow::NearestArraySampler::NearestArraySampler(const NearestArraySampler &amp;other)']]],
+  ['nearestarraysampler',['NearestArraySampler',['../class_cubby_flow_1_1_nearest_array_sampler.html',1,'CubbyFlow::NearestArraySampler&lt; T, N &gt;'],['../class_cubby_flow_1_1_nearest_array_sampler.html#a92a3b112aff82cbe5b3a0f90499e641d',1,'CubbyFlow::NearestArraySampler::NearestArraySampler()=default'],['../class_cubby_flow_1_1_nearest_array_sampler.html#a7fcdf94817e614865e692146ceb6d882',1,'CubbyFlow::NearestArraySampler::NearestArraySampler(const ArrayView&lt; const T, N &gt; &amp;view, const VectorType &amp;gridSpacing, const VectorType &amp;gridOrigin)'],['../class_cubby_flow_1_1_nearest_array_sampler.html#a9d0051e623fc9daceb4c645716a062ea',1,'CubbyFlow::NearestArraySampler::NearestArraySampler(const NearestArraySampler &amp;other)']]],
   ['nearestarraysampler1',['NearestArraySampler1',['../namespace_cubby_flow.html#ae8043f3b3e67306d0fde75c5a5b94f16',1,'CubbyFlow']]],
   ['nearestarraysampler2',['NearestArraySampler2',['../namespace_cubby_flow.html#a1561db5053d8ddc7d51b0e086641487b',1,'CubbyFlow']]],
   ['nearestarraysampler3',['NearestArraySampler3',['../namespace_cubby_flow.html#ac433f0b105729482a6de83913632d4b6',1,'CubbyFlow']]],
@@ -46,6 +46,8 @@ var searchData=
   ['normals',['normals',['../class_cubby_flow_1_1_triangle3.html#a59efa166c1baed374af1eca693763f79',1,'CubbyFlow::Triangle3']]],
   ['normsquared',['NormSquared',['../class_cubby_flow_1_1_matrix_expression.html#a5037e584e3bd4d88851a4767c3cc0f83',1,'CubbyFlow::MatrixExpression']]],
   ['nullcgpreconditioner',['NullCGPreconditioner',['../struct_cubby_flow_1_1_null_c_g_preconditioner.html',1,'CubbyFlow']]],
+  ['numberofadvectablescalardata',['NumberOfAdvectableScalarData',['../class_cubby_flow_1_1_grid_system_data.html#a3fa8c3cd48fcd32871580229db20e002',1,'CubbyFlow::GridSystemData']]],
+  ['numberofadvectablevectordata',['NumberOfAdvectableVectorData',['../class_cubby_flow_1_1_grid_system_data.html#a380140a0011cf21b88e2dbbd702d4f09',1,'CubbyFlow::GridSystemData']]],
   ['numberofcoarsestiter',['numberOfCoarsestIter',['../struct_cubby_flow_1_1_m_g_parameters.html#a4867dfac6a8f1a046a2bf777b9f9af1d',1,'CubbyFlow::MGParameters']]],
   ['numberofcolliders',['NumberOfColliders',['../class_cubby_flow_1_1_collider_set.html#a1e7556b8ded60451ea38dd085d206631',1,'CubbyFlow::ColliderSet']]],
   ['numberofcorrectioniter',['numberOfCorrectionIter',['../struct_cubby_flow_1_1_m_g_parameters.html#a1f3d398180bda0c1053cff425ef08e99',1,'CubbyFlow::MGParameters']]],
@@ -57,7 +59,9 @@ var searchData=
   ['numberofparticles',['NumberOfParticles',['../class_cubby_flow_1_1_particle_system_data.html#abdf038747443146f893ff0a45058d9b2',1,'CubbyFlow::ParticleSystemData']]],
   ['numberofpoints',['NumberOfPoints',['../class_cubby_flow_1_1_triangle_mesh3.html#a2706f825d9b1fe7ffab959b754998b14',1,'CubbyFlow::TriangleMesh3']]],
   ['numberofrestrictioniter',['numberOfRestrictionIter',['../struct_cubby_flow_1_1_m_g_parameters.html#aeab1ea718590e80ce22166df95d7a54b',1,'CubbyFlow::MGParameters']]],
+  ['numberofscalardata',['NumberOfScalarData',['../class_cubby_flow_1_1_grid_system_data.html#ae3515cf08051549a672509916de91ec0',1,'CubbyFlow::GridSystemData']]],
   ['numberofsurfaces',['NumberOfSurfaces',['../class_cubby_flow_1_1_implicit_surface_set.html#aff6a0806d92ee394ab52cc0860e4e631',1,'CubbyFlow::ImplicitSurfaceSet::NumberOfSurfaces()'],['../class_cubby_flow_1_1_surface_set.html#a18867df91e8d8ed3cfea65a45affb4ac',1,'CubbyFlow::SurfaceSet::NumberOfSurfaces()']]],
   ['numberoftriangles',['NumberOfTriangles',['../class_cubby_flow_1_1_triangle_mesh3.html#a21777df2055103419abcd7d879cf1b8b',1,'CubbyFlow::TriangleMesh3']]],
-  ['numberofuvs',['NumberOfUVs',['../class_cubby_flow_1_1_triangle_mesh3.html#ac26e94f5ba104176637f5a1ccd62ce35',1,'CubbyFlow::TriangleMesh3']]]
+  ['numberofuvs',['NumberOfUVs',['../class_cubby_flow_1_1_triangle_mesh3.html#ac26e94f5ba104176637f5a1ccd62ce35',1,'CubbyFlow::TriangleMesh3']]],
+  ['numberofvectordata',['NumberOfVectorData',['../class_cubby_flow_1_1_grid_system_data.html#a9aaf3120c9f014e55c77f8462c28456d',1,'CubbyFlow::GridSystemData']]]
 ];

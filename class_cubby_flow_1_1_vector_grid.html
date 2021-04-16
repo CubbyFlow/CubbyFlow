@@ -92,18 +92,14 @@ Inheritance diagram for CubbyFlow::VectorGrid&lt; N &gt;:</div>
  <div class="center">
   <img src="class_cubby_flow_1_1_vector_grid.png" usemap="#CubbyFlow::VectorGrid_3C_20N_20_3E_map" alt=""/>
   <map id="CubbyFlow::VectorGrid_3C_20N_20_3E_map" name="CubbyFlow::VectorGrid_3C_20N_20_3E_map">
-<area href="class_cubby_flow_1_1_vector_field.html" title="Abstract base class for N-D vector field. " alt="CubbyFlow::VectorField&lt; N &gt;" shape="rect" coords="625,56,865,80"/>
-<area href="class_cubby_flow_1_1_grid.html" title="Abstract base class for N-D cartesian grid structure. " alt="CubbyFlow::Grid&lt; N &gt;" shape="rect" coords="875,56,1115,80"/>
-<area href="class_cubby_flow_1_1_field.html" title="Abstract base class for N-D fields. " alt="CubbyFlow::Field&lt; N &gt;" shape="rect" coords="625,0,865,24"/>
-<area href="class_cubby_flow_1_1_serializable.html" title="Abstract base class for any serializable class. " alt="CubbyFlow::Serializable" shape="rect" coords="875,0,1115,24"/>
-<area href="class_cubby_flow_1_1_collocated_vector_grid2.html" title="Abstract base class for 2-D collocated vector grid structure. " alt="CubbyFlow::CollocatedVectorGrid2" shape="rect" coords="125,168,365,192"/>
-<area href="class_cubby_flow_1_1_collocated_vector_grid3.html" title="Abstract base class for 3-D collocated vector grid structure. " alt="CubbyFlow::CollocatedVectorGrid3" shape="rect" coords="625,168,865,192"/>
-<area href="class_cubby_flow_1_1_face_centered_grid2.html" title="2-D face-centered (a.k.a MAC or staggered) grid. " alt="CubbyFlow::FaceCenteredGrid2" shape="rect" coords="875,168,1115,192"/>
-<area href="class_cubby_flow_1_1_face_centered_grid3.html" title="3-D face-centered (a.k.a MAC or staggered) grid. " alt="CubbyFlow::FaceCenteredGrid3" shape="rect" coords="1125,168,1365,192"/>
-<area href="class_cubby_flow_1_1_cell_centered_vector_grid2.html" title="2-D Cell-centered vector grid structure. " alt="CubbyFlow::CellCenteredVectorGrid2" shape="rect" coords="0,224,240,248"/>
-<area href="class_cubby_flow_1_1_vertex_centered_vector_grid2.html" title="2-D Vertex-centered vector grid structure. " alt="CubbyFlow::VertexCenteredVectorGrid2" shape="rect" coords="250,224,490,248"/>
-<area href="class_cubby_flow_1_1_cell_centered_vector_grid3.html" title="3-D Cell-centered vector grid structure. " alt="CubbyFlow::CellCenteredVectorGrid3" shape="rect" coords="500,224,740,248"/>
-<area href="class_cubby_flow_1_1_vertex_centered_vector_grid3.html" title="3-D Vertex-centered vector grid structure. " alt="CubbyFlow::VertexCenteredVectorGrid3" shape="rect" coords="750,224,990,248"/>
+<area href="class_cubby_flow_1_1_vector_field.html" title="Abstract base class for N-D vector field. " alt="CubbyFlow::VectorField&lt; N &gt;" shape="rect" coords="138,56,404,80"/>
+<area href="class_cubby_flow_1_1_grid.html" title="Abstract base class for N-D cartesian grid structure. " alt="CubbyFlow::Grid&lt; N &gt;" shape="rect" coords="414,56,680,80"/>
+<area href="class_cubby_flow_1_1_field.html" title="Abstract base class for N-D fields. " alt="CubbyFlow::Field&lt; N &gt;" shape="rect" coords="138,0,404,24"/>
+<area href="class_cubby_flow_1_1_serializable.html" title="Abstract base class for any serializable class. " alt="CubbyFlow::Serializable" shape="rect" coords="414,0,680,24"/>
+<area href="class_cubby_flow_1_1_collocated_vector_grid.html" title="Abstract base class for N-D collocated vector grid structure. " alt="CubbyFlow::CollocatedVectorGrid&lt; N &gt;" shape="rect" coords="138,168,404,192"/>
+<area href="class_cubby_flow_1_1_face_centered_grid.html" title="N-D face-centered (a.k.a MAC or staggered) grid. " alt="CubbyFlow::FaceCenteredGrid&lt; N &gt;" shape="rect" coords="414,168,680,192"/>
+<area href="class_cubby_flow_1_1_cell_centered_vector_grid.html" title="N-D Cell-centered vector grid structure. " alt="CubbyFlow::CellCenteredVectorGrid&lt; N &gt;" shape="rect" coords="0,224,266,248"/>
+<area href="class_cubby_flow_1_1_vertex_centered_vector_grid.html" title="N-D Vertex-centered vector grid structure. " alt="CubbyFlow::VertexCenteredVectorGrid&lt; N &gt;" shape="rect" coords="276,224,542,248"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -115,10 +111,6 @@ Public Types</h2></td></tr>
 <tr class="memitem:ac7ba80c6ad18fb1cb82d38bc7c581206"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_vector_grid.html#ac7ba80c6ad18fb1cb82d38bc7c581206">ConstVectorDataView</a> = <a class="el" href="class_cubby_flow_1_1_array_view.html">ArrayView</a>&lt; const <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; double, N &gt;, N &gt;</td></tr>
 <tr class="memdesc:ac7ba80c6ad18fb1cb82d38bc7c581206"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only array view type.  <a href="#ac7ba80c6ad18fb1cb82d38bc7c581206">More...</a><br /></td></tr>
 <tr class="separator:ac7ba80c6ad18fb1cb82d38bc7c581206"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_types_class_cubby_flow_1_1_grid"><td colspan="2" onclick="javascript:toggleInherit('pub_types_class_cubby_flow_1_1_grid')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="class_cubby_flow_1_1_grid.html">CubbyFlow::Grid&lt; N &gt;</a></td></tr>
-<tr class="memitem:a4f7751d2dd62e29297f0059a06c3fd40 inherit pub_types_class_cubby_flow_1_1_grid"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid.html#a4f7751d2dd62e29297f0059a06c3fd40">DataPositionFunc</a> = std::function&lt; <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; double, N &gt;(const <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; size_t, N &gt; &amp;)&gt;</td></tr>
-<tr class="memdesc:a4f7751d2dd62e29297f0059a06c3fd40 inherit pub_types_class_cubby_flow_1_1_grid"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function type for mapping data index to actual position.  <a href="class_cubby_flow_1_1_grid.html#a4f7751d2dd62e29297f0059a06c3fd40">More...</a><br /></td></tr>
-<tr class="separator:a4f7751d2dd62e29297f0059a06c3fd40 inherit pub_types_class_cubby_flow_1_1_grid"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -198,9 +190,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4ddeaebd16bad24c4904a9cb8818e78b inherit pub_methods_class_cubby_flow_1_1_grid"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_cubby_flow_1_1_bounding_box.html">BoundingBox</a>&lt; double, N &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid.html#a4ddeaebd16bad24c4904a9cb8818e78b">GetBoundingBox</a> () const</td></tr>
 <tr class="memdesc:a4ddeaebd16bad24c4904a9cb8818e78b inherit pub_methods_class_cubby_flow_1_1_grid"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the bounding box of the grid.  <a href="class_cubby_flow_1_1_grid.html#a4ddeaebd16bad24c4904a9cb8818e78b">More...</a><br /></td></tr>
 <tr class="separator:a4ddeaebd16bad24c4904a9cb8818e78b inherit pub_methods_class_cubby_flow_1_1_grid"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebdc185af47eab5ce59ec4c9d42bf002 inherit pub_methods_class_cubby_flow_1_1_grid"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_grid.html#a4f7751d2dd62e29297f0059a06c3fd40">DataPositionFunc</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid.html#aebdc185af47eab5ce59ec4c9d42bf002">CellCenterPosition</a> () const</td></tr>
-<tr class="memdesc:aebdc185af47eab5ce59ec4c9d42bf002 inherit pub_methods_class_cubby_flow_1_1_grid"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the function that maps grid index to the cell-center position.  <a href="class_cubby_flow_1_1_grid.html#aebdc185af47eab5ce59ec4c9d42bf002">More...</a><br /></td></tr>
-<tr class="separator:aebdc185af47eab5ce59ec4c9d42bf002 inherit pub_methods_class_cubby_flow_1_1_grid"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0711e25f5409d4dba2bc3d2eac2fd11f inherit pub_methods_class_cubby_flow_1_1_grid"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_grid_data_position_func.html">GridDataPositionFunc</a>&lt; N &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid.html#a0711e25f5409d4dba2bc3d2eac2fd11f">CellCenterPosition</a> () const</td></tr>
+<tr class="memdesc:a0711e25f5409d4dba2bc3d2eac2fd11f inherit pub_methods_class_cubby_flow_1_1_grid"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the function that maps grid index to the cell-center position.  <a href="class_cubby_flow_1_1_grid.html#a0711e25f5409d4dba2bc3d2eac2fd11f">More...</a><br /></td></tr>
+<tr class="separator:a0711e25f5409d4dba2bc3d2eac2fd11f inherit pub_methods_class_cubby_flow_1_1_grid"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa20c9a0e088b78b427b95eac1f5582b inherit pub_methods_class_cubby_flow_1_1_grid"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid.html#afa20c9a0e088b78b427b95eac1f5582b">ForEachCellIndex</a> (const std::function&lt; void(const <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; size_t, N &gt; &amp;)&gt; &amp;func) const</td></tr>
 <tr class="memdesc:afa20c9a0e088b78b427b95eac1f5582b inherit pub_methods_class_cubby_flow_1_1_grid"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the given function <code>func</code> for each grid cell.  <a href="class_cubby_flow_1_1_grid.html#afa20c9a0e088b78b427b95eac1f5582b">More...</a><br /></td></tr>
 <tr class="separator:afa20c9a0e088b78b427b95eac1f5582b inherit pub_methods_class_cubby_flow_1_1_grid"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -416,7 +408,7 @@ template&lt;size_t N&gt; </div>
 
 <p>Returns the copy of the grid instance. </p>
 
-<p>Implemented in <a class="el" href="class_cubby_flow_1_1_face_centered_grid3.html#ac33593e29c8819bee2e54482eb7d1e9d">CubbyFlow::FaceCenteredGrid3</a>, <a class="el" href="class_cubby_flow_1_1_face_centered_grid2.html#ab6a471c0203eb6b9a5ab6fd695748be2">CubbyFlow::FaceCenteredGrid2</a>, <a class="el" href="class_cubby_flow_1_1_vertex_centered_vector_grid3.html#a8e6ce5bf2ada21503c3c3e2a0e19607b">CubbyFlow::VertexCenteredVectorGrid3</a>, <a class="el" href="class_cubby_flow_1_1_vertex_centered_vector_grid2.html#a76cdbf59d673df8d0b4c0961dd7a803c">CubbyFlow::VertexCenteredVectorGrid2</a>, <a class="el" href="class_cubby_flow_1_1_cell_centered_vector_grid3.html#a13240ca24d55c509b6772064fb1fd71a">CubbyFlow::CellCenteredVectorGrid3</a>, and <a class="el" href="class_cubby_flow_1_1_cell_centered_vector_grid2.html#a7f5156cc9ebda9c92df95f8337ff3b52">CubbyFlow::CellCenteredVectorGrid2</a>.</p>
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_face_centered_grid.html#a121a2da819253f2dc8ea07ff7388fcc7">CubbyFlow::FaceCenteredGrid&lt; N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_cell_centered_vector_grid.html#a2078381b8f6b43c61bf8484d66bb88f3">CubbyFlow::CellCenteredVectorGrid&lt; N &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_vertex_centered_vector_grid.html#a5c573d77368fc9b39803937dbd24a60c">CubbyFlow::VertexCenteredVectorGrid&lt; N &gt;</a>.</p>
 
 </div>
 </div>
@@ -490,6 +482,8 @@ template&lt;size_t N&gt; </div>
 
 <p>Fills the grid with given value. </p>
 
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_face_centered_grid.html#a0aa614b62a06dae01631ff016f626ae8">CubbyFlow::FaceCenteredGrid&lt; N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_cell_centered_vector_grid.html#acb5b31952688b965ad63aa21e9be62c3">CubbyFlow::CellCenteredVectorGrid&lt; N &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_vertex_centered_vector_grid.html#afca7713b62ef11048d42b991475a19b1">CubbyFlow::VertexCenteredVectorGrid&lt; N &gt;</a>.</p>
+
 </div>
 </div>
 <a id="aa9500d1a0f5ea81774151bab8343e2e1"></a>
@@ -529,6 +523,8 @@ template&lt;size_t N&gt; </div>
 </div><div class="memdoc">
 
 <p>Fills the grid with given position-to-value mapping function. </p>
+
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_face_centered_grid.html#a7e5507ae1897e81c90326e14a1557e5c">CubbyFlow::FaceCenteredGrid&lt; N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_cell_centered_vector_grid.html#ad19be565ce0a27aa0dbc1a246f788ad4">CubbyFlow::CellCenteredVectorGrid&lt; N &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_vertex_centered_vector_grid.html#a6ad7cf96165af73b265f783e7b34bf87">CubbyFlow::VertexCenteredVectorGrid&lt; N &gt;</a>.</p>
 
 </div>
 </div>
@@ -582,6 +578,8 @@ template&lt;size_t N&gt; </div>
 
 <p>Invoked when the resizing happens. </p>
 <p>This callback function is called when the grid gets resized. The overriding class should allocate the internal storage based on its data layout scheme. </p>
+
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_face_centered_grid.html#a717bc0427cf405926f68dd82dc0016a3">CubbyFlow::FaceCenteredGrid&lt; N &gt;</a>.</p>
 
 </div>
 </div>
@@ -705,7 +703,7 @@ template&lt;size_t N&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 11 2021 06:41:35 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 16 2021 16:49:28 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
