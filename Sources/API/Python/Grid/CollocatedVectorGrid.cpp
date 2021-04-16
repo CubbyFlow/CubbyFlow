@@ -18,11 +18,6 @@ using namespace CubbyFlow;
 
 void AddCollocatedVectorGrid2(pybind11::module& m)
 {
-    using DivergenceAtDataPointFunc =
-        double (CollocatedVectorGrid2::*)(const Vector2UZ&) const;
-    using CurlAtDataPointFunc =
-        double (CollocatedVectorGrid2::*)(const Vector2UZ&) const;
-
     pybind11::class_<CollocatedVectorGrid2, CollocatedVectorGrid2Ptr,
                      VectorGrid2>(static_cast<pybind11::handle>(m),
                                   "CollocatedVectorGrid2",
@@ -55,27 +50,25 @@ void AddCollocatedVectorGrid2(pybind11::module& m)
 		)pbdoc",
             pybind11::arg("idx"), pybind11::arg("val"))
         .def("DivergenceAtDataPoint",
-             static_cast<DivergenceAtDataPointFunc>(
-                 &CollocatedVectorGrid2::DivergenceAtDataPoint),
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION2(CollocatedVectorGrid2,
+                                                   DivergenceAtDataPoint),
              R"pbdoc(
 			Returns divergence at data point location.
 
 			Parameters
 			----------
-            - idx : Data point index (i, j).
-		)pbdoc",
-             pybind11::arg("idx"))
+            - `*args` : Data point index (i, j).
+		)pbdoc")
         .def("CurlAtDataPoint",
-             static_cast<CurlAtDataPointFunc>(
-                 &CollocatedVectorGrid2::CurlAtDataPoint),
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION2(CollocatedVectorGrid2,
+                                                   CurlAtDataPoint),
              R"pbdoc(
 			Returns curl at data point location.
 
 			Parameters
 			----------
-            - idx : Data point index (i, j).
-		)pbdoc",
-             pybind11::arg("idx"))
+            - `*args` : Data point index (i, j).
+		)pbdoc")
         .def("DataView",
              static_cast<ArrayView2<Vector2D> (CollocatedVectorGrid2::*)()>(
                  &CollocatedVectorGrid2::DataView),
@@ -141,11 +134,6 @@ void AddCollocatedVectorGrid2(pybind11::module& m)
 
 void AddCollocatedVectorGrid3(pybind11::module& m)
 {
-    using DivergenceAtDataPointFunc =
-        double (CollocatedVectorGrid3::*)(const Vector3UZ&) const;
-    using CurlAtDataPointFunc =
-        Vector3D (CollocatedVectorGrid3::*)(const Vector3UZ&) const;
-
     pybind11::class_<CollocatedVectorGrid3, CollocatedVectorGrid3Ptr,
                      VectorGrid3>(static_cast<pybind11::handle>(m),
                                   "CollocatedVectorGrid3",
@@ -178,27 +166,25 @@ void AddCollocatedVectorGrid3(pybind11::module& m)
 		)pbdoc",
             pybind11::arg("idx"), pybind11::arg("val"))
         .def("DivergenceAtDataPoint",
-             static_cast<DivergenceAtDataPointFunc>(
-                 &CollocatedVectorGrid3::DivergenceAtDataPoint),
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION3(CollocatedVectorGrid3,
+                                                   DivergenceAtDataPoint),
              R"pbdoc(
 			Returns divergence at data point location.
 
 			Parameters
 			----------
-            - idx : Data point index (i, j, k).
-		)pbdoc",
-             pybind11::arg("idx"))
+            - `*args` : Data point index (i, j, k).
+		)pbdoc")
         .def("CurlAtDataPoint",
-             static_cast<CurlAtDataPointFunc>(
-                 &CollocatedVectorGrid3::CurlAtDataPoint),
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION3(CollocatedVectorGrid3,
+                                                   CurlAtDataPoint),
              R"pbdoc(
 			Returns curl at data point location.
 
 			Parameters
 			----------
-            - idx : Data point index (i, j, k).
-		)pbdoc",
-             pybind11::arg("idx"))
+            - `*args` : Data point index (i, j, k).
+		)pbdoc")
         .def("DataView",
              static_cast<ArrayView3<Vector3D> (CollocatedVectorGrid3::*)()>(
                  &CollocatedVectorGrid3::DataView),

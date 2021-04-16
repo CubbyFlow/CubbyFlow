@@ -27,10 +27,10 @@ def test_grid2():
                                               gridOrigin=(7, 5))
     assert a.HasSameShape(b)
 
-    def func(i, j):
+    def func(idx):
         global cnt
-        assert i >= 0 and i < 3
-        assert j >= 0 and j < 4
+        assert idx[0] >= 0 and idx[0] < 3
+        assert idx[1] >= 0 and idx[1] < 4
         cnt += 1
     cnt = 0
     a.ForEachCellIndex(func)
@@ -76,13 +76,13 @@ def test_scalar_grid2():
             assert acc[j, i] == a[i, j]
             # Can't compare to analytic solution because FDM with such a coarse
             # grid will return inaccurate results by design.
-            assert_vector_similar(a.GradientAtDataPoint(i, j), a.Gradient(pt))
-            assert a.LaplacianAtDataPoint(i, j) == a.Laplacian(pt)
+            assert_vector_similar(a.GradientAtDataPoint((i, j)), a.Gradient(pt))
+            assert a.LaplacianAtDataPoint((i, j)) == a.Laplacian(pt)
 
-    def func(i, j):
+    def func(idx):
         global cnt
-        assert i >= 0 and i < a.resolution.x + 1
-        assert j >= 0 and j < a.resolution.y + 1
+        assert idx[0] >= 0 and idx[0] < a.resolution.x + 1
+        assert idx[1] >= 0 and idx[1] < a.resolution.y + 1
         cnt += 1
     cnt = 0
     a.ForEachDataPointIndex(func)
@@ -194,11 +194,11 @@ def test_grid3():
                                             gridOrigin=(7, 5, 3))
     assert a.HasSameShape(b)
 
-    def func(i, j, k):
+    def func(idx):
         global cnt
-        assert i >= 0 and i < 3
-        assert j >= 0 and j < 4
-        assert k >= 0 and k < 5
+        assert idx[0] >= 0 and idx[0] < 3
+        assert idx[1] >= 0 and idx[1] < 4
+        assert idx[2] >= 0 and idx[2] < 5
         cnt += 1
     cnt = 0
     a.ForEachCellIndex(func)
@@ -248,14 +248,14 @@ def test_scalar_grid3():
                 # Can't compare to analytic solution because FDM with such a
                 # coarse grid will return inaccurate results by design.
                 assert_vector_similar(
-                    a.GradientAtDataPoint(i, j, k), a.Gradient(pt))
-                assert a.LaplacianAtDataPoint(i, j, k) == a.Laplacian(pt)
+                    a.GradientAtDataPoint((i, j, k)), a.Gradient(pt))
+                assert a.LaplacianAtDataPoint((i, j, k)) == a.Laplacian(pt)
 
-    def func(i, j, k):
+    def func(idx):
         global cnt
-        assert i >= 0 and i < a.resolution.x
-        assert j >= 0 and j < a.resolution.y
-        assert k >= 0 and k < a.resolution.z
+        assert idx[0] >= 0 and idx[0] < a.resolution.x
+        assert idx[1] >= 0 and idx[1] < a.resolution.y
+        assert idx[2] >= 0 and idx[2] < a.resolution.z
         cnt += 1
     cnt = 0
     a.ForEachDataPointIndex(func)

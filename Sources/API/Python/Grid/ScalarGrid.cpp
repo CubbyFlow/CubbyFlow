@@ -19,11 +19,6 @@ using namespace CubbyFlow;
 
 void AddScalarGrid2(pybind11::module& m)
 {
-    using GradientAtDataPointFunc =
-        Vector2D (ScalarGrid2::*)(const Vector2UZ&) const;
-    using LaplacianAtDataPointFunc =
-        double (ScalarGrid2::*)(const Vector2UZ&) const;
-
     pybind11::class_<ScalarGrid2, ScalarGrid2Ptr, ScalarField2, Grid2>(
         static_cast<pybind11::handle>(m), "ScalarGrid2",
         R"pbdoc(
@@ -98,27 +93,25 @@ void AddScalarGrid2(pybind11::module& m)
 		)pbdoc",
             pybind11::arg("idx"), pybind11::arg("val"))
         .def("GradientAtDataPoint",
-             static_cast<GradientAtDataPointFunc>(
-                 &ScalarGrid2::GradientAtDataPoint),
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION2(ScalarGrid2,
+                                                   GradientAtDataPoint),
              R"pbdoc(
 			Returns the gradient vector at given data point.
 
 			Parameters
 			----------
-			- idx : Data point index (i, j).
-		)pbdoc",
-             pybind11::arg("idx"))
+			- `*args` : Data point index (i, j).
+		)pbdoc")
         .def("LaplacianAtDataPoint",
-             static_cast<LaplacianAtDataPointFunc>(
-                 &ScalarGrid2::LaplacianAtDataPoint),
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION2(ScalarGrid2,
+                                                   LaplacianAtDataPoint),
              R"pbdoc(
 			Returns the Laplacian at given data point.
 
 			Parameters
 			----------
-			- idx : Data point index (i, j).
-		)pbdoc",
-             pybind11::arg("idx"))
+			- `*args` : Data point index (i, j).
+		)pbdoc")
         .def("DataView",
              static_cast<ArrayView2<double> (ScalarGrid2::*)()>(
                  &ScalarGrid2::DataView),
@@ -197,11 +190,6 @@ void AddScalarGrid2(pybind11::module& m)
 
 void AddScalarGrid3(pybind11::module& m)
 {
-    using GradientAtDataPointFunc =
-        Vector3D (ScalarGrid3::*)(const Vector3UZ&) const;
-    using LaplacianAtDataPointFunc =
-        double (ScalarGrid3::*)(const Vector3UZ&) const;
-
     pybind11::class_<ScalarGrid3, ScalarGrid3Ptr, ScalarField3, Grid3>(
         static_cast<pybind11::handle>(m), "ScalarGrid3",
         R"pbdoc(
@@ -276,27 +264,25 @@ void AddScalarGrid3(pybind11::module& m)
 		)pbdoc",
             pybind11::arg("idx"), pybind11::arg("val"))
         .def("GradientAtDataPoint",
-             static_cast<GradientAtDataPointFunc>(
-                 &ScalarGrid3::GradientAtDataPoint),
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION3(ScalarGrid3,
+                                                   GradientAtDataPoint),
              R"pbdoc(
 			Returns the gradient vector at given data point.
 
 			Parameters
 			----------
-            - idx : Data point index (i, j, k).
-		)pbdoc",
-             pybind11::arg("idx"))
+            - `*args` : Data point index (i, j, k).
+		)pbdoc")
         .def("LaplacianAtDataPoint",
-             static_cast<LaplacianAtDataPointFunc>(
-                 &ScalarGrid3::LaplacianAtDataPoint),
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION3(ScalarGrid3,
+                                                   LaplacianAtDataPoint),
              R"pbdoc(
 			Returns the Laplacian at given data point.
 
 			Parameters
 			----------
-            - idx : Data point index (i, j, k).
-		)pbdoc",
-             pybind11::arg("idx"))
+            - `*args` : Data point index (i, j, k).
+		)pbdoc")
         .def("DataView",
              static_cast<ArrayView3<double> (ScalarGrid3::*)()>(
                  &ScalarGrid3::DataView),

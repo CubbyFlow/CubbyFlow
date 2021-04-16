@@ -6,10 +6,10 @@ def test_face_centered_grid2_Fill():
     a.Fill((3.0, 4.0))
     for j in range(10):
         for i in range(11):
-            assert a.GetU(i, j) == 3.0
+            assert a.U((i, j)) == 3.0
     for j in range(11):
         for i in range(10):
-            assert a.GetV(i, j) == 4.0
+            assert a.V((i, j)) == 4.0
 
     def filler(pt):
         return (pt.x, pt.y)
@@ -17,10 +17,10 @@ def test_face_centered_grid2_Fill():
     a.Fill(filler)
     for j in range(10):
         for i in range(11):
-            assert a.GetU(i, j) == i
+            assert a.U((i, j)) == i
     for j in range(11):
         for i in range(10):
-            assert a.GetV(i, j) == j
+            assert a.V((i, j)) == j
 
 
 def test_face_centered_grid2_for_each():
@@ -28,9 +28,9 @@ def test_face_centered_grid2_for_each():
     # Workaround for Python 2.x which doesn't support nonlocal
     d = {'ei': 0, 'ej': 0}
 
-    def checkU(i, j):
-        assert i == d['ei']
-        assert j == d['ej']
+    def checkU(idx):
+        assert idx[0] == d['ei']
+        assert idx[1] == d['ej']
         d['ei'] += 1
         if d['ei'] >= 11:
             d['ei'] = 0
@@ -39,9 +39,9 @@ def test_face_centered_grid2_for_each():
     a.ForEachUIndex(checkU)
     d = {'ei': 0, 'ej': 0}
 
-    def checkV(i, j):
-        assert i == d['ei']
-        assert j == d['ej']
+    def checkV(idx):
+        assert idx[0] == d['ei']
+        assert idx[1] == d['ej']
         d['ei'] += 1
         if d['ei'] >= 10:
             d['ei'] = 0
@@ -65,7 +65,7 @@ def test_face_centered_grid2_serialization():
 
     for j in range(10):
         for i in range(11):
-            assert b.GetU(i, j) == i
+            assert b.U((i, j)) == i
     for j in range(11):
         for i in range(10):
-            assert b.GetV(i, j) == j
+            assert b.V((i, j)) == j

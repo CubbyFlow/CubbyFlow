@@ -18,13 +18,6 @@ using namespace CubbyFlow;
 
 void AddFaceCenteredGrid2(pybind11::module& m)
 {
-    using ValueAtCenterFunc =
-        Vector2D (FaceCenteredGrid2::*)(const Vector2UZ&) const;
-    using DivergenceAtCellCenterFunc =
-        double (FaceCenteredGrid2::*)(const Vector2UZ&) const;
-    using CurlAtCellCenterFunc =
-        double (FaceCenteredGrid2::*)(const Vector2UZ&) const;
-
     pybind11::class_<FaceCenteredGrid2, FaceCenteredGrid2Ptr, VectorGrid2>(
         static_cast<pybind11::handle>(m), "FaceCenteredGrid2",
         R"pbdoc(
@@ -123,38 +116,35 @@ void AddFaceCenteredGrid2(pybind11::module& m)
 		)pbdoc",
             pybind11::arg("idx"), pybind11::arg("val"))
         .def("ValueAtCellCenter",
-             static_cast<ValueAtCenterFunc>(
-                 &FaceCenteredGrid2::ValueAtCellCenter),
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid2,
+                                                   ValueAtCellCenter),
              R"pbdoc(
 			Returns interpolated value at cell center.
 
 			Parameters
 			----------
-            - idx : Data point index (i, j).
-		)pbdoc",
-             pybind11::arg("idx"))
+            - `*args` : Data point index (i, j).
+		)pbdoc")
         .def("DivergenceAtCellCenter",
-             static_cast<DivergenceAtCellCenterFunc>(
-                 &FaceCenteredGrid2::DivergenceAtCellCenter),
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid2,
+                                                   DivergenceAtCellCenter),
              R"pbdoc(
 			Returns divergence at cell center.
 
 			Parameters
 			----------
-            - idx : Data point index (i, j).
-		)pbdoc",
-             pybind11::arg("idx"))
+            - `*args` : Data point index (i, j).
+		)pbdoc")
         .def("CurlAtCellCenter",
-             static_cast<CurlAtCellCenterFunc>(
-                 &FaceCenteredGrid2::CurlAtCellCenter),
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid2,
+                                                   CurlAtCellCenter),
              R"pbdoc(
 			Returns curl at cell center.
 
 			Parameters
 			----------
-            - idx : Data point index (i, j).
-		)pbdoc",
-             pybind11::arg("idx"))
+            - `*args` : Data point index (i, j).
+		)pbdoc")
         .def("UView",
              static_cast<ArrayView2<double> (FaceCenteredGrid2::*)()>(
                  &FaceCenteredGrid2::UView),
@@ -287,12 +277,6 @@ void AddFaceCenteredGrid2(pybind11::module& m)
 
 void AddFaceCenteredGrid3(pybind11::module& m)
 {
-    using ValueAtCenterFunc =
-        Vector3D (FaceCenteredGrid3::*)(const Vector3UZ&) const;
-    using DivergenceAtCellCenterFunc =
-        double (FaceCenteredGrid3::*)(const Vector3UZ&) const;
-    using CurlAtCellCenterFunc =
-        Vector3D (FaceCenteredGrid3::*)(const Vector3UZ&) const;
     using PositionFunc = GridDataPositionFunc<3> (FaceCenteredGrid3::*)() const;
     using SizeFunc = Vector3UZ (FaceCenteredGrid3::*)() const;
     using OriginFunc = Vector3D (FaceCenteredGrid3::*)() const;
@@ -421,38 +405,35 @@ void AddFaceCenteredGrid3(pybind11::module& m)
 		)pbdoc",
             pybind11::arg("idx"), pybind11::arg("val"))
         .def("ValueAtCellCenter",
-             static_cast<ValueAtCenterFunc>(
-                 &FaceCenteredGrid3::ValueAtCellCenter),
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION3(FaceCenteredGrid3,
+                                                   ValueAtCellCenter),
              R"pbdoc(
 			Returns interpolated value at cell center.
 
 			Parameters
 			----------
-			- idx : Data point index (i, j, k).
-		)pbdoc",
-             pybind11::arg("idx"))
+			- `*args` : Data point index (i, j, k).
+		)pbdoc")
         .def("DivergenceAtCellCenter",
-             static_cast<DivergenceAtCellCenterFunc>(
-                 &FaceCenteredGrid3::DivergenceAtCellCenter),
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION3(FaceCenteredGrid3,
+                                                   DivergenceAtCellCenter),
              R"pbdoc(
 			Returns divergence at cell center.
 
 			Parameters
 			----------
-            - idx : Data point index (i, j, k).
-		)pbdoc",
-             pybind11::arg("idx"))
+            - `*args` : Data point index (i, j, k).
+		)pbdoc")
         .def("CurlAtCellCenter",
-             static_cast<CurlAtCellCenterFunc>(
-                 &FaceCenteredGrid3::CurlAtCellCenter),
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION3(FaceCenteredGrid3,
+                                                   CurlAtCellCenter),
              R"pbdoc(
 			Returns curl at cell center.
 
 			Parameters
 			----------
-            - idx : Data point index (i, j, k).
-		)pbdoc",
-             pybind11::arg("idx"))
+            - `*args` : Data point index (i, j, k).
+		)pbdoc")
         .def("UView",
              static_cast<ArrayView3<double> (FaceCenteredGrid3::*)()>(
                  &FaceCenteredGrid3::UView),

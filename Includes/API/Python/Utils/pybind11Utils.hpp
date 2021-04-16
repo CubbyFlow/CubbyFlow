@@ -580,4 +580,28 @@ inline void ParseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
 }
 }  // namespace CubbyFlow
 
+#define CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION2(Class, Func)               \
+    [](const Class& instance, pybind11::args args) {                     \
+        if (args.size() == 1)                                            \
+        {                                                                \
+            return instance.Func(ObjectToVector2UZ(args[0]));            \
+        }                                                                \
+        else                                                             \
+        {                                                                \
+            throw std::invalid_argument("Invalid number of arguments."); \
+        }                                                                \
+    }
+
+#define CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION3(Class, Func)               \
+    [](const Class& instance, pybind11::args args) {                     \
+        if (args.size() == 1)                                            \
+        {                                                                \
+            return instance.Func(ObjectToVector3UZ(args[0]));            \
+        }                                                                \
+        else                                                             \
+        {                                                                \
+            throw std::invalid_argument("Invalid number of arguments."); \
+        }                                                                \
+    }
+
 #endif
