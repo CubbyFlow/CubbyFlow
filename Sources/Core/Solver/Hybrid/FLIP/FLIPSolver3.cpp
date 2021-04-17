@@ -41,43 +41,43 @@ void FLIPSolver3::TransferFromParticlesToGrids()
     PICSolver3::TransferFromParticlesToGrids();
 
     // Store snapshot
-    const FaceCenteredGrid3Ptr vel = GetGridSystemData()->GetVelocity();
-    ConstArrayView3<double> u = GetGridSystemData()->GetVelocity()->UView();
-    ConstArrayView3<double> v = GetGridSystemData()->GetVelocity()->VView();
-    ConstArrayView3<double> w = GetGridSystemData()->GetVelocity()->WView();
+    const FaceCenteredGrid3Ptr vel = GetGridSystemData()->Velocity();
+    ConstArrayView3<double> u = GetGridSystemData()->Velocity()->UView();
+    ConstArrayView3<double> v = GetGridSystemData()->Velocity()->VView();
+    ConstArrayView3<double> w = GetGridSystemData()->Velocity()->WView();
     m_uDelta.Resize(u.Size());
     m_vDelta.Resize(v.Size());
     m_wDelta.Resize(w.Size());
 
     vel->ParallelForEachUIndex(
-        [&](size_t i, size_t j, size_t k) { m_uDelta(i, j, k) = u(i, j, k); });
+        [&](const Vector3UZ& idx) { m_uDelta(idx) = u(idx); });
     vel->ParallelForEachVIndex(
-        [&](size_t i, size_t j, size_t k) { m_vDelta(i, j, k) = v(i, j, k); });
+        [&](const Vector3UZ& idx) { m_vDelta(idx) = v(idx); });
     vel->ParallelForEachWIndex(
-        [&](size_t i, size_t j, size_t k) { m_wDelta(i, j, k) = w(i, j, k); });
+        [&](const Vector3UZ& idx) { m_wDelta(idx) = w(idx); });
 }
 
 void FLIPSolver3::TransferFromGridsToParticles()
 {
-    FaceCenteredGrid3Ptr flow = GetGridSystemData()->GetVelocity();
+    FaceCenteredGrid3Ptr flow = GetGridSystemData()->Velocity();
     ArrayView1<Vector3<double>> positions =
         GetParticleSystemData()->Positions();
     ArrayView1<Vector3<double>> velocities =
         GetParticleSystemData()->Velocities();
     const size_t numberOfParticles =
-        GetParticleSystemData()->GetNumberOfParticles();
+        GetParticleSystemData()->NumberOfParticles();
 
     // Compute delta
-    flow->ParallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-        m_uDelta(i, j, k) = flow->GetU(i, j, k) - m_uDelta(i, j, k);
+    flow->ParallelForEachUIndex([&](const Vector3UZ& idx) {
+        m_uDelta(idx) = flow->U(idx) - m_uDelta(idx);
     });
 
-    flow->ParallelForEachVIndex([&](size_t i, size_t j, size_t k) {
-        m_vDelta(i, j, k) = flow->GetV(i, j, k) - m_vDelta(i, j, k);
+    flow->ParallelForEachVIndex([&](const Vector3UZ& idx) {
+        m_vDelta(idx) = flow->V(idx) - m_vDelta(idx);
     });
 
-    flow->ParallelForEachWIndex([&](size_t i, size_t j, size_t k) {
-        m_wDelta(i, j, k) = flow->GetW(i, j, k) - m_wDelta(i, j, k);
+    flow->ParallelForEachWIndex([&](const Vector3UZ& idx) {
+        m_wDelta(idx) = flow->W(idx) - m_wDelta(idx);
     });
 
     LinearArraySampler3<double> uSampler{ m_uDelta.View(),

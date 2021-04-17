@@ -1,14 +1,16 @@
 #include "pch.hpp"
 
-#include <Core/Grid/CellCenteredScalarGrid3.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Solver/Grid/GridBackwardEulerDiffusionSolver3.hpp>
 
 using namespace CubbyFlow;
 
 TEST(GridBackwardEulerDiffusionSolver3, Solve)
 {
-    CellCenteredScalarGrid3 src(3, 3, 3, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0);
-    CellCenteredScalarGrid3 dst(3, 3, 3, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0);
+    CellCenteredScalarGrid3 src({ 3, 3, 3 }, { 1.0, 1.0, 1.0 },
+                                { 0.0, 0.0, 0.0 });
+    CellCenteredScalarGrid3 dst({ 3, 3, 3 }, { 1.0, 1.0, 1.0 },
+                                { 0.0, 0.0, 0.0 });
 
     src(1, 1, 1) = 1.0;
 

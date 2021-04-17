@@ -10,8 +10,7 @@
 
 #include <API/Python/Particle/ParticleSystemData.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Particle/ParticleSystemData2.hpp>
-#include <Core/Particle/ParticleSystemData3.hpp>
+#include <Core/Particle/ParticleSystemData.hpp>
 
 #include <pybind11/pybind11.h>
 
@@ -47,7 +46,7 @@ void AddParticleSystemData2(pybind11::module& m)
 		)pbdoc",
              pybind11::arg("newNumberOfParticles"))
         .def_property_readonly("numberOfParticles",
-                               &ParticleSystemData2::GetNumberOfParticles,
+                               &ParticleSystemData2::NumberOfParticles,
                                R"pbdoc(
 			The number of particles.
 		)pbdoc")
@@ -79,12 +78,12 @@ void AddParticleSystemData2(pybind11::module& m)
 			- initialVal : Initial value of the new vector data.
 		)pbdoc",
             pybind11::arg("initialVal") = Vector2D())
-        .def_property("radius", &ParticleSystemData2::GetRadius,
+        .def_property("radius", &ParticleSystemData2::Radius,
                       &ParticleSystemData2::SetRadius,
                       R"pbdoc(
 			The radius of the particles.
 		)pbdoc")
-        .def_property("mass", &ParticleSystemData2::GetMass,
+        .def_property("mass", &ParticleSystemData2::Mass,
                       &ParticleSystemData2::SetMass,
                       R"pbdoc(
 			The mass of a particle.
@@ -239,7 +238,7 @@ void AddParticleSystemData2(pybind11::module& m)
 			- newForces     : The new forces.
 		)pbdoc")
         .def_property("neighborSearcher",
-                      &ParticleSystemData2::GetNeighborSearcher,
+                      &ParticleSystemData2::NeighborSearcher,
                       &ParticleSystemData2::SetNeighborSearcher,
                       R"pbdoc(
 			The neighbor searcher.
@@ -248,7 +247,7 @@ void AddParticleSystemData2(pybind11::module& m)
 			default, PointParallelHashGridSearcher2 is used.
 		)pbdoc")
         .def_property_readonly("neighborLists",
-                               &ParticleSystemData2::GetNeighborLists,
+                               &ParticleSystemData2::NeighborLists,
                                R"pbdoc(
 			The neighbor lists.
 
@@ -295,7 +294,7 @@ void AddParticleSystemData3(pybind11::module& m)
 		)pbdoc",
              pybind11::arg("newNumberOfParticles"))
         .def_property_readonly("numberOfParticles",
-                               &ParticleSystemData3::GetNumberOfParticles,
+                               &ParticleSystemData3::NumberOfParticles,
                                R"pbdoc(
 			The number of particles.
 		)pbdoc")
@@ -327,12 +326,12 @@ void AddParticleSystemData3(pybind11::module& m)
 			- initialVal : Initial value of the new vector data.
 		)pbdoc",
             pybind11::arg("initialVal") = Vector3D())
-        .def_property("radius", &ParticleSystemData3::GetRadius,
+        .def_property("radius", &ParticleSystemData3::Radius,
                       &ParticleSystemData3::SetRadius,
                       R"pbdoc(
 			The radius of the particles.
 		)pbdoc")
-        .def_property("mass", &ParticleSystemData3::GetMass,
+        .def_property("mass", &ParticleSystemData3::Mass,
                       &ParticleSystemData3::SetMass,
                       R"pbdoc(
 			The mass of a particle.
@@ -487,7 +486,7 @@ void AddParticleSystemData3(pybind11::module& m)
 			- newForces     : The new forces.
 		)pbdoc")
         .def_property("neighborSearcher",
-                      &ParticleSystemData3::GetNeighborSearcher,
+                      &ParticleSystemData3::NeighborSearcher,
                       &ParticleSystemData3::SetNeighborSearcher,
                       R"pbdoc(
 			The neighbor searcher.
@@ -496,7 +495,7 @@ void AddParticleSystemData3(pybind11::module& m)
 			default, PointParallelHashGridSearcher2 is used.
 		)pbdoc")
         .def_property_readonly("neighborLists",
-                               &ParticleSystemData3::GetNeighborLists,
+                               &ParticleSystemData3::NeighborLists,
                                R"pbdoc(
 			The neighbor lists.
 

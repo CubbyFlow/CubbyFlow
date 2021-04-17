@@ -10,8 +10,7 @@
 
 #include <API/Python/Field/CustomScalarField.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Field/CustomScalarField2.hpp>
-#include <Core/Field/CustomScalarField3.hpp>
+#include <Core/Field/CustomScalarField.hpp>
 
 #include <pybind11/pybind11.h>
 

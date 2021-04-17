@@ -76,7 +76,7 @@ CUBBYFLOW_BEGIN_TEST_F(LevelSetLiquidSolver2, DropStopAndGo)
         auto grids = solver->GetGridSystemData();
         auto domain = grids->GetBoundingBox();
         auto sdf = solver->GetSignedDistanceField();
-        double dx = grids->GetGridSpacing().x;
+        double dx = grids->GridSpacing().x;
 
         // Build emitter
         auto plane = Plane2::Builder()
@@ -125,7 +125,7 @@ CUBBYFLOW_BEGIN_TEST_F(LevelSetLiquidSolver2, DropStopAndGo)
         auto grids = solver->GetGridSystemData();
         grids->Deserialize(dump);
 
-        double dx = grids->GetGridSpacing().x;
+        double dx = grids->GridSpacing().x;
         auto sdf = solver->GetSignedDistanceField();
 
         for (; frame.index < 120; ++frame)

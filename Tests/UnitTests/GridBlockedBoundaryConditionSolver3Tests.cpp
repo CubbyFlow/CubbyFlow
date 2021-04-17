@@ -18,36 +18,36 @@ TEST(GridBlockedBoundaryConditionSolver3, ClosedDomain)
 
     bndSolver.ConstrainVelocity(&velocity);
 
-    velocity.ForEachUIndex([&](size_t i, size_t j, size_t k) {
-        if (i == 0 || i == gridSize.x)
+    velocity.ForEachUIndex([&](const Vector3UZ& idx) {
+        if (idx.x == 0 || idx.x == gridSize.x)
         {
-            EXPECT_DOUBLE_EQ(0.0, velocity.GetU(i, j, k));
+            EXPECT_DOUBLE_EQ(0.0, velocity.U(idx));
         }
         else
         {
-            EXPECT_DOUBLE_EQ(1.0, velocity.GetU(i, j, k));
+            EXPECT_DOUBLE_EQ(1.0, velocity.U(idx));
         }
     });
 
-    velocity.ForEachVIndex([&](size_t i, size_t j, size_t k) {
-        if (j == 0 || j == gridSize.y)
+    velocity.ForEachVIndex([&](const Vector3UZ& idx) {
+        if (idx.y == 0 || idx.y == gridSize.y)
         {
-            EXPECT_DOUBLE_EQ(0.0, velocity.GetV(i, j, k));
+            EXPECT_DOUBLE_EQ(0.0, velocity.V(idx));
         }
         else
         {
-            EXPECT_DOUBLE_EQ(1.0, velocity.GetV(i, j, k));
+            EXPECT_DOUBLE_EQ(1.0, velocity.V(idx));
         }
     });
 
-    velocity.ForEachWIndex([&](size_t i, size_t j, size_t k) {
-        if (k == 0 || k == gridSize.z)
+    velocity.ForEachWIndex([&](const Vector3UZ& idx) {
+        if (idx.z == 0 || idx.z == gridSize.z)
         {
-            EXPECT_DOUBLE_EQ(0.0, velocity.GetW(i, j, k));
+            EXPECT_DOUBLE_EQ(0.0, velocity.W(idx));
         }
         else
         {
-            EXPECT_DOUBLE_EQ(1.0, velocity.GetW(i, j, k));
+            EXPECT_DOUBLE_EQ(1.0, velocity.W(idx));
         }
     });
 }
@@ -69,36 +69,36 @@ TEST(GridBlockedBoundaryConditionSolver3, OpenDomain)
 
     bndSolver.ConstrainVelocity(&velocity);
 
-    velocity.ForEachUIndex([&](size_t i, size_t j, size_t k) {
-        if (i == 0)
+    velocity.ForEachUIndex([&](const Vector3UZ& idx) {
+        if (idx.x == 0)
         {
-            EXPECT_DOUBLE_EQ(0.0, velocity.GetU(i, j, k));
+            EXPECT_DOUBLE_EQ(0.0, velocity.U(idx));
         }
         else
         {
-            EXPECT_DOUBLE_EQ(1.0, velocity.GetU(i, j, k));
+            EXPECT_DOUBLE_EQ(1.0, velocity.U(idx));
         }
     });
 
-    velocity.ForEachVIndex([&](size_t i, size_t j, size_t k) {
-        if (j == gridSize.y)
+    velocity.ForEachVIndex([&](const Vector3UZ& idx) {
+        if (idx.y == gridSize.y)
         {
-            EXPECT_DOUBLE_EQ(0.0, velocity.GetV(i, j, k));
+            EXPECT_DOUBLE_EQ(0.0, velocity.V(idx));
         }
         else
         {
-            EXPECT_DOUBLE_EQ(1.0, velocity.GetV(i, j, k));
+            EXPECT_DOUBLE_EQ(1.0, velocity.V(idx));
         }
     });
 
-    velocity.ForEachWIndex([&](size_t i, size_t j, size_t k) {
-        if (k == gridSize.z)
+    velocity.ForEachWIndex([&](const Vector3UZ& idx) {
+        if (idx.z == gridSize.z)
         {
-            EXPECT_DOUBLE_EQ(0.0, velocity.GetW(i, j, k));
+            EXPECT_DOUBLE_EQ(0.0, velocity.W(idx));
         }
         else
         {
-            EXPECT_DOUBLE_EQ(1.0, velocity.GetW(i, j, k));
+            EXPECT_DOUBLE_EQ(1.0, velocity.W(idx));
         }
     });
 }

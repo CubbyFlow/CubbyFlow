@@ -11,7 +11,7 @@
 #include <API/Python/Geometry/MarchingCubes.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
 #include <Core/Geometry/MarchingCubes.hpp>
-#include <Core/Grid/ScalarGrid3.hpp>
+#include <Core/Grid/ScalarGrid.hpp>
 
 #include <pybind11/pybind11.h>
 

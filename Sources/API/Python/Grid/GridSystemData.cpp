@@ -9,8 +9,7 @@
 // property of any third parties.
 
 #include <API/Python/Grid/GridSystemData.hpp>
-#include <Core/Grid/GridSystemData2.hpp>
-#include <Core/Grid/GridSystemData3.hpp>
+#include <Core/Grid/GridSystemData.hpp>
 
 #include <pybind11/pybind11.h>
 
@@ -29,11 +28,11 @@ void AddGridSystemData2(pybind11::module& m)
 			vector attributes by adding extra data layer.
 		)pbdoc")
         .def(pybind11::init<>())
-        .def_property_readonly("resolution", &GridSystemData2::GetResolution,
+        .def_property_readonly("resolution", &GridSystemData2::Resolution,
                                R"pbdoc(Resolution of the grid.)pbdoc")
-        .def_property_readonly("origin", &GridSystemData2::GetOrigin,
+        .def_property_readonly("origin", &GridSystemData2::Origin,
                                R"pbdoc(Origin of the grid.)pbdoc")
-        .def_property_readonly("gridSpacing", &GridSystemData2::GetGridSpacing,
+        .def_property_readonly("gridSpacing", &GridSystemData2::GridSpacing,
                                R"pbdoc(Spacing between grid points.)pbdoc")
         .def_property_readonly("boundingBox", &GridSystemData2::GetBoundingBox,
                                R"pbdoc(Bounding box of the entire grid.)pbdoc");
@@ -52,11 +51,11 @@ void AddGridSystemData3(pybind11::module& m)
 			vector attributes by adding extra data layer.
 		)pbdoc")
         .def(pybind11::init<>())
-        .def_property_readonly("resolution", &GridSystemData3::GetResolution,
+        .def_property_readonly("resolution", &GridSystemData3::Resolution,
                                R"pbdoc(Resolution of the grid.)pbdoc")
-        .def_property_readonly("origin", &GridSystemData3::GetOrigin,
+        .def_property_readonly("origin", &GridSystemData3::Origin,
                                R"pbdoc(Origin of the grid.)pbdoc")
-        .def_property_readonly("gridSpacing", &GridSystemData3::GetGridSpacing,
+        .def_property_readonly("gridSpacing", &GridSystemData3::GridSpacing,
                                R"pbdoc(Spacing between grid points.)pbdoc")
         .def_property_readonly("boundingBox", &GridSystemData3::GetBoundingBox,
                                R"pbdoc(Bounding box of the entire grid.)pbdoc");

@@ -2,7 +2,7 @@
 
 #include <ManualTests.hpp>
 
-#include <Core/Grid/CellCenteredScalarGrid2.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/PointsToImplicit/ZhuBridsonPointsToImplicit2.hpp>
 
 #include <random>
@@ -22,7 +22,7 @@ CUBBYFLOW_BEGIN_TEST_F(ZhuBridsonPointsToImplicit2, ConvertTwo)
         points.Append({ dist(rng), dist(rng) });
     }
 
-    CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
+    CellCenteredScalarGrid2 grid({ 512, 512 }, { 1.0 / 512, 1.0 / 512 });
 
     ZhuBridsonPointsToImplicit2 converter(0.1);
     converter.Convert(points.View(), &grid);
@@ -43,7 +43,7 @@ CUBBYFLOW_BEGIN_TEST_F(ZhuBridsonPointsToImplicit2, ConvertMany)
         points.Append({ dist(rng), dist(rng) });
     }
 
-    CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
+    CellCenteredScalarGrid2 grid({ 512, 512 }, { 1.0 / 512, 1.0 / 512 });
 
     ZhuBridsonPointsToImplicit2 converter(0.1);
     converter.Convert(points.View(), &grid);

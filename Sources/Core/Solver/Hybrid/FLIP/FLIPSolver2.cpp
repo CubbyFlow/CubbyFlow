@@ -40,35 +40,35 @@ void FLIPSolver2::TransferFromParticlesToGrids()
     PICSolver2::TransferFromParticlesToGrids();
 
     // Store snapshot
-    const FaceCenteredGrid2Ptr vel = GetGridSystemData()->GetVelocity();
-    ConstArrayView2<double> u = GetGridSystemData()->GetVelocity()->UView();
-    ConstArrayView2<double> v = GetGridSystemData()->GetVelocity()->VView();
+    const FaceCenteredGrid2Ptr vel = GetGridSystemData()->Velocity();
+    ConstArrayView2<double> u = GetGridSystemData()->Velocity()->UView();
+    ConstArrayView2<double> v = GetGridSystemData()->Velocity()->VView();
     m_uDelta.Resize(u.Size());
     m_vDelta.Resize(v.Size());
 
     vel->ParallelForEachUIndex(
-        [&](size_t i, size_t j) { m_uDelta(i, j) = u(i, j); });
+        [&](const Vector2UZ& idx) { m_uDelta(idx) = u(idx); });
     vel->ParallelForEachVIndex(
-        [&](size_t i, size_t j) { m_vDelta(i, j) = v(i, j); });
+        [&](const Vector2UZ& idx) { m_vDelta(idx) = v(idx); });
 }
 
 void FLIPSolver2::TransferFromGridsToParticles()
 {
-    FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
+    FaceCenteredGrid2Ptr flow = GetGridSystemData()->Velocity();
     ArrayView1<Vector2<double>> positions =
         GetParticleSystemData()->Positions();
     ArrayView1<Vector2<double>> velocities =
         GetParticleSystemData()->Velocities();
     const size_t numberOfParticles =
-        GetParticleSystemData()->GetNumberOfParticles();
+        GetParticleSystemData()->NumberOfParticles();
 
     // Compute delta
-    flow->ParallelForEachUIndex([&](size_t i, size_t j) {
-        m_uDelta(i, j) = flow->GetU(i, j) - m_uDelta(i, j);
+    flow->ParallelForEachUIndex([&](const Vector2UZ& idx) {
+        m_uDelta(idx) = flow->U(idx) - m_uDelta(idx);
     });
 
-    flow->ParallelForEachVIndex([&](size_t i, size_t j) {
-        m_vDelta(i, j) = flow->GetV(i, j) - m_vDelta(i, j);
+    flow->ParallelForEachVIndex([&](const Vector2UZ& idx) {
+        m_vDelta(idx) = flow->V(idx) - m_vDelta(idx);
     });
 
     LinearArraySampler2<double> uSampler{ m_uDelta.View(),

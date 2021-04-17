@@ -75,7 +75,7 @@ void GridForwardEulerDiffusionSolver3::Solve(const ScalarGrid3& source,
 {
     ConstArrayView3<double> src = source.DataView();
     Vector3D h = source.GridSpacing();
-    const auto pos = source.DataPosition();
+    const GridDataPositionFunc<3> pos = source.DataPosition();
 
     BuildMarkers(source.Resolution(), pos, boundarySDF, fluidSDF);
 
@@ -100,20 +100,21 @@ void GridForwardEulerDiffusionSolver3::Solve(
 {
     ConstArrayView3<Vector3<double>> src = source.DataView();
     Vector3D h = source.GridSpacing();
-    const auto pos = source.DataPosition();
+    const GridDataPositionFunc<3> pos = source.DataPosition();
 
     BuildMarkers(source.Resolution(), pos, boundarySDF, fluidSDF);
 
-    source.ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
-        if (m_markers(i, j, k) == FLUID)
+    source.ParallelForEachDataPointIndex([&](const Vector3UZ& idx) {
+        if (m_markers(idx) == FLUID)
         {
-            (*dest)(i, j, k) =
-                src(i, j, k) + diffusionCoefficient * timeIntervalInSeconds *
-                                   Laplacian(src, m_markers, h, i, j, k);
+            (*dest)(idx) =
+                src(idx) +
+                diffusionCoefficient * timeIntervalInSeconds *
+                    Laplacian(src, m_markers, h, idx.x, idx.y, idx.z);
         }
         else
         {
-            (*dest)(i, j, k) = source(i, j, k);
+            (*dest)(idx) = source(idx);
         }
     });
 }
@@ -131,58 +132,54 @@ void GridForwardEulerDiffusionSolver3::Solve(const FaceCenteredGrid3& source,
     ArrayView3<double> u = dest->UView();
     ArrayView3<double> v = dest->VView();
     ArrayView3<double> w = dest->WView();
-    auto uPos = source.UPosition();
-    auto vPos = source.VPosition();
-    auto wPos = source.WPosition();
+    GridDataPositionFunc<3> uPos = source.UPosition();
+    GridDataPositionFunc<3> vPos = source.VPosition();
+    GridDataPositionFunc<3> wPos = source.WPosition();
     Vector3D h = source.GridSpacing();
 
     BuildMarkers(source.USize(), uPos, boundarySDF, fluidSDF);
 
-    source.ParallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-        if (!IsInsideSDF(boundarySDF.Sample(uPos(i, j, k))))
+    source.ParallelForEachUIndex([&](const Vector3UZ& idx) {
+        if (!IsInsideSDF(boundarySDF.Sample(uPos(idx))))
         {
-            u(i, j, k) = uSrc(i, j, k) + diffusionCoefficient *
-                                             timeIntervalInSeconds *
-                                             Laplacian3(uSrc, h, i, j, k);
+            u(idx) = uSrc(idx) + diffusionCoefficient * timeIntervalInSeconds *
+                                     Laplacian3(uSrc, h, idx.x, idx.y, idx.z);
         }
     });
 
     BuildMarkers(source.VSize(), vPos, boundarySDF, fluidSDF);
 
-    source.ParallelForEachVIndex([&](size_t i, size_t j, size_t k) {
-        if (!IsInsideSDF(boundarySDF.Sample(vPos(i, j, k))))
+    source.ParallelForEachVIndex([&](const Vector3UZ& idx) {
+        if (!IsInsideSDF(boundarySDF.Sample(vPos(idx))))
         {
-            v(i, j, k) = vSrc(i, j, k) + diffusionCoefficient *
-                                             timeIntervalInSeconds *
-                                             Laplacian3(vSrc, h, i, j, k);
+            v(idx) = vSrc(idx) + diffusionCoefficient * timeIntervalInSeconds *
+                                     Laplacian3(vSrc, h, idx.x, idx.y, idx.z);
         }
     });
 
     BuildMarkers(source.WSize(), wPos, boundarySDF, fluidSDF);
 
-    source.ParallelForEachWIndex([&](size_t i, size_t j, size_t k) {
-        if (!IsInsideSDF(boundarySDF.Sample(wPos(i, j, k))))
+    source.ParallelForEachWIndex([&](const Vector3UZ& idx) {
+        if (!IsInsideSDF(boundarySDF.Sample(wPos(idx))))
         {
-            w(i, j, k) = wSrc(i, j, k) + diffusionCoefficient *
-                                             timeIntervalInSeconds *
-                                             Laplacian3(wSrc, h, i, j, k);
+            w(idx) = wSrc(idx) + diffusionCoefficient * timeIntervalInSeconds *
+                                     Laplacian3(wSrc, h, idx.x, idx.y, idx.z);
         }
     });
 }
 
 void GridForwardEulerDiffusionSolver3::BuildMarkers(
-    const Vector3UZ& size,
-    const std::function<Vector3D(size_t, size_t, size_t)>& pos,
+    const Vector3UZ& size, const std::function<Vector3D(const Vector3UZ&)>& pos,
     const ScalarField3& boundarySDF, const ScalarField3& fluidSDF)
 {
     m_markers.Resize(size);
 
     ForEachIndex(m_markers.Size(), [&](size_t i, size_t j, size_t k) {
-        if (IsInsideSDF(boundarySDF.Sample(pos(i, j, k))))
+        if (IsInsideSDF(boundarySDF.Sample(pos(Vector3UZ{ i, j, k }))))
         {
             m_markers(i, j, k) = BOUNDARY;
         }
-        else if (IsInsideSDF(fluidSDF.Sample(pos(i, j, k))))
+        else if (IsInsideSDF(fluidSDF.Sample(pos(Vector3UZ{ i, j, k }))))
         {
             m_markers(i, j, k) = FLUID;
         }

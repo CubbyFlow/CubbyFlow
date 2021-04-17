@@ -57,6 +57,88 @@ double Laplacian3(const ConstArrayView3<double>& data,
 //!        \p data, \p gridSpacing, and array index (\p i, \p j, \p k).
 Vector3D Laplacian3(const ConstArrayView3<Vector3D>& data,
                     const Vector3D& gridSpacing, size_t i, size_t j, size_t k);
+
+//! \brief Returns divergence value from given 2-D vector grid-like array
+//!        \p data, \p gridSpacing, and array index (\p i, \p j).
+double Divergence2(const ConstArrayView2<Vector2D>& data,
+                   const Vector2D& gridSpacing, size_t i, size_t j);
+
+//! \brief Returns diverence value from given 3-D vector grid-like array
+//!        \p data, \p gridSpacing, and array index (\p i, \p j, \p k).
+double Divergence3(const ConstArrayView3<Vector3D>& data,
+                   const Vector3D& gridSpacing, size_t i, size_t j, size_t k);
+
+//! \brief Returns curl value from given 2-D vector grid-like array
+//!        \p data, \p gridSpacing, and array index (\p i, \p j).
+double Curl2(const ConstArrayView2<Vector2D>& data, const Vector2D& gridSpacing,
+             size_t i, size_t j);
+
+//! \brief Returns curl value from given 3-D vector grid-like array
+//!        \p data, \p gridSpacing, and array index (\p i, \p j, \p k).
+Vector3D Curl3(const ConstArrayView3<Vector3D>& data,
+               const Vector3D& gridSpacing, size_t i, size_t j, size_t k);
+
+template <size_t N>
+struct GetFDMUtils
+{
+    // Do nothing
+};
+
+template <>
+struct GetFDMUtils<2>
+{
+    static Vector2D Gradient(const ConstArrayView2<double>& data,
+                             const Vector2D& gridSpacing, const Vector2UZ& idx)
+    {
+        return Gradient2(data, gridSpacing, idx.x, idx.y);
+    }
+
+    static double Laplacian(const ConstArrayView2<double>& data,
+                            const Vector2D& gridSpacing, const Vector2UZ& idx)
+    {
+        return Laplacian2(data, gridSpacing, idx.x, idx.y);
+    }
+
+    static double Divergence(const ConstArrayView2<Vector2D>& data,
+                             const Vector2D& gridSpacing, const Vector2UZ& idx)
+    {
+        return Divergence2(data, gridSpacing, idx.x, idx.y);
+    }
+
+    static double Curl(const ConstArrayView2<Vector2D>& data,
+                       const Vector2D& gridSpacing, const Vector2UZ& idx)
+    {
+        return Curl2(data, gridSpacing, idx.x, idx.y);
+    }
+};
+
+template <>
+struct GetFDMUtils<3>
+{
+    static Vector3D Gradient(const ConstArrayView3<double>& data,
+                             const Vector3D& gridSpacing, const Vector3UZ& idx)
+    {
+        return Gradient3(data, gridSpacing, idx.x, idx.y, idx.z);
+    }
+
+    static double Laplacian(const ConstArrayView3<double>& data,
+                            const Vector3D& gridSpacing, const Vector3UZ& idx)
+    {
+        return Laplacian3(data, gridSpacing, idx.x, idx.y, idx.z);
+    }
+
+    static double Divergence(const ConstArrayView3<Vector3D>& data,
+                             const Vector3D& gridSpacing, const Vector3UZ& idx)
+    {
+        return Divergence3(data, gridSpacing, idx.x, idx.y, idx.z);
+    }
+
+    static Vector3D Curl(const ConstArrayView3<Vector3D>& data,
+                         const Vector3D& gridSpacing, const Vector3UZ& idx)
+    {
+        return Curl3(data, gridSpacing, idx.x, idx.y, idx.z);
+    }
+};
 }  // namespace CubbyFlow
 
 #endif

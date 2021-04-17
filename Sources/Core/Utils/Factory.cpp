@@ -8,24 +8,15 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Grid/CellCenteredScalarGrid2.hpp>
-#include <Core/Grid/CellCenteredScalarGrid3.hpp>
-#include <Core/Grid/CellCenteredVectorGrid2.hpp>
-#include <Core/Grid/CellCenteredVectorGrid3.hpp>
-#include <Core/Grid/FaceCenteredGrid2.hpp>
-#include <Core/Grid/FaceCenteredGrid3.hpp>
-#include <Core/Grid/VertexCenteredScalarGrid2.hpp>
-#include <Core/Grid/VertexCenteredScalarGrid3.hpp>
-#include <Core/Grid/VertexCenteredVectorGrid2.hpp>
-#include <Core/Grid/VertexCenteredVectorGrid3.hpp>
-#include <Core/Searcher/PointHashGridSearcher2.hpp>
-#include <Core/Searcher/PointHashGridSearcher3.hpp>
-#include <Core/Searcher/PointKdTreeSearcher2.hpp>
-#include <Core/Searcher/PointKdTreeSearcher3.hpp>
-#include <Core/Searcher/PointParallelHashGridSearcher2.hpp>
-#include <Core/Searcher/PointParallelHashGridSearcher3.hpp>
-#include <Core/Searcher/PointSimpleListSearcher2.hpp>
-#include <Core/Searcher/PointSimpleListSearcher3.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
+#include <Core/Grid/CellCenteredVectorGrid.hpp>
+#include <Core/Grid/FaceCenteredGrid.hpp>
+#include <Core/Grid/VertexCenteredScalarGrid.hpp>
+#include <Core/Grid/VertexCenteredVectorGrid.hpp>
+#include <Core/Searcher/PointHashGridSearcher.hpp>
+#include <Core/Searcher/PointKdTreeSearcher.hpp>
+#include <Core/Searcher/PointParallelHashGridSearcher.hpp>
+#include <Core/Searcher/PointSimpleListSearcher.hpp>
 #include <Core/Utils/Factory.hpp>
 
 #include <memory>

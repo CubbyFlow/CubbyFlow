@@ -3,7 +3,7 @@
 #include <Core/Emitter/VolumeParticleEmitter3.hpp>
 #include <Core/Geometry/Box.hpp>
 #include <Core/Geometry/ImplicitSurfaceSet.hpp>
-#include <Core/Particle/ParticleSystemData3.hpp>
+#include <Core/Particle/ParticleSystemData.hpp>
 
 #include <memory>
 

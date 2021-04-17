@@ -2,8 +2,8 @@
 
 #include <Core/Emitter/VolumeGridEmitter2.hpp>
 #include <Core/Geometry/Sphere.hpp>
-#include <Core/Grid/CellCenteredScalarGrid2.hpp>
-#include <Core/Grid/CellCenteredVectorGrid2.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
+#include <Core/Grid/CellCenteredVectorGrid.hpp>
 #include <Core/Utils/LevelSetUtils.hpp>
 
 using namespace CubbyFlow;
@@ -39,7 +39,7 @@ TEST(VolumeGridEmitter2, Velocity)
 
     emitter->Update(0.0, 0.01);
 
-    auto pos = grid->DataPosition();
+    GridDataPositionFunc<2> pos = grid->DataPosition();
     grid->ForEachDataPointIndex([&](size_t i, size_t j) {
         Vector2D gx = pos(i, j);
         double sdf = emitter->GetSourceRegion()->SignedDistance(gx);
@@ -76,7 +76,7 @@ TEST(VolumeGridEmitter2, SignedDistance)
 
     emitter->Update(0.0, 0.01);
 
-    auto pos = grid->DataPosition();
+    GridDataPositionFunc<2> pos = grid->DataPosition();
     grid->ForEachDataPointIndex([&](size_t i, size_t j) {
         Vector2D gx = pos(i, j);
         double answer = (sphere->center - gx).Length() - 0.15;
@@ -106,7 +106,7 @@ TEST(VolumeGridEmitter2, StepFunction)
 
     emitter->Update(0.0, 0.01);
 
-    auto pos = grid->DataPosition();
+    GridDataPositionFunc<2> pos = grid->DataPosition();
     grid->ForEachDataPointIndex([&](size_t i, size_t j) {
         Vector2D gx = pos(i, j);
         double answer = (sphere->center - gx).Length() - 0.15;

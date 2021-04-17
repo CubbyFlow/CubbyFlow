@@ -4,9 +4,8 @@
 
 #include <Core/Array/Array.hpp>
 #include <Core/Array/ArrayUtils.hpp>
-#include <Core/Field/ScalarField2.hpp>
-#include <Core/Field/ScalarField3.hpp>
-#include <Core/Field/VectorField3.hpp>
+#include <Core/Field/ScalarField.hpp>
+#include <Core/Field/VectorField.hpp>
 
 using namespace CubbyFlow;
 

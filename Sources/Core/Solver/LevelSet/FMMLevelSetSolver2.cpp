@@ -198,7 +198,7 @@ void FMMLevelSetSolver2::Reinitialize(const ScalarGrid2& inputSDF,
         };
     }
 
-    Vector2UZ size = inputSDF.GetDataSize();
+    Vector2UZ size = inputSDF.DataSize();
     Vector2D gridSpacing = inputSDF.GridSpacing();
     const Vector2D invGridSpacing = 1.0 / gridSpacing;
     Vector2D invGridSpacingSqr = ElemMul(invGridSpacing, invGridSpacing);
@@ -345,8 +345,8 @@ void FMMLevelSetSolver2::Extrapolate(const ScalarGrid2& input,
         throw std::invalid_argument{ "input and output have not same shape." };
     }
 
-    Array2<double> sdfGrid{ input.GetDataSize() };
-    auto pos = input.DataPosition();
+    Array2<double> sdfGrid{ input.DataSize() };
+    GridDataPositionFunc<2> pos = input.DataPosition();
     ParallelForEachIndex(sdfGrid.Size(), [&](size_t i, size_t j) {
         sdfGrid(i, j) = sdf.Sample(pos(i, j));
     });
@@ -365,30 +365,30 @@ void FMMLevelSetSolver2::Extrapolate(const CollocatedVectorGrid2& input,
         throw std::invalid_argument{ "input and output have not same shape." };
     }
 
-    Array2<double> sdfGrid{ input.GetDataSize() };
-    auto pos = input.DataPosition();
+    Array2<double> sdfGrid{ input.DataSize() };
+    GridDataPositionFunc<2> pos = input.DataPosition();
     ParallelForEachIndex(sdfGrid.Size(), [&](size_t i, size_t j) {
         sdfGrid(i, j) = sdf.Sample(pos(i, j));
     });
 
     const Vector2D gridSpacing = input.GridSpacing();
 
-    Array2<double> u{ input.GetDataSize() };
-    Array2<double> u0{ input.GetDataSize() };
-    Array2<double> v{ input.GetDataSize() };
-    Array2<double> v0{ input.GetDataSize() };
+    Array2<double> u{ input.DataSize() };
+    Array2<double> u0{ input.DataSize() };
+    Array2<double> v{ input.DataSize() };
+    Array2<double> v0{ input.DataSize() };
 
-    input.ParallelForEachDataPointIndex([&](size_t i, size_t j) {
-        u(i, j) = input(i, j).x;
-        v(i, j) = input(i, j).y;
+    input.ParallelForEachDataPointIndex([&](const Vector2UZ& idx) {
+        u(idx) = input(idx).x;
+        v(idx) = input(idx).y;
     });
 
     Extrapolate(u, sdfGrid.View(), gridSpacing, maxDistance, u0);
     Extrapolate(v, sdfGrid.View(), gridSpacing, maxDistance, v0);
 
-    output->ParallelForEachDataPointIndex([&](size_t i, size_t j) {
-        (*output)(i, j).x = u(i, j);
-        (*output)(i, j).y = v(i, j);
+    output->ParallelForEachDataPointIndex([&](const Vector2UZ& idx) {
+        (*output)(idx).x = u(idx);
+        (*output)(idx).y = v(idx);
     });
 }
 
@@ -410,7 +410,7 @@ void FMMLevelSetSolver2::Extrapolate(const FaceCenteredGrid2& input,
     auto uPos = input.UPosition();
     Array2<double> sdfAtU{ u.Size() };
     input.ParallelForEachUIndex(
-        [&](size_t i, size_t j) { sdfAtU(i, j) = sdf.Sample(uPos(i, j)); });
+        [&](const Vector2UZ& idx) { sdfAtU(idx) = sdf.Sample(uPos(idx)); });
 
     Extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->UView());
 
@@ -418,7 +418,7 @@ void FMMLevelSetSolver2::Extrapolate(const FaceCenteredGrid2& input,
     auto vPos = input.VPosition();
     Array2<double> sdfAtV{ v.Size() };
     input.ParallelForEachVIndex(
-        [&](size_t i, size_t j) { sdfAtV(i, j) = sdf.Sample(vPos(i, j)); });
+        [&](const Vector2UZ& idx) { sdfAtV(idx) = sdf.Sample(vPos(idx)); });
 
     Extrapolate(v, sdfAtV, gridSpacing, maxDistance, output->VView());
 }

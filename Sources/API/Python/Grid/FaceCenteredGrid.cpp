@@ -10,8 +10,7 @@
 
 #include <API/Python/Grid/FaceCenteredGrid.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Grid/FaceCenteredGrid2.hpp>
-#include <Core/Grid/FaceCenteredGrid3.hpp>
+#include <Core/Grid/FaceCenteredGrid.hpp>
 
 #include <pybind11/pybind11.h>
 
@@ -65,92 +64,87 @@ void AddFaceCenteredGrid2(pybind11::module& m)
 		)pbdoc",
              pybind11::arg("other"))
         .def(
-            "GetU",
-            [](const FaceCenteredGrid2& instance, size_t i,
-               size_t j) -> double { return instance.GetU(i, j); },
+            "U",
+            [](const FaceCenteredGrid2& instance, pybind11::object obj)
+                -> double { return instance.U(ObjectToVector2UZ(obj)); },
             R"pbdoc(
 			Returns u-value at given data point.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
+            - idx : Data point index (i, j).
 		)pbdoc",
-            pybind11::arg("i"), pybind11::arg("j"))
+            pybind11::arg("idx"))
         .def(
-            "GetV",
-            [](const FaceCenteredGrid2& instance, size_t i,
-               size_t j) -> double { return instance.GetV(i, j); },
+            "V",
+            [](const FaceCenteredGrid2& instance, pybind11::object obj)
+                -> double { return instance.V(ObjectToVector2UZ(obj)); },
             R"pbdoc(
 			Returns v-value at given data point.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
+            - idx : Data point index (i, j).
 		)pbdoc",
-            pybind11::arg("i"), pybind11::arg("j"))
+            pybind11::arg("idx"))
         .def(
             "SetU",
-            [](FaceCenteredGrid2& instance, size_t i, size_t j, double val) {
-                instance.GetU(i, j) = val;
+            [](FaceCenteredGrid2& instance, pybind11::object obj, double val) {
+                instance.U(ObjectToVector2UZ(obj)) = val;
             },
             R"pbdoc(
 			Sets u-value at given data point.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
+            - idx : Data point index (i, j).
 			- val : Value to set.
 		)pbdoc",
-            pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("val"))
+            pybind11::arg("idx"), pybind11::arg("val"))
         .def(
             "SetV",
-            [](FaceCenteredGrid2& instance, size_t i, size_t j, double val) {
-                instance.GetV(i, j) = val;
+            [](FaceCenteredGrid2& instance, pybind11::object obj, double val) {
+                instance.V(ObjectToVector2UZ(obj)) = val;
             },
             R"pbdoc(
 			Sets v-value at given data point.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
+            - idx : Data point index (i, j).
 			- val : Value to set.
 		)pbdoc",
-            pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("val"))
-        .def("ValueAtCellCenter", &FaceCenteredGrid2::ValueAtCellCenter,
+            pybind11::arg("idx"), pybind11::arg("val"))
+        .def("ValueAtCellCenter",
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid2,
+                                                   ValueAtCellCenter),
              R"pbdoc(
 			Returns interpolated value at cell center.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
-		)pbdoc",
-             pybind11::arg("i"), pybind11::arg("j"))
+            - `*args` : Data point index (i, j).
+		)pbdoc")
         .def("DivergenceAtCellCenter",
-             &FaceCenteredGrid2::DivergenceAtCellCenter,
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid2,
+                                                   DivergenceAtCellCenter),
              R"pbdoc(
 			Returns divergence at cell center.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
-		)pbdoc",
-             pybind11::arg("i"), pybind11::arg("j"))
-        .def("CurlAtCellCenter", &FaceCenteredGrid2::CurlAtCellCenter,
+            - `*args` : Data point index (i, j).
+		)pbdoc")
+        .def("CurlAtCellCenter",
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid2,
+                                                   CurlAtCellCenter),
              R"pbdoc(
 			Returns curl at cell center.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
-		)pbdoc",
-             pybind11::arg("i"), pybind11::arg("j"))
+            - `*args` : Data point index (i, j).
+		)pbdoc")
         .def("UView",
              static_cast<ArrayView2<double> (FaceCenteredGrid2::*)()>(
                  &FaceCenteredGrid2::UView),
@@ -283,6 +277,10 @@ void AddFaceCenteredGrid2(pybind11::module& m)
 
 void AddFaceCenteredGrid3(pybind11::module& m)
 {
+    using PositionFunc = GridDataPositionFunc<3> (FaceCenteredGrid3::*)() const;
+    using SizeFunc = Vector3UZ (FaceCenteredGrid3::*)() const;
+    using OriginFunc = Vector3D (FaceCenteredGrid3::*)() const;
+
     pybind11::class_<FaceCenteredGrid3, FaceCenteredGrid3Ptr, VectorGrid3>(
         static_cast<pybind11::handle>(m), "FaceCenteredGrid3",
         R"pbdoc(
@@ -329,129 +327,113 @@ void AddFaceCenteredGrid3(pybind11::module& m)
 		)pbdoc",
              pybind11::arg("other"))
         .def(
-            "GetU",
-            [](const FaceCenteredGrid3& instance, size_t i, size_t j,
-               size_t k) -> double { return instance.GetU(i, j, k); },
+            "U",
+            [](const FaceCenteredGrid3& instance, pybind11::object obj)
+                -> double { return instance.U(ObjectToVector3UZ(obj)); },
             R"pbdoc(
 			Returns u-value at given data point.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
-			- k : Data point index k.
+            - idx : Data point index (i, j, k).
 		)pbdoc",
-            pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("k"))
+            pybind11::arg("idx"))
         .def(
-            "GetV",
-            [](const FaceCenteredGrid3& instance, size_t i, size_t j,
-               size_t k) -> double { return instance.GetV(i, j, k); },
+            "V",
+            [](const FaceCenteredGrid3& instance, pybind11::object obj)
+                -> double { return instance.V(ObjectToVector3UZ(obj)); },
             R"pbdoc(
 			Returns v-value at given data point.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
-			- k : Data point index k.
+            - idx : Data point index (i, j, k).
 		)pbdoc",
-            pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("k"))
+            pybind11::arg("idx"))
         .def(
-            "GetW",
-            [](const FaceCenteredGrid3& instance, size_t i, size_t j,
-               size_t k) -> double { return instance.GetW(i, j, k); },
+            "W",
+            [](const FaceCenteredGrid3& instance, pybind11::object obj)
+                -> double { return instance.W(ObjectToVector3UZ(obj)); },
             R"pbdoc(
 			Returns v-value at given data point.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
-			- k : Data point index k.
+			- idx : Data point index (i, j, k).
 		)pbdoc",
-            pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("k"))
+            pybind11::arg("idx"))
         .def(
             "SetU",
-            [](FaceCenteredGrid3& instance, size_t i, size_t j, size_t k,
-               double val) { instance.GetU(i, j, k) = val; },
+            [](FaceCenteredGrid3& instance, pybind11::object obj, double val) {
+                instance.U(ObjectToVector3UZ(obj)) = val;
+            },
             R"pbdoc(
 			Sets u-value at given data point.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
-			- k : Data point index k.
+            - idx : Data point index (i, j, k).
 			- val : Value to set.
 		)pbdoc",
-            pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("k"),
-            pybind11::arg("val"))
+            pybind11::arg("idx"), pybind11::arg("val"))
         .def(
             "SetV",
-            [](FaceCenteredGrid3& instance, size_t i, size_t j, size_t k,
-               double val) { instance.GetV(i, j, k) = val; },
+            [](FaceCenteredGrid3& instance, pybind11::object obj, double val) {
+                instance.V(ObjectToVector3UZ(obj)) = val;
+            },
             R"pbdoc(
 			Sets v-value at given data point.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
-			- k : Data point index k.
+            - idx : Data point index (i, j, k).
 			- val : Value to set.
 		)pbdoc",
-            pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("k"),
-            pybind11::arg("val"))
+            pybind11::arg("idx"), pybind11::arg("val"))
         .def(
             "SetW",
-            [](FaceCenteredGrid3& instance, size_t i, size_t j, size_t k,
-               double val) { instance.GetW(i, j, k) = val; },
+            [](FaceCenteredGrid3& instance, pybind11::object obj, double val) {
+                instance.W(ObjectToVector3UZ(obj)) = val;
+            },
             R"pbdoc(
 			Sets w-value at given data point.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
-			- k : Data point index k.
+            - idx : Data point index (i, j, k).
 			- val : Value to set.
 		)pbdoc",
-            pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("k"),
-            pybind11::arg("val"))
-        .def("ValueAtCellCenter", &FaceCenteredGrid3::ValueAtCellCenter,
+            pybind11::arg("idx"), pybind11::arg("val"))
+        .def("ValueAtCellCenter",
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION3(FaceCenteredGrid3,
+                                                   ValueAtCellCenter),
              R"pbdoc(
 			Returns interpolated value at cell center.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
-			- k : Data point index k.
-		)pbdoc",
-             pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("k"))
+			- `*args` : Data point index (i, j, k).
+		)pbdoc")
         .def("DivergenceAtCellCenter",
-             &FaceCenteredGrid3::DivergenceAtCellCenter,
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION3(FaceCenteredGrid3,
+                                                   DivergenceAtCellCenter),
              R"pbdoc(
 			Returns divergence at cell center.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
-			- k : Data point index k.
-		)pbdoc",
-             pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("k"))
-        .def("CurlAtCellCenter", &FaceCenteredGrid3::CurlAtCellCenter,
+            - `*args` : Data point index (i, j, k).
+		)pbdoc")
+        .def("CurlAtCellCenter",
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION3(FaceCenteredGrid3,
+                                                   CurlAtCellCenter),
              R"pbdoc(
 			Returns curl at cell center.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
-			- k : Data point index k.
-		)pbdoc",
-             pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("k"))
+            - `*args` : Data point index (i, j, k).
+		)pbdoc")
         .def("UView",
              static_cast<ArrayView3<double> (FaceCenteredGrid3::*)()>(
                  &FaceCenteredGrid3::UView),
@@ -472,7 +454,8 @@ void AddFaceCenteredGrid3(pybind11::module& m)
              R"pbdoc(
 			The function object that maps v data point to its actual position.
 		)pbdoc")
-        .def("WPosition", &FaceCenteredGrid3::WPosition,
+        .def("WPosition",
+             static_cast<PositionFunc>(&FaceCenteredGrid3::WPosition),
              R"pbdoc(
 			The function object that maps w data point to its actual position.
 		)pbdoc")
@@ -484,7 +467,7 @@ void AddFaceCenteredGrid3(pybind11::module& m)
              R"pbdoc(
 			Returns data size of the v component.
 		)pbdoc")
-        .def("WSize", &FaceCenteredGrid3::WSize,
+        .def("WSize", static_cast<SizeFunc>(&FaceCenteredGrid3::WSize),
              R"pbdoc(
 			Returns data size of the w component.
 		)pbdoc")
@@ -502,7 +485,7 @@ void AddFaceCenteredGrid3(pybind11::module& m)
 			Note that this is different from origin() since origin() returns
 			the lower corner point of the bounding box.
 		 )pbdoc")
-        .def("WOrigin", &FaceCenteredGrid3::WOrigin,
+        .def("WOrigin", static_cast<OriginFunc>(&FaceCenteredGrid3::WOrigin),
              R"pbdoc(
 			Returns w-data position for the grid point at (0, 0).
 

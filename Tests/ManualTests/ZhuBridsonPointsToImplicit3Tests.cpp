@@ -3,7 +3,7 @@
 #include <ManualTests.hpp>
 
 #include <Core/Geometry/MarchingCubes.hpp>
-#include <Core/Grid/VertexCenteredScalarGrid3.hpp>
+#include <Core/Grid/VertexCenteredScalarGrid.hpp>
 #include <Core/PointsToImplicit/ZhuBridsonPointsToImplicit3.hpp>
 
 #include <random>
@@ -23,14 +23,14 @@ CUBBYFLOW_BEGIN_TEST_F(ZhuBridsonPointsToImplicit3, ConvertTwo)
         points.Append({ dist(rng), dist(rng), dist(rng) });
     }
 
-    VertexCenteredScalarGrid3 grid(128, 128, 128, 1.0 / 128, 1.0 / 128,
-                                   1.0 / 128);
+    VertexCenteredScalarGrid3 grid({ 128, 128, 128 },
+                                   { 1.0 / 128, 1.0 / 128, 1.0 / 128 });
 
     ZhuBridsonPointsToImplicit3 converter(0.6, 0.25);
     converter.Convert(points.View(), &grid);
 
     TriangleMesh3 triMesh;
-    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.GetDataOrigin(),
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.DataOrigin(),
                   &triMesh, 0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh,
@@ -49,14 +49,14 @@ CUBBYFLOW_BEGIN_TEST_F(ZhuBridsonPointsToImplicit3, ConvertMany)
         points.Append({ dist(rng), dist(rng), dist(rng) });
     }
 
-    VertexCenteredScalarGrid3 grid(128, 128, 128, 1.0 / 128, 1.0 / 128,
-                                   1.0 / 128);
+    VertexCenteredScalarGrid3 grid({ 128, 128, 128 },
+                                   { 1.0 / 128, 1.0 / 128, 1.0 / 128 });
 
     ZhuBridsonPointsToImplicit3 converter(0.2, 0.25);
     converter.Convert(points.View(), &grid);
 
     TriangleMesh3 triMesh;
-    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.GetDataOrigin(),
+    MarchingCubes(grid.DataView(), grid.GridSpacing(), grid.DataOrigin(),
                   &triMesh, 0, DIRECTION_ALL);
 
     SaveTriangleMeshData(triMesh,

@@ -55,7 +55,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2, ConstrainVelocity)
     double dx = 1.0 / 32.0;
     FaceCenteredGrid2 velocity(Vector2UZ(64, 32), Vector2D(dx, dx), Vector2D());
     velocity.Fill(Vector2D(1.0, 0.0));
-    BoundingBox2D domain = velocity.BoundingBox();
+    BoundingBox2D domain = velocity.GetBoundingBox();
 
     // Collider setting
     auto surfaceSet = std::make_shared<ImplicitSurfaceSet2>();
@@ -72,7 +72,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2, ConstrainVelocity)
     // Solver setting
     GridBlockedBoundaryConditionSolver2 solver;
     solver.UpdateCollider(collider, velocity.Resolution(),
-                          velocity.GridSpacing(), velocity.GridOrigin());
+                          velocity.GridSpacing(), velocity.Origin());
     solver.SetClosedDomainBoundaryFlag(DIRECTION_RIGHT | DIRECTION_DOWN |
                                        DIRECTION_UP);
 
@@ -103,7 +103,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2,
     double dx = 1.0 / 32.0;
     FaceCenteredGrid2 velocity(Vector2UZ(64, 32), Vector2D(dx, dx), Vector2D());
     velocity.Fill(Vector2D(1.0, 0.0));
-    BoundingBox2D domain = velocity.BoundingBox();
+    BoundingBox2D domain = velocity.GetBoundingBox();
 
     // Collider setting
     auto surfaceSet = std::make_shared<ImplicitSurfaceSet2>();
@@ -121,7 +121,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2,
     // Solver setting
     GridBlockedBoundaryConditionSolver2 solver;
     solver.UpdateCollider(collider, velocity.Resolution(),
-                          velocity.GridSpacing(), velocity.GridOrigin());
+                          velocity.GridSpacing(), velocity.Origin());
     solver.SetClosedDomainBoundaryFlag(DIRECTION_RIGHT | DIRECTION_DOWN |
                                        DIRECTION_UP);
 
@@ -154,7 +154,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridFractionalBoundaryConditionSolver2,
     double dx = 1.0 / 32.0;
     FaceCenteredGrid2 velocity(Vector2UZ(64, 32), Vector2D(dx, dx), Vector2D());
     velocity.Fill(Vector2D(1.0, 0.0));
-    BoundingBox2D domain = velocity.BoundingBox();
+    BoundingBox2D domain = velocity.GetBoundingBox();
 
     // Collider setting
     auto surfaceSet = std::make_shared<ImplicitSurfaceSet2>();
@@ -171,7 +171,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridFractionalBoundaryConditionSolver2,
     // Solver setting
     GridFractionalBoundaryConditionSolver2 solver;
     solver.UpdateCollider(collider, velocity.Resolution(),
-                          velocity.GridSpacing(), velocity.GridOrigin());
+                          velocity.GridSpacing(), velocity.Origin());
     solver.SetClosedDomainBoundaryFlag(DIRECTION_RIGHT | DIRECTION_DOWN |
                                        DIRECTION_UP);
 

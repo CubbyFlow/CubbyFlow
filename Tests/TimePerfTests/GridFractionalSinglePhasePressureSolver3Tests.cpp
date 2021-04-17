@@ -1,9 +1,9 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/Field/ConstantScalarField3.hpp>
-#include <Core/Field/ConstantVectorField3.hpp>
-#include <Core/Grid/CellCenteredScalarGrid3.hpp>
-#include <Core/Grid/FaceCenteredGrid3.hpp>
+#include <Core/Field/ConstantScalarField.hpp>
+#include <Core/Field/ConstantVectorField.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
+#include <Core/Grid/FaceCenteredGrid.hpp>
 #include <Core/Matrix/Matrix.hpp>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.hpp>
 
@@ -25,7 +25,7 @@ class GridFractionalSinglePhasePressureSolver3 : public ::benchmark::Fixture
         const auto n = static_cast<size_t>(state.range(0));
         const auto height = static_cast<double>(state.range(1));
 
-        vel.Resize(n, n, n);
+        vel.Resize({ n, n, n });
         vel.Fill(Vector3D());
 
         for (size_t k = 0; k < n; ++k)
@@ -36,17 +36,17 @@ class GridFractionalSinglePhasePressureSolver3 : public ::benchmark::Fixture
                 {
                     if (j == 0 || j == n)
                     {
-                        vel.GetV(i, j, k) = 0.0;
+                        vel.V(i, j, k) = 0.0;
                     }
                     else
                     {
-                        vel.GetV(i, j, k) = 1.0;
+                        vel.V(i, j, k) = 1.0;
                     }
                 }
             }
         }
 
-        fluidSDF.Resize(n, n, n);
+        fluidSDF.Resize({ n, n, n });
         fluidSDF.Fill([&](const Vector3D& x) { return x.y - height; });
     }
 };

@@ -20,8 +20,8 @@ void SemiLagrangian2::Advect(const ScalarGrid2& input, const VectorField2& flow,
         GetScalarSamplerFunc(input);
     double h = std::min(output->GridSpacing().x, output->GridSpacing().y);
 
-    ScalarGrid2::DataPositionFunc inputDataPos = input.DataPosition();
-    ScalarGrid2::DataPositionFunc outputDataPos = output->DataPosition();
+    GridDataPositionFunc<2> inputDataPos = input.DataPosition();
+    GridDataPositionFunc<2> outputDataPos = output->DataPosition();
     ArrayView<double, 2> outputDataAcc = output->DataView();
 
     output->ParallelForEachDataPointIndex([&](size_t i, size_t j) {
@@ -43,9 +43,8 @@ void SemiLagrangian2::Advect(const CollocatedVectorGrid2& input,
         GetVectorSamplerFunc(input);
     double h = std::min(output->GridSpacing().x, output->GridSpacing().y);
 
-    CollocatedVectorGrid2::DataPositionFunc inputDataPos = input.DataPosition();
-    CollocatedVectorGrid2::DataPositionFunc outputDataPos =
-        output->DataPosition();
+    GridDataPositionFunc<2> inputDataPos = input.DataPosition();
+    GridDataPositionFunc<2> outputDataPos = output->DataPosition();
     ArrayView<Vector<double, 2>, 2> outputDataAcc = output->DataView();
 
     output->ParallelForEachDataPointIndex([&](size_t i, size_t j) {
@@ -67,29 +66,29 @@ void SemiLagrangian2::Advect(const FaceCenteredGrid2& input,
         GetVectorSamplerFunc(input);
     double h = std::min(output->GridSpacing().x, output->GridSpacing().y);
 
-    FaceCenteredGrid2::DataPositionFunc uSourceDataPos = input.UPosition();
-    FaceCenteredGrid2::DataPositionFunc uTargetDataPos = output->UPosition();
+    auto uSourceDataPos = input.UPosition();
+    auto uTargetDataPos = output->UPosition();
     ArrayView<double, 2> uTargetDataAcc = output->UView();
 
-    output->ParallelForEachUIndex([&](size_t i, size_t j) {
-        if (boundarySDF.Sample(uSourceDataPos(i, j)) > 0.0)
+    output->ParallelForEachUIndex([&](const Vector2UZ& idx) {
+        if (boundarySDF.Sample(uSourceDataPos(idx)) > 0.0)
         {
             const Vector2D pt =
-                BackTrace(flow, dt, h, uTargetDataPos(i, j), boundarySDF);
-            uTargetDataAcc(i, j) = inputSamplerFunc(pt).x;
+                BackTrace(flow, dt, h, uTargetDataPos(idx), boundarySDF);
+            uTargetDataAcc(idx) = inputSamplerFunc(pt).x;
         }
     });
 
-    FaceCenteredGrid2::DataPositionFunc vSourceDataPos = input.VPosition();
-    FaceCenteredGrid2::DataPositionFunc vTargetDataPos = output->VPosition();
+    auto vSourceDataPos = input.VPosition();
+    auto vTargetDataPos = output->VPosition();
     ArrayView<double, 2> vTargetDataAcc = output->VView();
 
-    output->ParallelForEachVIndex([&](size_t i, size_t j) {
-        if (boundarySDF.Sample(vSourceDataPos(i, j)) > 0.0)
+    output->ParallelForEachVIndex([&](const Vector2UZ& idx) {
+        if (boundarySDF.Sample(vSourceDataPos(idx)) > 0.0)
         {
             const Vector2D pt =
-                BackTrace(flow, dt, h, vTargetDataPos(i, j), boundarySDF);
-            vTargetDataAcc(i, j) = inputSamplerFunc(pt).y;
+                BackTrace(flow, dt, h, vTargetDataPos(idx), boundarySDF);
+            vTargetDataAcc(idx) = inputSamplerFunc(pt).y;
         }
     });
 }

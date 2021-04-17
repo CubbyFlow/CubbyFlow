@@ -1,14 +1,14 @@
 #include "pch.hpp"
 
-#include <Core/Grid/CellCenteredScalarGrid3.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver3.hpp>
 
 using namespace CubbyFlow;
 
 TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurface)
 {
-    FaceCenteredGrid3 vel(3, 3, 3);
-    CellCenteredScalarGrid3 fluidSDF(3, 3, 3);
+    FaceCenteredGrid3 vel({ 3, 3, 3 });
+    CellCenteredScalarGrid3 fluidSDF({ 3, 3, 3 });
 
     vel.Fill(Vector3D());
 
@@ -20,11 +20,11 @@ TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurface)
             {
                 if (j == 0 || j == 3)
                 {
-                    vel.GetV(i, j, k) = 0.0;
+                    vel.V(i, j, k) = 0.0;
                 }
                 else
                 {
-                    vel.GetV(i, j, k) = 1.0;
+                    vel.V(i, j, k) = 1.0;
                 }
             }
         }
@@ -43,7 +43,7 @@ TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurface)
         {
             for (size_t i = 0; i < 4; ++i)
             {
-                EXPECT_NEAR(0.0, vel.GetU(i, j, k), 1e-6);
+                EXPECT_NEAR(0.0, vel.U(i, j, k), 1e-6);
             }
         }
     }
@@ -54,7 +54,7 @@ TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurface)
         {
             for (size_t i = 0; i < 3; ++i)
             {
-                EXPECT_NEAR(0.0, vel.GetV(i, j, k), 1e-6);
+                EXPECT_NEAR(0.0, vel.V(i, j, k), 1e-6);
             }
         }
     }
@@ -65,7 +65,7 @@ TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurface)
         {
             for (size_t i = 0; i < 3; ++i)
             {
-                EXPECT_NEAR(0.0, vel.GetW(i, j, k), 1e-6);
+                EXPECT_NEAR(0.0, vel.W(i, j, k), 1e-6);
             }
         }
     }
@@ -86,8 +86,8 @@ TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurface)
 
 TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurfaceCompressed)
 {
-    FaceCenteredGrid3 vel(3, 3, 3);
-    CellCenteredScalarGrid3 fluidSDF(3, 3, 3);
+    FaceCenteredGrid3 vel({ 3, 3, 3 });
+    CellCenteredScalarGrid3 fluidSDF({ 3, 3, 3 });
 
     vel.Fill(Vector3D());
 
@@ -99,11 +99,11 @@ TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurfaceCompressed)
             {
                 if (j == 0 || j == 3)
                 {
-                    vel.GetV(i, j, k) = 0.0;
+                    vel.V(i, j, k) = 0.0;
                 }
                 else
                 {
-                    vel.GetV(i, j, k) = 1.0;
+                    vel.V(i, j, k) = 1.0;
                 }
             }
         }
@@ -122,7 +122,7 @@ TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurfaceCompressed)
         {
             for (size_t i = 0; i < 4; ++i)
             {
-                EXPECT_NEAR(0.0, vel.GetU(i, j, k), 1e-6);
+                EXPECT_NEAR(0.0, vel.U(i, j, k), 1e-6);
             }
         }
     }
@@ -133,7 +133,7 @@ TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurfaceCompressed)
         {
             for (size_t i = 0; i < 3; ++i)
             {
-                EXPECT_NEAR(0.0, vel.GetV(i, j, k), 1e-6);
+                EXPECT_NEAR(0.0, vel.V(i, j, k), 1e-6);
             }
         }
     }
@@ -144,7 +144,7 @@ TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurfaceCompressed)
         {
             for (size_t i = 0; i < 3; ++i)
             {
-                EXPECT_NEAR(0.0, vel.GetW(i, j, k), 1e-6);
+                EXPECT_NEAR(0.0, vel.W(i, j, k), 1e-6);
             }
         }
     }

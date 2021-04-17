@@ -40,6 +40,9 @@ class NearestArraySampler final
     using VectorType = Vector<ScalarType, N>;
     using CoordIndexType = Vector<size_t, N>;
 
+    //! Default constructor.
+    NearestArraySampler() = default;
+
     //!
     //! \brief      Constructs a sampler.
     //!
@@ -106,6 +109,9 @@ class LinearArraySampler final
     using CoordIndexType = Vector<size_t, N>;
 
     static constexpr size_t FLAT_KERNEL_SIZE = 1 << N;
+
+    //! Default constructor.
+    LinearArraySampler() = default;
 
     //!
     //! \brief      Constructs a sampler.
@@ -181,6 +187,9 @@ class CubicArraySampler final
 
     using VectorType = Vector<ScalarType, N>;
     using CoordIndexType = Vector<size_t, N>;
+
+    //! Default constructor.
+    CubicArraySampler() = default;
 
     //!
     //! \brief      Constructs a sampler.

@@ -18,7 +18,7 @@
 #include <Core/Geometry/Plane.hpp>
 #include <Core/Geometry/RigidBodyCollider.hpp>
 #include <Core/Geometry/Sphere.hpp>
-#include <Core/Particle/ParticleSystemData3.hpp>
+#include <Core/Particle/ParticleSystemData.hpp>
 #include <Core/Solver/Particle/PCISPH/PCISPHSolver3.hpp>
 #include <Core/Solver/Particle/SPH/SPHSolver3.hpp>
 #include <Core/Utils/Logging.hpp>
@@ -44,7 +44,7 @@ using namespace CubbyFlow;
 void SaveParticleAsPos(const ParticleSystemData3Ptr& particles,
                        const std::string& rootDir, int frameCnt)
 {
-    Array1<Vector3D> positions(particles->GetNumberOfParticles());
+    Array1<Vector3D> positions(particles->NumberOfParticles());
     Copy(particles->Positions(), positions.View());
     char baseName[256];
     snprintf(baseName, sizeof(baseName), "frame_%06d.pos", frameCnt);
@@ -63,7 +63,7 @@ void SaveParticleAsPos(const ParticleSystemData3Ptr& particles,
 void SaveParticleAsXYZ(const ParticleSystemData3Ptr& particles,
                        const std::string& rootDir, int frameCnt)
 {
-    Array1<Vector3D> positions(particles->GetNumberOfParticles());
+    Array1<Vector3D> positions(particles->NumberOfParticles());
     Copy(particles->Positions(), positions.View());
     char baseName[256];
     snprintf(baseName, sizeof(baseName), "frame_%06d.xyz", frameCnt);
@@ -83,7 +83,7 @@ void SaveParticleAsXYZ(const ParticleSystemData3Ptr& particles,
 void PrintInfo(const SPHSolver3Ptr& solver)
 {
     const auto particles = solver->GetSPHSystemData();
-    printf("Number of particles: %zu\n", particles->GetNumberOfParticles());
+    printf("Number of particles: %zu\n", particles->NumberOfParticles());
 }
 
 void RunSimulation(const std::string& rootDir, const SPHSolver3Ptr& solver,

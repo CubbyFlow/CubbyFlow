@@ -114,8 +114,8 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
                        const FaceCenteredGrid2& input)
 {
     const Vector2UZ size = input.Resolution();
-    const auto uPos = input.UPosition();
-    const auto vPos = input.VPosition();
+    const GridDataPositionFunc<2> uPos = input.UPosition();
+    const GridDataPositionFunc<2> vPos = input.VPosition();
 
     const Vector2D invH = 1.0 / input.GridSpacing();
     const Vector2D invHSqr = ElemMul(invH, invH);
@@ -151,12 +151,11 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
                     row.center += term / theta;
                 }
 
-                (*b)(i, j) +=
-                    uWeights(i + 1, j) * input.GetU(i + 1, j) * invH.x;
+                (*b)(i, j) += uWeights(i + 1, j) * input.U(i + 1, j) * invH.x;
             }
             else
             {
-                (*b)(i, j) += input.GetU(i + 1, j) * invH.x;
+                (*b)(i, j) += input.U(i + 1, j) * invH.x;
             }
 
             if (i > 0)
@@ -175,11 +174,11 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
                     row.center += term / theta;
                 }
 
-                (*b)(i, j) -= uWeights(i, j) * input.GetU(i, j) * invH.x;
+                (*b)(i, j) -= uWeights(i, j) * input.U(i, j) * invH.x;
             }
             else
             {
-                (*b)(i, j) -= input.GetU(i, j) * invH.x;
+                (*b)(i, j) -= input.U(i, j) * invH.x;
             }
 
             if (j + 1 < size.y)
@@ -199,12 +198,11 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
                     row.center += term / theta;
                 }
 
-                (*b)(i, j) +=
-                    vWeights(i, j + 1) * input.GetV(i, j + 1) * invH.y;
+                (*b)(i, j) += vWeights(i, j + 1) * input.V(i, j + 1) * invH.y;
             }
             else
             {
-                (*b)(i, j) += input.GetV(i, j + 1) * invH.y;
+                (*b)(i, j) += input.V(i, j + 1) * invH.y;
             }
 
             if (j > 0)
@@ -223,11 +221,11 @@ void BuildSingleSystem(FDMMatrix2* A, FDMVector2* b,
                     row.center += term / theta;
                 }
 
-                (*b)(i, j) -= vWeights(i, j) * input.GetV(i, j) * invH.y;
+                (*b)(i, j) -= vWeights(i, j) * input.V(i, j) * invH.y;
             }
             else
             {
-                (*b)(i, j) -= input.GetV(i, j) * invH.y;
+                (*b)(i, j) -= input.V(i, j) * invH.y;
             }
 
             // Accumulate contributions from the moving boundary
@@ -263,8 +261,8 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                        const FaceCenteredGrid2& input)
 {
     const Vector2UZ size = input.Resolution();
-    const auto uPos = input.UPosition();
-    const auto vPos = input.VPosition();
+    const GridDataPositionFunc<2> uPos = input.UPosition();
+    const GridDataPositionFunc<2> vPos = input.VPosition();
 
     const Vector2D invH = 1.0 / input.GridSpacing();
     const Vector2D invHSqr = ElemMul(invH, invH);
@@ -317,11 +315,11 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                     row[0] += term / theta;
                 }
 
-                bij += uWeights(i + 1, j) * input.GetU(i + 1, j) * invH.x;
+                bij += uWeights(i + 1, j) * input.U(i + 1, j) * invH.x;
             }
             else
             {
-                bij += input.GetU(i + 1, j) * invH.x;
+                bij += input.U(i + 1, j) * invH.x;
             }
 
             if (i > 0)
@@ -342,11 +340,11 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                     row[0] += term / theta;
                 }
 
-                bij -= uWeights(i, j) * input.GetU(i, j) * invH.x;
+                bij -= uWeights(i, j) * input.U(i, j) * invH.x;
             }
             else
             {
-                bij -= input.GetU(i, j) * invH.x;
+                bij -= input.U(i, j) * invH.x;
             }
 
             if (j + 1 < size.y)
@@ -367,11 +365,11 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                     row[0] += term / theta;
                 }
 
-                bij += vWeights(i, j + 1) * input.GetV(i, j + 1) * invH.y;
+                bij += vWeights(i, j + 1) * input.V(i, j + 1) * invH.y;
             }
             else
             {
-                bij += input.GetV(i, j + 1) * invH.y;
+                bij += input.V(i, j + 1) * invH.y;
             }
 
             if (j > 0)
@@ -392,11 +390,11 @@ void BuildSingleSystem(MatrixCSRD* A, VectorND* x, VectorND* b,
                     row[0] += term / theta;
                 }
 
-                bij -= vWeights(i, j) * input.GetV(i, j) * invH.y;
+                bij -= vWeights(i, j) * input.V(i, j) * invH.y;
             }
             else
             {
-                bij -= input.GetV(i, j) * invH.y;
+                bij -= input.V(i, j) * invH.y;
             }
 
             // Accumulate contributions from the moving boundary
@@ -535,9 +533,9 @@ void GridFractionalSinglePhasePressureSolver2::BuildWeights(
     }
 
     // Build top-level grids
-    auto cellPos = input.CellCenterPosition();
-    auto uPos = input.UPosition();
-    auto vPos = input.VPosition();
+    GridDataPositionFunc<2> cellPos = input.CellCenterPosition();
+    GridDataPositionFunc<2> uPos = input.UPosition();
+    GridDataPositionFunc<2> vPos = input.VPosition();
     m_boundaryVel = boundaryVelocity.Sampler();
     Vector2D h = input.GridSpacing();
 
@@ -669,7 +667,7 @@ void GridFractionalSinglePhasePressureSolver2::BuildSystem(
     {
         Vector2UZ res = finer->Resolution();
         Vector2D h = finer->GridSpacing();
-        const Vector2D o = finer->GridOrigin();
+        const Vector2D o = finer->Origin();
         res.x = res.x >> 1;
         res.y = res.y >> 1;
         h *= 2.0;

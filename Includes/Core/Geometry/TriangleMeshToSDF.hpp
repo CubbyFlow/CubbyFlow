@@ -12,7 +12,7 @@
 #define CUBBYFLOW_TRIANGLE_MESH_TO_SDF_HPP
 
 #include <Core/Geometry/TriangleMesh3.hpp>
-#include <Core/Grid/ScalarGrid3.hpp>
+#include <Core/Grid/ScalarGrid.hpp>
 
 namespace CubbyFlow
 {

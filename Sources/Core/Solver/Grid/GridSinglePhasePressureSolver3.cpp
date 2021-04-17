@@ -222,7 +222,7 @@ void GridSinglePhasePressureSolver3::Solve(const FaceCenteredGrid3& input,
     UNUSED_VARIABLE(timeIntervalInSeconds);
     UNUSED_VARIABLE(boundaryVelocity);
 
-    const auto pos = input.CellCenterPosition();
+    const GridDataPositionFunc<3> pos = input.CellCenterPosition();
 
     BuildMarkers(input.Resolution(), pos, boundarySDF, fluidSDF);
     BuildSystem(input, useCompressed);
@@ -468,7 +468,7 @@ void GridSinglePhasePressureSolver3::BuildSystem(const FaceCenteredGrid3& input,
     {
         Vector3UZ res = finer->Resolution();
         Vector3D h = finer->GridSpacing();
-        const Vector3D& o = finer->GridOrigin();
+        const Vector3D& o = finer->Origin();
         res.x = res.x >> 1;
         res.y = res.y >> 1;
         res.z = res.z >> 1;

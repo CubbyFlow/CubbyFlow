@@ -20,9 +20,9 @@ TEST(GridFluidSolver2, Constructor)
 
     // Check grid system data
     EXPECT_TRUE(solver.GetGridSystemData() != nullptr);
-    EXPECT_EQ(1u, solver.GetGridSystemData()->GetResolution().x);
-    EXPECT_EQ(1u, solver.GetGridSystemData()->GetResolution().y);
-    EXPECT_EQ(solver.GetGridSystemData()->GetVelocity(), solver.GetVelocity());
+    EXPECT_EQ(1u, solver.GetGridSystemData()->Resolution().x);
+    EXPECT_EQ(1u, solver.GetGridSystemData()->Resolution().y);
+    EXPECT_EQ(solver.GetGridSystemData()->Velocity(), solver.GetVelocity());
 
     // Collider should be null
     EXPECT_TRUE(solver.GetCollider() == nullptr);
@@ -70,18 +70,18 @@ TEST(GridFluidSolver2, GravityOnly)
     frame.timeIntervalInSeconds = 0.01;
     solver.Update(frame);
 
-    solver.GetVelocity()->ForEachUIndex([&](size_t i, size_t j) {
-        EXPECT_NEAR(0.0, solver.GetVelocity()->GetU(i, j), 1e-8);
+    solver.GetVelocity()->ForEachUIndex([&](const Vector2UZ& idx) {
+        EXPECT_NEAR(0.0, solver.GetVelocity()->U(idx), 1e-8);
     });
 
-    solver.GetVelocity()->ForEachVIndex([&](size_t i, size_t j) {
-        if (j == 0 || j == 3)
+    solver.GetVelocity()->ForEachVIndex([&](const Vector2UZ& idx) {
+        if (idx.y == 0 || idx.y == 3)
         {
-            EXPECT_NEAR(0.0, solver.GetVelocity()->GetV(i, j), 1e-8);
+            EXPECT_NEAR(0.0, solver.GetVelocity()->V(idx), 1e-8);
         }
         else
         {
-            EXPECT_NEAR(-0.1, solver.GetVelocity()->GetV(i, j), 1e-8);
+            EXPECT_NEAR(-0.1, solver.GetVelocity()->V(idx), 1e-8);
         }
     });
 }

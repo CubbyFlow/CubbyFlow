@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Particle/SPH/SPHSystemData2.hpp>
+#include <Core/Particle/SPHSystemData.hpp>
 #include <Core/PointsToImplicit/SPHPointsToImplicit2.hpp>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver2.hpp>
 #include <Core/Utils/Logging.hpp>
@@ -41,7 +41,7 @@ void SPHPointsToImplicit2::Convert(const ConstArrayView1<Vector2D>& points,
         return;
     }
 
-    const BoundingBox2D& bbox = output->BoundingBox();
+    const BoundingBox2D& bbox = output->GetBoundingBox();
     if (bbox.IsEmpty())
     {
         CUBBYFLOW_WARN << "Empty domain is provided.";
@@ -54,7 +54,7 @@ void SPHPointsToImplicit2::Convert(const ConstArrayView1<Vector2D>& points,
     sphParticles.BuildNeighborSearcher();
     sphParticles.UpdateDensities();
 
-    Array1<double> constData(sphParticles.GetNumberOfParticles(), 1.0);
+    Array1<double> constData(sphParticles.NumberOfParticles(), 1.0);
     std::shared_ptr<ScalarGrid2> temp = output->Clone();
     temp->Fill([&](const Vector2D& x) {
         const double d = sphParticles.Interpolate(x, constData);

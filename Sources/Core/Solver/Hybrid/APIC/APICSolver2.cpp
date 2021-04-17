@@ -27,13 +27,13 @@ APICSolver2::APICSolver2(const Vector2UZ& resolution,
 
 void APICSolver2::TransferFromParticlesToGrids()
 {
-    FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
+    FaceCenteredGrid2Ptr flow = GetGridSystemData()->Velocity();
     const ParticleSystemData2Ptr particles = GetParticleSystemData();
     const ArrayView1<Vector2<double>> positions = particles->Positions();
     ArrayView1<Vector2<double>> velocities = particles->Velocities();
-    const size_t numberOfParticles = particles->GetNumberOfParticles();
+    const size_t numberOfParticles = particles->NumberOfParticles();
     const Vector2<double> hh = flow->GridSpacing() / 2.0;
-    const BoundingBox2D& bbox = flow->BoundingBox();
+    const BoundingBox2D& bbox = flow->GetBoundingBox();
 
     // Allocate buffers
     m_cX.Resize(numberOfParticles);
@@ -71,7 +71,7 @@ void APICSolver2::TransferFromParticlesToGrids()
 
         for (int j = 0; j < 4; ++j)
         {
-            Vector2D gridPos = uPos(indices[j].x, indices[j].y);
+            Vector2D gridPos = uPos(indices[j]);
             double apicTerm = m_cX[i].Dot(gridPos - uPosClamped);
 
             u(indices[j]) += weights[j] * (velocities[i].x + apicTerm);
@@ -86,7 +86,7 @@ void APICSolver2::TransferFromParticlesToGrids()
 
         for (int j = 0; j < 4; ++j)
         {
-            Vector2D gridPos = vPos(indices[j].x, indices[j].y);
+            Vector2D gridPos = vPos(indices[j]);
             double apicTerm = m_cY[i].Dot(gridPos - vPosClamped);
 
             v(indices[j]) += weights[j] * (velocities[i].y + apicTerm);
@@ -111,13 +111,13 @@ void APICSolver2::TransferFromParticlesToGrids()
 
 void APICSolver2::TransferFromGridsToParticles()
 {
-    const FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
+    const FaceCenteredGrid2Ptr flow = GetGridSystemData()->Velocity();
     ParticleSystemData2Ptr particles = GetParticleSystemData();
     ArrayView1<Vector2<double>> positions = particles->Positions();
     ArrayView1<Vector2<double>> velocities = particles->Velocities();
-    const size_t numberOfParticles = particles->GetNumberOfParticles();
+    const size_t numberOfParticles = particles->NumberOfParticles();
     const Vector2<double> hh = flow->GridSpacing() / 2.0;
-    const BoundingBox2D& bbox = flow->BoundingBox();
+    const BoundingBox2D& bbox = flow->GetBoundingBox();
 
     // Allocate buffers
     m_cX.Resize(numberOfParticles);

@@ -61,6 +61,102 @@ void ParallelForEachIndex(const Vector<IndexType, 1>& size, Func func,
 template <typename IndexType, typename Func>
 void ParallelForEachIndex(IndexType size, Func func,
                           ExecutionPolicy policy = ExecutionPolicy::Parallel);
+
+//! Unrolls vector-based indexing to size_t-based function.
+template <typename ReturnType>
+std::function<ReturnType(size_t)> Unroll1(
+    const std::function<ReturnType(const Vector1UZ&)>& func)
+{
+    return [func](size_t i) { return func(Vector1UZ{ i }); };
+}
+
+//! Unrolls vector-based indexing to size_t-based function.
+template <typename ReturnType>
+std::function<ReturnType(size_t, size_t)> Unroll2(
+    const std::function<ReturnType(const Vector2UZ&)>& func)
+{
+    return [func](size_t i, size_t j) { return func(Vector2UZ{ i, j }); };
+}
+
+//! Unrolls vector-based DataPositionFunc indexing to size_t-based function.
+template <typename ReturnType>
+std::function<ReturnType(size_t, size_t, size_t)> Unroll3(
+    const std::function<ReturnType(const Vector3UZ&)>& func)
+{
+    return [func](size_t i, size_t j, size_t k) {
+        return func(Vector3UZ{ i, j, k });
+    };
+}
+
+template <typename ReturnType, size_t N>
+struct GetUnroll
+{
+    // Do nothing
+};
+
+template <typename ReturnType>
+struct GetUnroll<ReturnType, 1>
+{
+    static std::function<ReturnType(size_t)> Unroll(
+        const std::function<ReturnType(const Vector1UZ&)>& func)
+    {
+        return [func](size_t i) { return func(Vector1UZ{ i }); };
+    }
+};
+
+template <>
+struct GetUnroll<void, 1>
+{
+    static std::function<void(size_t)> Unroll(
+        const std::function<void(const Vector1UZ&)>& func)
+    {
+        return [func](size_t i) { func(Vector1UZ{ i }); };
+    }
+};
+
+template <typename ReturnType>
+struct GetUnroll<ReturnType, 2>
+{
+    static std::function<ReturnType(size_t, size_t)> Unroll(
+        const std::function<ReturnType(const Vector2UZ&)>& func)
+    {
+        return [func](size_t i, size_t j) { return func(Vector2UZ{ i, j }); };
+    }
+};
+
+template <>
+struct GetUnroll<void, 2>
+{
+    static std::function<void(size_t, size_t)> Unroll(
+        const std::function<void(const Vector2UZ&)>& func)
+    {
+        return [func](size_t i, size_t j) { func(Vector2UZ{ i, j }); };
+    }
+};
+
+template <typename ReturnType>
+struct GetUnroll<ReturnType, 3>
+{
+    static std::function<ReturnType(size_t, size_t, size_t)> Unroll(
+        const std::function<ReturnType(const Vector3UZ&)>& func)
+    {
+        return [func](size_t i, size_t j, size_t k) {
+            return func(Vector3UZ{ i, j, k });
+        };
+    }
+};
+
+template <>
+struct GetUnroll<void, 3>
+{
+    static std::function<void(size_t, size_t, size_t)> Unroll(
+        const std::function<void(const Vector3UZ&)>& func)
+    {
+        return [func](size_t i, size_t j, size_t k) {
+            return func(Vector3UZ{ i, j, k });
+        };
+    }
+};
 }  // namespace CubbyFlow
 
 #include <Core/Utils/IterationUtils-Impl.hpp>

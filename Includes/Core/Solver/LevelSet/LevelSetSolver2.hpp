@@ -11,9 +11,9 @@
 #ifndef CUBBYFLOW_LEVEL_SET_SOLVER2_HPP
 #define CUBBYFLOW_LEVEL_SET_SOLVER2_HPP
 
-#include <Core/Grid/CollocatedVectorGrid2.hpp>
-#include <Core/Grid/FaceCenteredGrid2.hpp>
-#include <Core/Grid/ScalarGrid2.hpp>
+#include <Core/Grid/CollocatedVectorGrid.hpp>
+#include <Core/Grid/FaceCenteredGrid.hpp>
+#include <Core/Grid/ScalarGrid.hpp>
 
 #include <memory>
 

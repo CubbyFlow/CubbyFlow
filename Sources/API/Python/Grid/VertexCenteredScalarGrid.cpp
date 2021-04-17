@@ -10,8 +10,7 @@
 
 #include <API/Python/Grid/VertexCenteredScalarGrid.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Grid/VertexCenteredScalarGrid2.hpp>
-#include <Core/Grid/VertexCenteredScalarGrid3.hpp>
+#include <Core/Grid/VertexCenteredScalarGrid.hpp>
 
 #include <pybind11/pybind11.h>
 
@@ -54,13 +53,12 @@ void AddVertexCenteredScalarGrid2(pybind11::module& m)
 				- gridOrigin : Origin point ot the grid.
 				- domainSizeX : Domain size in x-direction.
 		)pbdoc")
-        .def_property_readonly("dataSize",
-                               &VertexCenteredScalarGrid2::GetDataSize,
+        .def_property_readonly("dataSize", &VertexCenteredScalarGrid2::DataSize,
                                R"pbdoc(
 			Returns the actual data point size.
 		)pbdoc")
         .def_property_readonly("dataOrigin",
-                               &VertexCenteredScalarGrid2::GetDataOrigin,
+                               &VertexCenteredScalarGrid2::DataOrigin,
                                R"pbdoc(
 			Returns data position for the grid point at (0, 0).
 
@@ -115,13 +113,12 @@ void AddVertexCenteredScalarGrid3(pybind11::module& m)
 				- gridOrigin : Origin point ot the grid.
 				- domainSizeX : Domain size in x-direction.
 		)pbdoc")
-        .def_property_readonly("dataSize",
-                               &VertexCenteredScalarGrid3::GetDataSize,
+        .def_property_readonly("dataSize", &VertexCenteredScalarGrid3::DataSize,
                                R"pbdoc(
 			Returns the actual data point size.
 		)pbdoc")
         .def_property_readonly("dataOrigin",
-                               &VertexCenteredScalarGrid3::GetDataOrigin,
+                               &VertexCenteredScalarGrid3::DataOrigin,
                                R"pbdoc(
 			Returns data position for the grid point at (0, 0, 0).
 

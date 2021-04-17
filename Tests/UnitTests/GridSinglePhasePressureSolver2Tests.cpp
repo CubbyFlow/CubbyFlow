@@ -1,19 +1,19 @@
 #include "pch.hpp"
 
-#include <Core/Grid/CellCenteredScalarGrid2.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Solver/Grid/GridSinglePhasePressureSolver2.hpp>
 
 using namespace CubbyFlow;
 
 TEST(GridSinglePhasePressureSolver2, SolveSinglePhase)
 {
-    FaceCenteredGrid2 vel(3, 3);
+    FaceCenteredGrid2 vel({ 3, 3 });
 
     for (size_t j = 0; j < 3; ++j)
     {
         for (size_t i = 0; i < 4; ++i)
         {
-            vel.GetU(i, j) = 0.0;
+            vel.U(i, j) = 0.0;
         }
     }
 
@@ -23,11 +23,11 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhase)
         {
             if (j == 0 || j == 3)
             {
-                vel.GetV(i, j) = 0.0;
+                vel.V(i, j) = 0.0;
             }
             else
             {
-                vel.GetV(i, j) = 1.0;
+                vel.V(i, j) = 1.0;
             }
         }
     }
@@ -43,7 +43,7 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhase)
     {
         for (size_t i = 0; i < 4; ++i)
         {
-            EXPECT_NEAR(0.0, vel.GetU(i, j), 1e-6);
+            EXPECT_NEAR(0.0, vel.U(i, j), 1e-6);
         }
     }
 
@@ -51,7 +51,7 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhase)
     {
         for (size_t i = 0; i < 3; ++i)
         {
-            EXPECT_NEAR(0.0, vel.GetV(i, j), 1e-6);
+            EXPECT_NEAR(0.0, vel.V(i, j), 1e-6);
         }
     }
 
@@ -67,13 +67,13 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhase)
 
 TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseCompressed)
 {
-    FaceCenteredGrid2 vel(3, 3);
+    FaceCenteredGrid2 vel({ 3, 3 });
 
     for (size_t j = 0; j < 3; ++j)
     {
         for (size_t i = 0; i < 4; ++i)
         {
-            vel.GetU(i, j) = 0.0;
+            vel.U(i, j) = 0.0;
         }
     }
 
@@ -83,11 +83,11 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseCompressed)
         {
             if (j == 0 || j == 3)
             {
-                vel.GetV(i, j) = 0.0;
+                vel.V(i, j) = 0.0;
             }
             else
             {
-                vel.GetV(i, j) = 1.0;
+                vel.V(i, j) = 1.0;
             }
         }
     }
@@ -103,7 +103,7 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseCompressed)
     {
         for (size_t i = 0; i < 4; ++i)
         {
-            EXPECT_NEAR(0.0, vel.GetU(i, j), 1e-6);
+            EXPECT_NEAR(0.0, vel.U(i, j), 1e-6);
         }
     }
 
@@ -111,7 +111,7 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseCompressed)
     {
         for (size_t i = 0; i < 3; ++i)
         {
-            EXPECT_NEAR(0.0, vel.GetV(i, j), 1e-6);
+            EXPECT_NEAR(0.0, vel.V(i, j), 1e-6);
         }
     }
 
@@ -127,14 +127,14 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseCompressed)
 
 TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseWithBoundary)
 {
-    FaceCenteredGrid2 vel(3, 3);
-    CellCenteredScalarGrid2 boundarySDF(3, 3);
+    FaceCenteredGrid2 vel({ 3, 3 });
+    CellCenteredScalarGrid2 boundarySDF({ 3, 3 });
 
     for (size_t j = 0; j < 3; ++j)
     {
         for (size_t i = 0; i < 4; ++i)
         {
-            vel.GetU(i, j) = 0.0;
+            vel.U(i, j) = 0.0;
         }
     }
 
@@ -144,11 +144,11 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseWithBoundary)
         {
             if (j == 0 || j == 3)
             {
-                vel.GetV(i, j) = 0.0;
+                vel.V(i, j) = 0.0;
             }
             else
             {
-                vel.GetV(i, j) = 1.0;
+                vel.V(i, j) = 1.0;
             }
         }
     }
@@ -163,7 +163,7 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseWithBoundary)
     {
         for (size_t i = 0; i < 4; ++i)
         {
-            EXPECT_NEAR(0.0, vel.GetU(i, j), 1e-6);
+            EXPECT_NEAR(0.0, vel.U(i, j), 1e-6);
         }
     }
 
@@ -173,11 +173,11 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseWithBoundary)
         {
             if (i == 2 && (j == 1 || j == 2))
             {
-                EXPECT_NEAR(1.0, vel.GetV(i, j), 1e-6);
+                EXPECT_NEAR(1.0, vel.V(i, j), 1e-6);
             }
             else
             {
-                EXPECT_NEAR(0.0, vel.GetV(i, j), 1e-6);
+                EXPECT_NEAR(0.0, vel.V(i, j), 1e-6);
             }
         }
     }
@@ -194,14 +194,14 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseWithBoundary)
 
 TEST(GridSinglePhasePressureSolver2, SolveFreeSurface)
 {
-    FaceCenteredGrid2 vel(3, 3);
-    CellCenteredScalarGrid2 fluidSDF(3, 3);
+    FaceCenteredGrid2 vel({ 3, 3 });
+    CellCenteredScalarGrid2 fluidSDF({ 3, 3 });
 
     for (size_t j = 0; j < 3; ++j)
     {
         for (size_t i = 0; i < 4; ++i)
         {
-            vel.GetU(i, j) = 0.0;
+            vel.U(i, j) = 0.0;
         }
     }
 
@@ -211,11 +211,11 @@ TEST(GridSinglePhasePressureSolver2, SolveFreeSurface)
         {
             if (j == 0 || j == 3)
             {
-                vel.GetV(i, j) = 0.0;
+                vel.V(i, j) = 0.0;
             }
             else
             {
-                vel.GetV(i, j) = 1.0;
+                vel.V(i, j) = 1.0;
             }
         }
     }
@@ -231,7 +231,7 @@ TEST(GridSinglePhasePressureSolver2, SolveFreeSurface)
     {
         for (size_t i = 0; i < 4; ++i)
         {
-            EXPECT_NEAR(0.0, vel.GetU(i, j), 1e-6);
+            EXPECT_NEAR(0.0, vel.U(i, j), 1e-6);
         }
     }
 
@@ -239,7 +239,7 @@ TEST(GridSinglePhasePressureSolver2, SolveFreeSurface)
     {
         for (size_t i = 0; i < 3; ++i)
         {
-            EXPECT_NEAR(0.0, vel.GetV(i, j), 1e-6);
+            EXPECT_NEAR(0.0, vel.V(i, j), 1e-6);
         }
     }
 
@@ -256,14 +256,14 @@ TEST(GridSinglePhasePressureSolver2, SolveFreeSurface)
 
 TEST(GridSinglePhasePressureSolver2, SolveFreeSurfaceCompressed)
 {
-    FaceCenteredGrid2 vel(3, 3);
-    CellCenteredScalarGrid2 fluidSDF(3, 3);
+    FaceCenteredGrid2 vel({ 3, 3 });
+    CellCenteredScalarGrid2 fluidSDF({ 3, 3 });
 
     for (size_t j = 0; j < 3; ++j)
     {
         for (size_t i = 0; i < 4; ++i)
         {
-            vel.GetU(i, j) = 0.0;
+            vel.U(i, j) = 0.0;
         }
     }
 
@@ -273,11 +273,11 @@ TEST(GridSinglePhasePressureSolver2, SolveFreeSurfaceCompressed)
         {
             if (j == 0 || j == 3)
             {
-                vel.GetV(i, j) = 0.0;
+                vel.V(i, j) = 0.0;
             }
             else
             {
-                vel.GetV(i, j) = 1.0;
+                vel.V(i, j) = 1.0;
             }
         }
     }
@@ -293,7 +293,7 @@ TEST(GridSinglePhasePressureSolver2, SolveFreeSurfaceCompressed)
     {
         for (size_t i = 0; i < 4; ++i)
         {
-            EXPECT_NEAR(0.0, vel.GetU(i, j), 1e-6);
+            EXPECT_NEAR(0.0, vel.U(i, j), 1e-6);
         }
     }
 
@@ -301,7 +301,7 @@ TEST(GridSinglePhasePressureSolver2, SolveFreeSurfaceCompressed)
     {
         for (size_t i = 0; i < 3; ++i)
         {
-            EXPECT_NEAR(0.0, vel.GetV(i, j), 1e-6);
+            EXPECT_NEAR(0.0, vel.V(i, j), 1e-6);
         }
     }
 
@@ -318,15 +318,15 @@ TEST(GridSinglePhasePressureSolver2, SolveFreeSurfaceCompressed)
 
 TEST(GridSinglePhasePressureSolver2, SolveFreeSurfaceWithBoundary)
 {
-    FaceCenteredGrid2 vel(3, 3);
-    CellCenteredScalarGrid2 fluidSDF(3, 3);
-    CellCenteredScalarGrid2 boundarySDF(3, 3);
+    FaceCenteredGrid2 vel({ 3, 3 });
+    CellCenteredScalarGrid2 fluidSDF({ 3, 3 });
+    CellCenteredScalarGrid2 boundarySDF({ 3, 3 });
 
     for (size_t j = 0; j < 3; ++j)
     {
         for (size_t i = 0; i < 4; ++i)
         {
-            vel.GetU(i, j) = 0.0;
+            vel.U(i, j) = 0.0;
         }
     }
 
@@ -336,11 +336,11 @@ TEST(GridSinglePhasePressureSolver2, SolveFreeSurfaceWithBoundary)
         {
             if (j == 0 || j == 3)
             {
-                vel.GetV(i, j) = 0.0;
+                vel.V(i, j) = 0.0;
             }
             else
             {
-                vel.GetV(i, j) = 1.0;
+                vel.V(i, j) = 1.0;
             }
         }
     }
@@ -357,7 +357,7 @@ TEST(GridSinglePhasePressureSolver2, SolveFreeSurfaceWithBoundary)
     {
         for (size_t i = 0; i < 4; ++i)
         {
-            EXPECT_NEAR(0.0, vel.GetU(i, j), 1e-6);
+            EXPECT_NEAR(0.0, vel.U(i, j), 1e-6);
         }
     }
 
@@ -367,11 +367,11 @@ TEST(GridSinglePhasePressureSolver2, SolveFreeSurfaceWithBoundary)
         {
             if (i == 2 && (j == 1 || j == 2))
             {
-                EXPECT_NEAR(1.0, vel.GetV(i, j), 1e-6);
+                EXPECT_NEAR(1.0, vel.V(i, j), 1e-6);
             }
             else
             {
-                EXPECT_NEAR(0.0, vel.GetV(i, j), 1e-6);
+                EXPECT_NEAR(0.0, vel.V(i, j), 1e-6);
             }
         }
     }
@@ -390,13 +390,13 @@ TEST(GridSinglePhasePressureSolver2, SolveFreeSurfaceWithBoundary)
 TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseWithMG)
 {
     const size_t n = 64;
-    FaceCenteredGrid2 vel(n, n);
+    FaceCenteredGrid2 vel({ n, n });
 
     for (size_t j = 0; j < n; ++j)
     {
         for (size_t i = 0; i < n + 1; ++i)
         {
-            vel.GetU(i, j) = 0.0;
+            vel.U(i, j) = 0.0;
         }
     }
 
@@ -406,11 +406,11 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseWithMG)
         {
             if (j == 0 || j == n)
             {
-                vel.GetV(i, j) = 0.0;
+                vel.V(i, j) = 0.0;
             }
             else
             {
-                vel.GetV(i, j) = 1.0;
+                vel.V(i, j) = 1.0;
             }
         }
     }
@@ -425,7 +425,7 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseWithMG)
     {
         for (size_t i = 0; i < n + 1; ++i)
         {
-            EXPECT_NEAR(0.0, vel.GetU(i, j), 0.01);
+            EXPECT_NEAR(0.0, vel.U(i, j), 0.01);
         }
     }
 
@@ -433,7 +433,7 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseWithMG)
     {
         for (size_t i = 0; i < n; ++i)
         {
-            EXPECT_NEAR(0.0, vel.GetV(i, j), 0.05);
+            EXPECT_NEAR(0.0, vel.V(i, j), 0.05);
         }
     }
 }

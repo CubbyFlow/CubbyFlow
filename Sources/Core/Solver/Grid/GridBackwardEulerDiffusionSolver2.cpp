@@ -35,13 +35,13 @@ void GridBackwardEulerDiffusionSolver2::Solve(const ScalarGrid2& source,
 {
     if (m_systemSolver != nullptr)
     {
-        const auto pos = source.DataPosition();
+        const GridDataPositionFunc<2> pos = source.DataPosition();
         const Vector2D& h = source.GridSpacing();
         const Vector2D c =
             timeIntervalInSeconds * diffusionCoefficient / ElemMul(h, h);
 
-        BuildMarkers(source.GetDataSize(), pos, boundarySDF, fluidSDF);
-        BuildMatrix(source.GetDataSize(), c);
+        BuildMarkers(source.DataSize(), pos, boundarySDF, fluidSDF);
+        BuildMatrix(source.DataSize(), c);
         BuildVectors(source.DataView(), c);
 
         // Solve the system
@@ -49,7 +49,7 @@ void GridBackwardEulerDiffusionSolver2::Solve(const ScalarGrid2& source,
 
         // Assign the solution
         source.ParallelForEachDataPointIndex(
-            [&](size_t i, size_t j) { (*dest)(i, j) = m_system.x(i, j); });
+            [&](const Vector2UZ& idx) { (*dest)(idx) = m_system.x(idx); });
     }
 }
 
@@ -60,13 +60,13 @@ void GridBackwardEulerDiffusionSolver2::Solve(
 {
     if (m_systemSolver != nullptr)
     {
-        const auto pos = source.DataPosition();
+        const GridDataPositionFunc<2> pos = source.DataPosition();
         const Vector2D& h = source.GridSpacing();
         const Vector2D c =
             timeIntervalInSeconds * diffusionCoefficient / ElemMul(h, h);
 
-        BuildMarkers(source.GetDataSize(), pos, boundarySDF, fluidSDF);
-        BuildMatrix(source.GetDataSize(), c);
+        BuildMarkers(source.DataSize(), pos, boundarySDF, fluidSDF);
+        BuildMatrix(source.DataSize(), c);
 
         // u
         BuildVectors(source.DataView(), c, 0);
@@ -76,7 +76,7 @@ void GridBackwardEulerDiffusionSolver2::Solve(
 
         // Assign the solution
         source.ParallelForEachDataPointIndex(
-            [&](size_t i, size_t j) { (*dest)(i, j).x = m_system.x(i, j); });
+            [&](const Vector2UZ& idx) { (*dest)(idx).x = m_system.x(idx); });
 
         // v
         BuildVectors(source.DataView(), c, 1);
@@ -86,7 +86,7 @@ void GridBackwardEulerDiffusionSolver2::Solve(
 
         // Assign the solution
         source.ParallelForEachDataPointIndex(
-            [&](size_t i, size_t j) { (*dest)(i, j).y = m_system.x(i, j); });
+            [&](const Vector2UZ& idx) { (*dest)(idx).y = m_system.x(idx); });
     }
 }
 
@@ -114,7 +114,7 @@ void GridBackwardEulerDiffusionSolver2::Solve(const FaceCenteredGrid2& source,
 
         // Assign the solution
         source.ParallelForEachUIndex(
-            [&](size_t i, size_t j) { dest->GetU(i, j) = m_system.x(i, j); });
+            [&](const Vector2UZ& idx) { dest->U(idx) = m_system.x(idx); });
 
         // v
         const auto vPos = source.VPosition();
@@ -127,7 +127,7 @@ void GridBackwardEulerDiffusionSolver2::Solve(const FaceCenteredGrid2& source,
 
         // Assign the solution
         source.ParallelForEachVIndex(
-            [&](size_t i, size_t j) { dest->GetV(i, j) = m_system.x(i, j); });
+            [&](const Vector2UZ& idx) { dest->V(idx) = m_system.x(idx); });
     }
 }
 

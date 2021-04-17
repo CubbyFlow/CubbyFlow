@@ -9,7 +9,7 @@
 // property of any third parties.
 
 #include <Core/Array/ArrayUtils.hpp>
-#include <Core/Grid/CellCenteredScalarGrid2.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Solver/Hybrid/PIC/PICSolver2.hpp>
 #include <Core/Utils/Logging.hpp>
 #include <Core/Utils/Timer.hpp>
@@ -34,7 +34,7 @@ PICSolver2::PICSolver2(const Vector2UZ& resolution, const Vector2D& gridSpacing,
 
 ScalarGrid2Ptr PICSolver2::GetSignedDistanceField() const
 {
-    return GetGridSystemData()->GetScalarDataAt(m_signedDistanceFieldID);
+    return GetGridSystemData()->ScalarDataAt(m_signedDistanceFieldID);
 }
 
 const ParticleSystemData2Ptr& PICSolver2::GetParticleSystemData() const
@@ -71,7 +71,7 @@ void PICSolver2::OnBeginAdvanceTimeStep(double timeIntervalInSeconds)
                    << timer.DurationInSeconds() << " seconds";
 
     CUBBYFLOW_INFO << "Number of PIC-type particles: "
-                   << m_particles->GetNumberOfParticles();
+                   << m_particles->NumberOfParticles();
 
     timer.Reset();
     TransferFromParticlesToGrids();
@@ -118,10 +118,10 @@ ScalarField2Ptr PICSolver2::GetFluidSDF() const
 
 void PICSolver2::TransferFromParticlesToGrids()
 {
-    FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
+    FaceCenteredGrid2Ptr flow = GetGridSystemData()->Velocity();
     ArrayView1<Vector2<double>> positions = m_particles->Positions();
     ArrayView1<Vector2<double>> velocities = m_particles->Velocities();
-    const size_t numberOfParticles = m_particles->GetNumberOfParticles();
+    const size_t numberOfParticles = m_particles->NumberOfParticles();
 
     // Clear velocity to zero
     flow->Fill(Vector2D{});
@@ -181,10 +181,10 @@ void PICSolver2::TransferFromParticlesToGrids()
 
 void PICSolver2::TransferFromGridsToParticles()
 {
-    FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
+    FaceCenteredGrid2Ptr flow = GetGridSystemData()->Velocity();
     ArrayView1<Vector2<double>> positions = m_particles->Positions();
     ArrayView1<Vector2<double>> velocities = m_particles->Velocities();
-    const size_t numberOfParticles = m_particles->GetNumberOfParticles();
+    const size_t numberOfParticles = m_particles->NumberOfParticles();
 
     ParallelFor(ZERO_SIZE, numberOfParticles,
                 [&](size_t i) { velocities[i] = flow->Sample(positions[i]); });
@@ -192,12 +192,12 @@ void PICSolver2::TransferFromGridsToParticles()
 
 void PICSolver2::MoveParticles(double timeIntervalInSeconds)
 {
-    FaceCenteredGrid2Ptr flow = GetGridSystemData()->GetVelocity();
+    FaceCenteredGrid2Ptr flow = GetGridSystemData()->Velocity();
     ArrayView1<Vector2<double>> positions = m_particles->Positions();
     ArrayView1<Vector2<double>> velocities = m_particles->Velocities();
-    const size_t numberOfParticles = m_particles->GetNumberOfParticles();
+    const size_t numberOfParticles = m_particles->NumberOfParticles();
     int domainBoundaryFlag = GetClosedDomainBoundaryFlag();
-    BoundingBox2D boundingBox = flow->BoundingBox();
+    BoundingBox2D boundingBox = flow->GetBoundingBox();
 
     ParallelFor(ZERO_SIZE, numberOfParticles, [&](size_t i) {
         Vector2D pt0 = positions[i];
@@ -260,7 +260,7 @@ void PICSolver2::MoveParticles(double timeIntervalInSeconds)
 
 void PICSolver2::ExtrapolateVelocityToAir()
 {
-    FaceCenteredGrid2Ptr vel = GetGridSystemData()->GetVelocity();
+    FaceCenteredGrid2Ptr vel = GetGridSystemData()->Velocity();
     const ArrayView2<double> u = vel->UView();
     const ArrayView2<double> v = vel->VView();
 
@@ -272,12 +272,12 @@ void PICSolver2::ExtrapolateVelocityToAir()
 void PICSolver2::BuildSignedDistanceField()
 {
     ScalarGrid2Ptr sdf = GetSignedDistanceField();
-    auto sdfPos = sdf->DataPosition();
+    GridDataPositionFunc<2> sdfPos = sdf->DataPosition();
     const double maxH = std::max(sdf->GridSpacing().x, sdf->GridSpacing().y);
     double radius = 1.2 * maxH / std::sqrt(2.0);
 
     m_particles->BuildNeighborSearcher(2 * radius);
-    auto searcher = m_particles->GetNeighborSearcher();
+    auto searcher = m_particles->NeighborSearcher();
     sdf->ParallelForEachDataPointIndex([&](size_t i, size_t j) {
         Vector2D pt = sdfPos(i, j);
         double minDist = 2.0 * radius;

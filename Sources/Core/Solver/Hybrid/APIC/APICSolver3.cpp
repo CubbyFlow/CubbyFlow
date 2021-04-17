@@ -28,13 +28,13 @@ APICSolver3::APICSolver3(const Vector3UZ& resolution,
 
 void APICSolver3::TransferFromParticlesToGrids()
 {
-    FaceCenteredGrid3Ptr flow = GetGridSystemData()->GetVelocity();
+    FaceCenteredGrid3Ptr flow = GetGridSystemData()->Velocity();
     const ParticleSystemData3Ptr particles = GetParticleSystemData();
     const ArrayView1<Vector3<double>> positions = particles->Positions();
     ArrayView1<Vector3<double>> velocities = particles->Velocities();
-    const size_t numberOfParticles = particles->GetNumberOfParticles();
+    const size_t numberOfParticles = particles->NumberOfParticles();
     const Vector3<double> hh = flow->GridSpacing() / 2.0;
-    const BoundingBox3D& bbox = flow->BoundingBox();
+    const BoundingBox3D& bbox = flow->GetBoundingBox();
 
     // Allocate buffers
     m_cX.Resize(numberOfParticles);
@@ -82,7 +82,7 @@ void APICSolver3::TransferFromParticlesToGrids()
 
         for (int j = 0; j < 8; ++j)
         {
-            Vector3D gridPos = uPos(indices[j].x, indices[j].y, indices[j].z);
+            Vector3D gridPos = uPos(indices[j]);
             double apicTerm = m_cX[i].Dot(gridPos - uPosClamped);
 
             u(indices[j]) += weights[j] * (velocities[i].x + apicTerm);
@@ -99,7 +99,7 @@ void APICSolver3::TransferFromParticlesToGrids()
 
         for (int j = 0; j < 8; ++j)
         {
-            Vector3D gridPos = vPos(indices[j].x, indices[j].y, indices[j].z);
+            Vector3D gridPos = vPos(indices[j]);
             double apicTerm = m_cY[i].Dot(gridPos - vPosClamped);
 
             v(indices[j]) += weights[j] * (velocities[i].y + apicTerm);
@@ -116,7 +116,7 @@ void APICSolver3::TransferFromParticlesToGrids()
 
         for (int j = 0; j < 8; ++j)
         {
-            Vector3D gridPos = wPos(indices[j].x, indices[j].y, indices[j].z);
+            Vector3D gridPos = wPos(indices[j]);
             double apicTerm = m_cZ[i].Dot(gridPos - wPosClamped);
 
             w(indices[j]) += weights[j] * (velocities[i].z + apicTerm);
@@ -147,13 +147,13 @@ void APICSolver3::TransferFromParticlesToGrids()
 
 void APICSolver3::TransferFromGridsToParticles()
 {
-    FaceCenteredGrid3Ptr flow = GetGridSystemData()->GetVelocity();
+    FaceCenteredGrid3Ptr flow = GetGridSystemData()->Velocity();
     const ParticleSystemData3Ptr particles = GetParticleSystemData();
     const ArrayView1<Vector3<double>> positions = particles->Positions();
     ArrayView1<Vector3<double>> velocities = particles->Velocities();
-    const size_t numberOfParticles = particles->GetNumberOfParticles();
+    const size_t numberOfParticles = particles->NumberOfParticles();
     const Vector3<double> hh = flow->GridSpacing() / 2.0;
-    const BoundingBox3D& bbox = flow->BoundingBox();
+    const BoundingBox3D& bbox = flow->GetBoundingBox();
 
     // Allocate buffers
     m_cX.Resize(numberOfParticles);

@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Grid/CellCenteredScalarGrid3.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Solver/LevelSet/ENOLevelSetSolver3.hpp>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver3.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver3.hpp>
@@ -38,8 +38,7 @@ LevelSetLiquidSolver3::LevelSetLiquidSolver3(const Vector3UZ& resolution,
 
 ScalarGrid3Ptr LevelSetLiquidSolver3::GetSignedDistanceField() const
 {
-    return GetGridSystemData()->GetAdvectableScalarDataAt(
-        m_signedDistanceFieldId);
+    return GetGridSystemData()->AdvectableScalarDataAt(m_signedDistanceFieldId);
 }
 
 LevelSetSolver3Ptr LevelSetLiquidSolver3::GetLevelSetSolver() const
@@ -153,15 +152,15 @@ void LevelSetLiquidSolver3::Reinitialize(double currentCfl)
 void LevelSetLiquidSolver3::ExtrapolateVelocityToAir(double currentCFL)
 {
     ScalarGrid3Ptr sdf = GetSignedDistanceField();
-    FaceCenteredGrid3Ptr vel = GetGridSystemData()->GetVelocity();
+    FaceCenteredGrid3Ptr vel = GetGridSystemData()->Velocity();
 
     ArrayView3<double> u = vel->UView();
     ArrayView3<double> v = vel->VView();
     ArrayView3<double> w = vel->WView();
 
-    auto uPos = vel->UPosition();
-    auto vPos = vel->VPosition();
-    auto wPos = vel->WPosition();
+    GridDataPositionFunc<3> uPos = vel->UPosition();
+    GridDataPositionFunc<3> vPos = vel->VPosition();
+    GridDataPositionFunc<3> wPos = vel->WPosition();
 
     Array3<char> uMarker{ u.Size() };
     Array3<char> vMarker{ v.Size() };

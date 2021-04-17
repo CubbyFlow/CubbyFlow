@@ -10,8 +10,8 @@
 
 #include <Core/Emitter/VolumeGridEmitter3.hpp>
 #include <Core/Geometry/SurfaceToImplicit.hpp>
-#include <Core/Grid/CollocatedVectorGrid3.hpp>
-#include <Core/Grid/FaceCenteredGrid3.hpp>
+#include <Core/Grid/CollocatedVectorGrid.hpp>
+#include <Core/Grid/FaceCenteredGrid.hpp>
 #include <Core/Utils/LevelSetUtils.hpp>
 #include <Core/Utils/Macros.hpp>
 
@@ -106,7 +106,7 @@ void VolumeGridEmitter3::Emit()
         const auto& grid = std::get<0>(target);
         const auto& mapper = std::get<1>(target);
 
-        auto pos = grid->DataPosition();
+        GridDataPositionFunc<3> pos = grid->DataPosition();
         grid->ParallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
             const Vector3D gx = pos(i, j, k);
             const double sdf = GetSourceRegion()->SignedDistance(gx);
@@ -124,7 +124,7 @@ void VolumeGridEmitter3::Emit()
             std::dynamic_pointer_cast<CollocatedVectorGrid3>(grid);
         if (collocated != nullptr)
         {
-            auto pos = collocated->DataPosition();
+            GridDataPositionFunc<3> pos = collocated->DataPosition();
             collocated->ParallelForEachDataPointIndex(
                 [&](size_t i, size_t j, size_t k) {
                     const Vector3D gx = pos(i, j, k);
@@ -148,35 +148,32 @@ void VolumeGridEmitter3::Emit()
             auto vPos = faceCentered->VPosition();
             auto wPos = faceCentered->WPosition();
 
-            faceCentered->ParallelForEachUIndex(
-                [&](size_t i, size_t j, size_t k) {
-                    const Vector3D gx = uPos(i, j, k);
-                    const double sdf = GetSourceRegion()->SignedDistance(gx);
-                    const Vector3D oldVal = faceCentered->Sample(gx);
-                    const Vector3D newVal = mapper(sdf, gx, oldVal);
+            faceCentered->ParallelForEachUIndex([&](const Vector3UZ& idx) {
+                const Vector3D gx = uPos(idx);
+                const double sdf = GetSourceRegion()->SignedDistance(gx);
+                const Vector3D oldVal = faceCentered->Sample(gx);
+                const Vector3D newVal = mapper(sdf, gx, oldVal);
 
-                    faceCentered->GetU(i, j, k) = newVal.x;
-                });
+                faceCentered->U(idx) = newVal.x;
+            });
 
-            faceCentered->ParallelForEachVIndex(
-                [&](size_t i, size_t j, size_t k) {
-                    const Vector3D gx = vPos(i, j, k);
-                    const double sdf = GetSourceRegion()->SignedDistance(gx);
-                    const Vector3D oldVal = faceCentered->Sample(gx);
-                    const Vector3D newVal = mapper(sdf, gx, oldVal);
+            faceCentered->ParallelForEachVIndex([&](const Vector3UZ& idx) {
+                const Vector3D gx = vPos(idx);
+                const double sdf = GetSourceRegion()->SignedDistance(gx);
+                const Vector3D oldVal = faceCentered->Sample(gx);
+                const Vector3D newVal = mapper(sdf, gx, oldVal);
 
-                    faceCentered->GetV(i, j, k) = newVal.y;
-                });
+                faceCentered->V(idx) = newVal.y;
+            });
 
-            faceCentered->ParallelForEachWIndex(
-                [&](size_t i, size_t j, size_t k) {
-                    const Vector3D gx = wPos(i, j, k);
-                    const double sdf = GetSourceRegion()->SignedDistance(gx);
-                    const Vector3D oldVal = faceCentered->Sample(gx);
-                    const Vector3D newVal = mapper(sdf, gx, oldVal);
+            faceCentered->ParallelForEachWIndex([&](const Vector3UZ& idx) {
+                const Vector3D gx = wPos(idx);
+                const double sdf = GetSourceRegion()->SignedDistance(gx);
+                const Vector3D oldVal = faceCentered->Sample(gx);
+                const Vector3D newVal = mapper(sdf, gx, oldVal);
 
-                    faceCentered->GetW(i, j, k) = newVal.z;
-                });
+                faceCentered->W(idx) = newVal.z;
+            });
         }
     }
 }

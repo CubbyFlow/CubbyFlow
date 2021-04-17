@@ -61,7 +61,7 @@ void GridFluidSolver3::SetViscosityCoefficient(double newValue)
 
 double GridFluidSolver3::GetCFL(double timeIntervalInSeconds) const
 {
-    FaceCenteredGrid3Ptr vel = m_grids->GetVelocity();
+    FaceCenteredGrid3Ptr vel = m_grids->Velocity();
     double maxVel = 0.0;
 
     vel->ForEachCellIndex([&](size_t i, size_t j, size_t k) {
@@ -70,7 +70,7 @@ double GridFluidSolver3::GetCFL(double timeIntervalInSeconds) const
         maxVel = std::max(maxVel, v.Max());
     });
 
-    const Vector3D gridSpacing = m_grids->GetGridSpacing();
+    const Vector3D gridSpacing = m_grids->GridSpacing();
     const double minGridSize = gridSpacing.Min();
 
     return maxVel * timeIntervalInSeconds / minGridSize;
@@ -163,22 +163,22 @@ void GridFluidSolver3::ResizeGrid(const Vector3UZ& newSize,
 
 Vector3UZ GridFluidSolver3::GetResolution() const
 {
-    return m_grids->GetResolution();
+    return m_grids->Resolution();
 }
 
 Vector3D GridFluidSolver3::GetGridSpacing() const
 {
-    return m_grids->GetGridSpacing();
+    return m_grids->GridSpacing();
 }
 
 Vector3D GridFluidSolver3::GetGridOrigin() const
 {
-    return m_grids->GetOrigin();
+    return m_grids->Origin();
 }
 
 const FaceCenteredGrid3Ptr& GridFluidSolver3::GetVelocity() const
 {
-    return m_grids->GetVelocity();
+    return m_grids->Velocity();
 }
 
 const Collider3Ptr& GridFluidSolver3::GetCollider() const
@@ -219,8 +219,8 @@ void GridFluidSolver3::OnInitialize()
 void GridFluidSolver3::OnAdvanceTimeStep(double timeIntervalInSeconds)
 {
     // The minimum grid resolution is 1x1.
-    if (m_grids->GetResolution().x == 0 || m_grids->GetResolution().y == 0 ||
-        m_grids->GetResolution().z == 0)
+    if (m_grids->Resolution().x == 0 || m_grids->Resolution().y == 0 ||
+        m_grids->Resolution().z == 0)
     {
         CUBBYFLOW_WARN << "Empty grid. Skipping the simulation.";
         return;
@@ -312,11 +312,11 @@ void GridFluidSolver3::ComputeAdvection(double timeIntervalInSeconds)
     if (m_advectionSolver != nullptr)
     {
         // Solve advections for custom scalar fields.
-        size_t n = m_grids->GetNumberOfAdvectableScalarData();
+        size_t n = m_grids->NumberOfAdvectableScalarData();
 
         for (size_t i = 0; i < n; ++i)
         {
-            ScalarGrid3Ptr grid = m_grids->GetAdvectableScalarDataAt(i);
+            ScalarGrid3Ptr grid = m_grids->AdvectableScalarDataAt(i);
             std::shared_ptr<ScalarGrid3> grid0 = grid->Clone();
 
             m_advectionSolver->Advect(*grid0, *vel, timeIntervalInSeconds,
@@ -325,8 +325,8 @@ void GridFluidSolver3::ComputeAdvection(double timeIntervalInSeconds)
         }
 
         // Solve advections for custom vector fields.
-        n = m_grids->GetNumberOfAdvectableVectorData();
-        const size_t velIdx = m_grids->GetVelocityIndex();
+        n = m_grids->NumberOfAdvectableVectorData();
+        const size_t velIdx = m_grids->VelocityIndex();
 
         for (size_t i = 0; i < n; ++i)
         {
@@ -336,7 +336,7 @@ void GridFluidSolver3::ComputeAdvection(double timeIntervalInSeconds)
                 continue;
             }
 
-            VectorGrid3Ptr grid = m_grids->GetAdvectableVectorDataAt(i);
+            VectorGrid3Ptr grid = m_grids->AdvectableVectorDataAt(i);
             std::shared_ptr<VectorGrid3> grid0 = grid->Clone();
 
             std::shared_ptr<CollocatedVectorGrid3> collocated =
@@ -387,29 +387,29 @@ void GridFluidSolver3::ComputeGravity(double timeIntervalInSeconds)
 {
     if (m_gravity.LengthSquared() > std::numeric_limits<double>::epsilon())
     {
-        FaceCenteredGrid3Ptr vel = m_grids->GetVelocity();
+        FaceCenteredGrid3Ptr vel = m_grids->Velocity();
         ArrayView3<double> u = vel->UView();
         ArrayView3<double> v = vel->VView();
         ArrayView3<double> w = vel->WView();
 
         if (std::abs(m_gravity.x) > std::numeric_limits<double>::epsilon())
         {
-            vel->ForEachUIndex([&](size_t i, size_t j, size_t k) {
-                u(i, j, k) += timeIntervalInSeconds * m_gravity.x;
+            vel->ForEachUIndex([&](const Vector3UZ& idx) {
+                u(idx) += timeIntervalInSeconds * m_gravity.x;
             });
         }
 
         if (std::abs(m_gravity.y) > std::numeric_limits<double>::epsilon())
         {
-            vel->ForEachVIndex([&](size_t i, size_t j, size_t k) {
-                v(i, j, k) += timeIntervalInSeconds * m_gravity.y;
+            vel->ForEachVIndex([&](const Vector3UZ& idx) {
+                v(idx) += timeIntervalInSeconds * m_gravity.y;
             });
         }
 
         if (std::abs(m_gravity.z) > std::numeric_limits<double>::epsilon())
         {
-            vel->ForEachWIndex([&](size_t i, size_t j, size_t k) {
-                w(i, j, k) += timeIntervalInSeconds * m_gravity.z;
+            vel->ForEachWIndex([&](const Vector3UZ& idx) {
+                w(idx) += timeIntervalInSeconds * m_gravity.z;
             });
         }
 
@@ -419,7 +419,7 @@ void GridFluidSolver3::ComputeGravity(double timeIntervalInSeconds)
 
 void GridFluidSolver3::ApplyBoundaryCondition() const
 {
-    const FaceCenteredGrid3Ptr vel = m_grids->GetVelocity();
+    const FaceCenteredGrid3Ptr vel = m_grids->Velocity();
 
     if (vel != nullptr && m_boundaryConditionSolver != nullptr)
     {
@@ -430,8 +430,8 @@ void GridFluidSolver3::ApplyBoundaryCondition() const
 
 void GridFluidSolver3::ExtrapolateIntoCollider(ScalarGrid3* grid)
 {
-    Array3<char> marker(grid->GetDataSize());
-    auto pos = grid->DataPosition();
+    Array3<char> marker(grid->DataSize());
+    GridDataPositionFunc<3> pos = grid->DataPosition();
 
     ParallelForEachIndex(marker.Size(), [&](size_t i, size_t j, size_t k) {
         if (IsInsideSDF(GetColliderSDF()->Sample(pos(i, j, k))))
@@ -450,8 +450,8 @@ void GridFluidSolver3::ExtrapolateIntoCollider(ScalarGrid3* grid)
 
 void GridFluidSolver3::ExtrapolateIntoCollider(CollocatedVectorGrid3* grid)
 {
-    Array3<char> marker(grid->GetDataSize());
-    auto pos = grid->DataPosition();
+    Array3<char> marker(grid->DataSize());
+    GridDataPositionFunc<3> pos = grid->DataPosition();
 
     ParallelForEachIndex(marker.Size(), [&](size_t i, size_t j, size_t k) {
         if (IsInsideSDF(GetColliderSDF()->Sample(pos(i, j, k))))
@@ -474,9 +474,9 @@ void GridFluidSolver3::ExtrapolateIntoCollider(FaceCenteredGrid3* grid)
     const ArrayView3<double> v = grid->VView();
     const ArrayView3<double> w = grid->WView();
 
-    auto uPos = grid->UPosition();
-    auto vPos = grid->VPosition();
-    auto wPos = grid->WPosition();
+    GridDataPositionFunc<3> uPos = grid->UPosition();
+    GridDataPositionFunc<3> vPos = grid->VPosition();
+    GridDataPositionFunc<3> wPos = grid->WPosition();
 
     Array3<char> uMarker{ u.Size() };
     Array3<char> vMarker{ v.Size() };
@@ -548,8 +548,8 @@ void GridFluidSolver3::BeginAdvanceTimeStep(double timeIntervalInSeconds)
     if (m_boundaryConditionSolver != nullptr)
     {
         m_boundaryConditionSolver->UpdateCollider(
-            m_collider, m_grids->GetResolution(), m_grids->GetGridSpacing(),
-            m_grids->GetOrigin());
+            m_collider, m_grids->Resolution(), m_grids->GridSpacing(),
+            m_grids->Origin());
     }
 
     // Apply boundary condition to the velocity field in case the field got

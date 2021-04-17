@@ -1,20 +1,20 @@
 #include "pch.hpp"
 
-#include <Core/Grid/CellCenteredScalarGrid2.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Solver/Grid/GridFractionalSinglePhasePressureSolver2.hpp>
 
 using namespace CubbyFlow;
 
 TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurface)
 {
-    FaceCenteredGrid2 vel(3, 3);
-    CellCenteredScalarGrid2 fluidSDF(3, 3);
+    FaceCenteredGrid2 vel({ 3, 3 });
+    CellCenteredScalarGrid2 fluidSDF({ 3, 3 });
 
     for (size_t j = 0; j < 3; ++j)
     {
         for (size_t i = 0; i < 4; ++i)
         {
-            vel.GetU(i, j) = 0.0;
+            vel.U(i, j) = 0.0;
         }
     }
 
@@ -24,11 +24,11 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurface)
         {
             if (j == 0 || j == 3)
             {
-                vel.GetV(i, j) = 0.0;
+                vel.V(i, j) = 0.0;
             }
             else
             {
-                vel.GetV(i, j) = 1.0;
+                vel.V(i, j) = 1.0;
             }
         }
     }
@@ -44,7 +44,7 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurface)
     {
         for (size_t i = 0; i < 4; ++i)
         {
-            EXPECT_NEAR(0.0, vel.GetU(i, j), 1e-6);
+            EXPECT_NEAR(0.0, vel.U(i, j), 1e-6);
         }
     }
 
@@ -52,7 +52,7 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurface)
     {
         for (size_t i = 0; i < 3; ++i)
         {
-            EXPECT_NEAR(0.0, vel.GetV(i, j), 1e-6);
+            EXPECT_NEAR(0.0, vel.V(i, j), 1e-6);
         }
     }
 
@@ -67,14 +67,14 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurface)
 
 TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurfaceCompressed)
 {
-    FaceCenteredGrid2 vel(3, 3);
-    CellCenteredScalarGrid2 fluidSDF(3, 3);
+    FaceCenteredGrid2 vel({ 3, 3 });
+    CellCenteredScalarGrid2 fluidSDF({ 3, 3 });
 
     for (size_t j = 0; j < 3; ++j)
     {
         for (size_t i = 0; i < 4; ++i)
         {
-            vel.GetU(i, j) = 0.0;
+            vel.U(i, j) = 0.0;
         }
     }
 
@@ -84,11 +84,11 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurfaceCompressed)
         {
             if (j == 0 || j == 3)
             {
-                vel.GetV(i, j) = 0.0;
+                vel.V(i, j) = 0.0;
             }
             else
             {
-                vel.GetV(i, j) = 1.0;
+                vel.V(i, j) = 1.0;
             }
         }
     }
@@ -104,7 +104,7 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurfaceCompressed)
     {
         for (size_t i = 0; i < 4; ++i)
         {
-            EXPECT_NEAR(0.0, vel.GetU(i, j), 1e-6);
+            EXPECT_NEAR(0.0, vel.U(i, j), 1e-6);
         }
     }
 
@@ -112,7 +112,7 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurfaceCompressed)
     {
         for (size_t i = 0; i < 3; ++i)
         {
-            EXPECT_NEAR(0.0, vel.GetV(i, j), 1e-6);
+            EXPECT_NEAR(0.0, vel.V(i, j), 1e-6);
         }
     }
 
@@ -127,14 +127,14 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurfaceCompressed)
 
 TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurfaceMG)
 {
-    FaceCenteredGrid2 vel(32, 32);
-    CellCenteredScalarGrid2 fluidSDF(32, 32);
+    FaceCenteredGrid2 vel({ 32, 32 });
+    CellCenteredScalarGrid2 fluidSDF({ 32, 32 });
 
     for (size_t j = 0; j < 32; ++j)
     {
         for (size_t i = 0; i < 33; ++i)
         {
-            vel.GetU(i, j) = 0.0;
+            vel.U(i, j) = 0.0;
         }
     }
 
@@ -144,11 +144,11 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurfaceMG)
         {
             if (j == 0 || j == 32)
             {
-                vel.GetV(i, j) = 0.0;
+                vel.V(i, j) = 0.0;
             }
             else
             {
-                vel.GetV(i, j) = 1.0;
+                vel.V(i, j) = 1.0;
             }
         }
     }
@@ -166,7 +166,7 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurfaceMG)
     {
         for (size_t i = 0; i < 33; ++i)
         {
-            EXPECT_NEAR(0.0, vel.GetU(i, j), 0.002);
+            EXPECT_NEAR(0.0, vel.U(i, j), 0.002);
         }
     }
 
@@ -174,7 +174,7 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurfaceMG)
     {
         for (size_t i = 0; i < 32; ++i)
         {
-            EXPECT_NEAR(0.0, vel.GetV(i, j), 0.002);
+            EXPECT_NEAR(0.0, vel.V(i, j), 0.002);
         }
     }
 

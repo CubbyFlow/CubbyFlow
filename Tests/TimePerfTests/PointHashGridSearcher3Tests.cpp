@@ -2,7 +2,7 @@
 
 #include <Core/Array/Array.hpp>
 #include <Core/Matrix/Matrix.hpp>
-#include <Core/Searcher/PointHashGridSearcher3.hpp>
+#include <Core/Searcher/PointHashGridSearcher.hpp>
 
 #include <random>
 
@@ -37,7 +37,8 @@ BENCHMARK_DEFINE_F(PointHashGridSearcher3, Build)(benchmark::State& state)
 {
     while (state.KeepRunning())
     {
-        CubbyFlow::PointHashGridSearcher3 grid(64, 64, 64, 1.0 / 64.0);
+        CubbyFlow::PointHashGridSearcher3 grid(
+            CubbyFlow::Vector3UZ{ 64, 64, 64 }, 1.0 / 64.0);
         grid.Build(points);
     }
 }
@@ -50,7 +51,8 @@ BENCHMARK_REGISTER_F(PointHashGridSearcher3, Build)
 BENCHMARK_DEFINE_F(PointHashGridSearcher3, ForEachNearbyPoints)
 (benchmark::State& state)
 {
-    CubbyFlow::PointHashGridSearcher3 grid(64, 64, 64, 1.0 / 64.0);
+    CubbyFlow::PointHashGridSearcher3 grid(CubbyFlow::Vector3UZ{ 64, 64, 64 },
+                                           1.0 / 64.0);
     grid.Build(points);
 
     size_t cnt = 0;

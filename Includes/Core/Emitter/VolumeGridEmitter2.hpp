@@ -13,8 +13,8 @@
 
 #include <Core/Emitter/GridEmitter2.hpp>
 #include <Core/Geometry/ImplicitSurface.hpp>
-#include <Core/Grid/ScalarGrid2.hpp>
-#include <Core/Grid/VectorGrid2.hpp>
+#include <Core/Grid/ScalarGrid.hpp>
+#include <Core/Grid/VectorGrid.hpp>
 #include <Core/Matrix/Matrix.hpp>
 
 #include <memory>

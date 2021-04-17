@@ -20,10 +20,10 @@ TEST(GridFluidSolver3, Constructor)
 
     // Check grid system data
     EXPECT_TRUE(solver.GetGridSystemData() != nullptr);
-    EXPECT_EQ(1u, solver.GetGridSystemData()->GetResolution().x);
-    EXPECT_EQ(1u, solver.GetGridSystemData()->GetResolution().y);
-    EXPECT_EQ(1u, solver.GetGridSystemData()->GetResolution().z);
-    EXPECT_EQ(solver.GetGridSystemData()->GetVelocity(), solver.GetVelocity());
+    EXPECT_EQ(1u, solver.GetGridSystemData()->Resolution().x);
+    EXPECT_EQ(1u, solver.GetGridSystemData()->Resolution().y);
+    EXPECT_EQ(1u, solver.GetGridSystemData()->Resolution().z);
+    EXPECT_EQ(solver.GetGridSystemData()->Velocity(), solver.GetVelocity());
 
     // Collider should be null
     EXPECT_TRUE(solver.GetCollider() == nullptr);
@@ -75,22 +75,22 @@ TEST(GridFluidSolver3, GravityOnly)
     frame.timeIntervalInSeconds = 0.01;
     solver.Update(frame);
 
-    solver.GetVelocity()->ForEachUIndex([&](size_t i, size_t j, size_t k) {
-        EXPECT_NEAR(0.0, solver.GetVelocity()->GetU(i, j, k), 1e-8);
+    solver.GetVelocity()->ForEachUIndex([&](const Vector3UZ& idx) {
+        EXPECT_NEAR(0.0, solver.GetVelocity()->U(idx), 1e-8);
     });
 
-    solver.GetVelocity()->ForEachVIndex([&](size_t i, size_t j, size_t k) {
-        if (j == 0 || j == 3)
+    solver.GetVelocity()->ForEachVIndex([&](const Vector3UZ& idx) {
+        if (idx.y == 0 || idx.y == 3)
         {
-            EXPECT_NEAR(0.0, solver.GetVelocity()->GetV(i, j, k), 1e-8);
+            EXPECT_NEAR(0.0, solver.GetVelocity()->V(idx), 1e-8);
         }
         else
         {
-            EXPECT_NEAR(-0.1, solver.GetVelocity()->GetV(i, j, k), 1e-8);
+            EXPECT_NEAR(-0.1, solver.GetVelocity()->V(idx), 1e-8);
         }
     });
 
-    solver.GetVelocity()->ForEachWIndex([&](size_t i, size_t j, size_t k) {
-        EXPECT_NEAR(0.0, solver.GetVelocity()->GetW(i, j, k), 1e-8);
+    solver.GetVelocity()->ForEachWIndex([&](const Vector3UZ& idx) {
+        EXPECT_NEAR(0.0, solver.GetVelocity()->W(idx), 1e-8);
     });
 }

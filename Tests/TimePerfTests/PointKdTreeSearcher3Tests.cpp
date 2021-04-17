@@ -1,6 +1,6 @@
 #include "benchmark/benchmark.h"
 
-#include <Core/Searcher/PointKdTreeSearcher3.hpp>
+#include <Core/Searcher/PointKdTreeSearcher.hpp>
 
 #include <random>
 

@@ -1,23 +1,23 @@
 #include "pch.hpp"
 
-#include <Core/Particle/ParticleSystemData2.hpp>
+#include <Core/Particle/ParticleSystemData.hpp>
 
 using namespace CubbyFlow;
 
 TEST(ParticleSystemData2, Constructors)
 {
     ParticleSystemData2 particleSystem;
-    EXPECT_EQ(0u, particleSystem.GetNumberOfParticles());
+    EXPECT_EQ(0u, particleSystem.NumberOfParticles());
 
     ParticleSystemData2 particleSystem2(100);
-    EXPECT_EQ(100u, particleSystem2.GetNumberOfParticles());
+    EXPECT_EQ(100u, particleSystem2.NumberOfParticles());
 
     size_t a0 = particleSystem2.AddScalarData(2.0);
     size_t a1 = particleSystem2.AddScalarData(9.0);
     size_t a2 = particleSystem2.AddVectorData({ 1.0, -3.0 });
 
     ParticleSystemData2 particleSystem3(particleSystem2);
-    EXPECT_EQ(100u, particleSystem3.GetNumberOfParticles());
+    EXPECT_EQ(100u, particleSystem3.NumberOfParticles());
     auto as0 = particleSystem3.ScalarDataAt(a0);
     for (size_t i = 0; i < 100; ++i)
     {
@@ -43,7 +43,7 @@ TEST(ParticleSystemData2, Resize)
     ParticleSystemData2 particleSystem;
     particleSystem.Resize(12);
 
-    EXPECT_EQ(12u, particleSystem.GetNumberOfParticles());
+    EXPECT_EQ(12u, particleSystem.NumberOfParticles());
 }
 
 TEST(ParticleSystemData2, AddScalarData)
@@ -54,7 +54,7 @@ TEST(ParticleSystemData2, AddScalarData)
     size_t a0 = particleSystem.AddScalarData(2.0);
     size_t a1 = particleSystem.AddScalarData(9.0);
 
-    EXPECT_EQ(12u, particleSystem.GetNumberOfParticles());
+    EXPECT_EQ(12u, particleSystem.NumberOfParticles());
     EXPECT_EQ(0u, a0);
     EXPECT_EQ(1u, a1);
 
@@ -79,7 +79,7 @@ TEST(ParticleSystemData2, AddVectorData)
     size_t a0 = particleSystem.AddVectorData(Vector2D(2.0, 4.0));
     size_t a1 = particleSystem.AddVectorData(Vector2D(9.0, -2.0));
 
-    EXPECT_EQ(12u, particleSystem.GetNumberOfParticles());
+    EXPECT_EQ(12u, particleSystem.NumberOfParticles());
     EXPECT_EQ(3u, a0);
     EXPECT_EQ(4u, a1);
 
@@ -106,7 +106,7 @@ TEST(ParticleSystemData2, AddParticles)
         Array1<Vector2D>({ Vector2D(7.0, 8.0), Vector2D(8.0, 7.0) }),
         Array1<Vector2D>({ Vector2D(5.0, 4.0), Vector2D(2.0, 1.0) }));
 
-    EXPECT_EQ(14u, particleSystem.GetNumberOfParticles());
+    EXPECT_EQ(14u, particleSystem.NumberOfParticles());
     auto p = particleSystem.Positions();
     auto v = particleSystem.Velocities();
     auto f = particleSystem.Forces();
@@ -129,14 +129,14 @@ TEST(ParticleSystemData2, AddParticlesException)
         Array1<Vector2D>({ Vector2D(7.0, 8.0) }),
         Array1<Vector2D>({ Vector2D(5.0, 4.0), Vector2D(2.0, 1.0) })));
 
-    EXPECT_EQ(12u, particleSystem.GetNumberOfParticles());
+    EXPECT_EQ(12u, particleSystem.NumberOfParticles());
 
     EXPECT_ANY_THROW(particleSystem.AddParticles(
         Array1<Vector2D>({ Vector2D(1.0, 2.0), Vector2D(4.0, 5.0) }),
         Array1<Vector2D>({ Vector2D(7.0, 8.0), Vector2D(2.0, 1.0) }),
         Array1<Vector2D>({ Vector2D(5.0, 4.0) })));
 
-    EXPECT_EQ(12u, particleSystem.GetNumberOfParticles());
+    EXPECT_EQ(12u, particleSystem.NumberOfParticles());
 }
 
 TEST(ParticleSystemData2, BuildNeighborSearcher)
@@ -153,7 +153,7 @@ TEST(ParticleSystemData2, BuildNeighborSearcher)
     const double radius = 0.4;
     particleSystem.BuildNeighborSearcher(radius);
 
-    auto neighborSearcher = particleSystem.GetNeighborSearcher();
+    auto neighborSearcher = particleSystem.NeighborSearcher();
     const Vector2D searchOrigin = { 0.1, 0.2 };
     std::vector<size_t> found;
     neighborSearcher->ForEachNearbyPoint(
@@ -185,10 +185,10 @@ TEST(ParticleSystemData2, BuildNeighborLists)
     particleSystem.BuildNeighborSearcher(radius);
     particleSystem.BuildNeighborLists(radius);
 
-    const auto& neighborLists = particleSystem.GetNeighborLists();
-    EXPECT_EQ(positions.Length(), neighborLists.size());
+    const auto& neighborLists = particleSystem.NeighborLists();
+    EXPECT_EQ(positions.Length(), neighborLists.Length());
 
-    for (size_t i = 0; i < neighborLists.size(); ++i)
+    for (size_t i = 0; i < neighborLists.Length(); ++i)
     {
         const auto& neighbors = neighborLists[i];
 
@@ -228,7 +228,7 @@ TEST(ParticleSystemData2, Serialization)
     ParticleSystemData2 particleSystem2;
     particleSystem2.Deserialize(buffer);
 
-    EXPECT_EQ(positions.Length(), particleSystem2.GetNumberOfParticles());
+    EXPECT_EQ(positions.Length(), particleSystem2.NumberOfParticles());
     auto as0 = particleSystem2.ScalarDataAt(a0);
     for (size_t i = 0; i < positions.Length(); ++i)
     {
@@ -248,17 +248,17 @@ TEST(ParticleSystemData2, Serialization)
         EXPECT_DOUBLE_EQ(-3.0, as2[i].y);
     }
 
-    const auto& neighborLists = particleSystem.GetNeighborLists();
-    const auto& neighborLists2 = particleSystem2.GetNeighborLists();
-    EXPECT_EQ(neighborLists.size(), neighborLists2.size());
+    const auto& neighborLists = particleSystem.NeighborLists();
+    const auto& neighborLists2 = particleSystem2.NeighborLists();
+    EXPECT_EQ(neighborLists.Length(), neighborLists2.Length());
 
-    for (size_t i = 0; i < neighborLists.size(); ++i)
+    for (size_t i = 0; i < neighborLists.Length(); ++i)
     {
         const auto& neighbors = neighborLists[i];
         const auto& neighbors2 = neighborLists2[i];
-        EXPECT_EQ(neighbors.size(), neighbors2.size());
+        EXPECT_EQ(neighbors.Length(), neighbors2.Length());
 
-        for (size_t j = 0; j < neighbors.size(); ++j)
+        for (size_t j = 0; j < neighbors.Length(); ++j)
         {
             EXPECT_EQ(neighbors[j], neighbors2[j]);
         }

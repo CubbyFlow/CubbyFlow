@@ -10,8 +10,7 @@
 
 #include <API/Python/Field/CustomVectorField.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Field/CustomVectorField2.hpp>
-#include <Core/Field/CustomVectorField3.hpp>
+#include <Core/Field/CustomVectorField.hpp>
 
 #include <pybind11/pybind11.h>
 

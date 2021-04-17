@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Grid/CellCenteredScalarGrid2.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Solver/Grid/GridSmokeSolver2.hpp>
 
 namespace CubbyFlow
@@ -93,12 +93,12 @@ void GridSmokeSolver2::SetTemperatureDecayFactor(double newValue)
 
 ScalarGrid2Ptr GridSmokeSolver2::GetSmokeDensity() const
 {
-    return GetGridSystemData()->GetAdvectableScalarDataAt(m_smokeDensityDataID);
+    return GetGridSystemData()->AdvectableScalarDataAt(m_smokeDensityDataID);
 }
 
 ScalarGrid2Ptr GridSmokeSolver2::GetTemperature() const
 {
-    return GetGridSystemData()->GetAdvectableScalarDataAt(m_temperatureDataID);
+    return GetGridSystemData()->AdvectableScalarDataAt(m_temperatureDataID);
 }
 
 void GridSmokeSolver2::OnEndAdvanceTimeStep(double timeIntervalInSeconds)
@@ -156,7 +156,7 @@ void GridSmokeSolver2::ComputeDiffusion(double timeIntervalInSeconds)
 void GridSmokeSolver2::ComputeBuoyancyForce(double timeIntervalInSeconds)
 {
     const GridSystemData2Ptr grids = GetGridSystemData();
-    FaceCenteredGrid2Ptr vel = grids->GetVelocity();
+    FaceCenteredGrid2Ptr vel = grids->Velocity();
 
     Vector2D up{ 0, 1 };
     if (GetGravity().LengthSquared() > std::numeric_limits<double>::epsilon())
@@ -186,23 +186,23 @@ void GridSmokeSolver2::ComputeBuoyancyForce(double timeIntervalInSeconds)
 
         if (std::abs(up.x) > std::numeric_limits<double>::epsilon())
         {
-            vel->ParallelForEachUIndex([&](size_t i, size_t j) {
-                const Vector2D pt = uPos(i, j);
+            vel->ParallelForEachUIndex([&](const Vector2UZ& idx) {
+                const Vector2D pt = uPos(idx);
                 const double fBuoy =
                     m_buoyancySmokeDensityFactor * den->Sample(pt) +
                     m_buoyancyTemperatureFactor * (temp->Sample(pt) - tAmb);
-                u(i, j) += timeIntervalInSeconds * fBuoy * up.x;
+                u(idx) += timeIntervalInSeconds * fBuoy * up.x;
             });
         }
 
         if (std::abs(up.y) > std::numeric_limits<double>::epsilon())
         {
-            vel->ParallelForEachVIndex([&](size_t i, size_t j) {
-                const Vector2D pt = vPos(i, j);
+            vel->ParallelForEachVIndex([&](const Vector2UZ& idx) {
+                const Vector2D pt = vPos(idx);
                 const double fBuoy =
                     m_buoyancySmokeDensityFactor * den->Sample(pt) +
                     m_buoyancyTemperatureFactor * (temp->Sample(pt) - tAmb);
-                v(i, j) += timeIntervalInSeconds * fBuoy * up.y;
+                v(idx) += timeIntervalInSeconds * fBuoy * up.y;
             });
         }
 

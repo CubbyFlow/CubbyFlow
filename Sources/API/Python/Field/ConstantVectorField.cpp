@@ -10,8 +10,7 @@
 
 #include <API/Python/Field/ConstantVectorField.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Field/ConstantVectorField2.hpp>
-#include <Core/Field/ConstantVectorField3.hpp>
+#include <Core/Field/ConstantVectorField.hpp>
 
 #include <pybind11/pybind11.h>
 

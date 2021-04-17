@@ -10,8 +10,8 @@
 
 #include <Core/Emitter/VolumeGridEmitter2.hpp>
 #include <Core/Geometry/SurfaceToImplicit.hpp>
-#include <Core/Grid/CollocatedVectorGrid2.hpp>
-#include <Core/Grid/FaceCenteredGrid2.hpp>
+#include <Core/Grid/CollocatedVectorGrid.hpp>
+#include <Core/Grid/FaceCenteredGrid.hpp>
 #include <Core/Utils/LevelSetUtils.hpp>
 #include <Core/Utils/Macros.hpp>
 
@@ -106,7 +106,7 @@ void VolumeGridEmitter2::Emit()
         const auto& grid = std::get<0>(target);
         const auto& mapper = std::get<1>(target);
 
-        auto pos = grid->DataPosition();
+        GridDataPositionFunc<2> pos = grid->DataPosition();
         grid->ParallelForEachDataPointIndex([&](size_t i, size_t j) {
             const Vector2D gx = pos(i, j);
             const double sdf = GetSourceRegion()->SignedDistance(gx);
@@ -124,7 +124,7 @@ void VolumeGridEmitter2::Emit()
             std::dynamic_pointer_cast<CollocatedVectorGrid2>(grid);
         if (collocated != nullptr)
         {
-            auto pos = collocated->DataPosition();
+            GridDataPositionFunc<2> pos = collocated->DataPosition();
             collocated->ParallelForEachDataPointIndex([&](size_t i, size_t j) {
                 const Vector2D gx = pos(i, j);
                 const double sdf = GetSourceRegion()->SignedDistance(gx);
@@ -145,22 +145,22 @@ void VolumeGridEmitter2::Emit()
             auto uPos = faceCentered->UPosition();
             auto vPos = faceCentered->VPosition();
 
-            faceCentered->ParallelForEachUIndex([&](size_t i, size_t j) {
-                const Vector2D gx = uPos(i, j);
+            faceCentered->ParallelForEachUIndex([&](const Vector2UZ& idx) {
+                const Vector2D gx = uPos(idx);
                 const double sdf = GetSourceRegion()->SignedDistance(gx);
                 const Vector2D oldVal = faceCentered->Sample(gx);
                 const Vector2D newVal = mapper(sdf, gx, oldVal);
 
-                faceCentered->GetU(i, j) = newVal.x;
+                faceCentered->U(idx) = newVal.x;
             });
 
-            faceCentered->ParallelForEachVIndex([&](size_t i, size_t j) {
-                const Vector2D gx = vPos(i, j);
+            faceCentered->ParallelForEachVIndex([&](const Vector2UZ& idx) {
+                const Vector2D gx = vPos(idx);
                 const double sdf = GetSourceRegion()->SignedDistance(gx);
                 const Vector2D oldVal = faceCentered->Sample(gx);
                 const Vector2D newVal = mapper(sdf, gx, oldVal);
 
-                faceCentered->GetV(i, j) = newVal.y;
+                faceCentered->V(idx) = newVal.y;
             });
         }
     }

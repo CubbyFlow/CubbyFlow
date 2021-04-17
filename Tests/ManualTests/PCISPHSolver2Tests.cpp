@@ -23,7 +23,7 @@ CUBBYFLOW_BEGIN_TEST_F(PCISPHSolver2, SteadyState)
 
     SPHSystemData2Ptr particles = solver.GetSPHSystemData();
     particles->SetTargetDensity(1000.0);
-    const double targetSpacing = particles->GetTargetSpacing();
+    const double targetSpacing = particles->TargetSpacing();
 
     BoundingBox2D initialBound(Vector2D(), Vector2D(1, 0.5));
     initialBound.Expand(-targetSpacing);

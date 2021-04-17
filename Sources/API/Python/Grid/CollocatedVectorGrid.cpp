@@ -10,8 +10,7 @@
 
 #include <API/Python/Grid/CollocatedVectorGrid.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Grid/CollocatedVectorGrid2.hpp>
-#include <Core/Grid/CollocatedVectorGrid3.hpp>
+#include <Core/Grid/CollocatedVectorGrid.hpp>
 
 #include <pybind11/pybind11.h>
 
@@ -27,44 +26,8 @@ void AddCollocatedVectorGrid2(pybind11::module& m)
 		)pbdoc")
         .def(
             "__getitem__",
-            [](const CollocatedVectorGrid2& instance,
-               pybind11::object obj) -> Vector2D {
-                if (pybind11::isinstance<pybind11::tuple>(
-                        static_cast<pybind11::handle>(obj)))
-                {
-                    auto tidx = obj.cast<pybind11::tuple>();
-                    if (tidx.size() == 2)
-                    {
-                        return instance(tidx[0].cast<size_t>(),
-                                        tidx[1].cast<size_t>());
-                    }
-                    else
-                    {
-                        throw std::invalid_argument(
-                            "Size of index tuple must be 2.");
-                    }
-                }
-                else if (pybind11::isinstance<pybind11::list>(
-                             static_cast<pybind11::handle>(obj)))
-                {
-                    auto lidx = obj.cast<pybind11::list>();
-                    if (lidx.size() == 2)
-                    {
-                        return instance(lidx[0].cast<size_t>(),
-                                        lidx[1].cast<size_t>());
-                    }
-                    else
-                    {
-                        throw std::invalid_argument(
-                            "Size of index list must be 2.");
-                    }
-                }
-                else
-                {
-                    throw std::invalid_argument(
-                        "Input type must be tuple or list");
-                }
-            },
+            [](const CollocatedVectorGrid2& instance, pybind11::object obj)
+                -> Vector2D { return instance(ObjectToVector2UZ(obj)); },
             R"pbdoc(
 			Returns the grid data at given data point.
 
@@ -76,43 +39,7 @@ void AddCollocatedVectorGrid2(pybind11::module& m)
         .def(
             "__setitem__",
             [](CollocatedVectorGrid2& instance, pybind11::object obj,
-               const Vector2D& val) {
-                if (pybind11::isinstance<pybind11::tuple>(
-                        static_cast<pybind11::handle>(obj)))
-                {
-                    auto tidx = obj.cast<pybind11::tuple>();
-                    if (tidx.size() == 2)
-                    {
-                        instance(tidx[0].cast<size_t>(),
-                                 tidx[1].cast<size_t>()) = val;
-                    }
-                    else
-                    {
-                        throw std::invalid_argument(
-                            "Size of index tuple must be 2.");
-                    }
-                }
-                else if (pybind11::isinstance<pybind11::list>(
-                             static_cast<pybind11::handle>(obj)))
-                {
-                    auto lidx = obj.cast<pybind11::list>();
-                    if (lidx.size() == 2)
-                    {
-                        instance(lidx[0].cast<size_t>(),
-                                 lidx[1].cast<size_t>()) = val;
-                    }
-                    else
-                    {
-                        throw std::invalid_argument(
-                            "Size of index list must be 2.");
-                    }
-                }
-                else
-                {
-                    throw std::invalid_argument(
-                        "Input type must be tuple or list");
-                }
-            },
+               const Vector2D& val) { instance(ObjectToVector2UZ(obj)) = val; },
             R"pbdoc(
 			Sets the grid data at given data point.
 
@@ -123,26 +50,25 @@ void AddCollocatedVectorGrid2(pybind11::module& m)
 		)pbdoc",
             pybind11::arg("idx"), pybind11::arg("val"))
         .def("DivergenceAtDataPoint",
-             &CollocatedVectorGrid2::DivergenceAtDataPoint,
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION2(CollocatedVectorGrid2,
+                                                   DivergenceAtDataPoint),
              R"pbdoc(
 			Returns divergence at data point location.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
-		)pbdoc",
-             pybind11::arg("i"), pybind11::arg("j"))
-        .def("CurlAtDataPoint", &CollocatedVectorGrid2::CurlAtDataPoint,
+            - `*args` : Data point index (i, j).
+		)pbdoc")
+        .def("CurlAtDataPoint",
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION2(CollocatedVectorGrid2,
+                                                   CurlAtDataPoint),
              R"pbdoc(
 			Returns curl at data point location.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
-		)pbdoc",
-             pybind11::arg("i"), pybind11::arg("j"))
+            - `*args` : Data point index (i, j).
+		)pbdoc")
         .def("DataView",
              static_cast<ArrayView2<Vector2D> (CollocatedVectorGrid2::*)()>(
                  &CollocatedVectorGrid2::DataView),
@@ -216,46 +142,8 @@ void AddCollocatedVectorGrid3(pybind11::module& m)
 		)pbdoc")
         .def(
             "__getitem__",
-            [](const CollocatedVectorGrid3& instance,
-               pybind11::object obj) -> Vector3D {
-                if (pybind11::isinstance<pybind11::tuple>(
-                        static_cast<pybind11::handle>(obj)))
-                {
-                    auto tidx = obj.cast<pybind11::tuple>();
-                    if (tidx.size() == 3)
-                    {
-                        return instance(tidx[0].cast<size_t>(),
-                                        tidx[1].cast<size_t>(),
-                                        tidx[2].cast<size_t>());
-                    }
-                    else
-                    {
-                        throw std::invalid_argument(
-                            "Size of index tuple must be 3.");
-                    }
-                }
-                else if (pybind11::isinstance<pybind11::list>(
-                             static_cast<pybind11::handle>(obj)))
-                {
-                    auto lidx = obj.cast<pybind11::list>();
-                    if (lidx.size() == 3)
-                    {
-                        return instance(lidx[0].cast<size_t>(),
-                                        lidx[1].cast<size_t>(),
-                                        lidx[2].cast<size_t>());
-                    }
-                    else
-                    {
-                        throw std::invalid_argument(
-                            "Size of index list must be 3.");
-                    }
-                }
-                else
-                {
-                    throw std::invalid_argument(
-                        "Input type must be tuple or list");
-                }
-            },
+            [](const CollocatedVectorGrid3& instance, pybind11::object obj)
+                -> Vector3D { return instance(ObjectToVector3UZ(obj)); },
             R"pbdoc(
 			Returns the grid data at given data point.
 
@@ -267,43 +155,7 @@ void AddCollocatedVectorGrid3(pybind11::module& m)
         .def(
             "__setitem__",
             [](CollocatedVectorGrid3& instance, pybind11::object obj,
-               const Vector3D& val) {
-                if (pybind11::isinstance<pybind11::tuple>(
-                        static_cast<pybind11::handle>(obj)))
-                {
-                    auto tidx = obj.cast<pybind11::tuple>();
-                    if (tidx.size() == 3)
-                    {
-                        instance(tidx[0].cast<size_t>(), tidx[1].cast<size_t>(),
-                                 tidx[2].cast<size_t>()) = val;
-                    }
-                    else
-                    {
-                        throw std::invalid_argument(
-                            "Size of index tuple must be 3.");
-                    }
-                }
-                else if (pybind11::isinstance<pybind11::list>(
-                             static_cast<pybind11::handle>(obj)))
-                {
-                    auto lidx = obj.cast<pybind11::list>();
-                    if (lidx.size() == 3)
-                    {
-                        instance(lidx[0].cast<size_t>(), lidx[1].cast<size_t>(),
-                                 lidx[2].cast<size_t>()) = val;
-                    }
-                    else
-                    {
-                        throw std::invalid_argument(
-                            "Size of index list must be 3.");
-                    }
-                }
-                else
-                {
-                    throw std::invalid_argument(
-                        "Input type must be tuple or list");
-                }
-            },
+               const Vector3D& val) { instance(ObjectToVector3UZ(obj)) = val; },
             R"pbdoc(
 			Sets the grid data at given data point.
 
@@ -314,28 +166,25 @@ void AddCollocatedVectorGrid3(pybind11::module& m)
 		)pbdoc",
             pybind11::arg("idx"), pybind11::arg("val"))
         .def("DivergenceAtDataPoint",
-             &CollocatedVectorGrid3::DivergenceAtDataPoint,
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION3(CollocatedVectorGrid3,
+                                                   DivergenceAtDataPoint),
              R"pbdoc(
 			Returns divergence at data point location.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
-			- k : Data point index k.
-		)pbdoc",
-             pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("k"))
-        .def("CurlAtDataPoint", &CollocatedVectorGrid3::CurlAtDataPoint,
+            - `*args` : Data point index (i, j, k).
+		)pbdoc")
+        .def("CurlAtDataPoint",
+             CUBBYFLOW_PYTHON_MAKE_INDEX_FUNCTION3(CollocatedVectorGrid3,
+                                                   CurlAtDataPoint),
              R"pbdoc(
 			Returns curl at data point location.
 
 			Parameters
 			----------
-			- i : Data point index i.
-			- j : Data point index j.
-			- k : Data point index k.
-		)pbdoc",
-             pybind11::arg("i"), pybind11::arg("j"), pybind11::arg("k"))
+            - `*args` : Data point index (i, j, k).
+		)pbdoc")
         .def("DataView",
              static_cast<ArrayView3<Vector3D> (CollocatedVectorGrid3::*)()>(
                  &CollocatedVectorGrid3::DataView),

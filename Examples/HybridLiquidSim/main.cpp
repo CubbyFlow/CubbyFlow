@@ -19,7 +19,7 @@
 #include <Core/Geometry/Plane.hpp>
 #include <Core/Geometry/RigidBodyCollider.hpp>
 #include <Core/Geometry/Sphere.hpp>
-#include <Core/Particle/ParticleSystemData3.hpp>
+#include <Core/Particle/ParticleSystemData.hpp>
 #include <Core/PointGenerator/BccLatticePointGenerator.hpp>
 #include <Core/PointGenerator/GridPointGenerator3.hpp>
 #include <Core/Solver/Hybrid/APIC/APICSolver3.hpp>
@@ -48,7 +48,7 @@ using namespace CubbyFlow;
 void SaveParticleAsPos(const ParticleSystemData3Ptr& particles,
                        const std::string& rootDir, int frameCnt)
 {
-    Array1<Vector3D> positions(particles->GetNumberOfParticles());
+    Array1<Vector3D> positions(particles->NumberOfParticles());
     Copy(particles->Positions(), positions.View());
     char baseName[256];
     snprintf(baseName, sizeof(baseName), "frame_%06d.pos", frameCnt);
@@ -67,7 +67,7 @@ void SaveParticleAsPos(const ParticleSystemData3Ptr& particles,
 void SaveParticleAsXYZ(const ParticleSystemData3Ptr& particles,
                        const std::string& rootDir, int frameCnt)
 {
-    Array1<Vector3D> positions(particles->GetNumberOfParticles());
+    Array1<Vector3D> positions(particles->NumberOfParticles());
     Copy(particles->Positions(), positions.View());
     char baseName[256];
     snprintf(baseName, sizeof(baseName), "frame_%06d.xyz", frameCnt);
@@ -87,9 +87,9 @@ void SaveParticleAsXYZ(const ParticleSystemData3Ptr& particles,
 void PrintInfo(const PICSolver3Ptr& solver)
 {
     const auto grids = solver->GetGridSystemData();
-    const Vector3UZ resolution = grids->GetResolution();
+    const Vector3UZ resolution = grids->Resolution();
     const BoundingBox3D domain = grids->GetBoundingBox();
-    const Vector3D gridSpacing = grids->GetGridSpacing();
+    const Vector3D gridSpacing = grids->GridSpacing();
 
     printf("Resolution: %zu x %zu x %zu\n", resolution.x, resolution.y,
            resolution.z);
@@ -133,7 +133,7 @@ void RunExample1(const std::string& rootDir, size_t resolutionX,
     const auto grids = solver->GetGridSystemData();
     auto particles = solver->GetParticleSystemData();
 
-    const Vector3D gridSpacing = grids->GetGridSpacing();
+    const Vector3D gridSpacing = grids->GridSpacing();
     const double dx = gridSpacing.x;
     BoundingBox3D domain = grids->GetBoundingBox();
 
@@ -192,7 +192,7 @@ void RunExample2(const std::string& rootDir, size_t resolutionX,
     const auto grids = solver->GetGridSystemData();
     auto particles = solver->GetParticleSystemData();
 
-    const Vector3D gridSpacing = grids->GetGridSpacing();
+    const Vector3D gridSpacing = grids->GridSpacing();
     double dx = gridSpacing.x;
     BoundingBox3D domain = grids->GetBoundingBox();
 
@@ -251,7 +251,7 @@ void RunExample3(const std::string& rootDir, size_t resolutionX,
     solver->SetUseCompressedLinearSystem(true);
 
     const auto grids = solver->GetGridSystemData();
-    const double dx = grids->GetGridSpacing().x;
+    const double dx = grids->GridSpacing().x;
     const BoundingBox3D domain = grids->GetBoundingBox();
     const double lz = domain.Depth();
 
@@ -333,7 +333,7 @@ void RunExample4(const std::string& rootDir, size_t resolutionX,
     solver->SetUseCompressedLinearSystem(true);
 
     const auto grids = solver->GetGridSystemData();
-    const double dx = grids->GetGridSpacing().x;
+    const double dx = grids->GridSpacing().x;
     const BoundingBox3D domain = grids->GetBoundingBox();
     const double lz = domain.Depth();
 
@@ -416,7 +416,7 @@ void RunExample5(const std::string& rootDir, size_t resolutionX,
     solver->SetUseCompressedLinearSystem(true);
 
     const auto grids = solver->GetGridSystemData();
-    const double dx = grids->GetGridSpacing().x;
+    const double dx = grids->GridSpacing().x;
     const BoundingBox3D domain = grids->GetBoundingBox();
     const double lz = domain.Depth();
 
@@ -529,7 +529,7 @@ void RunExample6(const std::string& rootDir, size_t resolutionX,
         });
 
     printf("Number of particles: %zu\n",
-           solver->GetParticleSystemData()->GetNumberOfParticles());
+           solver->GetParticleSystemData()->NumberOfParticles());
 
     // Print simulation info
     printf("Running example 6 (sphere boundary with APIC)\n");

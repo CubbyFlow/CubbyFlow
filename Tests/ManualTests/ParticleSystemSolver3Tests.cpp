@@ -3,7 +3,7 @@
 #include <ManualTests.hpp>
 
 #include <Core/Emitter/PointParticleEmitter3.hpp>
-#include <Core/Field/ConstantVectorField3.hpp>
+#include <Core/Field/ConstantVectorField.hpp>
 #include <Core/Geometry/Plane.hpp>
 #include <Core/Geometry/RigidBodyCollider.hpp>
 #include <Core/Solver/Particle/ParticleSystemSolver3.hpp>

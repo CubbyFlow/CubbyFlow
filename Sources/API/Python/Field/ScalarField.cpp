@@ -9,8 +9,7 @@
 // property of any third parties.
 
 #include <API/Python/Field/ScalarField.hpp>
-#include <Core/Field/ScalarField2.hpp>
-#include <Core/Field/ScalarField3.hpp>
+#include <Core/Field/ScalarField.hpp>
 
 #include <pybind11/pybind11.h>
 

@@ -14,8 +14,8 @@
 #include <Core/Geometry/BoundingBox.hpp>
 #include <Core/Geometry/MarchingCubes.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
-#include <Core/Grid/ScalarGrid3.hpp>
-#include <Core/Grid/VertexCenteredScalarGrid3.hpp>
+#include <Core/Grid/ScalarGrid.hpp>
+#include <Core/Grid/VertexCenteredScalarGrid.hpp>
 #include <Core/PointsToImplicit/AnisotropicPointsToImplicit3.hpp>
 #include <Core/PointsToImplicit/SPHPointsToImplicit3.hpp>
 #include <Core/PointsToImplicit/SphericalPointsToImplicit3.hpp>
@@ -61,7 +61,7 @@ void PrintInfo(const Vector3UZ& resolution, const BoundingBox3D& domain,
 void TriangulateAndSave(const ScalarGrid3& sdf, const std::string& objFileName)
 {
     TriangleMesh3 mesh;
-    MarchingCubes(sdf.DataView(), sdf.GridSpacing(), sdf.GetDataOrigin(), &mesh,
+    MarchingCubes(sdf.DataView(), sdf.GridSpacing(), sdf.DataOrigin(), &mesh,
                   0.0, DIRECTION_ALL);
 
     std::ofstream file(objFileName.c_str());
@@ -107,7 +107,7 @@ void ParticlesToObj(const Array1<Vector3D>& positions,
     }
 
     VertexCenteredScalarGrid3 sdf(resolution, gridSpacing, origin);
-    PrintInfo(resolution, sdf.BoundingBox(), gridSpacing, positions.Length(),
+    PrintInfo(resolution, sdf.GetBoundingBox(), gridSpacing, positions.Length(),
               method);
 
     converter->Convert(positions, &sdf);

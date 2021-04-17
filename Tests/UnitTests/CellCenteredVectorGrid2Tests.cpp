@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include <Core/Grid/CellCenteredVectorGrid2.hpp>
+#include <Core/Grid/CellCenteredVectorGrid.hpp>
 
 using namespace CubbyFlow;
 
@@ -12,25 +12,26 @@ TEST(CellCenteredVectorGrid2, Constructors)
     EXPECT_EQ(0u, grid1.Resolution().y);
     EXPECT_DOUBLE_EQ(1.0, grid1.GridSpacing().x);
     EXPECT_DOUBLE_EQ(1.0, grid1.GridSpacing().y);
-    EXPECT_DOUBLE_EQ(0.0, grid1.GridOrigin().x);
-    EXPECT_DOUBLE_EQ(0.0, grid1.GridOrigin().y);
-    EXPECT_EQ(0u, grid1.GetDataSize().x);
-    EXPECT_EQ(0u, grid1.GetDataSize().y);
-    EXPECT_DOUBLE_EQ(0.5, grid1.GetDataOrigin().x);
-    EXPECT_DOUBLE_EQ(0.5, grid1.GetDataOrigin().y);
+    EXPECT_DOUBLE_EQ(0.0, grid1.Origin().x);
+    EXPECT_DOUBLE_EQ(0.0, grid1.Origin().y);
+    EXPECT_EQ(0u, grid1.DataSize().x);
+    EXPECT_EQ(0u, grid1.DataSize().y);
+    EXPECT_DOUBLE_EQ(0.5, grid1.DataOrigin().x);
+    EXPECT_DOUBLE_EQ(0.5, grid1.DataOrigin().y);
 
     // Constructor with params
-    CellCenteredVectorGrid2 grid2(5, 4, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+    CellCenteredVectorGrid2 grid2({ 5, 4 }, { 1.0, 2.0 }, { 3.0, 4.0 },
+                                  { 5.0, 6.0 });
     EXPECT_EQ(5u, grid2.Resolution().x);
     EXPECT_EQ(4u, grid2.Resolution().y);
     EXPECT_DOUBLE_EQ(1.0, grid2.GridSpacing().x);
     EXPECT_DOUBLE_EQ(2.0, grid2.GridSpacing().y);
-    EXPECT_DOUBLE_EQ(3.0, grid2.GridOrigin().x);
-    EXPECT_DOUBLE_EQ(4.0, grid2.GridOrigin().y);
-    EXPECT_EQ(5u, grid2.GetDataSize().x);
-    EXPECT_EQ(4u, grid2.GetDataSize().y);
-    EXPECT_DOUBLE_EQ(3.5, grid2.GetDataOrigin().x);
-    EXPECT_DOUBLE_EQ(5.0, grid2.GetDataOrigin().y);
+    EXPECT_DOUBLE_EQ(3.0, grid2.Origin().x);
+    EXPECT_DOUBLE_EQ(4.0, grid2.Origin().y);
+    EXPECT_EQ(5u, grid2.DataSize().x);
+    EXPECT_EQ(4u, grid2.DataSize().y);
+    EXPECT_DOUBLE_EQ(3.5, grid2.DataOrigin().x);
+    EXPECT_DOUBLE_EQ(5.0, grid2.DataOrigin().y);
     grid2.ForEachDataPointIndex([&](size_t i, size_t j) {
         EXPECT_DOUBLE_EQ(5.0, grid2(i, j).x);
         EXPECT_DOUBLE_EQ(6.0, grid2(i, j).y);
@@ -42,12 +43,12 @@ TEST(CellCenteredVectorGrid2, Constructors)
     EXPECT_EQ(4u, grid3.Resolution().y);
     EXPECT_DOUBLE_EQ(1.0, grid3.GridSpacing().x);
     EXPECT_DOUBLE_EQ(2.0, grid3.GridSpacing().y);
-    EXPECT_DOUBLE_EQ(3.0, grid3.GridOrigin().x);
-    EXPECT_DOUBLE_EQ(4.0, grid3.GridOrigin().y);
-    EXPECT_EQ(5u, grid3.GetDataSize().x);
-    EXPECT_EQ(4u, grid3.GetDataSize().y);
-    EXPECT_DOUBLE_EQ(3.5, grid3.GetDataOrigin().x);
-    EXPECT_DOUBLE_EQ(5.0, grid3.GetDataOrigin().y);
+    EXPECT_DOUBLE_EQ(3.0, grid3.Origin().x);
+    EXPECT_DOUBLE_EQ(4.0, grid3.Origin().y);
+    EXPECT_EQ(5u, grid3.DataSize().x);
+    EXPECT_EQ(4u, grid3.DataSize().y);
+    EXPECT_DOUBLE_EQ(3.5, grid3.DataOrigin().x);
+    EXPECT_DOUBLE_EQ(5.0, grid3.DataOrigin().y);
     grid3.ForEachDataPointIndex([&](size_t i, size_t j) {
         EXPECT_DOUBLE_EQ(5.0, grid3(i, j).x);
         EXPECT_DOUBLE_EQ(6.0, grid3(i, j).y);
@@ -56,20 +57,22 @@ TEST(CellCenteredVectorGrid2, Constructors)
 
 TEST(CellCenteredVectorGrid2, Swap)
 {
-    CellCenteredVectorGrid2 grid1(5, 4, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
-    CellCenteredVectorGrid2 grid2(3, 8, 2.0, 3.0, 1.0, 5.0, 4.0, 7.0);
+    CellCenteredVectorGrid2 grid1({ 5, 4 }, { 1.0, 2.0 }, { 3.0, 4.0 },
+                                  { 5.0, 6.0 });
+    CellCenteredVectorGrid2 grid2({ 3, 8 }, { 2.0, 3.0 }, { 1.0, 5.0 },
+                                  { 4.0, 7.0 });
     grid1.Swap(&grid2);
 
     EXPECT_EQ(3u, grid1.Resolution().x);
     EXPECT_EQ(8u, grid1.Resolution().y);
     EXPECT_DOUBLE_EQ(2.0, grid1.GridSpacing().x);
     EXPECT_DOUBLE_EQ(3.0, grid1.GridSpacing().y);
-    EXPECT_DOUBLE_EQ(1.0, grid1.GridOrigin().x);
-    EXPECT_DOUBLE_EQ(5.0, grid1.GridOrigin().y);
-    EXPECT_EQ(3u, grid1.GetDataSize().x);
-    EXPECT_EQ(8u, grid1.GetDataSize().y);
-    EXPECT_DOUBLE_EQ(2.0, grid1.GetDataOrigin().x);
-    EXPECT_DOUBLE_EQ(6.5, grid1.GetDataOrigin().y);
+    EXPECT_DOUBLE_EQ(1.0, grid1.Origin().x);
+    EXPECT_DOUBLE_EQ(5.0, grid1.Origin().y);
+    EXPECT_EQ(3u, grid1.DataSize().x);
+    EXPECT_EQ(8u, grid1.DataSize().y);
+    EXPECT_DOUBLE_EQ(2.0, grid1.DataOrigin().x);
+    EXPECT_DOUBLE_EQ(6.5, grid1.DataOrigin().y);
     grid1.ForEachDataPointIndex([&](size_t i, size_t j) {
         EXPECT_DOUBLE_EQ(4.0, grid1(i, j).x);
         EXPECT_DOUBLE_EQ(7.0, grid1(i, j).y);
@@ -79,12 +82,12 @@ TEST(CellCenteredVectorGrid2, Swap)
     EXPECT_EQ(4u, grid2.Resolution().y);
     EXPECT_DOUBLE_EQ(1.0, grid2.GridSpacing().x);
     EXPECT_DOUBLE_EQ(2.0, grid2.GridSpacing().y);
-    EXPECT_DOUBLE_EQ(3.0, grid2.GridOrigin().x);
-    EXPECT_DOUBLE_EQ(4.0, grid2.GridOrigin().y);
-    EXPECT_EQ(5u, grid2.GetDataSize().x);
-    EXPECT_EQ(4u, grid2.GetDataSize().y);
-    EXPECT_DOUBLE_EQ(3.5, grid2.GetDataOrigin().x);
-    EXPECT_DOUBLE_EQ(5.0, grid2.GetDataOrigin().y);
+    EXPECT_DOUBLE_EQ(3.0, grid2.Origin().x);
+    EXPECT_DOUBLE_EQ(4.0, grid2.Origin().y);
+    EXPECT_EQ(5u, grid2.DataSize().x);
+    EXPECT_EQ(4u, grid2.DataSize().y);
+    EXPECT_DOUBLE_EQ(3.5, grid2.DataOrigin().x);
+    EXPECT_DOUBLE_EQ(5.0, grid2.DataOrigin().y);
     grid2.ForEachDataPointIndex([&](size_t i, size_t j) {
         EXPECT_DOUBLE_EQ(5.0, grid2(i, j).x);
         EXPECT_DOUBLE_EQ(6.0, grid2(i, j).y);
@@ -93,20 +96,22 @@ TEST(CellCenteredVectorGrid2, Swap)
 
 TEST(CellCenteredVectorGrid2, Set)
 {
-    CellCenteredVectorGrid2 grid1(5, 4, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
-    CellCenteredVectorGrid2 grid2(3, 8, 2.0, 3.0, 1.0, 5.0, 4.0, 7.0);
+    CellCenteredVectorGrid2 grid1({ 5, 4 }, { 1.0, 2.0 }, { 3.0, 4.0 },
+                                  { 5.0, 6.0 });
+    CellCenteredVectorGrid2 grid2({ 3, 8 }, { 2.0, 3.0 }, { 1.0, 5.0 },
+                                  { 4.0, 7.0 });
     grid1.Set(grid2);
 
     EXPECT_EQ(3u, grid1.Resolution().x);
     EXPECT_EQ(8u, grid1.Resolution().y);
     EXPECT_DOUBLE_EQ(2.0, grid1.GridSpacing().x);
     EXPECT_DOUBLE_EQ(3.0, grid1.GridSpacing().y);
-    EXPECT_DOUBLE_EQ(1.0, grid1.GridOrigin().x);
-    EXPECT_DOUBLE_EQ(5.0, grid1.GridOrigin().y);
-    EXPECT_EQ(3u, grid1.GetDataSize().x);
-    EXPECT_EQ(8u, grid1.GetDataSize().y);
-    EXPECT_DOUBLE_EQ(2.0, grid1.GetDataOrigin().x);
-    EXPECT_DOUBLE_EQ(6.5, grid1.GetDataOrigin().y);
+    EXPECT_DOUBLE_EQ(1.0, grid1.Origin().x);
+    EXPECT_DOUBLE_EQ(5.0, grid1.Origin().y);
+    EXPECT_EQ(3u, grid1.DataSize().x);
+    EXPECT_EQ(8u, grid1.DataSize().y);
+    EXPECT_DOUBLE_EQ(2.0, grid1.DataOrigin().x);
+    EXPECT_DOUBLE_EQ(6.5, grid1.DataOrigin().y);
     grid1.ForEachDataPointIndex([&](size_t i, size_t j) {
         EXPECT_DOUBLE_EQ(4.0, grid1(i, j).x);
         EXPECT_DOUBLE_EQ(7.0, grid1(i, j).y);
@@ -116,19 +121,20 @@ TEST(CellCenteredVectorGrid2, Set)
 TEST(CellCenteredVectorGrid2, AssignmentOperator)
 {
     CellCenteredVectorGrid2 grid1;
-    CellCenteredVectorGrid2 grid2(3, 8, 2.0, 3.0, 1.0, 5.0, 4.0, 7.0);
+    CellCenteredVectorGrid2 grid2({ 3, 8 }, { 2.0, 3.0 }, { 1.0, 5.0 },
+                                  { 4.0, 7.0 });
     grid1 = grid2;
 
     EXPECT_EQ(3u, grid1.Resolution().x);
     EXPECT_EQ(8u, grid1.Resolution().y);
     EXPECT_DOUBLE_EQ(2.0, grid1.GridSpacing().x);
     EXPECT_DOUBLE_EQ(3.0, grid1.GridSpacing().y);
-    EXPECT_DOUBLE_EQ(1.0, grid1.GridOrigin().x);
-    EXPECT_DOUBLE_EQ(5.0, grid1.GridOrigin().y);
-    EXPECT_EQ(3u, grid1.GetDataSize().x);
-    EXPECT_EQ(8u, grid1.GetDataSize().y);
-    EXPECT_DOUBLE_EQ(2.0, grid1.GetDataOrigin().x);
-    EXPECT_DOUBLE_EQ(6.5, grid1.GetDataOrigin().y);
+    EXPECT_DOUBLE_EQ(1.0, grid1.Origin().x);
+    EXPECT_DOUBLE_EQ(5.0, grid1.Origin().y);
+    EXPECT_EQ(3u, grid1.DataSize().x);
+    EXPECT_EQ(8u, grid1.DataSize().y);
+    EXPECT_DOUBLE_EQ(2.0, grid1.DataOrigin().x);
+    EXPECT_DOUBLE_EQ(6.5, grid1.DataOrigin().y);
     grid1.ForEachDataPointIndex([&](size_t i, size_t j) {
         EXPECT_DOUBLE_EQ(4.0, grid1(i, j).x);
         EXPECT_DOUBLE_EQ(7.0, grid1(i, j).y);
@@ -137,7 +143,8 @@ TEST(CellCenteredVectorGrid2, AssignmentOperator)
 
 TEST(CellCenteredVectorGrid2, Clone)
 {
-    CellCenteredVectorGrid2 grid2(3, 8, 2.0, 3.0, 1.0, 5.0, 4.0, 7.0);
+    CellCenteredVectorGrid2 grid2({ 3, 8 }, { 2.0, 3.0 }, { 1.0, 5.0 },
+                                  { 4.0, 7.0 });
     auto grid1 = grid2.Clone();
 
     auto grid3 = std::dynamic_pointer_cast<CellCenteredVectorGrid2>(grid1);
@@ -147,12 +154,12 @@ TEST(CellCenteredVectorGrid2, Clone)
     EXPECT_EQ(8u, grid1->Resolution().y);
     EXPECT_DOUBLE_EQ(2.0, grid1->GridSpacing().x);
     EXPECT_DOUBLE_EQ(3.0, grid1->GridSpacing().y);
-    EXPECT_DOUBLE_EQ(1.0, grid1->GridOrigin().x);
-    EXPECT_DOUBLE_EQ(5.0, grid1->GridOrigin().y);
-    EXPECT_EQ(3u, grid3->GetDataSize().x);
-    EXPECT_EQ(8u, grid3->GetDataSize().y);
-    EXPECT_DOUBLE_EQ(2.0, grid3->GetDataOrigin().x);
-    EXPECT_DOUBLE_EQ(6.5, grid3->GetDataOrigin().y);
+    EXPECT_DOUBLE_EQ(1.0, grid1->Origin().x);
+    EXPECT_DOUBLE_EQ(5.0, grid1->Origin().y);
+    EXPECT_EQ(3u, grid3->DataSize().x);
+    EXPECT_EQ(8u, grid3->DataSize().y);
+    EXPECT_DOUBLE_EQ(2.0, grid3->DataOrigin().x);
+    EXPECT_DOUBLE_EQ(6.5, grid3->DataOrigin().y);
     grid3->ForEachDataPointIndex([&](size_t i, size_t j) {
         EXPECT_DOUBLE_EQ(4.0, (*grid3)(i, j).x);
         EXPECT_DOUBLE_EQ(7.0, (*grid3)(i, j).y);
@@ -173,12 +180,12 @@ TEST(CellCenteredVectorGrid2, Builder)
         EXPECT_EQ(8u, grid1->Resolution().y);
         EXPECT_DOUBLE_EQ(2.0, grid1->GridSpacing().x);
         EXPECT_DOUBLE_EQ(3.0, grid1->GridSpacing().y);
-        EXPECT_DOUBLE_EQ(1.0, grid1->GridOrigin().x);
-        EXPECT_DOUBLE_EQ(5.0, grid1->GridOrigin().y);
-        EXPECT_EQ(3u, grid2->GetDataSize().x);
-        EXPECT_EQ(8u, grid2->GetDataSize().y);
-        EXPECT_DOUBLE_EQ(2.0, grid2->GetDataOrigin().x);
-        EXPECT_DOUBLE_EQ(6.5, grid2->GetDataOrigin().y);
+        EXPECT_DOUBLE_EQ(1.0, grid1->Origin().x);
+        EXPECT_DOUBLE_EQ(5.0, grid1->Origin().y);
+        EXPECT_EQ(3u, grid2->DataSize().x);
+        EXPECT_EQ(8u, grid2->DataSize().y);
+        EXPECT_DOUBLE_EQ(2.0, grid2->DataOrigin().x);
+        EXPECT_DOUBLE_EQ(6.5, grid2->DataOrigin().y);
         grid2->ForEachDataPointIndex([&](size_t i, size_t j) {
             EXPECT_DOUBLE_EQ(4.0, (*grid2)(i, j).x);
             EXPECT_DOUBLE_EQ(7.0, (*grid2)(i, j).y);
@@ -187,22 +194,22 @@ TEST(CellCenteredVectorGrid2, Builder)
 
     {
         auto grid1 = CellCenteredVectorGrid2::GetBuilder()
-                         .WithResolution(3, 8)
-                         .WithGridSpacing(2, 3)
-                         .WithOrigin(1, 5)
-                         .WithInitialValue(4, 7)
+                         .WithResolution({ 3, 8 })
+                         .WithGridSpacing({ 2, 3 })
+                         .WithOrigin({ 1, 5 })
+                         .WithInitialValue({ 4, 7 })
                          .Build();
 
         EXPECT_EQ(3u, grid1.Resolution().x);
         EXPECT_EQ(8u, grid1.Resolution().y);
         EXPECT_DOUBLE_EQ(2.0, grid1.GridSpacing().x);
         EXPECT_DOUBLE_EQ(3.0, grid1.GridSpacing().y);
-        EXPECT_DOUBLE_EQ(1.0, grid1.GridOrigin().x);
-        EXPECT_DOUBLE_EQ(5.0, grid1.GridOrigin().y);
-        EXPECT_EQ(3u, grid1.GetDataSize().x);
-        EXPECT_EQ(8u, grid1.GetDataSize().y);
-        EXPECT_DOUBLE_EQ(2.0, grid1.GetDataOrigin().x);
-        EXPECT_DOUBLE_EQ(6.5, grid1.GetDataOrigin().y);
+        EXPECT_DOUBLE_EQ(1.0, grid1.Origin().x);
+        EXPECT_DOUBLE_EQ(5.0, grid1.Origin().y);
+        EXPECT_EQ(3u, grid1.DataSize().x);
+        EXPECT_EQ(8u, grid1.DataSize().y);
+        EXPECT_DOUBLE_EQ(2.0, grid1.DataOrigin().x);
+        EXPECT_DOUBLE_EQ(6.5, grid1.DataOrigin().y);
         grid1.ForEachDataPointIndex([&](size_t i, size_t j) {
             EXPECT_DOUBLE_EQ(4.0, grid1(i, j).x);
             EXPECT_DOUBLE_EQ(7.0, grid1(i, j).y);
@@ -212,12 +219,13 @@ TEST(CellCenteredVectorGrid2, Builder)
 
 TEST(CellCenteredVectorGrid2, Fill)
 {
-    CellCenteredVectorGrid2 grid(5, 4, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0);
+    CellCenteredVectorGrid2 grid({ 5, 4 }, { 1.0, 1.0 }, { 0.0, 0.0 },
+                                 { 0.0, 0.0 });
     grid.Fill(Vector2D(42.0, 27.0));
 
-    for (size_t j = 0; j < grid.GetDataSize().y; ++j)
+    for (size_t j = 0; j < grid.DataSize().y; ++j)
     {
-        for (size_t i = 0; i < grid.GetDataSize().x; ++i)
+        for (size_t i = 0; i < grid.DataSize().x; ++i)
         {
             EXPECT_DOUBLE_EQ(42.0, grid(i, j).x);
             EXPECT_DOUBLE_EQ(27.0, grid(i, j).y);
@@ -236,9 +244,9 @@ TEST(CellCenteredVectorGrid2, Fill)
     };
     grid.Fill(func);
 
-    for (size_t j = 0; j < grid.GetDataSize().y; ++j)
+    for (size_t j = 0; j < grid.DataSize().y; ++j)
     {
-        for (size_t i = 0; i < grid.GetDataSize().x; ++i)
+        for (size_t i = 0; i < grid.DataSize().x; ++i)
         {
             if (i < 3)
             {
@@ -256,7 +264,7 @@ TEST(CellCenteredVectorGrid2, Fill)
 
 TEST(CellCenteredVectorGrid2, DivergenceAtDataPoint)
 {
-    CellCenteredVectorGrid2 grid(5, 8, 2.0, 3.0);
+    CellCenteredVectorGrid2 grid({ 5, 8 }, { 2.0, 3.0 });
 
     grid.Fill(Vector2D(1.0, -2.0));
 
@@ -281,7 +289,7 @@ TEST(CellCenteredVectorGrid2, DivergenceAtDataPoint)
 
 TEST(CellCenteredVectorGrid2, CurlAtAtDataPoint)
 {
-    CellCenteredVectorGrid2 grid(5, 8, 2.0, 3.0);
+    CellCenteredVectorGrid2 grid({ 5, 8 }, { 2.0, 3.0 });
 
     grid.Fill(Vector2D(1.0, -2.0));
 
@@ -306,7 +314,7 @@ TEST(CellCenteredVectorGrid2, CurlAtAtDataPoint)
 
 TEST(CellCenteredVectorGrid2, Serialization)
 {
-    CellCenteredVectorGrid2 grid1(5, 4, 1.0, 2.0, -5.0, 3.0);
+    CellCenteredVectorGrid2 grid1({ 5, 4 }, { 1.0, 2.0 }, { -5.0, 3.0 });
     grid1.Fill([&](const Vector2D& pt) { return Vector2D(pt.x, pt.y); });
 
     // Serialize to in-memory stream
@@ -314,18 +322,18 @@ TEST(CellCenteredVectorGrid2, Serialization)
     grid1.Serialize(&buffer1);
 
     // Deserialize to non-zero array
-    CellCenteredVectorGrid2 grid2(1, 2, 0.5, 1.0, 0.5, 2.0);
+    CellCenteredVectorGrid2 grid2({ 1, 2 }, { 0.5, 1.0 }, { 0.5, 2.0 });
     grid2.Deserialize(buffer1);
     EXPECT_EQ(5u, grid2.Resolution().x);
     EXPECT_EQ(4u, grid2.Resolution().y);
-    EXPECT_DOUBLE_EQ(-5.0, grid2.GridOrigin().x);
-    EXPECT_DOUBLE_EQ(3.0, grid2.GridOrigin().y);
+    EXPECT_DOUBLE_EQ(-5.0, grid2.Origin().x);
+    EXPECT_DOUBLE_EQ(3.0, grid2.Origin().y);
     EXPECT_DOUBLE_EQ(1.0, grid2.GridSpacing().x);
     EXPECT_DOUBLE_EQ(2.0, grid2.GridSpacing().y);
-    EXPECT_DOUBLE_EQ(-5.0, grid2.BoundingBox().lowerCorner.x);
-    EXPECT_DOUBLE_EQ(3.0, grid2.BoundingBox().lowerCorner.y);
-    EXPECT_DOUBLE_EQ(0.0, grid2.BoundingBox().upperCorner.x);
-    EXPECT_DOUBLE_EQ(11.0, grid2.BoundingBox().upperCorner.y);
+    EXPECT_DOUBLE_EQ(-5.0, grid2.GetBoundingBox().lowerCorner.x);
+    EXPECT_DOUBLE_EQ(3.0, grid2.GetBoundingBox().lowerCorner.y);
+    EXPECT_DOUBLE_EQ(0.0, grid2.GetBoundingBox().upperCorner.x);
+    EXPECT_DOUBLE_EQ(11.0, grid2.GetBoundingBox().upperCorner.y);
 
     grid1.ForEachDataPointIndex([&](size_t i, size_t j) {
         EXPECT_DOUBLE_EQ(grid1(i, j).x, grid2(i, j).x);
@@ -341,8 +349,8 @@ TEST(CellCenteredVectorGrid2, Serialization)
     grid2.Deserialize(buffer2);
     EXPECT_EQ(0u, grid2.Resolution().x);
     EXPECT_EQ(0u, grid2.Resolution().y);
-    EXPECT_DOUBLE_EQ(0.0, grid2.GridOrigin().x);
-    EXPECT_DOUBLE_EQ(0.0, grid2.GridOrigin().y);
+    EXPECT_DOUBLE_EQ(0.0, grid2.Origin().x);
+    EXPECT_DOUBLE_EQ(0.0, grid2.Origin().y);
     EXPECT_DOUBLE_EQ(1.0, grid2.GridSpacing().x);
     EXPECT_DOUBLE_EQ(1.0, grid2.GridSpacing().y);
 }

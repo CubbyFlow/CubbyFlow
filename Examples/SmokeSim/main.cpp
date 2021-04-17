@@ -17,7 +17,7 @@
 #include <Core/Geometry/RigidBodyCollider.hpp>
 #include <Core/Geometry/Sphere.hpp>
 #include <Core/Geometry/TriangleMesh3.hpp>
-#include <Core/Grid/ScalarGrid3.hpp>
+#include <Core/Grid/ScalarGrid.hpp>
 #include <Core/Math/MathUtils.hpp>
 #include <Core/Solver/Advection/CubicSemiLagrangian3.hpp>
 #include <Core/Solver/Advection/SemiLagrangian3.hpp>
@@ -75,12 +75,12 @@ void SaveVolumeAsVol(const ScalarGrid3Ptr& density, const std::string& rootDir,
 
         int32_t* encoding = reinterpret_cast<int32_t*>(header + 4);
         encoding[0] = 1;  // 32-bit float
-        encoding[1] = static_cast<int32_t>(density->GetDataSize().x);
-        encoding[2] = static_cast<int32_t>(density->GetDataSize().y);
-        encoding[3] = static_cast<int32_t>(density->GetDataSize().z);
+        encoding[1] = static_cast<int32_t>(density->DataSize().x);
+        encoding[2] = static_cast<int32_t>(density->DataSize().y);
+        encoding[3] = static_cast<int32_t>(density->DataSize().z);
         encoding[4] = 1;  // number of channels
 
-        const BoundingBox3D domain = density->BoundingBox();
+        const BoundingBox3D domain = density->GetBoundingBox();
         float* bbox = reinterpret_cast<float*>(encoding + 5);
         bbox[0] = static_cast<float>(domain.lowerCorner.x);
         bbox[1] = static_cast<float>(domain.lowerCorner.y);
@@ -91,7 +91,7 @@ void SaveVolumeAsVol(const ScalarGrid3Ptr& density, const std::string& rootDir,
 
         file.write(header, sizeof(header));
 
-        Array3<float> data(density->GetDataSize());
+        Array3<float> data(density->DataSize());
         ParallelForEachIndex(data.Size(), [&](size_t i, size_t j, size_t k) {
             float d = static_cast<float>((*density)(i, j, k));
 
@@ -146,7 +146,7 @@ void SaveVolumeAsTga(const ScalarGrid3Ptr& density, const std::string& rootDir,
     {
         printf("Writing %s...\n", fileName.c_str());
 
-        Vector3UZ dataSize = density->GetDataSize();
+        Vector3UZ dataSize = density->DataSize();
 
         std::array<char, 18> header;
         header.fill(0);
@@ -192,9 +192,9 @@ void SaveVolumeAsTga(const ScalarGrid3Ptr& density, const std::string& rootDir,
 void PrintInfo(const GridSmokeSolver3Ptr& solver)
 {
     const auto grids = solver->GetGridSystemData();
-    const Vector3UZ resolution = grids->GetResolution();
+    const Vector3UZ resolution = grids->Resolution();
     const BoundingBox3D domain = grids->GetBoundingBox();
-    const Vector3D gridSpacing = grids->GetGridSpacing();
+    const Vector3D gridSpacing = grids->GridSpacing();
 
     printf("Resolution: %zu x %zu x %zu\n", resolution.x, resolution.y,
            resolution.z);

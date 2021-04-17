@@ -267,7 +267,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridSmokeSolver3, Rising)
     });
 
     auto grids = solver->GetGridSystemData();
-    Vector3UZ resolution = grids->GetResolution();
+    Vector3UZ resolution = grids->Resolution();
     Array2<double> output(resolution.x, resolution.y);
     auto density = solver->GetSmokeDensity();
     char fileName[256];
@@ -329,7 +329,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridSmokeSolver3, RisingWithCollider)
 
     solver->SetCollider(collider);
 
-    Vector3UZ resolution = grids->GetResolution();
+    Vector3UZ resolution = grids->Resolution();
     Array2<double> output(resolution.x, resolution.y);
     auto density = solver->GetSmokeDensity();
     char fileName[256];
@@ -391,7 +391,7 @@ CUBBYFLOW_BEGIN_TEST_F(GridSmokeSolver3, RisingWithColliderLinear)
 
     solver->SetCollider(collider);
 
-    Vector3UZ resolution = grids->GetResolution();
+    Vector3UZ resolution = grids->Resolution();
     Array2<double> output(resolution.x, resolution.y);
     auto density = solver->GetSmokeDensity();
     char fileName[256];

@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Grid/CellCenteredScalarGrid2.hpp>
+#include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Solver/LevelSet/ENOLevelSetSolver2.hpp>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver2.hpp>
 #include <Core/Solver/LevelSet/LevelSetLiquidSolver2.hpp>
@@ -38,8 +38,7 @@ LevelSetLiquidSolver2::LevelSetLiquidSolver2(const Vector2UZ& resolution,
 
 ScalarGrid2Ptr LevelSetLiquidSolver2::GetSignedDistanceField() const
 {
-    return GetGridSystemData()->GetAdvectableScalarDataAt(
-        m_signedDistanceFieldId);
+    return GetGridSystemData()->AdvectableScalarDataAt(m_signedDistanceFieldId);
 }
 
 LevelSetSolver2Ptr LevelSetLiquidSolver2::GetLevelSetSolver() const
@@ -153,12 +152,12 @@ void LevelSetLiquidSolver2::Reinitialize(double currentCfl)
 void LevelSetLiquidSolver2::ExtrapolateVelocityToAir(double currentCFL)
 {
     ScalarGrid2Ptr sdf = GetSignedDistanceField();
-    FaceCenteredGrid2Ptr vel = GetGridSystemData()->GetVelocity();
+    FaceCenteredGrid2Ptr vel = GetGridSystemData()->Velocity();
 
     ArrayView2<double> u = vel->UView();
     ArrayView2<double> v = vel->VView();
-    auto uPos = vel->UPosition();
-    auto vPos = vel->VPosition();
+    GridDataPositionFunc<2> uPos = vel->UPosition();
+    GridDataPositionFunc<2> vPos = vel->VPosition();
 
     Array2<char> uMarker{ u.Size() };
     Array2<char> vMarker{ v.Size() };

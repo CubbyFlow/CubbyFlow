@@ -10,9 +10,9 @@
 
 #include <Core/Math/SVD.hpp>
 #include <Core/Matrix/Matrix.hpp>
-#include <Core/Particle/SPH/SPHSystemData2.hpp>
+#include <Core/Particle/SPHSystemData.hpp>
 #include <Core/PointsToImplicit/AnisotropicPointsToImplicit2.hpp>
-#include <Core/Searcher/PointKdTreeSearcher2.hpp>
+#include <Core/Searcher/PointKdTreeSearcher.hpp>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver2.hpp>
 #include <Core/Utils/Logging.hpp>
 
@@ -80,7 +80,7 @@ void AnisotropicPointsToImplicit2::Convert(
         return;
     }
 
-    const BoundingBox2D& bbox = output->BoundingBox();
+    const BoundingBox2D& bbox = output->GetBoundingBox();
     if (bbox.IsEmpty())
     {
         CUBBYFLOW_WARN << "Empty domain is provided.";
@@ -181,7 +181,7 @@ void AnisotropicPointsToImplicit2::Convert(
     meanParticles.SetKernelRadius(h);
     meanParticles.UpdateDensities();
     const ArrayView1<double> d = meanParticles.Densities();
-    const double m = meanParticles.GetMass();
+    const double m = meanParticles.Mass();
 
     PointKdTreeSearcher2 meanNeighborSearcher2;
     meanNeighborSearcher2.Build(xMeans);

@@ -18,25 +18,25 @@ TEST(GridBlockedBoundaryConditionSolver2, ClosedDomain)
 
     bndSolver.ConstrainVelocity(&velocity);
 
-    velocity.ForEachUIndex([&](size_t i, size_t j) {
-        if (i == 0 || i == gridSize.x)
+    velocity.ForEachUIndex([&](const Vector2UZ& idx) {
+        if (idx.x == 0 || idx.x == gridSize.x)
         {
-            EXPECT_DOUBLE_EQ(0.0, velocity.GetU(i, j));
+            EXPECT_DOUBLE_EQ(0.0, velocity.U(idx));
         }
         else
         {
-            EXPECT_DOUBLE_EQ(1.0, velocity.GetU(i, j));
+            EXPECT_DOUBLE_EQ(1.0, velocity.U(idx));
         }
     });
 
-    velocity.ForEachVIndex([&](size_t i, size_t j) {
-        if (j == 0 || j == gridSize.y)
+    velocity.ForEachVIndex([&](const Vector2UZ& idx) {
+        if (idx.y == 0 || idx.y == gridSize.y)
         {
-            EXPECT_DOUBLE_EQ(0.0, velocity.GetV(i, j));
+            EXPECT_DOUBLE_EQ(0.0, velocity.V(idx));
         }
         else
         {
-            EXPECT_DOUBLE_EQ(1.0, velocity.GetV(i, j));
+            EXPECT_DOUBLE_EQ(1.0, velocity.V(idx));
         }
     });
 }
@@ -57,25 +57,25 @@ TEST(GridBlockedBoundaryConditionSolver2, OpenDomain)
 
     bndSolver.ConstrainVelocity(&velocity);
 
-    velocity.ForEachUIndex([&](size_t i, size_t j) {
-        if (i == 0)
+    velocity.ForEachUIndex([&](const Vector2UZ& idx) {
+        if (idx.x == 0)
         {
-            EXPECT_DOUBLE_EQ(0.0, velocity.GetU(i, j));
+            EXPECT_DOUBLE_EQ(0.0, velocity.U(idx));
         }
         else
         {
-            EXPECT_DOUBLE_EQ(1.0, velocity.GetU(i, j));
+            EXPECT_DOUBLE_EQ(1.0, velocity.U(idx));
         }
     });
 
-    velocity.ForEachVIndex([&](size_t i, size_t j) {
-        if (j == gridSize.y)
+    velocity.ForEachVIndex([&](const Vector2UZ& idx) {
+        if (idx.y == gridSize.y)
         {
-            EXPECT_DOUBLE_EQ(0.0, velocity.GetV(i, j));
+            EXPECT_DOUBLE_EQ(0.0, velocity.V(idx));
         }
         else
         {
-            EXPECT_DOUBLE_EQ(1.0, velocity.GetV(i, j));
+            EXPECT_DOUBLE_EQ(1.0, velocity.V(idx));
         }
     });
 }

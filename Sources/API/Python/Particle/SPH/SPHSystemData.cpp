@@ -9,8 +9,7 @@
 // property of any third parties.
 
 #include <API/Python/Particle/SPH/SPHSystemData.hpp>
-#include <Core/Particle/SPH/SPHSystemData2.hpp>
-#include <Core/Particle/SPH/SPHSystemData3.hpp>
+#include <Core/Particle/SPHSystemData.hpp>
 
 #include <pybind11/pybind11.h>
 
@@ -48,12 +47,12 @@ void AddSPHSystemData2(pybind11::module& m)
              R"pbdoc(
 			Updates the density array with the latest particle positions.
 		)pbdoc")
-        .def_property("targetDensity", &SPHSystemData2::GetTargetDensity,
+        .def_property("targetDensity", &SPHSystemData2::TargetDensity,
                       &SPHSystemData2::SetTargetDensity,
                       R"pbdoc(
 			The target density of this particle system.
 		)pbdoc")
-        .def_property("targetSpacing", &SPHSystemData2::GetTargetSpacing,
+        .def_property("targetSpacing", &SPHSystemData2::TargetSpacing,
                       &SPHSystemData2::SetTargetSpacing,
                       R"pbdoc(
 			The target particle spacing in meters.
@@ -62,7 +61,7 @@ void AddSPHSystemData2(pybind11::module& m)
 			updated using UpdateHashGrid() and UpdateDensities()).
 		)pbdoc")
         .def_property("relativeKernelRadius",
-                      &SPHSystemData2::GetRelativeKernelRadius,
+                      &SPHSystemData2::RelativeKernelRadius,
                       &SPHSystemData2::SetRelativeKernelRadius,
                       R"pbdoc(
 			The relative kernel radius.
@@ -72,7 +71,7 @@ void AddSPHSystemData2(pybind11::module& m)
 			Once this property has changed, hash grid and density should
 			be updated using UpdateHashGrid() and UpdateDensities()).
 		)pbdoc")
-        .def_property("kernelRadius", &SPHSystemData2::GetKernelRadius,
+        .def_property("kernelRadius", &SPHSystemData2::KernelRadius,
                       &SPHSystemData2::SetKernelRadius,
                       R"pbdoc(
 			The kernel radius in meters unit.
@@ -128,12 +127,12 @@ void AddSPHSystemData3(pybind11::module& m)
              R"pbdoc(
 			Updates the density array with the latest particle positions.
 		)pbdoc")
-        .def_property("targetDensity", &SPHSystemData3::GetTargetDensity,
+        .def_property("targetDensity", &SPHSystemData3::TargetDensity,
                       &SPHSystemData3::SetTargetDensity,
                       R"pbdoc(
 			The target density of this particle system.
 		)pbdoc")
-        .def_property("targetSpacing", &SPHSystemData3::GetTargetSpacing,
+        .def_property("targetSpacing", &SPHSystemData3::TargetSpacing,
                       &SPHSystemData3::SetTargetSpacing,
                       R"pbdoc(
 			 The target particle spacing in meters.
@@ -142,7 +141,7 @@ void AddSPHSystemData3(pybind11::module& m)
 			 updated using UpdateHashGrid() and UpdateDensities()).
 		)pbdoc")
         .def_property("relativeKernelRadius",
-                      &SPHSystemData3::GetRelativeKernelRadius,
+                      &SPHSystemData3::RelativeKernelRadius,
                       &SPHSystemData3::SetRelativeKernelRadius,
                       R"pbdoc(
 			The relative kernel radius.
@@ -152,7 +151,7 @@ void AddSPHSystemData3(pybind11::module& m)
 			Once this property has changed, hash grid and density should
 			be updated using UpdateHashGrid() and UpdateDensities()).
 		)pbdoc")
-        .def_property("kernelRadius", &SPHSystemData3::GetKernelRadius,
+        .def_property("kernelRadius", &SPHSystemData3::KernelRadius,
                       &SPHSystemData3::SetKernelRadius,
                       R"pbdoc(
 			The kernel radius in meters unit.

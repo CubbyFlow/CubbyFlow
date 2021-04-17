@@ -10,8 +10,7 @@
 
 #include <API/Python/Grid/CellCenteredVectorGrid.hpp>
 #include <API/Python/Utils/pybind11Utils.hpp>
-#include <Core/Grid/CellCenteredVectorGrid2.hpp>
-#include <Core/Grid/CellCenteredVectorGrid3.hpp>
+#include <Core/Grid/CellCenteredVectorGrid.hpp>
 
 #include <pybind11/pybind11.h>
 
@@ -56,12 +55,12 @@ void AddCellCenteredVectorGrid2(pybind11::module& m)
 				- domainSizeX : Domain size in x-direction.
 			 )pbdoc")
         .def_property_readonly("dataSize",
-                               &CellCenteredVectorGrid2::GetDataSize,
+                               &CellCenteredVectorGrid2::DataSize,
                                R"pbdoc(
 			Returns the actual data point size.
 		)pbdoc")
         .def_property_readonly("dataOrigin",
-                               &CellCenteredVectorGrid2::GetDataOrigin,
+                               &CellCenteredVectorGrid2::DataOrigin,
                                R"pbdoc(
 			Returns data position for the grid point at (0, 0).
 
@@ -151,12 +150,12 @@ void AddCellCenteredVectorGrid3(pybind11::module& m)
 				- domainSizeX : Domain size in x-direction.
 		)pbdoc")
         .def_property_readonly("dataSize",
-                               &CellCenteredVectorGrid3::GetDataSize,
+                               &CellCenteredVectorGrid3::DataSize,
                                R"pbdoc(
 			Returns the actual data point size.
 		)pbdoc")
         .def_property_readonly("dataOrigin",
-                               &CellCenteredVectorGrid3::GetDataOrigin,
+                               &CellCenteredVectorGrid3::DataOrigin,
                                R"pbdoc(
 			Returns data position for the grid point at (0, 0, 0).
 

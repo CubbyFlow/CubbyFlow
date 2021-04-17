@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Particle/ParticleSystemData3.hpp>
+#include <Core/Particle/ParticleSystemData.hpp>
 #include <Core/PointsToImplicit/SphericalPointsToImplicit3.hpp>
 #include <Core/Solver/LevelSet/FMMLevelSetSolver3.hpp>
 #include <Core/Utils/Logging.hpp>
@@ -38,7 +38,7 @@ void SphericalPointsToImplicit3::Convert(
         return;
     }
 
-    const BoundingBox3D& bbox = output->BoundingBox();
+    const BoundingBox3D& bbox = output->GetBoundingBox();
     if (bbox.IsEmpty())
     {
         CUBBYFLOW_WARN << "Empty domain is provided.";
@@ -50,7 +50,7 @@ void SphericalPointsToImplicit3::Convert(
     particles.BuildNeighborSearcher(2.0 * m_radius);
 
     const PointNeighborSearcher3Ptr neighborSearcher =
-        particles.GetNeighborSearcher();
+        particles.NeighborSearcher();
 
     std::shared_ptr<ScalarGrid3> temp = output->Clone();
     temp->Fill([&](const Vector3D& x) {
