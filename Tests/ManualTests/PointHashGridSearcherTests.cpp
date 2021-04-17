@@ -64,7 +64,7 @@ CUBBYFLOW_BEGIN_TEST_F(PointHashGridSearcher3, Build)
     {
         for (size_t i = 0; i < grid.Size().x; ++i)
         {
-            size_t key = PointHashGridUtils3::GetHashKeyFromBucketIndex(
+            size_t key = PointHashGridUtils2::GetHashKeyFromBucketIndex(
                 Vector3Z{ static_cast<ssize_t>(i), static_cast<ssize_t>(j), 0 },
                 Vector2Z{ 4, 4 });
             size_t value = pointSearcher.Buckets()[key].Length();
@@ -130,7 +130,7 @@ CUBBYFLOW_BEGIN_TEST_F(PointParallelHashGridSearcher3, Build)
     {
         for (size_t i = 0; i < grid.Size().x; ++i)
         {
-            size_t key = PointHashGridUtils3::GetHashKeyFromBucketIndex(
+            size_t key = PointHashGridUtils2::GetHashKeyFromBucketIndex(
                 Vector3Z{ static_cast<ssize_t>(i), static_cast<ssize_t>(j), 0 },
                 Vector2Z{ 4, 4 });
             size_t start = pointSearcher.StartIndexTable()[key];
