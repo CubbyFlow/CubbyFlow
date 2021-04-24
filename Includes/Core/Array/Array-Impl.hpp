@@ -221,6 +221,44 @@ Array<T, N>::Array(Array&& other) noexcept : Array()
 }
 
 template <typename T, size_t N>
+Array<T, N>& Array<T, N>::operator=(const Array& other)
+{
+    CopyFrom(other);
+
+    return *this;
+}
+
+template <typename T, size_t N>
+Array<T, N>& Array<T, N>::operator=(Array&& other) noexcept
+{
+    m_data = std::move(other.m_data);
+
+    Base::SetPtrAndSize(other.data(), other.Size());
+    other.SetPtrAndSize(nullptr, Vector<size_t, N>{});
+
+    return *this;
+}
+
+template <typename T, size_t N>
+template <typename OtherDerived>
+Array<T, N>& Array<T, N>::operator=(const ArrayBase<T, N, OtherDerived>& other)
+{
+    CopyFrom(other);
+
+    return *this;
+}
+
+template <typename T, size_t N>
+template <typename OtherDerived>
+Array<T, N>& Array<T, N>::operator=(
+    const ArrayBase<const T, N, OtherDerived>& other)
+{
+    CopyFrom(other);
+
+    return *this;
+}
+
+template <typename T, size_t N>
 template <typename D>
 void Array<T, N>::CopyFrom(const ArrayBase<T, N, D>& other)
 {
@@ -317,50 +355,12 @@ template <typename T, size_t N>
 ArrayView<T, N> Array<T, N>::View()
 {
     return ArrayView<T, N>(*this);
-};
+}
 
 template <typename T, size_t N>
 ArrayView<const T, N> Array<T, N>::View() const
 {
     return ArrayView<const T, N>(*this);
-};
-
-template <typename T, size_t N>
-template <typename OtherDerived>
-Array<T, N>& Array<T, N>::operator=(const ArrayBase<T, N, OtherDerived>& other)
-{
-    CopyFrom(other);
-
-    return *this;
-}
-
-template <typename T, size_t N>
-template <typename OtherDerived>
-Array<T, N>& Array<T, N>::operator=(
-    const ArrayBase<const T, N, OtherDerived>& other)
-{
-    CopyFrom(other);
-
-    return *this;
-}
-
-template <typename T, size_t N>
-Array<T, N>& Array<T, N>::operator=(const Array& other)
-{
-    CopyFrom(other);
-
-    return *this;
-}
-
-template <typename T, size_t N>
-Array<T, N>& Array<T, N>::operator=(Array&& other) noexcept
-{
-    m_data = std::move(other.m_data);
-
-    Base::SetPtrAndSize(other.data(), other.Size());
-    other.SetPtrAndSize(nullptr, Vector<size_t, N>{});
-
-    return *this;
 }
 }  // namespace CubbyFlow
 

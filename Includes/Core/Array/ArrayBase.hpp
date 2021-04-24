@@ -13,8 +13,6 @@
 
 #include <Core/Matrix/Matrix.hpp>
 
-#include <algorithm>
-
 namespace CubbyFlow
 {
 template <typename T, size_t N, typename DerivedArray>
@@ -29,8 +27,6 @@ class ArrayBase
     using ConstPointer = const T*;
     using Iterator = T*;
     using ConstIterator = const T*;
-
-    virtual ~ArrayBase() = default;
 
     size_t Index(size_t i) const;
 
@@ -106,9 +102,15 @@ class ArrayBase
  protected:
     ArrayBase();
 
+    virtual ~ArrayBase() = default;
+
     ArrayBase(const ArrayBase& other);
 
     ArrayBase(ArrayBase&& other) noexcept;
+
+    ArrayBase& operator=(const ArrayBase& other);
+
+    ArrayBase& operator=(ArrayBase&& other) noexcept;
 
     template <typename... Args>
     void SetPtrAndSize(Pointer ptr, size_t ni, Args... args);
@@ -118,10 +120,6 @@ class ArrayBase
     void SwapPtrAndSize(ArrayBase& other);
 
     void ClearPtrAndSize();
-
-    ArrayBase& operator=(const ArrayBase& other);
-
-    ArrayBase& operator=(ArrayBase&& other) noexcept;
 
     Pointer m_ptr = nullptr;
     Vector<size_t, N> m_size;

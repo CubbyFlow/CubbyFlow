@@ -57,9 +57,21 @@ class Array final : public ArrayBase<T, N, Array<T, N>>
     template <typename OtherDerived>
     Array(const ArrayBase<const T, N, OtherDerived>& other);
 
+    ~Array() override = default;
+
     Array(const Array& other);
 
     Array(Array&& other) noexcept;
+
+    Array& operator=(const Array& other);
+
+    Array& operator=(Array&& other) noexcept;
+
+    template <typename OtherDerived>
+    Array& operator=(const ArrayBase<T, N, OtherDerived>& other);
+
+    template <typename OtherDerived>
+    Array& operator=(const ArrayBase<const T, N, OtherDerived>& other);
 
     template <typename D>
     void CopyFrom(const ArrayBase<T, N, D>& other);
@@ -92,16 +104,6 @@ class Array final : public ArrayBase<T, N, Array<T, N>>
     ArrayView<T, N> View();
 
     ArrayView<const T, N> View() const;
-
-    template <typename OtherDerived>
-    Array& operator=(const ArrayBase<T, N, OtherDerived>& other);
-
-    template <typename OtherDerived>
-    Array& operator=(const ArrayBase<const T, N, OtherDerived>& other);
-
-    Array& operator=(const Array& other);
-
-    Array& operator=(Array&& other) noexcept;
 
  private:
     std::vector<T> m_data;
