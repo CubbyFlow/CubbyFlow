@@ -73,11 +73,11 @@ void ExtrapolateToRegion(ArrayView2<T> input, ArrayView2<char> valid,
     for (unsigned int iter = 0; iter < numberOfIterations; ++iter)
     {
         ForEachIndex(valid0.Size(), [&](size_t i, size_t j) {
-            T sum = T{};
-            unsigned int count = 0;
-
             if (!valid0(i, j))
             {
+                T sum = T{};
+                unsigned int count = 0;
+
                 if (i + 1 < size.x && valid0(i + 1, j))
                 {
                     sum += output(i + 1, j);
@@ -140,11 +140,11 @@ void ExtrapolateToRegion(ArrayView3<T> input, ArrayView3<char> valid,
     for (unsigned int iter = 0; iter < numberOfIterations; ++iter)
     {
         ForEachIndex(valid0.Size(), [&](size_t i, size_t j, size_t k) {
-            T sum = T{};
-            unsigned int count = 0;
-
             if (!valid0(i, j, k))
             {
+                T sum = T{};
+                unsigned int count = 0;
+
                 if (i + 1 < size.x && valid0(i + 1, j, k))
                 {
                     sum += output(i + 1, j, k);
