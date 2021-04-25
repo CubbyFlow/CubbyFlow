@@ -30,6 +30,18 @@ class ScalarField : public Field<N>
     //! Default destructor.
     ~ScalarField() override = default;
 
+    //! Default copy constructor.
+    ScalarField(const ScalarField&) = default;
+
+    //! Default move constructor.
+    ScalarField(ScalarField&&) noexcept = default;
+
+    //! Default copy assignment operator.
+    ScalarField& operator=(const ScalarField&) = default;
+
+    //! Default move assignment operator.
+    ScalarField& operator=(ScalarField&&) noexcept = default;
+
     //! Returns sampled value at given position \p x.
     virtual double Sample(const Vector<double, N>& x) const = 0;
 

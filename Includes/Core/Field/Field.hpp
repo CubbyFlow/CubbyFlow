@@ -20,9 +20,23 @@ template <size_t N>
 class Field
 {
  public:
+    //! Default constructor.
     Field() = default;
 
+    //! Default virtual destructor.
     virtual ~Field() = default;
+
+    //! Default copy constructor.
+    Field(const Field&) = default;
+
+    //! Default move constructor.
+    Field(Field&&) noexcept = default;
+
+    //! Default copy assignment operator.
+    Field& operator=(const Field&) = default;
+
+    //! Default move assignment operator.
+    Field& operator=(Field&&) noexcept = default;
 };
 
 //! 2-D Field type.

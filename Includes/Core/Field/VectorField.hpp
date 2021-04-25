@@ -48,6 +48,18 @@ class VectorField : public Field<N>
     //! Default destructor.
     ~VectorField() override = default;
 
+    //! Default copy constructor.
+    VectorField(const VectorField&) = default;
+
+    //! Default move constructor.
+    VectorField(VectorField&&) noexcept = default;
+
+    //! Default copy assignment operator.
+    VectorField& operator=(const VectorField&) = default;
+
+    //! Default move assignment operator.
+    VectorField& operator=(VectorField&&) noexcept = default;
+
     //! Returns sampled value at given position \p x.
     virtual Vector<double, N> Sample(const Vector<double, N>& x) const = 0;
 
