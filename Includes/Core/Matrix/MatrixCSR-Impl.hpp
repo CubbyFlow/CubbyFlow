@@ -99,8 +99,32 @@ MatrixCSR<T>::MatrixCSR(const MatrixCSR& other)
 
 template <typename T>
 MatrixCSR<T>::MatrixCSR(MatrixCSR&& other) noexcept
+    : m_size(other.m_size),
+      m_nonZeros(std::move(other.m_nonZeros)),
+      m_rowPointers(std::move(other.m_rowPointers)),
+      m_columnIndices(std::move(other.m_columnIndices))
 {
-    (*this) = std::move(other);
+    // Do nothing
+}
+
+template <typename T>
+MatrixCSR<T>& MatrixCSR<T>::operator=(const MatrixCSR& other)
+{
+    Set(other);
+
+    return *this;
+}
+
+template <typename T>
+MatrixCSR<T>& MatrixCSR<T>::operator=(MatrixCSR&& other) noexcept
+{
+    m_size = other.m_size;
+    other.m_size = Vector2UZ{};
+    m_nonZeros = std::move(other.m_nonZeros);
+    m_rowPointers = std::move(other.m_rowPointers);
+    m_columnIndices = std::move(other.m_columnIndices);
+
+    return *this;
 }
 
 template <typename T>
@@ -828,26 +852,6 @@ template <size_t R, size_t C, typename E>
 MatrixCSR<T>& MatrixCSR<T>::operator=(const MatrixExpression<T, R, C, E>& m)
 {
     Set(m);
-
-    return *this;
-}
-
-template <typename T>
-MatrixCSR<T>& MatrixCSR<T>::operator=(const MatrixCSR& other)
-{
-    Set(other);
-
-    return *this;
-}
-
-template <typename T>
-MatrixCSR<T>& MatrixCSR<T>::operator=(MatrixCSR&& other) noexcept
-{
-    m_size = other.m_size;
-    other.m_size = Vector2UZ();
-    m_nonZeros = std::move(other.m_nonZeros);
-    m_rowPointers = std::move(other.m_rowPointers);
-    m_columnIndices = std::move(other.m_columnIndices);
 
     return *this;
 }

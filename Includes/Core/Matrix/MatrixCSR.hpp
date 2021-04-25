@@ -129,11 +129,20 @@ class MatrixCSR final
     MatrixCSR(const MatrixExpression<T, R, C, E>& other,
               T epsilon = std::numeric_limits<T>::epsilon());
 
+    //! Default destructor.
+    ~MatrixCSR() = default;
+
     //! Copy constructor.
     MatrixCSR(const MatrixCSR& other);
 
     //! Move constructor.
     MatrixCSR(MatrixCSR&& other) noexcept;
+
+    //! Copies to this matrix.
+    MatrixCSR& operator=(const MatrixCSR& other);
+
+    //! Moves to this matrix.
+    MatrixCSR& operator=(MatrixCSR&& other) noexcept;
 
     //! Clears the matrix and make it zero-dimensional.
     void Clear();
@@ -382,12 +391,6 @@ class MatrixCSR final
     //!
     template <size_t R, size_t C, typename ME>
     MatrixCSR& operator=(const MatrixExpression<T, R, C, ME>& m);
-
-    //! Copies to this matrix.
-    MatrixCSR& operator=(const MatrixCSR& other);
-
-    //! Moves to this matrix.
-    MatrixCSR& operator=(MatrixCSR&& other) noexcept;
 
     //! Addition assignment with input scalar.
     MatrixCSR& operator+=(const T& s);

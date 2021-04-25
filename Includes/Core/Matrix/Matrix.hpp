@@ -64,9 +64,29 @@ class Matrix final
 
     Matrix(ConstPointer ptr);
 
+    ~Matrix() = default;
+
     constexpr Matrix(const Matrix& other) : m_elements(other.m_elements)
     {
         // Do nothing
+    }
+
+    constexpr Matrix(Matrix&& other) noexcept
+        : m_elements(std::move(other.m_elements))
+    {
+        // Do nothing
+    }
+
+    Matrix& operator=(const Matrix& other)
+    {
+        m_elements = other.m_elements;
+        return *this;
+    }
+
+    Matrix& operator=(Matrix&& other) noexcept
+    {
+        m_elements = std::move(other.m_elements);
+        return *this;
     }
 
     void Fill(const T& val);
@@ -92,12 +112,6 @@ class Matrix final
     Pointer data();
 
     constexpr ConstPointer data() const;
-
-    Matrix& operator=(const Matrix& other)
-    {
-        m_elements = other.m_elements;
-        return *this;
-    }
 
     Reference operator[](size_t i);
 
@@ -133,15 +147,34 @@ class Matrix<T, 1, 1> final : public MatrixExpression<T, 1, 1, Matrix<T, 1, 1>>,
         // Do nothing
     }
 
+    template <size_t R, size_t C, typename E>
+    Matrix(const MatrixExpression<T, R, C, E>& expression);
+
+    Matrix(const std::initializer_list<T>& lst);
+
+    ~Matrix() = default;
+
     constexpr Matrix(const Matrix& other) : x(other.x)
     {
         // Do nothing
     }
 
-    template <size_t R, size_t C, typename E>
-    Matrix(const MatrixExpression<T, R, C, E>& expression);
+    constexpr Matrix(Matrix&& other) noexcept : x(std::move(other.x))
+    {
+        // Do nothing
+    }
 
-    Matrix(const std::initializer_list<T>& lst);
+    Matrix& operator=(const Matrix& other)
+    {
+        x = other.x;
+        return *this;
+    }
+
+    Matrix& operator=(Matrix&& other) noexcept
+    {
+        x = std::move(other.x);
+        return *this;
+    }
 
     void Fill(const T& val);
 
@@ -166,12 +199,6 @@ class Matrix<T, 1, 1> final : public MatrixExpression<T, 1, 1, Matrix<T, 1, 1>>,
     Pointer data();
 
     constexpr ConstPointer data() const;
-
-    Matrix& operator=(const Matrix& other)
-    {
-        x = other.x;
-        return *this;
-    }
 
     Reference operator[](size_t i);
 
@@ -210,15 +237,38 @@ class Matrix<T, 2, 1> final : public MatrixExpression<T, 2, 1, Matrix<T, 2, 1>>,
         // Do nothing
     }
 
+    template <size_t R, size_t C, typename E>
+    Matrix(const MatrixExpression<T, R, C, E>& expression);
+
+    Matrix(const std::initializer_list<T>& lst);
+
+    ~Matrix() = default;
+
     constexpr Matrix(const Matrix& other) : x(other.x), y(other.y)
     {
         // Do nothing
     }
 
-    template <size_t R, size_t C, typename E>
-    Matrix(const MatrixExpression<T, R, C, E>& expression);
+    constexpr Matrix(Matrix&& other) noexcept
+        : x(std::move(other.x)),
+          y(std::move(other.y))
+    {
+        // Do nothing
+    }
 
-    Matrix(const std::initializer_list<T>& lst);
+    Matrix& operator=(const Matrix& other)
+    {
+        x = other.x;
+        y = other.y;
+        return *this;
+    }
+
+    Matrix& operator=(Matrix&& other) noexcept
+    {
+        x = std::move(other.x);
+        y = std::move(other.y);
+        return *this;
+    }
 
     void Fill(const T& val);
 
@@ -243,13 +293,6 @@ class Matrix<T, 2, 1> final : public MatrixExpression<T, 2, 1, Matrix<T, 2, 1>>,
     Pointer data();
 
     constexpr ConstPointer data() const;
-
-    Matrix& operator=(const Matrix& other)
-    {
-        x = other.x;
-        y = other.y;
-        return *this;
-    }
 
     Reference operator[](size_t i);
 
@@ -298,17 +341,39 @@ class Matrix<T, 3, 1> final : public MatrixExpression<T, 3, 1, Matrix<T, 3, 1>>,
         // Do nothing
     }
 
-    constexpr Matrix(const Matrix& other) : x(other.x), y(other.y), z(other.z)
-    {
-        // Do nothing
-    }
-
     template <size_t R, size_t C, typename E>
     Matrix(const MatrixExpression<T, R, C, E>& expression);
 
     Matrix(const std::initializer_list<T>& lst);
 
-    // Simple setters/modifiers
+    ~Matrix() = default;
+
+    constexpr Matrix(const Matrix& other) : x(other.x), y(other.y), z(other.z)
+    {
+        // Do nothing
+    }
+
+    constexpr Matrix(Matrix&& other) noexcept
+        : x(std::move(other.x)), y(std::move(other.y)), z(std::move(other.z))
+    {
+        // Do nothing
+    }
+
+    Matrix& operator=(const Matrix& other)
+    {
+        x = other.x;
+        y = other.y;
+        z = other.z;
+        return *this;
+    }
+
+    Matrix& operator=(Matrix&& other) noexcept
+    {
+        x = std::move(other.x);
+        y = std::move(other.y);
+        z = std::move(other.z);
+        return *this;
+    }
 
     void Fill(const T& val);
 
@@ -317,8 +382,6 @@ class Matrix<T, 3, 1> final : public MatrixExpression<T, 3, 1, Matrix<T, 3, 1>>,
     void Fill(const std::function<T(size_t i, size_t j)>& func);
 
     void Swap(Matrix& other);
-
-    // Simple getters
 
     constexpr size_t GetRows() const;
 
@@ -335,14 +398,6 @@ class Matrix<T, 3, 1> final : public MatrixExpression<T, 3, 1, Matrix<T, 3, 1>>,
     Pointer data();
 
     constexpr ConstPointer data() const;
-
-    Matrix& operator=(const Matrix& other)
-    {
-        x = other.x;
-        y = other.y;
-        z = other.z;
-        return *this;
-    }
 
     Reference operator[](size_t i);
 
@@ -388,16 +443,45 @@ class Matrix<T, 4, 1> final : public MatrixExpression<T, 4, 1, Matrix<T, 4, 1>>,
         // Do nothing
     }
 
+    template <size_t R, size_t C, typename E>
+    Matrix(const MatrixExpression<T, R, C, E>& expression);
+
+    Matrix(const std::initializer_list<T>& lst);
+
+    ~Matrix() = default;
+
     constexpr Matrix(const Matrix& other)
         : x(other.x), y(other.y), z(other.z), w(other.w)
     {
         // Do nothing
     }
 
-    template <size_t R, size_t C, typename E>
-    Matrix(const MatrixExpression<T, R, C, E>& expression);
+    constexpr Matrix(Matrix&& other) noexcept
+        : x(std::move(other.x)),
+          y(std::move(other.y)),
+          z(std::move(other.z)),
+          w(std::move(other.w))
+    {
+        // Do nothing
+    }
 
-    Matrix(const std::initializer_list<T>& lst);
+    Matrix& operator=(const Matrix& other)
+    {
+        x = other.x;
+        y = other.y;
+        z = other.z;
+        w = other.w;
+        return *this;
+    }
+
+    Matrix& operator=(Matrix&& other) noexcept
+    {
+        x = std::move(other.x);
+        y = std::move(other.y);
+        z = std::move(other.z);
+        w = std::move(other.w);
+        return *this;
+    }
 
     void Fill(const T& val);
 
@@ -422,15 +506,6 @@ class Matrix<T, 4, 1> final : public MatrixExpression<T, 4, 1, Matrix<T, 4, 1>>,
     Pointer data();
 
     constexpr ConstPointer data() const;
-
-    Matrix& operator=(const Matrix& other)
-    {
-        x = other.x;
-        y = other.y;
-        z = other.z;
-        w = other.w;
-        return *this;
-    }
 
     Reference operator[](size_t i);
 
@@ -484,9 +559,15 @@ class Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC> final
 
     explicit Matrix(size_t rows, size_t cols, ConstPointer ptr);
 
+    ~Matrix() = default;
+
     Matrix(const Matrix& other);
 
     Matrix(Matrix&& other) noexcept;
+
+    Matrix& operator=(const Matrix& other);
+
+    Matrix& operator=(Matrix&& other) noexcept;
 
     void Fill(const T& val);
 
@@ -519,10 +600,6 @@ class Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC> final
     Reference operator[](size_t i);
 
     ConstReference operator[](size_t i) const;
-
-    Matrix& operator=(const Matrix& other);
-
-    Matrix& operator=(Matrix&& other) noexcept;
 
  private:
     std::vector<T> m_elements;
@@ -559,9 +636,15 @@ class Matrix<T, MATRIX_SIZE_DYNAMIC, 1> final
 
     explicit Matrix(size_t rows, ConstPointer ptr);
 
+    ~Matrix() = default;
+
     Matrix(const Matrix& other);
 
     Matrix(Matrix&& other) noexcept;
+
+    Matrix& operator=(const Matrix& other);
+
+    Matrix& operator=(Matrix&& other) noexcept;
 
     void Fill(const T& val);
 
@@ -598,10 +681,6 @@ class Matrix<T, MATRIX_SIZE_DYNAMIC, 1> final
     Reference operator[](size_t i);
 
     ConstReference operator[](size_t i) const;
-
-    Matrix& operator=(const Matrix& other);
-
-    Matrix& operator=(Matrix&& other) noexcept;
 
  private:
     std::vector<T> m_elements;
