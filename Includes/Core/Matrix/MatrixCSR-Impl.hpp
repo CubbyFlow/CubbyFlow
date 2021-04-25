@@ -218,9 +218,7 @@ void MatrixCSR<T>::Compress(const MatrixExpression<T, R, C, E>& other,
 
         for (size_t j = 0; j < numCols; ++j)
         {
-            T val = expression(i, j);
-
-            if (std::fabs(val) > epsilon)
+            if (T val = expression(i, j); std::fabs(val) > epsilon)
             {
                 m_nonZeros.push_back(val);
                 m_columnIndices.push_back(j);
@@ -240,10 +238,9 @@ void MatrixCSR<T>::AddElement(size_t i, size_t j, const T& value)
 template <typename T>
 void MatrixCSR<T>::AddElement(const Element& element)
 {
-    const ssize_t numRowsToAdd =
-        static_cast<ssize_t>(element.i) - static_cast<ssize_t>(m_size.x) + 1;
-
-    if (numRowsToAdd > 0)
+    if (const ssize_t numRowsToAdd = static_cast<ssize_t>(element.i) -
+                                     static_cast<ssize_t>(m_size.x) + 1;
+        numRowsToAdd > 0)
     {
         for (ssize_t i = 0; i < numRowsToAdd; ++i)
         {
@@ -309,9 +306,8 @@ void MatrixCSR<T>::SetElement(size_t i, size_t j, const T& value)
 template <typename T>
 void MatrixCSR<T>::SetElement(const Element& element)
 {
-    size_t nzIndex = HasElement(element.i, element.j);
-
-    if (nzIndex == std::numeric_limits<size_t>::max())
+    if (size_t nzIndex = HasElement(element.i, element.j);
+        nzIndex == std::numeric_limits<size_t>::max())
     {
         AddElement(element);
     }
@@ -964,9 +960,9 @@ size_t MatrixCSR<T>::HasElement(size_t i, size_t j) const
     const size_t rowBegin = m_rowPointers[i];
     const size_t rowEnd = m_rowPointers[i + 1];
 
-    auto iter = BinaryFind(m_columnIndices.begin() + rowBegin,
-                           m_columnIndices.begin() + rowEnd, j);
-    if (iter != m_columnIndices.begin() + rowEnd)
+    if (const auto iter = BinaryFind(m_columnIndices.begin() + rowBegin,
+                                     m_columnIndices.begin() + rowEnd, j);
+        iter != m_columnIndices.begin() + rowEnd)
     {
         return static_cast<size_t>(iter - m_columnIndices.begin());
     }
