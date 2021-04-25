@@ -43,16 +43,18 @@ class ScalarField : public Field<N>
     ScalarField& operator=(ScalarField&&) noexcept = default;
 
     //! Returns sampled value at given position \p x.
-    virtual double Sample(const Vector<double, N>& x) const = 0;
+    [[nodiscard]] virtual double Sample(const Vector<double, N>& x) const = 0;
 
     //! Returns gradient vector at given position \p x.
-    virtual Vector<double, N> Gradient(const Vector<double, N>& x) const;
+    [[nodiscard]] virtual Vector<double, N> Gradient(
+        const Vector<double, N>& x) const;
 
     //! Returns Laplacian at given position \p x.
-    virtual double Laplacian(const Vector<double, N>& x) const;
+    [[nodiscard]] virtual double Laplacian(const Vector<double, N>& x) const;
 
     //! Returns sampler function object.
-    virtual std::function<double(const Vector<double, N>&)> Sampler() const;
+    [[nodiscard]] virtual std::function<double(const Vector<double, N>&)>
+    Sampler() const;
 };
 
 //! 2-D ScalarField type.

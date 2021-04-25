@@ -57,16 +57,18 @@ class CustomScalarField final : public ScalarField<N>
             customLaplacianFunction);
 
     //! Returns the sampled value at given position \p x.
-    double Sample(const Vector<double, N>& x) const override;
+    [[nodiscard]] double Sample(const Vector<double, N>& x) const override;
 
     //! Returns the sampler function.
-    std::function<double(const Vector<double, N>&)> Sampler() const override;
+    [[nodiscard]] std::function<double(const Vector<double, N>&)> Sampler()
+        const override;
 
     //! Returns the gradient vector at given position \p x.
-    Vector<double, N> Gradient(const Vector<double, N>& x) const override;
+    [[nodiscard]] Vector<double, N> Gradient(
+        const Vector<double, N>& x) const override;
 
     //! Returns the Laplacian at given position \p x.
-    double Laplacian(const Vector<double, N>& x) const override;
+    [[nodiscard]] double Laplacian(const Vector<double, N>& x) const override;
 
     //! Returns builder for CustomScalarField.
     static Builder GetBuilder();

@@ -26,10 +26,11 @@ class ConstantScalarField final : public ScalarField<N>
     explicit ConstantScalarField(double value);
 
     //! Returns the sampled value at given position \p x.
-    double Sample(const Vector<double, N>& x) const override;
+    [[nodiscard]] double Sample(const Vector<double, N>& x) const override;
 
     //! Returns the sampler function.
-    std::function<double(const Vector<double, N>&)> Sampler() const override;
+    [[nodiscard]] std::function<double(const Vector<double, N>&)> Sampler()
+        const override;
 
     //! Returns builder for ConstantScalarField.
     static Builder GetBuilder();

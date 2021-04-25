@@ -58,17 +58,19 @@ class CustomVectorField final : public VectorField<N>
             customCurlFunction);
 
     //! Returns the sampled value at given position \p x.
-    Vector<double, N> Sample(const Vector<double, N>& x) const override;
+    [[nodiscard]] Vector<double, N> Sample(
+        const Vector<double, N>& x) const override;
 
     //! Returns the divergence at given position \p x.
-    double Divergence(const Vector<double, N>& x) const override;
+    [[nodiscard]] double Divergence(const Vector<double, N>& x) const override;
 
     //! Returns the curl at given position \p x.
-    typename GetCurl<N>::Type Curl(const Vector<double, N>& x) const override;
+    [[nodiscard]] typename GetCurl<N>::Type Curl(
+        const Vector<double, N>& x) const override;
 
     //! Returns the sampler function.
-    std::function<Vector<double, N>(const Vector<double, N>&)> Sampler()
-        const override;
+    [[nodiscard]] std::function<Vector<double, N>(const Vector<double, N>&)>
+    Sampler() const override;
 
     //! Returns builder for CustomVectorField.
     static Builder GetBuilder();
