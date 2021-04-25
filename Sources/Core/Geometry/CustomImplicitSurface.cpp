@@ -61,10 +61,9 @@ Vector<double, N> CustomImplicitSurface<N>::ClosestPointLocal(
 template <size_t N>
 bool CustomImplicitSurface<N>::IntersectsLocal(const Ray<double, N>& ray) const
 {
-    const BoundingBoxRayIntersectionD intersection =
-        m_domain.ClosestIntersection(ray);
-
-    if (intersection.isIntersecting)
+    if (const BoundingBoxRayIntersectionD intersection =
+            m_domain.ClosestIntersection(ray);
+        intersection.isIntersecting)
     {
         double start, end;
         if (std::abs(intersection.far - std::numeric_limits<double>::max()) <
@@ -140,10 +139,10 @@ SurfaceRayIntersection<N> CustomImplicitSurface<N>::ClosestIntersectionLocal(
     const Ray<double, N>& ray) const
 {
     SurfaceRayIntersection<N> result;
-    BoundingBoxRayIntersectionD intersection =
-        m_domain.ClosestIntersection(ray);
 
-    if (intersection.isIntersecting)
+    if (const BoundingBoxRayIntersectionD intersection =
+            m_domain.ClosestIntersection(ray);
+        intersection.isIntersecting)
     {
         double start, end;
         if (std::abs(intersection.far - std::numeric_limits<double>::max()) <

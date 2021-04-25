@@ -100,9 +100,8 @@ inline NearestNeighborQueryResult<T, N> BVH<T, N>::Nearest(
     {
         if (node->IsLeaf())
         {
-            double dist = distanceFunc(m_items[node->item], pt);
-
-            if (dist < best.distance)
+            if (double dist = distanceFunc(m_items[node->item], pt);
+                dist < best.distance)
             {
                 best.distance = dist;
                 best.item = &m_items[node->item];
@@ -140,11 +139,11 @@ inline NearestNeighborQueryResult<T, N> BVH<T, N>::Nearest(
             const bool shouldVisitLeft = distMinLeftSqr < bestDistSqr;
             const bool shouldVisitRight = distMinRightSqr < bestDistSqr;
 
-            const Node* firstChild;
-            const Node* secondChild;
-
             if (shouldVisitLeft && shouldVisitRight)
             {
+                const Node* secondChild;
+                const Node* firstChild;
+
                 if (distMinLeftSqr < distMinRightSqr)
                 {
                     firstChild = left;
@@ -499,8 +498,8 @@ ClosestIntersectionQueryResult<T, N> BVH<T, N>::ClosestIntersection(
     {
         if (node->IsLeaf())
         {
-            double dist = testFunc(m_items[node->item], ray);
-            if (dist < best.distance)
+            if (double dist = testFunc(m_items[node->item], ray);
+                dist < best.distance)
             {
                 best.distance = dist;
                 best.item = m_items.data() + node->item;

@@ -43,10 +43,9 @@ Vector<double, N> ColliderSet<N>::VelocityAt(
 
     for (size_t i = 0; i < m_colliders.Length(); ++i)
     {
-        const double dist =
-            m_colliders[i]->GetSurface()->ClosestDistance(point);
-
-        if (dist < closestDist)
+        if (const double dist =
+                m_colliders[i]->GetSurface()->ClosestDistance(point);
+            dist < closestDist)
         {
             closestDist = dist;
             closestCollider = i;

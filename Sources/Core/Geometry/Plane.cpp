@@ -70,14 +70,11 @@ SurfaceRayIntersection<N> Plane<N>::ClosestIntersectionLocal(
     const Ray<double, N>& ray) const
 {
     SurfaceRayIntersection<N> intersection;
-    double dDotN = ray.direction.Dot(normal);
 
     // Check if not parallel
-    if (std::fabs(dDotN) > 0)
+    if (double dDotN = ray.direction.Dot(normal); std::fabs(dDotN) > 0)
     {
-        double t = normal.Dot(point - ray.origin) / dDotN;
-
-        if (t >= 0.0)
+        if (double t = normal.Dot(point - ray.origin) / dDotN; t >= 0.0)
         {
             intersection.isIntersecting = true;
             intersection.distance = t;

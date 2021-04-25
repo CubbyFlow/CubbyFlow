@@ -130,9 +130,8 @@ Vector<double, N> SurfaceSet<N>::ClosestPointLocal(
     for (const auto& surface : m_unboundedSurfaces)
     {
         Vector<double, N> pt = surface->ClosestPoint(otherPoint);
-        const double dist = pt.DistanceTo(otherPoint);
 
-        if (dist < minDist)
+        if (const double dist = pt.DistanceTo(otherPoint); dist < minDist)
         {
             minDist = dist;
             result = surface->ClosestPoint(otherPoint);
@@ -176,10 +175,9 @@ SurfaceRayIntersection<N> SurfaceSet<N>::ClosestIntersectionLocal(
 
     for (const auto& surface : m_unboundedSurfaces)
     {
-        SurfaceRayIntersection<N> localResult =
-            surface->ClosestIntersection(ray);
-
-        if (localResult.distance < result.distance)
+        if (SurfaceRayIntersection<N> localResult =
+                surface->ClosestIntersection(ray);
+            localResult.distance < result.distance)
         {
             result = localResult;
         }
@@ -212,9 +210,8 @@ Vector<double, N> SurfaceSet<N>::ClosestNormalLocal(
     for (const auto& surface : m_unboundedSurfaces)
     {
         Vector<double, N> pt = surface->ClosestPoint(otherPoint);
-        const double dist = pt.DistanceTo(otherPoint);
 
-        if (dist < minDist)
+        if (const double dist = pt.DistanceTo(otherPoint); dist < minDist)
         {
             minDist = dist;
             result = surface->ClosestNormal(otherPoint);
@@ -261,9 +258,8 @@ double SurfaceSet<N>::ClosestDistanceLocal(
     for (const auto& surface : m_unboundedSurfaces)
     {
         Vector<double, N> pt = surface->ClosestPoint(otherPoint);
-        const double dist = pt.DistanceTo(otherPoint);
 
-        if (dist < minDist)
+        if (const double dist = pt.DistanceTo(otherPoint); dist < minDist)
         {
             minDist = dist;
         }

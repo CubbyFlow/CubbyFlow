@@ -68,9 +68,8 @@ bool Sphere<N>::IntersectsLocal(const Ray<double, N>& ray) const
     Vector<double, N> r = ray.origin - center;
     const double b = ray.direction.Dot(r);
     const double c = r.LengthSquared() - Square(radius);
-    double d = b * b - c;
 
-    if (d > 0.0)
+    if (double d = b * b - c; d > 0.0)
     {
         d = std::sqrt(d);
         double tMin = -b - d;
@@ -98,9 +97,8 @@ SurfaceRayIntersection<N> Sphere<N>::ClosestIntersectionLocal(
     Vector<double, N> r = ray.origin - center;
     const double b = ray.direction.Dot(r);
     const double c = r.LengthSquared() - Square(radius);
-    double d = b * b - c;
 
-    if (d > 0.0)
+    if (double d = b * b - c; d > 0.0)
     {
         d = std::sqrt(d);
         double tMin = -b - d;
