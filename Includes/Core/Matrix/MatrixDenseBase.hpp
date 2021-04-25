@@ -38,9 +38,9 @@ class MatrixDenseBase
     template <size_t R, size_t C, typename E>
     void SetRow(size_t i, const MatrixExpression<T, R, C, E>& row);
 
-    //! Sets i-th column with input vector.
+    //! Sets j-th column with input vector.
     template <size_t R, size_t C, typename E>
-    void SetColumn(size_t i, const MatrixExpression<T, R, C, E>& col);
+    void SetColumn(size_t j, const MatrixExpression<T, R, C, E>& col);
 
     void Normalize();
 
