@@ -271,15 +271,10 @@ double SurfaceSet<N>::ClosestDistanceLocal(
 template <size_t N>
 bool SurfaceSet<N>::IsInsideLocal(const Vector<double, N>& otherPoint) const
 {
-    for (const auto& surface : m_surfaces)
-    {
-        if (surface->IsInside(otherPoint))
-        {
-            return true;
-        }
-    }
-
-    return false;
+    return std::any_of(m_surfaces.begin(), m_surfaces.end(),
+                       [&](const std::shared_ptr<Surface<N>> surface) {
+                           return surface->IsInside(otherPoint);
+                       });
 }
 
 template <size_t N>
