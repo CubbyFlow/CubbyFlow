@@ -54,11 +54,20 @@ class NearestArraySampler final
                                  const VectorType& gridSpacing,
                                  const VectorType& gridOrigin);
 
+    //! Default destructor.
+    ~NearestArraySampler() = default;
+
     //! Copy constructor.
     NearestArraySampler(const NearestArraySampler& other);
 
+    //! Move constructor.
+    NearestArraySampler(NearestArraySampler&& other) noexcept;
+
     //! Copy assignment operator.
     NearestArraySampler& operator=(const NearestArraySampler& other);
+
+    //! Move assignment operator.
+    NearestArraySampler& operator=(NearestArraySampler&& other) noexcept;
 
     //! Returns sampled value at point \p pt.
     T operator()(const VectorType& pt) const;
@@ -124,11 +133,20 @@ class LinearArraySampler final
                                 const VectorType& gridSpacing,
                                 const VectorType& gridOrigin);
 
+    //! Default destructor.
+    ~LinearArraySampler() = default;
+
     //! Copy constructor.
     LinearArraySampler(const LinearArraySampler& other);
 
+    //! Move constructor.
+    LinearArraySampler(LinearArraySampler&& other) noexcept;
+
     //! Copy assignment operator.
     LinearArraySampler& operator=(const LinearArraySampler& other);
+
+    //! Move assignment operator.
+    LinearArraySampler& operator=(LinearArraySampler&& other) noexcept;
 
     //! Returns sampled value at point \p pt.
     T operator()(const VectorType& pt) const;
@@ -202,11 +220,20 @@ class CubicArraySampler final
                                const VectorType& gridSpacing,
                                const VectorType& gridOrigin);
 
+    //! Default destructor.
+    ~CubicArraySampler() = default;
+
     //! Copy constructor.
     CubicArraySampler(const CubicArraySampler& other);
 
+    //! Move constructor.
+    CubicArraySampler(CubicArraySampler&& other) noexcept;
+
     //! Copy assignment operator.
     CubicArraySampler& operator=(const CubicArraySampler& other);
+
+    //! Move assignment operator.
+    CubicArraySampler& operator=(CubicArraySampler&& other) noexcept;
 
     //! Returns sampled value at point \p pt.
     T operator()(const VectorType& pt) const;
