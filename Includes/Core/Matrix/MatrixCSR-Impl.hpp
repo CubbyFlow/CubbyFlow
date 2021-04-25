@@ -104,7 +104,7 @@ MatrixCSR<T>::MatrixCSR(MatrixCSR&& other) noexcept
       m_rowPointers(std::move(other.m_rowPointers)),
       m_columnIndices(std::move(other.m_columnIndices))
 {
-    // Do nothing
+    other.m_size = Vector2UZ{};
 }
 
 template <typename T>
