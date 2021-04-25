@@ -54,17 +54,18 @@ class Box final : public Surface<N>
     static Builder GetBuilder();
 
  protected:
-    Vector<double, N> ClosestPointLocal(
+    [[nodiscard]] Vector<double, N> ClosestPointLocal(
         const Vector<double, N>& otherPoint) const override;
 
-    bool IntersectsLocal(const Ray<double, N>& ray) const override;
+    [[nodiscard]] bool IntersectsLocal(
+        const Ray<double, N>& ray) const override;
 
-    BoundingBox<double, N> BoundingBoxLocal() const override;
+    [[nodiscard]] BoundingBox<double, N> BoundingBoxLocal() const override;
 
-    Vector<double, N> ClosestNormalLocal(
+    [[nodiscard]] Vector<double, N> ClosestNormalLocal(
         const Vector<double, N>& otherPoint) const override;
 
-    SurfaceRayIntersection<N> ClosestIntersectionLocal(
+    [[nodiscard]] SurfaceRayIntersection<N> ClosestIntersectionLocal(
         const Ray<double, N>& ray) const override;
 };
 

@@ -34,16 +34,17 @@ class ImplicitSurface : public Surface<N>
     ~ImplicitSurface() override = default;
 
     //! Returns signed distance from the given point \p otherPoint.
-    double SignedDistance(const Vector<double, N>& otherPoint) const;
+    [[nodiscard]] double SignedDistance(
+        const Vector<double, N>& otherPoint) const;
 
  protected:
     //! Returns signed distance from the given point \p otherPoint in local
     //! space.
-    virtual double SignedDistanceLocal(
+    [[nodiscard]] virtual double SignedDistanceLocal(
         const Vector<double, N>& otherPoint) const = 0;
 
  private:
-    double ClosestDistanceLocal(
+    [[nodiscard]] double ClosestDistanceLocal(
         const Vector<double, N>& otherPoint) const override;
 };
 

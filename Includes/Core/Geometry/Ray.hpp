@@ -50,7 +50,7 @@ class Ray final
     Ray& operator=(const Ray& other);
 
     //! Returns a point on the ray at distance \p t.
-    VectorType PointAt(T t) const;
+    [[nodiscard]] VectorType PointAt(T t) const;
 };
 
 template <typename T>

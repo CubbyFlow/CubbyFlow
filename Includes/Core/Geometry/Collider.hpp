@@ -46,7 +46,7 @@ class Collider
     virtual ~Collider() = default;
 
     //! Returns the velocity of the collider at given \p point.
-    virtual Vector<double, N> VelocityAt(
+    [[nodiscard]] virtual Vector<double, N> VelocityAt(
         const Vector<double, N>& point) const = 0;
 
     //!
@@ -62,7 +62,7 @@ class Collider
                           Vector<double, N>* velocity);
 
     //! Returns friction coefficent.
-    double GetFrictionCoefficient() const;
+    [[nodiscard]] double GetFrictionCoefficient() const;
 
     //!
     //! \brief Sets the friction coefficient.
@@ -73,7 +73,7 @@ class Collider
     void SetFrictionCoefficient(double newFrictionCoefficient);
 
     //! Returns the surface instance.
-    const std::shared_ptr<Surface<N>>& GetSurface() const;
+    [[nodiscard]] const std::shared_ptr<Surface<N>>& GetSurface() const;
 
     //! Updates the collider state.
     void Update(double currentTimeInSeconds, double timeIntervalInSeconds);
@@ -109,8 +109,9 @@ class Collider
                          ColliderQueryResult* result) const;
 
     //! Returns true if given point is in the opposite side of the surface.
-    bool IsPenetrating(const ColliderQueryResult& colliderPoint,
-                       const Vector<double, N>& position, double radius);
+    [[nodiscard]] bool IsPenetrating(const ColliderQueryResult& colliderPoint,
+                                     const Vector<double, N>& position,
+                                     double radius);
 
  private:
     std::shared_ptr<Surface<N>> m_surface;

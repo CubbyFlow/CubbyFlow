@@ -67,42 +67,43 @@ class BoundingBox
     BoundingBox& operator=(const BoundingBox& other);
 
     //! Returns width of the box.
-    T Width() const;
+    [[nodiscard]] T Width() const;
 
     //! Returns height of the box.
     template <typename U = T>
-    std::enable_if_t<(N > 1), U> Height() const;
+    [[nodiscard]] std::enable_if_t<(N > 1), U> Height() const;
 
     //! Returns depth of the box.
     template <typename U = T>
-    std::enable_if_t<(N > 2), U> Depth() const;
+    [[nodiscard]] std::enable_if_t<(N > 2), U> Depth() const;
 
     //! Returns length of the box in given axis.
-    T Length(size_t axis);
+    [[nodiscard]] T Length(size_t axis);
 
     //! Returns true of this box and other box overlaps.
-    bool Overlaps(const BoundingBox& other) const;
+    [[nodiscard]] bool Overlaps(const BoundingBox& other) const;
 
     //! Returns true if the input vector is inside of this box.
-    bool Contains(const VectorType& point) const;
+    [[nodiscard]] bool Contains(const VectorType& point) const;
 
     //! Returns true if the input ray is intersecting with this box.
-    bool Intersects(const RayType& ray) const;
+    [[nodiscard]] bool Intersects(const RayType& ray) const;
 
     //! Returns intersection.isIntersecting = true if the input ray is
     //! intersecting with this box. If intersects, intersection.tNear is
     //! assigned with distant to the closest intersecting point, and
     //! intersection.tFar with furthest.
-    BoundingBoxRayIntersection<T> ClosestIntersection(const RayType& ray) const;
+    [[nodiscard]] BoundingBoxRayIntersection<T> ClosestIntersection(
+        const RayType& ray) const;
 
     //! Returns the mid-point of this box.
-    VectorType MidPoint() const;
+    [[nodiscard]] VectorType MidPoint() const;
 
     //! Returns diagonal length of this box.
-    T DiagonalLength() const;
+    [[nodiscard]] T DiagonalLength() const;
 
     //! Returns squared diagonal length of this box.
-    T DiagonalLengthSquared() const;
+    [[nodiscard]] T DiagonalLengthSquared() const;
 
     //! Resets this box to initial state (min=infinite, max=-infinite).
     void Reset();
@@ -119,17 +120,17 @@ class BoundingBox
     void Expand(T delta);
 
     //! Returns corner position. Index starts from x-first order.
-    VectorType Corner(size_t idx) const;
+    [[nodiscard]] VectorType Corner(size_t idx) const;
 
     //! Returns the clamped point.
-    VectorType Clamp(const VectorType& point) const;
+    [[nodiscard]] VectorType Clamp(const VectorType& point) const;
 
     //! Returns true if the box is empty.
-    bool IsEmpty() const;
+    [[nodiscard]] bool IsEmpty() const;
 
     //! Returns box with different value type.
     template <typename U>
-    BoundingBox<U, N> CastTo() const;
+    [[nodiscard]] BoundingBox<U, N> CastTo() const;
 
     //! Lower corner of the bounding box.
     VectorType lowerCorner;
