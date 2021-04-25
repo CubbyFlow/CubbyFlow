@@ -84,13 +84,13 @@ class MatrixCSR final
         Element(size_t i, size_t j, const T& value);
     };
 
-    typedef std::vector<T> NonZeroContainerType;
-    typedef typename NonZeroContainerType::iterator NonZeroIterator;
-    typedef typename NonZeroContainerType::const_iterator ConstNonZeroIterator;
+    using NonZeroContainerType = std::vector<T>;
+    using NonZeroIterator = typename NonZeroContainerType::iterator;
+    using ConstNonZeroIterator = typename NonZeroContainerType::const_iterator;
 
-    typedef std::vector<size_t> IndexContainerType;
-    typedef IndexContainerType::iterator IndexIterator;
-    typedef IndexContainerType::const_iterator ConstIndexIterator;
+    using IndexContainerType = std::vector<size_t>;
+    using IndexIterator = IndexContainerType::iterator;
+    using ConstIndexIterator = IndexContainerType::const_iterator;
 
     //! Constructs an empty matrix.
     MatrixCSR();
