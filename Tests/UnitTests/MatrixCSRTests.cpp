@@ -71,15 +71,15 @@ TEST(MatrixCSR, Constructors)
     EXPECT_EQ(4u, matMoved.GetCols());
     EXPECT_EQ(8u, matMoved.NumberOfNonZeros());
 
-    auto iterMovied = matMoved.NonZeroBegin();
-    EXPECT_EQ(1.0, iterMovied[0]);
-    EXPECT_EQ(-3.0, iterMovied[1]);
-    EXPECT_EQ(3.0, iterMovied[2]);
-    EXPECT_EQ(-5.0, iterMovied[3]);
-    EXPECT_EQ(1.0, iterMovied[4]);
-    EXPECT_EQ(-4.0, iterMovied[5]);
-    EXPECT_EQ(1.0, iterMovied[6]);
-    EXPECT_EQ(5.0, iterMovied[7]);
+    auto iterMoved = matMoved.NonZeroBegin();
+    EXPECT_EQ(1.0, iterMoved[0]);
+    EXPECT_EQ(-3.0, iterMoved[1]);
+    EXPECT_EQ(3.0, iterMoved[2]);
+    EXPECT_EQ(-5.0, iterMoved[3]);
+    EXPECT_EQ(1.0, iterMoved[4]);
+    EXPECT_EQ(-4.0, iterMoved[5]);
+    EXPECT_EQ(1.0, iterMoved[6]);
+    EXPECT_EQ(5.0, iterMoved[7]);
 
     EXPECT_EQ(0u, matCopied.GetRows());
     EXPECT_EQ(0u, matCopied.GetCols());
