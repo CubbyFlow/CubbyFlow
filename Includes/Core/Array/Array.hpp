@@ -101,9 +101,9 @@ class Array final : public ArrayBase<T, N, Array<T, N>>
 
     void Swap(Array& other);
 
-    ArrayView<T, N> View();
+    [[nodiscard]] ArrayView<T, N> View();
 
-    ArrayView<const T, N> View() const;
+    [[nodiscard]] ArrayView<const T, N> View() const;
 
  private:
     std::vector<T> m_data;

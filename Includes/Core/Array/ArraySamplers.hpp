@@ -76,7 +76,7 @@ class NearestArraySampler final
     CoordIndexType GetCoordinate(const VectorType& pt) const;
 
     //! Returns a std::function object that wraps this instance.
-    std::function<T(const VectorType&)> Functor() const;
+    [[nodiscard]] std::function<T(const VectorType&)> Functor() const;
 
  private:
     ArrayView<const T, N> m_view;
@@ -165,7 +165,7 @@ class LinearArraySampler final
         std::array<VectorType, FLAT_KERNEL_SIZE>& weights) const;
 
     //! Returns a std::function instance that wraps this instance.
-    std::function<T(const VectorType&)> Functor() const;
+    [[nodiscard]] std::function<T(const VectorType&)> Functor() const;
 
  private:
     ArrayView<const T, N> m_view;
@@ -239,7 +239,7 @@ class CubicArraySampler final
     T operator()(const VectorType& pt) const;
 
     //! Returns a std::function object that wraps this instance.
-    std::function<T(const VectorType&)> Functor() const;
+    [[nodiscard]] std::function<T(const VectorType&)> Functor() const;
 
  private:
     ArrayView<const T, N> m_view;
