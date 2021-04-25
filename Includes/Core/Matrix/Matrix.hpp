@@ -97,9 +97,9 @@ class Matrix final
 
     void Swap(Matrix& other);
 
-    constexpr size_t GetRows() const;
+    [[nodiscard]] constexpr size_t GetRows() const;
 
-    constexpr size_t GetCols() const;
+    [[nodiscard]] constexpr size_t GetCols() const;
 
     Iterator begin();
 
@@ -184,21 +184,21 @@ class Matrix<T, 1, 1> final : public MatrixExpression<T, 1, 1, Matrix<T, 1, 1>>,
 
     void Swap(Matrix& other);
 
-    constexpr size_t GetRows() const;
+    [[nodiscard]] constexpr size_t GetRows() const;
 
-    constexpr size_t GetCols() const;
+    [[nodiscard]] constexpr size_t GetCols() const;
 
-    Iterator begin();
+    [[nodiscard]] Iterator begin();
 
-    constexpr ConstIterator begin() const;
+    [[nodiscard]] constexpr ConstIterator begin() const;
 
-    Iterator end();
+    [[nodiscard]] Iterator end();
 
-    constexpr ConstIterator end() const;
+    [[nodiscard]] constexpr ConstIterator end() const;
 
-    Pointer data();
+    [[nodiscard]] Pointer data();
 
-    constexpr ConstPointer data() const;
+    [[nodiscard]] constexpr ConstPointer data() const;
 
     Reference operator[](size_t i);
 
@@ -250,8 +250,7 @@ class Matrix<T, 2, 1> final : public MatrixExpression<T, 2, 1, Matrix<T, 2, 1>>,
     }
 
     constexpr Matrix(Matrix&& other) noexcept
-        : x(std::move(other.x)),
-          y(std::move(other.y))
+        : x(std::move(other.x)), y(std::move(other.y))
     {
         // Do nothing
     }
@@ -278,21 +277,21 @@ class Matrix<T, 2, 1> final : public MatrixExpression<T, 2, 1, Matrix<T, 2, 1>>,
 
     void Swap(Matrix& other);
 
-    constexpr size_t GetRows() const;
+    [[nodiscard]] constexpr size_t GetRows() const;
 
-    constexpr size_t GetCols() const;
+    [[nodiscard]] constexpr size_t GetCols() const;
 
-    Iterator begin();
+    [[nodiscard]] Iterator begin();
 
-    constexpr ConstIterator begin() const;
+    [[nodiscard]] constexpr ConstIterator begin() const;
 
-    Iterator end();
+    [[nodiscard]] Iterator end();
 
-    constexpr ConstIterator end() const;
+    [[nodiscard]] constexpr ConstIterator end() const;
 
-    Pointer data();
+    [[nodiscard]] Pointer data();
 
-    constexpr ConstPointer data() const;
+    [[nodiscard]] constexpr ConstPointer data() const;
 
     Reference operator[](size_t i);
 
@@ -383,21 +382,21 @@ class Matrix<T, 3, 1> final : public MatrixExpression<T, 3, 1, Matrix<T, 3, 1>>,
 
     void Swap(Matrix& other);
 
-    constexpr size_t GetRows() const;
+    [[nodiscard]] constexpr size_t GetRows() const;
 
-    constexpr size_t GetCols() const;
+    [[nodiscard]] constexpr size_t GetCols() const;
 
-    Iterator begin();
+    [[nodiscard]] Iterator begin();
 
-    constexpr ConstIterator begin() const;
+    [[nodiscard]] constexpr ConstIterator begin() const;
 
-    Iterator end();
+    [[nodiscard]] Iterator end();
 
-    constexpr ConstIterator end() const;
+    [[nodiscard]] constexpr ConstIterator end() const;
 
-    Pointer data();
+    [[nodiscard]] Pointer data();
 
-    constexpr ConstPointer data() const;
+    [[nodiscard]] constexpr ConstPointer data() const;
 
     Reference operator[](size_t i);
 
@@ -491,21 +490,21 @@ class Matrix<T, 4, 1> final : public MatrixExpression<T, 4, 1, Matrix<T, 4, 1>>,
 
     void Swap(Matrix& other);
 
-    constexpr size_t GetRows() const;
+    [[nodiscard]] constexpr size_t GetRows() const;
 
-    constexpr size_t GetCols() const;
+    [[nodiscard]] constexpr size_t GetCols() const;
 
-    Iterator begin();
+    [[nodiscard]] Iterator begin();
 
-    constexpr ConstIterator begin() const;
+    [[nodiscard]] constexpr ConstIterator begin() const;
 
-    Iterator end();
+    [[nodiscard]] Iterator end();
 
-    constexpr ConstIterator end() const;
+    [[nodiscard]] constexpr ConstIterator end() const;
 
-    Pointer data();
+    [[nodiscard]] Pointer data();
 
-    constexpr ConstPointer data() const;
+    [[nodiscard]] constexpr ConstPointer data() const;
 
     Reference operator[](size_t i);
 
@@ -581,21 +580,21 @@ class Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC> final
 
     void Clear();
 
-    size_t GetRows() const;
+    [[nodiscard]] size_t GetRows() const;
 
-    size_t GetCols() const;
+    [[nodiscard]] size_t GetCols() const;
 
-    Iterator begin();
+    [[nodiscard]] Iterator begin();
 
-    ConstIterator begin() const;
+    [[nodiscard]] ConstIterator begin() const;
 
-    Iterator end();
+    [[nodiscard]] Iterator end();
 
-    ConstIterator end() const;
+    [[nodiscard]] ConstIterator end() const;
 
-    Pointer data();
+    [[nodiscard]] Pointer data();
 
-    ConstPointer data() const;
+    [[nodiscard]] ConstPointer data() const;
 
     Reference operator[](size_t i);
 
@@ -662,21 +661,21 @@ class Matrix<T, MATRIX_SIZE_DYNAMIC, 1> final
 
     void Clear();
 
-    size_t GetRows() const;
+    [[nodiscard]] size_t GetRows() const;
 
-    constexpr size_t GetCols() const;
+    [[nodiscard]] constexpr size_t GetCols() const;
 
-    Iterator begin();
+    [[nodiscard]] Iterator begin();
 
-    ConstIterator begin() const;
+    [[nodiscard]] ConstIterator begin() const;
 
-    Iterator end();
+    [[nodiscard]] Iterator end();
 
-    ConstIterator end() const;
+    [[nodiscard]] ConstIterator end() const;
 
-    Pointer data();
+    [[nodiscard]] Pointer data();
 
-    ConstPointer data() const;
+    [[nodiscard]] ConstPointer data() const;
 
     Reference operator[](size_t i);
 

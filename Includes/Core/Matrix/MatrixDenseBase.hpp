@@ -121,25 +121,25 @@ class MatrixDenseBase
     MatrixDenseBase() = default;
 
  private:
-    constexpr size_t GetRows() const;
+    [[nodiscard]] constexpr size_t GetRows() const;
 
-    constexpr size_t GetCols() const;
+    [[nodiscard]] constexpr size_t GetCols() const;
 
-    auto begin();
+    [[nodiscard]] auto begin();
 
-    constexpr auto begin() const;
+    [[nodiscard]] constexpr auto begin() const;
 
-    auto end();
+    [[nodiscard]] auto end();
 
-    constexpr auto end() const;
+    [[nodiscard]] constexpr auto end() const;
 
     Reference operator[](size_t i);
 
     ConstReference operator[](size_t i) const;
 
-    Derived& GetDerived();
+    [[nodiscard]] Derived& GetDerived();
 
-    const Derived& GetDerived() const;
+    [[nodiscard]] const Derived& GetDerived() const;
 };
 }  // namespace CubbyFlow
 
