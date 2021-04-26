@@ -95,9 +95,7 @@ ClosestIntersectionQueryResult<T, N> ListQueryEngine<T, N>::ClosestIntersection(
 
     for (const auto& item : m_items)
     {
-        double dist = testFunc(item, ray);
-
-        if (dist < best.distance)
+        if (double dist = testFunc(item, ray); dist < best.distance)
         {
             best.distance = dist;
             best.item = &item;
@@ -116,9 +114,7 @@ NearestNeighborQueryResult<T, N> ListQueryEngine<T, N>::Nearest(
 
     for (const auto& item : m_items)
     {
-        double dist = distanceFunc(item, pt);
-
-        if (dist < best.distance)
+        if (double dist = distanceFunc(item, pt); dist < best.distance)
         {
             best.item = &item;
             best.distance = dist;
