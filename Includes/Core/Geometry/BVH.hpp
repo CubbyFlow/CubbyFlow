@@ -35,9 +35,6 @@ class BVH final : public IntersectionQueryEngine<T, N>,
     using Iterator = typename ContainerType::Iterator;
     using ConstIterator = typename ContainerType::ConstIterator;
 
-    //! Default constructor.
-    BVH() = default;
-
     //! Builds bounding volume hierarchy.
     void Build(const ConstArrayView1<T>& items,
                const ConstArrayView1<BoundingBox<double, N>>& itemsBounds);
@@ -132,7 +129,7 @@ class BVH final : public IntersectionQueryEngine<T, N>,
         union
         {
             size_t child;
-            size_t item;
+            size_t item{};
         };
         BoundingBox<double, N> bound;
     };

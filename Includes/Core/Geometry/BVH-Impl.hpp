@@ -675,7 +675,7 @@ size_t BVH<T, N>::Build(size_t nodeIndex, size_t* itemIndices, size_t nItems,
     Vector<double, N> d = nodeBound.upperCorner - nodeBound.lowerCorner;
 
     // choose which axis to split along
-    uint8_t axis = static_cast<uint8_t>(d.DominantAxis());
+    auto axis = static_cast<uint8_t>(d.DominantAxis());
 
     const double pivot =
         0.5 * (nodeBound.upperCorner[axis] + nodeBound.lowerCorner[axis]);
@@ -702,10 +702,10 @@ size_t BVH<T, N>::QSplit(size_t* itemIndices, size_t numItems, double pivot,
     for (size_t i = 0; i < numItems; ++i)
     {
         BoundingBox<double, N> b = m_itemBounds[itemIndices[i]];
-        const double centroid =
-            0.5f * (b.lowerCorner[axis] + b.upperCorner[axis]);
 
-        if (centroid < pivot)
+        if (const double centroid =
+                0.5f * (b.lowerCorner[axis] + b.upperCorner[axis]);
+            centroid < pivot)
         {
             std::swap(itemIndices[i], itemIndices[ret]);
             ret++;
