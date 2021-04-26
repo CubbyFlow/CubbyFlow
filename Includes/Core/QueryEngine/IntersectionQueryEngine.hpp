@@ -100,12 +100,12 @@ class IntersectionQueryEngine
     virtual ~IntersectionQueryEngine() = default;
 
     //! Returns true if given \p box intersects with any of the stored items.
-    virtual bool Intersects(
+    [[nodiscard]] virtual bool Intersects(
         const BoundingBox<double, N>& box,
         const BoxIntersectionTestFunc<T, N>& testFunc) const = 0;
 
     //! Returns true if given \p ray intersects with any of the stored items.
-    virtual bool Intersects(
+    [[nodiscard]] virtual bool Intersects(
         const Ray<double, N>& ray,
         const RayIntersectionTestFunc<T, N>& testFunc) const = 0;
 
@@ -122,9 +122,9 @@ class IntersectionQueryEngine
         const IntersectionVisitorFunc<T>& visitorFunc) const = 0;
 
     //! Returns the closest intersection for given \p ray.
-    virtual ClosestIntersectionQueryResult<T, N> ClosestIntersection(
-        const Ray<double, N>& ray,
-        const GetRayIntersectionFunc<T, N>& testFunc) const = 0;
+    [[nodiscard]] virtual ClosestIntersectionQueryResult<T, N>
+    ClosestIntersection(const Ray<double, N>& ray,
+                        const GetRayIntersectionFunc<T, N>& testFunc) const = 0;
 };
 
 //! Abstract base class for 2-D intersection test query engine.

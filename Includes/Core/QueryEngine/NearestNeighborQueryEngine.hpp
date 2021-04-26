@@ -56,7 +56,7 @@ class NearestNeighborQueryEngine
 
     //! Returns the nearest neighbor for given point and distance measure
     //! function.
-    virtual NearestNeighborQueryResult<T, N> Nearest(
+    [[nodiscard]] virtual NearestNeighborQueryResult<T, N> Nearest(
         const Vector<double, N>& pt,
         const NearestNeighborDistanceFunc<T, N>& distanceFunc) const = 0;
 };

@@ -31,12 +31,12 @@ class ListQueryEngine final : public IntersectionQueryEngine<T, N>,
     void Add(const ConstArrayView1<T>& items);
 
     //! Returns true if given \p box intersects with any of the stored items.
-    bool Intersects(
+    [[nodiscard]] bool Intersects(
         const BoundingBox<double, N>& box,
         const BoxIntersectionTestFunc<T, N>& testFunc) const override;
 
     //! Returns true if given \p ray intersects with any of the stored items.
-    bool Intersects(
+    [[nodiscard]] bool Intersects(
         const Ray<double, N>& ray,
         const RayIntersectionTestFunc<T, N>& testFunc) const override;
 
@@ -53,13 +53,13 @@ class ListQueryEngine final : public IntersectionQueryEngine<T, N>,
         const IntersectionVisitorFunc<T>& visitorFunc) const override;
 
     //! Returns the closest intersection for given \p ray.
-    ClosestIntersectionQueryResult<T, N> ClosestIntersection(
+    [[nodiscard]] ClosestIntersectionQueryResult<T, N> ClosestIntersection(
         const Ray<double, N>& ray,
         const GetRayIntersectionFunc<T, N>& testFunc) const override;
 
     //! Returns the nearest neighbor for given point and distance measure
     //! function.
-    NearestNeighborQueryResult<T, N> Nearest(
+    [[nodiscard]] NearestNeighborQueryResult<T, N> Nearest(
         const Vector<double, N>& pt,
         const NearestNeighborDistanceFunc<T, N>& distanceFunc) const override;
 
