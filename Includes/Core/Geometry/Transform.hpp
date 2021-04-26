@@ -32,6 +32,7 @@ class Orientation<2>
     Orientation(double angleInRadian);
 
     [[nodiscard]] double GetRotation() const;
+
     void SetRotation(double angleInRadian);
 
     //! Rotates a point in world coordinate to the local frame.
@@ -54,6 +55,7 @@ class Orientation<3>
     Orientation(const QuaternionD& quat);
 
     [[nodiscard]] const QuaternionD& GetRotation() const;
+
     void SetRotation(const QuaternionD& quat);
 
     //! Rotates a point in world coordinate to the local frame.

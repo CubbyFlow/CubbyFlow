@@ -53,16 +53,17 @@ class ImplicitSurfaceSet final : public ImplicitSurface<N>
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;
 
-    bool IsBounded() const override;
+    [[nodiscard]] bool IsBounded() const override;
 
     //! Returns true if the surface is a valid geometry.
-    bool IsValidGeometry() const override;
+    [[nodiscard]] bool IsValidGeometry() const override;
 
     //! Returns the number of implicit surfaces.
-    size_t NumberOfSurfaces() const;
+    [[nodiscard]] size_t NumberOfSurfaces() const;
 
     //! Returns the i-th implicit surface.
-    const std::shared_ptr<ImplicitSurface<N>>& SurfaceAt(size_t i) const;
+    [[nodiscard]] const std::shared_ptr<ImplicitSurface<N>>& SurfaceAt(
+        size_t i) const;
 
     //! Adds an explicit surface instance.
     void AddExplicitSurface(const std::shared_ptr<Surface<N>>& surface);
@@ -74,25 +75,27 @@ class ImplicitSurfaceSet final : public ImplicitSurface<N>
     static Builder GetBuilder();
 
  private:
-    Vector<double, N> ClosestPointLocal(
+    [[nodiscard]] Vector<double, N> ClosestPointLocal(
         const Vector<double, N>& otherPoint) const override;
 
-    BoundingBox<double, N> BoundingBoxLocal() const override;
+    [[nodiscard]] BoundingBox<double, N> BoundingBoxLocal() const override;
 
-    bool IsInsideLocal(const Vector<double, N>& otherPoint) const override;
-
-    double ClosestDistanceLocal(
+    [[nodiscard]] bool IsInsideLocal(
         const Vector<double, N>& otherPoint) const override;
 
-    bool IntersectsLocal(const Ray<double, N>& ray) const override;
-
-    Vector<double, N> ClosestNormalLocal(
+    [[nodiscard]] double ClosestDistanceLocal(
         const Vector<double, N>& otherPoint) const override;
 
-    SurfaceRayIntersection<N> ClosestIntersectionLocal(
+    [[nodiscard]] bool IntersectsLocal(
         const Ray<double, N>& ray) const override;
 
-    double SignedDistanceLocal(
+    [[nodiscard]] Vector<double, N> ClosestNormalLocal(
+        const Vector<double, N>& otherPoint) const override;
+
+    [[nodiscard]] SurfaceRayIntersection<N> ClosestIntersectionLocal(
+        const Ray<double, N>& ray) const override;
+
+    [[nodiscard]] double SignedDistanceLocal(
         const Vector<double, N>& otherPoint) const override;
 
     void InvalidateBVH() const;
