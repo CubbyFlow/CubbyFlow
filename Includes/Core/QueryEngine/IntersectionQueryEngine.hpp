@@ -97,7 +97,22 @@ template <typename T, size_t N>
 class IntersectionQueryEngine
 {
  public:
+    //! Default virtual destructor.
     virtual ~IntersectionQueryEngine() = default;
+
+    //! Default copy constructor.
+    IntersectionQueryEngine(const IntersectionQueryEngine& other) = default;
+
+    //! Default move constructor.
+    IntersectionQueryEngine(IntersectionQueryEngine&& other) noexcept = default;
+
+    //! Default copy assignment operator.
+    IntersectionQueryEngine& operator=(const IntersectionQueryEngine& other) =
+        default;
+
+    //! Default move assignment operator.
+    IntersectionQueryEngine& operator=(
+        IntersectionQueryEngine&& other) noexcept = default;
 
     //! Returns true if given \p box intersects with any of the stored items.
     [[nodiscard]] virtual bool Intersects(
