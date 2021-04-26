@@ -97,6 +97,9 @@ template <typename T, size_t N>
 class IntersectionQueryEngine
 {
  public:
+    //! Default constructor.
+    IntersectionQueryEngine() = default;
+
     //! Default virtual destructor.
     virtual ~IntersectionQueryEngine() = default;
 

@@ -52,6 +52,9 @@ template <typename T, size_t N>
 class NearestNeighborQueryEngine
 {
  public:
+    //! Default constructor.
+    NearestNeighborQueryEngine() = default;
+
     //! Default virtual destructor.
     virtual ~NearestNeighborQueryEngine() = default;
 
