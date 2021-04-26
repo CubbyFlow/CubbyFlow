@@ -37,8 +37,20 @@ class Plane final : public Surface<N>
           const Transform<N>& _transform = Transform<N>{},
           bool _isNormalFlipped = false);
 
+    //! Default virtual destructor.
+    ~Plane() override = default;
+
     //! Copy constructor.
     Plane(const Plane& other);
+
+    //! Move constructor.
+    Plane(Plane&& other) noexcept;
+
+    //! Copy assignment operator.
+    Plane& operator=(const Plane& other);
+
+    //! Move assignment operator.
+    Plane& operator=(Plane&& other) noexcept;
 
     //! Returns true if bounding box can be defined.
     [[nodiscard]] bool IsBounded() const override;

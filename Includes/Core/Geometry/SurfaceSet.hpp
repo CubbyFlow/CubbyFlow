@@ -38,8 +38,20 @@ class SurfaceSet final : public Surface<N>
         const Transform<N>& _transform = Transform<N>{},
         bool _isNormalFlipped = false);
 
+    //! Default virtual destructor.
+    ~SurfaceSet() override = default;
+
     //! Copy constructor.
     SurfaceSet(const SurfaceSet& other);
+
+    //! Move constructor.
+    SurfaceSet(SurfaceSet&& other) noexcept;
+
+    //! Copy assignment operator.
+    SurfaceSet& operator=(const SurfaceSet& other);
+
+    //! Move assignment operator.
+    SurfaceSet& operator=(SurfaceSet&& other) noexcept;
 
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;

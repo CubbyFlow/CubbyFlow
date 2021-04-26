@@ -41,6 +41,37 @@ SurfaceSet<N>::SurfaceSet(const SurfaceSet& other)
 }
 
 template <size_t N>
+SurfaceSet<N>::SurfaceSet(SurfaceSet&& other) noexcept
+    : Surface<N>(other),
+      m_surfaces(std::move(other.m_surfaces)),
+      m_unboundedSurfaces(std::move(other.m_unboundedSurfaces))
+{
+    InvalidateBVH();
+}
+
+template <size_t N>
+SurfaceSet<N>& SurfaceSet<N>::operator=(const SurfaceSet& other)
+{
+    m_surfaces = other.m_surfaces;
+    m_unboundedSurfaces = other.m_unboundedSurfaces;
+
+    InvalidateBVH();
+
+    return *this;
+}
+
+template <size_t N>
+SurfaceSet<N>& SurfaceSet<N>::operator=(SurfaceSet&& other) noexcept
+{
+    m_surfaces = std::move(other.m_surfaces);
+    m_unboundedSurfaces = std::move(other.m_unboundedSurfaces);
+
+    InvalidateBVH();
+
+    return *this;
+}
+
+template <size_t N>
 void SurfaceSet<N>::UpdateQueryEngine()
 {
     InvalidateBVH();

@@ -47,8 +47,20 @@ class ImplicitSurfaceSet final : public ImplicitSurface<N>
                        const Transform<N>& _transform = Transform<N>{},
                        bool _isNormalFlipped = false);
 
+    //! Default virtual destructor.
+    ~ImplicitSurfaceSet() override = default;
+
     //! Copy constructor.
     ImplicitSurfaceSet(const ImplicitSurfaceSet& other);
+
+    //! Move constructor.
+    ImplicitSurfaceSet(ImplicitSurfaceSet&& other) noexcept;
+
+    //! Copy assignment operator.
+    ImplicitSurfaceSet& operator=(const ImplicitSurfaceSet& other);
+
+    //! Move assignment operator.
+    ImplicitSurfaceSet& operator=(ImplicitSurfaceSet&& other) noexcept;
 
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;

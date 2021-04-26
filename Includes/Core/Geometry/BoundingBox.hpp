@@ -60,11 +60,20 @@ class BoundingBox
     //! Constructs a box that tightly covers two points.
     BoundingBox(const VectorType& point1, const VectorType& point2);
 
+    //! Default destructor.
+    ~BoundingBox() = default;
+
     //! Constructs a box with other box instance.
     BoundingBox(const BoundingBox& other);
 
+    //! Constructs a box with other box instance.
+    BoundingBox(BoundingBox&& other) noexcept;
+
     //! Copy assignment operator.
     BoundingBox& operator=(const BoundingBox& other);
+
+    //! Move assignment operator.
+    BoundingBox& operator=(BoundingBox&& other) noexcept;
 
     //! Returns width of the box.
     [[nodiscard]] T Width() const;

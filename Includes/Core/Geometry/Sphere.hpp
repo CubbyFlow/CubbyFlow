@@ -36,8 +36,20 @@ class Sphere final : public Surface<N>
            const Transform<N>& _transform = Transform<N>{},
            bool _isNormalFlipped = false);
 
+    //! Default virtual destructor.
+    ~Sphere() override = default;
+
     //! Copy constructor.
     Sphere(const Sphere& other);
+
+    //! Move constructor.
+    Sphere(Sphere&& other) noexcept;
+
+    //! Copy assignment operator.
+    Sphere& operator=(const Sphere& other);
+
+    //! Move assignment operator.
+    Sphere& operator=(Sphere&& other) noexcept;
 
     //! Returns builder fox Sphere.
     static Builder GetBuilder();

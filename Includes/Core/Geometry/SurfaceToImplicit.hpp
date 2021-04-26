@@ -37,11 +37,23 @@ class SurfaceToImplicit final : public ImplicitSurface<N>
 
     //! Constructs an instance with generic Surface2 instance.
     SurfaceToImplicit(std::shared_ptr<Surface<N>> surface,
-                      const Transform<N>& _transform = Transform<N>(),
+                      const Transform<N>& _transform = Transform<N>{},
                       bool _isNormalFlipped = false);
+
+    //! Default virtual destructor.
+    ~SurfaceToImplicit() override = default;
 
     //! Copy constructor.
     SurfaceToImplicit(const SurfaceToImplicit& other);
+
+    //! Move constructor.
+    SurfaceToImplicit(SurfaceToImplicit&& other) noexcept;
+
+    //! Copy assignment operator.
+    SurfaceToImplicit& operator=(const SurfaceToImplicit& other);
+
+    //! Move assignment operator.
+    SurfaceToImplicit& operator=(SurfaceToImplicit&& other) noexcept;
 
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;

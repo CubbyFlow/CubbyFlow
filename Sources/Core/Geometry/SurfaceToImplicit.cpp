@@ -10,13 +10,16 @@
 
 #include <Core/Geometry/SurfaceToImplicit.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
 template <size_t N>
-SurfaceToImplicit<N>::SurfaceToImplicit(
-    const std::shared_ptr<Surface<N>>& surface, const Transform<N>& _transform,
-    bool _isNormalFlipped)
-    : ImplicitSurface<N>{ _transform, _isNormalFlipped }, m_surface(surface)
+SurfaceToImplicit<N>::SurfaceToImplicit(std::shared_ptr<Surface<N>> surface,
+                                        const Transform<N>& _transform,
+                                        bool _isNormalFlipped)
+    : ImplicitSurface<N>{ _transform, _isNormalFlipped },
+      m_surface(std::move(surface))
 {
     // Do nothing
 }
@@ -26,6 +29,32 @@ SurfaceToImplicit<N>::SurfaceToImplicit(const SurfaceToImplicit& other)
     : ImplicitSurface<N>{ other }, m_surface(other.m_surface)
 {
     // Do nothing
+}
+
+template <size_t N>
+SurfaceToImplicit<N>::SurfaceToImplicit(SurfaceToImplicit&& other) noexcept
+    : ImplicitSurface<N>{ std::move(other) },
+      m_surface(std::move(other.m_surface))
+{
+    // Do nothing
+}
+
+template <size_t N>
+SurfaceToImplicit<N>& SurfaceToImplicit<N>::operator=(
+    const SurfaceToImplicit& other)
+{
+    m_surface = other.m_surface;
+    ImplicitSurface<N>::operator=(other);
+    return *this;
+}
+
+template <size_t N>
+SurfaceToImplicit<N>& SurfaceToImplicit<N>::operator=(
+    SurfaceToImplicit&& other) noexcept
+{
+    m_surface = std::move(other.m_surface);
+    ImplicitSurface<N>::operator=(std::move(other));
+    return *this;
 }
 
 template <size_t N>

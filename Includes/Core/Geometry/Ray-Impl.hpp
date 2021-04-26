@@ -34,11 +34,25 @@ Ray<T, N>::Ray(const Ray& other)
 }
 
 template <typename T, size_t N>
+Ray<T, N>::Ray(Ray&& other) noexcept
+    : origin(std::move(other.origin)), direction(std::move(other.direction))
+{
+    // Do nothing
+}
+
+template <typename T, size_t N>
 Ray<T, N>& Ray<T, N>::operator=(const Ray& other)
 {
     origin = other.origin;
     direction = other.direction;
+    return *this;
+}
 
+template <typename T, size_t N>
+Ray<T, N>& Ray<T, N>::operator=(Ray&& other) noexcept
+{
+    origin = std::move(other.origin);
+    direction = std::move(other.direction);
     return *this;
 }
 

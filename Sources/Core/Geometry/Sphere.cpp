@@ -37,6 +37,33 @@ Sphere<N>::Sphere(const Sphere& other)
 }
 
 template <size_t N>
+Sphere<N>::Sphere(Sphere&& other) noexcept
+    : Surface<N>{ std::move(other) },
+      center(std::move(other.center)),
+      radius(std::exchange(other.radius, 1.0))
+{
+    // Do nothing
+}
+
+template <size_t N>
+Sphere<N>& Sphere<N>::operator=(const Sphere& other)
+{
+    center = other.center;
+    radius = other.radius;
+    Surface<N>::operator=(other);
+    return *this;
+}
+
+template <size_t N>
+Sphere<N>& Sphere<N>::operator=(Sphere&& other) noexcept
+{
+    center = std::move(other.center);
+    radius = std::exchange(other.radius, 1.0);
+    Surface<N>::operator=(std::move(other));
+    return *this;
+}
+
+template <size_t N>
 Vector<double, N> Sphere<N>::ClosestPointLocal(
     const Vector<double, N>& otherPoint) const
 {

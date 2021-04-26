@@ -42,11 +42,20 @@ class Surface
     Surface(const Transform<N>& transform = Transform<N>(),
             bool isNormalFlipped = false);
 
+    //! Default virtual destructor.
+    virtual ~Surface() = default;
+
     //! Copy constructor.
     Surface(const Surface& other);
 
-    //! Default destructor.
-    virtual ~Surface() = default;
+    //! Move constructor.
+    Surface(Surface&& other) noexcept;
+
+    //! Copy assignment operator.
+    Surface& operator=(const Surface& other);
+
+    //! Move assignment operator.
+    Surface& operator=(Surface&& other) noexcept;
 
     //! Returns the closest point from the given point \p otherPoint to the
     //! surface.

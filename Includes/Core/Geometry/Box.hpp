@@ -47,8 +47,20 @@ class Box final : public Surface<N>
         const Transform<N>& _transform = Transform<N>{},
         bool _isNormalFlipped = false);
 
+    //! Default virtual destructor.
+    ~Box() override = default;
+
     //! Copy constructor.
     Box(const Box& other);
+
+    //! Move constructor.
+    Box(Box&& other) noexcept;
+
+    //! Copy assignment operator.
+    Box& operator=(const Box& other);
+
+    //! Move assignment operator.
+    Box& operator=(Box&& other) noexcept;
 
     //! Returns builder fox Box.
     static Builder GetBuilder();

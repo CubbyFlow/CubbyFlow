@@ -27,6 +27,30 @@ Surface<N>::Surface(const Surface& other)
 }
 
 template <size_t N>
+Surface<N>::Surface(Surface&& other) noexcept
+    : transform(std::move(other.transform)),
+      isNormalFlipped(std::exchange(other.isNormalFlipped, false))
+{
+    // Do nothing
+}
+
+template <size_t N>
+Surface<N>& Surface<N>::operator=(const Surface& other)
+{
+    transform = other.transform;
+    isNormalFlipped = other.isNormalFlipped;
+    return *this;
+}
+
+template <size_t N>
+Surface<N>& Surface<N>::operator=(Surface&& other) noexcept
+{
+    transform = std::move(other.transform);
+    isNormalFlipped = std::exchange(other.isNormalFlipped, false);
+    return *this;
+}
+
+template <size_t N>
 Vector<double, N> Surface<N>::ClosestPoint(
     const Vector<double, N>& otherPoint) const
 {

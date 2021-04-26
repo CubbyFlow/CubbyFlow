@@ -42,8 +42,20 @@ class Collider
     //! Default constructor.
     Collider() = default;
 
-    //! Default destructor.
+    //! Default virtual destructor.
     virtual ~Collider() = default;
+
+    //! Default copy constructor.
+    Collider(const Collider& other) = default;
+
+    //! Default move constructor.
+    Collider(Collider&& other) noexcept = default;
+
+    //! Default copy assignment operator.
+    Collider& operator=(const Collider& other) = default;
+
+    //! Default move assignment operator.
+    Collider& operator=(Collider&& other) noexcept = default;
 
     //! Returns the velocity of the collider at given \p point.
     [[nodiscard]] virtual Vector<double, N> VelocityAt(

@@ -41,8 +41,22 @@ class CustomImplicitSurface final : public ImplicitSurface<N>
         const Transform<N>& _transform = Transform<N>{},
         bool _isNormalFlipped = false);
 
-    //! Destructor.
+    //! Default virtual destructor.
     ~CustomImplicitSurface() override = default;
+
+    //! Default copy constructor.
+    CustomImplicitSurface(const CustomImplicitSurface& other) = default;
+
+    //! Default move constructor.
+    CustomImplicitSurface(CustomImplicitSurface&& other) noexcept = default;
+
+    //! Default copy assignment operator.
+    CustomImplicitSurface& operator=(const CustomImplicitSurface& other) =
+        default;
+
+    //! Default move assignment operator.
+    CustomImplicitSurface& operator=(CustomImplicitSurface&& other) noexcept =
+        default;
 
     //! Returns builder for CustomImplicitSurface.
     static Builder GetBuilder();

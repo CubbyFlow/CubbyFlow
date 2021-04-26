@@ -43,11 +43,20 @@ class Ray final
     //! Constructs a ray with given origin and direction.
     Ray(const VectorType& newOrigin, const VectorType& newDirection);
 
+    //! Default destructor.
+    ~Ray() = default;
+
     //! Copy constructor.
     Ray(const Ray& other);
 
+    //! Move constructor.
+    Ray(Ray&& other) noexcept;
+
     //! Copy assignment operator.
     Ray& operator=(const Ray& other);
+
+    //! Move assignment operator.
+    Ray& operator=(Ray&& other) noexcept;
 
     //! Returns a point on the ray at distance \p t.
     [[nodiscard]] VectorType PointAt(T t) const;

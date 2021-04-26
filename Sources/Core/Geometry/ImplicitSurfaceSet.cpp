@@ -54,6 +54,35 @@ ImplicitSurfaceSet<N>::ImplicitSurfaceSet(const ImplicitSurfaceSet& other)
 }
 
 template <size_t N>
+ImplicitSurfaceSet<N>::ImplicitSurfaceSet(ImplicitSurfaceSet&& other) noexcept
+    : ImplicitSurface<N>{ std::move(other) },
+      m_surfaces(std::move(other.m_surfaces)),
+      m_unboundedSurfaces(std::move(other.m_unboundedSurfaces))
+{
+    // Do nothing
+}
+
+template <size_t N>
+ImplicitSurfaceSet<N>& ImplicitSurfaceSet<N>::operator=(
+    const ImplicitSurfaceSet& other)
+{
+    m_surfaces = other.m_surfaces;
+    m_unboundedSurfaces = other.m_unboundedSurfaces;
+    ImplicitSurface<N>::operator=(other);
+    return *this;
+}
+
+template <size_t N>
+ImplicitSurfaceSet<N>& ImplicitSurfaceSet<N>::operator=(
+    ImplicitSurfaceSet&& other) noexcept
+{
+    m_surfaces = std::move(other.m_surfaces);
+    m_unboundedSurfaces = std::move(other.m_unboundedSurfaces);
+    ImplicitSurface<N>::operator=(std::move(other));
+    return *this;
+}
+
+template <size_t N>
 void ImplicitSurfaceSet<N>::UpdateQueryEngine()
 {
     InvalidateBVH();
