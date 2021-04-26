@@ -13,6 +13,8 @@
 
 #include <Core/Geometry/Collider.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
 template <size_t N>
@@ -51,7 +53,7 @@ class AngularVelocity<3>
         // Do nothing
     }
 
-    AngularVelocity(const Vector3D& _value) : value(_value)
+    AngularVelocity(Vector3D _value) : value(std::move(_value))
     {
         // Do nothing
     }

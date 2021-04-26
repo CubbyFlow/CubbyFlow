@@ -29,6 +29,7 @@ class Orientation<2>
 {
  public:
     Orientation();
+
     Orientation(double angleInRadian);
 
     [[nodiscard]] double GetRotation() const;
@@ -52,6 +53,7 @@ class Orientation<3>
 {
  public:
     Orientation();
+
     Orientation(const QuaternionD& quat);
 
     [[nodiscard]] const QuaternionD& GetRotation() const;
