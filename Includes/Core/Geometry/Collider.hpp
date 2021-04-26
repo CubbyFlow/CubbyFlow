@@ -61,7 +61,7 @@ class Collider
                           Vector<double, N>* position,
                           Vector<double, N>* velocity);
 
-    //! Returns friction coefficent.
+    //! Returns friction coefficient.
     [[nodiscard]] double GetFrictionCoefficient() const;
 
     //!
@@ -115,7 +115,7 @@ class Collider
 
  private:
     std::shared_ptr<Surface<N>> m_surface;
-    double m_frictionCoeffient = 0.0;
+    double m_frictionCoefficient = 0.0;
     OnBeginUpdateCallback m_onUpdateCallback;
 };
 

@@ -63,7 +63,7 @@ void Collider<N>::ResolveCollision(double radius, double restitutionCoefficient,
             if (relativeVelT.LengthSquared() > 0.0)
             {
                 double frictionScale = std::max(
-                    1.0 - m_frictionCoeffient * deltaRelativeVelN.Length() /
+                    1.0 - m_frictionCoefficient * deltaRelativeVelN.Length() /
                               relativeVelT.Length(),
                     0.0);
                 relativeVelT *= frictionScale;
@@ -82,13 +82,13 @@ void Collider<N>::ResolveCollision(double radius, double restitutionCoefficient,
 template <size_t N>
 double Collider<N>::GetFrictionCoefficient() const
 {
-    return m_frictionCoeffient;
+    return m_frictionCoefficient;
 }
 
 template <size_t N>
 void Collider<N>::SetFrictionCoefficient(double newFrictionCoefficient)
 {
-    m_frictionCoeffient = std::max(newFrictionCoefficient, 0.0);
+    m_frictionCoefficient = std::max(newFrictionCoefficient, 0.0);
 }
 
 template <size_t N>
