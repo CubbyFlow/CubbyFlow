@@ -30,15 +30,8 @@ bool ListQueryEngine<T, N>::Intersects(
     const BoundingBox<double, N>& box,
     const BoxIntersectionTestFunc<T, N>& testFunc) const
 {
-    for (const auto& item : m_items)
-    {
-        if (testFunc(item, box))
-        {
-            return true;
-        }
-    }
-
-    return false;
+    return std::any_of(m_items.begin(), m_items.end(),
+                       [&](const T& item) { return testFunc(item, box); });
 }
 
 template <typename T, size_t N>
@@ -46,15 +39,8 @@ bool ListQueryEngine<T, N>::Intersects(
     const Ray<double, N>& ray,
     const RayIntersectionTestFunc<T, N>& testFunc) const
 {
-    for (const auto& item : m_items)
-    {
-        if (testFunc(item, ray))
-        {
-            return true;
-        }
-    }
-
-    return false;
+    return std::any_of(m_items.begin(), m_items.end(),
+                       [&](const T& item) { return testFunc(item, ray); });
 }
 
 template <typename T, size_t N>
