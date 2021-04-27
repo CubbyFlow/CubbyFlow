@@ -89,8 +89,8 @@ class PointHashGridSearcher final : public PointNeighborSearcher<N>
     //!
     //! \return     True if has nearby point, false otherwise.
     //!
-    bool HasNearbyPoint(const Vector<double, N>& origin,
-                        double radius) const override;
+    [[nodiscard]] bool HasNearbyPoint(const Vector<double, N>& origin,
+                                      double radius) const override;
 
     //!
     //! \brief      Adds a single point to the hash grid.
@@ -111,7 +111,7 @@ class PointHashGridSearcher final : public PointNeighborSearcher<N>
     //!
     //! \return     List of buckets.
     //!
-    const Array1<Array1<size_t>>& Buckets() const;
+    [[nodiscard]] const Array1<Array1<size_t>>& Buckets() const;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -119,7 +119,8 @@ class PointHashGridSearcher final : public PointNeighborSearcher<N>
     //!
     //! \return     Copy of this object.
     //!
-    std::shared_ptr<PointNeighborSearcher<N>> Clone() const override;
+    [[nodiscard]] std::shared_ptr<PointNeighborSearcher<N>> Clone()
+        const override;
 
     //! Copy from the other instance.
     void Set(const PointHashGridSearcher& other);

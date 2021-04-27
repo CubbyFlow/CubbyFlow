@@ -58,7 +58,7 @@ class PointNeighborSearcher : public Serializable
         default;
 
     //! Returns the type name of the derived class.
-    virtual std::string TypeName() const = 0;
+    [[nodiscard]] virtual std::string TypeName() const = 0;
 
     //! Builds internal acceleration structure for given points list.
     virtual void Build(const ConstArrayView1<Vector<double, N>>& points);
@@ -89,8 +89,8 @@ class PointNeighborSearcher : public Serializable
     //!
     //! \return     True if has nearby point, false otherwise.
     //!
-    virtual bool HasNearbyPoint(const Vector<double, N>& origin,
-                                double radius) const = 0;
+    [[nodiscard]] virtual bool HasNearbyPoint(const Vector<double, N>& origin,
+                                              double radius) const = 0;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -98,7 +98,8 @@ class PointNeighborSearcher : public Serializable
     //!
     //! \return     Copy of this object.
     //!
-    virtual std::shared_ptr<PointNeighborSearcher> Clone() const = 0;
+    [[nodiscard]] virtual std::shared_ptr<PointNeighborSearcher> Clone()
+        const = 0;
 };
 
 //! 2-D PointNeighborSearcher type.
@@ -141,7 +142,7 @@ class PointNeighborSearcherBuilder
         PointNeighborSearcherBuilder&& other) noexcept = delete;
 
     //! Returns shared pointer of PointNeighborSearcher type.
-    virtual std::shared_ptr<PointNeighborSearcher<N>>
+    [[nodiscard]] virtual std::shared_ptr<PointNeighborSearcher<N>>
     BuildPointNeighborSearcher() const = 0;
 };
 
@@ -160,7 +161,7 @@ using PointNeighborSearcherBuilder3Ptr =
     std::shared_ptr<PointNeighborSearcherBuilder3>;
 
 #define CUBBYFLOW_NEIGHBOR_SEARCHER_TYPE_NAME(DerivedClassName, N) \
-    std::string TypeName() const override                          \
+    [[nodiscard]] std::string TypeName() const override            \
     {                                                              \
         return #DerivedClassName + std::to_string(N);              \
     }

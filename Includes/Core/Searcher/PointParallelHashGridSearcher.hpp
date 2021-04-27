@@ -98,8 +98,8 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N>
     //!
     //! \return     True if has nearby point, false otherwise.
     //!
-    bool HasNearbyPoint(const Vector<double, N>& origin,
-                        double radius) const override;
+    [[nodiscard]] bool HasNearbyPoint(const Vector<double, N>& origin,
+                                      double radius) const override;
 
     //!
     //! \brief      Returns the hash key list.
@@ -109,7 +109,7 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N>
     //!
     //! \return     The hash key list.
     //!
-    ConstArrayView1<size_t> Keys() const;
+    [[nodiscard]] ConstArrayView1<size_t> Keys() const;
 
     //!
     //! \brief      Returns the start index table.
@@ -134,7 +134,7 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N>
     //!
     //! \return     The start index table.
     //!
-    ConstArrayView1<size_t> StartIndexTable() const;
+    [[nodiscard]] ConstArrayView1<size_t> StartIndexTable() const;
 
     //!
     //! \brief      Returns the end index table.
@@ -159,7 +159,7 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N>
     //!
     //! \return     The end index table.
     //!
-    ConstArrayView1<size_t> EndIndexTable() const;
+    [[nodiscard]] ConstArrayView1<size_t> EndIndexTable() const;
 
     //!
     //! \brief      Returns the sorted indices of the points.
@@ -171,7 +171,7 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N>
     //!
     //! \return     The sorted indices of the points.
     //!
-    ConstArrayView1<size_t> SortedIndices() const;
+    [[nodiscard]] ConstArrayView1<size_t> SortedIndices() const;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -179,7 +179,8 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N>
     //!
     //! \return     Copy of this object.
     //!
-    std::shared_ptr<PointNeighborSearcher<N>> Clone() const override;
+    [[nodiscard]] std::shared_ptr<PointNeighborSearcher<N>> Clone()
+        const override;
 
     //! Copy from the other instance.
     void Set(const PointParallelHashGridSearcher& other);
