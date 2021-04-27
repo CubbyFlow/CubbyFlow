@@ -259,15 +259,15 @@ void SPHSystemData<N>::SetKernelRadius(double kernelRadius)
 
 template <size_t N>
 double SPHSystemData<N>::SumOfKernelNearby(
-    const Vector<double, N>& origin) const
+    const Vector<double, N>& position) const
 {
     double sum = 0.0;
     SPHStdKernel<N> kernel{ m_kernelRadius };
 
     NeighborSearcher()->ForEachNearbyPoint(
-        origin, m_kernelRadius,
+        position, m_kernelRadius,
         [&](size_t, const Vector<double, N>& neighborPosition) {
-            double dist = origin.DistanceTo(neighborPosition);
+            double dist = position.DistanceTo(neighborPosition);
             sum += kernel(dist);
         });
 
