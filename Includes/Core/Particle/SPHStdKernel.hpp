@@ -47,16 +47,17 @@ struct SPHStdKernel<2>
     double operator()(double distance) const;
 
     //! Returns the first derivative at given distance.
-    double FirstDerivative(double distance) const;
+    [[nodiscard]] double FirstDerivative(double distance) const;
 
     //! Returns the second derivative at given distance.
-    double SecondDerivative(double distance) const;
+    [[nodiscard]] double SecondDerivative(double distance) const;
 
     //! Returns the gradient at a point.
-    Vector2D Gradient(const Vector2D& point) const;
+    [[nodiscard]] Vector2D Gradient(const Vector2D& point) const;
 
     //! Returns the gradient at a point defined by distance and direction.
-    Vector2D Gradient(double distance, const Vector2D& direction) const;
+    [[nodiscard]] Vector2D Gradient(double distance,
+                                    const Vector2D& direction) const;
 
     //! Kernel radius.
     double h;
@@ -84,16 +85,17 @@ struct SPHStdKernel<3>
     double operator()(double distance) const;
 
     //! Returns the first derivative at given distance.
-    double FirstDerivative(double distance) const;
+    [[nodiscard]] double FirstDerivative(double distance) const;
 
     //! Returns the second derivative at given distance.
-    double SecondDerivative(double distance) const;
+    [[nodiscard]] double SecondDerivative(double distance) const;
 
     //! Returns the gradient at a point.
-    Vector3D Gradient(const Vector3D& point) const;
+    [[nodiscard]] Vector3D Gradient(const Vector3D& point) const;
 
     //! Returns the gradient at a point defined by distance and direction.
-    Vector3D Gradient(double distance, const Vector3D& direction) const;
+    [[nodiscard]] Vector3D Gradient(double distance,
+                                    const Vector3D& direction) const;
 
     //! Kernel radius.
     double h;
@@ -139,16 +141,17 @@ struct SPHSpikyKernel<2>
     double operator()(double distance) const;
 
     //! Returns the first derivative at given distance.
-    double FirstDerivative(double distance) const;
+    [[nodiscard]] double FirstDerivative(double distance) const;
 
     //! Returns the second derivative at given distance.
-    double SecondDerivative(double distance) const;
+    [[nodiscard]] double SecondDerivative(double distance) const;
 
     //! Returns the gradient at a point.
-    Vector2D Gradient(const Vector2D& point) const;
+    [[nodiscard]] Vector2D Gradient(const Vector2D& point) const;
 
     //! Returns the gradient at a point defined by distance and direction.
-    Vector2D Gradient(double distance, const Vector2D& direction) const;
+    [[nodiscard]] Vector2D Gradient(double distance,
+                                    const Vector2D& direction) const;
 
     //! Kernel radius.
     double h;
@@ -179,16 +182,17 @@ struct SPHSpikyKernel<3>
     double operator()(double distance) const;
 
     //! Returns the first derivative at given distance.
-    double FirstDerivative(double distance) const;
+    [[nodiscard]] double FirstDerivative(double distance) const;
 
     //! Returns the second derivative at given distance.
-    double SecondDerivative(double distance) const;
+    [[nodiscard]] double SecondDerivative(double distance) const;
 
     //! Returns the gradient at a point.
-    Vector3D Gradient(const Vector3D& point) const;
+    [[nodiscard]] Vector3D Gradient(const Vector3D& point) const;
 
     //! Returns the gradient at a point defined by distance and direction.
-    Vector3D Gradient(double distance, const Vector3D& direction) const;
+    [[nodiscard]] Vector3D Gradient(double distance,
+                                    const Vector3D& direction) const;
 
     //! Kernel radius.
     double h;
