@@ -19,8 +19,33 @@ namespace CubbyFlow
 template <size_t N>
 PointSimpleListSearcher<N>::PointSimpleListSearcher(
     const PointSimpleListSearcher& other)
+    : m_points(other.m_points)
 {
-    Set(other);
+    // Do nothing
+}
+
+template <size_t N>
+PointSimpleListSearcher<N>::PointSimpleListSearcher(
+    PointSimpleListSearcher&& other) noexcept
+    : m_points(std::move(other.m_points))
+{
+    // Do nothing
+}
+
+template <size_t N>
+PointSimpleListSearcher<N>& PointSimpleListSearcher<N>::operator=(
+    const PointSimpleListSearcher& other)
+{
+    m_points = other.m_points;
+    return *this;
+}
+
+template <size_t N>
+PointSimpleListSearcher<N>& PointSimpleListSearcher<N>::operator=(
+    PointSimpleListSearcher&& other) noexcept
+{
+    m_points = std::move(other.m_points);
+    return *this;
 }
 
 template <size_t N>
@@ -79,14 +104,6 @@ std::shared_ptr<PointNeighborSearcher<N>> PointSimpleListSearcher<N>::Clone()
     return std::shared_ptr<PointSimpleListSearcher>(
         new PointSimpleListSearcher{ *this },
         [](PointSimpleListSearcher* obj) { delete obj; });
-}
-
-template <size_t N>
-PointSimpleListSearcher<N>& PointSimpleListSearcher<N>::operator=(
-    const PointSimpleListSearcher& other)
-{
-    Set(other);
-    return *this;
 }
 
 template <size_t N>

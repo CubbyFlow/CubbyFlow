@@ -21,8 +21,33 @@ namespace CubbyFlow
 {
 template <size_t N>
 PointKdTreeSearcher<N>::PointKdTreeSearcher(const PointKdTreeSearcher& other)
+    : m_tree(other.m_tree)
 {
-    Set(other);
+    // Do nothing
+}
+
+template <size_t N>
+PointKdTreeSearcher<N>::PointKdTreeSearcher(
+    PointKdTreeSearcher&& other) noexcept
+    : m_tree(std::move(other.m_tree))
+{
+    // Do nothing
+}
+
+template <size_t N>
+PointKdTreeSearcher<N>& PointKdTreeSearcher<N>::operator=(
+    const PointKdTreeSearcher& other)
+{
+    m_tree = other.m_tree;
+    return *this;
+}
+
+template <size_t N>
+PointKdTreeSearcher<N>& PointKdTreeSearcher<N>::operator=(
+    PointKdTreeSearcher&& other) noexcept
+{
+    m_tree = std::move(other.m_tree);
+    return *this;
 }
 
 template <size_t N>
@@ -55,14 +80,6 @@ std::shared_ptr<PointNeighborSearcher<N>> PointKdTreeSearcher<N>::Clone() const
     return std::shared_ptr<PointKdTreeSearcher>(
         new PointKdTreeSearcher{ *this },
         [](PointKdTreeSearcher* obj) { delete obj; });
-}
-
-template <size_t N>
-PointKdTreeSearcher<N>& PointKdTreeSearcher<N>::operator=(
-    const PointKdTreeSearcher& other)
-{
-    Set(other);
-    return *this;
 }
 
 template <size_t N>

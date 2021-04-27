@@ -47,8 +47,23 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N>
     PointParallelHashGridSearcher(const Vector<size_t, N>& resolution,
                                   double gridSpacing);
 
+    //! Default virtual destructor.
+    ~PointParallelHashGridSearcher() override = default;
+
     //! Copy constructor.
     PointParallelHashGridSearcher(const PointParallelHashGridSearcher& other);
+
+    //! Move constructor.
+    PointParallelHashGridSearcher(
+        PointParallelHashGridSearcher&& other) noexcept;
+
+    //! Copy assignment operator.
+    PointParallelHashGridSearcher& operator=(
+        const PointParallelHashGridSearcher& other);
+
+    //! Move assignment operator.
+    PointParallelHashGridSearcher& operator=(
+        PointParallelHashGridSearcher&& other) noexcept;
 
     //!
     //! \brief Builds internal acceleration structure for given points list and
@@ -166,10 +181,6 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N>
     //!
     std::shared_ptr<PointNeighborSearcher<N>> Clone() const override;
 
-    //! Assignment operator.
-    PointParallelHashGridSearcher& operator=(
-        const PointParallelHashGridSearcher& other);
-
     //! Copy from the other instance.
     void Set(const PointParallelHashGridSearcher& other);
 
@@ -237,6 +248,24 @@ class PointParallelHashGridSearcher<N>::Builder final
     : public PointNeighborSearcherBuilder<N>
 {
  public:
+    //! Default constructor.
+    Builder() = default;
+
+    //! Default virtual destructor.
+    ~Builder() override = default;
+
+    //! Deleted copy constructor.
+    Builder(const Builder& other) = delete;
+
+    //! Deleted move constructor.
+    Builder(Builder&& other) noexcept = delete;
+
+    //! Deleted copy assignment operator.
+    Builder& operator=(const Builder& other) = delete;
+
+    //! Deleted move assignment operator.
+    Builder& operator=(Builder&& other) noexcept = delete;
+
     //! Returns builder with resolution.
     Builder& WithResolution(const Vector<size_t, N>& resolution);
 

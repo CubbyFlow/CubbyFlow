@@ -36,8 +36,21 @@ class PointSimpleListSearcher final : public PointNeighborSearcher<N>
     //! Default constructor.
     PointSimpleListSearcher() = default;
 
+    //! Default virtual destructor.
+    ~PointSimpleListSearcher() override = default;
+
     //! Copy constructor.
     PointSimpleListSearcher(const PointSimpleListSearcher& other);
+
+    //! Move constructor.
+    PointSimpleListSearcher(PointSimpleListSearcher&& other) noexcept;
+
+    //! Copy assignment operator.
+    PointSimpleListSearcher& operator=(const PointSimpleListSearcher& other);
+
+    //! Move assignment operator.
+    PointSimpleListSearcher& operator=(
+        PointSimpleListSearcher&& other) noexcept;
 
     //!
     //! \brief      Builds internal structure for given points list and max
@@ -83,9 +96,6 @@ class PointSimpleListSearcher final : public PointNeighborSearcher<N>
     //! \return     Copy of this object.
     //!
     std::shared_ptr<PointNeighborSearcher<N>> Clone() const override;
-
-    //! Assignment operator.
-    PointSimpleListSearcher& operator=(const PointSimpleListSearcher& other);
 
     //! Copy from the other instance.
     void Set(const PointSimpleListSearcher& other);
@@ -143,6 +153,24 @@ class PointSimpleListSearcher<N>::Builder final
     : public PointNeighborSearcherBuilder<N>
 {
  public:
+    //! Default constructor.
+    Builder() = default;
+
+    //! Default virtual destructor.
+    ~Builder() override = default;
+
+    //! Deleted copy constructor.
+    Builder(const Builder& other) = delete;
+
+    //! Deleted move constructor.
+    Builder(Builder&& other) noexcept = delete;
+
+    //! Deleted copy assignment operator.
+    Builder& operator=(const Builder& other) = delete;
+
+    //! Deleted move assignment operator.
+    Builder& operator=(Builder&& other) noexcept = delete;
+
     //! Builds PointSimpleListSearcher instance.
     PointSimpleListSearcher<N> Build() const;
 

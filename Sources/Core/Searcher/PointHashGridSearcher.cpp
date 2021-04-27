@@ -30,8 +30,45 @@ PointHashGridSearcher<N>::PointHashGridSearcher(
 template <size_t N>
 PointHashGridSearcher<N>::PointHashGridSearcher(
     const PointHashGridSearcher& other)
+    : m_gridSpacing(other.m_gridSpacing),
+      m_resolution(other.m_resolution),
+      m_points(other.m_points),
+      m_buckets(other.m_buckets)
 {
-    Set(other);
+    // Do nothing
+}
+
+template <size_t N>
+PointHashGridSearcher<N>::PointHashGridSearcher(
+    PointHashGridSearcher&& other) noexcept
+    : m_gridSpacing(std::exchange(other.m_gridSpacing, 1.0)),
+      m_resolution(std::move(other.m_resolution)),
+      m_points(std::move(other.m_points)),
+      m_buckets(std::move(other.m_buckets))
+{
+    // Do nothing
+}
+
+template <size_t N>
+PointHashGridSearcher<N>& PointHashGridSearcher<N>::operator=(
+    const PointHashGridSearcher& other)
+{
+    m_gridSpacing = other.m_gridSpacing;
+    m_resolution = other.m_resolution;
+    m_points = other.m_points;
+    m_buckets = other.m_buckets;
+    return *this;
+}
+
+template <size_t N>
+PointHashGridSearcher<N>& PointHashGridSearcher<N>::operator=(
+    PointHashGridSearcher&& other) noexcept
+{
+    m_gridSpacing = std::exchange(other.m_gridSpacing, 1.0);
+    m_resolution = std::move(other.m_resolution);
+    m_points = std::move(other.m_points);
+    m_buckets = std::move(other.m_buckets);
+    return *this;
 }
 
 template <size_t N>
@@ -170,14 +207,6 @@ std::shared_ptr<PointNeighborSearcher<N>> PointHashGridSearcher<N>::Clone()
     return std::shared_ptr<PointHashGridSearcher>(
         new PointHashGridSearcher{ *this },
         [](PointHashGridSearcher* obj) { delete obj; });
-}
-
-template <size_t N>
-PointHashGridSearcher<N>& PointHashGridSearcher<N>::operator=(
-    const PointHashGridSearcher& other)
-{
-    Set(other);
-    return *this;
 }
 
 template <size_t N>

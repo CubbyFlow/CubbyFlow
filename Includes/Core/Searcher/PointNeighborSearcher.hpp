@@ -40,8 +40,22 @@ class PointNeighborSearcher : public Serializable
     //! Default constructor.
     PointNeighborSearcher() = default;
 
-    //! Destructor.
-    virtual ~PointNeighborSearcher() = default;
+    //! Default virtual destructor.
+    ~PointNeighborSearcher() override = default;
+
+    //! Default copy constructor.
+    PointNeighborSearcher(const PointNeighborSearcher& other) = default;
+
+    //! Default move constructor.
+    PointNeighborSearcher(PointNeighborSearcher&& other) noexcept = default;
+
+    //! Default copy assignment operator.
+    PointNeighborSearcher& operator=(const PointNeighborSearcher& other) =
+        default;
+
+    //! Default move assignment operator.
+    PointNeighborSearcher& operator=(PointNeighborSearcher&& other) noexcept =
+        default;
 
     //! Returns the type name of the derived class.
     virtual std::string TypeName() const = 0;
@@ -104,6 +118,28 @@ template <size_t N>
 class PointNeighborSearcherBuilder
 {
  public:
+    //! Default constructor.
+    PointNeighborSearcherBuilder() = default;
+
+    //! Default virtual destructor.
+    virtual ~PointNeighborSearcherBuilder() = default;
+
+    //! Deleted copy constructor.
+    PointNeighborSearcherBuilder(const PointNeighborSearcherBuilder& other) =
+        delete;
+
+    //! Deleted move constructor.
+    PointNeighborSearcherBuilder(
+        PointNeighborSearcherBuilder&& other) noexcept = delete;
+
+    //! Deleted copy assignment operator.
+    PointNeighborSearcherBuilder& operator=(
+        const PointNeighborSearcherBuilder& other) = delete;
+
+    //! Deleted move assignment operator.
+    PointNeighborSearcherBuilder& operator=(
+        PointNeighborSearcherBuilder&& other) noexcept = delete;
+
     //! Returns shared pointer of PointNeighborSearcher type.
     virtual std::shared_ptr<PointNeighborSearcher<N>>
     BuildPointNeighborSearcher() const = 0;

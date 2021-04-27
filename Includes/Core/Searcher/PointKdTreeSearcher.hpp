@@ -36,8 +36,20 @@ class PointKdTreeSearcher final : public PointNeighborSearcher<N>
     //! Constructs an empty kD-tree instance.
     PointKdTreeSearcher() = default;
 
+    //! Default virtual destructor.
+    ~PointKdTreeSearcher() override = default;
+
     //! Copy constructor.
     PointKdTreeSearcher(const PointKdTreeSearcher& other);
+
+    //! Move constructor.
+    PointKdTreeSearcher(PointKdTreeSearcher&& other) noexcept;
+
+    //! Copy assignment operator.
+    PointKdTreeSearcher& operator=(const PointKdTreeSearcher& other);
+
+    //! Move assignment operator.
+    PointKdTreeSearcher& operator=(PointKdTreeSearcher&& other) noexcept;
 
     //! Builds internal acceleration structure for given points list and max
     //! search radius.
@@ -75,9 +87,6 @@ class PointKdTreeSearcher final : public PointNeighborSearcher<N>
     //! \return     Copy of this object.
     //!
     std::shared_ptr<PointNeighborSearcher<N>> Clone() const override;
-
-    //! Assignment operator.
-    PointKdTreeSearcher& operator=(const PointKdTreeSearcher& other);
 
     //! Copy from the other instance.
     void Set(const PointKdTreeSearcher& other);
@@ -131,6 +140,24 @@ class PointKdTreeSearcher<N>::Builder final
     : public PointNeighborSearcherBuilder<N>
 {
  public:
+    //! Default constructor.
+    Builder() = default;
+
+    //! Default virtual destructor.
+    ~Builder() override = default;
+
+    //! Deleted copy constructor.
+    Builder(const Builder& other) = delete;
+
+    //! Deleted move constructor.
+    Builder(Builder&& other) noexcept = delete;
+
+    //! Deleted copy assignment operator.
+    Builder& operator=(const Builder& other) = delete;
+
+    //! Deleted move assignment operator.
+    Builder& operator=(Builder&& other) noexcept = delete;
+
     //! Builds PointKdTreeSearcher instance.
     PointKdTreeSearcher Build() const;
 
