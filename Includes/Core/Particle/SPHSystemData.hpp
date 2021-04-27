@@ -42,11 +42,20 @@ class SPHSystemData : public ParticleSystemData<N>
     //! Constructs SPH system data with given number of particles.
     explicit SPHSystemData(size_t numberOfParticles);
 
+    //! Default virtual destructor.
+    ~SPHSystemData() override = default;
+
     //! Copy constructor.
     SPHSystemData(const SPHSystemData& other);
 
-    //! Destructor.
-    ~SPHSystemData() override = default;
+    //! Move constructor.
+    SPHSystemData(SPHSystemData&& other) noexcept;
+
+    //! Copy assignment operator.
+    SPHSystemData& operator=(const SPHSystemData& other);
+
+    //! Move assignment operator.
+    SPHSystemData& operator=(SPHSystemData&& other) noexcept;
 
     //!
     //! \brief      Sets the radius.
@@ -208,9 +217,6 @@ class SPHSystemData : public ParticleSystemData<N>
 
     //! Copies from other SPH system data.
     void Set(const SPHSystemData& other);
-
-    //! Copies from other SPH system data.
-    SPHSystemData& operator=(const SPHSystemData& other);
 
  private:
     //! Target density of this particle system in kg/m^2.

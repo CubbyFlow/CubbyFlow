@@ -77,8 +77,93 @@ ParticleSystemData<N>::ParticleSystemData(size_t numberOfParticles)
 
 template <size_t N>
 ParticleSystemData<N>::ParticleSystemData(const ParticleSystemData& other)
+    : m_radius(other.m_radius),
+      m_mass(other.m_mass),
+      m_numberOfParticles(other.m_numberOfParticles),
+      m_positionIdx(other.m_positionIdx),
+      m_velocityIdx(other.m_velocityIdx),
+      m_forceIdx(other.m_forceIdx),
+      m_neighborSearcher(other.m_neighborSearcher->Clone()),
+      m_neighborLists(other.m_neighborLists)
 {
-    Set(other);
+    for (auto& data : other.m_scalarDataList)
+    {
+        m_scalarDataList.Append(data);
+    }
+
+    for (auto& data : other.m_vectorDataList)
+    {
+        m_vectorDataList.Append(data);
+    }
+}
+
+template <size_t N>
+ParticleSystemData<N>::ParticleSystemData(ParticleSystemData&& other) noexcept
+    : m_radius(std::exchange(other.m_radius, 1e-3)),
+      m_mass(std::exchange(other.m_mass, 1e-3)),
+      m_numberOfParticles(std::exchange(other.m_numberOfParticles, 0)),
+      m_positionIdx(std::exchange(other.m_positionIdx, 0)),
+      m_velocityIdx(std::exchange(other.m_velocityIdx, 0)),
+      m_forceIdx(std::exchange(other.m_forceIdx, 0)),
+      m_scalarDataList(std::move(other.m_scalarDataList)),
+      m_vectorDataList(std::move(other.m_vectorDataList)),
+      m_neighborSearcher(std::move(other.m_neighborSearcher)),
+      m_neighborLists(std::move(other.m_neighborLists))
+{
+    // Do nothing
+}
+
+template <size_t N>
+ParticleSystemData<N>& ParticleSystemData<N>::operator=(
+    const ParticleSystemData& other)
+{
+    if (this == &other)
+    {
+        return *this;
+    }
+
+    m_radius = other.m_radius;
+    m_mass = other.m_mass;
+    m_positionIdx = other.m_positionIdx;
+    m_velocityIdx = other.m_velocityIdx;
+    m_forceIdx = other.m_forceIdx;
+    m_numberOfParticles = other.m_numberOfParticles;
+
+    for (auto& data : other.m_scalarDataList)
+    {
+        m_scalarDataList.Append(data);
+    }
+
+    for (auto& data : other.m_vectorDataList)
+    {
+        m_vectorDataList.Append(data);
+    }
+
+    m_neighborSearcher = other.m_neighborSearcher->Clone();
+    m_neighborLists = other.m_neighborLists;
+    return *this;
+}
+
+template <size_t N>
+ParticleSystemData<N>& ParticleSystemData<N>::operator=(
+    ParticleSystemData&& other) noexcept
+{
+    if (this == &other)
+    {
+        return *this;
+    }
+
+    m_radius = std::exchange(other.m_radius, 1e-3);
+    m_mass = std::exchange(other.m_mass, 1e-3);
+    m_numberOfParticles = std::exchange(other.m_numberOfParticles, 0);
+    m_positionIdx = std::exchange(other.m_positionIdx, 0);
+    m_velocityIdx = std::exchange(other.m_velocityIdx, 0);
+    m_forceIdx = std::exchange(other.m_forceIdx, 0);
+    m_scalarDataList = std::move(other.m_scalarDataList);
+    m_vectorDataList = std::move(other.m_vectorDataList);
+    m_neighborSearcher = std::move(other.m_neighborSearcher);
+    m_neighborLists = std::move(other.m_neighborLists);
+    return *this;
 }
 
 template <size_t N>
@@ -376,14 +461,6 @@ void ParticleSystemData<N>::Set(const ParticleSystemData& other)
 
     m_neighborSearcher = other.m_neighborSearcher->Clone();
     m_neighborLists = other.m_neighborLists;
-}
-
-template <size_t N>
-ParticleSystemData<N>& ParticleSystemData<N>::operator=(
-    const ParticleSystemData& other)
-{
-    Set(other);
-    return *this;
 }
 
 template <size_t N>

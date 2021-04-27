@@ -60,11 +60,20 @@ class ParticleSystemData : public Serializable
     //! Constructs particle system data with given number of particles.
     explicit ParticleSystemData(size_t numberOfParticles);
 
-    //! Default destructor.
+    //! Default virtual destructor.
     ~ParticleSystemData() override = default;
 
     //! Copy constructor.
     ParticleSystemData(const ParticleSystemData& other);
+
+    //! Move constructor.
+    ParticleSystemData(ParticleSystemData&& other) noexcept;
+
+    //! Copy assignment operator.
+    ParticleSystemData& operator=(const ParticleSystemData& other);
+
+    //! Move assignment operator.
+    ParticleSystemData& operator=(ParticleSystemData&& other) noexcept;
 
     //!
     //! \brief      Resizes the number of particles of the container.
@@ -221,9 +230,6 @@ class ParticleSystemData : public Serializable
 
     //! Copies from other particle system data.
     void Set(const ParticleSystemData& other);
-
-    //! Copies from other particle system data.
-    ParticleSystemData& operator=(const ParticleSystemData& other);
 
  protected:
     template <size_t M = N>

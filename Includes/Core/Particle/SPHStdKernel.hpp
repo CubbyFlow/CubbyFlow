@@ -43,9 +43,6 @@ struct SPHStdKernel<2>
     //! Constructs a kernel object with given radius.
     explicit SPHStdKernel(double kernelRadius);
 
-    //! Default copy constructor.
-    SPHStdKernel(const SPHStdKernel& other) = default;
-
     //! Returns kernel function value at given distance.
     double operator()(double distance) const;
 
@@ -82,9 +79,6 @@ struct SPHStdKernel<3>
 
     //! Constructs a kernel object with given radius.
     explicit SPHStdKernel(double kernelRadius);
-
-    //! Default copy constructor.
-    SPHStdKernel(const SPHStdKernel& other) = default;
 
     //! Returns kernel function value at given distance.
     double operator()(double distance) const;
@@ -141,9 +135,6 @@ struct SPHSpikyKernel<2>
     //! Constructs a kernel object with given radius.
     explicit SPHSpikyKernel(double kernelRadius);
 
-    //! Default copy constructor.
-    SPHSpikyKernel(const SPHSpikyKernel& other) = default;
-
     //! Returns kernel function value at given distance.
     double operator()(double distance) const;
 
@@ -183,9 +174,6 @@ struct SPHSpikyKernel<3>
 
     //! Constructs a kernel object with given radius.
     explicit SPHSpikyKernel(double kernelRadius);
-
-    //! Default copy constructor.
-    SPHSpikyKernel(const SPHSpikyKernel& other) = default;
 
     //! Returns kernel function value at given distance.
     double operator()(double distance) const;
