@@ -126,10 +126,10 @@ void PointHashGridSearcher<N>::ForEachNearbyPoint(
         for (size_t j = 0; j < numberOfPointsInBucket; ++j)
         {
             size_t pointIndex = bucket[j];
-            const double rSquared =
-                (m_points[pointIndex] - origin).LengthSquared();
 
-            if (rSquared <= queryRadiusSquared)
+            if (const double rSquared =
+                    (m_points[pointIndex] - origin).LengthSquared();
+                rSquared <= queryRadiusSquared)
             {
                 callback(pointIndex, m_points[pointIndex]);
             }
@@ -162,10 +162,10 @@ bool PointHashGridSearcher<N>::HasNearbyPoint(const Vector<double, N>& origin,
         for (size_t j = 0; j < numberOfPointsInBucket; ++j)
         {
             size_t pointIndex = bucket[j];
-            const double rSquared =
-                (m_points[pointIndex] - origin).LengthSquared();
 
-            if (rSquared <= queryRadiusSquared)
+            if (const double rSquared =
+                    (m_points[pointIndex] - origin).LengthSquared();
+                rSquared <= queryRadiusSquared)
             {
                 return true;
             }
@@ -185,7 +185,7 @@ void PointHashGridSearcher<N>::Add(const Vector<double, N>& point)
     }
     else
     {
-        size_t i = m_points.Length();
+        const size_t i = m_points.Length();
         m_points.Append(point);
 
         const size_t key = PointHashGridUtils<N>::GetHashKeyFromPosition(

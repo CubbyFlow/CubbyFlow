@@ -68,9 +68,9 @@ void PointSimpleListSearcher<N>::ForEachNearbyPoint(
     for (size_t i = 0; i < m_points.Length(); ++i)
     {
         Vector<double, N> r = m_points[i] - origin;
-        const double distanceSquared = r.Dot(r);
 
-        if (distanceSquared <= radiusSquared)
+        if (const double distanceSquared = r.Dot(r);
+            distanceSquared <= radiusSquared)
         {
             callback(i, m_points[i]);
         }
@@ -86,9 +86,9 @@ bool PointSimpleListSearcher<N>::HasNearbyPoint(const Vector<double, N>& origin,
     for (size_t i = 0; i < m_points.Length(); ++i)
     {
         Vector<double, N> r = m_points[i] - origin;
-        const double distanceSquared = r.Dot(r);
 
-        if (distanceSquared <= radiusSquared)
+        if (const double distanceSquared = r.Dot(r);
+            distanceSquared <= radiusSquared)
         {
             return true;
         }

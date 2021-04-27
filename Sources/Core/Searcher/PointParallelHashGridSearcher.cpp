@@ -221,9 +221,9 @@ void PointParallelHashGridSearcher<N>::ForEachNearbyPoint(
         for (size_t j = start; j < end; ++j)
         {
             Vector<double, N> direction = m_points[j] - origin;
-            const double distanceSquared = direction.LengthSquared();
 
-            if (distanceSquared <= queryRadiusSquared)
+            if (const double distanceSquared = direction.LengthSquared();
+                distanceSquared <= queryRadiusSquared)
             {
                 callback(m_sortedIndices[j], m_points[j]);
             }
@@ -258,9 +258,9 @@ bool PointParallelHashGridSearcher<N>::HasNearbyPoint(
         for (size_t j = start; j < end; ++j)
         {
             Vector<double, N> direction = m_points[j] - origin;
-            const double distanceSquared = direction.LengthSquared();
 
-            if (distanceSquared <= queryRadiusSquared)
+            if (const double distanceSquared = direction.LengthSquared();
+                distanceSquared <= queryRadiusSquared)
             {
                 return true;
             }
