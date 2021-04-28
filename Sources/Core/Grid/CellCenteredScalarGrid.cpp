@@ -25,7 +25,7 @@ CellCenteredScalarGrid<N>::CellCenteredScalarGrid(
     const CellCenteredScalarGrid& other)
     : ScalarGrid<N>{ other }
 {
-    // Do nothing
+    Set(other);
 }
 
 template <size_t N>
@@ -40,6 +40,7 @@ template <size_t N>
 CellCenteredScalarGrid<N>& CellCenteredScalarGrid<N>::operator=(
     const CellCenteredScalarGrid& other)
 {
+    Set(other);
     ScalarGrid<N>::operator=(other);
     return *this;
 }
