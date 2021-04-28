@@ -65,15 +65,15 @@ class VertexCenteredScalarGrid final : public ScalarGrid<N>
         VertexCenteredScalarGrid&& other) noexcept;
 
     //! Returns the actual data point size.
-    Vector<size_t, N> DataSize() const override;
+    [[nodiscard]] Vector<size_t, N> DataSize() const override;
 
     //! Returns data position for the grid point at (0, 0, ...).
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
-    Vector<double, N> DataOrigin() const override;
+    [[nodiscard]] Vector<double, N> DataOrigin() const override;
 
     //! Returns the copy of the grid instance.
-    std::shared_ptr<ScalarGrid<N>> Clone() const override;
+    [[nodiscard]] std::shared_ptr<ScalarGrid<N>> Clone() const override;
 
     //!
     //! \brief Swaps the contents with the given \p other grid.
@@ -136,10 +136,10 @@ class VertexCenteredScalarGrid<N>::Builder final : public ScalarGridBuilder<N>
     //!
     //! This is an overriding function that implements ScalarGridBuilder2.
     //!
-    std::shared_ptr<ScalarGrid<N>> Build(const Vector<size_t, N>& resolution,
-                                         const Vector<double, N>& gridSpacing,
-                                         const Vector<double, N>& gridOrigin,
-                                         double initialVal) const override;
+    [[nodiscard]] std::shared_ptr<ScalarGrid<N>> Build(
+        const Vector<size_t, N>& resolution,
+        const Vector<double, N>& gridSpacing,
+        const Vector<double, N>& gridOrigin, double initialVal) const override;
 
  private:
     Vector<size_t, N> m_resolution = Vector<size_t, N>::MakeConstant(1);

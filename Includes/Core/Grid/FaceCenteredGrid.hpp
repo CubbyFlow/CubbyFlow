@@ -83,55 +83,57 @@ class FaceCenteredGrid final : public VectorGrid<N>
     void Set(const FaceCenteredGrid& other);
 
     //! Returns u-value at given data point.
-    double& U(const Vector<size_t, N>& idx);
+    [[nodiscard]] double& U(const Vector<size_t, N>& idx);
 
     //! Returns u-value at given data point.
     template <typename... Indices>
-    double& U(size_t i, Indices... indices)
+    [[nodiscard]] double& U(size_t i, Indices... indices)
     {
         return U(Vector<size_t, N>(i, indices...));
     }
 
     //! Returns u-value at given data point.
-    const double& U(const Vector<size_t, N>& idx) const;
+    [[nodiscard]] const double& U(const Vector<size_t, N>& idx) const;
 
     //! Returns u-value at given data point.
     template <typename... Indices>
-    const double& U(size_t i, Indices... indices) const
+    [[nodiscard]] const double& U(size_t i, Indices... indices) const
     {
         return U(Vector<size_t, N>(i, indices...));
     }
 
     //! Returns v-value at given data point.
-    double& V(const Vector<size_t, N>& idx);
+    [[nodiscard]] double& V(const Vector<size_t, N>& idx);
 
     //! Returns v-value at given data point.
     template <typename... Indices>
-    double& V(size_t i, Indices... indices)
+    [[nodiscard]] double& V(size_t i, Indices... indices)
     {
         return V(Vector<size_t, N>(i, indices...));
     }
 
     //! Returns v-value at given data point.
-    const double& V(const Vector<size_t, N>& idx) const;
+    [[nodiscard]] const double& V(const Vector<size_t, N>& idx) const;
 
     //! Returns v-value at given data point.
     template <typename... Indices>
-    const double& V(size_t i, Indices... indices) const
+    [[nodiscard]] const double& V(size_t i, Indices... indices) const
     {
         return V(Vector<size_t, N>(i, indices...));
     }
 
     //! Returns w-value at given data point.
     template <size_t M = N>
-    std::enable_if_t<M == 3, double&> W(const Vector<size_t, N>& idx)
+    [[nodiscard]] std::enable_if_t<M == 3, double&> W(
+        const Vector<size_t, N>& idx)
     {
         return m_data[2](idx);
     }
 
     //! Returns w-value at given data point.
     template <size_t M = N, typename... Indices>
-    std::enable_if_t<M == 3, double&> W(size_t i, Indices... indices)
+    [[nodiscard]] std::enable_if_t<M == 3, double&> W(size_t i,
+                                                      Indices... indices)
     {
         return W(Vector<size_t, N>(i, indices...));
     }
@@ -146,107 +148,112 @@ class FaceCenteredGrid final : public VectorGrid<N>
 
     //! Returns w-value at given data point.
     template <size_t M = N, typename... Indices>
-    std::enable_if_t<M == 3, const double&> W(size_t i,
-                                              Indices... indices) const
+    [[nodiscard]] std::enable_if_t<M == 3, const double&> W(
+        size_t i, Indices... indices) const
     {
         return W(Vector<size_t, N>(i, indices...));
     }
 
     //! Returns interpolated value at cell center.
-    Vector<double, N> ValueAtCellCenter(const Vector<size_t, N>& idx) const;
+    [[nodiscard]] Vector<double, N> ValueAtCellCenter(
+        const Vector<size_t, N>& idx) const;
 
     //! Returns interpolated value at cell center.
     template <typename... Indices>
-    Vector<double, N> ValueAtCellCenter(size_t i, Indices... indices) const
+    [[nodiscard]] Vector<double, N> ValueAtCellCenter(size_t i,
+                                                      Indices... indices) const
     {
         return ValueAtCellCenter(Vector<size_t, N>(i, indices...));
     }
 
     //! Returns divergence at cell-center location.
-    double DivergenceAtCellCenter(const Vector<size_t, N>& idx) const;
+    [[nodiscard]] double DivergenceAtCellCenter(
+        const Vector<size_t, N>& idx) const;
 
     //! Returns divergence at cell-center location.
     template <typename... Indices>
-    double DivergenceAtCellCenter(size_t i, Indices... indices) const
+    [[nodiscard]] double DivergenceAtCellCenter(size_t i,
+                                                Indices... indices) const
     {
         return DivergenceAtCellCenter(Vector<size_t, N>(i, indices...));
     }
 
     //! Returns curl at cell-center location.
-    typename GetCurl<N>::Type CurlAtCellCenter(
+    [[nodiscard]] typename GetCurl<N>::Type CurlAtCellCenter(
         const Vector<size_t, N>& idx) const;
 
     //! Returns curl at cell-center location.
     template <typename... Indices>
-    typename GetCurl<N>::Type CurlAtCellCenter(size_t i,
-                                               Indices... indices) const
+    [[nodiscard]] typename GetCurl<N>::Type CurlAtCellCenter(
+        size_t i, Indices... indices) const
     {
         return CurlAtCellCenter(Vector<size_t, N>(i, indices...));
     }
 
     //! Returns u data view.
-    ScalarDataView UView();
+    [[nodiscard]] ScalarDataView UView();
 
     //! Returns read-only u data view.
-    ConstScalarDataView UView() const;
+    [[nodiscard]] ConstScalarDataView UView() const;
 
     //! Returns v data view.
-    ScalarDataView VView();
+    [[nodiscard]] ScalarDataView VView();
 
     //! Returns read-only v data view.
-    ConstScalarDataView VView() const;
+    [[nodiscard]] ConstScalarDataView VView() const;
 
     //! Returns w data view.
     template <size_t M = N>
-    std::enable_if_t<M == 3, ScalarDataView> WView()
+    [[nodiscard]] std::enable_if_t<M == 3, ScalarDataView> WView()
     {
         return DataView(2);
     }
 
     //! Returns read-only w data view.
     template <size_t M = N>
-    std::enable_if_t<M == 3, ConstScalarDataView> WView() const
+    [[nodiscard]] std::enable_if_t<M == 3, ConstScalarDataView> WView() const
     {
         return DataView(2);
     }
 
     //! Returns i-th data view.
-    ScalarDataView DataView(size_t i);
+    [[nodiscard]] ScalarDataView DataView(size_t i);
 
     //! Returns read-only i-th data view.
-    ConstScalarDataView DataView(size_t i) const;
+    [[nodiscard]] ConstScalarDataView DataView(size_t i) const;
 
     //! Returns function object that maps u data point to its actual position.
-    GridDataPositionFunc<N> UPosition() const;
+    [[nodiscard]] GridDataPositionFunc<N> UPosition() const;
 
     //! Returns function object that maps v data point to its actual position.
-    GridDataPositionFunc<N> VPosition() const;
+    [[nodiscard]] GridDataPositionFunc<N> VPosition() const;
 
     //! Returns function object that maps w data point to its actual position.
     template <size_t M = N>
-    std::enable_if_t<M == 3, GridDataPositionFunc<N>> WPosition() const
+    [[nodiscard]] std::enable_if_t<M == 3, GridDataPositionFunc<N>> WPosition()
+        const
     {
         return DataPosition(2);
     }
 
     //! Returns function object that maps data point to its actual position.
-    GridDataPositionFunc<N> DataPosition(size_t i) const;
+    [[nodiscard]] GridDataPositionFunc<N> DataPosition(size_t i) const;
 
     //! Returns data size of the u component.
-    Vector<size_t, N> USize() const;
+    [[nodiscard]] Vector<size_t, N> USize() const;
 
     //! Returns data size of the v component.
-    Vector<size_t, N> VSize() const;
+    [[nodiscard]] Vector<size_t, N> VSize() const;
 
     //! Returns data size of the w component.
     template <size_t M = N>
-    std::enable_if_t<M == 3, Vector<size_t, N>> WSize() const
+    [[nodiscard]] std::enable_if_t<M == 3, Vector<size_t, N>> WSize() const
     {
         return DataSize(2);
     }
 
     //! Returns data size of the i-th component.
-    Vector<size_t, N> DataSize(size_t i) const;
+    [[nodiscard]] Vector<size_t, N> DataSize(size_t i) const;
 
     //!
     //! \brief Returns u-data position for the grid point at (0, 0, ...).
@@ -254,7 +261,7 @@ class FaceCenteredGrid final : public VectorGrid<N>
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
     //!
-    Vector<double, N> UOrigin() const;
+    [[nodiscard]] Vector<double, N> UOrigin() const;
 
     //!
     //! \brief Returns v-data position for the grid point at (0, 0, ...).
@@ -262,7 +269,7 @@ class FaceCenteredGrid final : public VectorGrid<N>
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
     //!
-    Vector<double, N> VOrigin() const;
+    [[nodiscard]] Vector<double, N> VOrigin() const;
 
     //!
     //! \brief Returns w-data position for the grid point at (0, 0, ...).
@@ -271,7 +278,7 @@ class FaceCenteredGrid final : public VectorGrid<N>
     //! the lower corner point of the bounding box.
     //!
     template <size_t M = N>
-    std::enable_if_t<M == 3, Vector<double, N>> WOrigin() const
+    [[nodiscard]] std::enable_if_t<M == 3, Vector<double, N>> WOrigin() const
     {
         return DataOrigin(2);
     }
@@ -282,7 +289,7 @@ class FaceCenteredGrid final : public VectorGrid<N>
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
     //!
-    Vector<double, N> DataOrigin(size_t i) const;
+    [[nodiscard]] Vector<double, N> DataOrigin(size_t i) const;
 
     //! Fills the grid with given value.
     void Fill(const Vector<double, N>& value,
@@ -294,7 +301,7 @@ class FaceCenteredGrid final : public VectorGrid<N>
         ExecutionPolicy policy = ExecutionPolicy::Parallel) override;
 
     //! Returns the copy of the grid instance.
-    std::shared_ptr<VectorGrid<N>> Clone() const override;
+    [[nodiscard]] std::shared_ptr<VectorGrid<N>> Clone() const override;
 
     //!
     //! \brief Invokes the given function \p func for each u-data point.
@@ -371,13 +378,15 @@ class FaceCenteredGrid final : public VectorGrid<N>
     }
 
     //! Returns sampled value at given position \p x.
-    Vector<double, N> Sample(const Vector<double, N>& x) const override;
+    [[nodiscard]] Vector<double, N> Sample(
+        const Vector<double, N>& x) const override;
 
     //! Returns divergence at given position \p x.
-    double Divergence(const Vector<double, N>& x) const override;
+    [[nodiscard]] double Divergence(const Vector<double, N>& x) const override;
 
     //! Returns curl at given position \p x.
-    typename GetCurl<N>::Type Curl(const Vector<double, N>& x) const override;
+    [[nodiscard]] typename GetCurl<N>::Type Curl(
+        const Vector<double, N>& x) const override;
 
     //!
     //! \brief Returns the sampler function.
@@ -385,8 +394,8 @@ class FaceCenteredGrid final : public VectorGrid<N>
     //! This function returns the data sampler function object. The sampling
     //! function is linear.
     //!
-    std::function<Vector<double, N>(const Vector<double, N>&)> Sampler()
-        const override;
+    [[nodiscard]] std::function<Vector<double, N>(const Vector<double, N>&)>
+    Sampler() const override;
 
     //! Returns builder fox FaceCenteredGrid.
     static Builder GetBuilder();

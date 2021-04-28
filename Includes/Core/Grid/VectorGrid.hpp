@@ -74,7 +74,7 @@ class VectorGrid : public VectorField<N>, public Grid<N>
         ExecutionPolicy policy = ExecutionPolicy::Parallel) = 0;
 
     //! Returns the copy of the grid instance.
-    virtual std::shared_ptr<VectorGrid<N>> Clone() const = 0;
+    [[nodiscard]] virtual std::shared_ptr<VectorGrid<N>> Clone() const = 0;
 
     //! Serializes the grid instance to the output buffer.
     void Serialize(std::vector<uint8_t>* buffer) const override;
@@ -136,7 +136,7 @@ class VectorGridBuilder
     VectorGridBuilder& operator=(VectorGridBuilder&& other) noexcept = delete;
 
     //! Returns N-D vector grid with given parameters.
-    virtual std::shared_ptr<VectorGrid<N>> Build(
+    [[nodiscard]] virtual std::shared_ptr<VectorGrid<N>> Build(
         const Vector<size_t, N>& resolution,
         const Vector<double, N>& gridSpacing,
         const Vector<double, N>& gridOrigin,

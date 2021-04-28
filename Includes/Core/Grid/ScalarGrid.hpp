@@ -59,7 +59,7 @@ class ScalarGrid : public ScalarField<N>, public Grid<N>
     //! This function returns the size of the grid data which is not necessarily
     //! equal to the grid resolution if the data is not stored at cell-center.
     //!
-    virtual Vector<size_t, N> DataSize() const = 0;
+    [[nodiscard]] virtual Vector<size_t, N> DataSize() const = 0;
 
     //!
     //! \brief Returns the origin of the grid data.
@@ -68,10 +68,10 @@ class ScalarGrid : public ScalarField<N>, public Grid<N>
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
     //!
-    virtual Vector<double, N> DataOrigin() const = 0;
+    [[nodiscard]] virtual Vector<double, N> DataOrigin() const = 0;
 
     //! Returns the copy of the grid instance.
-    virtual std::shared_ptr<ScalarGrid> Clone() const = 0;
+    [[nodiscard]] virtual std::shared_ptr<ScalarGrid> Clone() const = 0;
 
     //! Clears the contents of the grid.
     void Clear();
@@ -108,33 +108,37 @@ class ScalarGrid : public ScalarField<N>, public Grid<N>
     }
 
     //! Returns the gradient vector at given data point.
-    Vector<double, N> GradientAtDataPoint(const Vector<size_t, N>& idx) const;
+    [[nodiscard]] Vector<double, N> GradientAtDataPoint(
+        const Vector<size_t, N>& idx) const;
 
     //! Returns the gradient vector at given data point.
     template <typename... Indices>
-    Vector<double, N> GradientAtDataPoint(size_t i, Indices... indices) const
+    [[nodiscard]] Vector<double, N> GradientAtDataPoint(
+        size_t i, Indices... indices) const
     {
         return GradientAtDataPoint(Vector<size_t, N>(i, indices...));
     }
 
     //! Returns the Laplacian at given data point.
-    double LaplacianAtDataPoint(const Vector<size_t, N>& idx) const;
+    [[nodiscard]] double LaplacianAtDataPoint(
+        const Vector<size_t, N>& idx) const;
 
     //! Returns the Laplacian at given data point.
     template <typename... Indices>
-    double LaplacianAtDataPoint(size_t i, Indices... indices) const
+    [[nodiscard]] double LaplacianAtDataPoint(size_t i,
+                                              Indices... indices) const
     {
         return LaplacianAtDataPoint(Vector<size_t, N>(i, indices...));
     }
 
     //! Returns the read-write data array accessor.
-    ScalarDataView DataView();
+    [[nodiscard]] ScalarDataView DataView();
 
     //! Returns the read-only data array accessor.
-    ConstScalarDataView DataView() const;
+    [[nodiscard]] ConstScalarDataView DataView() const;
 
     //! Returns the function that maps data point to its position.
-    GridDataPositionFunc<N> DataPosition() const;
+    [[nodiscard]] GridDataPositionFunc<N> DataPosition() const;
 
     //! Fills the grid with given value.
     void Fill(double value, ExecutionPolicy policy = ExecutionPolicy::Parallel);
@@ -203,7 +207,7 @@ class ScalarGrid : public ScalarField<N>, public Grid<N>
     //! This function returns the data sampled at arbitrary position \p x.
     //! The sampling function is linear.
     //!
-    double Sample(const Vector<double, N>& x) const override;
+    [[nodiscard]] double Sample(const Vector<double, N>& x) const override;
 
     //!
     //! \brief Returns the sampler function.
@@ -211,13 +215,15 @@ class ScalarGrid : public ScalarField<N>, public Grid<N>
     //! This function returns the data sampler function object. The sampling
     //! function is linear.
     //!
-    std::function<double(const Vector<double, N>&)> Sampler() const override;
+    [[nodiscard]] std::function<double(const Vector<double, N>&)> Sampler()
+        const override;
 
     //! Returns the gradient vector at given position \p x.
-    Vector<double, N> Gradient(const Vector<double, N>& x) const override;
+    [[nodiscard]] Vector<double, N> Gradient(
+        const Vector<double, N>& x) const override;
 
     //! Returns the Laplacian at given position \p x.
-    double Laplacian(const Vector<double, N>& x) const override;
+    [[nodiscard]] double Laplacian(const Vector<double, N>& x) const override;
 
     //! Serializes the grid instance to the output buffer.
     void Serialize(std::vector<uint8_t>* buffer) const override;

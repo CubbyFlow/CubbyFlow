@@ -66,12 +66,12 @@ class CellCenteredVectorGrid final : public CollocatedVectorGrid<N>
     CellCenteredVectorGrid& operator=(CellCenteredVectorGrid&& other) noexcept;
 
     //! Returns the actual data point size.
-    Vector<size_t, N> DataSize() const override;
+    [[nodiscard]] Vector<size_t, N> DataSize() const override;
 
     //! Returns data position for the grid point at (0, 0).
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
-    Vector<double, N> DataOrigin() const override;
+    [[nodiscard]] Vector<double, N> DataOrigin() const override;
 
     //!
     //! \brief Swaps the contents with the given \p other grid.
@@ -94,7 +94,7 @@ class CellCenteredVectorGrid final : public CollocatedVectorGrid<N>
         ExecutionPolicy policy = ExecutionPolicy::Parallel) override;
 
     //! Returns the copy of the grid instance.
-    std::shared_ptr<VectorGrid<N>> Clone() const override;
+    [[nodiscard]] std::shared_ptr<VectorGrid<N>> Clone() const override;
 
     //! Returns builder fox CellCenteredVectorGrid.
     static Builder GetBuilder();
@@ -146,7 +146,7 @@ class CellCenteredVectorGrid<N>::Builder final : public VectorGridBuilder<N>
     //!
     //! This is an overriding function that implements VectorGridBuilder.
     //!
-    std::shared_ptr<VectorGrid<N>> Build(
+    [[nodiscard]] std::shared_ptr<VectorGrid<N>> Build(
         const Vector<size_t, N>& resolution,
         const Vector<double, N>& gridSpacing,
         const Vector<double, N>& gridOrigin,
