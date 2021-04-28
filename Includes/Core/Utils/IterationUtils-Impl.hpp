@@ -20,7 +20,7 @@ struct ForEachIndex
 {
     template <typename Func, typename... RemainingIndices>
     static void Call(const Vector<IndexType, N>& begin,
-                     const Vector<IndexType, N>& end, Func func,
+                     const Vector<IndexType, N>& end, const Func& func,
                      RemainingIndices... indices)
     {
         for (IndexType i = begin[I - 1]; i < end[I - 1]; ++i)
@@ -36,7 +36,7 @@ struct ForEachIndex<IndexType, N, 1>
 {
     template <typename Func, typename... RemainingIndices>
     static void Call(const Vector<IndexType, N>& begin,
-                     const Vector<IndexType, N>& end, Func func,
+                     const Vector<IndexType, N>& end, const Func& func,
                      RemainingIndices... indices)
     {
         for (IndexType i = begin[0]; i < end[0]; ++i)
@@ -49,7 +49,7 @@ struct ForEachIndex<IndexType, N, 1>
 
 template <typename IndexType, size_t N, typename Func>
 void ForEachIndex(const Vector<IndexType, N>& begin,
-                  const Vector<IndexType, N>& end, Func func)
+                  const Vector<IndexType, N>& end, const Func& func)
 {
     for (IndexType i = begin[N - 1]; i < end[N - 1]; ++i)
     {
@@ -59,7 +59,7 @@ void ForEachIndex(const Vector<IndexType, N>& begin,
 
 template <typename IndexType, typename Func>
 void ForEachIndex(const Vector<IndexType, 1>& begin,
-                  const Vector<IndexType, 1>& end, Func func)
+                  const Vector<IndexType, 1>& end, const Func& func)
 {
     for (IndexType i = begin[0]; i < end[0]; ++i)
     {
@@ -68,7 +68,7 @@ void ForEachIndex(const Vector<IndexType, 1>& begin,
 }
 
 template <typename IndexType, typename Func>
-void ForEachIndex(IndexType begin, IndexType end, Func func)
+void ForEachIndex(IndexType begin, IndexType end, const Func& func)
 {
     for (IndexType i = begin; i < end; ++i)
     {
@@ -77,26 +77,26 @@ void ForEachIndex(IndexType begin, IndexType end, Func func)
 }
 
 template <typename IndexType, size_t N, typename Func>
-void ForEachIndex(const Vector<IndexType, N>& size, Func func)
+void ForEachIndex(const Vector<IndexType, N>& size, const Func& func)
 {
     ForEachIndex(Vector<IndexType, N>{}, size, func);
 }
 
 template <typename IndexType, typename Func>
-void ForEachIndex(const Vector<IndexType, 1>& size, Func func)
+void ForEachIndex(const Vector<IndexType, 1>& size, const Func& func)
 {
     ForEachIndex(Vector<IndexType, 1>{}, size, func);
 }
 
 template <typename IndexType, typename Func>
-void ForEachIndex(IndexType size, Func func)
+void ForEachIndex(IndexType size, const Func& func)
 {
     ForEachIndex(IndexType{}, size, func);
 }
 
 template <typename IndexType, size_t N, typename Func>
 void ParallelForEachIndex(const Vector<IndexType, N>& begin,
-                          const Vector<IndexType, N>& end, Func func,
+                          const Vector<IndexType, N>& end, const Func& func,
                           ExecutionPolicy policy)
 {
     ParallelFor(
@@ -110,35 +110,36 @@ void ParallelForEachIndex(const Vector<IndexType, N>& begin,
 
 template <typename IndexType, typename Func>
 void ParallelForEachIndex(const Vector<IndexType, 1>& begin,
-                          const Vector<IndexType, 1>& end, Func func,
+                          const Vector<IndexType, 1>& end, const Func& func,
                           ExecutionPolicy policy)
 {
     ParallelFor(begin[0], end[0], func, policy);
 }
 
 template <typename IndexType, typename Func>
-void ParallelForEachIndex(IndexType begin, IndexType end, Func func,
+void ParallelForEachIndex(IndexType begin, IndexType end, const Func& func,
                           ExecutionPolicy policy)
 {
     ParallelFor(begin, end, func, policy);
 }
 
 template <typename IndexType, size_t N, typename Func>
-void ParallelForEachIndex(const Vector<IndexType, N>& size, Func func,
+void ParallelForEachIndex(const Vector<IndexType, N>& size, const Func& func,
                           ExecutionPolicy policy)
 {
     ParallelForEachIndex(Vector<IndexType, N>{}, size, func, policy);
 }
 
 template <typename IndexType, typename Func>
-void ParallelForEachIndex(const Vector<IndexType, 1>& size, Func func,
+void ParallelForEachIndex(const Vector<IndexType, 1>& size, const Func& func,
                           ExecutionPolicy policy)
 {
     ParallelForEachIndex(Vector<IndexType, 1>{}, size, func, policy);
 }
 
 template <typename IndexType, typename Func>
-void ParallelForEachIndex(IndexType size, Func func, ExecutionPolicy policy)
+void ParallelForEachIndex(IndexType size, const Func& func,
+                          ExecutionPolicy policy)
 {
     ParallelForEachIndex(IndexType{}, size, func, policy);
 }
