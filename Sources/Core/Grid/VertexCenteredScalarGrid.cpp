@@ -25,7 +25,7 @@ VertexCenteredScalarGrid<N>::VertexCenteredScalarGrid(
     const VertexCenteredScalarGrid& other)
     : ScalarGrid<N>{ other }
 {
-    // Do nothing
+    Set(other);
 }
 
 template <size_t N>
@@ -40,6 +40,7 @@ template <size_t N>
 VertexCenteredScalarGrid<N>& VertexCenteredScalarGrid<N>::operator=(
     const VertexCenteredScalarGrid& other)
 {
+    Set(other);
     ScalarGrid<N>::operator=(other);
     return *this;
 }
