@@ -103,6 +103,11 @@ GridSystemData<N>::GridSystemData(GridSystemData&& other) noexcept
 template <size_t N>
 GridSystemData<N>& GridSystemData<N>::operator=(const GridSystemData& other)
 {
+    if (this == &other)
+    {
+        return *this;
+    }
+
     m_resolution = other.m_resolution;
     m_gridSpacing = other.m_gridSpacing;
     m_origin = other.m_origin;
