@@ -56,8 +56,20 @@ class FaceCenteredGrid final : public VectorGrid<N>
         const Vector<double, N>& origin = Vector<double, N>{},
         const Vector<double, N>& initialValue = Vector<double, N>{});
 
+    //! Default virtual destructor.
+    ~FaceCenteredGrid() override = default;
+
     //! Copy constructor.
     FaceCenteredGrid(const FaceCenteredGrid& other);
+
+    //! Move constructor.
+    FaceCenteredGrid(FaceCenteredGrid&& other) noexcept;
+
+    //! Copy assignment operator.
+    FaceCenteredGrid& operator=(const FaceCenteredGrid& other);
+
+    //! Move assignment operator.
+    FaceCenteredGrid& operator=(FaceCenteredGrid&& other) noexcept;
 
     //!
     //! \brief Swaps the contents with the given \p other grid.
@@ -69,9 +81,6 @@ class FaceCenteredGrid final : public VectorGrid<N>
 
     //! Sets the contents with the given \p other grid.
     void Set(const FaceCenteredGrid& other);
-
-    //! Sets the contents with the given \p other grid.
-    FaceCenteredGrid& operator=(const FaceCenteredGrid& other);
 
     //! Returns u-value at given data point.
     double& U(const Vector<size_t, N>& idx);

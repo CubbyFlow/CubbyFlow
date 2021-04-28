@@ -48,8 +48,20 @@ class CellCenteredScalarGrid final : public ScalarGrid<N>
         const Vector<double, N>& origin = Vector<double, N>{},
         double initialValue = 0.0);
 
+    //! Default virtual destructor.
+    ~CellCenteredScalarGrid() override = default;
+
     //! Copy constructor.
     CellCenteredScalarGrid(const CellCenteredScalarGrid& other);
+
+    //! Move constructor.
+    CellCenteredScalarGrid(CellCenteredScalarGrid&& other) noexcept;
+
+    //! Copy assignment operator.
+    CellCenteredScalarGrid& operator=(const CellCenteredScalarGrid& other);
+
+    //! Move assignment operator.
+    CellCenteredScalarGrid& operator=(CellCenteredScalarGrid&& other) noexcept;
 
     //! Returns the actual data point size.
     Vector<size_t, N> DataSize() const override;
@@ -69,9 +81,6 @@ class CellCenteredScalarGrid final : public ScalarGrid<N>
 
     //! Sets the contents with the given \p other grid.
     void Set(const CellCenteredScalarGrid& other);
-
-    //! Sets the contents with the given \p other grid.
-    CellCenteredScalarGrid& operator=(const CellCenteredScalarGrid& other);
 
     //! Returns the copy of the grid instance.
     std::shared_ptr<ScalarGrid<N>> Clone() const override;

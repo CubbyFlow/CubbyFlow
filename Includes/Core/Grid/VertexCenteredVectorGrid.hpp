@@ -50,8 +50,21 @@ class VertexCenteredVectorGrid final : public CollocatedVectorGrid<N>
         const Vector<double, N>& origin = Vector<double, N>{},
         const Vector<double, N>& initialValue = Vector<double, N>{});
 
+    //! Default virtual destructor.
+    ~VertexCenteredVectorGrid() override = default;
+
     //! Copy constructor.
     VertexCenteredVectorGrid(const VertexCenteredVectorGrid& other);
+
+    //! Move constructor.
+    VertexCenteredVectorGrid(VertexCenteredVectorGrid&& other) noexcept;
+
+    //! Copy assignment operator.
+    VertexCenteredVectorGrid& operator=(const VertexCenteredVectorGrid& other);
+
+    //! Move assignment operator.
+    VertexCenteredVectorGrid& operator=(
+        VertexCenteredVectorGrid&& other) noexcept;
 
     //! Returns the actual data point size.
     Vector<size_t, N> DataSize() const override;
@@ -71,9 +84,6 @@ class VertexCenteredVectorGrid final : public CollocatedVectorGrid<N>
 
     //! Sets the contents with the given \p other grid.
     void Set(const VertexCenteredVectorGrid& other);
-
-    //! Sets the contents with the given \p other grid.
-    VertexCenteredVectorGrid& operator=(const VertexCenteredVectorGrid& other);
 
     //! Fills the grid with given value.
     void Fill(const Vector<double, N>& value,

@@ -35,8 +35,20 @@ class VectorGrid : public VectorField<N>, public Grid<N>
     //! Constructs an empty grid.
     VectorGrid() = default;
 
-    //! Default destructor.
+    //! Default virtual destructor.
     ~VectorGrid() override = default;
+
+    //! Copy constructor.
+    VectorGrid(const VectorGrid& other);
+
+    //! Move constructor.
+    VectorGrid(VectorGrid&& other) noexcept;
+
+    //! Copy assignment operator.
+    VectorGrid& operator=(const VectorGrid& other);
+
+    //! Move assignment operator.
+    VectorGrid& operator=(VectorGrid&& other) noexcept;
 
     //! Clears the contents of the grid.
     void Clear();
@@ -108,8 +120,20 @@ class VectorGridBuilder
     //! Creates a builder.
     VectorGridBuilder() = default;
 
-    //! Default destructor.
+    //! Default virtual destructor.
     virtual ~VectorGridBuilder() = default;
+
+    //! Deleted copy constructor.
+    VectorGridBuilder(const VectorGridBuilder& other) = delete;
+
+    //! Deleted move constructor.
+    VectorGridBuilder(VectorGridBuilder&& other) noexcept = delete;
+
+    //! Deleted copy assignment operator.
+    VectorGridBuilder& operator=(const VectorGridBuilder& other) = delete;
+
+    //! Deleted move assignment operator.
+    VectorGridBuilder& operator=(VectorGridBuilder&& other) noexcept = delete;
 
     //! Returns N-D vector grid with given parameters.
     virtual std::shared_ptr<VectorGrid<N>> Build(

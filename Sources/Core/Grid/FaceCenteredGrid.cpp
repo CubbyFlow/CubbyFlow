@@ -268,9 +268,49 @@ FaceCenteredGrid<N>::FaceCenteredGrid(const Vector<size_t, N>& resolution,
 
 template <size_t N>
 FaceCenteredGrid<N>::FaceCenteredGrid(const FaceCenteredGrid& other)
-    : FaceCenteredGrid{}
+    : VectorGrid<N>{ other }, m_dataOrigins(other.m_dataOrigins)
 {
-    Set(other);
+    for (size_t i = 0; i < N; ++i)
+    {
+        m_data[i].CopyFrom(other.m_data[i]);
+    }
+
+    ResetSampler();
+}
+
+template <size_t N>
+FaceCenteredGrid<N>::FaceCenteredGrid(FaceCenteredGrid&& other) noexcept
+    : VectorGrid<N>{ std::move(other) },
+      m_data(std::move(other.m_data)),
+      m_dataOrigins(std::move(other.m_dataOrigins))
+{
+    ResetSampler();
+}
+
+template <size_t N>
+FaceCenteredGrid<N>& FaceCenteredGrid<N>::operator=(
+    const FaceCenteredGrid& other)
+{
+    for (size_t i = 0; i < N; ++i)
+    {
+        m_data[i].CopyFrom(other.m_data[i]);
+    }
+
+    m_dataOrigins = other.m_dataOrigins;
+    Grid<N>::operator=(other);
+    ResetSampler();
+    return *this;
+}
+
+template <size_t N>
+FaceCenteredGrid<N>& FaceCenteredGrid<N>::operator=(
+    FaceCenteredGrid&& other) noexcept
+{
+    m_data = std::move(other.m_data);
+    m_dataOrigins = std::move(other.m_dataOrigins);
+    Grid<N>::operator=(std::move(other));
+    ResetSampler();
+    return *this;
 }
 
 template <size_t N>
@@ -304,14 +344,6 @@ void FaceCenteredGrid<N>::Set(const FaceCenteredGrid& other)
     m_dataOrigins = other.m_dataOrigins;
 
     ResetSampler();
-}
-
-template <size_t N>
-FaceCenteredGrid<N>& FaceCenteredGrid<N>::operator=(
-    const FaceCenteredGrid& other)
-{
-    Set(other);
-    return *this;
 }
 
 template <size_t N>

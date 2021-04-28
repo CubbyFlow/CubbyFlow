@@ -47,8 +47,22 @@ class VertexCenteredScalarGrid final : public ScalarGrid<N>
         const Vector<double, N>& origin = Vector<double, N>{},
         double initialValue = 0.0);
 
+    //! Default virtual destructor.
+    ~VertexCenteredScalarGrid() override = default;
+
     //! Copy constructor.
     VertexCenteredScalarGrid(const VertexCenteredScalarGrid& other);
+
+    //! Move constructor.
+    VertexCenteredScalarGrid(VertexCenteredScalarGrid&& other) noexcept;
+
+    //! Copy assignment operator.
+    VertexCenteredScalarGrid<N>& operator=(
+        const VertexCenteredScalarGrid& other);
+
+    //! Move assignment operator.
+    VertexCenteredScalarGrid<N>& operator=(
+        VertexCenteredScalarGrid&& other) noexcept;
 
     //! Returns the actual data point size.
     Vector<size_t, N> DataSize() const override;
@@ -71,10 +85,6 @@ class VertexCenteredScalarGrid final : public ScalarGrid<N>
 
     //! Sets the contents with the given \p other grid.
     void Set(const VertexCenteredScalarGrid<N>& other);
-
-    //! Sets the contents with the given \p other grid.
-    VertexCenteredScalarGrid<N>& operator=(
-        const VertexCenteredScalarGrid<N>& other);
 
     //! Returns builder fox VertexCenteredScalarGrid<N>.
     static Builder GetBuilder();

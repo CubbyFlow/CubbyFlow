@@ -23,8 +23,33 @@ CellCenteredScalarGrid<N>::CellCenteredScalarGrid(
 template <size_t N>
 CellCenteredScalarGrid<N>::CellCenteredScalarGrid(
     const CellCenteredScalarGrid& other)
+    : ScalarGrid<N>{ other }
 {
-    Set(other);
+    // Do nothing
+}
+
+template <size_t N>
+CellCenteredScalarGrid<N>::CellCenteredScalarGrid(
+    CellCenteredScalarGrid&& other) noexcept
+    : ScalarGrid<N>{ std::move(other) }
+{
+    // Do nothing
+}
+
+template <size_t N>
+CellCenteredScalarGrid<N>& CellCenteredScalarGrid<N>::operator=(
+    const CellCenteredScalarGrid& other)
+{
+    ScalarGrid<N>::operator=(other);
+    return *this;
+}
+
+template <size_t N>
+CellCenteredScalarGrid<N>& CellCenteredScalarGrid<N>::operator=(
+    CellCenteredScalarGrid&& other) noexcept
+{
+    ScalarGrid<N>::operator=(std::move(other));
+    return *this;
 }
 
 template <size_t N>
@@ -62,14 +87,6 @@ template <size_t N>
 void CellCenteredScalarGrid<N>::Set(const CellCenteredScalarGrid& other)
 {
     SetScalarGrid(other);
-}
-
-template <size_t N>
-CellCenteredScalarGrid<N>& CellCenteredScalarGrid<N>::operator=(
-    const CellCenteredScalarGrid& other)
-{
-    Set(other);
-    return *this;
 }
 
 template <size_t N>

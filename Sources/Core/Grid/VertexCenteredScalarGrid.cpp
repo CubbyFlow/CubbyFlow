@@ -23,8 +23,33 @@ VertexCenteredScalarGrid<N>::VertexCenteredScalarGrid(
 template <size_t N>
 VertexCenteredScalarGrid<N>::VertexCenteredScalarGrid(
     const VertexCenteredScalarGrid& other)
+    : ScalarGrid<N>{ other }
 {
-    Set(other);
+    // Do nothing
+}
+
+template <size_t N>
+VertexCenteredScalarGrid<N>::VertexCenteredScalarGrid(
+    VertexCenteredScalarGrid&& other) noexcept
+    : ScalarGrid<N>{ std::move(other) }
+{
+    // Do nothing
+}
+
+template <size_t N>
+VertexCenteredScalarGrid<N>& VertexCenteredScalarGrid<N>::operator=(
+    const VertexCenteredScalarGrid& other)
+{
+    ScalarGrid<N>::operator=(other);
+    return *this;
+}
+
+template <size_t N>
+VertexCenteredScalarGrid<N>& VertexCenteredScalarGrid<N>::operator=(
+    VertexCenteredScalarGrid&& other) noexcept
+{
+    ScalarGrid<N>::operator=(std::move(other));
+    return *this;
 }
 
 template <size_t N>
@@ -66,14 +91,6 @@ template <size_t N>
 void VertexCenteredScalarGrid<N>::Set(const VertexCenteredScalarGrid& other)
 {
     SetScalarGrid(other);
-}
-
-template <size_t N>
-VertexCenteredScalarGrid<N>& VertexCenteredScalarGrid<N>::operator=(
-    const VertexCenteredScalarGrid& other)
-{
-    Set(other);
-    return *this;
 }
 
 template <size_t N>

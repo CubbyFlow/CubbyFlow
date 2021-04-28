@@ -51,11 +51,20 @@ class GridSystemData : public Serializable
                    const Vector<double, N>& gridSpacing,
                    const Vector<double, N>& origin);
 
+    //! Default virtual destructor.
+    ~GridSystemData() override = default;
+
     //! Copy constructor.
     GridSystemData(const GridSystemData& other);
 
-    //! Destructor.
-    ~GridSystemData() override = default;
+    //! Move constructor.
+    GridSystemData(GridSystemData&& other) noexcept;
+
+    //! Copy assignment operator.
+    GridSystemData& operator=(const GridSystemData& other);
+
+    //! Move assignment operator.
+    GridSystemData& operator=(GridSystemData&& other) noexcept;
 
     //!
     //! \brief      Resizes the whole system with given resolution, grid
@@ -245,7 +254,7 @@ class GridSystemData : public Serializable
     Vector<double, N> m_origin;
 
     std::shared_ptr<FaceCenteredGrid<N>> m_velocity;
-    size_t m_velocityIdx;
+    size_t m_velocityIdx = 0;
     std::vector<std::shared_ptr<ScalarGrid<N>>> m_scalarDataList;
     std::vector<std::shared_ptr<VectorGrid<N>>> m_vectorDataList;
     std::vector<std::shared_ptr<ScalarGrid<N>>> m_advectableScalarDataList;

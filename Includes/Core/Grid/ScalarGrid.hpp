@@ -38,8 +38,20 @@ class ScalarGrid : public ScalarField<N>, public Grid<N>
     //! Constructs an empty grid.
     ScalarGrid();
 
-    //! Default destructor.
+    //! Default virtual destructor.
     ~ScalarGrid() override = default;
+
+    //! Copy constructor.
+    ScalarGrid(const ScalarGrid& other);
+
+    //! Move constructor.
+    ScalarGrid(ScalarGrid&& other) noexcept;
+
+    //! Copy assignment operator.
+    ScalarGrid& operator=(const ScalarGrid& other);
+
+    //! Move assignment operator.
+    ScalarGrid& operator=(ScalarGrid&& other) noexcept;
 
     //!
     //! \brief Returns the size of the grid data.
@@ -185,8 +197,6 @@ class ScalarGrid : public ScalarField<N>, public Grid<N>
             [&func](const Vector3UZ& idx) { func(idx.x, idx.y, idx.z); });
     }
 
-    // ScalarField2 implementations
-
     //!
     //! \brief Returns the sampled value at given position \p x.
     //!
@@ -260,8 +270,20 @@ class ScalarGridBuilder
     //! Creates a builder.
     ScalarGridBuilder() = default;
 
-    //! Default destructor.
+    //! Default virtual destructor.
     virtual ~ScalarGridBuilder() = default;
+
+    //! Deleted copy constructor.
+    ScalarGridBuilder(const ScalarGridBuilder& other) = delete;
+
+    //! Deleted move constructor.
+    ScalarGridBuilder(ScalarGridBuilder&& other) noexcept = delete;
+
+    //! Deleted copy assignment operator.
+    ScalarGridBuilder& operator=(const ScalarGridBuilder& other) = delete;
+
+    //! Deleted move assignment operator.
+    ScalarGridBuilder& operator=(ScalarGridBuilder&& other) noexcept = delete;
 
     //! Returns N-D scalar grid with given parameters.
     virtual std::shared_ptr<ScalarGrid<N>> Build(

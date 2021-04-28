@@ -29,8 +29,22 @@ class CollocatedVectorGrid : public VectorGrid<N>
     //! Constructs an empty grid.
     CollocatedVectorGrid();
 
-    //! Default destructor.
+    //! Default virtual destructor.
     ~CollocatedVectorGrid() override = default;
+
+    //! Default copy constructor.
+    CollocatedVectorGrid(const CollocatedVectorGrid& other) = default;
+
+    //! Default move constructor.
+    CollocatedVectorGrid(CollocatedVectorGrid&& other) noexcept = default;
+
+    //! Default copy assignment operator.
+    CollocatedVectorGrid& operator=(const CollocatedVectorGrid& other) =
+        default;
+
+    //! Default move assignment operator.
+    CollocatedVectorGrid& operator=(CollocatedVectorGrid&& other) noexcept =
+        default;
 
     //! Returns the actual data point size.
     virtual Vector<size_t, N> DataSize() const = 0;

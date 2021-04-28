@@ -1,4 +1,4 @@
-// This code is based on Jet framework.
+    // This code is based on Jet framework.
 // Copyright (c) 2018 Doyub Kim
 // CubbyFlow is voxel-based fluid simulation engine for computer games.
 // Copyright (c) 2020 CubbyFlow Team
@@ -61,8 +61,20 @@ class Grid : public Serializable
     //! Constructs an empty grid.
     Grid() = default;
 
-    //! Default destructor.
+    //! Default virtual destructor.
     ~Grid() override = default;
+
+    //! Copy constructor.
+    Grid(const Grid& other);
+
+    //! Move constructor.
+    Grid(Grid&& other) noexcept;
+
+    //! Copy assignment operator.
+    Grid& operator=(const Grid& other);
+
+    //! Move assignment operator.
+    Grid& operator=(Grid&& other) noexcept;
 
     //! Returns the type name of derived grid.
     virtual std::string TypeName() const = 0;
