@@ -112,7 +112,7 @@ double Curl(const FaceCenteredGrid2& grid, const Vector2D& x)
 
 double Divergence(const FaceCenteredGrid3& grid, const Vector3D& x)
 {
-    const Vector3UZ res = grid.Resolution();
+    const Vector3UZ& res = grid.Resolution();
     size_t i, j, k;
     double fx, fy, fz;
     const Vector3D cellCenterOrigin = grid.Origin() + 0.5 * grid.GridSpacing();
@@ -199,7 +199,7 @@ Vector3D Curl(const FaceCenteredGrid3& grid, const Vector3UZ& idx)
 
 Vector3D Curl(const FaceCenteredGrid3& grid, const Vector3D& x)
 {
-    const Vector3UZ res = grid.Resolution();
+    const Vector3UZ& res = grid.Resolution();
     size_t i, j, k;
     double fx, fy, fz;
     const Vector3D cellCenterOrigin = grid.Origin() + 0.5 * grid.GridSpacing();
