@@ -109,8 +109,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a8c4c6f44c2520021999698c708f70360"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an empty grid.  <a href="#a8c4c6f44c2520021999698c708f70360">More...</a><br /></td></tr>
 <tr class="separator:a8c4c6f44c2520021999698c708f70360"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5cc6677b914e2ba45d29f2c56fec9be8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid.html#a5cc6677b914e2ba45d29f2c56fec9be8">~Grid</a> () override=default</td></tr>
-<tr class="memdesc:a5cc6677b914e2ba45d29f2c56fec9be8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor.  <a href="#a5cc6677b914e2ba45d29f2c56fec9be8">More...</a><br /></td></tr>
+<tr class="memdesc:a5cc6677b914e2ba45d29f2c56fec9be8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default virtual destructor.  <a href="#a5cc6677b914e2ba45d29f2c56fec9be8">More...</a><br /></td></tr>
 <tr class="separator:a5cc6677b914e2ba45d29f2c56fec9be8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdfd21220c7a886a38a8bc24a6b645cf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid.html#afdfd21220c7a886a38a8bc24a6b645cf">Grid</a> (const <a class="el" href="class_cubby_flow_1_1_grid.html">Grid</a> &amp;other)</td></tr>
+<tr class="memdesc:afdfd21220c7a886a38a8bc24a6b645cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <a href="#afdfd21220c7a886a38a8bc24a6b645cf">More...</a><br /></td></tr>
+<tr class="separator:afdfd21220c7a886a38a8bc24a6b645cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f8254d2bd6e2ee177e0bb003a838a36"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid.html#a7f8254d2bd6e2ee177e0bb003a838a36">Grid</a> (<a class="el" href="class_cubby_flow_1_1_grid.html">Grid</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="memdesc:a7f8254d2bd6e2ee177e0bb003a838a36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor.  <a href="#a7f8254d2bd6e2ee177e0bb003a838a36">More...</a><br /></td></tr>
+<tr class="separator:a7f8254d2bd6e2ee177e0bb003a838a36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2fcbcc2b769f5acda50e27eaca7891b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_grid.html">Grid</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid.html#ae2fcbcc2b769f5acda50e27eaca7891b">operator=</a> (const <a class="el" href="class_cubby_flow_1_1_grid.html">Grid</a> &amp;other)</td></tr>
+<tr class="memdesc:ae2fcbcc2b769f5acda50e27eaca7891b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment operator.  <a href="#ae2fcbcc2b769f5acda50e27eaca7891b">More...</a><br /></td></tr>
+<tr class="separator:ae2fcbcc2b769f5acda50e27eaca7891b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b1754f4742497d62084e7995ec4b7da"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cubby_flow_1_1_grid.html">Grid</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid.html#a8b1754f4742497d62084e7995ec4b7da">operator=</a> (<a class="el" href="class_cubby_flow_1_1_grid.html">Grid</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="memdesc:a8b1754f4742497d62084e7995ec4b7da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment operator.  <a href="#a8b1754f4742497d62084e7995ec4b7da">More...</a><br /></td></tr>
+<tr class="separator:a8b1754f4742497d62084e7995ec4b7da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8d4ae31f4cc01a01e7ed10d7f5be12f"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_grid.html#aa8d4ae31f4cc01a01e7ed10d7f5be12f">TypeName</a> () const =0</td></tr>
 <tr class="memdesc:aa8d4ae31f4cc01a01e7ed10d7f5be12f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type name of derived grid.  <a href="#aa8d4ae31f4cc01a01e7ed10d7f5be12f">More...</a><br /></td></tr>
 <tr class="separator:aa8d4ae31f4cc01a01e7ed10d7f5be12f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -204,7 +216,7 @@ class CubbyFlow::Grid&lt; N &gt;</h3>
 <p>This class represents N-D cartesian grid structure. This class is an abstract base class and does not store any data. The class only stores the shape of the grid. The grid structure is axis-aligned and can have different grid spacing per axis. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a8c4c6f44c2520021999698c708f70360"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c4c6f44c2520021999698c708f70360">&#9670;&nbsp;</a></span>Grid()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c4c6f44c2520021999698c708f70360">&#9670;&nbsp;</a></span>Grid() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -257,7 +269,59 @@ template&lt;size_t N&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Default destructor. </p>
+<p>Default virtual destructor. </p>
+
+</div>
+</div>
+<a id="afdfd21220c7a886a38a8bc24a6b645cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdfd21220c7a886a38a8bc24a6b645cf">&#9670;&nbsp;</a></span>Grid() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_grid.html">CubbyFlow::Grid</a>&lt; N &gt;::<a class="el" href="class_cubby_flow_1_1_grid.html">Grid</a> </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_grid.html">Grid</a>&lt; N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Copy constructor. </p>
+
+</div>
+</div>
+<a id="a7f8254d2bd6e2ee177e0bb003a838a36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f8254d2bd6e2ee177e0bb003a838a36">&#9670;&nbsp;</a></span>Grid() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_grid.html">CubbyFlow::Grid</a>&lt; N &gt;::<a class="el" href="class_cubby_flow_1_1_grid.html">Grid</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_cubby_flow_1_1_grid.html">Grid</a>&lt; N &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Move constructor. </p>
 
 </div>
 </div>
@@ -459,6 +523,58 @@ template&lt;size_t N&gt; </div>
 </div><div class="memdoc">
 
 <p>Returns true if resolution, grid-spacing and origin are same. </p>
+
+</div>
+</div>
+<a id="ae2fcbcc2b769f5acda50e27eaca7891b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2fcbcc2b769f5acda50e27eaca7891b">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_grid.html">Grid</a>&amp; <a class="el" href="class_cubby_flow_1_1_grid.html">CubbyFlow::Grid</a>&lt; N &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_cubby_flow_1_1_grid.html">Grid</a>&lt; N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Copy assignment operator. </p>
+
+</div>
+</div>
+<a id="a8b1754f4742497d62084e7995ec4b7da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b1754f4742497d62084e7995ec4b7da">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_cubby_flow_1_1_grid.html">Grid</a>&amp; <a class="el" href="class_cubby_flow_1_1_grid.html">CubbyFlow::Grid</a>&lt; N &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_cubby_flow_1_1_grid.html">Grid</a>&lt; N &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Move assignment operator. </p>
 
 </div>
 </div>
@@ -722,7 +838,7 @@ template&lt;size_t N&gt; </div>
 
 <p>Swaps the data with other grid. </p>
 
-<p>Implemented in <a class="el" href="class_cubby_flow_1_1_cell_centered_vector_grid.html#a7e7111a601dca5fb7a63f465e7aa8cc3">CubbyFlow::CellCenteredVectorGrid&lt; N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_vertex_centered_scalar_grid.html#ae5fecc3749d8f596c9ca43313e64ba63">CubbyFlow::VertexCenteredScalarGrid&lt; N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_vertex_centered_vector_grid.html#a91784f210aa5a1a74e5cb66ac27152ad">CubbyFlow::VertexCenteredVectorGrid&lt; N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_cell_centered_scalar_grid.html#ae594c1818d88ce4c710b672dfc097bd3">CubbyFlow::CellCenteredScalarGrid&lt; N &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_face_centered_grid.html#a638362ec6ef33434c74cba32514c356c">CubbyFlow::FaceCenteredGrid&lt; N &gt;</a>.</p>
+<p>Implemented in <a class="el" href="class_cubby_flow_1_1_vertex_centered_scalar_grid.html#ae5fecc3749d8f596c9ca43313e64ba63">CubbyFlow::VertexCenteredScalarGrid&lt; N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_vertex_centered_vector_grid.html#a91784f210aa5a1a74e5cb66ac27152ad">CubbyFlow::VertexCenteredVectorGrid&lt; N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_cell_centered_vector_grid.html#a7e7111a601dca5fb7a63f465e7aa8cc3">CubbyFlow::CellCenteredVectorGrid&lt; N &gt;</a>, <a class="el" href="class_cubby_flow_1_1_cell_centered_scalar_grid.html#ae594c1818d88ce4c710b672dfc097bd3">CubbyFlow::CellCenteredScalarGrid&lt; N &gt;</a>, and <a class="el" href="class_cubby_flow_1_1_face_centered_grid.html#a638362ec6ef33434c74cba32514c356c">CubbyFlow::FaceCenteredGrid&lt; N &gt;</a>.</p>
 
 </div>
 </div>
@@ -797,7 +913,7 @@ template&lt;size_t N&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 17 2021 09:28:53 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 28 2021 12:42:05 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

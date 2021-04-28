@@ -13,7 +13,7 @@ var searchData=
   ['nestedinitializerlistst',['NestedInitializerListsT',['../namespace_cubby_flow.html#ad8cbf3026e355ecb115381d0e591773e',1,'CubbyFlow']]],
   ['nodecontainertype',['NodeContainerType',['../class_cubby_flow_1_1_kd_tree.html#a7c47bc36e80bc7209dd8fed5fc74d88e',1,'CubbyFlow::KdTree']]],
   ['nodeiterator',['NodeIterator',['../class_cubby_flow_1_1_kd_tree.html#ac6f476d361959edb2a3c9ffaa21641a2',1,'CubbyFlow::KdTree']]],
-  ['nonzerocontainertype',['NonZeroContainerType',['../class_cubby_flow_1_1_matrix_c_s_r.html#a6e74fc6bc82e337ebe65f1a4a6d169da',1,'CubbyFlow::MatrixCSR']]],
-  ['nonzeroiterator',['NonZeroIterator',['../class_cubby_flow_1_1_matrix_c_s_r.html#a916cab97de4a973beaa5fcecec1c5f3f',1,'CubbyFlow::MatrixCSR']]],
+  ['nonzerocontainertype',['NonZeroContainerType',['../class_cubby_flow_1_1_matrix_c_s_r.html#a41bf19ac8401383ba375a0c17771889f',1,'CubbyFlow::MatrixCSR']]],
+  ['nonzeroiterator',['NonZeroIterator',['../class_cubby_flow_1_1_matrix_c_s_r.html#afdcd4b92d03472ff5a7853d752d41559',1,'CubbyFlow::MatrixCSR']]],
   ['normalarray',['NormalArray',['../class_cubby_flow_1_1_triangle_mesh3.html#a10529430663a9adfb0f672f1d50ce0be',1,'CubbyFlow::TriangleMesh3']]]
 ];
