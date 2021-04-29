@@ -19,7 +19,7 @@ namespace CubbyFlow
 //! \brief Simple ad-hoc N-D point searcher.
 //!
 //! This class implements N-D point searcher simply by looking up every point in
-//! the list. Thus, this class is not ideal for searches involing large number
+//! the list. Thus, this class is not ideal for searches involving large number
 //! of points, but only for small set of items.
 //!
 template <size_t N>

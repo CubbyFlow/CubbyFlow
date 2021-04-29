@@ -336,8 +336,8 @@ class FaceCenteredGrid final : public VectorGrid<N>
         const std::function<void(const Vector<size_t, N>&)>& func) const;
 
     //!
-    //! \brief Invokes the given function \p func for each v-data point
-    //! parallelly.
+    //! \brief Invokes the given function \p func for each v-data point in
+    //! parallel.
     //!
     //! This function invokes the given function object \p func for each v-data
     //! point in parallel manner. The input parameters are i, j (and k for 3-D)
