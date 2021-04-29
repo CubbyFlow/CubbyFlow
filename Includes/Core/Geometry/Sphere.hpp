@@ -36,8 +36,20 @@ class Sphere final : public Surface<N>
            const Transform<N>& _transform = Transform<N>{},
            bool _isNormalFlipped = false);
 
+    //! Default virtual destructor.
+    ~Sphere() override = default;
+
     //! Copy constructor.
     Sphere(const Sphere& other);
+
+    //! Move constructor.
+    Sphere(Sphere&& other) noexcept;
+
+    //! Copy assignment operator.
+    Sphere& operator=(const Sphere& other);
+
+    //! Move assignment operator.
+    Sphere& operator=(Sphere&& other) noexcept;
 
     //! Returns builder fox Sphere.
     static Builder GetBuilder();
@@ -49,20 +61,21 @@ class Sphere final : public Surface<N>
     double radius = 1.0;
 
  private:
-    Vector<double, N> ClosestPointLocal(
+    [[nodiscard]] Vector<double, N> ClosestPointLocal(
         const Vector<double, N>& otherPoint) const override;
 
-    double ClosestDistanceLocal(
+    [[nodiscard]] double ClosestDistanceLocal(
         const Vector<double, N>& otherPoint) const override;
 
-    bool IntersectsLocal(const Ray<double, N>& ray) const override;
+    [[nodiscard]] bool IntersectsLocal(
+        const Ray<double, N>& ray) const override;
 
-    BoundingBox<double, N> BoundingBoxLocal() const override;
+    [[nodiscard]] BoundingBox<double, N> BoundingBoxLocal() const override;
 
-    Vector<double, N> ClosestNormalLocal(
+    [[nodiscard]] Vector<double, N> ClosestNormalLocal(
         const Vector<double, N>& otherPoint) const override;
 
-    SurfaceRayIntersection<N> ClosestIntersectionLocal(
+    [[nodiscard]] SurfaceRayIntersection<N> ClosestIntersectionLocal(
         const Ray<double, N>& ray) const override;
 };
 

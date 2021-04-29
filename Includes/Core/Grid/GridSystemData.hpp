@@ -51,11 +51,20 @@ class GridSystemData : public Serializable
                    const Vector<double, N>& gridSpacing,
                    const Vector<double, N>& origin);
 
+    //! Default virtual destructor.
+    ~GridSystemData() override = default;
+
     //! Copy constructor.
     GridSystemData(const GridSystemData& other);
 
-    //! Destructor.
-    ~GridSystemData() override = default;
+    //! Move constructor.
+    GridSystemData(GridSystemData&& other) noexcept;
+
+    //! Copy assignment operator.
+    GridSystemData& operator=(const GridSystemData& other);
+
+    //! Move assignment operator.
+    GridSystemData& operator=(GridSystemData&& other) noexcept;
 
     //!
     //! \brief      Resizes the whole system with given resolution, grid
@@ -88,16 +97,16 @@ class GridSystemData : public Serializable
     //!
     //! \return     Grid cell resolution.
     //!
-    Vector<size_t, N> Resolution() const;
+    [[nodiscard]] Vector<size_t, N> Resolution() const;
 
     //! Return the grid spacing.
-    Vector<double, N> GridSpacing() const;
+    [[nodiscard]] Vector<double, N> GridSpacing() const;
 
     //! Returns the origin of the grid.
-    Vector<double, N> Origin() const;
+    [[nodiscard]] Vector<double, N> Origin() const;
 
     //! Returns the bounding box of the grid.
-    BoundingBox<double, N> GetBoundingBox() const;
+    [[nodiscard]] BoundingBox<double, N> GetBoundingBox() const;
 
     //!
     //! \brief      Adds a non-advectable scalar data grid by passing its
@@ -173,12 +182,12 @@ class GridSystemData : public Serializable
     //!
     //! \brief      Returns the velocity field.
     //!
-    //! This class has velocify field by default, and it is part of the
+    //! This class has velocity field by default, and it is part of the
     //! advectable vector data list.
     //!
     //! \return     Pointer to the velocity field.
     //!
-    const std::shared_ptr<FaceCenteredGrid<N>>& Velocity() const;
+    [[nodiscard]] const std::shared_ptr<FaceCenteredGrid<N>>& Velocity() const;
 
     //!
     //! \brief      Returns the index of the velocity field.
@@ -189,33 +198,35 @@ class GridSystemData : public Serializable
     //!
     //! \return     Index of the velocity field.
     //!
-    size_t VelocityIndex() const;
+    [[nodiscard]] size_t VelocityIndex() const;
 
     //! Returns the non-advectable scalar data at given index.
-    const std::shared_ptr<ScalarGrid<N>>& ScalarDataAt(size_t idx) const;
+    [[nodiscard]] const std::shared_ptr<ScalarGrid<N>>& ScalarDataAt(
+        size_t idx) const;
 
     //! Returns the non-advectable vector data at given index.
-    const std::shared_ptr<VectorGrid<N>>& VectorDataAt(size_t idx) const;
+    [[nodiscard]] const std::shared_ptr<VectorGrid<N>>& VectorDataAt(
+        size_t idx) const;
 
     //! Returns the advectable scalar data at given index.
-    const std::shared_ptr<ScalarGrid<N>>& AdvectableScalarDataAt(
+    [[nodiscard]] const std::shared_ptr<ScalarGrid<N>>& AdvectableScalarDataAt(
         size_t idx) const;
 
     //! Returns the advectable vector data at given index.
-    const std::shared_ptr<VectorGrid<N>>& AdvectableVectorDataAt(
+    [[nodiscard]] const std::shared_ptr<VectorGrid<N>>& AdvectableVectorDataAt(
         size_t idx) const;
 
     //! Returns the number of non-advectable scalar data.
-    size_t NumberOfScalarData() const;
+    [[nodiscard]] size_t NumberOfScalarData() const;
 
     //! Returns the number of non-advectable vector data.
-    size_t NumberOfVectorData() const;
+    [[nodiscard]] size_t NumberOfVectorData() const;
 
     //! Returns the number of advectable scalar data.
-    size_t NumberOfAdvectableScalarData() const;
+    [[nodiscard]] size_t NumberOfAdvectableScalarData() const;
 
     //! Returns the number of advectable vector data.
-    size_t NumberOfAdvectableVectorData() const;
+    [[nodiscard]] size_t NumberOfAdvectableVectorData() const;
 
     //! Serialize the data to the given buffer.
     void Serialize(std::vector<uint8_t>* buffer) const override;
@@ -245,7 +256,7 @@ class GridSystemData : public Serializable
     Vector<double, N> m_origin;
 
     std::shared_ptr<FaceCenteredGrid<N>> m_velocity;
-    size_t m_velocityIdx;
+    size_t m_velocityIdx = 0;
     std::vector<std::shared_ptr<ScalarGrid<N>>> m_scalarDataList;
     std::vector<std::shared_ptr<VectorGrid<N>>> m_vectorDataList;
     std::vector<std::shared_ptr<ScalarGrid<N>>> m_advectableScalarDataList;

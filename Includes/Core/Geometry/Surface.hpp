@@ -42,46 +42,58 @@ class Surface
     Surface(const Transform<N>& transform = Transform<N>(),
             bool isNormalFlipped = false);
 
+    //! Default virtual destructor.
+    virtual ~Surface() = default;
+
     //! Copy constructor.
     Surface(const Surface& other);
 
-    //! Default destructor.
-    virtual ~Surface() = default;
+    //! Move constructor.
+    Surface(Surface&& other) noexcept;
+
+    //! Copy assignment operator.
+    Surface& operator=(const Surface& other);
+
+    //! Move assignment operator.
+    Surface& operator=(Surface&& other) noexcept;
 
     //! Returns the closest point from the given point \p otherPoint to the
     //! surface.
-    Vector<double, N> ClosestPoint(const Vector<double, N>& otherPoint) const;
+    [[nodiscard]] Vector<double, N> ClosestPoint(
+        const Vector<double, N>& otherPoint) const;
 
     //! Returns the bounding box of this surface object.
-    BoundingBox<double, N> GetBoundingBox() const;
+    [[nodiscard]] BoundingBox<double, N> GetBoundingBox() const;
 
     //! Returns true if the given \p ray intersects with this surface object.
-    bool Intersects(const Ray<double, N>& ray) const;
+    [[nodiscard]] bool Intersects(const Ray<double, N>& ray) const;
 
     //! Returns the closest distance from the given point \p otherPoint to the
     //! point on the surface.
-    double ClosestDistance(const Vector<double, N>& otherPoint) const;
+    [[nodiscard]] double ClosestDistance(
+        const Vector<double, N>& otherPoint) const;
 
     //! Returns the closest intersection point for given \p ray.
-    SurfaceRayIntersection<N> ClosestIntersection(
+    [[nodiscard]] SurfaceRayIntersection<N> ClosestIntersection(
         const Ray<double, N>& ray) const;
 
     //! Returns the normal to the closest point on the surface from the given
     //! point \p otherPoint.
-    Vector<double, N> ClosestNormal(const Vector<double, N>& otherPoint) const;
+    [[nodiscard]] Vector<double, N> ClosestNormal(
+        const Vector<double, N>& otherPoint) const;
 
     //! Updates internal spatial query engine.
     virtual void UpdateQueryEngine();
 
     //! Returns true if bounding box can be defined.
-    virtual bool IsBounded() const;
+    [[nodiscard]] virtual bool IsBounded() const;
 
     //! Returns true if the surface is a valid geometry.
-    virtual bool IsValidGeometry() const;
+    [[nodiscard]] virtual bool IsValidGeometry() const;
 
     //! Returns true if \p otherPoint is inside the volume defined by the
     //! surface.
-    bool IsInside(const Vector<double, N>& otherPoint) const;
+    [[nodiscard]] bool IsInside(const Vector<double, N>& otherPoint) const;
 
     //! Local-to-world transform.
     Transform<N> transform;
@@ -92,33 +104,34 @@ class Surface
  protected:
     //! Returns the closest point from the given point \p otherPoint to the
     //! surface in local frame.
-    virtual Vector<double, N> ClosestPointLocal(
+    [[nodiscard]] virtual Vector<double, N> ClosestPointLocal(
         const Vector<double, N>& otherPoint) const = 0;
 
     //! Returns the bounding box of this surface object in local frame.
-    virtual BoundingBox<double, N> BoundingBoxLocal() const = 0;
+    [[nodiscard]] virtual BoundingBox<double, N> BoundingBoxLocal() const = 0;
 
     //! Returns the closest intersection point for given \p ray in local frame.
-    virtual SurfaceRayIntersection<N> ClosestIntersectionLocal(
+    [[nodiscard]] virtual SurfaceRayIntersection<N> ClosestIntersectionLocal(
         const Ray<double, N>& ray) const = 0;
 
     //! Returns the normal to the closest point on the surface from the given
     //! point \p otherPoint in local frame.
-    virtual Vector<double, N> ClosestNormalLocal(
+    [[nodiscard]] virtual Vector<double, N> ClosestNormalLocal(
         const Vector<double, N>& otherPoint) const = 0;
 
     //! Returns true if the given \p ray intersects with this surface object
     //! in local frame.
-    virtual bool IntersectsLocal(const Ray<double, N>& ray) const;
+    [[nodiscard]] virtual bool IntersectsLocal(const Ray<double, N>& ray) const;
 
     //! Returns the closest distance from the given point \p otherPoint to the
     //! point on the surface in local frame.
-    virtual double ClosestDistanceLocal(
+    [[nodiscard]] virtual double ClosestDistanceLocal(
         const Vector<double, N>& otherPoint) const;
 
     //! Returns true if \p otherPoint is inside by given \p depth the volume
     //! defined by the surface in local frame.
-    virtual bool IsInsideLocal(const Vector<double, N>& otherPoint) const;
+    [[nodiscard]] virtual bool IsInsideLocal(
+        const Vector<double, N>& otherPoint) const;
 };
 
 //! 2-D Surface type.

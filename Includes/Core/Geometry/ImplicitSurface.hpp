@@ -23,27 +23,37 @@ class ImplicitSurface : public Surface<N>
     using Surface<N>::transform;
     using Surface<N>::isNormalFlipped;
 
-    //! Default constructor.
+    //! Constructs an implicit surface with normal direction.
     ImplicitSurface(const Transform<N>& _transform = Transform<N>{},
                     bool _isNormalFlipped = false);
+
+    //! Default virtual destructor.
+    ~ImplicitSurface() override = default;
 
     //! Copy constructor.
     ImplicitSurface(const ImplicitSurface& other);
 
-    //! Default destructor.
-    ~ImplicitSurface() override = default;
+    //! Move constructor.
+    ImplicitSurface(ImplicitSurface&& other) noexcept;
+
+    //! Copy assignment operator.
+    ImplicitSurface& operator=(const ImplicitSurface& other);
+
+    //! Move assignment operator.
+    ImplicitSurface& operator=(ImplicitSurface&& other) noexcept;
 
     //! Returns signed distance from the given point \p otherPoint.
-    double SignedDistance(const Vector<double, N>& otherPoint) const;
+    [[nodiscard]] double SignedDistance(
+        const Vector<double, N>& otherPoint) const;
 
  protected:
     //! Returns signed distance from the given point \p otherPoint in local
     //! space.
-    virtual double SignedDistanceLocal(
+    [[nodiscard]] virtual double SignedDistanceLocal(
         const Vector<double, N>& otherPoint) const = 0;
 
  private:
-    double ClosestDistanceLocal(
+    [[nodiscard]] double ClosestDistanceLocal(
         const Vector<double, N>& otherPoint) const override;
 };
 

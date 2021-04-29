@@ -962,8 +962,35 @@ Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>::Matrix(const Matrix& other)
 template <typename T>
 Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>::Matrix(
     Matrix&& other) noexcept
+    : m_elements(std::move(other.m_elements)),
+      m_rows(other.m_rows),
+      m_cols(other.m_cols)
 {
-    *this = std::move(other);
+    // Do nothing
+}
+
+template <typename T>
+Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>&
+Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>::operator=(
+    const Matrix& other)
+{
+    m_elements = other.m_elements;
+    m_rows = other.m_rows;
+    m_cols = other.m_cols;
+    return *this;
+}
+
+template <typename T>
+Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>&
+Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>::operator=(
+    Matrix&& other) noexcept
+{
+    m_elements = std::move(other.m_elements);
+    m_rows = other.m_rows;
+    m_cols = other.m_cols;
+    other.m_rows = 0;
+    other.m_cols = 0;
+    return *this;
 }
 
 template <typename T>
@@ -1105,31 +1132,6 @@ Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>::operator[](size_t i) const
 }
 
 template <typename T>
-Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>&
-Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>::operator=(
-    const Matrix& other)
-{
-    m_elements = other.m_elements;
-    m_rows = other.m_rows;
-    m_cols = other.m_cols;
-    return *this;
-}
-
-template <typename T>
-Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>&
-Matrix<T, MATRIX_SIZE_DYNAMIC, MATRIX_SIZE_DYNAMIC>::operator=(
-    Matrix&& other) noexcept
-{
-    m_elements = std::move(other.m_elements);
-    m_rows = other.m_rows;
-    m_cols = other.m_cols;
-    other.m_rows = 0;
-    other.m_cols = 0;
-
-    return *this;
-}
-
-template <typename T>
 Matrix<T, MATRIX_SIZE_DYNAMIC, 1>::Matrix()
 {
     // Do nothing
@@ -1186,8 +1188,25 @@ Matrix<T, MATRIX_SIZE_DYNAMIC, 1>::Matrix(const Matrix& other)
 
 template <typename T>
 Matrix<T, MATRIX_SIZE_DYNAMIC, 1>::Matrix(Matrix&& other) noexcept
+    : m_elements(std::move(other.m_elements))
 {
-    *this = std::move(other);
+    // Do nothing
+}
+
+template <typename T>
+Matrix<T, MATRIX_SIZE_DYNAMIC, 1>& Matrix<T, MATRIX_SIZE_DYNAMIC, 1>::operator=(
+    const Matrix& other)
+{
+    m_elements = other.m_elements;
+    return *this;
+}
+
+template <typename T>
+Matrix<T, MATRIX_SIZE_DYNAMIC, 1>& Matrix<T, MATRIX_SIZE_DYNAMIC, 1>::operator=(
+    Matrix&& other) noexcept
+{
+    m_elements = std::move(other.m_elements);
+    return *this;
 }
 
 template <typename T>
@@ -1317,24 +1336,6 @@ Matrix<T, MATRIX_SIZE_DYNAMIC, 1>::operator[](size_t i) const
     assert(i < m_elements.size());
 
     return m_elements[i];
-}
-
-template <typename T>
-Matrix<T, MATRIX_SIZE_DYNAMIC, 1>& Matrix<T, MATRIX_SIZE_DYNAMIC, 1>::operator=(
-    const Matrix& other)
-{
-    m_elements = other.m_elements;
-
-    return *this;
-}
-
-template <typename T>
-Matrix<T, MATRIX_SIZE_DYNAMIC, 1>& Matrix<T, MATRIX_SIZE_DYNAMIC, 1>::operator=(
-    Matrix&& other) noexcept
-{
-    m_elements = std::move(other.m_elements);
-
-    return *this;
 }
 
 template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M2>

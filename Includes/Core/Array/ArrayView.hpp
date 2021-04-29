@@ -39,19 +39,21 @@ class ArrayView final : public ArrayBase<T, N, ArrayView<T, N>>
 
     ArrayView(Array<T, N>& other);
 
+    ~ArrayView() override = default;
+
     ArrayView(const ArrayView& other);
 
     ArrayView(ArrayView&& other) noexcept;
+
+    ArrayView& operator=(const ArrayView& other);
+
+    ArrayView& operator=(ArrayView&& other) noexcept;
 
     void Set(Array<T, N>& other);
 
     void Set(const ArrayView& other);
 
     void Fill(const T& val);
-
-    ArrayView& operator=(const ArrayView& other);
-
-    ArrayView& operator=(ArrayView&& other) noexcept;
 };
 
 template <typename T, size_t N>
@@ -72,23 +74,25 @@ class ArrayView<const T, N> final
 
     ArrayView(const Array<T, N>& other);
 
+    ~ArrayView() override = default;
+
     ArrayView(const ArrayView<T, N>& other);
 
     ArrayView(const ArrayView<const T, N>& other);
 
     ArrayView(ArrayView<const T, N>&&) noexcept;
 
-    void Set(const Array<T, N>& other);
-
-    void Set(const ArrayView<T, N>& other);
-
-    void Set(const ArrayView<const T, N>& other);
-
     ArrayView& operator=(const ArrayView<T, N>& other);
 
     ArrayView& operator=(const ArrayView<const T, N>& other);
 
     ArrayView& operator=(ArrayView<const T, N>&& other) noexcept;
+
+    void Set(const Array<T, N>& other);
+
+    void Set(const ArrayView<T, N>& other);
+
+    void Set(const ArrayView<const T, N>& other);
 };
 
 template <class T>

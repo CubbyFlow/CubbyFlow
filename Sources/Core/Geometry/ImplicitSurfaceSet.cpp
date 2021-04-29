@@ -54,6 +54,35 @@ ImplicitSurfaceSet<N>::ImplicitSurfaceSet(const ImplicitSurfaceSet& other)
 }
 
 template <size_t N>
+ImplicitSurfaceSet<N>::ImplicitSurfaceSet(ImplicitSurfaceSet&& other) noexcept
+    : ImplicitSurface<N>{ std::move(other) },
+      m_surfaces(std::move(other.m_surfaces)),
+      m_unboundedSurfaces(std::move(other.m_unboundedSurfaces))
+{
+    // Do nothing
+}
+
+template <size_t N>
+ImplicitSurfaceSet<N>& ImplicitSurfaceSet<N>::operator=(
+    const ImplicitSurfaceSet& other)
+{
+    m_surfaces = other.m_surfaces;
+    m_unboundedSurfaces = other.m_unboundedSurfaces;
+    ImplicitSurface<N>::operator=(other);
+    return *this;
+}
+
+template <size_t N>
+ImplicitSurfaceSet<N>& ImplicitSurfaceSet<N>::operator=(
+    ImplicitSurfaceSet&& other) noexcept
+{
+    m_surfaces = std::move(other.m_surfaces);
+    m_unboundedSurfaces = std::move(other.m_unboundedSurfaces);
+    ImplicitSurface<N>::operator=(std::move(other));
+    return *this;
+}
+
+template <size_t N>
 void ImplicitSurfaceSet<N>::UpdateQueryEngine()
 {
     InvalidateBVH();
@@ -148,12 +177,11 @@ Vector<double, N> ImplicitSurfaceSet<N>::ClosestPointLocal(
 
     double minDist = queryResult.distance;
 
-    for (auto surface : m_unboundedSurfaces)
+    for (const auto& surface : m_unboundedSurfaces)
     {
         Vector<double, N> pt = surface->ClosestPoint(otherPoint);
-        const double dist = pt.DistanceTo(otherPoint);
 
-        if (dist < minDist)
+        if (const double dist = pt.DistanceTo(otherPoint); dist < minDist)
         {
             minDist = dist;
             result = surface->ClosestPoint(otherPoint);
@@ -180,9 +208,8 @@ double ImplicitSurfaceSet<N>::ClosestDistanceLocal(
     for (const auto& surface : m_unboundedSurfaces)
     {
         Vector<double, N> pt = surface->ClosestPoint(otherPoint);
-        const double dist = pt.DistanceTo(otherPoint);
 
-        if (dist < minDist)
+        if (const double dist = pt.DistanceTo(otherPoint); dist < minDist)
         {
             minDist = dist;
         }
@@ -215,9 +242,8 @@ Vector<double, N> ImplicitSurfaceSet<N>::ClosestNormalLocal(
     for (const auto& surface : m_unboundedSurfaces)
     {
         Vector<double, N> pt = surface->ClosestPoint(otherPoint);
-        const double dist = pt.DistanceTo(otherPoint);
 
-        if (dist < minDist)
+        if (const double dist = pt.DistanceTo(otherPoint); dist < minDist)
         {
             minDist = dist;
             result = surface->ClosestNormal(otherPoint);
@@ -273,10 +299,9 @@ SurfaceRayIntersection<N> ImplicitSurfaceSet<N>::ClosestIntersectionLocal(
 
     for (const auto& surface : m_unboundedSurfaces)
     {
-        SurfaceRayIntersection<N> localResult =
-            surface->ClosestIntersection(ray);
-
-        if (localResult.distance < result.distance)
+        if (SurfaceRayIntersection<N> localResult =
+                surface->ClosestIntersection(ray);
+            localResult.distance < result.distance)
         {
             result = localResult;
         }
@@ -297,15 +322,10 @@ template <size_t N>
 bool ImplicitSurfaceSet<N>::IsInsideLocal(
     const Vector<double, N>& otherPoint) const
 {
-    for (const auto& surface : m_surfaces)
-    {
-        if (surface->IsInside(otherPoint))
-        {
-            return true;
-        }
-    }
-
-    return false;
+    return std::any_of(m_surfaces.begin(), m_surfaces.end(),
+                       [&](const std::shared_ptr<Surface<N>> surface) {
+                           return surface->IsInside(otherPoint);
+                       });
 }
 
 template <size_t N>

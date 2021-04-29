@@ -30,15 +30,8 @@ bool ListQueryEngine<T, N>::Intersects(
     const BoundingBox<double, N>& box,
     const BoxIntersectionTestFunc<T, N>& testFunc) const
 {
-    for (const auto& item : m_items)
-    {
-        if (testFunc(item, box))
-        {
-            return true;
-        }
-    }
-
-    return false;
+    return std::any_of(m_items.begin(), m_items.end(),
+                       [&](const T& item) { return testFunc(item, box); });
 }
 
 template <typename T, size_t N>
@@ -46,15 +39,8 @@ bool ListQueryEngine<T, N>::Intersects(
     const Ray<double, N>& ray,
     const RayIntersectionTestFunc<T, N>& testFunc) const
 {
-    for (const auto& item : m_items)
-    {
-        if (testFunc(item, ray))
-        {
-            return true;
-        }
-    }
-
-    return false;
+    return std::any_of(m_items.begin(), m_items.end(),
+                       [&](const T& item) { return testFunc(item, ray); });
 }
 
 template <typename T, size_t N>
@@ -95,9 +81,7 @@ ClosestIntersectionQueryResult<T, N> ListQueryEngine<T, N>::ClosestIntersection(
 
     for (const auto& item : m_items)
     {
-        double dist = testFunc(item, ray);
-
-        if (dist < best.distance)
+        if (double dist = testFunc(item, ray); dist < best.distance)
         {
             best.distance = dist;
             best.item = &item;
@@ -116,9 +100,7 @@ NearestNeighborQueryResult<T, N> ListQueryEngine<T, N>::Nearest(
 
     for (const auto& item : m_items)
     {
-        double dist = distanceFunc(item, pt);
-
-        if (dist < best.distance)
+        if (double dist = distanceFunc(item, pt); dist < best.distance)
         {
             best.item = &item;
             best.distance = dist;

@@ -29,11 +29,25 @@ class CollocatedVectorGrid : public VectorGrid<N>
     //! Constructs an empty grid.
     CollocatedVectorGrid();
 
-    //! Default destructor.
+    //! Default virtual destructor.
     ~CollocatedVectorGrid() override = default;
 
+    //! Default copy constructor.
+    CollocatedVectorGrid(const CollocatedVectorGrid& other) = default;
+
+    //! Default move constructor.
+    CollocatedVectorGrid(CollocatedVectorGrid&& other) noexcept = default;
+
+    //! Default copy assignment operator.
+    CollocatedVectorGrid& operator=(const CollocatedVectorGrid& other) =
+        default;
+
+    //! Default move assignment operator.
+    CollocatedVectorGrid& operator=(CollocatedVectorGrid&& other) noexcept =
+        default;
+
     //! Returns the actual data point size.
-    virtual Vector<size_t, N> DataSize() const = 0;
+    [[nodiscard]] virtual Vector<size_t, N> DataSize() const = 0;
 
     //!
     //! \brief Returns data position for the grid point at (0, 0, ...).
@@ -41,7 +55,7 @@ class CollocatedVectorGrid : public VectorGrid<N>
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
     //!
-    virtual Vector<double, N> DataOrigin() const = 0;
+    [[nodiscard]] virtual Vector<double, N> DataOrigin() const = 0;
 
     //! Returns the grid data at given data point.
     const Vector<double, N>& operator()(const Vector<size_t, N>& idx) const;
@@ -64,35 +78,37 @@ class CollocatedVectorGrid : public VectorGrid<N>
     }
 
     //! Returns divergence at data point location.
-    double DivergenceAtDataPoint(const Vector<size_t, N>& idx) const;
+    [[nodiscard]] double DivergenceAtDataPoint(
+        const Vector<size_t, N>& idx) const;
 
     //! Returns divergence at data point location.
     template <typename... Indices>
-    double DivergenceAtDataPoint(size_t i, Indices... indices) const
+    [[nodiscard]] double DivergenceAtDataPoint(size_t i,
+                                               Indices... indices) const
     {
         return DivergenceAtDataPoint(Vector<size_t, N>(i, indices...));
     }
 
     //! Returns curl at data point location.
-    typename GetCurl<N>::Type CurlAtDataPoint(
+    [[nodiscard]] typename GetCurl<N>::Type CurlAtDataPoint(
         const Vector<size_t, N>& idx) const;
 
     //! Returns curl at data point location.
     template <typename... Indices>
-    typename GetCurl<N>::Type CurlAtDataPoint(size_t i,
-                                              Indices... indices) const
+    [[nodiscard]] typename GetCurl<N>::Type CurlAtDataPoint(
+        size_t i, Indices... indices) const
     {
         return CurlAtDataPoint(Vector<size_t, N>(i, indices...));
     }
 
     //! Returns the read-write data array view.
-    VectorDataView DataView();
+    [[nodiscard]] VectorDataView DataView();
 
     //! Returns the read-only data array view.
-    ConstVectorDataView DataView() const;
+    [[nodiscard]] ConstVectorDataView DataView() const;
 
     //! Returns the function that maps data point to its position.
-    GridDataPositionFunc<N> DataPosition() const;
+    [[nodiscard]] GridDataPositionFunc<N> DataPosition() const;
 
     //!
     //! \brief Invokes the given function \p func for each data point.
@@ -121,8 +137,8 @@ class CollocatedVectorGrid : public VectorGrid<N>
     }
 
     //!
-    //! \brief Invokes the given function \p func for each data point
-    //! parallelly.
+    //! \brief Invokes the given function \p func for each data point in
+    //! parallel.
     //!
     //! This function invokes the given function object \p func for each data
     //! point in parallel manner. The input parameters are i and j indices of a
@@ -149,13 +165,15 @@ class CollocatedVectorGrid : public VectorGrid<N>
     }
 
     //! Returns sampled value at given position \p x.
-    Vector<double, N> Sample(const Vector<double, N>& x) const override;
+    [[nodiscard]] Vector<double, N> Sample(
+        const Vector<double, N>& x) const override;
 
     //! Returns divergence at given position \p x.
-    double Divergence(const Vector<double, N>& x) const override;
+    [[nodiscard]] double Divergence(const Vector<double, N>& x) const override;
 
     //! Returns curl at given position \p x.
-    typename GetCurl<N>::Type Curl(const Vector<double, N>& x) const override;
+    [[nodiscard]] typename GetCurl<N>::Type Curl(
+        const Vector<double, N>& x) const override;
 
     //!
     //! \brief Returns the sampler function.
@@ -163,8 +181,8 @@ class CollocatedVectorGrid : public VectorGrid<N>
     //! This function returns the data sampler function object. The sampling
     //! function is linear.
     //!
-    std::function<Vector<double, N>(const Vector<double, N>&)> Sampler()
-        const override;
+    [[nodiscard]] std::function<Vector<double, N>(const Vector<double, N>&)>
+    Sampler() const override;
 
  protected:
     using VectorGrid<N>::SwapGrid;

@@ -66,6 +66,33 @@ ScalarGrid<N>::ScalarGrid()
 }
 
 template <size_t N>
+ScalarGrid<N>::ScalarGrid(const ScalarGrid& other) : Grid<N>{ other }
+{
+    // Do nothing
+}
+
+template <size_t N>
+ScalarGrid<N>::ScalarGrid(ScalarGrid&& other) noexcept
+    : Grid<N>{ std::move(other) }, m_data(std::move(other.m_data))
+{
+    // Do nothing
+}
+
+template <size_t N>
+ScalarGrid<N>& ScalarGrid<N>::operator=(const ScalarGrid& other)
+{
+    Grid<N>::operator=(other);
+    return *this;
+}
+
+template <size_t N>
+ScalarGrid<N>& ScalarGrid<N>::operator=(ScalarGrid&& other) noexcept
+{
+    Grid<N>::operator=(std::move(other));
+    return *this;
+}
+
+template <size_t N>
 void ScalarGrid<N>::Clear()
 {
     Resize(Vector<size_t, N>{}, GridSpacing(), Origin(), 0.0);

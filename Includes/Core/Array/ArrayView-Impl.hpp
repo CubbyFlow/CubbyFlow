@@ -54,6 +54,23 @@ ArrayView<T, N>::ArrayView(ArrayView&& other) noexcept : ArrayView()
 }
 
 template <typename T, size_t N>
+ArrayView<T, N>& ArrayView<T, N>::operator=(const ArrayView& other)
+{
+    Set(other);
+
+    return *this;
+}
+
+template <typename T, size_t N>
+ArrayView<T, N>& ArrayView<T, N>::operator=(ArrayView&& other) noexcept
+{
+    Base::SetPtrAndSize(other.data(), other.Size());
+    other.SetPtrAndSize(nullptr, Vector<size_t, N>{});
+
+    return *this;
+}
+
+template <typename T, size_t N>
 void ArrayView<T, N>::Set(Array<T, N>& other)
 {
     Base::SetPtrAndSize(other.data(), other.Size());
@@ -70,23 +87,6 @@ void ArrayView<T, N>::Fill(const T& val)
 {
     ForEachIndex(Vector<size_t, N>{}, m_size,
                  [&](auto... idx) { this->At(idx...) = val; });
-}
-
-template <typename T, size_t N>
-ArrayView<T, N>& ArrayView<T, N>::operator=(const ArrayView& other)
-{
-    Set(other);
-
-    return *this;
-}
-
-template <typename T, size_t N>
-ArrayView<T, N>& ArrayView<T, N>::operator=(ArrayView&& other) noexcept
-{
-    Base::SetPtrAndSize(other.data(), other.Size());
-    other.SetPtrAndSize(nullptr, Vector<size_t, N>{});
-
-    return *this;
 }
 
 template <typename T, size_t N>
@@ -136,24 +136,6 @@ ArrayView<const T, N>::ArrayView(ArrayView&& other) noexcept : ArrayView()
 }
 
 template <typename T, size_t N>
-void ArrayView<const T, N>::Set(const Array<T, N>& other)
-{
-    Base::SetPtrAndSize(other.data(), other.Size());
-}
-
-template <typename T, size_t N>
-void ArrayView<const T, N>::Set(const ArrayView<T, N>& other)
-{
-    Base::SetPtrAndSize(other.data(), other.Size());
-}
-
-template <typename T, size_t N>
-void ArrayView<const T, N>::Set(const ArrayView<const T, N>& other)
-{
-    Base::SetPtrAndSize(other.data(), other.Size());
-}
-
-template <typename T, size_t N>
 ArrayView<const T, N>& ArrayView<const T, N>::operator=(
     const ArrayView<T, N>& other)
 {
@@ -179,6 +161,24 @@ ArrayView<const T, N>& ArrayView<const T, N>::operator=(
     other.SetPtrAndSize(nullptr, Vector<size_t, N>{});
 
     return *this;
+}
+
+template <typename T, size_t N>
+void ArrayView<const T, N>::Set(const Array<T, N>& other)
+{
+    Base::SetPtrAndSize(other.data(), other.Size());
+}
+
+template <typename T, size_t N>
+void ArrayView<const T, N>::Set(const ArrayView<T, N>& other)
+{
+    Base::SetPtrAndSize(other.data(), other.Size());
+}
+
+template <typename T, size_t N>
+void ArrayView<const T, N>::Set(const ArrayView<const T, N>& other)
+{
+    Base::SetPtrAndSize(other.data(), other.Size());
 }
 }  // namespace CubbyFlow
 

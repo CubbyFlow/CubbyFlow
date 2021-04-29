@@ -91,8 +91,56 @@ SPHSystemData<N>::SPHSystemData(size_t numberOfParticles)
 
 template <size_t N>
 SPHSystemData<N>::SPHSystemData(const SPHSystemData& other)
+    : ParticleSystemData<N>{ other },
+      m_targetDensity(other.m_targetDensity),
+      m_targetSpacing(other.m_targetSpacing),
+      m_kernelRadiusOverTargetSpacing(other.m_kernelRadiusOverTargetSpacing),
+      m_kernelRadius(other.m_kernelRadius),
+      m_pressureIdx(other.m_pressureIdx),
+      m_densityIdx(other.m_densityIdx)
 {
-    Set(other);
+    // Do nothing
+}
+
+template <size_t N>
+SPHSystemData<N>::SPHSystemData(SPHSystemData&& other) noexcept
+    : ParticleSystemData<N>{ std::move(other) },
+      m_targetDensity(std::exchange(other.m_targetDensity, WATER_DENSITY)),
+      m_targetSpacing(std::exchange(other.m_targetSpacing, 0.1)),
+      m_kernelRadiusOverTargetSpacing(
+          std::exchange(other.m_kernelRadiusOverTargetSpacing, 1.8)),
+      m_kernelRadius(std::exchange(other.m_kernelRadius, 0.1)),
+      m_pressureIdx(std::exchange(other.m_pressureIdx, 0)),
+      m_densityIdx(std::exchange(other.m_densityIdx, 0))
+{
+    // Do nothing
+}
+
+template <size_t N>
+SPHSystemData<N>& SPHSystemData<N>::operator=(const SPHSystemData& other)
+{
+    m_targetDensity = other.m_targetDensity;
+    m_targetSpacing = other.m_targetSpacing;
+    m_kernelRadiusOverTargetSpacing = other.m_kernelRadiusOverTargetSpacing;
+    m_kernelRadius = other.m_kernelRadius;
+    m_densityIdx = other.m_densityIdx;
+    m_pressureIdx = other.m_pressureIdx;
+    ParticleSystemData<N>::operator=(other);
+    return *this;
+}
+
+template <size_t N>
+SPHSystemData<N>& SPHSystemData<N>::operator=(SPHSystemData&& other) noexcept
+{
+    m_targetDensity = std::exchange(other.m_targetDensity, WATER_DENSITY);
+    m_targetSpacing = std::exchange(other.m_targetSpacing, 0.1);
+    m_kernelRadiusOverTargetSpacing =
+        std::exchange(other.m_kernelRadiusOverTargetSpacing, 1.8);
+    m_kernelRadius = std::exchange(other.m_kernelRadius, 0.1);
+    m_pressureIdx = std::exchange(other.m_pressureIdx, 0);
+    m_densityIdx = std::exchange(other.m_densityIdx, 0);
+    ParticleSystemData<N>::operator=(std::move(other));
+    return *this;
 }
 
 template <size_t N>
@@ -211,15 +259,15 @@ void SPHSystemData<N>::SetKernelRadius(double kernelRadius)
 
 template <size_t N>
 double SPHSystemData<N>::SumOfKernelNearby(
-    const Vector<double, N>& origin) const
+    const Vector<double, N>& position) const
 {
     double sum = 0.0;
     SPHStdKernel<N> kernel{ m_kernelRadius };
 
     NeighborSearcher()->ForEachNearbyPoint(
-        origin, m_kernelRadius,
+        position, m_kernelRadius,
         [&](size_t, const Vector<double, N>& neighborPosition) {
-            double dist = origin.DistanceTo(neighborPosition);
+            double dist = position.DistanceTo(neighborPosition);
             sum += kernel(dist);
         });
 
@@ -460,13 +508,6 @@ void SPHSystemData<N>::Set(const SPHSystemData& other)
     m_kernelRadius = other.m_kernelRadius;
     m_densityIdx = other.m_densityIdx;
     m_pressureIdx = other.m_pressureIdx;
-}
-
-template <size_t N>
-SPHSystemData<N>& SPHSystemData<N>::operator=(const SPHSystemData& other)
-{
-    Set(other);
-    return *this;
 }
 
 template class SPHSystemData<2>;

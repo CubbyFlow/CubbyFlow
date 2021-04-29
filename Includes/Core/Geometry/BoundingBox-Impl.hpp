@@ -35,10 +35,27 @@ BoundingBox<T, N>::BoundingBox(const BoundingBox& other)
 }
 
 template <typename T, size_t N>
+BoundingBox<T, N>::BoundingBox(BoundingBox&& other) noexcept
+    : lowerCorner(std::move(other.lowerCorner)),
+      upperCorner(std::move(other.upperCorner))
+{
+    // Do nothing
+}
+
+template <typename T, size_t N>
 BoundingBox<T, N>& BoundingBox<T, N>::operator=(const BoundingBox& other)
 {
     lowerCorner = other.lowerCorner;
     upperCorner = other.upperCorner;
+
+    return *this;
+}
+
+template <typename T, size_t N>
+BoundingBox<T, N>& BoundingBox<T, N>::operator=(BoundingBox&& other) noexcept
+{
+    lowerCorner = std::move(other.lowerCorner);
+    upperCorner = std::move(other.upperCorner);
 
     return *this;
 }

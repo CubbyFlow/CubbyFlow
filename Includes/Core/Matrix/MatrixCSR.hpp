@@ -37,10 +37,10 @@ class MatrixCSRMatrixMul
     MatrixCSRMatrixMul(const MatrixCSR<T>& m1, const ME& m2);
 
     //! Number of rows.
-    size_t GetRows() const;
+    [[nodiscard]] size_t GetRows() const;
 
     //! Number of columns.
-    size_t GetCols() const;
+    [[nodiscard]] size_t GetCols() const;
 
     //! Returns matrix element at (i, j).
     T operator()(size_t i, size_t j) const;
@@ -84,13 +84,13 @@ class MatrixCSR final
         Element(size_t i, size_t j, const T& value);
     };
 
-    typedef std::vector<T> NonZeroContainerType;
-    typedef typename NonZeroContainerType::iterator NonZeroIterator;
-    typedef typename NonZeroContainerType::const_iterator ConstNonZeroIterator;
+    using NonZeroContainerType = std::vector<T>;
+    using NonZeroIterator = typename NonZeroContainerType::iterator;
+    using ConstNonZeroIterator = typename NonZeroContainerType::const_iterator;
 
-    typedef std::vector<size_t> IndexContainerType;
-    typedef IndexContainerType::iterator IndexIterator;
-    typedef IndexContainerType::const_iterator ConstIndexIterator;
+    using IndexContainerType = std::vector<size_t>;
+    using IndexIterator = IndexContainerType::iterator;
+    using ConstIndexIterator = IndexContainerType::const_iterator;
 
     //! Constructs an empty matrix.
     MatrixCSR();
@@ -129,11 +129,20 @@ class MatrixCSR final
     MatrixCSR(const MatrixExpression<T, R, C, E>& other,
               T epsilon = std::numeric_limits<T>::epsilon());
 
+    //! Default destructor.
+    ~MatrixCSR() = default;
+
     //! Copy constructor.
     MatrixCSR(const MatrixCSR& other);
 
     //! Move constructor.
     MatrixCSR(MatrixCSR&& other) noexcept;
+
+    //! Copies to this matrix.
+    MatrixCSR& operator=(const MatrixCSR& other);
+
+    //! Moves to this matrix.
+    MatrixCSR& operator=(MatrixCSR&& other) noexcept;
 
     //! Clears the matrix and make it zero-dimensional.
     void Clear();
@@ -203,127 +212,129 @@ class MatrixCSR final
     //! Sets non-zero element.
     void SetElement(const Element& element);
 
-    bool IsEqual(const MatrixCSR& other) const;
+    [[nodiscard]] bool IsEqual(const MatrixCSR& other) const;
 
     //! Returns true if this matrix is similar to the input matrix within the
     //! given tolerance.
-    bool IsSimilar(const MatrixCSR& other,
-                   double tol = std::numeric_limits<double>::epsilon()) const;
+    [[nodiscard]] bool IsSimilar(
+        const MatrixCSR& other,
+        double tol = std::numeric_limits<double>::epsilon()) const;
 
     //! Returns true if this matrix is a square matrix.
-    bool IsSquare() const;
+    [[nodiscard]] bool IsSquare() const;
 
     //! Returns the size of this matrix.
-    Vector2UZ Size() const;
+    [[nodiscard]] Vector2UZ Size() const;
 
     //! Returns number of rows of this matrix.
-    size_t GetRows() const;
+    [[nodiscard]] size_t GetRows() const;
 
     //! Returns number of columns of this matrix.
-    size_t GetCols() const;
+    [[nodiscard]] size_t GetCols() const;
 
     //! Returns the number of non-zero elements.
-    size_t NumberOfNonZeros() const;
+    [[nodiscard]] size_t NumberOfNonZeros() const;
 
     //! Returns i-th non-zero element.
-    const T& NonZero(size_t i) const;
+    [[nodiscard]] const T& NonZero(size_t i) const;
 
     //! Returns i-th non-zero element.
-    T& NonZero(size_t i);
+    [[nodiscard]] T& NonZero(size_t i);
 
     //! Returns i-th row pointer.
-    const size_t& RowPointer(size_t i) const;
+    [[nodiscard]] const size_t& RowPointer(size_t i) const;
 
     //! Returns i-th column index.
-    const size_t& ColumnIndex(size_t i) const;
+    [[nodiscard]] const size_t& ColumnIndex(size_t i) const;
 
     //! Returns pointer of the non-zero elements data.
-    T* NonZeroData();
+    [[nodiscard]] T* NonZeroData();
 
     //! Returns constant pointer of the non-zero elements data.
-    const T* NonZeroData() const;
+    [[nodiscard]] const T* NonZeroData() const;
 
     //! Returns constant pointer of the row pointers data.
-    const size_t* RowPointersData() const;
+    [[nodiscard]] const size_t* RowPointersData() const;
 
     //! Returns constant pointer of the column indices data.
-    const size_t* ColumnIndicesData() const;
+    [[nodiscard]] const size_t* ColumnIndicesData() const;
 
     //! Returns the begin iterator of the non-zero elements.
-    NonZeroIterator NonZeroBegin();
+    [[nodiscard]] NonZeroIterator NonZeroBegin();
 
     //! Returns the begin const iterator of the non-zero elements.
-    ConstNonZeroIterator NonZeroBegin() const;
+    [[nodiscard]] ConstNonZeroIterator NonZeroBegin() const;
 
     //! Returns the end iterator of the non-zero elements.
-    NonZeroIterator NonZeroEnd();
+    [[nodiscard]] NonZeroIterator NonZeroEnd();
 
     //! Returns the end const iterator of the non-zero elements.
-    ConstNonZeroIterator NonZeroEnd() const;
+    [[nodiscard]] ConstNonZeroIterator NonZeroEnd() const;
 
     //! Returns the begin iterator of the row pointers.
-    IndexIterator RowPointersBegin();
+    [[nodiscard]] IndexIterator RowPointersBegin();
 
     //! Returns the begin const iterator of the row pointers.
-    ConstIndexIterator RowPointersBegin() const;
+    [[nodiscard]] ConstIndexIterator RowPointersBegin() const;
 
     //! Returns the end iterator of the row pointers.
-    IndexIterator RowPointersEnd();
+    [[nodiscard]] IndexIterator RowPointersEnd();
 
     //! Returns the end const iterator of the row pointers.
-    ConstIndexIterator RowPointersEnd() const;
+    [[nodiscard]] ConstIndexIterator RowPointersEnd() const;
 
     //! Returns the begin iterator of the column indices.
-    IndexIterator ColumnIndicesBegin();
+    [[nodiscard]] IndexIterator ColumnIndicesBegin();
 
     //! Returns the begin const iterator of the column indices.
-    ConstIndexIterator ColumnIndicesBegin() const;
+    [[nodiscard]] ConstIndexIterator ColumnIndicesBegin() const;
 
     //! Returns the end iterator of the column indices.
-    IndexIterator ColumnIndicesEnd();
+    [[nodiscard]] IndexIterator ColumnIndicesEnd();
 
     //! Returns the end const iterator of the column indices.
-    ConstIndexIterator ColumnIndicesEnd() const;
+    [[nodiscard]] ConstIndexIterator ColumnIndicesEnd() const;
 
     //! Returns this matrix + input scalar.
-    MatrixCSR Add(const T& s) const;
+    [[nodiscard]] MatrixCSR Add(const T& s) const;
 
     //! Returns this matrix + input matrix (element-wise).
-    MatrixCSR Add(const MatrixCSR& m) const;
+    [[nodiscard]] MatrixCSR Add(const MatrixCSR& m) const;
 
     //! Returns this matrix - input scalar.
-    MatrixCSR Sub(const T& s) const;
+    [[nodiscard]] MatrixCSR Sub(const T& s) const;
 
     //! Returns this matrix - input matrix (element-wise).
-    MatrixCSR Sub(const MatrixCSR& m) const;
+    [[nodiscard]] MatrixCSR Sub(const MatrixCSR& m) const;
 
     //! Returns this matrix * input scalar.
-    MatrixCSR Mul(const T& s) const;
+    [[nodiscard]] MatrixCSR Mul(const T& s) const;
 
     //! Returns this matrix * input matrix.
     template <size_t R, size_t C, typename ME>
-    MatrixCSRMatrixMul<T, ME> Mul(const MatrixExpression<T, R, C, ME>& m) const;
+    [[nodiscard]] MatrixCSRMatrixMul<T, ME> Mul(
+        const MatrixExpression<T, R, C, ME>& m) const;
 
     //! Returns this matrix / input scalar.
-    MatrixCSR Div(const T& s) const;
+    [[nodiscard]] MatrixCSR Div(const T& s) const;
 
     //! Returns input scalar + this matrix.
-    MatrixCSR RAdd(const T& s) const;
+    [[nodiscard]] MatrixCSR RAdd(const T& s) const;
 
     //! Returns input matrix + this matrix (element-wise).
-    MatrixCSR RAdd(const MatrixCSR& m) const;
+    [[nodiscard]] MatrixCSR RAdd(const MatrixCSR& m) const;
 
     //! Returns input scalar - this matrix.
-    MatrixCSR RSub(const T& s) const;
+    [[nodiscard]] MatrixCSR RSub(const T& s) const;
 
     //! Returns input matrix - this matrix (element-wise).
-    MatrixCSR RSub(const MatrixCSR& m) const;
+    [[nodiscard]] MatrixCSR RSub(const MatrixCSR& m) const;
 
     //! Returns input scalar * this matrix.
-    MatrixCSR RMul(const T& s) const;
+    [[nodiscard]] MatrixCSR RMul(const T& s) const;
 
     //! Returns input matrix / this scalar.
-    MatrixCSR RDiv(const T& s) const;
+    [[nodiscard]] MatrixCSR RDiv(const T& s) const;
 
     //! Adds input scalar to this matrix.
     void IAdd(const T& s);
@@ -348,26 +359,26 @@ class MatrixCSR final
     void IDiv(const T& s);
 
     //! Returns sum of all elements.
-    T Sum() const;
+    [[nodiscard]] T Sum() const;
 
     //! Returns average of all elements.
-    T Avg() const;
+    [[nodiscard]] T Avg() const;
 
     //! Returns minimum among all elements.
-    T Min() const;
+    [[nodiscard]] T Min() const;
 
     //! Returns maximum among all elements.
-    T Max() const;
+    [[nodiscard]] T Max() const;
 
     //! Returns absolute minimum among all elements.
-    T AbsMin() const;
+    [[nodiscard]] T AbsMin() const;
 
     //! Returns absolute maximum among all elements.
-    T AbsMax() const;
+    [[nodiscard]] T AbsMax() const;
 
     //! Returns sum of all diagonal elements.
     //! \warning Should be a square matrix.
-    T Trace() const;
+    [[nodiscard]] T Trace() const;
 
     //! Type-casts to different value-typed matrix.
     template <typename U>
@@ -382,12 +393,6 @@ class MatrixCSR final
     //!
     template <size_t R, size_t C, typename ME>
     MatrixCSR& operator=(const MatrixExpression<T, R, C, ME>& m);
-
-    //! Copies to this matrix.
-    MatrixCSR& operator=(const MatrixCSR& other);
-
-    //! Moves to this matrix.
-    MatrixCSR& operator=(MatrixCSR&& other) noexcept;
 
     //! Addition assignment with input scalar.
     MatrixCSR& operator+=(const T& s);
@@ -425,7 +430,7 @@ class MatrixCSR final
     static MatrixCSR<T> MakeIdentity(size_t m);
 
  private:
-    size_t HasElement(size_t i, size_t j) const;
+    [[nodiscard]] size_t HasElement(size_t i, size_t j) const;
 
     template <typename Op>
     MatrixCSR BinaryOp(const MatrixCSR& m, Op op) const;

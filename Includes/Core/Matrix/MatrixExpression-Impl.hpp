@@ -212,9 +212,7 @@ size_t MatrixExpression<T, Rows, Cols, D>::DominantAxis() const
 
     for (size_t i = 1; i < GetRows(); ++i)
     {
-        T curr = Eval(i, 0);
-
-        if (std::fabs(curr) > std::fabs(best))
+        if (T curr = Eval(i, 0); std::fabs(curr) > std::fabs(best))
         {
             best = curr;
             ret = i;
@@ -234,9 +232,7 @@ size_t MatrixExpression<T, Rows, Cols, D>::SubdominantAxis() const
 
     for (size_t i = 1; i < GetRows(); ++i)
     {
-        T curr = Eval(i, 0);
-
-        if (std::fabs(curr) < std::fabs(best))
+        if (T curr = Eval(i, 0); std::fabs(curr) < std::fabs(best))
         {
             best = curr;
             ret = i;

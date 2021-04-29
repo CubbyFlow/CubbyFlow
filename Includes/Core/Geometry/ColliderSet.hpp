@@ -37,16 +37,17 @@ class ColliderSet final : public Collider<N>
         const ConstArrayView1<std::shared_ptr<Collider<N>>>& others);
 
     //! Returns the velocity of the collider at given \p point.
-    Vector<double, N> VelocityAt(const Vector<double, N>& point) const override;
+    [[nodiscard]] Vector<double, N> VelocityAt(
+        const Vector<double, N>& point) const override;
 
     //! Adds a collider to the set.
     void AddCollider(const std::shared_ptr<Collider<N>>& collider);
 
     //! Returns number of colliders.
-    size_t NumberOfColliders() const;
+    [[nodiscard]] size_t NumberOfColliders() const;
 
     //! Returns collider at index \p i.
-    std::shared_ptr<Collider<N>> GetCollider(size_t i) const;
+    [[nodiscard]] std::shared_ptr<Collider<N>> GetCollider(size_t i) const;
 
     //! Returns builder for ColliderSet.
     static Builder GetBuilder();

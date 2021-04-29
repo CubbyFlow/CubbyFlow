@@ -26,11 +26,12 @@ class ConstantVectorField final : public VectorField<N>
     explicit ConstantVectorField(const Vector<double, N>& value);
 
     //! Returns the sampled value at given position \p x.
-    Vector<double, N> Sample(const Vector<double, N>& x) const override;
+    [[nodiscard]] Vector<double, N> Sample(
+        const Vector<double, N>& x) const override;
 
     //! Returns the sampler function.
-    std::function<Vector<double, N>(const Vector<double, N>&)> Sampler()
-        const override;
+    [[nodiscard]] std::function<Vector<double, N>(const Vector<double, N>&)>
+    Sampler() const override;
 
     //! Returns builder for ConstantVectorField.
     static Builder GetBuilder();

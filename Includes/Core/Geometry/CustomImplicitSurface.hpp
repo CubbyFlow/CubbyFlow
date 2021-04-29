@@ -41,30 +41,46 @@ class CustomImplicitSurface final : public ImplicitSurface<N>
         const Transform<N>& _transform = Transform<N>{},
         bool _isNormalFlipped = false);
 
-    //! Destructor.
+    //! Default virtual destructor.
     ~CustomImplicitSurface() override = default;
+
+    //! Default copy constructor.
+    CustomImplicitSurface(const CustomImplicitSurface& other) = default;
+
+    //! Default move constructor.
+    CustomImplicitSurface(CustomImplicitSurface&& other) noexcept = default;
+
+    //! Default copy assignment operator.
+    CustomImplicitSurface& operator=(const CustomImplicitSurface& other) =
+        default;
+
+    //! Default move assignment operator.
+    CustomImplicitSurface& operator=(CustomImplicitSurface&& other) noexcept =
+        default;
 
     //! Returns builder for CustomImplicitSurface.
     static Builder GetBuilder();
 
  private:
-    Vector<double, N> ClosestPointLocal(
+    [[nodiscard]] Vector<double, N> ClosestPointLocal(
         const Vector<double, N>& otherPoint) const override;
 
-    bool IntersectsLocal(const Ray<double, N>& ray) const override;
-
-    BoundingBox<double, N> BoundingBoxLocal() const override;
-
-    Vector<double, N> ClosestNormalLocal(
-        const Vector<double, N>& otherPoint) const override;
-
-    double SignedDistanceLocal(
-        const Vector<double, N>& otherPoint) const override;
-
-    SurfaceRayIntersection<N> ClosestIntersectionLocal(
+    [[nodiscard]] bool IntersectsLocal(
         const Ray<double, N>& ray) const override;
 
-    Vector<double, N> GradientLocal(const Vector<double, N>& x) const;
+    [[nodiscard]] BoundingBox<double, N> BoundingBoxLocal() const override;
+
+    [[nodiscard]] Vector<double, N> ClosestNormalLocal(
+        const Vector<double, N>& otherPoint) const override;
+
+    [[nodiscard]] double SignedDistanceLocal(
+        const Vector<double, N>& otherPoint) const override;
+
+    [[nodiscard]] SurfaceRayIntersection<N> ClosestIntersectionLocal(
+        const Ray<double, N>& ray) const override;
+
+    [[nodiscard]] Vector<double, N> GradientLocal(
+        const Vector<double, N>& x) const;
 
     std::function<double(const Vector<double, N>&)> m_func;
     BoundingBox<double, N> m_domain;

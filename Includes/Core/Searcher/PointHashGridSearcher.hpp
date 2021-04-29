@@ -48,8 +48,20 @@ class PointHashGridSearcher final : public PointNeighborSearcher<N>
     PointHashGridSearcher(const Vector<size_t, N>& resolution,
                           double gridSpacing);
 
+    //! Default virtual destructor.
+    ~PointHashGridSearcher() override = default;
+
     //! Copy constructor.
     PointHashGridSearcher(const PointHashGridSearcher& other);
+
+    //! Move constructor.
+    PointHashGridSearcher(PointHashGridSearcher&& other) noexcept;
+
+    //! Copy assignment operator.
+    PointHashGridSearcher& operator=(const PointHashGridSearcher& other);
+
+    //! Move assignment operator.
+    PointHashGridSearcher& operator=(PointHashGridSearcher&& other) noexcept;
 
     //! Builds internal acceleration structure for given points list and max
     //! search radius.
@@ -77,8 +89,8 @@ class PointHashGridSearcher final : public PointNeighborSearcher<N>
     //!
     //! \return     True if has nearby point, false otherwise.
     //!
-    bool HasNearbyPoint(const Vector<double, N>& origin,
-                        double radius) const override;
+    [[nodiscard]] bool HasNearbyPoint(const Vector<double, N>& origin,
+                                      double radius) const override;
 
     //!
     //! \brief      Adds a single point to the hash grid.
@@ -99,7 +111,7 @@ class PointHashGridSearcher final : public PointNeighborSearcher<N>
     //!
     //! \return     List of buckets.
     //!
-    const Array1<Array1<size_t>>& Buckets() const;
+    [[nodiscard]] const Array1<Array1<size_t>>& Buckets() const;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -107,10 +119,8 @@ class PointHashGridSearcher final : public PointNeighborSearcher<N>
     //!
     //! \return     Copy of this object.
     //!
-    std::shared_ptr<PointNeighborSearcher<N>> Clone() const override;
-
-    //! Assignment operator.
-    PointHashGridSearcher& operator=(const PointHashGridSearcher& other);
+    [[nodiscard]] std::shared_ptr<PointNeighborSearcher<N>> Clone()
+        const override;
 
     //! Copy from the other instance.
     void Set(const PointHashGridSearcher& other);
@@ -167,6 +177,24 @@ class PointHashGridSearcher<N>::Builder final
     : public PointNeighborSearcherBuilder<N>
 {
  public:
+    //! Default constructor.
+    Builder() = default;
+
+    //! Default virtual destructor.
+    ~Builder() override = default;
+
+    //! Deleted copy constructor.
+    Builder(const Builder& other) = delete;
+
+    //! Deleted move constructor.
+    Builder(Builder&& other) noexcept = delete;
+
+    //! Deleted copy assignment operator.
+    Builder& operator=(const Builder& other) = delete;
+
+    //! Deleted move assignment operator.
+    Builder& operator=(Builder&& other) noexcept = delete;
+
     //! Returns builder with resolution.
     Builder& WithResolution(const Vector<size_t, N>& resolution);
 

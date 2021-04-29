@@ -61,26 +61,38 @@ class Grid : public Serializable
     //! Constructs an empty grid.
     Grid() = default;
 
-    //! Default destructor.
+    //! Default virtual destructor.
     ~Grid() override = default;
 
+    //! Copy constructor.
+    Grid(const Grid& other);
+
+    //! Move constructor.
+    Grid(Grid&& other) noexcept;
+
+    //! Copy assignment operator.
+    Grid& operator=(const Grid& other);
+
+    //! Move assignment operator.
+    Grid& operator=(Grid&& other) noexcept;
+
     //! Returns the type name of derived grid.
-    virtual std::string TypeName() const = 0;
+    [[nodiscard]] virtual std::string TypeName() const = 0;
 
     //! Returns the grid resolution.
-    const Vector<size_t, N>& Resolution() const;
+    [[nodiscard]] const Vector<size_t, N>& Resolution() const;
 
     //! Returns the grid origin.
-    const Vector<double, N>& Origin() const;
+    [[nodiscard]] const Vector<double, N>& Origin() const;
 
     //! Returns the grid spacing.
-    const Vector<double, N>& GridSpacing() const;
+    [[nodiscard]] const Vector<double, N>& GridSpacing() const;
 
     //! Returns the bounding box of the grid.
-    const BoundingBox<double, N>& GetBoundingBox() const;
+    [[nodiscard]] const BoundingBox<double, N>& GetBoundingBox() const;
 
     //! Returns the function that maps grid index to the cell-center position.
-    GridDataPositionFunc<N> CellCenterPosition() const;
+    [[nodiscard]] GridDataPositionFunc<N> CellCenterPosition() const;
 
     //!
     //! \brief Invokes the given function \p func for each grid cell.
@@ -136,7 +148,7 @@ class Grid : public Serializable
     }
 
     //! Returns true if resolution, grid-spacing and origin are same.
-    bool HasSameShape(const Grid& other) const;
+    [[nodiscard]] bool HasSameShape(const Grid& other) const;
 
     //! Swaps the data with other grid.
     virtual void Swap(Grid* other) = 0;
@@ -180,10 +192,10 @@ using Grid2Ptr = std::shared_ptr<Grid2>;
 //! Shared pointer type for Grid3.
 using Grid3Ptr = std::shared_ptr<Grid3>;
 
-#define CUBBYFLOW_GRID_TYPE_NAME(DerivedClassName, N) \
-    std::string TypeName() const override             \
-    {                                                 \
-        return #DerivedClassName + std::to_string(N); \
+#define CUBBYFLOW_GRID_TYPE_NAME(DerivedClassName, N)   \
+    [[nodiscard]] std::string TypeName() const override \
+    {                                                   \
+        return #DerivedClassName + std::to_string(N);   \
     }
 }  // namespace CubbyFlow
 

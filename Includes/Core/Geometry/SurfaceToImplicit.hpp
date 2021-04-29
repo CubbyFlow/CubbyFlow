@@ -36,46 +36,59 @@ class SurfaceToImplicit final : public ImplicitSurface<N>
     using ImplicitSurface<N>::isNormalFlipped;
 
     //! Constructs an instance with generic Surface2 instance.
-    SurfaceToImplicit(const std::shared_ptr<Surface<N>>& surface,
-                      const Transform<N>& _transform = Transform<N>(),
+    SurfaceToImplicit(std::shared_ptr<Surface<N>> surface,
+                      const Transform<N>& _transform = Transform<N>{},
                       bool _isNormalFlipped = false);
+
+    //! Default virtual destructor.
+    ~SurfaceToImplicit() override = default;
 
     //! Copy constructor.
     SurfaceToImplicit(const SurfaceToImplicit& other);
+
+    //! Move constructor.
+    SurfaceToImplicit(SurfaceToImplicit&& other) noexcept;
+
+    //! Copy assignment operator.
+    SurfaceToImplicit& operator=(const SurfaceToImplicit& other);
+
+    //! Move assignment operator.
+    SurfaceToImplicit& operator=(SurfaceToImplicit&& other) noexcept;
 
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;
 
     //! Returns true if bounding box can be defined.
-    bool IsBounded() const override;
+    [[nodiscard]] bool IsBounded() const override;
 
     //! Returns true if the surface is a valid geometry.
-    bool IsValidGeometry() const override;
+    [[nodiscard]] bool IsValidGeometry() const override;
 
     //! Returns the raw surface instance.
-    std::shared_ptr<Surface<N>> GetSurface() const;
+    [[nodiscard]] std::shared_ptr<Surface<N>> GetSurface() const;
 
     //! Returns builder fox SurfaceToImplicit.
     static Builder GetBuilder();
 
  protected:
-    Vector<double, N> ClosestPointLocal(
+    [[nodiscard]] Vector<double, N> ClosestPointLocal(
         const Vector<double, N>& otherPoint) const override;
 
-    double ClosestDistanceLocal(
+    [[nodiscard]] double ClosestDistanceLocal(
         const Vector<double, N>& otherPoint) const override;
 
-    bool IntersectsLocal(const Ray<double, N>& ray) const override;
+    [[nodiscard]] bool IntersectsLocal(
+        const Ray<double, N>& ray) const override;
 
-    BoundingBox<double, N> BoundingBoxLocal() const override;
+    [[nodiscard]] BoundingBox<double, N> BoundingBoxLocal() const override;
 
-    Vector<double, N> ClosestNormalLocal(
+    [[nodiscard]] Vector<double, N> ClosestNormalLocal(
         const Vector<double, N>& otherPoint) const override;
 
-    double SignedDistanceLocal(
+    [[nodiscard]] double SignedDistanceLocal(
         const Vector<double, N>& otherPoint) const override;
 
-    SurfaceRayIntersection<N> ClosestIntersectionLocal(
+    [[nodiscard]] SurfaceRayIntersection<N> ClosestIntersectionLocal(
         const Ray<double, N>& ray) const override;
 
  private:

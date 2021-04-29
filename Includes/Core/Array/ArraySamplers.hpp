@@ -54,11 +54,20 @@ class NearestArraySampler final
                                  const VectorType& gridSpacing,
                                  const VectorType& gridOrigin);
 
+    //! Default destructor.
+    ~NearestArraySampler() = default;
+
     //! Copy constructor.
     NearestArraySampler(const NearestArraySampler& other);
 
+    //! Move constructor.
+    NearestArraySampler(NearestArraySampler&& other) noexcept;
+
     //! Copy assignment operator.
     NearestArraySampler& operator=(const NearestArraySampler& other);
+
+    //! Move assignment operator.
+    NearestArraySampler& operator=(NearestArraySampler&& other) noexcept;
 
     //! Returns sampled value at point \p pt.
     T operator()(const VectorType& pt) const;
@@ -67,7 +76,7 @@ class NearestArraySampler final
     CoordIndexType GetCoordinate(const VectorType& pt) const;
 
     //! Returns a std::function object that wraps this instance.
-    std::function<T(const VectorType&)> Functor() const;
+    [[nodiscard]] std::function<T(const VectorType&)> Functor() const;
 
  private:
     ArrayView<const T, N> m_view;
@@ -124,11 +133,20 @@ class LinearArraySampler final
                                 const VectorType& gridSpacing,
                                 const VectorType& gridOrigin);
 
+    //! Default destructor.
+    ~LinearArraySampler() = default;
+
     //! Copy constructor.
     LinearArraySampler(const LinearArraySampler& other);
 
+    //! Move constructor.
+    LinearArraySampler(LinearArraySampler&& other) noexcept;
+
     //! Copy assignment operator.
     LinearArraySampler& operator=(const LinearArraySampler& other);
+
+    //! Move assignment operator.
+    LinearArraySampler& operator=(LinearArraySampler&& other) noexcept;
 
     //! Returns sampled value at point \p pt.
     T operator()(const VectorType& pt) const;
@@ -147,7 +165,7 @@ class LinearArraySampler final
         std::array<VectorType, FLAT_KERNEL_SIZE>& weights) const;
 
     //! Returns a std::function instance that wraps this instance.
-    std::function<T(const VectorType&)> Functor() const;
+    [[nodiscard]] std::function<T(const VectorType&)> Functor() const;
 
  private:
     ArrayView<const T, N> m_view;
@@ -202,17 +220,26 @@ class CubicArraySampler final
                                const VectorType& gridSpacing,
                                const VectorType& gridOrigin);
 
+    //! Default destructor.
+    ~CubicArraySampler() = default;
+
     //! Copy constructor.
     CubicArraySampler(const CubicArraySampler& other);
 
+    //! Move constructor.
+    CubicArraySampler(CubicArraySampler&& other) noexcept;
+
     //! Copy assignment operator.
     CubicArraySampler& operator=(const CubicArraySampler& other);
+
+    //! Move assignment operator.
+    CubicArraySampler& operator=(CubicArraySampler&& other) noexcept;
 
     //! Returns sampled value at point \p pt.
     T operator()(const VectorType& pt) const;
 
     //! Returns a std::function object that wraps this instance.
-    std::function<T(const VectorType&)> Functor() const;
+    [[nodiscard]] std::function<T(const VectorType&)> Functor() const;
 
  private:
     ArrayView<const T, N> m_view;

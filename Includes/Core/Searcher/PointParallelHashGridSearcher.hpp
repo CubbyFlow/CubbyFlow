@@ -47,8 +47,23 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N>
     PointParallelHashGridSearcher(const Vector<size_t, N>& resolution,
                                   double gridSpacing);
 
+    //! Default virtual destructor.
+    ~PointParallelHashGridSearcher() override = default;
+
     //! Copy constructor.
     PointParallelHashGridSearcher(const PointParallelHashGridSearcher& other);
+
+    //! Move constructor.
+    PointParallelHashGridSearcher(
+        PointParallelHashGridSearcher&& other) noexcept;
+
+    //! Copy assignment operator.
+    PointParallelHashGridSearcher& operator=(
+        const PointParallelHashGridSearcher& other);
+
+    //! Move assignment operator.
+    PointParallelHashGridSearcher& operator=(
+        PointParallelHashGridSearcher&& other) noexcept;
 
     //!
     //! \brief Builds internal acceleration structure for given points list and
@@ -83,8 +98,8 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N>
     //!
     //! \return     True if has nearby point, false otherwise.
     //!
-    bool HasNearbyPoint(const Vector<double, N>& origin,
-                        double radius) const override;
+    [[nodiscard]] bool HasNearbyPoint(const Vector<double, N>& origin,
+                                      double radius) const override;
 
     //!
     //! \brief      Returns the hash key list.
@@ -94,7 +109,7 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N>
     //!
     //! \return     The hash key list.
     //!
-    ConstArrayView1<size_t> Keys() const;
+    [[nodiscard]] ConstArrayView1<size_t> Keys() const;
 
     //!
     //! \brief      Returns the start index table.
@@ -119,7 +134,7 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N>
     //!
     //! \return     The start index table.
     //!
-    ConstArrayView1<size_t> StartIndexTable() const;
+    [[nodiscard]] ConstArrayView1<size_t> StartIndexTable() const;
 
     //!
     //! \brief      Returns the end index table.
@@ -144,7 +159,7 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N>
     //!
     //! \return     The end index table.
     //!
-    ConstArrayView1<size_t> EndIndexTable() const;
+    [[nodiscard]] ConstArrayView1<size_t> EndIndexTable() const;
 
     //!
     //! \brief      Returns the sorted indices of the points.
@@ -156,7 +171,7 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N>
     //!
     //! \return     The sorted indices of the points.
     //!
-    ConstArrayView1<size_t> SortedIndices() const;
+    [[nodiscard]] ConstArrayView1<size_t> SortedIndices() const;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -164,11 +179,8 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N>
     //!
     //! \return     Copy of this object.
     //!
-    std::shared_ptr<PointNeighborSearcher<N>> Clone() const override;
-
-    //! Assignment operator.
-    PointParallelHashGridSearcher& operator=(
-        const PointParallelHashGridSearcher& other);
+    [[nodiscard]] std::shared_ptr<PointNeighborSearcher<N>> Clone()
+        const override;
 
     //! Copy from the other instance.
     void Set(const PointParallelHashGridSearcher& other);
@@ -237,6 +249,24 @@ class PointParallelHashGridSearcher<N>::Builder final
     : public PointNeighborSearcherBuilder<N>
 {
  public:
+    //! Default constructor.
+    Builder() = default;
+
+    //! Default virtual destructor.
+    ~Builder() override = default;
+
+    //! Deleted copy constructor.
+    Builder(const Builder& other) = delete;
+
+    //! Deleted move constructor.
+    Builder(Builder&& other) noexcept = delete;
+
+    //! Deleted copy assignment operator.
+    Builder& operator=(const Builder& other) = delete;
+
+    //! Deleted move assignment operator.
+    Builder& operator=(Builder&& other) noexcept = delete;
+
     //! Returns builder with resolution.
     Builder& WithResolution(const Vector<size_t, N>& resolution);
 

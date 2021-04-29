@@ -38,8 +38,57 @@ PointParallelHashGridSearcher<N>::PointParallelHashGridSearcher(
 template <size_t N>
 PointParallelHashGridSearcher<N>::PointParallelHashGridSearcher(
     const PointParallelHashGridSearcher& other)
+    : m_gridSpacing(other.m_gridSpacing),
+      m_resolution(other.m_resolution),
+      m_points(other.m_points),
+      m_keys(other.m_keys),
+      m_startIndexTable(other.m_startIndexTable),
+      m_endIndexTable(other.m_endIndexTable),
+      m_sortedIndices(other.m_sortedIndices)
 {
-    Set(other);
+    // Do nothing
+}
+
+template <size_t N>
+PointParallelHashGridSearcher<N>::PointParallelHashGridSearcher(
+    PointParallelHashGridSearcher&& other) noexcept
+    : m_gridSpacing(std::exchange(other.m_gridSpacing, 1.0)),
+      m_resolution(std::move(other.m_resolution)),
+      m_points(std::move(other.m_points)),
+      m_keys(std::move(other.m_keys)),
+      m_startIndexTable(std::move(other.m_startIndexTable)),
+      m_endIndexTable(std::move(other.m_endIndexTable)),
+      m_sortedIndices(std::move(other.m_sortedIndices))
+{
+    // Do nothing
+}
+
+template <size_t N>
+PointParallelHashGridSearcher<N>& PointParallelHashGridSearcher<N>::operator=(
+    const PointParallelHashGridSearcher& other)
+{
+    m_gridSpacing = other.m_gridSpacing;
+    m_resolution = other.m_resolution;
+    m_points = other.m_points;
+    m_keys = other.m_keys;
+    m_startIndexTable = other.m_startIndexTable;
+    m_endIndexTable = other.m_endIndexTable;
+    m_sortedIndices = other.m_sortedIndices;
+    return *this;
+}
+
+template <size_t N>
+PointParallelHashGridSearcher<N>& PointParallelHashGridSearcher<N>::operator=(
+    PointParallelHashGridSearcher&& other) noexcept
+{
+    m_gridSpacing = std::exchange(other.m_gridSpacing, 1.0);
+    m_resolution = std::move(other.m_resolution);
+    m_points = std::move(other.m_points);
+    m_keys = std::move(other.m_keys);
+    m_startIndexTable = std::move(other.m_startIndexTable);
+    m_endIndexTable = std::move(other.m_endIndexTable);
+    m_sortedIndices = std::move(other.m_sortedIndices);
+    return *this;
 }
 
 template <size_t N>
@@ -172,9 +221,9 @@ void PointParallelHashGridSearcher<N>::ForEachNearbyPoint(
         for (size_t j = start; j < end; ++j)
         {
             Vector<double, N> direction = m_points[j] - origin;
-            const double distanceSquared = direction.LengthSquared();
 
-            if (distanceSquared <= queryRadiusSquared)
+            if (const double distanceSquared = direction.LengthSquared();
+                distanceSquared <= queryRadiusSquared)
             {
                 callback(m_sortedIndices[j], m_points[j]);
             }
@@ -209,9 +258,9 @@ bool PointParallelHashGridSearcher<N>::HasNearbyPoint(
         for (size_t j = start; j < end; ++j)
         {
             Vector<double, N> direction = m_points[j] - origin;
-            const double distanceSquared = direction.LengthSquared();
 
-            if (distanceSquared <= queryRadiusSquared)
+            if (const double distanceSquared = direction.LengthSquared();
+                distanceSquared <= queryRadiusSquared)
             {
                 return true;
             }
@@ -253,14 +302,6 @@ PointParallelHashGridSearcher<N>::Clone() const
     return std::shared_ptr<PointParallelHashGridSearcher>(
         new PointParallelHashGridSearcher{ *this },
         [](PointParallelHashGridSearcher* obj) { delete obj; });
-}
-
-template <size_t N>
-PointParallelHashGridSearcher<N>& PointParallelHashGridSearcher<N>::operator=(
-    const PointParallelHashGridSearcher& other)
-{
-    Set(other);
-    return *this;
 }
 
 template <size_t N>

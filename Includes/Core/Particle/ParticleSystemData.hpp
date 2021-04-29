@@ -60,11 +60,20 @@ class ParticleSystemData : public Serializable
     //! Constructs particle system data with given number of particles.
     explicit ParticleSystemData(size_t numberOfParticles);
 
-    //! Default destructor.
+    //! Default virtual destructor.
     ~ParticleSystemData() override = default;
 
     //! Copy constructor.
     ParticleSystemData(const ParticleSystemData& other);
+
+    //! Move constructor.
+    ParticleSystemData(ParticleSystemData&& other) noexcept;
+
+    //! Copy assignment operator.
+    ParticleSystemData& operator=(const ParticleSystemData& other);
+
+    //! Move assignment operator.
+    ParticleSystemData& operator=(ParticleSystemData&& other) noexcept;
 
     //!
     //! \brief      Resizes the number of particles of the container.
@@ -80,7 +89,7 @@ class ParticleSystemData : public Serializable
     void Resize(size_t newNumberOfParticles);
 
     //! Returns the number of particles.
-    size_t NumberOfParticles() const;
+    [[nodiscard]] size_t NumberOfParticles() const;
 
     //!
     //! \brief      Adds a scalar data layer and returns its index.
@@ -90,7 +99,7 @@ class ParticleSystemData : public Serializable
     //!
     //! \param[in] initialVal  Initial value of the new scalar data.
     //!
-    size_t AddScalarData(double initialVal = 0.0);
+    [[nodiscard]] size_t AddScalarData(double initialVal = 0.0);
 
     //!
     //! \brief      Adds a vector data layer and returns its index.
@@ -100,50 +109,51 @@ class ParticleSystemData : public Serializable
     //!
     //! \param[in] initialVal  Initial value of the new vector data.
     //!
-    size_t AddVectorData(
+    [[nodiscard]] size_t AddVectorData(
         const Vector<double, N>& initialVal = Vector<double, N>{});
 
     //! Returns the radius of the particles.
-    double Radius() const;
+    [[nodiscard]] double Radius() const;
 
     //! Sets the radius of the particles.
     virtual void SetRadius(double newRadius);
 
     //! Returns the mass of the particles.
-    double Mass() const;
+    [[nodiscard]] double Mass() const;
 
     //! Sets the mass of the particles.
     virtual void SetMass(double newMass);
 
     //! Returns the position array (immutable).
-    ConstArrayView1<Vector<double, N>> Positions() const;
+    [[nodiscard]] ConstArrayView1<Vector<double, N>> Positions() const;
 
     //! Returns the position array (mutable).
-    ArrayView1<Vector<double, N>> Positions();
+    [[nodiscard]] ArrayView1<Vector<double, N>> Positions();
 
     //! Returns the velocity array (immutable).
-    ConstArrayView1<Vector<double, N>> Velocities() const;
+    [[nodiscard]] ConstArrayView1<Vector<double, N>> Velocities() const;
 
     //! Returns the velocity array (mutable).
-    ArrayView1<Vector<double, N>> Velocities();
+    [[nodiscard]] ArrayView1<Vector<double, N>> Velocities();
 
     //! Returns the force array (immutable).
-    ConstArrayView1<Vector<double, N>> Forces() const;
+    [[nodiscard]] ConstArrayView1<Vector<double, N>> Forces() const;
 
     //! Returns the force array (mutable).
-    ArrayView1<Vector<double, N>> Forces();
+    [[nodiscard]] ArrayView1<Vector<double, N>> Forces();
 
     //! Returns custom scalar data layer at given index (immutable).
-    ConstArrayView1<double> ScalarDataAt(size_t idx) const;
+    [[nodiscard]] ConstArrayView1<double> ScalarDataAt(size_t idx) const;
 
     //! Returns custom scalar data layer at given index (mutable).
-    ArrayView1<double> ScalarDataAt(size_t idx);
+    [[nodiscard]] ArrayView1<double> ScalarDataAt(size_t idx);
 
     //! Returns custom vector data layer at given index (immutable).
-    ConstArrayView1<Vector<double, N>> VectorDataAt(size_t idx) const;
+    [[nodiscard]] ConstArrayView1<Vector<double, N>> VectorDataAt(
+        size_t idx) const;
 
     //! Returns custom vector data layer at given index (mutable).
-    ArrayView1<Vector<double, N>> VectorDataAt(size_t idx);
+    [[nodiscard]] ArrayView1<Vector<double, N>> VectorDataAt(size_t idx);
 
     //!
     //! \brief      Adds a particle to the data structure.
@@ -190,7 +200,8 @@ class ParticleSystemData : public Serializable
     //!
     //! \return     Current neighbor searcher.
     //!
-    const std::shared_ptr<PointNeighborSearcher<N>>& NeighborSearcher() const;
+    [[nodiscard]] const std::shared_ptr<PointNeighborSearcher<N>>&
+    NeighborSearcher() const;
 
     //! Sets neighbor searcher.
     void SetNeighborSearcher(
@@ -205,7 +216,7 @@ class ParticleSystemData : public Serializable
     //!
     //! \return     Neighbor lists.
     //!
-    const Array1<Array1<size_t>>& NeighborLists() const;
+    [[nodiscard]] const Array1<Array1<size_t>>& NeighborLists() const;
 
     //! Builds neighbor searcher with given search radius.
     void BuildNeighborSearcher(double maxSearchRadius);
@@ -221,9 +232,6 @@ class ParticleSystemData : public Serializable
 
     //! Copies from other particle system data.
     void Set(const ParticleSystemData& other);
-
-    //! Copies from other particle system data.
-    ParticleSystemData& operator=(const ParticleSystemData& other);
 
  protected:
     template <size_t M = N>

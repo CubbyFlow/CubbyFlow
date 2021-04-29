@@ -45,6 +45,29 @@ Box<N>::Box(const Box& other) : Surface<N>{ other }, bound(other.bound)
 }
 
 template <size_t N>
+Box<N>::Box(Box&& other) noexcept
+    : Surface<N>{ std::move(other) }, bound(std::move(other.bound))
+{
+    // Do nothing
+}
+
+template <size_t N>
+Box<N>& Box<N>::operator=(const Box& other)
+{
+    bound = other.bound;
+    Surface<N>::operator=(other);
+    return *this;
+}
+
+template <size_t N>
+Box<N>& Box<N>::operator=(Box&& other) noexcept
+{
+    bound = std::move(other.bound);
+    Surface<N>::operator=(std::move(other));
+    return *this;
+}
+
+template <size_t N>
 Vector<double, N> Box<N>::ClosestPointLocal(
     const Vector<double, N>& otherPoint) const
 {
@@ -67,10 +90,10 @@ Vector<double, N> Box<N>::ClosestPointLocal(
         for (int i = 1; i < static_cast<int>(2 * N); ++i)
         {
             Vector<double, N> localResult = planes[i].ClosestPoint(otherPoint);
-            const double localDistanceSquared =
-                localResult.DistanceSquaredTo(otherPoint);
 
-            if (localDistanceSquared < distanceSquared)
+            if (const double localDistanceSquared =
+                    localResult.DistanceSquaredTo(otherPoint);
+                localDistanceSquared < distanceSquared)
             {
                 result = localResult;
                 distanceSquared = localDistanceSquared;
@@ -108,10 +131,10 @@ Vector<double, N> Box<N>::ClosestNormalLocal(
         {
             Vector<double, N> localClosestPoint =
                 planes[i].ClosestPoint(otherPoint);
-            const double localDistanceSquared =
-                (localClosestPoint - otherPoint).LengthSquared();
 
-            if (localDistanceSquared < minDistanceSquared)
+            if (const double localDistanceSquared =
+                    (localClosestPoint - otherPoint).LengthSquared();
+                localDistanceSquared < minDistanceSquared)
             {
                 closestNormal = planes[i].normal;
                 minDistanceSquared = localDistanceSquared;
@@ -129,10 +152,9 @@ Vector<double, N> Box<N>::ClosestNormalLocal(
 
     for (int i = 1; i < static_cast<int>(2 * N); ++i)
     {
-        const double cosineAngle =
-            planes[i].normal.Dot(closestPointToInputPoint);
-
-        if (cosineAngle > maxCosineAngle)
+        if (const double cosineAngle =
+                planes[i].normal.Dot(closestPointToInputPoint);
+            cosineAngle > maxCosineAngle)
         {
             closestNormal = planes[i].normal;
             maxCosineAngle = cosineAngle;

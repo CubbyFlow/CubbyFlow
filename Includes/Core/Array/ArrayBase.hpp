@@ -13,8 +13,6 @@
 
 #include <Core/Matrix/Matrix.hpp>
 
-#include <algorithm>
-
 namespace CubbyFlow
 {
 template <typename T, size_t N, typename DerivedArray>
@@ -30,21 +28,19 @@ class ArrayBase
     using Iterator = T*;
     using ConstIterator = const T*;
 
-    virtual ~ArrayBase() = default;
-
-    size_t Index(size_t i) const;
+    [[nodiscard]] size_t Index(size_t i) const;
 
     template <typename... Args>
-    size_t Index(size_t i, Args... args) const;
+    [[nodiscard]] size_t Index(size_t i, Args... args) const;
 
     template <size_t... I>
-    size_t Index(const Vector<size_t, N>& idx) const;
+    [[nodiscard]] size_t Index(const Vector<size_t, N>& idx) const;
 
-    Pointer data();
+    [[nodiscard]] Pointer data();
 
-    ConstPointer data() const;
+    [[nodiscard]] ConstPointer data() const;
 
-    const Vector<size_t, N>& Size() const;
+    [[nodiscard]] const Vector<size_t, N>& Size() const;
 
     template <size_t M = N>
     std::enable_if_t<(M > 0), size_t> Width() const;
@@ -55,39 +51,39 @@ class ArrayBase
     template <size_t M = N>
     std::enable_if_t<(M > 2), size_t> Depth() const;
 
-    bool IsEmpty() const;
+    [[nodiscard]] bool IsEmpty() const;
 
-    size_t Length() const;
+    [[nodiscard]] size_t Length() const;
 
-    Iterator begin();
+    [[nodiscard]] Iterator begin();
 
-    ConstIterator begin() const;
+    [[nodiscard]] ConstIterator begin() const;
 
-    Iterator end();
+    [[nodiscard]] Iterator end();
 
-    ConstIterator end() const;
+    [[nodiscard]] ConstIterator end() const;
 
-    Iterator rbegin();
+    [[nodiscard]] Iterator rbegin();
 
-    ConstIterator rbegin() const;
+    [[nodiscard]] ConstIterator rbegin() const;
 
-    Iterator rend();
+    [[nodiscard]] Iterator rend();
 
-    ConstIterator rend() const;
+    [[nodiscard]] ConstIterator rend() const;
 
-    Reference At(size_t i);
+    [[nodiscard]] Reference At(size_t i);
 
-    ConstReference At(size_t i) const;
-
-    template <typename... Args>
-    Reference At(size_t i, Args... args);
+    [[nodiscard]] ConstReference At(size_t i) const;
 
     template <typename... Args>
-    ConstReference At(size_t i, Args... args) const;
+    [[nodiscard]] Reference At(size_t i, Args... args);
 
-    Reference At(const Vector<size_t, N>& idx);
+    template <typename... Args>
+    [[nodiscard]] ConstReference At(size_t i, Args... args) const;
 
-    ConstReference At(const Vector<size_t, N>& idx) const;
+    [[nodiscard]] Reference At(const Vector<size_t, N>& idx);
+
+    [[nodiscard]] ConstReference At(const Vector<size_t, N>& idx) const;
 
     Reference operator[](size_t i);
 
@@ -106,9 +102,15 @@ class ArrayBase
  protected:
     ArrayBase();
 
+    virtual ~ArrayBase() = default;
+
     ArrayBase(const ArrayBase& other);
 
     ArrayBase(ArrayBase&& other) noexcept;
+
+    ArrayBase& operator=(const ArrayBase& other);
+
+    ArrayBase& operator=(ArrayBase&& other) noexcept;
 
     template <typename... Args>
     void SetPtrAndSize(Pointer ptr, size_t ni, Args... args);
@@ -119,22 +121,18 @@ class ArrayBase
 
     void ClearPtrAndSize();
 
-    ArrayBase& operator=(const ArrayBase& other);
-
-    ArrayBase& operator=(ArrayBase&& other) noexcept;
-
     Pointer m_ptr = nullptr;
     Vector<size_t, N> m_size;
 
  private:
     template <typename... Args>
-    size_t IndexInternal(size_t d, size_t i, Args... args) const;
+    [[nodiscard]] size_t IndexInternal(size_t d, size_t i, Args... args) const;
 
-    size_t IndexInternal(size_t, size_t i) const;
+    [[nodiscard]] size_t IndexInternal(size_t, size_t i) const;
 
     template <size_t... I>
-    size_t IndexInternal(const Vector<size_t, N>& idx,
-                         std::index_sequence<I...>) const;
+    [[nodiscard]] size_t IndexInternal(const Vector<size_t, N>& idx,
+                                       std::index_sequence<I...>) const;
 };
 }  // namespace CubbyFlow
 

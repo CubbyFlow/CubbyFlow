@@ -13,6 +13,8 @@
 
 #include <Core/Geometry/Collider.hpp>
 
+#include <utility>
+
 namespace CubbyFlow
 {
 template <size_t N>
@@ -32,7 +34,7 @@ class AngularVelocity<2>
         // Do nothing
     }
 
-    Vector2D Cross(const Vector2D& r) const
+    [[nodiscard]] Vector2D Cross(const Vector2D& r) const
     {
         return value * Vector2D{ -r.y, r.x };
     }
@@ -51,12 +53,12 @@ class AngularVelocity<3>
         // Do nothing
     }
 
-    AngularVelocity(const Vector3D& _value) : value(_value)
+    AngularVelocity(Vector3D _value) : value(std::move(_value))
     {
         // Do nothing
     }
 
-    Vector3D Cross(const Vector3D& r) const
+    [[nodiscard]] Vector3D Cross(const Vector3D& r) const
     {
         return value.Cross(r);
     }
@@ -92,7 +94,8 @@ class RigidBodyCollider final : public Collider<N>
                       const AngularVelocity<N>& _angularVelocity);
 
     //! Returns the velocity of the collider at given \p point.
-    Vector<double, N> VelocityAt(const Vector<double, N>& point) const override;
+    [[nodiscard]] Vector<double, N> VelocityAt(
+        const Vector<double, N>& point) const override;
 
     //! Returns builder fox RigidBodyCollider.
     static Builder GetBuilder();

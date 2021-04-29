@@ -96,89 +96,97 @@ class MatrixExpression
     using ValueType = T;
 
     //! Returns the number of rows.
-    constexpr size_t GetRows() const;
+    [[nodiscard]] constexpr size_t GetRows() const;
 
     //! Returns the number of columns.
-    constexpr size_t GetCols() const;
+    [[nodiscard]] constexpr size_t GetCols() const;
 
     //! Returns the evaluated value for (i, j).
-    T Eval(size_t i, size_t j) const;
+    [[nodiscard]] T Eval(size_t i, size_t j) const;
 
-    Matrix<T, Rows, Cols> Eval() const;
+    [[nodiscard]] Matrix<T, Rows, Cols> Eval() const;
 
     //! Returns true if this matrix is similar to the input matrix within the
     //! given tolerance.
     template <size_t R, size_t C, typename E>
-    bool IsSimilar(const MatrixExpression<T, R, C, E>& m,
-                   double tol = std::numeric_limits<double>::epsilon()) const;
+    [[nodiscard]] bool IsSimilar(
+        const MatrixExpression<T, R, C, E>& m,
+        double tol = std::numeric_limits<double>::epsilon()) const;
 
     //! Returns true if this matrix is a square matrix.
-    constexpr bool IsSquare() const;
+    [[nodiscard]] constexpr bool IsSquare() const;
 
-    ValueType Sum() const;
+    [[nodiscard]] ValueType Sum() const;
 
-    ValueType Avg() const;
+    [[nodiscard]] ValueType Avg() const;
 
-    ValueType Min() const;
+    [[nodiscard]] ValueType Min() const;
 
-    ValueType Max() const;
+    [[nodiscard]] ValueType Max() const;
 
-    ValueType AbsMin() const;
+    [[nodiscard]] ValueType AbsMin() const;
 
-    ValueType AbsMax() const;
+    [[nodiscard]] ValueType AbsMax() const;
 
-    ValueType Trace() const;
+    [[nodiscard]] ValueType Trace() const;
 
-    ValueType Determinant() const;
+    [[nodiscard]] ValueType Determinant() const;
 
-    size_t DominantAxis() const;
+    [[nodiscard]] size_t DominantAxis() const;
 
-    size_t SubdominantAxis() const;
+    [[nodiscard]] size_t SubdominantAxis() const;
 
-    ValueType Norm() const;
+    [[nodiscard]] ValueType Norm() const;
 
-    ValueType NormSquared() const;
+    [[nodiscard]] ValueType NormSquared() const;
 
-    ValueType FrobeniusNorm() const;
+    [[nodiscard]] ValueType FrobeniusNorm() const;
 
-    ValueType Length() const;
+    [[nodiscard]] ValueType Length() const;
 
-    ValueType LengthSquared() const;
+    [[nodiscard]] ValueType LengthSquared() const;
 
     //! Returns the distance to the other vector.
     template <size_t R, size_t C, typename E>
-    ValueType DistanceTo(const MatrixExpression<T, R, C, E>& other) const;
+    [[nodiscard]] ValueType DistanceTo(
+        const MatrixExpression<T, R, C, E>& other) const;
 
     //! Returns the squared distance to the other vector.
     template <size_t R, size_t C, typename E>
-    ValueType DistanceSquaredTo(
+    [[nodiscard]] ValueType DistanceSquaredTo(
         const MatrixExpression<T, R, C, E>& other) const;
 
-    MatrixScalarElemWiseBinaryOp<T, Rows, Cols, const Derived&, std::divides<T>>
+    [[nodiscard]] MatrixScalarElemWiseBinaryOp<T, Rows, Cols, const Derived&,
+                                               std::divides<T>>
     Normalized() const;
 
     //! Returns diagonal part of this matrix.
-    MatrixDiagonal<T, Rows, Cols, const Derived&> Diagonal() const;
+    [[nodiscard]] MatrixDiagonal<T, Rows, Cols, const Derived&> Diagonal()
+        const;
 
     //! Returns off-diagonal part of this matrix.
-    MatrixOffDiagonal<T, Rows, Cols, const Derived&> OffDiagonal() const;
+    [[nodiscard]] MatrixOffDiagonal<T, Rows, Cols, const Derived&> OffDiagonal()
+        const;
 
     //! Returns strictly lower triangle part of this matrix.
-    MatrixTri<T, Rows, Cols, const Derived&> StrictLowerTri() const;
+    [[nodiscard]] MatrixTri<T, Rows, Cols, const Derived&> StrictLowerTri()
+        const;
 
     //! Returns strictly upper triangle part of this matrix.
-    MatrixTri<T, Rows, Cols, const Derived&> StrictUpperTri() const;
+    [[nodiscard]] MatrixTri<T, Rows, Cols, const Derived&> StrictUpperTri()
+        const;
 
     //! Returns lower triangle part of this matrix (including the diagonal).
-    MatrixTri<T, Rows, Cols, const Derived&> LowerTri() const;
+    [[nodiscard]] MatrixTri<T, Rows, Cols, const Derived&> LowerTri() const;
 
     //! Returns upper triangle part of this matrix (including the diagonal).
-    MatrixTri<T, Rows, Cols, const Derived&> UpperTri() const;
+    [[nodiscard]] MatrixTri<T, Rows, Cols, const Derived&> UpperTri() const;
 
-    MatrixTranspose<T, Rows, Cols, const Derived&> Transposed() const;
+    [[nodiscard]] MatrixTranspose<T, Rows, Cols, const Derived&> Transposed()
+        const;
 
     //! Returns inverse matrix.
-    Matrix<T, Rows, Cols> Inverse() const;
+    [[nodiscard]] Matrix<T, Rows, Cols> Inverse() const;
 
     template <typename U>
     MatrixUnaryOp<U, Rows, Cols, const Derived&, TypeCast<T, U>> CastTo() const;
@@ -236,10 +244,10 @@ class MatrixExpression
     Tangentials() const;
 
     //! Returns actual implementation (the subclass).
-    Derived& GetDerived();
+    [[nodiscard]] Derived& GetDerived();
 
     //! Returns actual implementation (the subclass).
-    const Derived& GetDerived() const;
+    [[nodiscard]] const Derived& GetDerived() const;
 
  protected:
     // Prohibits constructing this class instance.
@@ -288,9 +296,9 @@ class MatrixConstant
         // Do nothing
     }
 
-    constexpr size_t GetRows() const;
+    [[nodiscard]] constexpr size_t GetRows() const;
 
-    constexpr size_t GetCols() const;
+    [[nodiscard]] constexpr size_t GetCols() const;
 
     constexpr T operator()(size_t, size_t) const;
 
@@ -310,9 +318,9 @@ class MatrixDiagonal
         // Do nothing
     }
 
-    constexpr size_t GetRows() const;
+    [[nodiscard]] constexpr size_t GetRows() const;
 
-    constexpr size_t GetCols() const;
+    [[nodiscard]] constexpr size_t GetCols() const;
 
     T operator()(size_t i, size_t j) const;
 
@@ -331,9 +339,9 @@ class MatrixOffDiagonal
         // Do nothing
     }
 
-    constexpr size_t GetRows() const;
+    [[nodiscard]] constexpr size_t GetRows() const;
 
-    constexpr size_t GetCols() const;
+    [[nodiscard]] constexpr size_t GetCols() const;
 
     T operator()(size_t i, size_t j) const;
 
@@ -352,9 +360,9 @@ class MatrixTri
         // Do nothing
     }
 
-    constexpr size_t GetRows() const;
+    [[nodiscard]] constexpr size_t GetRows() const;
 
-    constexpr size_t GetCols() const;
+    [[nodiscard]] constexpr size_t GetCols() const;
 
     T operator()(size_t i, size_t j) const;
 
@@ -374,9 +382,9 @@ class MatrixTranspose
         // Do nothing
     }
 
-    constexpr size_t GetRows() const;
+    [[nodiscard]] constexpr size_t GetRows() const;
 
-    constexpr size_t GetCols() const;
+    [[nodiscard]] constexpr size_t GetCols() const;
 
     constexpr T operator()(size_t i, size_t j) const;
 
@@ -396,9 +404,9 @@ class MatrixUnaryOp
         // Do nothing
     }
 
-    constexpr size_t GetRows() const;
+    [[nodiscard]] constexpr size_t GetRows() const;
 
-    constexpr size_t GetCols() const;
+    [[nodiscard]] constexpr size_t GetCols() const;
 
     constexpr T operator()(size_t i, size_t j) const;
 
@@ -453,9 +461,9 @@ class MatrixElemWiseBinaryOp
         // Do nothing
     }
 
-    constexpr size_t GetRows() const;
+    [[nodiscard]] constexpr size_t GetRows() const;
 
-    constexpr size_t GetCols() const;
+    [[nodiscard]] constexpr size_t GetCols() const;
 
     constexpr T operator()(size_t i, size_t j) const;
 
@@ -533,9 +541,9 @@ class MatrixScalarElemWiseBinaryOp
         // Do nothing
     }
 
-    constexpr size_t GetRows() const;
+    [[nodiscard]] constexpr size_t GetRows() const;
 
-    constexpr size_t GetCols() const;
+    [[nodiscard]] constexpr size_t GetCols() const;
 
     constexpr T operator()(size_t i, size_t j) const;
 
@@ -591,9 +599,9 @@ class ScalarMatrixElemWiseBinaryOp
         // Do nothing
     }
 
-    constexpr size_t GetRows() const;
+    [[nodiscard]] constexpr size_t GetRows() const;
 
-    constexpr size_t GetCols() const;
+    [[nodiscard]] constexpr size_t GetCols() const;
 
     constexpr T operator()(size_t i, size_t j) const;
 
@@ -649,9 +657,9 @@ class MatrixTernaryOp
         // Do nothing
     }
 
-    constexpr size_t GetRows() const;
+    [[nodiscard]] constexpr size_t GetRows() const;
 
-    constexpr size_t GetCols() const;
+    [[nodiscard]] constexpr size_t GetCols() const;
 
     constexpr T operator()(size_t i, size_t j) const;
 
@@ -683,9 +691,9 @@ class MatrixMul
         // Do nothing
     }
 
-    constexpr size_t GetRows() const;
+    [[nodiscard]] constexpr size_t GetRows() const;
 
-    constexpr size_t GetCols() const;
+    [[nodiscard]] constexpr size_t GetCols() const;
 
     T operator()(size_t i, size_t j) const;
 

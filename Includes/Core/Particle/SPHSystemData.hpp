@@ -42,11 +42,20 @@ class SPHSystemData : public ParticleSystemData<N>
     //! Constructs SPH system data with given number of particles.
     explicit SPHSystemData(size_t numberOfParticles);
 
+    //! Default virtual destructor.
+    ~SPHSystemData() override = default;
+
     //! Copy constructor.
     SPHSystemData(const SPHSystemData& other);
 
-    //! Destructor.
-    ~SPHSystemData() override = default;
+    //! Move constructor.
+    SPHSystemData(SPHSystemData&& other) noexcept;
+
+    //! Copy assignment operator.
+    SPHSystemData& operator=(const SPHSystemData& other);
+
+    //! Move assignment operator.
+    SPHSystemData& operator=(SPHSystemData&& other) noexcept;
 
     //!
     //! \brief      Sets the radius.
@@ -66,16 +75,16 @@ class SPHSystemData : public ParticleSystemData<N>
     void SetMass(double newMass) override;
 
     //! Returns the density array view (immutable).
-    ConstArrayView1<double> Densities() const;
+    [[nodiscard]] ConstArrayView1<double> Densities() const;
 
     //! Returns the density array view (mutable).
-    ArrayView1<double> Densities();
+    [[nodiscard]] ArrayView1<double> Densities();
 
     //! Returns the pressure array view (immutable).
-    ConstArrayView1<double> Pressures() const;
+    [[nodiscard]] ConstArrayView1<double> Pressures() const;
 
     //! Returns the pressure array view (mutable).
-    ArrayView1<double> Pressures();
+    [[nodiscard]] ArrayView1<double> Pressures();
 
     //!
     //! \brief Updates the density array with the latest particle positions.
@@ -89,13 +98,13 @@ class SPHSystemData : public ParticleSystemData<N>
     void UpdateDensities();
 
     //! Returns the target density of this particle system.
-    double TargetDensity() const;
+    [[nodiscard]] double TargetDensity() const;
 
     //! Sets the target density of this particle system.
     void SetTargetDensity(double targetDensity);
 
     //! Returns the target particle spacing in meters.
-    double TargetSpacing() const;
+    [[nodiscard]] double TargetSpacing() const;
 
     //!
     //! \brief Sets the target particle spacing in meters.
@@ -111,7 +120,7 @@ class SPHSystemData : public ParticleSystemData<N>
     //! Returns the relative kernel radius compared to the target particle
     //! spacing (i.e. kernel radius / target spacing).
     //!
-    double RelativeKernelRadius() const;
+    [[nodiscard]] double RelativeKernelRadius() const;
 
     //!
     //! \brief Sets the relative kernel radius.
@@ -124,7 +133,7 @@ class SPHSystemData : public ParticleSystemData<N>
     void SetRelativeKernelRadius(double relativeRadius);
 
     //! Returns the kernel radius in meters unit.
-    double KernelRadius() const;
+    [[nodiscard]] double KernelRadius() const;
 
     //!
     //! \brief Sets the absolute kernel radius.
@@ -137,7 +146,8 @@ class SPHSystemData : public ParticleSystemData<N>
     void SetKernelRadius(double kernelRadius);
 
     //! Returns sum of kernel function evaluation for each nearby particle.
-    double SumOfKernelNearby(const Vector<double, N>& position) const;
+    [[nodiscard]] double SumOfKernelNearby(
+        const Vector<double, N>& position) const;
 
     //!
     //! \brief Returns interpolated value at given origin point.
@@ -150,8 +160,9 @@ class SPHSystemData : public ParticleSystemData<N>
     //! \warning You must update the neighbor searcher
     //! (SPHSystemData::BuildNeighborSearcher) before calling this function.
     //!
-    double Interpolate(const Vector<double, N>& origin,
-                       const ConstArrayView1<double>& values) const;
+    [[nodiscard]] double Interpolate(
+        const Vector<double, N>& origin,
+        const ConstArrayView1<double>& values) const;
 
     //!
     //! \brief Returns interpolated vector value at given origin point.
@@ -164,7 +175,7 @@ class SPHSystemData : public ParticleSystemData<N>
     //! \warning You must update the neighbor searcher
     //! (SPHSystemData::BuildNeighborSearcher) before calling this function.
     //!
-    Vector<double, N> Interpolate(
+    [[nodiscard]] Vector<double, N> Interpolate(
         const Vector<double, N>& origin,
         const ConstArrayView1<Vector<double, N>>& values) const;
 
@@ -174,8 +185,8 @@ class SPHSystemData : public ParticleSystemData<N>
     //! \warning You must update the neighbor lists
     //! (SPHSystemData::BuildNeighborLists) before calling this function.
     //!
-    Vector<double, N> GradientAt(size_t i,
-                                 const ConstArrayView1<double>& values) const;
+    [[nodiscard]] Vector<double, N> GradientAt(
+        size_t i, const ConstArrayView1<double>& values) const;
 
     //!
     //! Returns the laplacian of the given values at i-th particle.
@@ -183,7 +194,8 @@ class SPHSystemData : public ParticleSystemData<N>
     //! \warning You must update the neighbor lists
     //! (SPHSystemData::BuildNeighborLists) before calling this function.
     //!
-    double LaplacianAt(size_t i, const ConstArrayView1<double>& values) const;
+    [[nodiscard]] double LaplacianAt(
+        size_t i, const ConstArrayView1<double>& values) const;
 
     //!
     //! Returns the laplacian of the given values at i-th particle.
@@ -191,7 +203,7 @@ class SPHSystemData : public ParticleSystemData<N>
     //! \warning You must update the neighbor lists
     //! (SPHSystemData::BuildNeighborLists) before calling this function.
     //!
-    Vector<double, N> LaplacianAt(
+    [[nodiscard]] Vector<double, N> LaplacianAt(
         size_t i, const ConstArrayView1<Vector<double, N>>& values) const;
 
     //! Builds neighbor searcher with kernel radius.
@@ -208,9 +220,6 @@ class SPHSystemData : public ParticleSystemData<N>
 
     //! Copies from other SPH system data.
     void Set(const SPHSystemData& other);
-
-    //! Copies from other SPH system data.
-    SPHSystemData& operator=(const SPHSystemData& other);
 
  private:
     //! Target density of this particle system in kg/m^2.

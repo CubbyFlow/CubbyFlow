@@ -47,24 +47,37 @@ class Box final : public Surface<N>
         const Transform<N>& _transform = Transform<N>{},
         bool _isNormalFlipped = false);
 
+    //! Default virtual destructor.
+    ~Box() override = default;
+
     //! Copy constructor.
     Box(const Box& other);
+
+    //! Move constructor.
+    Box(Box&& other) noexcept;
+
+    //! Copy assignment operator.
+    Box& operator=(const Box& other);
+
+    //! Move assignment operator.
+    Box& operator=(Box&& other) noexcept;
 
     //! Returns builder fox Box.
     static Builder GetBuilder();
 
  protected:
-    Vector<double, N> ClosestPointLocal(
+    [[nodiscard]] Vector<double, N> ClosestPointLocal(
         const Vector<double, N>& otherPoint) const override;
 
-    bool IntersectsLocal(const Ray<double, N>& ray) const override;
+    [[nodiscard]] bool IntersectsLocal(
+        const Ray<double, N>& ray) const override;
 
-    BoundingBox<double, N> BoundingBoxLocal() const override;
+    [[nodiscard]] BoundingBox<double, N> BoundingBoxLocal() const override;
 
-    Vector<double, N> ClosestNormalLocal(
+    [[nodiscard]] Vector<double, N> ClosestNormalLocal(
         const Vector<double, N>& otherPoint) const override;
 
-    SurfaceRayIntersection<N> ClosestIntersectionLocal(
+    [[nodiscard]] SurfaceRayIntersection<N> ClosestIntersectionLocal(
         const Ray<double, N>& ray) const override;
 };
 

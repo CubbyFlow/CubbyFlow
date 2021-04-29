@@ -38,6 +38,33 @@ Plane<N>::Plane(const Plane& other)
 }
 
 template <size_t N>
+Plane<N>::Plane(Plane&& other) noexcept
+    : Surface<N>{ std::move(other) },
+      normal(std::move(other.normal)),
+      point(std::move(other.point))
+{
+    // Do nothing
+}
+
+template <size_t N>
+Plane<N>& Plane<N>::operator=(const Plane& other)
+{
+    normal = other.normal;
+    point = other.point;
+    Surface<N>::operator=(other);
+    return *this;
+}
+
+template <size_t N>
+Plane<N>& Plane<N>::operator=(Plane&& other) noexcept
+{
+    normal = std::move(other.normal);
+    point = std::move(other.point);
+    Surface<N>::operator=(std::move(other));
+    return *this;
+}
+
+template <size_t N>
 bool Plane<N>::IsBounded() const
 {
     return false;
@@ -70,14 +97,11 @@ SurfaceRayIntersection<N> Plane<N>::ClosestIntersectionLocal(
     const Ray<double, N>& ray) const
 {
     SurfaceRayIntersection<N> intersection;
-    double dDotN = ray.direction.Dot(normal);
 
     // Check if not parallel
-    if (std::fabs(dDotN) > 0)
+    if (double dDotN = ray.direction.Dot(normal); std::fabs(dDotN) > 0)
     {
-        double t = normal.Dot(point - ray.origin) / dDotN;
-
-        if (t >= 0.0)
+        if (double t = normal.Dot(point - ray.origin) / dDotN; t >= 0.0)
         {
             intersection.isIntersecting = true;
             intersection.distance = t;

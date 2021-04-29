@@ -38,23 +38,35 @@ class SurfaceSet final : public Surface<N>
         const Transform<N>& _transform = Transform<N>{},
         bool _isNormalFlipped = false);
 
+    //! Default virtual destructor.
+    ~SurfaceSet() override = default;
+
     //! Copy constructor.
     SurfaceSet(const SurfaceSet& other);
+
+    //! Move constructor.
+    SurfaceSet(SurfaceSet&& other) noexcept;
+
+    //! Copy assignment operator.
+    SurfaceSet& operator=(const SurfaceSet& other);
+
+    //! Move assignment operator.
+    SurfaceSet& operator=(SurfaceSet&& other) noexcept;
 
     //! Updates internal spatial query engine.
     void UpdateQueryEngine() override;
 
     //! Returns true if bounding box can be defined.
-    bool IsBounded() const override;
+    [[nodiscard]] bool IsBounded() const override;
 
     //! Returns true if the surface is a valid geometry.
-    bool IsValidGeometry() const override;
+    [[nodiscard]] bool IsValidGeometry() const override;
 
     //! Returns the number of surfaces.
-    size_t NumberOfSurfaces() const;
+    [[nodiscard]] size_t NumberOfSurfaces() const;
 
     //! Returns the i-th surface.
-    const std::shared_ptr<Surface<N>>& SurfaceAt(size_t i) const;
+    [[nodiscard]] const std::shared_ptr<Surface<N>>& SurfaceAt(size_t i) const;
 
     //! Adds a surface instance.
     void AddSurface(const std::shared_ptr<Surface<N>>& surface);
@@ -63,23 +75,25 @@ class SurfaceSet final : public Surface<N>
     static Builder GetBuilder();
 
  private:
-    Vector<double, N> ClosestPointLocal(
+    [[nodiscard]] Vector<double, N> ClosestPointLocal(
         const Vector<double, N>& otherPoint) const override;
 
-    BoundingBox<double, N> BoundingBoxLocal() const override;
+    [[nodiscard]] BoundingBox<double, N> BoundingBoxLocal() const override;
 
-    SurfaceRayIntersection<N> ClosestIntersectionLocal(
+    [[nodiscard]] SurfaceRayIntersection<N> ClosestIntersectionLocal(
         const Ray<double, N>& ray) const override;
 
-    Vector<double, N> ClosestNormalLocal(
+    [[nodiscard]] Vector<double, N> ClosestNormalLocal(
         const Vector<double, N>& otherPoint) const override;
 
-    bool IntersectsLocal(const Ray<double, N>& ray) const override;
+    [[nodiscard]] bool IntersectsLocal(
+        const Ray<double, N>& ray) const override;
 
-    double ClosestDistanceLocal(
+    [[nodiscard]] double ClosestDistanceLocal(
         const Vector<double, N>& otherPoint) const override;
 
-    bool IsInsideLocal(const Vector<double, N>& otherPoint) const override;
+    [[nodiscard]] bool IsInsideLocal(
+        const Vector<double, N>& otherPoint) const override;
 
     void InvalidateBVH() const;
 

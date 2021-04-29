@@ -18,48 +18,48 @@ namespace CubbyFlow
 {
 template <typename IndexType, size_t N, typename Func>
 void ForEachIndex(const Vector<IndexType, N>& begin,
-                  const Vector<IndexType, N>& end, Func func);
+                  const Vector<IndexType, N>& end, const Func& func);
 
 template <typename IndexType, typename Func>
 void ForEachIndex(const Vector<IndexType, 1>& begin,
-                  const Vector<IndexType, 1>& end, Func func);
+                  const Vector<IndexType, 1>& end, const Func& func);
 
 template <typename IndexType, typename Func>
-void ForEachIndex(IndexType begin, IndexType end, Func func);
+void ForEachIndex(IndexType begin, IndexType end, const Func& func);
 
 template <typename IndexType, size_t N, typename Func>
-void ForEachIndex(const Vector<IndexType, N>& size, Func func);
+void ForEachIndex(const Vector<IndexType, N>& size, const Func& func);
 
 template <typename IndexType, typename Func>
-void ForEachIndex(const Vector<IndexType, 1>& size, Func func);
+void ForEachIndex(const Vector<IndexType, 1>& size, const Func& func);
 
 template <typename IndexType, typename Func>
-void ForEachIndex(IndexType size, Func func);
+void ForEachIndex(IndexType size, const Func& func);
 
 template <typename IndexType, size_t N, typename Func>
 void ParallelForEachIndex(const Vector<IndexType, N>& begin,
-                          const Vector<IndexType, N>& end, Func func,
+                          const Vector<IndexType, N>& end, const Func& func,
                           ExecutionPolicy policy = ExecutionPolicy::Parallel);
 
 template <typename IndexType, typename Func>
 void ParallelForEachIndex(const Vector<IndexType, 1>& begin,
-                          const Vector<IndexType, 1>& end, Func func,
+                          const Vector<IndexType, 1>& end, const Func& func,
                           ExecutionPolicy policy);
 
 template <typename IndexType, typename Func>
-void ParallelForEachIndex(IndexType begin, IndexType end, Func func,
+void ParallelForEachIndex(IndexType begin, IndexType end, const Func& func,
                           ExecutionPolicy policy);
 
 template <typename IndexType, size_t N, typename Func>
-void ParallelForEachIndex(const Vector<IndexType, N>& size, Func func,
+void ParallelForEachIndex(const Vector<IndexType, N>& size, const Func& func,
                           ExecutionPolicy policy = ExecutionPolicy::Parallel);
 
 template <typename IndexType, typename Func>
-void ParallelForEachIndex(const Vector<IndexType, 1>& size, Func func,
+void ParallelForEachIndex(const Vector<IndexType, 1>& size, const Func& func,
                           ExecutionPolicy policy = ExecutionPolicy::Parallel);
 
 template <typename IndexType, typename Func>
-void ParallelForEachIndex(IndexType size, Func func,
+void ParallelForEachIndex(IndexType size, const Func& func,
                           ExecutionPolicy policy = ExecutionPolicy::Parallel);
 
 //! Unrolls vector-based indexing to size_t-based function.

@@ -13,6 +13,46 @@
 namespace CubbyFlow
 {
 template <size_t N>
+Grid<N>::Grid(const Grid& other)
+    : m_resolution(other.m_resolution),
+      m_gridSpacing(other.m_gridSpacing),
+      m_origin(other.m_origin),
+      m_boundingBox(other.m_boundingBox)
+{
+    // Do nothing
+}
+
+template <size_t N>
+Grid<N>::Grid(Grid&& other) noexcept
+    : m_resolution(std::move(other.m_resolution)),
+      m_gridSpacing(std::move(other.m_gridSpacing)),
+      m_origin(std::move(other.m_origin)),
+      m_boundingBox(std::move(other.m_boundingBox))
+{
+    // Do nothing
+}
+
+template <size_t N>
+Grid<N>& Grid<N>::operator=(const Grid& other)
+{
+    m_resolution = other.m_resolution;
+    m_gridSpacing = other.m_gridSpacing;
+    m_origin = other.m_origin;
+    m_boundingBox = other.m_boundingBox;
+    return *this;
+}
+
+template <size_t N>
+Grid<N>& Grid<N>::operator=(Grid&& other) noexcept
+{
+    m_resolution = std::move(other.m_resolution);
+    m_gridSpacing = std::move(other.m_gridSpacing);
+    m_origin = std::move(other.m_origin);
+    m_boundingBox = std::move(other.m_boundingBox);
+    return *this;
+}
+
+template <size_t N>
 const Vector<size_t, N>& Grid<N>::Resolution() const
 {
     return m_resolution;

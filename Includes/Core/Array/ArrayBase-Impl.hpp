@@ -229,6 +229,23 @@ ArrayBase<T, N, D>::ArrayBase(ArrayBase&& other) noexcept
 }
 
 template <typename T, size_t N, typename D>
+ArrayBase<T, N, D>& ArrayBase<T, N, D>::operator=(const ArrayBase& other)
+{
+    SetPtrAndSize(other.data(), other.Size());
+
+    return *this;
+}
+
+template <typename T, size_t N, typename D>
+ArrayBase<T, N, D>& ArrayBase<T, N, D>::operator=(ArrayBase&& other) noexcept
+{
+    SetPtrAndSize(other.data(), other.Size());
+    other.SetPtrAndSize(nullptr, Vector<size_t, N>{});
+
+    return *this;
+}
+
+template <typename T, size_t N, typename D>
 template <typename... Args>
 void ArrayBase<T, N, D>::SetPtrAndSize(T* ptr, size_t ni, Args... args)
 {
@@ -253,23 +270,6 @@ void ArrayBase<T, N, D>::SwapPtrAndSize(ArrayBase& other)
 {
     std::swap(m_ptr, other.m_ptr);
     std::swap(m_size, other.m_size);
-}
-
-template <typename T, size_t N, typename D>
-ArrayBase<T, N, D>& ArrayBase<T, N, D>::operator=(const ArrayBase& other)
-{
-    SetPtrAndSize(other.data(), other.Size());
-
-    return *this;
-}
-
-template <typename T, size_t N, typename D>
-ArrayBase<T, N, D>& ArrayBase<T, N, D>::operator=(ArrayBase&& other) noexcept
-{
-    SetPtrAndSize(other.data(), other.Size());
-    other.SetPtrAndSize(nullptr, Vector<size_t, N>{});
-
-    return *this;
 }
 
 template <typename T, size_t N, typename D>
