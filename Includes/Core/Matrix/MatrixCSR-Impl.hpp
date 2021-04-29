@@ -99,12 +99,12 @@ MatrixCSR<T>::MatrixCSR(const MatrixCSR& other)
 
 template <typename T>
 MatrixCSR<T>::MatrixCSR(MatrixCSR&& other) noexcept
-    : m_size(other.m_size),
+    : m_size(std::exchange(other.m_size, Vector2UZ{})),
       m_nonZeros(std::move(other.m_nonZeros)),
       m_rowPointers(std::move(other.m_rowPointers)),
       m_columnIndices(std::move(other.m_columnIndices))
 {
-    other.m_size = Vector2UZ{};
+    // Do nothing
 }
 
 template <typename T>
