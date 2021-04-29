@@ -302,7 +302,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:acfc2949ff56048bf75e8ba0ede564160"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the given function <code>func</code> for each v-data point.  <a href="#acfc2949ff56048bf75e8ba0ede564160">More...</a><br /></td></tr>
 <tr class="separator:acfc2949ff56048bf75e8ba0ede564160"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71e43bbd4cd5a7af69394f3bed22afb9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_face_centered_grid.html#a71e43bbd4cd5a7af69394f3bed22afb9">ParallelForEachVIndex</a> (const std::function&lt; void(const <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; size_t, N &gt; &amp;)&gt; &amp;func) const</td></tr>
-<tr class="memdesc:a71e43bbd4cd5a7af69394f3bed22afb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the given function <code>func</code> for each v-data point parallelly.  <a href="#a71e43bbd4cd5a7af69394f3bed22afb9">More...</a><br /></td></tr>
+<tr class="memdesc:a71e43bbd4cd5a7af69394f3bed22afb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the given function <code>func</code> for each v-data point in parallel.  <a href="#a71e43bbd4cd5a7af69394f3bed22afb9">More...</a><br /></td></tr>
 <tr class="separator:a71e43bbd4cd5a7af69394f3bed22afb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4313a1f1edaada79f0baa2b422c08bc2"><td class="memTemplParams" colspan="2">template&lt;size_t M = N&gt; </td></tr>
 <tr class="memitem:a4313a1f1edaada79f0baa2b422c08bc2"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; M==3, void &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_cubby_flow_1_1_face_centered_grid.html#a4313a1f1edaada79f0baa2b422c08bc2">ForEachWIndex</a> (const std::function&lt; void(const <a class="el" href="namespace_cubby_flow.html#a9932602cee20e55ad02e8aa269e86f3c">Vector</a>&lt; size_t, N &gt; &amp;)&gt; &amp;func) const</td></tr>
@@ -1398,7 +1398,7 @@ template&lt;size_t N&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Invokes the given function <code>func</code> for each v-data point parallelly. </p>
+<p>Invokes the given function <code>func</code> for each v-data point in parallel. </p>
 <p>This function invokes the given function object <code>func</code> for each v-data point in parallel manner. The input parameters are i, j (and k for 3-D) indices of a v-data point. The order of execution can be arbitrary since it's multi-threaded. </p>
 
 </div>
@@ -2435,7 +2435,7 @@ template&lt;size_t M = N&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 28 2021 16:26:43 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 29 2021 06:56:54 for CubbyFlow by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
