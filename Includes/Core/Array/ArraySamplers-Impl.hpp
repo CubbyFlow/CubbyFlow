@@ -455,7 +455,7 @@ T CubicArraySampler<T, N, CIOp>::operator()(const VectorType& pt) const
 
     for (size_t i = 0; i < N; ++i)
     {
-        GetBarycentric(npt[i], 0, size[i] - 1, is[i], ts[i]);
+        GetBarycentric(npt[i], 0, size[i], is[i], ts[i]);
     }
 
     return Internal::Cubic<T, N, N>::Call(m_view, is, ts, CIOp());
