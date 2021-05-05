@@ -62,12 +62,13 @@ struct Cubic
         using Next = Cubic<T, N, I - 1>;
 
         return op(
-            Next::Call(view, i, t, op,
-                       std::max(i[I - 1] - 1,
-                                static_cast<ssize_t>(view.Size()[I - 1]) - 1),
+            Next::Call(view, i, t, op, std::max(i[I - 1] - 1, ZERO_SSIZE),
                        indices...),
             Next::Call(view, i, t, op, i[I - 1], indices...),
-            Next::Call(view, i, t, op, i[I - 1] + 1, indices...),
+            Next::Call(view, i, t, op,
+                       std::min(i[I - 1] + 1,
+                                static_cast<ssize_t>(view.Size()[I - 1]) - 1),
+                       indices...),
             Next::Call(view, i, t, op,
                        std::min(i[I - 1] + 2,
                                 static_cast<ssize_t>(view.Size()[I - 1]) - 1),
@@ -88,9 +89,10 @@ struct Cubic<T, N, 1>
                      RemainingIndices... indices)
     {
         return op(
-            view(std::max(i[0] - 1, static_cast<ssize_t>(view.Size()[0]) - 1),
+            view(std::max(i[0] - 1, ZERO_SSIZE), indices...),
+            view(i[0], indices...),
+            view(std::min(i[0] + 1, static_cast<ssize_t>(view.Size()[0]) - 1),
                  indices...),
-            view(i[0], indices...), view(i[0] + 1, indices...),
             view(std::min(i[0] + 2, static_cast<ssize_t>(view.Size()[0]) - 1),
                  indices...),
             t[0]);
