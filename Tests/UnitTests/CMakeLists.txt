@@ -8,12 +8,23 @@ include_directories(
     ${EXTERNAL_DIR}/googletest/googletest/include)
 
 # Sources
-file(GLOB sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+if (USE_CUDA)
+    file(GLOB sources
+        ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/*.cu)
+else()
+    file(GLOB sources
+        ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+endif()
 
 # Build executable
-add_executable(${target}
-    ${sources})
+if (USE_CUDA)
+    cuda_add_executable(${target}
+        ${sources})
+else()
+    add_executable(${target}
+        ${sources})
+endif()
 
 # Project options
 set_target_properties(${target}
