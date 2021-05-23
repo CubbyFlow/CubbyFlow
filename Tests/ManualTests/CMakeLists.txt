@@ -51,5 +51,6 @@ target_link_libraries(${target}
     ${DEFAULT_LINKER_OPTIONS}
     CubbyFlow
     cnpy
+    gmock
     gtest
     pystring)
