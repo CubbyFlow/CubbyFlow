@@ -11,6 +11,48 @@
 #ifndef CUBBYFLOW_MACROS_HPP
 #define CUBBYFLOW_MACROS_HPP
 
+#ifdef CUBBYFLOW_USE_CUDA
+
+// Host vs. device
+#ifdef __CUDACC__
+#define CUBBYFLOW_CUDA_DEVICE __device__
+#define CUBBYFLOW_CUDA_HOST __host__
+#else
+#define CUBBYFLOW_CUDA_DEVICE
+#define CUBBYFLOW_CUDA_HOST
+#endif  // __CUDACC__
+#define CUBBYFLOW_CUDA_HOST_DEVICE CUBBYFLOW_CUDA_HOST CUBBYFLOW_CUDA_DEVICE
+
+// Alignment
+#ifdef __CUDACC__  // NVCC
+#define CUBBYFLOW_CUDA_ALIGN(n) __align__(n)
+#elif defined(__GNUC__)  // GCC
+#define CUBBYFLOW_CUDA_ALIGN(n) __attribute__((aligned(n)))
+#elif defined(_MSC_VER)  // MSVC
+#define CUBBYFLOW_CUDA_ALIGN(n) __declspec(align(n))
+#else
+#error "Don't know how to handle CUBBYFLOW_CUDA_ALIGN"
+#endif  // __CUDACC__
+
+// Exception
+#define _CUBBYFLOW_CUDA_CHECK(result, msg, file, line)                      \
+    if (result != cudaSuccess)                                              \
+    {                                                                       \
+        fprintf(stderr, "CUDA error at %s:%d code=%d (%s) \"%s\" \n", file, \
+                line, static_cast<unsigned int>(result),                    \
+                cudaGetErrorString(result), msg);                           \
+        cudaDeviceReset();                                                  \
+        exit(EXIT_FAILURE);                                                 \
+    }
+
+#define CUBBYFLOW_CUDA_CHECK(expression) \
+    _CUBBYFLOW_CUDA_CHECK((expression), #expression, __FILE__, __LINE__)
+
+#define CUBBYFLOW_CUDA_CHECK_LAST_ERROR(msg) \
+    _CUBBYFLOW_CUDA_CHECK(cudaGetLastError(), msg, __FILE__, __LINE__)
+
+#endif  // CUBBYFLOW_USE_CUDA
+
 #if defined(_WIN32) || defined(_WIN64)
 #define CUBBYFLOW_WINDOWS
 #elif defined(__APPLE__)
