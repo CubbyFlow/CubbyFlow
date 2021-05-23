@@ -34,24 +34,28 @@ elseif(CMAKE_BUILD_TYPE MATCHES "Debug")
     add_definitions(-DDEBUG)
 endif()
 
-# Configuration for CUDA build
-set(ENABLE_CUDA OFF CACHE BOOL "")
+# CUDA
+option(USE_CUDA "Use CUDA features" ON)
+if (USE_CUDA)
+    find_package(CUDA)
 
-if (ENABLE_CUDA)
-    if (APPLE)
-        message("CUDA build is not available on macOS")
-        message("Turning ENABLE_CUDA OFF")
-        set(ENABLE_CUDA OFF)
-    else(MSVC OR LINUX)
-        find_package(CUDA 11.0)  # CXX 17 supports CUDA 11+
-        if (CUDA_FOUND)
-            message("Found CUDA ${CUDA_VERSION}")
-            message("Turning ENABLE_CUDA ON")
+    if (CUDA_FOUND)
+        set(CUDA_LINK_LIBRARIES_KEYWORD PUBLIC)
+        list(APPEND CUDA_NVCC_FLAGS -Wno-deprecated-gpu-targets)
+        add_definitions(-DCUBBYFLOW_USE_CUDA)
+        include_directories(${CUDA_INCLUDE_DIRS})
+
+        if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+            set(DEFAULT_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}
+                /wd4515 # -> disable warning: [Thrust issue] 'detail': namespace uses itself
+                /wd4996 # -> disable warning: [Thrust issue] 'strerror': This function or variable may be unsafe.
+                /wd4800 # -> disable warning: [Thrust issue] forcing value to bool 'true' or 'false' (performance warning)
+            )
         else()
-            message("Could not find CUDA")
-            message("Turning ENABLE_CUDA OFF")
-            set(ENABLE_CUDA OFF)
+            list(APPEND CUDA_NVCC_FLAGS --std=c++17)
         endif()
+    else()
+        set(USE_CUDA OFF)
     endif()
 endif()
 
@@ -65,7 +69,7 @@ include(Builds/CMake/TaskingSystemOptions.cmake)
 include(Builds/CMake/CompileOptions.cmake)
 
 # Modify project options for CUDA build
-if (ENABLE_CUDA)
+if (USE_CUDA)
     enable_language(CUDA)
     set(DEFAULT_PROJECT_OPTIONS ${DEFAULT_PROJECT_OPTIONS}
             CUDA_SEPARABLE_COMPILATION ON)
