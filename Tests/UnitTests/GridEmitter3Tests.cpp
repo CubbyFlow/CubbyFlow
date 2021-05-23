@@ -1,4 +1,4 @@
-#include "pch.hpp"
+#include "gtest/gtest.h"
 
 #include <Core/Emitter/VolumeGridEmitter3.hpp>
 #include <Core/Geometry/Sphere.hpp>

@@ -1,4 +1,4 @@
-#include "pch.hpp"
+#include "gtest/gtest.h"
 
 #include <Core/Animation/Frame.hpp>
 #include <Core/Emitter/PointParticleEmitter2.hpp>

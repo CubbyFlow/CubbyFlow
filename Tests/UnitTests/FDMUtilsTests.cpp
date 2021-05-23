@@ -1,4 +1,4 @@
-#include "pch.hpp"
+#include "gtest/gtest.h"
 
 #include <Core/FDM/FDMUtils.hpp>
 #include <Core/Grid/CellCenteredScalarGrid.hpp>

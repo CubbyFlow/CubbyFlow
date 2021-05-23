@@ -1,4 +1,4 @@
-#include "pch.hpp"
+#include "gtest/gtest.h"
 
 #include <Core/Solver/Hybrid/APIC/APICSolver2.hpp>
 
