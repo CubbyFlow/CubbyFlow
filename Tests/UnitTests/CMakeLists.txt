@@ -30,6 +30,7 @@ endif()
 set_target_properties(${target}
     PROPERTIES
     ${DEFAULT_PROJECT_OPTIONS}
+    CUDA_ARCHITECTURES "75"
 )
 
 # Compile options
