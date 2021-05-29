@@ -16,12 +16,12 @@ jobs:
           # Ubuntu 18.04 supports CUDA 10.1+ (gxx <= 8)
           - name: "Ubuntu 20.04 + gcc-10 + CUDA 11.0"
             os: ubuntu-20.04
-            cuda: "11.0"
+            cuda: "11.3.1"
             compiler: gcc
             version: "10"
           - name: "Ubuntu 18.04 + gcc-9 + CUDA 11.0"
             os: ubuntu-18.04
-            cuda: "11.0"
+            cuda: "11.3.1"
             compiler: gcc
             version: "9"
     steps:
