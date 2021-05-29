@@ -2,9 +2,9 @@ name: Ubuntu-CUDA
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, "gpu*" ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, "gpu*" ]
 
 jobs:
   build:
