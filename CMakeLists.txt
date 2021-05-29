@@ -101,6 +101,8 @@ set(RESOURCES_OBJS
 set(BUILD_GTEST ON CACHE BOOL "" FORCE)
 set(BUILD_GMOCK ON CACHE BOOL "" FORCE)
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+message(STATUS "Google.Test Shared CRT: ${gtest_force_shared_crt}")
+
 add_subdirectory(Libraries/googletest EXCLUDE_FROM_ALL)
 cmake_policy(SET CMP0063 NEW)
 set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
