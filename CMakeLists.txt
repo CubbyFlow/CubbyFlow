@@ -27,7 +27,7 @@ include_directories(Libraries/tinyobj)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Build type - Release by default
-message("CMake build type: " ${CMAKE_BUILD_TYPE})
+message(STATUS "CMake build type: " ${CMAKE_BUILD_TYPE})
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 elseif(CMAKE_BUILD_TYPE MATCHES "Debug")
@@ -36,13 +36,14 @@ endif()
 
 # CUDA
 option(USE_CUDA "Use CUDA features" ON)
+set(CUDA_CRT_LINKAGE "dynamic" CACHE STRING 
+                     "CUDA targets' CRT options. For 'static', select /MT. For 'dynamic', select /MD")
 if (USE_CUDA)
     find_package(CUDA)
-
     if (CUDA_FOUND)
         set(CUDA_LINK_LIBRARIES_KEYWORD PUBLIC)
-        list(APPEND CUDA_NVCC_FLAGS -Wno-deprecated-gpu-targets)
-        list(APPEND CUDA_NVCC_FLAGS --std=c++17)
+        list(APPEND CUDA_TARGET_OPTIONS
+            "--std=c++17" "-Wno-deprecated-gpu-targets")
         add_definitions(-DCUBBYFLOW_USE_CUDA)
         include_directories(${CUDA_INCLUDE_DIRS})
 

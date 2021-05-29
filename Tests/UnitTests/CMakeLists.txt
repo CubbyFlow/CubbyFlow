@@ -19,8 +19,28 @@ endif()
 
 # Build executable
 if (USE_CUDA)
+    list(APPEND CUDA_TARGET_OPTIONS "--std=c++17" "-Wno-deprecated-gpu-targets")
+    if(MSVC)
+        if(CUDA_CRT_LINKAGE STREQUAL "dynamic")
+            if(CMAKE_BUILD_TYPE MATCHES Debug)
+                list(APPEND CUDA_TARGET_OPTIONS "-Xcompiler" "/MDd")
+            else()
+                list(APPEND CUDA_TARGET_OPTIONS "-Xcompiler" "/MD")
+            endif()
+        elseif(CUDA_CRT_LINKAGE STREQUAL "static")
+            if(CMAKE_BUILD_TYPE MATCHES Debug)
+                list(APPEND CUDA_TARGET_OPTIONS "-Xcompiler" "/MTd")
+            else()
+                list(APPEND CUDA_TARGET_OPTIONS "-Xcompiler" "/MD")
+            endif()
+        endif()
+    endif()
+    # see https://cmake.org/cmake/help/latest/module/FindCUDA.html
     cuda_add_executable(${target}
-        ${sources})
+        ${sources}
+    OPTIONS ${CUDA_TARGET_OPTIONS}
+        # DEBUG --debug
+    )
 else()
     add_executable(${target}
         ${sources})
