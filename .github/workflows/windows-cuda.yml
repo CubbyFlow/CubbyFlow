@@ -15,10 +15,16 @@ jobs:
           #- name: "Windows Server 2016 + Visual Studio 2017"
           #  os: windows-2016
           # Windows Server 2019 + Visual Studio 2019
-          - name: "Windows Server 2019 + Visual Studio 2019 + CUDA 11.0.167"
+          - name: "Windows Server 2019 + VS 2019 + CUDA 11.0.167"
             os: windows-2019
             cuda: "11.0.167"
             visual_studio: "Visual Studio 16 2019"
+            cuda_crt: dynamic
+          - name: "Windows Server 2019 + VS 2019 + CUDA 11.0.167 (Static)"
+            os: windows-2019
+            cuda: "11.0.167"
+            visual_studio: "Visual Studio 16 2019"
+            cuda_crt: static
 
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.name }}
@@ -56,7 +62,10 @@ jobs:
         ls $env:CUDA_PATH\bin
         ls $env:CUDA_PATH\include
     - name: Configure Build
-      run: mkdir build && cd build && cmake -DCMAKE_GENERATOR_PLATFORM=x64 -DENABLE_CUDA=ON -DCMAKE_BUILD_TYPE=Release ..
+      shell: powershell
+      run: mkdir build && cd build && cmake -DCMAKE_GENERATOR_PLATFORM=x64 -DENABLE_CUDA=ON -DCUDA_CRT_LINKAGE=$env:CUDA_CRT -DCMAKE_BUILD_TYPE=Release ..
+      env:
+        cuda_crt: ${{ matrix.cuda_crt }}
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
     - name: Build
