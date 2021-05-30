@@ -27,22 +27,24 @@ include_directories(Libraries/tinyobj)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Build type - Release by default
-message("CMake build type: " ${CMAKE_BUILD_TYPE})
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 elseif(CMAKE_BUILD_TYPE MATCHES "Debug")
     add_definitions(-DDEBUG)
 endif()
+message(STATUS "CMake build type: ${CMAKE_BUILD_TYPE}")
 
 # CUDA
 option(USE_CUDA "Use CUDA features" ON)
+set(CUDA_CRT_LINKAGE "dynamic" CACHE STRING 
+                     "CUDA targets' CRT options. For 'static', select /MT. For 'dynamic', select /MD")
 if (USE_CUDA)
+    message(STATUS "Using CUDA CRT: ${CUDA_CRT_LINKAGE}")
     find_package(CUDA)
-
     if (CUDA_FOUND)
         set(CUDA_LINK_LIBRARIES_KEYWORD PUBLIC)
-        list(APPEND CUDA_NVCC_FLAGS -Wno-deprecated-gpu-targets)
-        list(APPEND CUDA_NVCC_FLAGS --std=c++17)
+        list(APPEND CUDA_TARGET_OPTIONS
+            "--std=c++17" "-Wno-deprecated-gpu-targets")
         add_definitions(-DCUBBYFLOW_USE_CUDA)
         include_directories(${CUDA_INCLUDE_DIRS})
 
@@ -99,7 +101,16 @@ set(RESOURCES_OBJS
 # Project modules
 set(BUILD_GTEST ON CACHE BOOL "" FORCE)
 set(BUILD_GMOCK ON CACHE BOOL "" FORCE)
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+set(gtest_force_shared_crt ON CACHE BOOL "")
+if(MSVC AND USE_CUDA)
+    message(STATUS "Google.Test Shared CRT: ${gtest_force_shared_crt}")
+    if(gtest_force_shared_crt AND CUDA_CRT_LINKAGE STREQUAL "static")
+        message(WARNING "CRT option mismatch. 'gtest_force_shared_crt' must be OFF for CUDA targets")
+    elseif(NOT gtest_force_shared_crt AND CUDA_CRT_LINKAGE STREQUAL "dynamic")
+        message(WARNING "CRT option mismatch. 'gtest_force_shared_crt' must be ON for CUDA targets")
+    endif()
+endif()
+
 add_subdirectory(Libraries/googletest EXCLUDE_FROM_ALL)
 cmake_policy(SET CMP0063 NEW)
 set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
