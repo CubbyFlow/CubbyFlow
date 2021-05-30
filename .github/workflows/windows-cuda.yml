@@ -73,7 +73,7 @@ jobs:
         Write-Output "Using GTEST_SHARED: $($GTEST_SHARED)"
         New-Item -Type Directory -Name build -Force
         Push-Location build
-          cmake -DCMAKE_GENERATOR_PLATFORM=x64 -DUSE_CUDA=ON -DCUDA_CRT_LINKAGE="$env:CUDA_CRT" -DCMAKE_BUILD_TYPE=Release -Dgtest_force_shared_crt=$GTEST_SHARED ..
+          cmake -DCMAKE_GENERATOR_PLATFORM=x64 -DUSE_CUDA=ON -DCUDA_CRT_LINKAGE="$env:CUDA_CRT" -DCMAKE_BUILD_TYPE=Release -Dgtest_force_shared_crt="$GTEST_SHARED" ..
         Pop-Location
       env:
         cuda_crt: ${{ matrix.cuda_crt }}
