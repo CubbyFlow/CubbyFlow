@@ -158,7 +158,6 @@ void CUDAStdArray<T, N>::SetAt(size_t i, ConstReference first)
 {
     m_elements[i] = first;
 }
-
 }  // namespace CubbyFlow
 
 #endif

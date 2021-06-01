@@ -10,7 +10,7 @@
 
 #include "gtest/gtest.h"
 
-#include <Core/Array/CUDAStdArray.hpp>
+#include <Core/CUDA/CUDAStdArray.hpp>
 
 using namespace CubbyFlow;
 

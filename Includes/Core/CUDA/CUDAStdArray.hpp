@@ -74,10 +74,9 @@ class CUDAStdArray
 
     T m_elements[N];
 };
-
 }  // namespace CubbyFlow
 
-#include <Core/Array/CUDAStdArray-Impl.hpp>
+#include <Core/CUDA/CUDAStdArray-Impl.hpp>
 
 #endif
 

@@ -11,7 +11,7 @@ include_directories(
 if (USE_CUDA)
     file(GLOB sources
         ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/*.cu)
+        ${CMAKE_CURRENT_SOURCE_DIR}/CUDA/*.cu)
 else()
     file(GLOB sources
         ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
