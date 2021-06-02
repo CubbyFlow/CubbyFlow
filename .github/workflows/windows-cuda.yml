@@ -13,12 +13,12 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: "Windows Server 2019 + Visual Studio 2019 + CUDA 11.3.1"
+          - name: "Windows Server 2019 + Visual Studio 2019 + CUDA 11.3.1 (Disable Test)"
             os: windows-2019
             cuda: "11.3.1"
             visual_studio: "Visual Studio 16 2019"
             cuda_crt: dynamic
-          - name: "Windows Server 2019 + Visual Studio 2019 + CUDA 11.3.1 (Static)"
+          - name: "Windows Server 2019 + Visual Studio 2019 + CUDA 11.3.1 (Static, Disable Test)"
             os: windows-2019
             cuda: "11.3.1"
             visual_studio: "Visual Studio 16 2019"
@@ -73,10 +73,3 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
     - name: Build
       run: cd build && MSBuild.exe CubbyFlow.sln /p:Configuration=Release
-    - name: Run Unit Test
-      run: /a/CubbyFlow/CubbyFlow/build/bin/Release/UnitTests.exe
-    - name: Run Python Test
-      run: |
-        pip install -r requirements.txt
-        pip install .
-        python -m pytest Tests/PythonTests/
