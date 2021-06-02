@@ -8,6 +8,8 @@ on:
 
 jobs:
   build-ubuntu:
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.name }}
     strategy:
       matrix:
         include:
@@ -16,10 +18,6 @@ jobs:
             os: ubuntu-20.04
             compiler: gcc
             version: "9"
-
-    runs-on: ${{ matrix.os }}
-    name: ${{ matrix.name }}
-
     steps:
     - uses: actions/checkout@v1
       with:

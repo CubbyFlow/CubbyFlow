@@ -8,13 +8,11 @@ on:
 
 jobs:
   build-windows-cuda:
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.name }}
     strategy:
       matrix:
         include:
-          # Windows Server 2016 + Visual Studio 2017
-          #- name: "Windows Server 2016 + Visual Studio 2017"
-          #  os: windows-2016
-          # Windows Server 2019 + Visual Studio 2019
           - name: "Windows Server 2019 + Visual Studio 2019 + CUDA 11.3.1"
             os: windows-2019
             cuda: "11.3.1"
@@ -25,15 +23,10 @@ jobs:
             cuda: "11.3.1"
             visual_studio: "Visual Studio 16 2019"
             cuda_crt: static
-
-    runs-on: ${{ matrix.os }}
-    name: ${{ matrix.name }}
-
     steps:
     - uses: actions/checkout@v1
       with:
         submodules: true
-
     # Install CUDA to the runner's env
     - name: Install CUDA
       env:
@@ -52,9 +45,8 @@ jobs:
           echo "$env:CUDA_PATH_VX_Y=$env:CUDA_PATH" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           echo "$env:CUDA_PATH/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
         }
-
     # Check availability of nvcc, Nvidia CUDA Compiler
-    - name: nvcc check
+    - name: Check nvcc
       shell: powershell
       run: |
         nvcc -V

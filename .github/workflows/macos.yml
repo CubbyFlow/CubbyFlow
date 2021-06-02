@@ -8,6 +8,8 @@ on:
 
 jobs:
   build-macos:
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.name }}
     strategy:
       matrix:
         include:
@@ -31,10 +33,6 @@ jobs:
             os: macos-10.15
             compiler: gcc
             version: "9"
-
-    runs-on: ${{ matrix.os }}
-    name: ${{ matrix.name }}
-
     steps:
     - uses: actions/checkout@v1
       with:
