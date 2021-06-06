@@ -78,13 +78,13 @@ CUDAStdVector<T>& CUDAStdVector<T>::operator=(CUDAStdVector&& other) noexcept
 }
 
 template <typename T>
-typename CUDAStdVector<T>::Pointer CUDAStdVector<T>::Data()
+typename CUDAStdVector<T>::Pointer CUDAStdVector<T>::data()
 {
     return m_ptr;
 }
 
 template <typename T>
-typename CUDAStdVector<T>::ConstPointer CUDAStdVector<T>::Data() const
+typename CUDAStdVector<T>::ConstPointer CUDAStdVector<T>::data() const
 {
     return m_ptr;
 }
@@ -216,7 +216,7 @@ void CUDAStdVector<T>::CopyFrom(const CUDAStdVector& other)
 {
     if (m_size == other.Size())
     {
-        CUDACopyDeviceToDevice(other.Data(), m_size, m_ptr);
+        CUDACopyDeviceToDevice(other.data(), m_size, m_ptr);
     }
     else
     {

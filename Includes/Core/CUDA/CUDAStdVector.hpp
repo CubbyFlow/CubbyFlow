@@ -115,9 +115,9 @@ class CUDAStdVector final
 
     CUDAStdVector& operator=(CUDAStdVector&& other) noexcept;
 
-    Pointer Data();
+    Pointer data();
 
-    ConstPointer Data() const;
+    ConstPointer data() const;
 
     size_t Size() const;
 

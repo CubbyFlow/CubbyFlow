@@ -19,7 +19,7 @@ TEST(CUDAStdVector, Constructors)
     {
         CUDAStdVector<int> vec;
         EXPECT_EQ(0u, vec.Size());
-        EXPECT_EQ(nullptr, vec.Data());
+        EXPECT_EQ(nullptr, vec.data());
     }
 
     {
@@ -68,7 +68,7 @@ TEST(CUDAStdVector, Constructors)
         CUDAStdVector<int> vec2 = std::move(vec);
 
         EXPECT_EQ(0u, vec.Size());
-        EXPECT_EQ(nullptr, vec.Data());
+        EXPECT_EQ(nullptr, vec.data());
 
         std::vector<int> ans;
         vec2.CopyTo(ans);
@@ -85,11 +85,11 @@ TEST(CUDAStdVector, Getters)
     std::vector<int> host({ 1, 2, 3, 4, 5 });
     CUDAStdVector<int> vec(host);
 
-    EXPECT_NE(nullptr, vec.Data());
+    EXPECT_NE(nullptr, vec.data());
     EXPECT_EQ(5u, vec.Size());
 
     const auto& vecRef = vec;
-    EXPECT_NE(nullptr, vecRef.Data());
+    EXPECT_NE(nullptr, vecRef.data());
 
     for (size_t i = 0; i < 5; ++i)
     {
@@ -131,7 +131,7 @@ TEST(CUDAStdVector, Modifiers)
 
     vec.Clear();
     EXPECT_EQ(0u, vec.Size());
-    EXPECT_EQ(nullptr, vec.Data());
+    EXPECT_EQ(nullptr, vec.data());
 
     vec.ResizeUninitialized(4);
     EXPECT_EQ(4u, vec.Size());
