@@ -87,7 +87,7 @@ void CUDAArrayView<T, N>::Set(const CUDAArrayView& other)
 template <typename T, size_t N>
 void CUDAArrayView<T, N>::Fill(const T& val)
 {
-    CUDAFill(Data(), val);
+    CUDAFill(data(), val);
 }
 
 template <typename T, size_t N>
