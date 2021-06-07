@@ -1,5 +1,5 @@
 #include "ManualTests.hpp"
-#include "pch.hpp"
+#include "gtest/gtest.h"
 
 #include <Core/Utils/Logging.hpp>
 

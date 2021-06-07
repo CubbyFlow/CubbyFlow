@@ -1,4 +1,4 @@
-#include "pch.hpp"
+#include "gtest/gtest.h"
 
 #include <FDMLinearSystemSolverTestHelper3.hpp>
 

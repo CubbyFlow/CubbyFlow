@@ -1,5 +1,5 @@
 #include "UnitTestsUtils.hpp"
-#include "pch.hpp"
+#include "gtest/gtest.h"
 
 #include <Core/Geometry/Transform.hpp>
 #include <Core/Utils/Constants.hpp>

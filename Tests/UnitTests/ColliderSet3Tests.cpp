@@ -1,4 +1,4 @@
-#include "pch.hpp"
+#include "gtest/gtest.h"
 
 #include <Core/Geometry/Box.hpp>
 #include <Core/Geometry/ColliderSet.hpp>

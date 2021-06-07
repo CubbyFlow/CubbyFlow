@@ -1,4 +1,4 @@
-#include "pch.hpp"
+#include "gtest/gtest.h"
 
 #include <Core/Searcher/PointKdTreeSearcher.hpp>
 

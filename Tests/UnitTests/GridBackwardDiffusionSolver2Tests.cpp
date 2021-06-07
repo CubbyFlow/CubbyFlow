@@ -1,4 +1,4 @@
-#include "pch.hpp"
+#include "gtest/gtest.h"
 
 #include <Core/Grid/CellCenteredScalarGrid.hpp>
 #include <Core/Solver/Grid/GridBackwardEulerDiffusionSolver2.hpp>

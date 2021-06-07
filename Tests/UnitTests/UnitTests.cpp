@@ -1,4 +1,5 @@
-#include "pch.hpp"
+#include "gmock/gmock.h"
+#include "gtest/gtest.h"
 
 #include <Core/Utils/Logging.hpp>
 

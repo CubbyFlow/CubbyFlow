@@ -1,4 +1,4 @@
-#include "pch.hpp"
+#include "gtest/gtest.h"
 
 #include <Core/Searcher/PointHashGridSearcher.hpp>
 #include <Core/Utils/PointHashGridUtils.hpp>

@@ -8,6 +8,8 @@ on:
 
 jobs:
   build-macos:
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.name }}
     strategy:
       matrix:
         include:
@@ -21,20 +23,16 @@ jobs:
             os: macos-10.15
             compiler: xcode
             version: "12.2"
-          # macOS 10.15 + gcc-8
-          - name: "macOS 10.15 + gcc-8"
-            os: macos-10.15
-            compiler: gcc
-            version: "8"
           # macOS 10.15 + gcc-9
           - name: "macOS 10.15 + gcc-9"
             os: macos-10.15
             compiler: gcc
             version: "9"
-
-    runs-on: ${{ matrix.os }}
-    name: ${{ matrix.name }}
-
+          # macOS 10.15 + gcc-10
+          - name: "macOS 10.15 + gcc-10"
+            os: macos-10.15
+            compiler: gcc
+            version: "10"
     steps:
     - uses: actions/checkout@v1
       with:

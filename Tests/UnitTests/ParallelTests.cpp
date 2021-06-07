@@ -1,4 +1,4 @@
-#include "pch.hpp"
+#include "gtest/gtest.h"
 
 #include <Core/Array/Array.hpp>
 #include <Core/Utils/Parallel.hpp>

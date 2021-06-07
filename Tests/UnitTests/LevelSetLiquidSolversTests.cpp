@@ -1,4 +1,4 @@
-#include "pch.hpp"
+#include "gtest/gtest.h"
 
 #include <Core/Geometry/ImplicitSurface.hpp>
 #include <Core/Geometry/ImplicitSurfaceSet.hpp>

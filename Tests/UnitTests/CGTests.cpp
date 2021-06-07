@@ -1,4 +1,4 @@
-#include "pch.hpp"
+#include "gtest/gtest.h"
 
 #include <Core/Math/CG.hpp>
 #include <Core/Matrix/Matrix.hpp>

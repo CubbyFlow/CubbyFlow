@@ -1,5 +1,5 @@
 #include "UnitTestsUtils.hpp"
-#include "pch.hpp"
+#include "gtest/gtest.h"
 
 #include <Core/Array/Array.hpp>
 #include <Core/Geometry/MarchingCubes.hpp>

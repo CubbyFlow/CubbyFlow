@@ -1,4 +1,4 @@
-#include "pch.hpp"
+#include "gtest/gtest.h"
 
 #include <Core/Solver/Particle/ParticleSystemSolver2.hpp>
 #include <Core/Solver/Particle/ParticleSystemSolver3.hpp>

@@ -1,5 +1,5 @@
 # CMake version
-cmake_minimum_required(VERSION 3.8.2 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.18.6 FATAL_ERROR)
 
 # Include cmake modules
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/Builds/CMake")
@@ -27,31 +27,36 @@ include_directories(Libraries/tinyobj)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Build type - Release by default
-message("CMake build type: " ${CMAKE_BUILD_TYPE})
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 elseif(CMAKE_BUILD_TYPE MATCHES "Debug")
     add_definitions(-DDEBUG)
 endif()
+message(STATUS "CMake build type: ${CMAKE_BUILD_TYPE}")
 
-# Configuration for CUDA build
-set(ENABLE_CUDA OFF CACHE BOOL "")
+# CUDA
+option(USE_CUDA "Use CUDA features" ON)
+set(CUDA_CRT_LINKAGE "dynamic" CACHE STRING 
+                     "CUDA targets' CRT options. For 'static', select /MT. For 'dynamic', select /MD")
+if (USE_CUDA)
+    message(STATUS "Using CUDA CRT: ${CUDA_CRT_LINKAGE}")
+    find_package(CUDA)
+    if (CUDA_FOUND)
+        set(CUDA_LINK_LIBRARIES_KEYWORD PUBLIC)
+        list(APPEND CUDA_TARGET_OPTIONS
+            "--std=c++17" "-Wno-deprecated-gpu-targets")
+        add_definitions(-DCUBBYFLOW_USE_CUDA)
+        include_directories(${CUDA_INCLUDE_DIRS})
 
-if (ENABLE_CUDA)
-    if (APPLE)
-        message("CUDA build is not available on macOS")
-        message("Turning ENABLE_CUDA OFF")
-        set(ENABLE_CUDA OFF)
-    else(MSVC OR LINUX)
-        find_package(CUDA 11.0)  # CXX 17 supports CUDA 11+
-        if (CUDA_FOUND)
-            message("Found CUDA ${CUDA_VERSION}")
-            message("Turning ENABLE_CUDA ON")
-        else()
-            message("Could not find CUDA")
-            message("Turning ENABLE_CUDA OFF")
-            set(ENABLE_CUDA OFF)
+        if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+            set(DEFAULT_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}
+                /wd4515 # -> disable warning: [Thrust issue] 'detail': namespace uses itself
+                /wd4996 # -> disable warning: [Thrust issue] 'strerror': This function or variable may be unsafe.
+                /wd4800 # -> disable warning: [Thrust issue] forcing value to bool 'true' or 'false' (performance warning)
+            )
         endif()
+    else()
+        set(USE_CUDA OFF)
     endif()
 endif()
 
@@ -65,8 +70,9 @@ include(Builds/CMake/TaskingSystemOptions.cmake)
 include(Builds/CMake/CompileOptions.cmake)
 
 # Modify project options for CUDA build
-if (ENABLE_CUDA)
+if (USE_CUDA)
     enable_language(CUDA)
+    set(CUDA_STANDARD 17)
     set(DEFAULT_PROJECT_OPTIONS ${DEFAULT_PROJECT_OPTIONS}
             CUDA_SEPARABLE_COMPILATION ON)
 endif()
@@ -95,7 +101,16 @@ set(RESOURCES_OBJS
 # Project modules
 set(BUILD_GTEST ON CACHE BOOL "" FORCE)
 set(BUILD_GMOCK ON CACHE BOOL "" FORCE)
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+set(gtest_force_shared_crt ON CACHE BOOL "")
+if(MSVC AND USE_CUDA)
+    message(STATUS "Google.Test Shared CRT: ${gtest_force_shared_crt}")
+    if(gtest_force_shared_crt AND CUDA_CRT_LINKAGE STREQUAL "static")
+        message(WARNING "CRT option mismatch. 'gtest_force_shared_crt' must be OFF for CUDA targets")
+    elseif(NOT gtest_force_shared_crt AND CUDA_CRT_LINKAGE STREQUAL "dynamic")
+        message(WARNING "CRT option mismatch. 'gtest_force_shared_crt' must be ON for CUDA targets")
+    endif()
+endif()
+
 add_subdirectory(Libraries/googletest EXCLUDE_FROM_ALL)
 cmake_policy(SET CMP0063 NEW)
 set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)

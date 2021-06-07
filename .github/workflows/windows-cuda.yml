@@ -2,32 +2,31 @@ name: Windows-CUDA
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, "gpu*" ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, "gpu*" ]
 
 jobs:
   build-windows-cuda:
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.name }}
     strategy:
       matrix:
         include:
-          # Windows Server 2016 + Visual Studio 2017
-          #- name: "Windows Server 2016 + Visual Studio 2017"
-          #  os: windows-2016
-          # Windows Server 2019 + Visual Studio 2019
-          - name: "Windows Server 2019 + Visual Studio 2019 + CUDA 11.0.167"
+          - name: "Windows Server 2019 + Visual Studio 2019 + CUDA 11.3.1 (Disable Test)"
             os: windows-2019
-            cuda: "11.0.167"
+            cuda: "11.3.1"
             visual_studio: "Visual Studio 16 2019"
-
-    runs-on: ${{ matrix.os }}
-    name: ${{ matrix.name }}
-
+            cuda_crt: dynamic
+          - name: "Windows Server 2019 + Visual Studio 2019 + CUDA 11.3.1 (Static, Disable Test)"
+            os: windows-2019
+            cuda: "11.3.1"
+            visual_studio: "Visual Studio 16 2019"
+            cuda_crt: static
     steps:
     - uses: actions/checkout@v1
       with:
         submodules: true
-
     # Install CUDA to the runner's env
     - name: Install CUDA
       env:
@@ -46,9 +45,8 @@ jobs:
           echo "$env:CUDA_PATH_VX_Y=$env:CUDA_PATH" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           echo "$env:CUDA_PATH/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
         }
-
     # Check availability of nvcc, Nvidia CUDA Compiler
-    - name: nvcc check
+    - name: Check nvcc
       shell: powershell
       run: |
         nvcc -V
@@ -56,15 +54,22 @@ jobs:
         ls $env:CUDA_PATH\bin
         ls $env:CUDA_PATH\include
     - name: Configure Build
-      run: mkdir build && cd build && cmake -DCMAKE_GENERATOR_PLATFORM=x64 -DENABLE_CUDA=ON -DCMAKE_BUILD_TYPE=Release ..
+      shell: powershell
+      run: |
+        if ("$env:CUDA_CRT" -eq "static") {
+          $GTEST_SHARED="false"
+        } else {
+          $GTEST_SHARED="true"
+        }
+        Write-Warning "Google.Test CRT option can break CUDA build. Be cautious..."
+        Write-Output "Using GTEST_SHARED: $($GTEST_SHARED)"
+        New-Item -Type Directory -Name build -Force
+        Push-Location build
+          cmake -DCMAKE_GENERATOR_PLATFORM=x64 -DUSE_CUDA=ON -DCUDA_CRT_LINKAGE="$env:CUDA_CRT" -DCMAKE_BUILD_TYPE=Release -Dgtest_force_shared_crt="$GTEST_SHARED" ..
+        Pop-Location
+      env:
+        cuda_crt: ${{ matrix.cuda_crt }}
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
     - name: Build
       run: cd build && MSBuild.exe CubbyFlow.sln /p:Configuration=Release
-    - name: Run Unit Test
-      run: /a/CubbyFlow/CubbyFlow/build/bin/Release/UnitTests.exe
-    - name: Run Python Test
-      run: |
-        pip install -r requirements.txt
-        pip install .
-        python -m pytest Tests/PythonTests/
