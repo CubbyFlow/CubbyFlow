@@ -26,6 +26,7 @@ $VISUAL_STUDIO_MIN_CUDA = @{
 }
 
 # cuda_runtime.h is in nvcc <= 10.2, but cudart >= 11.0
+# List of subpackages: https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html#install-cuda-software
 # @todo - make this easier to vary per CUDA version.
 $CUDA_PACKAGES_IN = @(
     "nvcc";
@@ -33,6 +34,7 @@ $CUDA_PACKAGES_IN = @(
     "curand_dev";
     "nvrtc_dev";
     "cudart";
+    "thrust";
 )
 
 
