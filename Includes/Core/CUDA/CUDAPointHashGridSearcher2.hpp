@@ -145,17 +145,6 @@ class CUDAPointHashGridSearcher2 final
     void ForEachNearbyPoint(const ConstCUDAArrayView1<float2>& origins,
                             float radius, Callback callback) const;
 
-    //!
-    //! Returns true if there are any nearby points for given origin within
-    //! radius.
-    //!
-    //! \param[in]  origin The origin.
-    //! \param[in]  radius The radius.
-    //!
-    //! \return     True if has nearby point, false otherwise.
-    //!
-    bool HasNearbyPoint(const Vector2D& origin, float radius) const;
-
     float GridSpacing() const;
 
     Vector2UZ Resolution() const;
