@@ -8,30 +8,30 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include "gtest/gtest.h"
+#include "doctest_proxy.hpp"
 
 #include <Core/CUDA/CUDAStdVector.hpp>
 
 using namespace CubbyFlow;
 
-TEST(CUDAStdVector, Constructors)
+TEST_CASE("[CUDAStdVector] - Constructors")
 {
     {
         CUDAStdVector<int> vec;
-        EXPECT_EQ(0u, vec.Size());
-        EXPECT_EQ(nullptr, vec.data());
+        CHECK_EQ(0u, vec.Size());
+        CHECK_EQ(nullptr, vec.data());
     }
 
     {
         CUDAStdVector<int> vec(5, 3);
-        EXPECT_EQ(5u, vec.Size());
+        CHECK_EQ(5u, vec.Size());
 
         std::vector<int> ans;
         vec.CopyTo(ans);
 
         for (size_t i = 0; i < 5; ++i)
         {
-            EXPECT_EQ(3, ans[i]);
+            CHECK_EQ(3, ans[i]);
         }
     }
 
@@ -44,7 +44,7 @@ TEST(CUDAStdVector, Constructors)
 
         for (size_t i = 0; i < 5; ++i)
         {
-            EXPECT_EQ(host[i], ans[i]);
+            CHECK_EQ(host[i], ans[i]);
         }
     }
 
@@ -58,7 +58,7 @@ TEST(CUDAStdVector, Constructors)
 
         for (size_t i = 0; i < 5; ++i)
         {
-            EXPECT_EQ(host[i], ans[i]);
+            CHECK_EQ(host[i], ans[i]);
         }
     }
 
@@ -67,33 +67,33 @@ TEST(CUDAStdVector, Constructors)
         CUDAStdVector<int> vec(host);
         CUDAStdVector<int> vec2 = std::move(vec);
 
-        EXPECT_EQ(0u, vec.Size());
-        EXPECT_EQ(nullptr, vec.data());
+        CHECK_EQ(0u, vec.Size());
+        CHECK_EQ(nullptr, vec.data());
 
         std::vector<int> ans;
         vec2.CopyTo(ans);
 
         for (size_t i = 0; i < 5; ++i)
         {
-            EXPECT_EQ(host[i], ans[i]);
+            CHECK_EQ(host[i], ans[i]);
         }
     }
 }
 
-TEST(CUDAStdVector, Getters)
+TEST_CASE("[CUDAStdVector] - Getters")
 {
     std::vector<int> host({ 1, 2, 3, 4, 5 });
     CUDAStdVector<int> vec(host);
 
-    EXPECT_NE(nullptr, vec.data());
-    EXPECT_EQ(5u, vec.Size());
+    CHECK_NE(nullptr, vec.data());
+    CHECK_EQ(5u, vec.Size());
 
     const auto& vecRef = vec;
-    EXPECT_NE(nullptr, vecRef.data());
+    CHECK_NE(nullptr, vecRef.data());
 
     for (size_t i = 0; i < 5; ++i)
     {
-        EXPECT_EQ(host[i], vecRef.At(i));
+        CHECK_EQ(host[i], vecRef.At(i));
     }
 
     std::vector<int> ans;
@@ -101,11 +101,11 @@ TEST(CUDAStdVector, Getters)
 
     for (size_t i = 0; i < 5; ++i)
     {
-        EXPECT_EQ(host[i], ans[i]);
+        CHECK_EQ(host[i], ans[i]);
     }
 }
 
-TEST(CUDAStdVector, Modifiers)
+TEST_CASE("[CUDAStdVector] - Modifiers")
 {
     std::vector<int> host({ 1, 2, 3, 4, 5 });
     CUDAStdVector<int> vec(host);
@@ -119,75 +119,75 @@ TEST(CUDAStdVector, Modifiers)
     const auto& vecRef = vec;
     for (int i = 0; i < 5; ++i)
     {
-        EXPECT_EQ(9 - i, vec.At(i));
-        EXPECT_EQ(9 - i, vecRef.At(i));
+        CHECK_EQ(9 - i, vec.At(i));
+        CHECK_EQ(9 - i, vecRef.At(i));
     }
 
     vec.Fill(10);
     for (int i = 0; i < 5; ++i)
     {
-        EXPECT_EQ(10, vec.At(i));
+        CHECK_EQ(10, vec.At(i));
     }
 
     vec.Clear();
-    EXPECT_EQ(0u, vec.Size());
-    EXPECT_EQ(nullptr, vec.data());
+    CHECK_EQ(0u, vec.Size());
+    CHECK_EQ(nullptr, vec.data());
 
     vec.ResizeUninitialized(4);
-    EXPECT_EQ(4u, vec.Size());
+    CHECK_EQ(4u, vec.Size());
 
     vec.Resize(7, 3);
-    EXPECT_EQ(7u, vec.Size());
+    CHECK_EQ(7u, vec.Size());
     for (int i = 4; i < 7; ++i)
     {
-        EXPECT_EQ(3, vec.At(i));
+        CHECK_EQ(3, vec.At(i));
     }
 
     CUDAStdVector<int> vec2(host);
     vec.Swap(vec2);
 
-    EXPECT_EQ(7u, vec2.Size());
+    CHECK_EQ(7u, vec2.Size());
     for (int i = 4; i < 7; ++i)
     {
-        EXPECT_EQ(3, vec2.At(i));
+        CHECK_EQ(3, vec2.At(i));
     }
-    EXPECT_EQ(5u, vec.Size());
+    CHECK_EQ(5u, vec.Size());
     for (int i = 0; i < 5; ++i)
     {
-        EXPECT_EQ(host[i], vec.At(i));
+        CHECK_EQ(host[i], vec.At(i));
     }
 
     vec.PushBack(6);
-    EXPECT_EQ(6u, vec.Size());
+    CHECK_EQ(6u, vec.Size());
     for (int i = 0; i < 5; ++i)
     {
-        EXPECT_EQ(host[i], vec.At(i));
+        CHECK_EQ(host[i], vec.At(i));
     }
-    EXPECT_EQ(6, vec.At(5));
+    CHECK_EQ(6, vec.At(5));
 
     vec2.CopyFrom(host);
     vec.Append(vec2);
 
-    EXPECT_EQ(11u, vec.Size());
+    CHECK_EQ(11u, vec.Size());
     for (int i = 0; i < 5; ++i)
     {
-        EXPECT_EQ(host[i], vec.At(i));
+        CHECK_EQ(host[i], vec.At(i));
     }
-    EXPECT_EQ(6, vec.At(5));
+    CHECK_EQ(6, vec.At(5));
     for (int i = 6; i < 11; ++i)
     {
-        EXPECT_EQ(host[i - 6], vec.At(i));
+        CHECK_EQ(host[i - 6], vec.At(i));
     }
 
     vec.CopyFrom(vec2);
-    EXPECT_EQ(5u, vec.Size());
+    CHECK_EQ(5u, vec.Size());
     for (int i = 0; i < 5; ++i)
     {
-        EXPECT_EQ(host[i], vec.At(i));
+        CHECK_EQ(host[i], vec.At(i));
     }
 }
 
-TEST(CUDAStdVector, Operators)
+TEST_CASE("[CUDAStdVector] - Operators")
 {
     std::vector<int> host({ 1, 2, 3, 4, 5 });
     CUDAStdVector<int> vec(host);
@@ -201,14 +201,14 @@ TEST(CUDAStdVector, Operators)
     const auto& vecRef = vec;
     for (int i = 0; i < 5; ++i)
     {
-        EXPECT_EQ(9 - i, vec[i]);
-        EXPECT_EQ(9 - i, vecRef[i]);
+        CHECK_EQ(9 - i, vec[i]);
+        CHECK_EQ(9 - i, vecRef[i]);
     }
 
     vec = host;
     for (int i = 0; i < 5; ++i)
     {
-        EXPECT_EQ(host[i], vec[i]);
+        CHECK_EQ(host[i], vec[i]);
     }
 
     CUDAStdVector<int> vec2(host);
@@ -216,6 +216,6 @@ TEST(CUDAStdVector, Operators)
     vec = vec2;
     for (int i = 0; i < 5; ++i)
     {
-        EXPECT_EQ(host[i], vec[i]);
+        CHECK_EQ(host[i], vec[i]);
     }
 }
