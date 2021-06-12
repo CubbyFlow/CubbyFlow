@@ -8,48 +8,17 @@ include_directories(
     ${LIBRARY_DIR}/googletest/googletest/include)
 
 # Sources
-if (USE_CUDA)
-    file(GLOB sources
-        ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/CUDA/*.cu)
-else()
-    file(GLOB sources
-        ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
-endif()
+file(GLOB sources
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 
 # Build executable
-if (USE_CUDA)
-    if (MSVC)
-        if (CUDA_CRT_LINKAGE STREQUAL "dynamic")
-            if (CMAKE_BUILD_TYPE MATCHES Debug)
-                list(APPEND CUDA_TARGET_OPTIONS "-Xcompiler" "/MDd" "--debug" "-O0")
-            else()
-                list(APPEND CUDA_TARGET_OPTIONS "-Xcompiler" "/MD" "-O2")
-            endif()
-        elseif (CUDA_CRT_LINKAGE STREQUAL "static")
-            # TODO: We have to use /MT here in general, 
-            #       but using /MD because of Google.Test source build
-            if(CMAKE_BUILD_TYPE MATCHES Debug)
-                list(APPEND CUDA_TARGET_OPTIONS "-Xcompiler" "/MDd" "--debug" "-O0") # /MTd
-            else()
-                list(APPEND CUDA_TARGET_OPTIONS "-Xcompiler" "/MD" "-O2") # /MT
-            endif()
-        endif()
-    endif()
-    # See https://cmake.org/cmake/help/latest/module/FindCUDA.html
-    cuda_add_executable(${target} ${sources}
-        OPTIONS ${CUDA_TARGET_OPTIONS}
-    )
-else()
-    add_executable(${target}
-        ${sources})
-endif()
+add_executable(${target}
+    ${sources})
 
 # Project options
 set_target_properties(${target}
     PROPERTIES
     ${DEFAULT_PROJECT_OPTIONS}
-    CUDA_ARCHITECTURES "75"
 )
 
 # Compile options
