@@ -22,6 +22,7 @@ include_directories(Libraries)
 include_directories(Libraries/pybind11/include)
 include_directories(Libraries/Clara/include)
 include_directories(Libraries/tinyobj)
+include_directories(Libraries/doctest/doctest)
 
 # Set enable output of compile commands during generation
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
