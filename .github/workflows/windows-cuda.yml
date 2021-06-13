@@ -75,4 +75,4 @@ jobs:
         CUDA_PATH_V11_3: "${{ env.CUDA_CACHE_ROOT }}\\v11.3"
     - name: "Build with MSBuild"
       run: MSBuild.exe CubbyFlow.sln /p:Configuration=Release
-      working-directory: ${{env.GITHUB_WORKSPACE}}/build
+      working-directory: ${{ github.workspace }}/build
