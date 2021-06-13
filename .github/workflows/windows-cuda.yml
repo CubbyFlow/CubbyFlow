@@ -33,26 +33,21 @@ jobs:
     - name: "Cache: CUDA"
       uses: actions/cache@v2
       with:
-        path: "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA"
+        path: "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA" # see CUDA_CACHE_ROOT
         key: ${{ matrix.os }}_cuda-${{ matrix.cuda }}
-    - name: "Install: CUDA"
+    # todo: work with https://github.com/marketplace/actions/cuda-toolkit
+    - name: "Install/Check: CUDA"
+      shell: powershell
       env:
         cuda: ${{ matrix.cuda }}
         visual_studio: ${{ matrix.visual_studio }}
-      shell: powershell
       run: |
-        # @todo : Remove following command after debugging
-        Get-Location
-        if((Test-Path "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA") -eq $False){
+        Write-Output "$env:CUDA_CACHE_ROOT"
+        if((Test-Path "$env:CUDA_CACHE_ROOT") -eq $False){
           # Install CUDA via a powershell script
           .\.github\workflows\scripts\actions\install_cuda_windows.ps1
         }
-    # Check availability of nvcc, Nvidia CUDA Compiler
-    - name: "Check: CUDA"
-      shell: powershell
-      run: |
-        Write-Output "$env:CUDA_CACHE_ROOT"
-        $env:CUDA_PATH="$env:CUDA_CACHE_ROOT\\v11.3"
+        $env:CUDA_PATH="$env:CUDA_CACHE_ROOT\\v11.3" # using fixed path
         $env:PATH="$env:CUDA_PATH\\bin;$env:PATH"
         nvcc -V
         ls $env:CUDA_PATH
@@ -74,7 +69,7 @@ jobs:
     #     Pop-Location
     #   env:
     #     cuda_crt: ${{ matrix.cuda_crt }}
-    # - name: Add MSBuild to PATH
-    #   uses: microsoft/setup-msbuild@v1.0.2
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
     # - name: Build
     #   run: cd build && MSBuild.exe CubbyFlow.sln /p:Configuration=Release
