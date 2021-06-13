@@ -28,14 +28,25 @@ jobs:
       with:
         submodules: true
     # Install CUDA to the runner's env
-    - name: Install CUDA
+    - name: "Cache Restore: CUDA"
+      uses: actions/cache@v2
+      with:
+        path: | 
+          $(CUDA_CACHE_PATH)
+          $(Pipeline.Workspace)/cache
+      key: ${{ runner.os }}_cuda-${{ matrix.cuda }}
+      env:
+        CUDA_CACHE_PATH: $(Pipeline.Workspace)/cache-cuda
+    - name: "Install: CUDA"
       env:
         cuda: ${{ matrix.cuda }}
         visual_studio: ${{ matrix.visual_studio }}
+        CUDA_CACHE_PATH: $(Pipeline.Workspace)/cache-cuda
       shell: powershell
       run: |
         # @todo : Remove following command after debugging
-        pwd
+        Get-Location
+        Write-Output "$env:CUDA_CACHE_PATH"
         # Install CUDA via a powershell script
         .\.github\workflows\scripts\actions\install_cuda_windows.ps1
         if ($?) {
@@ -45,6 +56,13 @@ jobs:
           echo "$env:CUDA_PATH_VX_Y=$env:CUDA_PATH" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           echo "$env:CUDA_PATH/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
         }
+    - name: "Update: CUDA Cache"
+      env:
+        CUDA_CACHE_PATH: $(Pipeline.Workspace)/cache-cuda
+      shell: powershell
+      run: |
+        New-Item -Force -Path "$env:CUDA_CACHE_PATH" -ItemType Directory
+        Move-Item -Force -Path cuda_${{ matrix.cuda }}_win10_network.exe -Destination "${CUDA_CACHE_PATH}"
     # Check availability of nvcc, Nvidia CUDA Compiler
     - name: Check nvcc
       shell: powershell
