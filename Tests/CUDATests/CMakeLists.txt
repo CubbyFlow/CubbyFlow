@@ -7,21 +7,6 @@ file(GLOB_RECURSE sources
     ${CMAKE_CURRENT_SOURCE_DIR}/*.cu)
 
 # Build executable
-if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    if (CUDA_CRT_LINKAGE STREQUAL "dynamic")
-        if (CMAKE_BUILD_TYPE MATCHES Debug)
-            list(APPEND CUDA_TARGET_OPTIONS "-Xcompiler" "/MDd" "--debug" "-O0")
-        else()
-            list(APPEND CUDA_TARGET_OPTIONS "-Xcompiler" "/MD" "-O2")
-        endif()
-    elseif (CUDA_CRT_LINKAGE STREQUAL "static")
-        if(CMAKE_BUILD_TYPE MATCHES Debug)
-            list(APPEND CUDA_TARGET_OPTIONS "-Xcompiler" "/MTd" "--debug" "-O0")
-        else()
-            list(APPEND CUDA_TARGET_OPTIONS "-Xcompiler" "/MT" "-O2")
-        endif()
-    endif()
-endif()
 cuda_add_executable(${target} ${sources}
     OPTIONS ${CUDA_TARGET_OPTIONS}
 )
@@ -30,8 +15,6 @@ cuda_add_executable(${target} ${sources}
 set_target_properties(${target}
     PROPERTIES
     ${DEFAULT_PROJECT_OPTIONS}
-    CUDA_ARCHITECTURES "75"
-    CUDA_SEPARABLE_COMPILATION ON
 )
 
 # Compile options

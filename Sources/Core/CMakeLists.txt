@@ -25,10 +25,11 @@ endif()
 
 # Build library
 if (USE_CUDA)
-    cuda_add_library(${target}
-        ${sources})
+    cuda_add_library(${target} ${sources} STATIC
+        OPTIONS ${CUDA_TARGET_OPTIONS}
+    )
 else()
-    add_library(${target}
+    add_library(${target} STATIC
         ${sources})
 endif()
 
@@ -36,7 +37,6 @@ endif()
 set_target_properties(${target}
     PROPERTIES
     ${DEFAULT_PROJECT_OPTIONS}
-    CUDA_SEPARABLE_COMPILATION ON
 )
 
 # Compile options
