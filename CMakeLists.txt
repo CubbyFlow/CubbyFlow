@@ -44,7 +44,7 @@ set(CUDA_CRT_LINKAGE "dynamic" CACHE STRING
                      "CUDA targets' CRT options. For 'static', use /MT or /MTd. For 'dynamic', use /MD or /MDd")
 if (USE_CUDA)
     set(CUDA_LINK_LIBRARIES_KEYWORD PUBLIC)
-    set(CUDA_SEPARABLE_COMPILATION ON)
+    set(CUDA_SEPARABLE_COMPILATION OFF)
     set(CUDA_STANDARD 17)
     find_package(CUDA)
     if (CUDA_FOUND) # Modify project options for CUDA build
