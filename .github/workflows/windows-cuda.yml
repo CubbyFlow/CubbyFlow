@@ -13,16 +13,16 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: "Windows Server 2019 + Visual Studio 2019 + CUDA 11.3.1 (Disable Test)"
+          - name: "Windows Server 2019 + Visual Studio 2019 + CUDA 11.3.1 (Debug)"
             os: windows-2019
             cuda: "11.3.1"
             visual_studio: "Visual Studio 16 2019"
-            cuda_crt: dynamic
-          - name: "Windows Server 2019 + Visual Studio 2019 + CUDA 11.3.1 (Static, Disable Test)"
+            configuration: Debug
+          - name: "Windows Server 2019 + Visual Studio 2019 + CUDA 11.3.1 (Release)"
             os: windows-2019
             cuda: "11.3.1"
             visual_studio: "Visual Studio 16 2019"
-            cuda_crt: static
+            configuration: Release
     env:
       CUDA_CACHE_ROOT: "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA"
     steps:
@@ -49,7 +49,7 @@ jobs:
           # Install CUDA via a powershell script
           .\.github\workflows\scripts\actions\install_cuda_windows.ps1
         }
-        $env:PATH="$env:CUDA_PATH\\bin;$env:PATH"
+        $env:PATH="$env:CUDA_PATH\bin;$env:PATH"
         nvcc -V
         ls $env:CUDA_PATH
         ls $env:CUDA_PATH\bin
@@ -66,7 +66,7 @@ jobs:
         Push-Location build
           cmake .. `
             -DCMAKE_GENERATOR_PLATFORM=x64 `
-            -DCMAKE_BUILD_TYPE=Release `
+            -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} `
             -DBUILD_SHARED_LIBS=false `
             -DUSE_CUDA=ON -DCUDA_CRT_LINKAGE="${{ matrix.cuda_crt }}" -DCMAKE_CUDA_COMPILER="$NVCC_PATH"
         Pop-Location
@@ -74,5 +74,5 @@ jobs:
         CUDA_PATH: "${{ env.CUDA_CACHE_ROOT }}\\v11.3" # using fixed path
         CUDA_PATH_V11_3: "${{ env.CUDA_CACHE_ROOT }}\\v11.3"
     - name: "Build with MSBuild"
-      run: MSBuild.exe CubbyFlow.sln /p:Configuration=Release
+      run: MSBuild.exe CubbyFlow.sln /p:Configuration=${{ matrix.configuration }}
       working-directory: ${{ github.workspace }}/build
