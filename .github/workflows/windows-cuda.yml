@@ -24,7 +24,7 @@ jobs:
             visual_studio: "Visual Studio 16 2019"
             cuda_crt: static
     env:
-      CUDA_CACHE_PATH: "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA"
+      CUDA_CACHE_ROOT: "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA"
     steps:
     - uses: actions/checkout@v1
       with:
@@ -47,17 +47,13 @@ jobs:
           # Install CUDA via a powershell script
           .\.github\workflows\scripts\actions\install_cuda_windows.ps1
         }
-        if ($?) {
-          # Set paths for subsequent steps, using $env:CUDA_PATH
-          echo "Adding CUDA to CUDA_PATH, CUDA_PATH_X_Y and PATH"
-          echo "CUDA_PATH=$env:CUDA_PATH" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          echo "$env:CUDA_PATH_VX_Y=$env:CUDA_PATH" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          echo "$env:CUDA_PATH/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-        }
     # Check availability of nvcc, Nvidia CUDA Compiler
-    - name: Check nvcc
+    - name: "Check: CUDA"
       shell: powershell
       run: |
+        Write-Output "$env:CUDA_CACHE_ROOT"
+        $env:CUDA_PATH="$env:CUDA_CACHE_ROOT\\v11.3"
+        $env:PATH="$env:CUDA_PATH\\bin;$env:PATH"
         nvcc -V
         ls $env:CUDA_PATH
         ls $env:CUDA_PATH\bin
