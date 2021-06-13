@@ -45,9 +45,9 @@ jobs:
         CUDA_PATH_V11_3: "${{ env.CUDA_CACHE_ROOT }}\\v11.3"
       run: |
         Write-Output "$env:CUDA_CACHE_ROOT"
+        # Install CUDA via a powershell script
+        .\.github\workflows\scripts\actions\install_cuda_windows.ps1
         if((Test-Path "$env:CUDA_CACHE_ROOT") -eq $False){
-          # Install CUDA via a powershell script
-          .\.github\workflows\scripts\actions\install_cuda_windows.ps1
         }
         $env:PATH="$env:CUDA_PATH\bin;$env:PATH"
         nvcc -V
@@ -68,7 +68,7 @@ jobs:
             -DCMAKE_GENERATOR_PLATFORM=x64 `
             -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} `
             -DBUILD_SHARED_LIBS=false `
-            -DUSE_CUDA=ON -DCUDA_CRT_LINKAGE="${{ matrix.cuda_crt }}" -DCMAKE_CUDA_COMPILER="$NVCC_PATH"
+            -DUSE_CUDA=ON -DCUDA_CRT_LINKAGE=dynamic -DCMAKE_CUDA_COMPILER="$NVCC_PATH"
         Pop-Location
       env:
         CUDA_PATH: "${{ env.CUDA_CACHE_ROOT }}\\v11.3" # using fixed path
