@@ -33,8 +33,7 @@ jobs:
     - name: "Cache: CUDA"
       uses: actions/cache@v2
       with:
-        path: | 
-          $(CUDA_CACHE_PATH)
+        path: "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA"
         key: ${{ matrix.os }}_cuda-${{ matrix.cuda }}
     - name: "Install: CUDA"
       env:
@@ -44,9 +43,10 @@ jobs:
       run: |
         # @todo : Remove following command after debugging
         Get-Location
-        Write-Output "$env:CUDA_CACHE_PATH"
-        # Install CUDA via a powershell script
-        .\.github\workflows\scripts\actions\install_cuda_windows.ps1
+        if((Test-Path "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA") -eq $False){
+          # Install CUDA via a powershell script
+          .\.github\workflows\scripts\actions\install_cuda_windows.ps1
+        }
         if ($?) {
           # Set paths for subsequent steps, using $env:CUDA_PATH
           echo "Adding CUDA to CUDA_PATH, CUDA_PATH_X_Y and PATH"
@@ -54,10 +54,6 @@ jobs:
           echo "$env:CUDA_PATH_VX_Y=$env:CUDA_PATH" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           echo "$env:CUDA_PATH/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
         }
-    - name: "Check: CUDA Cache"
-      shell: powershell
-      run: |
-        tree /F "$env:CUDA_CACHE_PATH"
     # Check availability of nvcc, Nvidia CUDA Compiler
     - name: Check nvcc
       shell: powershell
