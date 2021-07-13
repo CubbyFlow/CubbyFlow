@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/CUDA/CUDAAlgortithms.hpp>
+#include <Core/CUDA/CUDAAlgorithms.hpp>
 #include <Core/CUDA/CUDAPointHashGridSearcher3.hpp>
 
 #include <thrust/device_ptr.h>
