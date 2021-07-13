@@ -17,39 +17,37 @@
 
 using namespace CubbyFlow;
 
-//namespace
-//{
-//struct ForEachCallback
-//{
-//    CUBBYFLOW_CUDA_HOST_DEVICE void operator()(size_t i, float4 o, size_t j,
-//                                               float4 pt)
-//    {
-//        (void)i;
-//        (void)o;
-//
-//        visited[j] = 1;
-//
-//        if (j == 1)
-//        {
-//            isValid[j] = 0;
-//            return;
-//        }
-//
-//        if (j == 0)
-//        {
-//            isValid[j] = points[0] == pt;
-//        }
-//        else if (j == 2)
-//        {
-//            isValid[j] = points[2] == pt;
-//        }
-//    }
-//
-//    float4* points;
-//    int* isValid;
-//    int* visited;
-//};
-//}  // namespace
+namespace
+{
+struct ForEachCallback
+{
+    CUBBYFLOW_CUDA_HOST_DEVICE void operator()(size_t i, float4 o, size_t j,
+                                               float4 pt)
+    {
+        (void)i, (void)o;
+        visited[j] = 1;
+
+        if (j == 1)
+        {
+            isValid[j] = 0;
+            return;
+        }
+
+        if (j == 0)
+        {
+            isValid[j] = points[0] == pt;
+        }
+        else if (j == 2)
+        {
+            isValid[j] = points[2] == pt;
+        }
+    }
+
+    float4* points;
+    int* isValid;
+    int* visited;
+};
+}  // namespace
 
 TEST_CASE("[CUDAPointHashGridSearcher3] - Build")
 {
@@ -133,23 +131,23 @@ TEST_CASE("[CUDAPointHashGridSearcher3] - ForEachNearbyPoint")
     CUDAPointHashGridSearcher3 searcherD(4, 4, 4, std::sqrt(10.0f));
     searcherD.Build(pointsD.View());
 
-    //ForEachCallback func;
-    //func.points = pointsD.data();
-    //func.isValid = isValid.data();
-    //func.visited = visited.data();
+    ForEachCallback func;
+    func.points = pointsD.data();
+    func.isValid = isValid.data();
+    func.visited = visited.data();
 
-    //searcherD.ForEachNearbyPoint(origins.View(), std::sqrt(10.0f), func);
+    searcherD.ForEachNearbyPoint(origins.View(), std::sqrt(10.0f), func);
 
-    //int iv = isValid[0];
-    //int vd = visited[0];
-    //CHECK_EQ(1, iv);
-    //CHECK_EQ(1, vd);
-    //iv = isValid[1];
-    //vd = visited[1];
-    //CHECK_EQ(1, iv);
-    //CHECK_EQ(0, vd);
-    //iv = isValid[2];
-    //vd = visited[2];
-    //CHECK_EQ(1, iv);
-    //CHECK_EQ(1, vd);
+    int iv = isValid[0];
+    int vd = visited[0];
+    CHECK_EQ(1, iv);
+    CHECK_EQ(1, vd);
+    iv = isValid[1];
+    vd = visited[1];
+    CHECK_EQ(1, iv);
+    CHECK_EQ(0, vd);
+    iv = isValid[2];
+    vd = visited[2];
+    CHECK_EQ(1, iv);
+    CHECK_EQ(1, vd);
 }
