@@ -108,6 +108,7 @@ struct CUDASPHSpikyKernel3
 
     //! Fifth-power of the kernel radius.
     float h5;
+};
 }  // namespace CubbyFlow
 
 #include <Core/CUDA/CUDASPHKernels3-Impl.hpp>
