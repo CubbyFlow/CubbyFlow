@@ -4,6 +4,7 @@ var searchData=
   ['warn',['Warn',['../namespace_cubby_flow.html#a38dc4ab8c46da6790b186ba0c84d86c8a56525ae64d370c0b448ac0d60710ef17',1,'CubbyFlow']]],
   ['warnlogger',['warnLogger',['../namespace_cubby_flow.html#ad7f57e5990c493cde6a51d9a3d3203ea',1,'CubbyFlow']]],
   ['water_5fdensity',['WATER_DENSITY',['../namespace_cubby_flow.html#a134f6fee2052d5f447593cbd8c6de94c',1,'CubbyFlow']]],
+  ['water_5fdensity_5ffloat',['WATER_DENSITY_FLOAT',['../namespace_cubby_flow.html#acf691e611f7f10163cbbdc874d87db3e',1,'CubbyFlow']]],
   ['weno5',['WENO5',['../namespace_cubby_flow.html#aacb7d1fe255f67777a1450f7cefa4fda',1,'CubbyFlow::WENO5(T *v, T h, T eps=1.0e-8)'],['../namespace_cubby_flow.html#a41dc0c3214949891d8175a3de60b2f27',1,'CubbyFlow::WENO5(T *v, T h, bool is_velocity_positive, T eps=1.0e-8)']]],
   ['width',['Width',['../class_cubby_flow_1_1_array_base.html#ac3e54cd479d6df5d20d845e58be445a7',1,'CubbyFlow::ArrayBase::Width()'],['../class_cubby_flow_1_1_bounding_box.html#a00251dd68ee084c88b3767ddae084af3',1,'CubbyFlow::BoundingBox::Width()'],['../class_cubby_flow_1_1_array_base.html#ac3e54cd479d6df5d20d845e58be445a7',1,'CubbyFlow::ArrayBase::Width()']]],
   ['withallowoverlapping',['WithAllowOverlapping',['../class_cubby_flow_1_1_volume_particle_emitter2_1_1_builder.html#ac966551721cc619b2e9960c9a8f4856b',1,'CubbyFlow::VolumeParticleEmitter2::Builder::WithAllowOverlapping()'],['../class_cubby_flow_1_1_volume_particle_emitter3_1_1_builder.html#adca4638aa32cf52855bc9328758bd34f',1,'CubbyFlow::VolumeParticleEmitter3::Builder::WithAllowOverlapping()']]],
