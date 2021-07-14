@@ -108,6 +108,7 @@ struct CUDASPHSpikyKernel2
 
     //! Fifth-power of the kernel radius.
     float h5;
+};
 }  // namespace CubbyFlow
 
 #include <Core/CUDA/CUDASPHKernels2-Impl.hpp>
