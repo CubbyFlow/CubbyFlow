@@ -52,7 +52,7 @@ TEST(PointParallelHashGridSearcher2, Build)
     pointsGenerator.Generate(bbox, spacing, &points);
 
     PointHashGridSearcher2 pointSearcher{ Vector2UZ{ 4, 4 }, 0.18 };
-    pointSearcher.Build(points);
+    pointSearcher.Build(points, std::numeric_limits<double>::max());
 
     Array2<size_t> grid(4, 4);
 
@@ -69,7 +69,7 @@ TEST(PointParallelHashGridSearcher2, Build)
     }
 
     PointParallelHashGridSearcher2 parallelSearcher{ Vector2UZ{ 4, 4 }, 0.18 };
-    parallelSearcher.Build(points);
+    parallelSearcher.Build(points, std::numeric_limits<double>::max());
 
     for (size_t j = 0; j < grid.Size().y; ++j)
     {
