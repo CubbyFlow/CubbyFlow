@@ -174,10 +174,9 @@ CUDAPointHashGridSearcher3::ForEachNearbyPointFunc<Callback>::operator()(
             float distanceSquared = LengthSquared(direction);
             if (distanceSquared <= queryRadiusSquared)
             {
-                float distance = 0.0f;
                 if (distanceSquared > 0)
                 {
-                    distance = sqrtf(distanceSquared);
+                    float distance = sqrtf(distanceSquared);
                     direction /= distance;
                 }
 
