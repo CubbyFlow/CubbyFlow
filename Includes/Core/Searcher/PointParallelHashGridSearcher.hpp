@@ -66,6 +66,15 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N>
         PointParallelHashGridSearcher&& other) noexcept;
 
     //!
+    //! \brief Builds internal acceleration structure for given points list.
+    //!
+    //! This function builds the hash grid for given points in parallel.
+    //!
+    //! \param[in]  points  The points to be added.
+    //!
+    void Build(const ConstArrayView1<Vector<double, N>>& points) override;
+
+    //!
     //! \brief Builds internal acceleration structure for given points list and
     //!        max search radius.
     //!

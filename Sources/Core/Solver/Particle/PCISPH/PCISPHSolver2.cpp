@@ -8,7 +8,7 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <Core/Particle/SPHStdKernel.hpp>
+#include <Core/Particle/SPHKernels.hpp>
 #include <Core/PointGenerator/TrianglePointGenerator.hpp>
 #include <Core/Solver/Particle/PCISPH/PCISPHSolver2.hpp>
 #include <Core/Utils/Logging.hpp>

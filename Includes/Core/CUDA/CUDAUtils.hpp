@@ -18,6 +18,7 @@
 #include <cuda_runtime.h>
 
 #include <algorithm>
+#include <cstdint>
 
 namespace CubbyFlow
 {
@@ -341,98 +342,98 @@ inline CUBBYFLOW_CUDA_HOST_DEVICE bool operator==(float4 a, float4 b)
            std::abs(a.z - b.z) < 1e-6f && std::abs(a.w - b.w) < 1e-6f;
 }
 
-inline CUBBYFLOW_CUDA_HOST_DEVICE float dot(float2 a, float2 b)
+inline CUBBYFLOW_CUDA_HOST_DEVICE float Dot(float2 a, float2 b)
 {
     return a.x * b.x + a.y * b.y;
 }
 
-inline CUBBYFLOW_CUDA_HOST_DEVICE float dot(float3 a, float3 b)
+inline CUBBYFLOW_CUDA_HOST_DEVICE float Dot(float3 a, float3 b)
 {
     return a.x * b.x + a.y * b.y + a.z * b.z;
 }
 
-inline CUBBYFLOW_CUDA_HOST_DEVICE float dot(float4 a, float4 b)
+inline CUBBYFLOW_CUDA_HOST_DEVICE float Dot(float4 a, float4 b)
 {
     return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 }
 
-inline CUBBYFLOW_CUDA_HOST_DEVICE float lengthSquared(float2 v)
+inline CUBBYFLOW_CUDA_HOST_DEVICE float LengthSquared(float2 v)
 {
-    return dot(v, v);
+    return Dot(v, v);
 }
 
-inline CUBBYFLOW_CUDA_HOST_DEVICE float lengthSquared(float3 v)
+inline CUBBYFLOW_CUDA_HOST_DEVICE float LengthSquared(float3 v)
 {
-    return dot(v, v);
+    return Dot(v, v);
 }
 
-inline CUBBYFLOW_CUDA_HOST_DEVICE float lengthSquared(float4 v)
+inline CUBBYFLOW_CUDA_HOST_DEVICE float LengthSquared(float4 v)
 {
-    return dot(v, v);
+    return Dot(v, v);
 }
 
-inline CUBBYFLOW_CUDA_HOST_DEVICE float length(float2 v)
+inline CUBBYFLOW_CUDA_HOST_DEVICE float Length(float2 v)
 {
-    return sqrtf(lengthSquared(v));
+    return sqrtf(LengthSquared(v));
 }
 
-inline CUBBYFLOW_CUDA_HOST_DEVICE float length(float3 v)
+inline CUBBYFLOW_CUDA_HOST_DEVICE float Length(float3 v)
 {
-    return sqrtf(lengthSquared(v));
+    return sqrtf(LengthSquared(v));
 }
 
-inline CUBBYFLOW_CUDA_HOST_DEVICE float length(float4 v)
+inline CUBBYFLOW_CUDA_HOST_DEVICE float Length(float4 v)
 {
-    return sqrtf(lengthSquared(v));
+    return sqrtf(LengthSquared(v));
 }
 
 template <typename VectorType>
-inline CUBBYFLOW_CUDA_HOST_DEVICE float2 toFloat2(const VectorType& vec)
+inline CUBBYFLOW_CUDA_HOST_DEVICE float2 ToFloat2(const VectorType& vec)
 {
     return make_float2(vec.x, vec.y);
 }
 
 template <typename VectorType>
-inline CUBBYFLOW_CUDA_HOST_DEVICE float3 toFloat3(const VectorType& vec)
+inline CUBBYFLOW_CUDA_HOST_DEVICE float3 ToFloat3(const VectorType& vec)
 {
     return make_float3(vec.x, vec.y, vec.z);
 }
 
 template <typename VectorType>
-inline CUBBYFLOW_CUDA_HOST_DEVICE float4 toFloat4(const VectorType& vec,
+inline CUBBYFLOW_CUDA_HOST_DEVICE float4 ToFloat4(const VectorType& vec,
                                                   float w)
 {
     return make_float4(vec.x, vec.y, vec.z, w);
 }
 
 template <typename VectorType>
-inline CUBBYFLOW_CUDA_HOST_DEVICE float4 toFloat4(const VectorType& vec)
+inline CUBBYFLOW_CUDA_HOST_DEVICE float4 ToFloat4(const VectorType& vec)
 {
     return make_float4(vec.x, vec.y, vec.z, vec.w);
 }
 
 template <typename SizeType>
-inline CUBBYFLOW_CUDA_HOST_DEVICE int2 toInt2(const SizeType& size)
+inline CUBBYFLOW_CUDA_HOST_DEVICE int2 ToInt2(const SizeType& size)
 {
     return make_int2(static_cast<int>(size.x), static_cast<int>(size.y));
 }
 
 template <typename SizeType>
-inline CUBBYFLOW_CUDA_HOST_DEVICE int3 toInt3(const SizeType& size)
+inline CUBBYFLOW_CUDA_HOST_DEVICE int3 ToInt3(const SizeType& size)
 {
     return make_int3(static_cast<int>(size.x), static_cast<int>(size.y),
                      static_cast<int>(size.z));
 }
 
 template <typename SizeType>
-inline CUBBYFLOW_CUDA_HOST_DEVICE uint2 toUInt2(const SizeType& size)
+inline CUBBYFLOW_CUDA_HOST_DEVICE uint2 ToUInt2(const SizeType& size)
 {
     return make_uint2(static_cast<uint32_t>(size.x),
                       static_cast<uint32_t>(size.y));
 }
 
 template <typename SizeType>
-inline CUBBYFLOW_CUDA_HOST_DEVICE uint3 toUInt3(const SizeType& size)
+inline CUBBYFLOW_CUDA_HOST_DEVICE uint3 ToUInt3(const SizeType& size)
 {
     return make_uint3(static_cast<uint32_t>(size.x),
                       static_cast<uint32_t>(size.y),

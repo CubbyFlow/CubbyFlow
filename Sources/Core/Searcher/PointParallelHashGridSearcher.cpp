@@ -93,10 +93,8 @@ PointParallelHashGridSearcher<N>& PointParallelHashGridSearcher<N>::operator=(
 
 template <size_t N>
 void PointParallelHashGridSearcher<N>::Build(
-    const ConstArrayView1<Vector<double, N>>& points, double maxSearchRadius)
+    const ConstArrayView1<Vector<double, N>>& points)
 {
-    m_gridSpacing = 2.0 * maxSearchRadius;
-
     m_points.Clear();
     m_keys.Clear();
     m_startIndexTable.Clear();
@@ -191,6 +189,15 @@ void PointParallelHashGridSearcher<N>::Build(
                           static_cast<float>(numberOfNonEmptyBucket);
     CUBBYFLOW_INFO << "Max number of points per bucket: "
                    << maxNumberOfPointsPerBucket;
+}
+
+template <size_t N>
+void PointParallelHashGridSearcher<N>::Build(
+    const ConstArrayView1<Vector<double, N>>& points, double maxSearchRadius)
+{
+    m_gridSpacing = 2.0 * maxSearchRadius;
+
+    Build(points);
 }
 
 template <size_t N>

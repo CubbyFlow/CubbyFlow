@@ -295,12 +295,15 @@ constexpr double InvFourPI<double>()
 
 // MARK: Physics
 //! Gravity.
+constexpr float GRAVITY_FLOAT = -9.8f;
 constexpr double GRAVITY = -9.8;
 
 //! Water density.
+constexpr float WATER_DENSITY_FLOAT = 1000.0f;
 constexpr double WATER_DENSITY = 1000.0;
 
 //! Speed of sound in water at 20 degrees Celsius.
+constexpr float SPEED_OF_SOUND_IN_WATER_FLOAT = 1482.0f;
 constexpr double SPEED_OF_SOUND_IN_WATER = 1482.0;
 
 // MARK: Common enums

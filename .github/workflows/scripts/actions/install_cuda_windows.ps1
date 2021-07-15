@@ -26,6 +26,7 @@ $VISUAL_STUDIO_MIN_CUDA = @{
 }
 
 # cuda_runtime.h is in nvcc <= 10.2, but cudart >= 11.0
+# List of subpackages: https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html#install-cuda-software
 # @todo - make this easier to vary per CUDA version.
 $CUDA_PACKAGES_IN = @(
     "nvcc";
@@ -33,6 +34,7 @@ $CUDA_PACKAGES_IN = @(
     "curand_dev";
     "nvrtc_dev";
     "cudart";
+    "thrust";
 )
 
 
@@ -111,14 +113,15 @@ if($CUDA_KNOWN_URLS.containsKey($CUDA_VERSION_FULL)){
 }
 $CUDA_REPO_PKG_LOCAL="cuda_$($CUDA_VERSION_FULL)_win10_network.exe"
 
-
 ## ------------
 ## Install CUDA
 ## ------------
 
 # Get CUDA network installer
-Write-Output "Downloading CUDA Network Installer for $($CUDA_VERSION_FULL) from: $($CUDA_REPO_PKG_REMOTE)"
-Invoke-WebRequest $CUDA_REPO_PKG_REMOTE -OutFile $CUDA_REPO_PKG_LOCAL | Out-Null
+if((Test-Path -Path $CUDA_REPO_PKG_LOCAL) -eq $False){
+    Write-Output "Downloading CUDA Network Installer for $($CUDA_VERSION_FULL) from: $($CUDA_REPO_PKG_REMOTE)"
+    Invoke-WebRequest $CUDA_REPO_PKG_REMOTE -OutFile $CUDA_REPO_PKG_LOCAL | Out-Null
+}
 if(Test-Path -Path $CUDA_REPO_PKG_LOCAL){
     Write-Output "Downloading Complete"
 } else {

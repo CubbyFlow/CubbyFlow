@@ -15,6 +15,8 @@
 
 #include <Core/CUDA/CUDAUtils.hpp>
 
+#include <stdio.h>
+
 namespace CubbyFlow
 {
 #ifdef __CUDACC__

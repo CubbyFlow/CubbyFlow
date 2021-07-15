@@ -14,16 +14,24 @@ include_directories(
 file(GLOB header_dir
     ${root_dir}/Includes/Core)
 
-file(GLOB_RECURSE headers
-    ${header_dir}/*.h)
-
-file(GLOB_RECURSE sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../Libraries/obj/*.cpp)
+if (USE_CUDA)
+    file(GLOB_RECURSE sources
+        ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CUDA/*.cu)
+else()
+    file(GLOB_RECURSE sources
+        ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+endif()
 
 # Build library
-add_library(${target}
-    ${sources})
+if (USE_CUDA)
+    cuda_add_library(${target} ${sources} STATIC
+        OPTIONS ${CUDA_TARGET_OPTIONS}
+    )
+else()
+    add_library(${target} STATIC
+        ${sources})
+endif()
 
 # Project options
 set_target_properties(${target}

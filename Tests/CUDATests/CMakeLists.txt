@@ -1,19 +1,15 @@
 # Target name
-set(target UnitTests)
-
-# Includes
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${LIBRARY_DIR}/googletest/googlemock/include
-    ${LIBRARY_DIR}/googletest/googletest/include)
+set(target CUDATests)
 
 # Sources
-file(GLOB sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+file(GLOB_RECURSE sources
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.cu)
 
 # Build executable
-add_executable(${target}
-    ${sources})
+cuda_add_executable(${target} ${sources}
+    OPTIONS ${CUDA_TARGET_OPTIONS}
+)
 
 # Project options
 set_target_properties(${target}
@@ -41,6 +37,4 @@ target_compile_definitions(${target}
 target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LINKER_OPTIONS}
-    CubbyFlow
-    gmock
-    gtest)
+    CubbyFlow)

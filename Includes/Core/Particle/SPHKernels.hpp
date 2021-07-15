@@ -13,8 +13,8 @@
 // "Meshless Approximation Methods and Applications in Physics Based Modeling
 // and Animation", Eurographics 2009 Tutorial
 
-#ifndef CUBBYFLOW_SPH_STD_KERNEL_HPP
-#define CUBBYFLOW_SPH_STD_KERNEL_HPP
+#ifndef CUBBYFLOW_SPH_KERNELS_HPP
+#define CUBBYFLOW_SPH_KERNELS_HPP
 
 #include <Core/Matrix/Matrix.hpp>
 
@@ -215,6 +215,6 @@ using SPHSpikyKernel2 = SPHSpikyKernel<2>;
 using SPHSpikyKernel3 = SPHSpikyKernel<3>;
 }  // namespace CubbyFlow
 
-#include <Core/Particle/SPHStdKernel-Impl.hpp>
+#include <Core/Particle/SPHKernels-Impl.hpp>
 
 #endif

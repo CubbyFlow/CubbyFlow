@@ -13,7 +13,7 @@
 
 #ifdef CUBBYFLOW_USE_CUDA
 
-#include <Core/CUDA/CUDAAlgortithms.hpp>
+#include <Core/CUDA/CUDAAlgorithms.hpp>
 
 #include <vector>
 

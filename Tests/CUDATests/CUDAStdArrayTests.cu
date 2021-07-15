@@ -8,50 +8,50 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#include "gtest/gtest.h"
+#include "doctest_proxy.hpp"
 
 #include <Core/CUDA/CUDAStdArray.hpp>
 
 using namespace CubbyFlow;
 
-TEST(CUDAStdArray, Constructors)
+TEST_CASE("[CUDAStdArray] - Constructors")
 {
     {
         CUDAStdArray<int, 3> a;
-        EXPECT_EQ(a[0], 0);
-        EXPECT_EQ(a[1], 0);
-        EXPECT_EQ(a[2], 0);
+        CHECK_EQ(a[0], 0);
+        CHECK_EQ(a[1], 0);
+        CHECK_EQ(a[2], 0);
     }
 
     {
         CUDAStdArray<int, 3> a(1, 2, 3);
-        EXPECT_EQ(a[0], 1);
-        EXPECT_EQ(a[1], 2);
-        EXPECT_EQ(a[2], 3);
+        CHECK_EQ(a[0], 1);
+        CHECK_EQ(a[1], 2);
+        CHECK_EQ(a[2], 3);
     }
 
     {
         const std::array<int, 3> a = { 1, 2, 3 };
         CUDAStdArray<int, 3> b(a);
-        EXPECT_EQ(b[0], 1);
-        EXPECT_EQ(b[1], 2);
-        EXPECT_EQ(b[2], 3);
+        CHECK_EQ(b[0], 1);
+        CHECK_EQ(b[1], 2);
+        CHECK_EQ(b[2], 3);
     }
 
     {
         Vector<int, 3> a(1, 2, 3);
         CUDAStdArray<int, 3> b(a);
-        EXPECT_EQ(b[0], 1);
-        EXPECT_EQ(b[1], 2);
-        EXPECT_EQ(b[2], 3);
+        CHECK_EQ(b[0], 1);
+        CHECK_EQ(b[1], 2);
+        CHECK_EQ(b[2], 3);
     }
 }
 
-TEST(CUDAStdArray, Fill)
+TEST_CASE("[CUDAStdArray] - Fill")
 {
     CUDAStdArray<int, 3> a;
     a.Fill(5);
-    EXPECT_EQ(a[0], 5);
-    EXPECT_EQ(a[1], 5);
-    EXPECT_EQ(a[2], 5);
+    CHECK_EQ(a[0], 5);
+    CHECK_EQ(a[1], 5);
+    CHECK_EQ(a[2], 5);
 }

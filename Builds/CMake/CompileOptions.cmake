@@ -89,6 +89,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
         /wd4717       # -> disable warning: recursive on all control paths, function will cause runtime stack overflow (wrong warning)
         /wd4180       # -> disable warning: qualifier applied to function type has no meaning; ignored (caused by TBB)
         /wd4819       # -> disable warning: The file contains a character that cannot be represented in the current code page (949)
+        /wd4324       # -> disable warning: 'thrust::detail::aligned_type<2>::type': structure was padded due to alignment specifier (caused by CUDA)
 
         #$<$<CONFIG:Debug>:
         #/RTCc        # -> value is assigned to a smaller data type and results in a data loss

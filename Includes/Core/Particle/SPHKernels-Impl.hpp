@@ -13,8 +13,8 @@
 // "Meshless Approximation Methods and Applications in Physics Based Modeling
 // and Animation", Eurographics 2009 Tutorial
 
-#ifndef CUBBYFLOW_SPH_STD_KERNEL_IMPL_HPP
-#define CUBBYFLOW_SPH_STD_KERNEL_IMPL_HPP
+#ifndef CUBBYFLOW_SPH_KERNELS_IMPL_HPP
+#define CUBBYFLOW_SPH_KERNELS_IMPL_HPP
 
 namespace CubbyFlow
 {

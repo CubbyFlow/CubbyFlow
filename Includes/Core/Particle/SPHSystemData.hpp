@@ -110,7 +110,7 @@ class SPHSystemData : public ParticleSystemData<N>
     //! \brief Sets the target particle spacing in meters.
     //!
     //! Once this function is called, hash grid and density should be
-    //! updated using updateHashGrid() and updateDensities).
+    //! updated using UpdateHashGrid() and UpdateDensities()).
     //!
     void SetTargetSpacing(double spacing);
 

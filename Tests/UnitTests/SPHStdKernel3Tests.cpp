@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 
-#include <Core/Particle/SPHStdKernel.hpp>
+#include <Core/Particle/SPHKernels.hpp>
 
 using namespace CubbyFlow;
 
