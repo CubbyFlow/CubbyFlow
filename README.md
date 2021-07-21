@@ -2,13 +2,13 @@
 
 <img src="./Medias/Logos/Logo.png" width=256 height=256 />
 
-[![License](https://img.shields.io/badge/Licence-MIT-blue.svg)](./LICENSE) ![Windows](https://github.com/utilForever/CubbyFlow/workflows/Windows/badge.svg) ![Ubuntu](https://github.com/utilForever/CubbyFlow/workflows/Ubuntu/badge.svg) ![macOS](https://github.com/utilForever/CubbyFlow/workflows/macOS/badge.svg) ![Ubuntu - Codecov](https://github.com/utilForever/CubbyFlow/workflows/Ubuntu%20-%20Codecov/badge.svg) [![Build Status](https://travis-ci.com/utilForever/CubbyFlow.svg?branch=main)](https://travis-ci.com/utilForever/CubbyFlow)
+[![License](https://img.shields.io/badge/Licence-MIT-blue.svg)](./LICENSE) ![Windows](https://github.com/CubbyFlow/CubbyFlow/workflows/Windows/badge.svg) ![Ubuntu](https://github.com/CubbyFlow/CubbyFlow/workflows/Ubuntu/badge.svg) ![macOS](https://github.com/CubbyFlow/CubbyFlow/workflows/macOS/badge.svg) ![Ubuntu - Codecov](https://github.com/CubbyFlow/CubbyFlow/workflows/Ubuntu%20-%20Codecov/badge.svg) [![Build Status](https://travis-ci.com/CubbyFlow/CubbyFlow.svg?branch=main)](https://travis-ci.com/CubbyFlow/CubbyFlow)
 
-[![codecov](https://codecov.io/gh/utilForever/CubbyFlow/branch/master/graph/badge.svg)](https://codecov.io/gh/utilForever/CubbyFlow)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/742a769951a040788c89dc0af40d4405)](https://www.codacy.com/manual/utilForever/CubbyFlow?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=utilForever/CubbyFlow&amp;utm_campaign=Badge_Grade)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/utilForever/CubbyFlow.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/utilForever/CubbyFlow/alerts/)
-[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/utilForever/CubbyFlow.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/utilForever/CubbyFlow/alerts/)
-[![CodeFactor](https://www.codefactor.io/repository/github/utilforever/CubbyFlow/badge)](https://www.codefactor.io/repository/github/utilforever/CubbyFlow) [![Discord](https://img.shields.io/discord/667686826093445129.svg)](https://discord.gg/3gsWZM8)
+[![codecov](https://codecov.io/gh/CubbyFlow/CubbyFlow/branch/master/graph/badge.svg)](https://codecov.io/gh/CubbyFlow/CubbyFlow)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/54d8ed92a3ce4ad988be48dd2dbdeada)](https://www.codacy.com/gh/CubbyFlow/CubbyFlow/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CubbyFlow/CubbyFlow&amp;utm_campaign=Badge_Grade)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/CubbyFlow/CubbyFlow.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/CubbyFlow/CubbyFlow/alerts/)
+[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/CubbyFlow/CubbyFlow.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/CubbyFlow/CubbyFlow/alerts/)
+[![CodeFactor](https://www.codefactor.io/repository/github/CubbyFlow/CubbyFlow/badge)](https://www.codefactor.io/repository/github/CubbyFlow/CubbyFlow) [![Discord](https://img.shields.io/discord/667686826093445129.svg)](https://discord.gg/3gsWZM8)
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=CubbyFlow&metric=alert_status)](https://sonarcloud.io/dashboard?id=CubbyFlow) [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=CubbyFlow&metric=ncloc)](https://sonarcloud.io/dashboard?id=CubbyFlow) [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=CubbyFlow&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=CubbyFlow) [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=CubbyFlow&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=CubbyFlow) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=CubbyFlow&metric=security_rating)](https://sonarcloud.io/dashboard?id=CubbyFlow)
 
@@ -39,7 +39,7 @@ You will need CMake to build the code. If you're using Windows, you need Visual 
 First, clone the code:
 
 ```
-git clone https://github.com/utilForever/CubbyFlow.git --recursive
+git clone https://github.com/CubbyFlow/CubbyFlow.git --recursive
 cd CubbyFlow
 ```
 
@@ -80,13 +80,13 @@ pip install -U .
 ### Docker
 
 ```
-docker pull utilforever/cubbyflow:latest
+docker pull cubbyflow/cubbyflow:latest
 ```
 
 Now run hybrid simulation example:
 
 ```
-docker run -it utilforever/cubbyflow
+docker run -it cubbyflow/cubbyflow
 [inside docker container]
 /app/build/bin/HybridLiquidSim
 ```
