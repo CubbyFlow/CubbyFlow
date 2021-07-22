@@ -28,7 +28,7 @@ jobs:
         unzip -q sonar-scanner-cli-4.6.0.2311-linux.zip
         echo "${PWD}/sonar-scanner-4.6.0.2311-linux/bin/" >> $GITHUB_PATH
         wget -nv https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip
-        unzip -q build-wrapper-linux-x86.zip          
+        unzip -q build-wrapper-linux-x86.zip
         echo "${PWD}/build-wrapper-linux-x86" >> $GITHUB_PATH
     - name: Install packages
       run: sudo apt-get install -yq gcovr ggcov lcov curl
