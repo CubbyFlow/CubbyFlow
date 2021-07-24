@@ -266,7 +266,7 @@ Quaternion<T> Quaternion<T>::Mul(const Quaternion& other) const
 }
 
 template <typename T>
-T Quaternion<T>::Dot(const Quaternion<T>& other)
+T Quaternion<T>::Dot(const Quaternion<T>& other) const
 {
     return w * other.w + x * other.x + y * other.y + z * other.z;
 }

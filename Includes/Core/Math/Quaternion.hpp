@@ -99,7 +99,7 @@ class Quaternion
     [[nodiscard]] Quaternion Mul(const Quaternion& other) const;
 
     //! Computes the dot product with other quaternion.
-    [[nodiscard]] T Dot(const Quaternion<T>& other);
+    [[nodiscard]] T Dot(const Quaternion<T>& other) const;
 
     //! Returns other quaternion * this quaternion.
     [[nodiscard]] Quaternion RMul(const Quaternion& other) const;
