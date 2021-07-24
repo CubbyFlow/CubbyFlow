@@ -505,7 +505,7 @@ Quaternion<T> Slerp(const Quaternion<T>& a, const Quaternion<T>& b, T t)
     static const double threshold = 0.01;
     static const T eps = std::numeric_limits<T>::epsilon();
 
-    T cosHalfAngle = dot(a, b);
+    T cosHalfAngle = a.Dot(b);
     T weightA, weightB;
 
     // For better accuracy, return lerp result when a and b are close enough.
