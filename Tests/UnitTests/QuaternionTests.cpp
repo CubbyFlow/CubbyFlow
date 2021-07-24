@@ -216,6 +216,37 @@ TEST(Quaternion, BinaryOperators)
     EXPECT_EQ(q3, q1);
 }
 
+TEST(Quaternion, Slerp)
+{
+    QuaternionD q1( 1.0f, 0.0f, 1.0f, 0.0f);
+    QuaternionD q2(-1.0f, 0.0f, 1.0f, 0.0f);
+
+    {
+        QuaternionD q = Slerp(q1, q2, 0.0);
+
+        EXPECT_DOUBLE_EQ(q1.x, q.x);
+        EXPECT_DOUBLE_EQ(q1.y, q.y);
+        EXPECT_DOUBLE_EQ(q1.z, q.z);
+        EXPECT_DOUBLE_EQ(q1.w, q.w);
+    }
+    {
+        QuaternionD q = Slerp(q1, q2, 1.0);
+
+        EXPECT_DOUBLE_EQ(q2.x, q.x);
+        EXPECT_DOUBLE_EQ(q2.y, q.y);
+        EXPECT_DOUBLE_EQ(q2.z, q.z);
+        EXPECT_DOUBLE_EQ(q2.w, q.w);
+    }
+    {
+        QuaternionD q = Slerp(q1, q2, 0.5);
+
+        EXPECT_DOUBLE_EQ(0.0, q.x);
+        EXPECT_DOUBLE_EQ(1.414213562373095, q.y);
+        EXPECT_DOUBLE_EQ(0.0, q.z);
+        EXPECT_DOUBLE_EQ(0.0, q.w);
+    }
+}
+
 TEST(Quaternion, Modifiers)
 {
     QuaternionD q(4, 3, 2, 1);
