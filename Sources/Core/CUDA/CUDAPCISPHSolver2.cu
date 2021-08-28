@@ -388,7 +388,6 @@ void CUDAPCISPHSolver2::OnAdvanceTimeStep(double timeStepInSeconds)
     thrust::for_each(
         thrust::counting_iterator<size_t>(0),
         thrust::counting_iterator<size_t>(n),
-
         InitializeBuffersAndComputeForces(
             mass, h, ToFloat2(Gravity()), ViscosityCoefficient(), ns.data(),
             ne.data(), nl.data(), x.data(), v.data(), s.data(), f.data(),
@@ -403,7 +402,6 @@ void CUDAPCISPHSolver2::OnAdvanceTimeStep(double timeStepInSeconds)
         // Predict velocity / position and resolve collisions
         thrust::for_each(thrust::counting_iterator<size_t>(0),
                          thrust::counting_iterator<size_t>(n),
-
                          TimeIntegration(dt, mass, 0.0f, lower, upper, x.data(),
                                          v.data(), xs.data(), vs.data(),
                                          s.data(), f.data(), pf.data()));
@@ -411,7 +409,6 @@ void CUDAPCISPHSolver2::OnAdvanceTimeStep(double timeStepInSeconds)
         // Compute pressure from density error
         thrust::for_each(thrust::counting_iterator<size_t>(0),
                          thrust::counting_iterator<size_t>(n),
-
                          ComputeDensityError(mass, h, targetDensity, delta,
                                              NegativePressureScale(), ns.data(),
                                              ne.data(), nl.data(), xs.data(),
@@ -421,7 +418,6 @@ void CUDAPCISPHSolver2::OnAdvanceTimeStep(double timeStepInSeconds)
         thrust::for_each(
             thrust::counting_iterator<size_t>(0),
             thrust::counting_iterator<size_t>(n),
-
             ComputePressureForces(mass, h, ns.data(), ne.data(), nl.data(),
                                   x.data(), pf.data(), ds.data(), p.data()));
     }
@@ -430,7 +426,6 @@ void CUDAPCISPHSolver2::OnAdvanceTimeStep(double timeStepInSeconds)
     thrust::for_each(
         thrust::counting_iterator<size_t>(0),
         thrust::counting_iterator<size_t>(n),
-
         TimeIntegration(dt, mass, factor, lower, upper, x.data(), v.data(),
                         x.data(), v.data(), s.data(), f.data(), pf.data()));
 }
