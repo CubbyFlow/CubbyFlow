@@ -77,8 +77,6 @@ class InitializeBuffersAndComputeForces
 
             if (dist > 0.0f)
             {
-                float2 dir = r / dist;
-
                 float2 v_j = m_velocities[j];
                 float d_j = m_densities[j];
 
