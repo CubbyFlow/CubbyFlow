@@ -116,7 +116,7 @@ float CUDAPCISPHSolver3::ComputeDelta(float timeStepInSeconds)
         {
             double distance = std::sqrt(distanceSquared);
             Vector3D direction =
-                (distance > 0.0) ? point / distance : Vector2D{};
+                (distance > 0.0) ? point / distance : Vector3D{};
 
             // grad(Wij)
             Vector3D gradWij = kernel.Gradient(distance, direction);
