@@ -5,12 +5,23 @@ set(target CUDASPHSim)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # Sources
-file(GLOB sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+if (USE_CUDA)
+    file(GLOB_RECURSE sources
+        ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/*.cu)
+else()
+    file(GLOB_RECURSE sources
+        ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+endif()
 
 # Build executable
-add_executable(${target}
-    ${sources})
+if (USE_CUDA)
+    cuda_add_executable(${target} ${sources}
+        OPTIONS ${CUDA_TARGET_OPTIONS}
+    )
+else()
+    add_executable(${target} ${sources})
+endif()
 
 # Project options
 set_target_properties(${target}
