@@ -11,9 +11,19 @@
 #define DOCTEST_CONFIG_IMPLEMENT
 #include <doctest.h>
 
+#include <Core/Utils/Logging.hpp>
+
+#include <fstream>
+
 int main()
 {
     doctest::Context context;
+
+    std::ofstream logFile("cuda_tests.log");
+    if (logFile)
+    {
+        CubbyFlow::Logging::SetAllStream(&logFile);
+    }
 
     // Run queries, or run tests unless --no-run is specified
     const int res = context.run();
