@@ -77,7 +77,7 @@ class CUDAPCISPHSolver2 : public CUDASPHSolverBase2
     //!
     void SetMaxNumberOfIterations(unsigned int n);
 
-    //! Returns builder for CUDAParticleSystemSolver2.
+    //! Returns builder for CUDAPCISPHSolver2.
     static Builder GetBuilder();
 
  protected:
