@@ -8,25 +8,17 @@
 // personal capacity and are not conveying any rights to any intellectual
 // property of any third parties.
 
-#define DOCTEST_CONFIG_IMPLEMENT
-#include <doctest.h>
+#include "SPHSimExample.hpp"
 
-#include <Core/Utils/Logging.hpp>
+using namespace CubbyFlow;
 
-#include <fstream>
-
-int main()
+void SPHSimExample::RunExample(const std::string& rootDir, float targetSpacing,
+                               int numberOfFrames, const std::string& format,
+                               double fps)
 {
-    doctest::Context context;
-
-    std::ofstream logFile("cuda_tests.log");
-    if (logFile)
-    {
-        CubbyFlow::Logging::SetAllStream(&logFile);
-    }
-
-    // Run queries, or run tests unless --no-run is specified
-    const int res = context.run();
-
-    return res;
+    (void)rootDir;
+    (void)targetSpacing;
+    (void)numberOfFrames;
+    (void)format;
+    (void)fps;
 }
