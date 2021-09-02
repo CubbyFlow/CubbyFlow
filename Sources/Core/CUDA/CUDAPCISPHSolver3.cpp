@@ -107,9 +107,8 @@ float CUDAPCISPHSolver3::ComputeDelta(float timeStepInSeconds)
     Vector3D denom1;
     double denom2 = 0;
 
-    for (size_t i = 0; i < points.Length(); ++i)
+    for (const auto& point : points)
     {
-        const Vector3D& point = points[i];
         const double distanceSquared = point.LengthSquared();
 
         if (distanceSquared < kernelRadius * kernelRadius)
