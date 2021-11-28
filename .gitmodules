@@ -4,9 +4,6 @@
 [submodule "Libraries/Clara"]
 	path = Libraries/Clara
 	url = https://github.com/catchorg/Clara
-[submodule "Libraries/googletest"]
-	path = Libraries/googletest
-	url = https://github.com/google/googletest
 [submodule "Libraries/googlebenchmark"]
 	path = Libraries/googlebenchmark
 	url = https://github.com/google/benchmark
