@@ -123,15 +123,10 @@ set(RESOURCES_OBJS
         ${RESOURCES_DIR}/dragon.obj)
 
 # Project modules
-set(BUILD_GTEST ON CACHE BOOL "" FORCE)
 set(BUILD_GMOCK ON CACHE BOOL "" FORCE)
-find_package(GTest CONFIG)
 if(FALSE) # GTest_FOUND
     # link_libraries(GTest::gmock GTest::gtest)
 else()
-    set(gtest_force_shared_crt ON CACHE BOOL "")
-    set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
-    add_subdirectory(Libraries/googletest EXCLUDE_FROM_ALL)
     add_subdirectory(Libraries/googlebenchmark EXCLUDE_FROM_ALL)
 endif()
 add_subdirectory(Libraries/cnpy)
