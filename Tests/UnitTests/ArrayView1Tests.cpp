@@ -1,11 +1,21 @@
-#include "gtest/gtest.h"
+// This code is based on Jet framework.
+// Copyright (c) 2018 Doyub Kim
+// CubbyFlow is voxel-based fluid simulation engine for computer games.
+// Copyright (c) 2020 CubbyFlow Team
+// Core Part: Chris Ohk, Junwoo Hwang, Jihong Sin, Seungwoo Yoo
+// AI Part: Dongheon Cho, Minseo Kim
+// We are making my contributions/submissions to this project solely in our
+// personal capacity and are not conveying any rights to any intellectual
+// property of any third parties.
+
+#include "doctest_proxy.hpp"
 
 #include <Core/Array/Array.hpp>
 #include <Core/Array/ArrayView.hpp>
 
 using namespace CubbyFlow;
 
-TEST(ArrayView1, Constructors)
+TEST_CASE("[ArrayView1] - Constructors")
 {
     double data[5];
     for (int i = 0; i < 5; ++i)
@@ -15,11 +25,11 @@ TEST(ArrayView1, Constructors)
 
     ArrayView1<double> acc(data, 5);
 
-    EXPECT_EQ(5u, acc.Length());
-    EXPECT_EQ(data, acc.data());
+    CHECK_EQ(5u, acc.Length());
+    CHECK_EQ(data, acc.data());
 }
 
-TEST(ArrayView1, Iterators)
+TEST_CASE("[ArrayView1] - Iterators")
 {
     Array1<float> arr1 = { 6.f, 4.f, 1.f, -5.f };
     auto acc = arr1.View();
@@ -27,45 +37,45 @@ TEST(ArrayView1, Iterators)
     size_t i = 0;
     for (float& elem : acc)
     {
-        EXPECT_FLOAT_EQ(acc[i], elem);
+        CHECK_EQ(doctest::Approx(static_cast<double>(acc[i])), elem);
         ++i;
     }
 
     i = 0;
     for (const float& elem : acc)
     {
-        EXPECT_FLOAT_EQ(acc[i], elem);
+        CHECK_EQ(acc[i], elem);
         ++i;
     }
 }
 
-TEST(ArrayView1, ForEachIndex)
+TEST_CASE("[ArrayView1] - ForEachIndex")
 {
     Array1<float> arr1 = { 6.f, 4.f, 1.f, -5.f };
-    auto acc = arr1.View();
+    const auto acc = arr1.View();
 
     size_t cnt = 0;
     ForEachIndex(acc.Size(), [&](size_t i) {
-        EXPECT_EQ(cnt, i);
+        CHECK_EQ(cnt, i);
         ++cnt;
     });
 }
 
-TEST(ArrayView1, ParallelForEachIndex)
+TEST_CASE("[ArrayView1] - ParallelForEachIndex")
 {
     Array1<float> arr1(200);
-    auto acc = arr1.View();
+    const auto acc = arr1.View();
 
     ForEachIndex(acc.Size(),
-                 [&](size_t i) { arr1[i] = static_cast<float>(200.f - i); });
+                 [&](size_t i) { arr1[i] = 200.f - static_cast<float>(i); });
 
     ParallelForEachIndex(acc.Size(), [&](size_t i) {
-        float ans = static_cast<float>(200.f - i);
-        EXPECT_EQ(ans, arr1[i]);
+        const float ans = 200.f - static_cast<float>(i);
+        CHECK_EQ(ans, arr1[i]);
     });
 }
 
-TEST(ConstArrayView1, Constructors)
+TEST_CASE("[ConstArrayView1] - Constructors")
 {
     double data[5];
     for (int i = 0; i < 5; ++i)
@@ -74,14 +84,14 @@ TEST(ConstArrayView1, Constructors)
     }
 
     // Construct with ArrayView1
-    ArrayView1<double> acc(data, 5);
-    ConstArrayView1<double> cacc(acc);
+    const ArrayView1<double> acc(data, 5);
+    const ConstArrayView1<double> cacc(acc);
 
-    EXPECT_EQ(5u, cacc.Length());
-    EXPECT_EQ(data, cacc.data());
+    CHECK_EQ(5u, cacc.Length());
+    CHECK_EQ(data, cacc.data());
 }
 
-TEST(ConstArrayView1, Iterators)
+TEST_CASE("[ConstArrayView1] - Iterators")
 {
     Array1<float> arr1 = { 6.f, 4.f, 1.f, -5.f };
     auto acc = arr1.View();
@@ -89,33 +99,33 @@ TEST(ConstArrayView1, Iterators)
     size_t i = 0;
     for (const float& elem : acc)
     {
-        EXPECT_FLOAT_EQ(acc[i], elem);
+        CHECK_EQ(doctest::Approx(static_cast<double>(acc[i])), elem);
         ++i;
     }
 }
 
-TEST(ConstArrayView1, ForEachIndex)
+TEST_CASE("[ConstArrayView1] - ForEachIndex")
 {
     Array1<float> arr1 = { 6.f, 4.f, 1.f, -5.f };
-    auto acc = arr1.View();
+    const auto acc = arr1.View();
 
     size_t cnt = 0;
     ForEachIndex(acc.Size(), [&](size_t i) {
-        EXPECT_EQ(cnt, i);
+        CHECK_EQ(cnt, i);
         ++cnt;
     });
 }
 
-TEST(ConstArrayView1, ParallelForEachIndex)
+TEST_CASE("[ConstArrayView1] - ParallelForEachIndex")
 {
     Array1<float> arr1(200);
-    auto acc = arr1.View();
+    const auto acc = arr1.View();
 
     ForEachIndex(acc.Size(),
-                 [&](size_t i) { arr1[i] = static_cast<float>(200.f - i); });
+                 [&](size_t i) { arr1[i] = 200.f - static_cast<float>(i); });
 
     ParallelForEachIndex(acc.Size(), [&](size_t i) {
-        float ans = static_cast<float>(200.f - i);
-        EXPECT_EQ(ans, arr1[i]);
+        const float ans = 200.f - static_cast<float>(i);
+        CHECK_EQ(ans, arr1[i]);
     });
 }
