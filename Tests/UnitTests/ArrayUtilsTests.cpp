@@ -1,11 +1,21 @@
-#include "gtest/gtest.h"
+// This code is based on Jet framework.
+// Copyright (c) 2018 Doyub Kim
+// CubbyFlow is voxel-based fluid simulation engine for computer games.
+// Copyright (c) 2020 CubbyFlow Team
+// Core Part: Chris Ohk, Junwoo Hwang, Jihong Sin, Seungwoo Yoo
+// AI Part: Dongheon Cho, Minseo Kim
+// We are making my contributions/submissions to this project solely in our
+// personal capacity and are not conveying any rights to any intellectual
+// property of any third parties.
+
+#include "doctest_proxy.hpp"
 
 #include <Core/Array/Array.hpp>
 #include <Core/Array/ArrayUtils.hpp>
 
 using namespace CubbyFlow;
 
-TEST(ArrayUtils, Fill)
+TEST_CASE("[ArrayUtils] - Fill")
 {
     Array1<double> array0(5);
 
@@ -13,18 +23,18 @@ TEST(ArrayUtils, Fill)
 
     for (size_t i = 0; i < 5; ++i)
     {
-        EXPECT_EQ(3.4, array0[i]);
+        CHECK_EQ(3.4, array0[i]);
     }
 
     Fill(array0.View(), 2, 4, 4.2);
 
     for (size_t i = 2; i < 4; ++i)
     {
-        EXPECT_EQ(4.2, array0[i]);
+        CHECK_EQ(4.2, array0[i]);
     }
 }
 
-TEST(ArrayUtils, Copy1)
+TEST_CASE("[ArrayUtils] - Copy1")
 {
     Array1<double> array0({ 1.0, 2.0, 3.0, 4.0, 5.0 });
     Array1<double> array1(5);
@@ -33,18 +43,18 @@ TEST(ArrayUtils, Copy1)
 
     for (size_t i = 1; i < 3; ++i)
     {
-        EXPECT_EQ(array0[i], array1[i]);
+        CHECK_EQ(array0[i], array1[i]);
     }
 
     Copy(array0.View(), 0, 5, array1.View());
 
     for (size_t i = 0; i < 5; ++i)
     {
-        EXPECT_EQ(array0[i], array1[i]);
+        CHECK_EQ(array0[i], array1[i]);
     }
 }
 
-TEST(ArrayUtils, Copy2)
+TEST_CASE("[ArrayUtils] - Copy2")
 {
     Array2<double> array0({ { 1.0, 2.0 }, { 3.0, 4.0 }, { 5.0, 6.0 } });
     Array2<double> array1(2, 3);
@@ -55,7 +65,7 @@ TEST(ArrayUtils, Copy2)
     {
         for (size_t i = 0; i < 1; ++i)
         {
-            EXPECT_EQ(array0(i, j), array1(i, j));
+            CHECK_EQ(array0(i, j), array1(i, j));
         }
     }
 
@@ -65,12 +75,12 @@ TEST(ArrayUtils, Copy2)
     {
         for (size_t i = 0; i < 2; ++i)
         {
-            EXPECT_EQ(array0(i, j), array1(i, j));
+            CHECK_EQ(array0(i, j), array1(i, j));
         }
     }
 }
 
-TEST(ArrayUtils, Copy3)
+TEST_CASE("[ArrayUtils] - Copy3")
 {
     Array3<double> array0({ { { 1.0, 2.0 }, { 3.0, 4.0 }, { 5.0, 6.0 } },
                             { { 7.0, 8.0 }, { 9.0, 10.0 }, { 11.0, 12.0 } } });
@@ -84,7 +94,7 @@ TEST(ArrayUtils, Copy3)
         {
             for (size_t i = 0; i < 1; ++i)
             {
-                EXPECT_EQ(array0(i, j, k), array1(i, j, k));
+                CHECK_EQ(array0(i, j, k), array1(i, j, k));
             }
         }
     }
@@ -97,13 +107,13 @@ TEST(ArrayUtils, Copy3)
         {
             for (size_t i = 0; i < 2; ++i)
             {
-                EXPECT_EQ(array0(i, j, k), array1(i, j, k));
+                CHECK_EQ(array0(i, j, k), array1(i, j, k));
             }
         }
     }
 }
 
-TEST(ArrayUtils, ExtrapolateToRegion2)
+TEST_CASE("[ArrayUtils] - ExtrapolateToRegion2")
 {
     Array2<double> data(10, 12, 0.0);
     Array2<char> valid(10, 12, static_cast<char>(0));
@@ -112,7 +122,7 @@ TEST(ArrayUtils, ExtrapolateToRegion2)
     {
         for (size_t i = 2; i < 6; ++i)
         {
-            data(i, j) = static_cast<double>(i + j * 10.0);
+            data(i, j) = static_cast<double>(i) + static_cast<double>(j) * 10.0;
             valid(i, j) = 1;
         }
     }
@@ -137,12 +147,12 @@ TEST(ArrayUtils, ExtrapolateToRegion2)
     {
         for (size_t i = 0; i < 10; ++i)
         {
-            EXPECT_DOUBLE_EQ(dataAnswer(i, j), data(i, j));
+            CHECK_EQ(doctest::Approx(dataAnswer(i, j)), data(i, j));
         }
     }
 }
 
-TEST(ArrayUtils, ExtrapolateToRegion3)
+TEST_CASE("[ArrayUtils] - ExtrapolateToRegion3")
 {
     // TODO: Need better testing
     Array3<double> data(3, 4, 5, 0.0);
@@ -168,7 +178,7 @@ TEST(ArrayUtils, ExtrapolateToRegion3)
         {
             for (size_t i = 0; i < 3; ++i)
             {
-                EXPECT_DOUBLE_EQ(42.0, data(i, j, k));
+                CHECK_EQ(doctest::Approx(42.0), data(i, j, k));
             }
         }
     }

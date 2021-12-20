@@ -1,11 +1,21 @@
-#include "gtest/gtest.h"
+// This code is based on Jet framework.
+// Copyright (c) 2018 Doyub Kim
+// CubbyFlow is voxel-based fluid simulation engine for computer games.
+// Copyright (c) 2020 CubbyFlow Team
+// Core Part: Chris Ohk, Junwoo Hwang, Jihong Sin, Seungwoo Yoo
+// AI Part: Dongheon Cho, Minseo Kim
+// We are making my contributions/submissions to this project solely in our
+// personal capacity and are not conveying any rights to any intellectual
+// property of any third parties.
+
+#include "doctest_proxy.hpp"
 
 #include <Core/Array/Array.hpp>
 #include <Core/Array/ArraySamplers.hpp>
 
 using namespace CubbyFlow;
 
-TEST(NearestArraySampler1, Sample)
+TEST_CASE("[NearestArraySampler1] - Sample")
 {
     {
         Array1<double> grid({ 1.0, 2.0, 3.0, 4.0 });
@@ -14,13 +24,13 @@ TEST(NearestArraySampler1, Sample)
                                              gridOrigin);
 
         double s0 = sampler(0.45);
-        EXPECT_LT(std::fabs(s0 - 1.0), 1e-9);
+        CHECK_LT(std::fabs(s0 - 1.0), 1e-9);
 
         double s1 = sampler(1.57);
-        EXPECT_LT(std::fabs(s1 - 3.0), 1e-9);
+        CHECK_LT(std::fabs(s1 - 3.0), 1e-9);
 
         double s2 = sampler(3.51);
-        EXPECT_LT(std::fabs(s2 - 4.0), 1e-9);
+        CHECK_LT(std::fabs(s2 - 4.0), 1e-9);
     }
 
     {
@@ -30,14 +40,14 @@ TEST(NearestArraySampler1, Sample)
                                              gridOrigin);
 
         double s0 = sampler(0.45);
-        EXPECT_LT(std::fabs(s0 - 4.0), 1e-9);
+        CHECK_LT(std::fabs(s0 - 4.0), 1e-9);
 
         double s1 = sampler(-0.05);
-        EXPECT_LT(std::fabs(s1 - 3.0), 1e-9);
+        CHECK_LT(std::fabs(s1 - 3.0), 1e-9);
     }
 }
 
-TEST(LinearArraySampler1, Sample)
+TEST_CASE("[LinearArraySampler1] - Sample")
 {
     {
         Array1<double> grid({ 1.0, 2.0, 3.0, 4.0 });
@@ -46,13 +56,13 @@ TEST(LinearArraySampler1, Sample)
                                             gridOrigin);
 
         double s0 = sampler(0.5);
-        EXPECT_LT(std::fabs(s0 - 1.5), 1e-9);
+        CHECK_LT(std::fabs(s0 - 1.5), 1e-9);
 
         double s1 = sampler(1.8);
-        EXPECT_LT(std::fabs(s1 - 2.8), 1e-9);
+        CHECK_LT(std::fabs(s1 - 2.8), 1e-9);
 
         double s2 = sampler(3.5);
-        EXPECT_NEAR(4.0, s2, 1e-9);
+        CHECK_EQ(doctest::Approx(4.0), s2);
     }
 
     {
@@ -62,26 +72,27 @@ TEST(LinearArraySampler1, Sample)
                                             gridOrigin);
 
         double s0 = sampler(0.2);
-        EXPECT_LT(std::fabs(s0 - 3.4), 1e-9);
+        CHECK_LT(std::fabs(s0 - 3.4), 1e-9);
 
         double s1 = sampler(-0.7);
-        EXPECT_LT(std::fabs(s1 - 1.6), 1e-9);
+        CHECK_LT(std::fabs(s1 - 1.6), 1e-9);
     }
 }
 
-TEST(MonotonicCatmullRomArraySampler1, Sample)
+TEST_CASE("[MonotonicCatmullRomArraySampler1] - Sample")
 {
     Array1<double> grid({ 1.0, 2.0, 3.0, 4.0 });
-    double gridSpacing = 1.0, gridOrigin = 0.0;
-    MonotonicCatmullRomArraySampler1<double> sampler(grid.View(), gridSpacing,
-                                                     gridOrigin);
+    constexpr double gridSpacing = 1.0;
+    constexpr double gridOrigin = 0.0;
+    const MonotonicCatmullRomArraySampler1<double> sampler(
+        grid.View(), gridSpacing, gridOrigin);
 
-    double s0 = sampler(1.25);
-    EXPECT_LT(2.0, s0);
-    EXPECT_GT(3.0, s0);
+    const double s0 = sampler(1.25);
+    CHECK_LT(2.0, s0);
+    CHECK_GT(3.0, s0);
 }
 
-TEST(NearestArraySampler2, Sample)
+TEST_CASE("[NearestArraySampler2] - Sample")
 {
     {
         Array2<double> grid({ { 1.0, 2.0, 3.0, 4.0 },
@@ -94,13 +105,13 @@ TEST(NearestArraySampler2, Sample)
                                              gridOrigin);
 
         double s0 = sampler(Vector2D(0.45, 0.45));
-        EXPECT_LT(std::fabs(s0 - 1.0), 1e-9);
+        CHECK_LT(std::fabs(s0 - 1.0), 1e-9);
 
         double s1 = sampler(Vector2D(1.57, 4.01));
-        EXPECT_LT(std::fabs(s1 - 7.0), 1e-9);
+        CHECK_LT(std::fabs(s1 - 7.0), 1e-9);
 
         double s2 = sampler(Vector2D(3.50, 1.21));
-        EXPECT_LT(std::fabs(s2 - 5.0), 1e-9);
+        CHECK_LT(std::fabs(s2 - 5.0), 1e-9);
     }
 
     {
@@ -114,14 +125,14 @@ TEST(NearestArraySampler2, Sample)
                                              gridOrigin);
 
         double s0 = sampler(Vector2D(0.45, 0.4));
-        EXPECT_LT(std::fabs(s0 - 8.0), 1e-9);
+        CHECK_LT(std::fabs(s0 - 8.0), 1e-9);
 
         double s1 = sampler(Vector2D(-0.05, 0.37));
-        EXPECT_LT(std::fabs(s1 - 6.0), 1e-9);
+        CHECK_LT(std::fabs(s1 - 6.0), 1e-9);
     }
 }
 
-TEST(LinearArraySampler2, Sample)
+TEST_CASE("[LinearArraySampler2] - Sample")
 {
     {
         Array2<double> grid({ { 1.0, 2.0, 3.0, 4.0 },
@@ -134,10 +145,10 @@ TEST(LinearArraySampler2, Sample)
                                             gridOrigin);
 
         double s0 = sampler(Vector2D(0.5, 0.5));
-        EXPECT_LT(std::fabs(s0 - 2.0), 1e-9);
+        CHECK_LT(std::fabs(s0 - 2.0), 1e-9);
 
         double s1 = sampler(Vector2D(1.5, 4.0));
-        EXPECT_LT(std::fabs(s1 - 6.5), 1e-9);
+        CHECK_LT(std::fabs(s1 - 6.5), 1e-9);
     }
 
     {
@@ -151,30 +162,31 @@ TEST(LinearArraySampler2, Sample)
                                             gridOrigin);
 
         double s0 = sampler(Vector2D(0.5, 0.5));
-        EXPECT_LT(std::fabs(s0 - 8.0), 1e-9);
+        CHECK_LT(std::fabs(s0 - 8.0), 1e-9);
 
         double s1 = sampler(Vector2D(-0.5, 0.375));
-        EXPECT_LT(std::fabs(s1 - 5.5), 1e-9);
+        CHECK_LT(std::fabs(s1 - 5.5), 1e-9);
     }
 }
 
-TEST(MonotonicCatmullRomArraySampler2, Sample)
+TEST_CASE("[MonotonicCatmullRomArraySampler2] - Sample")
 {
     Array2<double> grid({ { 1.0, 2.0, 3.0, 4.0 },
                           { 2.0, 3.0, 4.0, 5.0 },
                           { 3.0, 4.0, 5.0, 6.0 },
                           { 4.0, 5.0, 6.0, 7.0 },
                           { 5.0, 6.0, 7.0, 8.0 } });
-    Vector2D gridSpacing(1.0, 1.0), gridOrigin;
-    MonotonicCatmullRomArraySampler2<double> sampler(grid.View(), gridSpacing,
-                                                     gridOrigin);
+    constexpr Vector2D gridSpacing(1.0, 1.0);
+    constexpr Vector2D gridOrigin;
+    const MonotonicCatmullRomArraySampler2<double> sampler(
+        grid.View(), gridSpacing, gridOrigin);
 
-    double s0 = sampler(Vector2D(1.5, 2.8));
-    EXPECT_LT(4.0, s0);
-    EXPECT_GT(6.0, s0);
+    const double s0 = sampler(Vector2D(1.5, 2.8));
+    CHECK_LT(4.0, s0);
+    CHECK_GT(6.0, s0);
 }
 
-TEST(MonotonicCatmullRomArraySampler3, Sample)
+TEST_CASE("[MonotonicCatmullRomArraySampler3] - Sample")
 {
     Array3<double> grid(4, 4, 4);
     for (size_t k = 0; k < 4; ++k)
@@ -188,11 +200,12 @@ TEST(MonotonicCatmullRomArraySampler3, Sample)
         }
     }
 
-    Vector3D gridSpacing(1.0, 1.0, 1.0), gridOrigin;
-    MonotonicCatmullRomArraySampler3<double> sampler(grid.View(), gridSpacing,
-                                                     gridOrigin);
+    constexpr Vector3D gridSpacing(1.0, 1.0, 1.0);
+    constexpr Vector3D gridOrigin;
+    const MonotonicCatmullRomArraySampler3<double> sampler(
+        grid.View(), gridSpacing, gridOrigin);
 
-    double s0 = sampler(Vector3D(1.5, 1.8, 1.2));
-    EXPECT_LT(3.0, s0);
-    EXPECT_GT(6.0, s0);
+    const double s0 = sampler(Vector3D(1.5, 1.8, 1.2));
+    CHECK_LT(3.0, s0);
+    CHECK_GT(6.0, s0);
 }
