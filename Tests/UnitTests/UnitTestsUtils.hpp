@@ -3,18 +3,18 @@
 
 #include <Core/Matrix/Matrix.hpp>
 
-#define EXPECT_VECTOR2_EQ(expected, actual)     \
-    EXPECT_DOUBLE_EQ((expected).x, (actual).x); \
-    EXPECT_DOUBLE_EQ((expected).y, (actual).y);
+#define CHECK_VECTOR2_EQ(expected, actual)               \
+    CHECK_EQ(doctest::Approx((expected).x), (actual).x); \
+    CHECK_EQ(doctest::Approx((expected).y), (actual).y);
 
 #define EXPECT_VECTOR2_NEAR(expected, actual, eps) \
     EXPECT_NEAR((expected).x, (actual).x, eps);    \
     EXPECT_NEAR((expected).y, (actual).y, eps);
 
-#define EXPECT_VECTOR3_EQ(expected, actual)     \
-    EXPECT_DOUBLE_EQ((expected).x, (actual).x); \
-    EXPECT_DOUBLE_EQ((expected).y, (actual).y); \
-    EXPECT_DOUBLE_EQ((expected).z, (actual).z);
+#define CHECK_VECTOR3_EQ(expected, actual)               \
+    CHECK_EQ(doctest::Approx((expected).x), (actual).x); \
+    CHECK_EQ(doctest::Approx((expected).y), (actual).y); \
+    CHECK_EQ(doctest::Approx((expected).z), (actual).z);
 
 #define EXPECT_VECTOR3_NEAR(expected, actual, eps) \
     EXPECT_NEAR((expected).x, (actual).x, eps);    \
