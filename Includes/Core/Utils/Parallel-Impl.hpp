@@ -53,7 +53,7 @@ using future = std::future<Task>;
 #endif
 
 template <typename TASK>
-using operator_return_t = typename std::result_of<TASK()>::type;
+using operator_return_t = typename std::invoke_result<TASK>::type;
 
 template <typename TASK>
 inline auto Async(TASK&& fn) -> future<operator_return_t<TASK>>
