@@ -4,25 +4,6 @@
 
 using namespace CubbyFlow;
 
-namespace
-{
-template <typename T>
-std::ostream& operator<<(std::ostream& stream, const MatrixMxN<T>& m)
-{
-    for (size_t i = 0; i < m.GetRows(); ++i)
-    {
-        for (size_t j = 0; j < m.GetCols(); ++j)
-        {
-            stream << m(i, j) << ' ';
-        }
-
-        stream << '\n';
-    }
-
-    return stream;
-}
-}  // namespace
-
 TEST(MatrixMxN, Constructors)
 {
     MatrixMxND mat;
