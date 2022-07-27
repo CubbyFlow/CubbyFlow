@@ -132,7 +132,7 @@ void GridSmokeSolver3::ComputeDiffusion(double timeIntervalInSeconds)
         if (m_temperatureDiffusionCoefficient >
             std::numeric_limits<double>::epsilon())
         {
-            const ScalarGrid3Ptr temp = GetSmokeDensity();
+            const ScalarGrid3Ptr temp = GetTemperature();
             const std::shared_ptr<CellCenteredScalarGrid3> temp0 =
                 std::dynamic_pointer_cast<CellCenteredScalarGrid3>(
                     temp->Clone());
