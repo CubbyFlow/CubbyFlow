@@ -21,11 +21,11 @@ jobs:
             os: macos-12
             compiler: xcode
             version: "13.4.1"
-          # macOS 11.7.6 + Xcode 12.5.1
-          - name: "macOS 11.7.6 + Xcode 12.5.1"
-            os: macos-11
-            compiler: xcode
-            version: "12.5.1"
+          # macOS 11.7.6 + gcc-10
+          - name: "macOS 12.6.5 + gcc-13"
+            os: macos-12
+            compiler: gcc
+            version: "13"
           # macOS 12.6.5 + gcc-12
           - name: "macOS 12.6.5 + gcc-12"
             os: macos-12
@@ -36,11 +36,6 @@ jobs:
             os: macos-12
             compiler: gcc
             version: "11"
-          # macOS 11.7.6 + gcc-10
-          - name: "macOS 11.7.6 + gcc-10"
-            os: macos-11
-            compiler: gcc
-            version: "10"
 
     runs-on: ${{ matrix.os }}
     name: 🍎 Build - ${{ matrix.name }}

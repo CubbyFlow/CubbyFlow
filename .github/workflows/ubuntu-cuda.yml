@@ -11,8 +11,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: "Ubuntu 20.04 + gcc-10 + CUDA 11.7 (Disable Test)"
-            os: ubuntu-20.04
+          - name: "Ubuntu 22.04 + gcc-10 + CUDA 11.7 (Disable Test)"
+            os: ubuntu-22.04
             cuda: "11.7"
             compiler: gcc
             version: "10"
