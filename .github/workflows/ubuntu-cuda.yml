@@ -1,4 +1,4 @@
-name: Ubuntu-CUDA
+﻿name: Ubuntu-CUDA
 
 on:
   push:
@@ -8,8 +8,6 @@ on:
 
 jobs:
   build-ubuntu-cuda:
-    runs-on: ${{ matrix.os }}
-    name: ${{ matrix.name }}
     strategy:
       matrix:
         include:
@@ -18,6 +16,10 @@ jobs:
             cuda: "11.7"
             compiler: gcc
             version: "10"
+
+    runs-on: ${{ matrix.os }}
+    name: 👾 Build - ${{ matrix.name }}
+
     steps:
     - uses: actions/checkout@v1
       with:

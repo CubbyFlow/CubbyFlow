@@ -1,4 +1,4 @@
-name: Windows-CUDA
+﻿name: Windows-CUDA
 
 on:
   push:
@@ -8,8 +8,6 @@ on:
 
 jobs:
   build-windows-cuda:
-    runs-on: ${{ matrix.os }}
-    name: ${{ matrix.name }}
     strategy:
       matrix:
         include:
@@ -25,6 +23,10 @@ jobs:
             configuration: Release
     env:
       CUDA_CACHE_ROOT: "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA"
+
+    runs-on: ${{ matrix.os }}
+    name: 👾 Build - ${{ matrix.name }}
+
     steps:
     - uses: actions/checkout@v1
       with:
