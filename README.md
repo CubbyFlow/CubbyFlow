@@ -6,9 +6,8 @@
 
 [![codecov](https://codecov.io/gh/CubbyFlow/CubbyFlow/branch/master/graph/badge.svg)](https://codecov.io/gh/CubbyFlow/CubbyFlow)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/54d8ed92a3ce4ad988be48dd2dbdeada)](https://www.codacy.com/gh/CubbyFlow/CubbyFlow/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CubbyFlow/CubbyFlow&amp;utm_campaign=Badge_Grade)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/CubbyFlow/CubbyFlow.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/CubbyFlow/CubbyFlow/alerts/)
-[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/CubbyFlow/CubbyFlow.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/CubbyFlow/CubbyFlow/alerts/)
-[![CodeFactor](https://www.codefactor.io/repository/github/CubbyFlow/CubbyFlow/badge)](https://www.codefactor.io/repository/github/CubbyFlow/CubbyFlow) [![Discord](https://img.shields.io/discord/667686826093445129.svg)](https://discord.gg/3gsWZM8)
+[![CodeFactor](https://www.codefactor.io/repository/github/CubbyFlow/CubbyFlow/badge)](https://www.codefactor.io/repository/github/CubbyFlow/CubbyFlow)
+[![Discord](https://img.shields.io/discord/667686826093445129.svg)](https://discord.gg/3gsWZM8)
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=CubbyFlow&metric=alert_status)](https://sonarcloud.io/dashboard?id=CubbyFlow) [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=CubbyFlow&metric=ncloc)](https://sonarcloud.io/dashboard?id=CubbyFlow) [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=CubbyFlow&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=CubbyFlow) [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=CubbyFlow&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=CubbyFlow) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=CubbyFlow&metric=security_rating)](https://sonarcloud.io/dashboard?id=CubbyFlow)
 
