@@ -1,4 +1,4 @@
-name: Ubuntu - Codecov
+﻿name: Code Coverage
 
 on:
   push:
@@ -8,16 +8,18 @@ on:
 
 jobs:
   build-ubuntu:
-    runs-on: ${{ matrix.os }}
-    name: ${{ matrix.name }}
     strategy:
       matrix:
         include:
-          # Ubuntu 20.04 + gcc-9
-          - name: "Ubuntu 20.04 + gcc-9"
-            os: ubuntu-20.04
+          # Ubuntu 22.04 + gcc-13
+          - name: "Ubuntu 22.04 + gcc-13"
+            os: ubuntu-22.04
             compiler: gcc
-            version: "9"
+            version: "13"
+
+    runs-on: ${{ matrix.os }}
+    name: 🧪 Code Coverage - Codecov
+
     steps:
     - uses: actions/checkout@v1
       with:
