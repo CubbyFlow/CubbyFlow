@@ -1,0 +1,49 @@
+name: Ubuntu CUDA (simulated GPU)
+
+# ubuntu-cuda.yml builds the CUDA code but skips CUDATests, since GitHub's
+# runners have no GPU. PantheonSim simulates an NVIDIA T4 on the runner's CPU,
+# so CUDATests run here. It checks results, not speed; a real GPU is still the
+# final word.
+on:
+  push:
+    branches: [ main, ci-simulated-gpu ]
+  pull_request:
+    branches: [ main ]
+
+# The job reads the repository and nothing else. The simulator's action uses
+# no token or secrets, and installs packages only from Ubuntu and NVIDIA.
+permissions:
+  contents: read
+
+jobs:
+  cuda-tests-simulated-gpu:
+    runs-on: ubuntu-24.04
+    name: 🐧 CUDATests on a simulated T4 (Ubuntu 24.04 + gcc-12 + CUDA 12.6)
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install packages
+      run: sudo apt-get update && sudo apt-get install -yq autoconf autoconf-archive automake libtool python3-setuptools
+    - name: Simulated GPU (NVIDIA T4) and CUDA 12.6
+      uses: pantheongpu/setup-pantheonsim@23932d9b811269d55c8d65687332fefc65daeb2c # v0.1.3
+      with:
+        gpu: nvidia/t4
+        cuda-toolkit: '12.6'
+    - name: Configure Compiler
+      run: |
+        echo "CC=gcc-12" >> $GITHUB_ENV
+        echo "CXX=g++-12" >> $GITHUB_ENV
+    # The simulator stands in for the CUDA runtime at run time, so the shared
+    # one is linked; the build selects Turing (sm_75), the simulated T4. The
+    # simulator's action sets CMAKE_TOOLCHAIN_FILE, which would stop CMakeLists
+    # picking up vcpkg, so the vcpkg toolchain is named here.
+    - name: Configure Build
+      run: |
+        mkdir build && cd build
+        cmake -DUSE_CUDA=ON -DCUDA_USE_STATIC_CUDA_RUNTIME=OFF -DCMAKE_CUDA_RUNTIME_LIBRARY=Shared \
+          -DCMAKE_TOOLCHAIN_FILE="$VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" \
+          -DCMAKE_BUILD_TYPE=Release ..
+    - name: Build
+      run: cd build && make -j"$(nproc)"
+    - name: Run CUDA Unit Test on the simulated GPU
+      run: ./build/bin/CUDATests
